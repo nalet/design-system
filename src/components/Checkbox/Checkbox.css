@@ -1,0 +1,61 @@
+.nc-checkbox {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  cursor: pointer;
+  user-select: none;
+}
+
+.nc-checkbox--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nc-checkbox__box {
+  position: relative;
+  display: inline-flex;
+  width: 16px;
+  height: 16px;
+  flex: none;
+}
+
+.nc-checkbox__input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.nc-checkbox__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  box-sizing: border-box;
+  border: 1px solid var(--border-2);
+  border-radius: 0;
+  background: var(--bg-2);
+  color: transparent;
+  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+.nc-checkbox__input:checked + .nc-checkbox__mark,
+.nc-checkbox__input:indeterminate + .nc-checkbox__mark {
+  background: var(--cloud-blue);
+  border-color: var(--cloud-blue);
+  color: var(--bg);
+}
+
+.nc-checkbox__input:focus-visible + .nc-checkbox__mark {
+  outline: 2px solid var(--cloud-cyan);
+  outline-offset: 1px;
+}
+
+.nc-checkbox__label {
+  font-family: var(--ff-ui);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--fg-2);
+}

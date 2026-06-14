@@ -1,0 +1,60 @@
+name: publish
+
+# publish @nalet/design-system to npmjs on a version tag (v*).
+#
+# setup required once, in the repo settings:
+#   - create an npm automation token for the @nalet org (npmjs.com).
+#     the package is published with `--access public`, so the @nalet scope
+#     must exist on npmjs and the token must be allowed to publish to it.
+#   - add it as the actions secret NPM_TOKEN.
+#
+# to release: bump "version" in package.json, commit, then
+#   git tag vX.Y.Z && git push origin vX.Y.Z
+#
+# alternative registry (github packages): point the registry-url below at
+# https://npm.pkg.github.com and use the built-in GITHUB_TOKEN with
+# `packages: write` instead of NPM_TOKEN. npmjs is the default here.
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: read
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    # do not even start if the token is missing — fail loud, fail early.
+    if: ${{ github.repository_owner != '' }}
+    steps:
+      - name: checkout
+        uses: actions/checkout@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: guard NPM_TOKEN
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "$NPM_TOKEN" ]; then
+            echo "NPM_TOKEN secret is not set. add an npm automation token for the @nalet org as the NPM_TOKEN actions secret." >&2
+            exit 1
+          fi
+
+      - name: install
+        run: npm ci
+
+      - name: build lib
+        run: npm run build
+
+      - name: publish
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

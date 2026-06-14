@@ -1,0 +1,42 @@
+/* nalet.cloud storybook preview canvas
+ *
+ * the generated tokens.css (src/styles/tokens.css) already declares the
+ * :root css-vars, the @font-face / @import for inter + jetbrains mono, and
+ * base body rules. this file only forces the dark terminal canvas inside the
+ * storybook iframe and the docs surface so previews never flash white.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+
+html,
+body,
+.sb-show-main {
+  background: var(--bg, #0B0F19) !important;
+  color: var(--fg, #E6E6E6);
+  font-family: var(--ff-ui, 'Inter', system-ui, sans-serif);
+}
+
+/* square frames everywhere — no rounded corners, ever */
+* {
+  border-radius: 0 !important;
+}
+
+/* docs pages render on the dark canvas too */
+.sbdocs.sbdocs-wrapper,
+.sbdocs-content {
+  background: var(--bg, #0B0F19);
+  color: var(--fg, #E6E6E6);
+}
+
+.sbdocs h1,
+.sbdocs h2,
+.sbdocs h3 {
+  font-family: var(--ff-mono, 'JetBrains Mono', ui-monospace, monospace);
+  color: var(--fg, #E6E6E6);
+}
+
+.sbdocs p,
+.sbdocs li {
+  color: var(--fg-2, #C9D1D9);
+  font-family: var(--ff-ui, 'Inter', system-ui, sans-serif);
+}

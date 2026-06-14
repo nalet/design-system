@@ -1,0 +1,124 @@
+.nc-btn {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--s-2);
+  box-sizing: border-box;
+  border-radius: 0;
+  border: 1px solid transparent;
+  font-family: var(--ff-mono);
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: lowercase;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+.nc-btn:focus-visible {
+  outline: 2px solid var(--cloud-cyan);
+  outline-offset: 1px;
+}
+
+/* sizes */
+.nc-btn--sm {
+  height: 28px;
+  padding: 0 var(--s-3);
+  font-size: 12px;
+}
+.nc-btn--md {
+  height: 34px;
+  padding: 0 var(--s-4);
+  font-size: 13px;
+}
+.nc-btn--lg {
+  height: 42px;
+  padding: 0 var(--s-5);
+  font-size: 14px;
+}
+
+/* primary — the cloud-blue cta */
+.nc-btn--primary {
+  background: var(--cloud-blue);
+  border-color: var(--cloud-blue);
+  color: var(--bg);
+}
+.nc-btn--primary:hover:not(:disabled) {
+  background: #6cb2ff;
+  border-color: #6cb2ff;
+}
+.nc-btn--primary:active:not(:disabled) {
+  background: #4a96f0;
+  border-color: #4a96f0;
+}
+
+/* default — surface + hairline border */
+.nc-btn--default {
+  background: var(--surface);
+  border-color: var(--border-2);
+  color: var(--fg);
+}
+.nc-btn--default:hover:not(:disabled) {
+  background: var(--surface-2);
+  border-color: var(--cloud-blue);
+}
+.nc-btn--default:active:not(:disabled) {
+  background: var(--bg-2);
+}
+
+/* ghost — bare until hover */
+.nc-btn--ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--fg-2);
+}
+.nc-btn--ghost:hover:not(:disabled) {
+  background: var(--surface-2);
+  color: var(--fg);
+}
+.nc-btn--ghost:active:not(:disabled) {
+  background: var(--bg-2);
+}
+
+/* danger — amber signal, square */
+.nc-btn--danger {
+  background: transparent;
+  border-color: var(--signal-amber);
+  color: var(--signal-amber);
+}
+.nc-btn--danger:hover:not(:disabled) {
+  background: var(--signal-amber);
+  color: var(--bg);
+}
+.nc-btn--danger:active:not(:disabled) {
+  background: #d99e26;
+  border-color: #d99e26;
+}
+
+.nc-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.nc-btn--loading {
+  cursor: progress;
+}
+
+.nc-btn--block {
+  display: flex;
+  width: 100%;
+}
+
+.nc-btn__slot {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+}
+
+.nc-btn__label {
+  display: inline-flex;
+  align-items: center;
+}

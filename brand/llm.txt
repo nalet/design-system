@@ -1,0 +1,32 @@
+# nalet.cloud — design system
+
+Visual showcase: https://standards.pages.nalet.cloud/design-system/
+Source repo:     https://gitlab.nalet.cloud/standards/design-system
+Text reference:  https://kb.nalet.cloud/standards/design-system
+
+## What this is
+
+A single identity for everything under *.nalet.cloud.
+Dark canvas, monospace voice, blue chevron, one cursor.
+Two type families, ten color tokens, one glyph.
+
+## Files agents should read first
+
+- /tokens.css            — CSS variables (the canonical 10 colors + type + space)
+- /design-tokens.json    — DTCG-format JSON export of the same tokens
+- /assets/terminal/nalet-cloud-lockup.svg — the wordmark
+- /index.html#agent      — pasteable system-prompt block
+
+## Non-negotiables
+
+- canvas #0B0F19 / deeper #0D1117
+- type: 'JetBrains Mono' for system + brand, 'Inter' for prose
+- the > chevron is the brand glyph, always #58A6FF
+- copy is lowercase, short, no emoji, no exclamation marks
+- square frames; no border-radius on tiles/cards/panels
+- icons are the only rounded shape — that radius is baked in
+
+## The test
+
+If your design would look at home in a tmux pane, you're on.
+If it looks like a saas landing page, start over.

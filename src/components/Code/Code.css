@@ -1,0 +1,29 @@
+.nc-code {
+  font-family: var(--ff-mono);
+  font-size: 13px;
+  line-height: 1.5;
+  border-radius: 0;
+}
+
+.nc-code--inline {
+  padding: 1px 6px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  color: var(--cloud-cyan);
+}
+
+.nc-code--block {
+  display: block;
+  margin: 0;
+  padding: var(--s-3) var(--s-4);
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  color: var(--fg-2);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.nc-code--block code {
+  font: inherit;
+  color: inherit;
+}

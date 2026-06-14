@@ -1,0 +1,88 @@
+.nc-switch {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  cursor: pointer;
+  user-select: none;
+}
+
+.nc-switch--disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.nc-switch__track {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  border: 1px solid var(--border-2);
+  border-radius: 0;
+  background: var(--bg-2);
+  transition: background-color 0.12s ease, border-color 0.12s ease;
+}
+
+.nc-switch--md .nc-switch__track {
+  width: 36px;
+  height: 20px;
+  padding: 2px;
+}
+.nc-switch--sm .nc-switch__track {
+  width: 30px;
+  height: 16px;
+  padding: 2px;
+}
+
+.nc-switch__input {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  opacity: 0;
+  cursor: inherit;
+}
+
+.nc-switch__thumb {
+  display: block;
+  border-radius: 0;
+  background: var(--fg-dim);
+  transition: transform 0.14s ease, background-color 0.12s ease;
+}
+
+.nc-switch--md .nc-switch__thumb {
+  width: 14px;
+  height: 14px;
+}
+.nc-switch--sm .nc-switch__thumb {
+  width: 10px;
+  height: 10px;
+}
+
+.nc-switch__input:checked + .nc-switch__thumb {
+  background: var(--bg);
+  transform: translateX(16px);
+}
+.nc-switch--sm .nc-switch__input:checked + .nc-switch__thumb {
+  transform: translateX(14px);
+}
+
+.nc-switch__input:checked ~ .nc-switch__thumb,
+.nc-switch__track:has(.nc-switch__input:checked) {
+  /* fallback handled below */
+}
+
+.nc-switch__track:has(.nc-switch__input:checked) {
+  background: var(--cloud-blue);
+  border-color: var(--cloud-blue);
+}
+
+.nc-switch__input:focus-visible + .nc-switch__thumb {
+  outline: 2px solid var(--cloud-cyan);
+  outline-offset: 2px;
+}
+
+.nc-switch__label {
+  font-family: var(--ff-ui);
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--fg-2);
+}

@@ -1,0 +1,23 @@
+.nc-spinner {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--cloud-blue);
+  flex: none;
+}
+
+.nc-spinner svg {
+  animation: nc-spinner-rotate 0.7s linear infinite;
+}
+
+@keyframes nc-spinner-rotate {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-spinner svg {
+    animation-duration: 1.6s;
+  }
+}

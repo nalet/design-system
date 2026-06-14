@@ -1,0 +1,6 @@
+.nc-chevron {
+  display: inline-block;
+  color: var(--cloud-blue);
+  flex: none;
+  vertical-align: middle;
+}

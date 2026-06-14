@@ -1,0 +1,25 @@
+.nc-heading {
+  margin: 0;
+  font-family: var(--ff-mono);
+  color: var(--fg);
+}
+
+.nc-heading--h1 {
+  font-weight: 700;
+  font-size: 32px;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.nc-heading--h2 {
+  font-weight: 600;
+  font-size: 22px;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.nc-heading__chevron {
+  color: var(--cloud-blue);
+  margin-right: 0.4em;
+  font-weight: 700;
+}

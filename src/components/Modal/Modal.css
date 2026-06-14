@@ -1,0 +1,92 @@
+.nc-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--s-4);
+}
+
+.nc-modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(11, 15, 25, 0.72);
+}
+
+.nc-modal__dialog {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  max-height: calc(100vh - var(--s-7));
+  display: flex;
+  flex-direction: column;
+  background: var(--surface);
+  border: 1px solid var(--border-2);
+  border-radius: 0;
+  color: var(--fg-2);
+  outline: none;
+}
+
+.nc-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  padding: var(--s-3) var(--s-4);
+  border-bottom: 1px solid var(--border);
+}
+
+.nc-modal__title {
+  margin: 0;
+  font-family: var(--ff-mono);
+  font-weight: 600;
+  font-size: 15px;
+  color: var(--fg);
+  text-transform: lowercase;
+  min-width: 0;
+}
+
+.nc-modal__close {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  flex: none;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0;
+  color: var(--fg-muted);
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.nc-modal__close:hover {
+  background: var(--surface-2);
+  color: var(--fg);
+}
+
+.nc-modal__close:focus-visible {
+  outline: 2px solid var(--cloud-cyan);
+  outline-offset: 1px;
+}
+
+.nc-modal__body {
+  padding: var(--s-4);
+  overflow-y: auto;
+  font-family: var(--ff-ui);
+  font-size: 14px;
+  line-height: 1.55;
+}
+
+.nc-modal__footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--s-2);
+  padding: var(--s-3) var(--s-4);
+  border-top: 1px solid var(--border);
+}

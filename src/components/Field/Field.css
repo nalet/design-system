@@ -1,0 +1,32 @@
+.nc-field {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+}
+
+.nc-field__label {
+  font-family: var(--ff-ui);
+  font-weight: 500;
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--fg-2);
+  text-transform: lowercase;
+}
+
+.nc-field__req {
+  color: var(--cloud-blue);
+}
+
+.nc-field__msg {
+  font-family: var(--ff-ui);
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.nc-field__msg--hint {
+  color: var(--fg-dim);
+}
+
+.nc-field__msg--error {
+  color: var(--signal-amber);
+}

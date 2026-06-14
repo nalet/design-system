@@ -1,0 +1,75 @@
+.nc-iconbtn {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  border-radius: 0;
+  border: 1px solid transparent;
+  color: var(--fg-2);
+  cursor: pointer;
+  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+.nc-iconbtn:focus-visible {
+  outline: 2px solid var(--cloud-cyan);
+  outline-offset: 1px;
+}
+
+.nc-iconbtn--sm {
+  width: 28px;
+  height: 28px;
+}
+.nc-iconbtn--md {
+  width: 34px;
+  height: 34px;
+}
+.nc-iconbtn--lg {
+  width: 42px;
+  height: 42px;
+}
+
+.nc-iconbtn--primary {
+  background: var(--cloud-blue);
+  border-color: var(--cloud-blue);
+  color: var(--bg);
+}
+.nc-iconbtn--primary:hover:not(:disabled) {
+  background: #6cb2ff;
+  border-color: #6cb2ff;
+}
+
+.nc-iconbtn--default {
+  background: var(--surface);
+  border-color: var(--border-2);
+  color: var(--fg);
+}
+.nc-iconbtn--default:hover:not(:disabled) {
+  background: var(--surface-2);
+  border-color: var(--cloud-blue);
+}
+
+.nc-iconbtn--ghost {
+  background: transparent;
+  border-color: transparent;
+}
+.nc-iconbtn--ghost:hover:not(:disabled) {
+  background: var(--surface-2);
+  color: var(--fg);
+}
+
+.nc-iconbtn--danger {
+  background: transparent;
+  border-color: var(--signal-amber);
+  color: var(--signal-amber);
+}
+.nc-iconbtn--danger:hover:not(:disabled) {
+  background: var(--signal-amber);
+  color: var(--bg);
+}
+
+.nc-iconbtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}

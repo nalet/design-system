@@ -1,0 +1,43 @@
+.nc-divider {
+  --nc-divider-color: var(--border);
+  border: 0;
+}
+
+.nc-divider--heavy {
+  --nc-divider-color: var(--border-2);
+}
+
+.nc-divider--horizontal {
+  width: 100%;
+  height: 1px;
+  background: var(--nc-divider-color);
+}
+
+.nc-divider--vertical {
+  width: 1px;
+  align-self: stretch;
+  min-height: var(--s-4);
+  background: var(--nc-divider-color);
+}
+
+.nc-divider--labeled {
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  width: 100%;
+}
+
+.nc-divider--labeled .nc-divider__line {
+  flex: 1;
+  height: 1px;
+  background: var(--nc-divider-color);
+}
+
+.nc-divider__label {
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  color: var(--fg-dim);
+  text-transform: lowercase;
+  white-space: nowrap;
+}

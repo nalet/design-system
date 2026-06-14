@@ -1,0 +1,48 @@
+.nc-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  box-sizing: border-box;
+  height: 20px;
+  padding: 0 var(--s-2);
+  border: 1px solid var(--border-2);
+  border-radius: 0;
+  background: var(--surface-2);
+  color: var(--fg-muted);
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+.nc-badge__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 0;
+  background: currentColor;
+  flex: none;
+}
+
+.nc-badge--neutral {
+  color: var(--fg-muted);
+}
+
+.nc-badge--green {
+  color: var(--signal-green);
+  border-color: color-mix(in srgb, var(--signal-green) 45%, var(--border-2));
+  background: color-mix(in srgb, var(--signal-green) 12%, var(--bg-2));
+}
+
+.nc-badge--amber {
+  color: var(--signal-amber);
+  border-color: color-mix(in srgb, var(--signal-amber) 45%, var(--border-2));
+  background: color-mix(in srgb, var(--signal-amber) 12%, var(--bg-2));
+}
+
+.nc-badge--blue {
+  color: var(--cloud-blue);
+  border-color: color-mix(in srgb, var(--cloud-blue) 45%, var(--border-2));
+  background: color-mix(in srgb, var(--cloud-blue) 12%, var(--bg-2));
+}

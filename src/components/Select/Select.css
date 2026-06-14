@@ -1,0 +1,75 @@
+.nc-select {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  border-radius: 0;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.nc-select:focus-within {
+  border-color: var(--cloud-blue);
+  box-shadow: inset 0 0 0 1px var(--cloud-blue);
+}
+
+.nc-select--invalid {
+  border-color: var(--signal-amber);
+}
+
+.nc-select--disabled {
+  opacity: 0.5;
+}
+
+.nc-select__control {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  background: transparent;
+  border: 0;
+  outline: none;
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-size: 13px;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.nc-select__control:disabled {
+  cursor: not-allowed;
+}
+
+.nc-select__control option {
+  background: var(--surface);
+  color: var(--fg);
+}
+
+.nc-select__chevron {
+  position: absolute;
+  right: var(--s-3);
+  display: inline-flex;
+  align-items: center;
+  pointer-events: none;
+  color: var(--cloud-blue);
+}
+
+.nc-select--sm {
+  height: 28px;
+  padding: 0 28px 0 var(--s-2);
+}
+.nc-select--md {
+  height: 34px;
+  padding: 0 32px 0 var(--s-3);
+}
+.nc-select--lg {
+  height: 42px;
+  padding: 0 36px 0 var(--s-4);
+}
+.nc-select--lg .nc-select__control {
+  font-size: 14px;
+}

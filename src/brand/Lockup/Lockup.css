@@ -1,0 +1,11 @@
+.nc-lockup {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* honor reduced-motion: hold the cursor solid. */
+@media (prefers-reduced-motion: reduce) {
+  .nc-lockup__cursor animate {
+    display: none;
+  }
+}

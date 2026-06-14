@@ -1,0 +1,42 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Foundations/Guidelines" />
+
+# nalet.cloud — guidelines
+
+a single identity for everything under \*.nalet.cloud. dark canvas, monospace
+voice, blue chevron, one cursor. two type families, ten color tokens, one glyph.
+
+> if a screen would look at home in a tmux pane, it is on. if it looks like a
+> saas landing page, start over.
+
+## non-negotiables
+
+- **dark canvas only.** `--bg #0B0F19`, `--bg-2 #0D1117`, `--surface #11161F`,
+  `--surface-2 #161B26`, `--border #1F2633`, `--border-2 #2A3142`. no light theme.
+- **foreground.** `--fg #E6E6E6`, `--fg-2 #C9D1D9`, `--fg-muted #AEB8C2`,
+  `--fg-dim #6E7787`.
+- **the `>` chevron is the brand glyph** and is **always** `--cloud-blue`
+  (`#58A6FF`). links and the primary cta are this blue too. `--cloud-cyan`
+  (`#00A4DC`) is the cursor / active stroke. signals: `--signal-green #2EA043`
+  (ok), `--signal-amber #F2B233` (warn).
+- **type.** `'JetBrains Mono'` for display, headings, system, code, and brand.
+  `'Inter'` for body, prose, and ui-labels. exact size / weight / letter-spacing
+  per role live in `tokens/tokens.json`.
+- **space.** 4-base only: `4 / 8 / 12 / 16 / 24 / 32 / 48 / 64`.
+- **square frames.** `border-radius: 0` on every card, panel, tile, button,
+  input, and dialog. **no rounded corners.** icons are the only rounded shape,
+  and that radius is baked into the icon pngs — never add radius in css.
+- **voice.** lowercase. short copy. no emoji. no exclamation marks.
+
+## the chevron
+
+the `>` chevron is the one glyph. always `--cloud-blue`. never recolor it, never
+round its joins into a pill, never set it on a light background.
+
+## source of truth
+
+- tokens: `tokens/tokens.json` (dtcg) — generates `tokens.css`, the typed tokens,
+  and the tailwind preset.
+- brand reference: `brand/llm.txt` and `brand/brand.md`.
+- rendered manual: [kb.nalet.cloud/standards/design-system](https://kb.nalet.cloud/standards/design-system).

@@ -1,10 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Terminal } from 'lucide-react';
-import { Button, type ButtonProps } from '../../src';
-import { Icon } from '../../src';
+import { Terminal, Rocket, Trash2, ArrowRight } from 'lucide-react';
+import { Button, type ButtonProps, Icon } from '../../src';
 
 const meta: Meta<ButtonProps> = {
-  title: 'Components/Button',
+  title: 'Components/button',
   component: Button,
   args: {
     children: 'run',
@@ -17,6 +16,19 @@ const meta: Meta<ButtonProps> = {
   argTypes: {
     variant: { control: 'inline-radio', options: ['primary', 'default', 'ghost', 'danger'] },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
+    loading: { control: 'boolean' },
+    block: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    children: { control: 'text' },
+    leading: { table: { disable: true } },
+    trailing: { table: { disable: true } },
+  },
+  parameters: {
+    docs: {
+      description: {
+        component: 'square mono-labeled action button; primary is the cloud-blue cta and loading swaps the leading slot for a spinner.',
+      },
+    },
   },
 };
 export default meta;
@@ -46,14 +58,48 @@ export const Sizes: Story = {
   ),
 };
 
-export const WithIcon: Story = {
+export const WithIcons: Story = {
   render: () => (
-    <Button variant="primary" leading={<Icon icon={Terminal} />}>
-      open shell
-    </Button>
+    <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
+      <Button variant="primary" leading={<Icon icon={Rocket} />}>
+        deploy to okd
+      </Button>
+      <Button variant="default" leading={<Icon icon={Terminal} />}>
+        open shell
+      </Button>
+      <Button variant="ghost" trailing={<Icon icon={ArrowRight} />}>
+        next
+      </Button>
+      <Button variant="danger" leading={<Icon icon={Trash2} />}>
+        drop postgres
+      </Button>
+    </div>
   ),
 };
 
-export const Loading: Story = {
-  args: { loading: true, variant: 'primary', children: 'deploying' },
+export const States: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
+      <Button variant="primary">rollout</Button>
+      <Button variant="primary" loading>
+        rolling out
+      </Button>
+      <Button variant="primary" disabled>
+        rollout
+      </Button>
+    </div>
+  ),
+};
+
+export const Block: Story = {
+  render: () => (
+    <div style={{ display: 'grid', gap: 'var(--s-3)', width: 280 }}>
+      <Button variant="primary" block leading={<Icon icon={Rocket} />}>
+        deploy chino
+      </Button>
+      <Button variant="default" block>
+        view gitlab pipeline
+      </Button>
+    </div>
+  ),
 };

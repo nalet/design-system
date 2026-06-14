@@ -1,12 +1,11 @@
-# nalet.cloud — design system
+# nalet — design system
 
-Visual showcase: https://standards.pages.nalet.cloud/design-system/
-Source repo:     https://gitlab.nalet.cloud/standards/design-system
-Text reference:  https://kb.nalet.cloud/standards/design-system
+Visual showcase: https://nalet.github.io/design-system/
+Source repo:     https://github.com/nalet/design-system
 
 ## What this is
 
-A single identity for everything under *.nalet.cloud.
+A single identity for every nalet surface.
 Dark canvas, monospace voice, blue chevron, one cursor.
 Two type families, ten color tokens, one glyph.
 
@@ -14,7 +13,7 @@ Two type families, ten color tokens, one glyph.
 
 - /tokens.css            — CSS variables (the canonical 10 colors + type + space)
 - /design-tokens.json    — DTCG-format JSON export of the same tokens
-- /assets/terminal/nalet-cloud-lockup.svg — the wordmark
+- /assets/terminal/nalet-lockup.svg — the wordmark
 - /index.html#agent      — pasteable system-prompt block
 
 ## Non-negotiables

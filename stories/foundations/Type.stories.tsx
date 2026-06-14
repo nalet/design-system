@@ -17,7 +17,7 @@ type Role = {
 };
 
 const ROLES: Role[] = [
-  { role: 'display', family: 'mono', weight: 800, size: '56px', lineHeight: '1.00', letterSpacing: '-0.030em', sample: '> nalet.cloud' },
+  { role: 'display', family: 'mono', weight: 800, size: '56px', lineHeight: '1.00', letterSpacing: '-0.030em', sample: '> nalet' },
   { role: 'h1', family: 'mono', weight: 700, size: '32px', lineHeight: '1.15', letterSpacing: '-0.015em', sample: 'design system' },
   { role: 'h2', family: 'mono', weight: 600, size: '22px', lineHeight: '1.20', letterSpacing: '0', sample: 'foundations' },
   { role: 'body', family: 'ui', weight: 400, size: '16px', lineHeight: '1.55', letterSpacing: '0', sample: 'dark canvas, monospace voice, blue chevron, one cursor.' },

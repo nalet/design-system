@@ -25,7 +25,7 @@ function isComponent(name: string, v: unknown): v is React.ComponentType<Record<
 const SAFE_PROPS: Record<string, unknown> = { children: 'sample', label: 'sample' };
 
 const meta: Meta = {
-  title: 'Components/Overview',
+  title: 'Components/overview',
   parameters: { layout: 'fullscreen' },
 };
 export default meta;

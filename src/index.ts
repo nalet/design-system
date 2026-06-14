@@ -77,3 +77,20 @@ export { Modal } from './components/Modal/Modal';
 export type { ModalProps } from './components/Modal/Modal';
 export { Spinner } from './components/Spinner/Spinner';
 export type { SpinnerProps } from './components/Spinner/Spinner';
+
+// patterns — the portal / launchpad
+export { Tile } from './components/Tile/Tile';
+export type {
+  TileProps,
+  TileVariant,
+  TileSize,
+  TileBadgeTone,
+  TileStatus,
+  TileDelta,
+} from './components/Tile/Tile';
+export { TileGroup } from './components/TileGroup/TileGroup';
+export type { TileGroupProps, TileGroupGap } from './components/TileGroup/TileGroup';
+export { Portal } from './components/Portal/Portal';
+export type { PortalProps } from './components/Portal/Portal';
+export { useRovingGrid } from './lib/useRovingGrid';
+export type { RovingGrid } from './lib/useRovingGrid';

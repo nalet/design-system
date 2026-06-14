@@ -1,11 +1,11 @@
 import { create } from '@storybook/theming/create';
 
-// nalet.cloud storybook chrome — dark canvas, mono brand, cloud-blue accent.
+// nalet storybook chrome — dark canvas, mono brand, cloud-blue accent.
 export default create({
   base: 'dark',
 
-  brandTitle: '> nalet.cloud / design-system',
-  brandUrl: 'https://kb.nalet.cloud/standards/design-system',
+  brandTitle: '> nalet / design-system',
+  brandUrl: 'https://nalet.github.io/design-system/',
   brandTarget: '_blank',
 
   // canvas

@@ -3,7 +3,7 @@ import { cx } from '../../lib/cx';
 import './Lockup.css';
 
 export interface LockupProps extends React.SVGProps<SVGSVGElement> {
-  /** rendered height in px. width scales to keep the 480x160 ratio. default 40. */
+  /** rendered height in px. width scales to keep the 300x160 ratio. default 40. */
   height?: number;
   /** draw the blinking cursor block. default true. */
   showCursor?: boolean;
@@ -12,26 +12,26 @@ export interface LockupProps extends React.SVGProps<SVGSVGElement> {
 }
 
 /**
- * Lockup — the nalet.cloud wordmark, inline svg. blue chevron, mono wordmark,
- * one blinking cursor. mirrors assets/terminal/nalet-cloud-lockup.svg.
+ * Lockup — the nalet wordmark, inline svg. blue chevron, mono wordmark,
+ * one blinking cursor. mirrors assets/terminal/nalet-lockup.svg.
  */
 export const Lockup = React.forwardRef<SVGSVGElement, LockupProps>(function Lockup(
   { height = 40, showCursor = true, filled = false, className, ...rest },
   ref,
 ) {
-  const width = (height / 160) * 480;
+  const width = (height / 160) * 300;
   return (
     <svg
       ref={ref}
       className={cx('nc-lockup', className)}
       width={width}
       height={height}
-      viewBox="0 0 480 160"
+      viewBox="0 0 300 160"
       role="img"
-      aria-label="nalet.cloud"
+      aria-label="nalet"
       {...rest}
     >
-      {filled ? <rect width="480" height="160" fill="var(--bg)" /> : null}
+      {filled ? <rect width="300" height="160" fill="var(--bg)" /> : null}
       <path
         d="M46 50 L76 80 L46 110"
         fill="none"
@@ -49,10 +49,10 @@ export const Lockup = React.forwardRef<SVGSVGElement, LockupProps>(function Lock
         fill="var(--fg-2)"
         letterSpacing="0.5"
       >
-        nalet.cloud
+        nalet
       </text>
       {showCursor ? (
-        <rect className="nc-lockup__cursor" x="436" y="58" width="14" height="48" fill="var(--cloud-blue)">
+        <rect className="nc-lockup__cursor" x="240" y="58" width="14" height="48" fill="var(--cloud-blue)">
           <animate
             attributeName="opacity"
             values="1;1;0;0"

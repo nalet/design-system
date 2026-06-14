@@ -1,6 +1,6 @@
 # contributing
 
-the nalet.cloud design system. read `brand/brand.md` and the foundations in
+the nalet design system. read `brand/brand.md` and the foundations in
 storybook before you touch anything. the rules below are not style preferences —
 they are the brand.
 

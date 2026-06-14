@@ -1,7 +1,7 @@
 {
   "name": "@nalet/design-system",
   "version": "0.1.0",
-  "description": "nalet.cloud design system — dark canvas, monospace voice, blue chevron, square frames. Tokens + React components.",
+  "description": "nalet design system — dark canvas, monospace voice, blue chevron, square frames. Tokens + React components.",
   "license": "MIT",
   "type": "module",
   "sideEffects": [

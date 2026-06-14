@@ -13,7 +13,7 @@ export interface ChevronProps extends React.SVGProps<SVGSVGElement> {
 
 /**
  * Chevron — the brand glyph. a single `>` drawn in cloud-blue.
- * the one mark that says nalet.cloud. always blue unless explicitly overridden.
+ * the one mark that says nalet. always blue unless explicitly overridden.
  */
 export const Chevron = React.forwardRef<SVGSVGElement, ChevronProps>(function Chevron(
   { size = 16, strokeWidth, color, className, style, ...rest },

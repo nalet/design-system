@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { useEffect, useState } from 'react';
 
 /**
- * color swatches for the canonical nalet.cloud palette.
+ * color swatches for the canonical nalet palette.
  *
  * the hex values are resolved live from the css custom properties declared by
  * the generated tokens.css (imported in .storybook/preview.tsx), so this story
@@ -46,6 +46,7 @@ const GROUPS: Group[] = [
     tokens: [
       { varName: '--signal-green', note: 'ok / running / healthy' },
       { varName: '--signal-amber', note: 'warn / delayed / degraded' },
+      { varName: '--signal-red', note: 'error / failed / offline' },
     ],
   },
 ];

@@ -167,7 +167,7 @@ function emitTypeUtilities() {
     .join('\n\n');
 }
 
-const css = `/* nalet.cloud design system — tokens
+const css = `/* nalet design system — tokens
  *
  * GENERATED FILE — do not edit by hand.
  * Source of truth: tokens/tokens.json. Regenerate with \`node tokens/build.mjs\`.

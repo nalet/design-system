@@ -1,0 +1,61 @@
+.nc-tilegroup {
+  display: block;
+}
+.nc-tilegroup[hidden] {
+  display: none;
+}
+
+.nc-tilegroup__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-3);
+  margin-bottom: var(--s-3);
+}
+
+.nc-tilegroup__legend {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  margin: 0;
+  font-family: var(--ff-mono);
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.04em;
+  text-transform: lowercase;
+  color: var(--fg-muted);
+}
+
+.nc-tilegroup__chev {
+  flex: none;
+}
+
+.nc-tilegroup__action {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex: none;
+}
+
+.nc-tilegroup__desc {
+  margin: 0 0 var(--s-3);
+  font-family: var(--ff-ui);
+  font-size: 13px;
+  color: var(--fg-dim);
+}
+
+.nc-tilegroup__grid {
+  display: grid;
+}
+.nc-tilegroup__grid--gap-xs {
+  gap: var(--s-1);
+}
+.nc-tilegroup__grid--gap-sm {
+  gap: var(--s-2);
+}
+.nc-tilegroup__grid--gap-md {
+  gap: var(--s-4);
+}
+.nc-tilegroup__grid--gap-lg {
+  gap: var(--s-5);
+}

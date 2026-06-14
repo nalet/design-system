@@ -1,6 +1,6 @@
-# nalet.cloud — brand non-negotiables
+# nalet — brand non-negotiables
 
-a single identity for everything under *.nalet.cloud. dark canvas, monospace
+a single identity for every nalet surface. dark canvas, monospace
 voice, blue chevron, one cursor. two type families, ten color tokens, one glyph.
 
 if a screen would look at home in a tmux pane, it is on. if it looks like a saas
@@ -34,6 +34,7 @@ landing page, start over.
 | `--cloud-cyan`   | `#00A4DC` | cursor, active stroke                |
 | `--signal-green` | `#2EA043` | ok / running / healthy               |
 | `--signal-amber` | `#F2B233` | warn / delayed / degraded            |
+| `--signal-red`   | `#F85149` | error / failed / offline             |
 
 the `>` chevron is the brand glyph. it is **always** `--cloud-blue` (`#58A6FF`).
 
@@ -63,4 +64,4 @@ lowercase. short copy. no emoji. no exclamation marks. terminal / tmux aesthetic
 - tokens: `tokens/tokens.json` (dtcg) — generates `src/styles/tokens.css`,
   `src/tokens.ts`, and the tailwind preset.
 - brand reference: `brand/llm.txt`.
-- rendered manual: https://kb.nalet.cloud/standards/design-system
+- storybook (github pages): https://nalet.github.io/design-system/

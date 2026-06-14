@@ -7,7 +7,7 @@ import { Chevron, Lockup, Icon } from '../../src';
  *
  * Chevron — the one mark. always cloud-blue (#58A6FF).
  * Lockup — chevron + mono wordmark + blinking cursor, mirrors
- *   assets/terminal/nalet-cloud-lockup.svg.
+ *   assets/terminal/nalet-lockup.svg.
  * Icon — thin lucide wrapper; icons are the only rounded shape (baked in).
  */
 

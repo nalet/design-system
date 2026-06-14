@@ -1,10 +1,8 @@
-/* nalet.cloud design system — tokens
+/* nalet design system — tokens
  *
- * Drop this :root block at the top of any new project. Every rule on the
- * design-system page (kb.nalet.cloud/standards/design-system) is built on
- * top of these tokens. Update here, push, and let consumers pin against
- * the raw URL:
- *   https://gitlab.nalet.cloud/standards/design-system/-/raw/main/tokens.css
+ * Drop this :root block at the top of any new project. The generated
+ * src/styles/tokens.css is built from tokens/tokens.json on top of these
+ * values; this seed is the human-readable reference snapshot.
  *
  * Last reviewed: 2026-05-22.
  */
@@ -29,6 +27,7 @@
   --cloud-cyan:    #00A4DC;  /* cursor, active stroke      */
   --signal-green:  #2EA043;  /* ok / running               */
   --signal-amber:  #F2B233;  /* warn / delayed             */
+  --signal-red:    #F85149;  /* error / failed / offline   */
 
   /* type */
   --ff-ui:   'Inter', system-ui, sans-serif;

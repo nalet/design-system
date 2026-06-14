@@ -1,4 +1,4 @@
-/* nalet.cloud storybook preview canvas
+/* nalet storybook preview canvas
  *
  * the generated tokens.css (src/styles/tokens.css) already declares the
  * :root css-vars, the @font-face / @import for inter + jetbrains mono, and
@@ -33,6 +33,14 @@ body,
 .sbdocs h3 {
   font-family: var(--ff-mono, 'JetBrains Mono', ui-monospace, monospace);
   color: var(--fg, #E6E6E6);
+  text-transform: lowercase;
+}
+
+/* docs code drawers / source blocks: dark + mono, square (radius handled above) */
+.sbdocs .docblock-source,
+.sbdocs pre {
+  background: var(--bg-2, #0D1117);
+  border: 1px solid var(--border, #1F2633);
 }
 
 .sbdocs p,

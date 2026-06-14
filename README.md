@@ -1,15 +1,14 @@
 # @nalet/design-system
 
-the nalet.cloud design system. dark canvas, monospace voice, blue chevron, one
-cursor. a single identity for everything under \*.nalet.cloud — it replaces fiori
-as the house style.
+the nalet design system. dark canvas, monospace voice, blue chevron, one
+cursor. a single identity for every nalet surface — it replaces fiori as the
+house style.
 
 > if a screen would look at home in a tmux pane, it is on. if it looks like a
 > saas landing page, start over.
 
 - **storybook (github pages):** https://nalet.github.io/design-system/
-- **brand source:** https://gitlab.nalet.cloud/standards/design-system
-- **rendered manual:** https://kb.nalet.cloud/standards/design-system
+- **source:** https://github.com/nalet/design-system
 
 ## install
 

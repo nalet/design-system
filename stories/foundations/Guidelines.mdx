@@ -2,9 +2,9 @@ import { Meta } from '@storybook/blocks';
 
 <Meta title="Foundations/Guidelines" />
 
-# nalet.cloud — guidelines
+# nalet — guidelines
 
-a single identity for everything under \*.nalet.cloud. dark canvas, monospace
+a single identity for every nalet surface. dark canvas, monospace
 voice, blue chevron, one cursor. two type families, ten color tokens, one glyph.
 
 > if a screen would look at home in a tmux pane, it is on. if it looks like a
@@ -19,7 +19,7 @@ voice, blue chevron, one cursor. two type families, ten color tokens, one glyph.
 - **the `>` chevron is the brand glyph** and is **always** `--cloud-blue`
   (`#58A6FF`). links and the primary cta are this blue too. `--cloud-cyan`
   (`#00A4DC`) is the cursor / active stroke. signals: `--signal-green #2EA043`
-  (ok), `--signal-amber #F2B233` (warn).
+  (ok), `--signal-amber #F2B233` (warn), `--signal-red #F85149` (error / off).
 - **type.** `'JetBrains Mono'` for display, headings, system, code, and brand.
   `'Inter'` for body, prose, and ui-labels. exact size / weight / letter-spacing
   per role live in `tokens/tokens.json`.
@@ -39,4 +39,4 @@ round its joins into a pill, never set it on a light background.
 - tokens: `tokens/tokens.json` (dtcg) — generates `tokens.css`, the typed tokens,
   and the tailwind preset.
 - brand reference: `brand/llm.txt` and `brand/brand.md`.
-- rendered manual: [kb.nalet.cloud/standards/design-system](https://kb.nalet.cloud/standards/design-system).
+- storybook: [nalet.github.io/design-system](https://nalet.github.io/design-system/).

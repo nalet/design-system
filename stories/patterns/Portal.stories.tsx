@@ -32,7 +32,7 @@ const meta: Meta<PortalProps> = {
     },
   },
   args: {
-    title: '> portal',
+    title: 'portal',
     searchable: true,
     density: 'comfortable',
     navigation: 'roving',
@@ -66,7 +66,7 @@ export const Playground: Story = {
 export const KpiDashboard: Story = {
   name: 'kpi dashboard',
   render: () => (
-    <Portal title="> health" searchable={false}>
+    <Portal title="health" searchable={false}>
       <TileGroup legend="cluster" minTileWidth="12rem">
         <Tile variant="kpi" icon={Cpu} title="cpu" value={62} unit="%" delta={{ value: 4, direction: 'up', tone: 'negative' }} />
         <Tile variant="kpi" icon={HardDrive} title="nas001" value="1.8" unit="tb" delta={{ value: 0.2, direction: 'up', tone: 'neutral' }} />
@@ -86,7 +86,7 @@ export const WithFavorites: Story = {
       setFavs((f) => (f.includes(id) ? f.filter((x) => x !== id) : [...f, id]));
     return (
       <Portal
-        title="> launchpad"
+        title="launchpad"
         query={q}
         onQueryChange={setQ}
         favorites={
@@ -111,7 +111,7 @@ export const WithFavorites: Story = {
 
 export const Compact: Story = {
   render: () => (
-    <Portal title="> portal" density="compact">
+    <Portal title="portal" density="compact">
       <TileGroup legend="services" minTileWidth="11rem" gap="sm">
         <Tile icon={Server} title="api" href="#" status="online" />
         <Tile icon={Server} title="stream" href="#" status="degraded" />

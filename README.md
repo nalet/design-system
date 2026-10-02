@@ -12,16 +12,22 @@ house style.
 
 ## install
 
+install a release tarball (each github release carries one; no registry needed):
+
 ```sh
-npm i @nalet/design-system
+npm i https://github.com/nalet/design-system/releases/download/v0.2.0/nalet-design-system-0.2.0.tgz
 ```
 
+peer dependencies: `react` and `react-dom` 18 or 19, `lucide-react`.
+
 the components are plain react + css (no tailwind dependency inside the library).
-import the tokens stylesheet once, near your app root, then use components:
+import the two stylesheets once, near your app root, then use components:
 
 ```tsx
-// tokens: css custom properties + @font + base. import once.
+// tokens: css custom properties + @font + base.
 import '@nalet/design-system/tokens.css';
+// component styles.
+import '@nalet/design-system/styles.css';
 
 import { Button, Chevron, Lockup } from '@nalet/design-system';
 
@@ -80,10 +86,14 @@ library itself does not depend on tailwind.
 - `@nalet/design-system` — react components + brand glyphs (`Chevron`, `Lockup`,
   `Icon`).
 - `@nalet/design-system/tokens.css` — css custom properties, `@font`, and base.
+- `@nalet/design-system/styles.css` — the component styles.
 - `@nalet/design-system/tokens` — typed token objects.
 - `@nalet/design-system/tailwind` — tailwind preset for consumer apps.
 
 ## develop
+
+toolchain: node 20.19+ (ci uses 24), react 19, vite 8, typescript 7 (with
+`@typescript/typescript6` for the declaration build), storybook 10.
 
 ```sh
 npm ci
@@ -99,7 +109,7 @@ and the css, the typed tokens, and the tailwind preset regenerate together.
 
 ## release
 
-publishing is gated on a version tag. bump `version` in `package.json`, commit,
+releases are gated on a version tag. bump `version` in `package.json`, commit,
 then:
 
 ```sh
@@ -107,9 +117,10 @@ git tag vX.Y.Z
 git push origin vX.Y.Z
 ```
 
-the `publish` workflow runs `npm publish --access public` to npmjs. it requires
-an `NPM_TOKEN` actions secret (an npm automation token for the `@nalet` org). see
-`.github/workflows/publish.yml` for the github-packages alternative.
+the `release` workflow builds the library and attaches the packed tarball to a
+github release — that is what apps install. it also publishes to npmjs once an
+`NPM_TOKEN` actions secret (an npm automation token for the `@nalet` org) exists;
+without it that step is skipped.
 
 ## license
 

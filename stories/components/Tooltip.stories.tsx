@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Server, Info } from 'lucide-react';
 import { Tooltip, type TooltipProps, Button, IconButton } from '../../src';
 

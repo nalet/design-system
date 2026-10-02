@@ -8,7 +8,7 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   /** type role. body/ui use Inter, code uses mono. muted/dim shift color. */
   variant?: TextVariant;
   /** render a different element. default 'span'. */
-  as?: keyof JSX.IntrinsicElements;
+  as?: keyof React.JSX.IntrinsicElements;
   /** truncate to a single line with an ellipsis. */
   truncate?: boolean;
 }

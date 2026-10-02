@@ -1,0 +1,66 @@
+name: release
+
+# on a version tag (vX.Y.Z): build the library, attach the packed tarball to a
+# github release, and publish to npmjs when an NPM_TOKEN secret exists.
+#
+# apps install the release tarball by url, so a release needs no registry:
+#   npm i https://github.com/nalet/design-system/releases/download/vX.Y.Z/nalet-design-system-X.Y.Z.tgz
+#
+# to release: bump "version" in package.json, commit, then
+#   git tag vX.Y.Z && git push origin vX.Y.Z
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: checkout
+        uses: actions/checkout@v7
+
+      - name: setup node
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: npm
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: tag matches package.json
+        run: |
+          version="$(node -p "require('./package.json').version")"
+          if [ "v$version" != "$GITHUB_REF_NAME" ]; then
+            echo "tag $GITHUB_REF_NAME does not match package.json version $version" >&2
+            exit 1
+          fi
+
+      - name: install
+        run: npm ci
+
+      - name: build lib
+        run: npm run build
+
+      - name: pack
+        run: npm pack
+
+      - name: github release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" nalet-design-system-*.tgz \
+            --title "$GITHUB_REF_NAME" --generate-notes
+
+      - name: publish to npmjs
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "$NODE_AUTH_TOKEN" ]; then
+            echo "::notice::NPM_TOKEN is not set; skipped npm publish (the github release has the tarball)."
+            exit 0
+          fi
+          npm publish --access public

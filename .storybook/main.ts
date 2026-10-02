@@ -7,17 +7,18 @@ const config: StorybookConfig = {
     '../stories/**/*.stories.@(ts|tsx)',
     '../src/**/*.stories.@(ts|tsx)',
   ],
-  addons: ['@storybook/addon-essentials', '@storybook/addon-a11y'],
+
+  addons: ['@storybook/addon-a11y', '@storybook/addon-docs'],
+
   framework: {
     name: '@storybook/react-vite',
     options: {},
   },
+
   core: {
     disableTelemetry: true,
   },
-  docs: {
-    autodocs: 'tag',
-  },
+
   staticDirs: ['../assets'],
 
   // github pages serves this project at the /design-system/ subpath. without a
@@ -28,7 +29,7 @@ const config: StorybookConfig = {
     return mergeConfig(cfg, {
       base: process.env.STORYBOOK_BASE_PATH ?? '/design-system/',
     });
-  },
+  }
 };
 
 export default config;

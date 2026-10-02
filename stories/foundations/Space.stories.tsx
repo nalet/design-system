@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 
 /**
  * space scale. 4-base only: 4 / 8 / 12 / 16 / 24 / 32 / 48 / 64.

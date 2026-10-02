@@ -60,7 +60,7 @@ export interface RovingGrid {
 }
 
 export function useRovingGrid(
-  containerRef: React.RefObject<HTMLElement>,
+  containerRef: React.RefObject<HTMLElement | null>,
   enabled = true,
 ): RovingGrid {
   // keep exactly one tile tabbable. re-runs each render so it tracks tiles

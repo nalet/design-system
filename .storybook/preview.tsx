@@ -1,4 +1,4 @@
-import type { Preview } from '@storybook/react';
+import type { Preview } from '@storybook/react-vite';
 import docsTheme from './theme';
 
 // the generated tokens stylesheet: css-vars + @font + base. produced by
@@ -13,6 +13,7 @@ const preview: Preview = {
   // every component gets a material-style docs page (overview + live examples +
   // auto api table) without a per-story opt-in.
   tags: ['autodocs'],
+
   parameters: {
     layout: 'centered',
     controls: {
@@ -23,12 +24,11 @@ const preview: Preview = {
     },
     // dark canvas only — nalet has no light theme.
     backgrounds: {
-      default: 'bg',
-      values: [
-        { name: 'bg', value: '#0B0F19' },
-        { name: 'bg-2', value: '#0D1117' },
-        { name: 'surface', value: '#11161F' },
-      ],
+      options: {
+        bg: { name: 'bg', value: '#0B0F19' },
+        "bg-2": { name: 'bg-2', value: '#0D1117' },
+        surface: { name: 'surface', value: '#11161F' }
+      }
     },
     docs: {
       // render the docs pages on the same dark/square chrome as the manager.
@@ -51,6 +51,12 @@ const preview: Preview = {
       },
     },
   },
+
+  initialGlobals: {
+    backgrounds: {
+      value: 'bg'
+    }
+  }
 };
 
 export default preview;

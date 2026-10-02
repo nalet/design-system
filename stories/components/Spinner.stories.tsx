@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Spinner, type SpinnerProps } from '../../src';
 
 const meta: Meta<SpinnerProps> = {

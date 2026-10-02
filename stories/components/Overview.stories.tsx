@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { createElement, isValidElement } from 'react';
 import * as DS from '../../src';
 

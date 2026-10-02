@@ -2,6 +2,14 @@ import * as React from 'react';
 import { cx } from '../../lib/cx';
 import './Field.css';
 
+/** the props Field reads from and passes to its control. */
+export interface FieldControlProps {
+  id?: string;
+  'aria-describedby'?: string;
+  'aria-invalid'?: boolean | 'true' | 'false';
+  invalid?: boolean;
+}
+
 export interface FieldProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
   /** field label, lowercase. */
   label?: React.ReactNode;
@@ -12,7 +20,7 @@ export interface FieldProps extends Omit<React.HTMLAttributes<HTMLDivElement>, '
   /** mark the field required (adds a subtle marker). */
   required?: boolean;
   /** the control to wrap. receives id / aria-describedby / aria-invalid. */
-  children: React.ReactElement;
+  children: React.ReactElement<FieldControlProps>;
   /** id for the control. auto-generated when omitted. */
   htmlFor?: string;
 }
@@ -26,7 +34,7 @@ export const Field = React.forwardRef<HTMLDivElement, FieldProps>(function Field
   ref,
 ) {
   const reactId = React.useId();
-  const controlId = htmlFor ?? (children.props.id as string | undefined) ?? `nc-field-${reactId}`;
+  const controlId = htmlFor ?? children.props.id ?? `nc-field-${reactId}`;
   const describedById = hint || error ? `${controlId}-desc` : undefined;
 
   const control = React.cloneElement(children, {

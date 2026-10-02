@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
 import { Search, Server, ChevronRight } from 'lucide-react';
 import { Input, type InputProps } from '../../src';

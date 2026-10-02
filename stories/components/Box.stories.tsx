@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Box, type BoxProps } from '../../src';
 
 const meta: Meta<BoxProps> = {

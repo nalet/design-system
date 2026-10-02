@@ -1,4 +1,4 @@
-import type { Meta, StoryObj } from '@storybook/react';
+import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Server, GitBranch, Database, Terminal, Activity } from 'lucide-react';
 import { TileGroup, Tile, Button, type TileGroupProps } from '../../src';
 

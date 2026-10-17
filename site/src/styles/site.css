@@ -657,6 +657,11 @@ body {
   padding: 0;
 }
 
+.ds-example--scroll {
+  max-height: min(36rem, 75vh);
+  overflow: auto;
+}
+
 .ds-example__caption {
   margin: calc(-1 * var(--s-4)) 0 var(--s-5);
   color: var(--fg-muted);
@@ -1077,4 +1082,12 @@ a.ds-card:focus-visible {
 
 .ds-search .pagefind-ui__search-input {
   font-family: var(--ff-mono);
+}
+
+/* a multi select's panel and a tooltip's bubble open inside the page, not in
+   an overlay: an example that holds one lets them past its frame instead of
+   scrolling. */
+.ds-example:has(.nc-multiselect, .nc-tooltip),
+.ds-verdict__stage:has(.nc-multiselect, .nc-tooltip) {
+  overflow: visible;
 }

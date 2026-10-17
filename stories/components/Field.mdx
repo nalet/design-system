@@ -1,53 +1,45 @@
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
 import * as FieldStories from './Field.stories';
-import { Field, Input, Checkbox } from '../../src';
-import { DoDont, Do, Dont } from '../_blocks';
 
 <Meta of={FieldStories} />
 
 # field
 
-the label, hint and error around one control, in a vertical stack. it gives the control an `id` and wires `aria-describedby` and `aria-invalid`, so the parts stay connected for assistive tech.
+design guidance — when to use it, its parts and states, its words: **[field on the guidelines site →](https://nalet.github.io/design-system/components/field/)**
 
 <Canvas of={FieldStories.Playground} />
 
-## when to use
+## examples
 
-- around every [input](?path=/docs/components-inputs-input--docs), [select](?path=/docs/components-inputs-select--docs) and [textarea](?path=/docs/components-inputs-textarea--docs) in a form. they have no label of their own.
-- around a [checkbox](?path=/docs/components-inputs-checkbox--docs) or a [switch](?path=/docs/components-inputs-switch--docs) only to add a hint or an error; their own `label` already names them.
-- whenever a value can be wrong: the field shows the error in place of the hint and marks the control invalid.
-
-## when not to use
-
-- **to label a group** of checkboxes, switches or radios. a field labels one control; use a native `<fieldset>` with a `<legend>` — see [forms and settings](https://nalet.github.io/design-system/patterns/forms-and-settings/).
-- **where a visible label does not fit**, such as a search box in a toolbar. use an [input](?path=/docs/components-inputs-input--docs) with an `aria-label` and a leading search icon, or the [filter bar](?path=/docs/components-inputs-filter-bar--docs).
-- **for a message about the whole form**, such as "could not save". use a [message strip](?path=/docs/components-feedback-status-message-strip--docs) above the form — see [message handling](https://nalet.github.io/design-system/patterns/message-handling/).
-
-## anatomy
-
-1. **container** — a vertical stack with 8px between the parts.
-2. **label** (optional) — a native `<label for>`: inter 500, 13px, in `--fg-2`, rendered lowercase.
-3. **required marker** (optional) — ` *` after the label, in `--cloud-blue`, hidden from assistive tech.
-4. **control** — the one child element. the field clones it with `id` and `aria-describedby`, and with `aria-invalid` and `invalid` when there is an `error`.
-5. **message** (optional) — the hint in `--fg-dim`, or the error in `--state-error`; inter 12px. the error replaces the hint.
-
-## variants and states
-
-a label with a hint, a required field, and an error. the error replaces the hint and turns the border of an input, select or textarea `--state-error`.
+`label` with `hint`, `required`, and `error`, which replaces the hint and marks the input invalid.
 
 <Canvas of={FieldStories.States} />
 
-the same wiring works for each control. around a checkbox, leave the field's label out and keep the hint: the checkbox names itself.
+the same field around a `Select`, a `Textarea` and a `Checkbox`; around the checkbox, a `hint` and no `label`.
 
 <Canvas of={FieldStories.Controls} />
 
-`required` only draws the marker. pass `required` to the control as well, as this select does, so the browser and assistive tech know.
+`required` on the field draws the marker; `required` on the `Select` makes the control required.
 
 <Canvas of={FieldStories.Required} />
 
+`error` on its own.
+
 <Canvas of={FieldStories.Error} />
 
-## behaviour and keyboard
+## implementation notes
+
+- renders a `<div>`: the label, the control, then the message.
+- the control is the one child element. the field clones it with `id` and `aria-describedby`, and with `aria-invalid` and `invalid` when there is an `error`.
+- the control's `id` is `htmlFor` when you pass it, else the child's own `id`, else a generated one. the field sets it on the child, so `htmlFor` wins over the child's `id`.
+- the label is a native `<label for>` pointing at that `id`. it is lowercased with `text-transform`; the dom keeps the text you wrote.
+- the message gets the id `<control id>-desc`, which is added to any `aria-describedby` the child already has.
+- with `error`, the field sets `aria-invalid` and `invalid` on the child. without it, it leaves the child's own values alone: the control keeps whatever its own `invalid` says.
+- `required` adds the ` *` marker with `aria-hidden="true"`. today the field does not pass `required` to the control: pass `required` (or `aria-required`) to the control yourself.
+- the message is not a live region: an error that appears is not announced.
+- the child must be one element that passes `id` and `aria-*` on to its native control — `Input`, `Select`, `Textarea`, `Checkbox` and `Switch` do. a control wrapped in a `<div>` gets nothing: the `id` lands on the div and the label points at it.
+- today: `Checkbox` and `Switch` have no `invalid` prop. with `error`, the field still passes `invalid` to them, and react warns about an unknown attribute.
+- other `<div>` attributes (`className`, `style`, `data-*`, …) and the `ref` reach the container.
 
 the field has no keys of its own; the control keeps its native keyboard model (see its page).
 
@@ -55,80 +47,6 @@ the field has no keys of its own; the control keeps its native keyboard model (s
 | --- | --- |
 | `tab` / `shift+tab` | moves focus to / from the control. the label and the messages are not focusable. |
 
-- a click on the label focuses the control, or toggles a checkbox or a switch: it is a native `<label for>`.
-- the control's `id` is `htmlFor` when you pass it, else the child's own `id`, else a generated one. the field sets it on the child, so `htmlFor` wins over the child's `id`.
-- the message gets the id `<control id>-desc`, which is added to any `aria-describedby` the child already has.
-- with `error`, the field sets `aria-invalid` and `invalid` on the child. without it, it leaves the child's own values alone.
-
-## accessibility
-
-- the label is a `<label for>`, so its text is the control's accessible name. the lowercase look is css (`text-transform`): write the label as you want it read.
-- the hint or the error is linked with `aria-describedby` and read after the name and the value.
-- with `error`, the control gets `aria-invalid="true"`; an input, select or textarea also turns its border `--state-error`.
-- today: `required` only draws the marker, and the marker is hidden from assistive tech. the field does not pass `required` to the control: pass `required` (or `aria-required`) to the control yourself, and say once per form what the asterisk means.
-- today: an error is not announced when it appears; there is no live region. after a failed submit, move focus to the first invalid control so its error is read — see [message handling](https://nalet.github.io/design-system/patterns/message-handling/).
-- an `error` marks the control invalid (`aria-invalid` and the error border). without an `error`, the control keeps whatever its own `invalid` says.
-- today: checkbox and switch have no `invalid` prop. with `error`, the field still passes `invalid` to them, react warns about an unknown attribute, and the box keeps its normal look; the error text is the only cue.
-- the child must be one element that passes `id` and `aria-*` on to its native control — the five inputs here do. a control wrapped in a `<div>` gets nothing: the `id` lands on the div and the label points at it.
-- around a checkbox or a switch, leave the field's `label` out. two labels name the control twice.
-
-## content
-
-- **label** — a noun phrase for the value, lowercase, no colon: `release name`, `region`, `timeout (ms)`.
-- **hint** — what is accepted and why, in one line: `lowercase letters, digits and hyphens`. don't repeat the label.
-- **error** — what is wrong and how to fix it: `use 63 characters or fewer`. no blame, no codes, no `invalid input`. the error replaces the hint, so repeat the rule when people still need it.
-- **required** — mark the required fields and explain the asterisk once at the top of the form. when most fields are required, mark the optional ones in their label instead: `description (optional)`.
-
-## do and don't
-
-<DoDont>
-  <Do caption="the error says how to fix it." column>
-    <Field label="host" error="use a full host name, such as api.example.com">
-      <Input defaultValue="api" />
-    </Field>
-  </Do>
-  <Dont caption="a verdict without a way out." column>
-    <Field label="host" error="invalid value">
-      <Input defaultValue="api" />
-    </Field>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="the hint adds what the label cannot: the format." column>
-    <Field label="release name" hint="lowercase letters, digits and hyphens">
-      <Input placeholder="the-lantern-2024" />
-    </Field>
-  </Do>
-  <Dont caption="a hint that repeats the label is noise, read out on every visit." column>
-    <Field label="release name" hint="the name of the release">
-      <Input placeholder="the-lantern-2024" />
-    </Field>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="around a checkbox, the field adds only the hint." column>
-    <Field hint="a summary of last week's releases, every monday">
-      <Checkbox label="send a weekly summary" />
-    </Field>
-  </Do>
-  <Dont caption="a field label and a checkbox label name the same control twice." column>
-    <Field label="weekly summary" hint="a summary of last week's releases, every monday">
-      <Checkbox label="send a weekly summary" />
-    </Field>
-  </Dont>
-</DoDont>
-
 ## props
 
-`Field` passes other `<div>` attributes (`className`, `style`, `data-*`, …) and its ref to the container.
-
 <ArgTypes of={FieldStories} />
-
-## related
-
-- [input](?path=/docs/components-inputs-input--docs) — the control a field most often wraps.
-- [select](?path=/docs/components-inputs-select--docs) — a value from a known list, labelled by a field.
-- [forms and settings](https://nalet.github.io/design-system/patterns/forms-and-settings/) — how fields stack into a form, with groups and a save action.
-- [message handling](https://nalet.github.io/design-system/patterns/message-handling/) — field errors next to the form-level messages.

@@ -13,9 +13,10 @@ attached to its github release.
   built with astro and with the design system itself: get started,
   foundations (principles, accessibility, content & voice, interaction,
   layout), styles (colour, typography, iconography, shape, motion, brand),
-  components and patterns. the storybook moved to `/design-system/react/` and
-  keeps the implementation: playgrounds, examples, implementation notes, props.
-  examples are written once, as stories, and appear on both.
+  a guidance page per component and patterns. the storybook moved to
+  `/design-system/react/` and keeps the implementation: playgrounds, examples,
+  implementation notes, props. each component's two pages link to each other,
+  and examples are written once, as stories, and appear on both.
 - **old links keep working.** an old storybook url sends itself on to its new
   page, or to the same entry on the react subsite.
 - **search** over the guidelines, with pagefind.

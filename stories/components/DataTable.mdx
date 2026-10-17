@@ -1,43 +1,11 @@
 import { useState } from 'react';
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
 import * as DataTableStories from './DataTable.stories';
-import { ActionMenu, Button, DataTable, IdentifierCell, IllustratedMessage, StatusCell } from '../../src';
-import { DoDont, Do, Dont, Example } from '../_blocks';
+import { DataTable } from '../../src';
 import { code, makeBacklog } from '../_data/backlog';
-import { BACKLOG_COLUMNS, BACKLOG_STATES } from '../_data/status';
+import { BACKLOG_COLUMNS } from '../_data/status';
 
-export const SERIES = makeBacklog().filter((b) => b.kind === 'series');
-export const FIVE = SERIES.slice(0, 5);
-export const MIXED = SERIES.slice(6, 9);
-
-export const EPISODE = { id: 'item', header: 'episode', cell: (b) => <IdentifierCell title={code(b)} /> };
-export const STATE = { id: 'state', header: 'state', cell: (b) => <StatusCell {...BACKLOG_STATES[b.state]} /> };
-export const MENU = {
-  id: 'actions',
-  header: <span className="nc-sr-only">actions</span>,
-  align: 'right',
-  width: 44,
-  cell: (b) => (
-    <ActionMenu
-      label={`actions for ${code(b)}`}
-      items={[
-        { id: 'grab', label: 'grab now', onSelect: () => undefined },
-        { id: 'search', label: 'search again', onSelect: () => undefined },
-      ]}
-    />
-  ),
-};
-export const BUTTONS = {
-  id: 'actions',
-  header: <span className="nc-sr-only">actions</span>,
-  align: 'right',
-  cell: () => (
-    <span style={{ display: 'inline-flex', gap: 'var(--s-1)' }}>
-      <Button size="sm">grab now</Button>
-      <Button size="sm">search again</Button>
-    </span>
-  ),
-};
+export const FIVE = makeBacklog().filter((b) => b.kind === 'series').slice(0, 5);
 
 export const RowPressExample = () => {
   const [opened, setOpened] = useState('nothing yet');
@@ -66,42 +34,61 @@ export const RowPressExample = () => {
 
 # data table
 
-the interactive table: controlled sorting, row selection, collapsible groups, growing, pop-in on narrow widths, and one tab stop with arrow-key row focus. it is a `grid`, and a `treegrid` once rows are grouped.
+design guidance — when to use it, its parts, sorting, selection, grouping, growing, pop-in, focus, the words: **[data table on the guidelines site →](https://nalet.github.io/design-system/components/data-table/)**
 
 <Canvas of={DataTableStories.Playground} />
 
-## when to use
+## examples
 
-- for a list people work through: scan it, sort it, select rows and act on them. it is the body of a [worklist](https://nalet.github.io/design-system/patterns/worklist/).
-- when rows need any of: sorting by a column, selecting one or many, grouping under header rows, loading in pages ("show 100 more"), moving between rows from the keyboard.
-- for long lists. with `growing` it stays fast at thousands of rows — see performance, below.
+`sort` and `onSortChange` over columns with `sortValue`; `aired` has `firstSortDirection: 'descending'`.
 
-## when not to use
+<Canvas of={DataTableStories.Sorting} />
 
-- **for a short, read-only set of records.** use the [table](?path=/docs/components-data-display-table--docs): native markup, no focus model, no row state. it costs less and announces less.
-- **for the fields of one record.** one row with many columns reads badly. list label and value pairs in a [card](?path=/docs/components-layout-structure-card--docs).
-- **for destinations.** a set of apps or areas to open is a [tile group](?path=/docs/components-navigation-tile-group--docs), or the [portal](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/).
-- **to pick values in a form.** use [checkboxes](?path=/docs/components-inputs-checkbox--docs) or a [multi select](?path=/docs/components-inputs-multi-select--docs). row selection is for acting on rows, not a form value.
-- **when every column must stay a column at any width.** the data table never scrolls sideways; it pops columns in. the [table](?path=/docs/components-data-display-table--docs) keeps its columns and scrolls inside its frame.
+`selectable`, with `selected`, `onSelectionChange`, `rowLabel` and `isRowSelectable`.
 
-## anatomy
+<Canvas of={DataTableStories.Selection} />
 
-1. **frame** — a `div` around the table: 1px `--border` on every side, `--surface`, full width. it never scrolls, so the header can stick to the page; a narrow table pops columns in instead.
-2. **header row** — a `th scope="col"` per column on `--bg-2`: jetbrains mono 600, 11px, letter-spacing 0.04em, `--fg-muted`, lowercase, one line. padding 8px 12px, a 1px `--border-2` rule below. it sticks while the page scrolls.
-3. **sort button** (sortable columns) — the label and a 10 × 12px glyph of two chevrons: the sorted direction drawn full, the other at 35%. on hover, and on the sorted column, the label turns `--fg`. keyboard focus draws a 2px `--focus-ring` outline.
-4. **select column** (`selectable`) — 32px wide, holding the 16px [checkbox](?path=/docs/components-inputs-checkbox--docs): "select every visible row" in the header, "select …" in each row.
-5. **group row** (`groupBy`) — one cell across every column on `--bg-2`, padding 6px 12px, at least 28px tall, laid out as three tracks with 8px between them: a 12px caret in `--fg-muted` (pointing down while open, right while collapsed), the label, and the group action at the end. the label is mono 600 12px in `--fg`, written as it is (not lowercased), on one line cut with an ellipsis; on a table 480px wide or less it wraps instead. its track can shrink, so a long name never makes the table wider.
-6. **data row** — cells with padding 8px 12px and a 1px `--border` rule below, 13px in `--fg-2`, vertically centred. the cells take the page's font; the [table cells](?path=/docs/components-data-display-table-cells--docs) set their own. hover tints a row `--surface-2`; a selected row is `--surface-selected` with a 2px `--cloud-blue` rule on its leading edge.
-7. **row header** — the first column, or the one with `rowHeader`, is a `th scope="row"` in `--fg`: what names the row. popped-in values sit under its content.
-8. **highlight** (`rowHighlight`) — a 3px rule in the state's colour (`--state-error`, `--state-warning`, …) on the leading edge. on a selected row it takes the place of the blue selection rule.
-9. **pop-ins** (narrow) — label and value pairs under the row header's content, 4px below it and 2px apart: the label mono 11px in `--fg-dim`, the value 12px in `--fg-muted`, 8px after it. a pair that doesn't fit wraps.
-10. **empty cell** (`empty`) — one cell across every column, with no padding of its own; its content brings it.
-11. **growing footer** (`growing`) — the count (mono 12px, `--fg-muted`, tabular figures) and a small "show n more" [button](?path=/docs/components-actions-button--docs), centred, padding 12px, on `--bg-2` with a 1px `--border` rule above.
-12. **progress rule** (`loading`) — a 2px `--cloud-blue` bar, 30% wide, moving along the frame's top edge.
+`groupBy`, `groupHeader` and a `groupAction` per group.
 
-## variants and states
+<Canvas of={DataTableStories.Grouped} />
 
-every feature is a prop and is off until you pass it. columns are objects:
+`growing={100}` over every row, grouped.
+
+<Canvas of={DataTableStories.Growing} />
+
+`importance: 'low'` on `aired`, in a frame 380px wide: it pops in.
+
+<Canvas of={DataTableStories.PopIn} />
+
+`loading`.
+
+<Canvas of={DataTableStories.Loading} />
+
+`empty`, with `rows={[]}`.
+
+<Canvas of={DataTableStories.Empty} />
+
+`onRowPress` with `selectable`: a press opens the row, the checkbox selects it.
+
+<div className="sb-unstyled">
+  <RowPressExample />
+</div>
+
+## implementation notes
+
+### the table
+
+- it renders a `table` in a `div` frame. the table is a `grid`, and a `treegrid` once rows are grouped.
+- every feature is a prop and is off until you pass it.
+- the table carries `aria-rowcount` (the header and every row, past the growing limit too, but not the rows inside collapsed groups), `aria-colcount`, `aria-multiselectable` when `selectable`, and `aria-busy` while `loading`. rows carry `aria-rowindex`, and `aria-selected` when the table is selectable. a row that can't be selected carries no `aria-selected`; its disabled checkbox says it can't be selected.
+- column headers are `th scope="col"`, and the row header — the first column, or the one with `rowHeader` — is a `th scope="row"`.
+- name the table: pass `aria-labelledby` with the id of the heading above it, or `aria-label`.
+- `DataTable` takes no other attributes and no `ref`: `aria-label` and `aria-labelledby` go to the `table`, and `className` to the frame.
+- axe-core finds no violations in this component's stories (wcag 2.x a and aa, best practice, colour contrast included).
+
+### columns
+
+columns are objects:
 
 | field | does |
 | --- | --- |
@@ -120,76 +107,46 @@ every feature is a prop and is off until you pass it. columns are objects:
 ### sorting
 
 - sorting is controlled: pass `sort` (`{ columnId, direction }`, or `null`) and `onSortChange`. a column is sortable when it has `sortValue` or `compare`, and only while `onSortChange` is there.
-- a click on the sorted column's header flips its direction. a click on another header sorts that column in its `firstSortDirection`. there is no third click back to unsorted.
-- the table sorts `rows` itself, and the sort is stable: rows that compare equal keep their order. strings compare naturally ("E2" before "E10") and ignore case and accents, dates compare by time, and empty values (`null`, `undefined`, `''`) go last in either direction. a `compare` function decides everything itself, empty values included.
+- the table sorts `rows` itself. empty values are `null`, `undefined` and `''`; a `compare` function decides everything itself, empty values included.
 - `manualSort`: `rows` arrive sorted, by a server for instance, and the table only shows the state. today every column's header becomes a sort button under `manualSort`, an actions column included; there is no way to leave one out.
 - `aria-sort` sits on the sorted column's header only (`ascending` or `descending`). the other headers carry none.
 - `sort` without `onSortChange` is a fixed order: the rows are sorted and `aria-sort` says so, but the header has no button. today it has no glyph either, so the order is not shown on screen.
-- grouped rows keep their groups: groups appear in the order their first row has after sorting.
-
-<Canvas of={DataTableStories.Sorting} />
 
 ### selection
 
 - `selectable` adds the checkbox column. selection is controlled: `selected` is a set of `rowKey` values, and `onSelectionChange` receives the next set. without `onSelectionChange` nothing can change it.
-- people select with a row's checkbox, a click on the row (when there is no `onRowPress`), `space` on a focused row, ranges with `shift`, and `ctrl+a` / `cmd+a` — see behaviour and keyboard, below.
-- the header checkbox means **every visible row**: the rows on screen, not those in collapsed groups or past the growing limit. it is checked while every visible row that can be selected is selected, and mixed (indeterminate) while anything else is selected. pressed while checked, it clears the whole selection, hidden rows included. it is disabled while no visible row can be selected. offering "select all 2,500" is the selection toolbar's job — see [selection and bulk actions](https://nalet.github.io/design-system/patterns/selection-and-bulk-actions/).
-- `isRowSelectable` returning `false` disables a row's checkbox and keeps the row out of clicks, `space`, ranges, select-all and `ctrl+a`. say why in the row, with a status ("on its way").
+- `isRowSelectable` returning `false` disables a row's checkbox and keeps the row out of every way of selecting.
 - `rowLabel` names each checkbox: `rowLabel={(r) => r.code}` gives "select S04E07". without it every checkbox is named "select row".
-- the mixed state counts every key in `selected`, including keys of rows that are no longer in `rows`. when the list changes (a filter, a tab), keep only the rows that are still there, or clear the selection.
-
-<Canvas of={DataTableStories.Selection} />
+- the header checkbox's mixed state counts every key in `selected`, including keys of rows that are no longer in `rows`. whether a selection outlives a filter or a tab is the app's part — see [keeping a selection](https://nalet.github.io/design-system/patterns/selection-and-bulk-actions/#keeping-a-selection).
 
 ### grouping
 
 - `groupBy` returns a key per row; rows sharing a key go under one group row, and the table becomes a `treegrid`. group rows sit at `aria-level` 1 with `aria-expanded`, `aria-posinset` and `aria-setsize`; data rows at level 2, numbered within their group.
-- `groupHeader(group)` is the label; `group` is `{ key, rows }`. the default is `key · count`, so pass one when the keys are not words: "The Example Show · S04 · 8 missing". the label keeps its case.
-- `groupAction(group)` adds one action at the end of the group row: a small ghost [button](?path=/docs/components-actions-button--docs) that acts on the group ("grab all 8"). pressing it does not toggle the group.
-- a group collapses and expands with a click on its row, `enter` or `space`, `←` and `→`. a collapsed group's rows leave the dom.
+- `groupHeader(group)` is the label; `group` is `{ key, rows }`. the default is `key · count`, so pass one when the keys are not words.
+- `groupAction(group)` adds one action at the end of the group row.
+- a collapsed group's rows leave the dom.
 - the table keeps the collapsed groups itself (`defaultCollapsedGroups` sets the start), or you do: pass `collapsedGroups` with `onCollapsedGroupsChange`, for instance to keep them in the url. `onCollapsedGroupsChange` fires either way.
-
-<Canvas of={DataTableStories.Grouped} />
 
 ### growing
 
-- `growing={100}` shows the first 100 data rows. a "show 100 more" button under the table adds as many again ("show 37 more" for the last ones) and goes once everything is shown. without `growing`, every row renders.
-- the count beside it reads "100 of 2,500": the data rows shown, of every row in `rows`. it is a polite live region, so each step is announced. `formatGrowing(shown, total)` changes its words.
-- what counts as shown: data rows on screen. group rows don't count. rows in a collapsed group count in the total but never as shown, so with groups collapsed the count can stop below the total ("2,380 of 2,500") with no button left.
+- `growing={100}` shows the first 100 data rows. without `growing`, every row renders.
+- the count is a polite live region (`aria-live="polite"`). `formatGrowing(shown, total)` changes its words, and only the count: "show n more" stays as it is.
 - the limit only grows; `growingResetKey` starts it over. a change of its value goes back to one page. pass a string or a number that changes with the filters, ``growingResetKey={`${tab}|${query}`}``. an object made on every render would reset it on every render.
-
-<Canvas of={DataTableStories.Growing} />
 
 ### pop-in
 
-- pop-in goes by the table's own width, not the screen's: a table in a narrow panel pops in on a wide screen too. columns with `importance: 'low'` pop in when the table is 720px wide or less, `medium` at 480px or less. `high` columns, and columns without `importance`, always show, and the row header never pops in.
-- a popped-in column is not rendered as a column at all: no header, no cells. its values move under the row header's content, each with its label.
+- `importance` goes by the table's own width, measured with a `ResizeObserver` on the frame.
 - until the table has been measured — and wherever there is no `ResizeObserver` — every column shows.
-- the table never scrolls sideways. keep the `high` columns few enough to fit the narrowest width you support.
-- today: when the sorted column pops in, its header goes with it. the order holds, but nothing on screen or in the accessibility tree says what the rows are sorted by.
 
-<Canvas of={DataTableStories.PopIn} />
+### row press and highlight
 
-### row press
-
-- `onRowPress(row)` makes the row itself an action, usually opening its details. a click outside the row's controls (with `shift` or without), or `enter` on the focused row, calls it. the checkbox, `space`, `shift+space` and `shift+↑` / `shift+↓` still select.
-- without `onRowPress`, a click on a selectable row toggles its selection, and `enter` does nothing.
-- today: a pressable row looks like any other — no pointer cursor, no chevron — and nothing tells assistive tech that `enter` opens it. put a link in the row header as well, so where the row leads is a real link people can find.
-
-<Example column label="rows that open on press">
-  <RowPressExample />
-</Example>
-
-### highlight
-
-- `rowHighlight(row)` returns a state (`error`, `warning`, `information`, `success`, `neutral`) or nothing. the row gets a 3px rule in that state's colour on its leading edge. the playground above highlights the rows that failed.
-- the rule is decoration: it tells assistive tech nothing, and colour alone never carries a state. the row says the state in words, in a [status cell](?path=/docs/components-data-display-table-cells--docs).
-- use it for the few rows that need acting on (`error` for what failed), not to colour every row by its state.
+- `onRowPress(row)` makes the row itself an action. a click outside the row's controls (with `shift` or without), or `enter` on the focused row, calls it.
+- `rowHighlight(row)` returns a state (`error`, `warning`, `information`, `success`, `neutral`) or nothing.
 
 ### sticky header
 
-- `stickyHeader` is on by default: the header cells stick to the top of the nearest scrolling ancestor, usually the page, while the rows scroll under them. the frame has no overflow on purpose; a frame that scrolled would stop the header from sticking to the page.
-- under something else that sticks — an app bar, a sticky toolbar — offset the header with `--nc-dt-sticky-top` on any ancestor. the [worklist](https://nalet.github.io/design-system/patterns/worklist/) sets it to its toolbar's measured height.
-- inside a panel with its own scroll, the header sticks to the top of that panel.
+- `stickyHeader` is on by default: the header cells stick to the top of the nearest scrolling ancestor. the frame has no overflow on purpose; a frame that scrolled would stop the header from sticking to the page.
+- under something else that sticks, offset the header with `--nc-dt-sticky-top` on any ancestor. the [worklist](?path=/docs/patterns-worklist--docs) sets it to its toolbar's measured height.
 
 ```tsx
 <div style={{ '--nc-dt-sticky-top': '45px' } as React.CSSProperties}>
@@ -197,36 +154,16 @@ every feature is a prop and is off until you pass it. columns are objects:
 </div>
 ```
 
-### loading
+### loading and empty
 
-- `loading` sets `aria-busy="true"` on the table, runs a 2px `--cloud-blue` rule along its top edge (a still, full-width rule with reduced motion). the rows stay at full contrast, and stay interactive.
-- keep the old rows while new ones load; don't empty the table first.
-- don't pass `empty` until you know the list is empty: with no rows the empty content shows, even while `loading`.
-- the rule sits on the frame's top edge and doesn't stick with the header: in a long list it can be scrolled out of view.
+- `loading` sets `aria-busy="true"` on the `table` and runs a 2px busy rule along the frame's top edge, still and full width under `prefers-reduced-motion`. it doesn't dim the rows.
+- `empty` renders in the body, in one cell across every column, when there are no rows. give it an illustrated message at `size="sm"`, with a `headingLevel` that fits the page around it.
+- a table given `empty` shows it whenever it has no rows, even while `loading`: pass `empty` only once the load has finished.
 
-<Canvas of={DataTableStories.Loading} />
+### focus and keys
 
-### empty
-
-- `empty` shows in one cell across every column when there are no rows. give it an [illustrated message](?path=/docs/components-feedback-status-illustrated-message--docs) at `size="sm"`, with a `headingLevel` that fits the page around it — see [empty states](https://nalet.github.io/design-system/patterns/empty-states/).
-- without `empty`, an empty table is a header row with nothing under it.
-
-<Canvas of={DataTableStories.Empty} />
-
-### density
-
-`dense` cuts the padding of header and body cells to 4px 8px, for side panels and long lists. a table 480px wide or less cuts the side padding to 8px on its own.
-
-<Example column label="a dense data table">
-  <DataTable dense aria-label="missing episodes, dense" columns={BACKLOG_COLUMNS} rows={FIVE} rowKey={(b) => b.id} />
-</Example>
-
-## behaviour and keyboard
-
-- **one tab stop.** the table keeps one row in the tab order: the last one focused, or the first row to begin with. the controls inside every other row — buttons, links, inputs, selects, textareas, summaries and anything with a `tabindex` — are out of the tab order, so `tab` crosses the table in one step instead of stopping at each checkbox and menu.
-- `tab` from the focused row goes into that row's own controls (its checkbox, its action menu), then out of the table to the "show n more" button or beyond. the header's controls — select-all and the sort buttons — stay in the tab order before the rows; `shift+tab` reaches them.
-- a click on a row focuses it, so it becomes the tab stop.
-- the focused row draws a 2px `--focus-ring` frame inside its cells, for keyboard focus only (outlines on table rows are unreliable).
+- one row is in the tab order. the controls inside every other row — buttons, links, inputs, selects, textareas, summaries and anything with a `tabindex` — are taken out of it (`tabindex="-1"`), and get their own back when their row becomes the tab stop.
+- the focus ring is drawn inside the cells, on `:focus-visible` only: outlines on table rows are unreliable.
 
 on any focused row, data or group:
 
@@ -256,79 +193,7 @@ on a group row:
 | `→` | expands it. |
 | `enter` / `space` | toggles it. |
 
-with a pointer:
-
-- a click on a row toggles its selection, or calls `onRowPress` when there is one. `shift+click` on a checkbox — or on the row, when there is no `onRowPress` — toggles that row and sets every row from the last one toggled the same way.
-- a click on a group row toggles the group.
-- clicks on a row's own controls — checkbox, buttons, links, menus — are theirs. they never toggle or press the row.
-- a click while text is selected on the page does nothing, so people can copy from a row. a `shift+click` is the exception: it selects the range of rows, and the table keeps the browser from selecting text on it.
-- keys pressed while a control inside a row has focus go to that control. the arrow keys work from the row itself (`shift+tab` back to it).
-
-## accessibility
-
-- the table is a `grid`, or a `treegrid` when grouped, with `aria-rowcount` (the header and every row, past the growing limit too, but not the rows inside collapsed groups), `aria-colcount`, `aria-multiselectable` when `selectable`, and `aria-busy` while `loading`. rows carry `aria-rowindex`, and `aria-selected` when the table is selectable.
-- column headers are `th scope="col"` and the row header is a `th scope="row"`, so a screen reader names each cell by its column and its row.
-- **name the table.** pass `aria-labelledby` with the id of the heading above it, or `aria-label`. nothing enforces it.
-- **name the rows.** `rowLabel` names each checkbox, "select S04E07"; name the row's [action menu](?path=/docs/components-actions-action-menu--docs) the same way, "actions for S04E07".
-- an actions column needs a header too: a visually hidden one, `<span className="nc-sr-only">actions</span>`.
-- **states in words.** a highlight rule tells assistive tech nothing; a [status cell](?path=/docs/components-data-display-table-cells--docs) says the state.
-- announcements: the growing count is a polite live region. a sort is told by `aria-sort` on its header, not announced. the table doesn't announce selection changes; a [selection toolbar](?path=/docs/components-actions-toolbar--docs) above it does ("8 selected").
-- axe-core finds no violations in this component's stories (wcag 2.x a and aa, best practice, colour contrast included).
-
-today:
-
-- when the row that has focus leaves the list (an action removed it, a filter hid it), or the last "show n more" press removes its button, focus moves to the table's tab stop — the row last focused, or the first row — instead of falling to the page.
-- a row that can't be selected carries no `aria-selected`; its disabled checkbox says it can't be selected.
-- the arrow keys move by row only. a cell can't take focus, so `←` and `→` don't move across a row's cells, and the header row is outside the arrow keys (reach it with `shift+tab`).
-- the built-in words are fixed english: "select every visible row", the "select" before each row's label, and "show n more". `formatGrowing` changes only the count.
-- a load starting or finishing is not announced. when it takes long, say so in words near the table.
-- `ctrl+a` / `cmd+a` on a group row selects the page's text: the table takes it on data rows only.
-
-## content
-
-- **headers** — a lowercase noun, one or two words: `episode`, `aired`, `state`. put a unit in the header, `size (gb)`, not in every cell.
-- **the row header** — what people call the row, `S04E07` or `worker-2`, in an [identifier cell](?path=/docs/components-data-display-table-cells--docs). `rowLabel` returns the same words, so the checkbox, the action menu and the row agree.
-- **status** — one status cell per row, from one table of the object's states (`defineStates`, see [status vocabulary](https://nalet.github.io/design-system/patterns/status-vocabulary/)): the state in the object's words, and a detail line for why or what happens next.
-- **dates** — a [date cell](?path=/docs/components-data-display-table-cells--docs): absolute and relative.
-- **group headers** — what the group is and how many it holds: `The Example Show · S04 · 8 missing`. a group's name is content: the label shows it as written, so write it the way the name is spelled.
-- **group actions** — a verb and the count it acts on: `grab all 8`.
-- **growing** — keep the "100 of 2,500" form. `formatGrowing` is for another language, not for other words.
-- **empty** — what is true, in the list's own words: see [empty states](https://nalet.github.io/design-system/patterns/empty-states/).
-
-## do and don't
-
-<DoDont>
-  <Do column caption="per-row actions in one action menu, named by the row. the row stays quiet and has one tab stop for its actions.">
-    <DataTable aria-label="missing episodes, with a menu per row" columns={[EPISODE, STATE, MENU]} rows={FIVE.slice(0, 3)} rowKey={(b) => b.id} />
-  </Do>
-  <Dont column caption="a row of buttons on every row: the same labels again and again, nothing reads as the next step, and the table runs out of width.">
-    <DataTable aria-label="missing episodes, with buttons per row" columns={[EPISODE, STATE, BUTTONS]} rows={FIVE.slice(0, 3)} rowKey={(b) => b.id} />
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do column caption="the state in words in every row; the highlight only marks the rows that need acting on.">
-    <DataTable aria-label="missing episodes, with states" columns={[EPISODE, STATE]} rows={MIXED} rowKey={(b) => b.id} rowHighlight={(b) => (b.state === 'failed' ? 'error' : undefined)} />
-  </Do>
-  <Dont column caption="a rule with no words: screen readers hear nothing, and nobody can tell what the rule means.">
-    <DataTable aria-label="missing episodes, colour only" columns={[EPISODE]} rows={MIXED} rowKey={(b) => b.id} rowHighlight={(b) => (b.state === 'failed' ? 'error' : undefined)} />
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do column caption="an empty list says what is true, in the list's words.">
-    <DataTable
-      aria-label="missing episodes, none"
-      columns={[EPISODE, STATE]}
-      rows={[]}
-      rowKey={(b) => b.id}
-      empty={<IllustratedMessage illustration="done" size="sm" headingLevel={3} title="nothing missing" description="every aired episode is in the library." />}
-    />
-  </Do>
-  <Dont column caption="a header with nothing under it: people can't tell an empty list from one that is still loading or failed to load.">
-    <DataTable aria-label="missing episodes, bare" columns={[EPISODE, STATE]} rows={[]} rowKey={(b) => b.id} />
-  </Dont>
-</DoDont>
+keys pressed while a control inside a row has focus go to that control. the arrow keys work from the row itself (`shift+tab` back to it).
 
 ## performance
 
@@ -346,13 +211,4 @@ the table doesn't virtualise: every row it shows is a row in the dom. so:
 
 ## props
 
-`DataTable` takes no other attributes and no `ref`: `aria-label` and `aria-labelledby` go to the `table`, and `className` to the frame.
-
 <ArgTypes of={DataTableStories} />
-
-## related
-
-- [table](?path=/docs/components-data-display-table--docs) — the static table, for short read-only records.
-- [table cells](?path=/docs/components-data-display-table-cells--docs) — status with a reason, dates both ways, identifiers.
-- [selection and bulk actions](https://nalet.github.io/design-system/patterns/selection-and-bulk-actions/) — selecting rows and acting on them from a toolbar.
-- [worklist](https://nalet.github.io/design-system/patterns/worklist/) — the floorplan a data table usually sits in.

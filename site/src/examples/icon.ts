@@ -1,5 +1,4 @@
-import { composeStories } from '@storybook/react';
 import * as stories from '@stories/components/Icon.stories';
-import { SITE } from './site';
+import { compose } from './site';
 
-export const { Playground, Gallery, Sizes } = composeStories(stories, SITE);
+export const { Playground, Gallery, Sizes } = compose(stories);

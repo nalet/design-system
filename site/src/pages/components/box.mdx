@@ -1,0 +1,121 @@
+---
+layout: ../../layouts/Doc.astro
+title: box
+description: the base layout primitive — a square container with padding from the space scale, an optional canvas background and an optional hairline border.
+component: box
+---
+import { Box, Card, Stack, Text } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { Playground, Padding, AsymmetricPadding, Backgrounds, Panel } from '@site/examples/box';
+
+# box
+
+the base layout primitive: a square container with padding from the space scale, an optional canvas background and an optional hairline border.
+
+<Example label="a box with padding, a background and a border">
+  <Playground />
+</Example>
+
+## when to use
+
+- to pad a region with the space scale instead of hand-written css.
+- to set a region on another canvas, such as a sunken `bg-2` area inside a surface.
+- to frame something with a hairline when a card's header and footer would be too much.
+
+## when not to use
+
+- **for a titled group of content.** use a <C slug="card" />: the header, its rule, the footer and the standard padding come with it.
+- **for the space between siblings.** use a <C slug="stack" /> and its gap. padding or margins on each child drift off the scale.
+- **for a line between sections.** use a <C slug="divider" />.
+- **for something people click.** a box is not a control: no focus, no keyboard. an action is a <C slug="button" />; an entry on the launchpad is a <C slug="tile" />.
+
+## anatomy
+
+1. **container** — square, never rounded, like every frame (see [shape](/design-system/styles/shape/#square-frames)). no padding, background or border unless you ask.
+2. **padding** (optional) — on every side, on the left and right, or on the top and bottom, each a step of the [space scale](/design-system/foundations/layout/#the-scale).
+3. **background** (optional) — one of the four canvas colours: `--bg`, `--bg-2`, `--surface` or `--surface-2`.
+4. **border** (optional) — a 1px `--border` hairline on every side.
+
+## variants and states
+
+padding comes in the steps of the scale; there is no default.
+
+<Example label="padding of 8, 16, 24 and 32px">
+  <Padding />
+</Example>
+
+the left and right can take a different step from the top and bottom.
+
+<Example label="one step on the sides, another on the top and bottom">
+  <AsymmetricPadding />
+</Example>
+
+the background is one of the four canvas colours; without one, the box is transparent.
+
+<Example label="the four canvas backgrounds">
+  <Backgrounds />
+</Example>
+
+boxes nest: a sunken `bg-2` region inside a `surface` panel.
+
+<Example label="a sunken region inside a surface panel">
+  <Panel />
+</Example>
+
+## behaviour
+
+- a box takes no focus and has no action. `tab` skips it and moves through what's inside it, in order.
+
+the keyboard map and the element it renders are on its [react page](/design-system/react/?path=/docs/components-layout-structure-box--docs).
+
+## accessibility
+
+- a box adds no structure for assistive tech: it has no role and no name.
+- landmarks and regions are yours: a region that people should find by its name needs a role and that name.
+- the border is a decorative hairline, below 3:1 by design (see [shape](/design-system/styles/shape/#lines)). a box's border must never be the only thing that marks a control or a selected item.
+- a background changes nothing else: text inside keeps its own colour, and every text colour meets 4.5:1 on all four backgrounds.
+
+## content
+
+a box has no text of its own. keep what's inside it about one thing; if it needs a title, it is a <C slug="card" />.
+
+## do and don't
+
+<DoDont>
+  <Do column caption="space between boxes from the stack's gap: one value, on the scale.">
+    <Stack gap={12}>
+      <Box p={12} bg="surface-2" border><Text variant="ui">storage-01</Text></Box>
+      <Box p={12} bg="surface-2" border><Text variant="ui">storage-02</Text></Box>
+      <Box p={12} bg="surface-2" border><Text variant="ui">storage-03</Text></Box>
+    </Stack>
+  </Do>
+  <Dont column caption="margins on each box drift off the scale and never quite match.">
+    <div>
+      <Box p={12} bg="surface-2" border style={{ marginBottom: '10px' }}><Text variant="ui">storage-01</Text></Box>
+      <Box p={12} bg="surface-2" border style={{ marginBottom: '5px' }}><Text variant="ui">storage-02</Text></Box>
+      <Box p={12} bg="surface-2" border><Text variant="ui">storage-03</Text></Box>
+    </div>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do column caption="a titled group is a card: header, rule and padding come with it.">
+    <Card header="backups">every night at 02:00, kept 14 days.</Card>
+  </Do>
+  <Dont column caption="a box with a hand-made title is a card that drifts: other padding, no header rule, the title in the wrong type.">
+    <Box p={12} bg="surface" border>
+      <Stack gap={4}>
+        <Text variant="ui">backups</Text>
+        <Text variant="muted">every night at 02:00, kept 14 days.</Text>
+      </Stack>
+    </Box>
+  </Dont>
+</DoDont>
+
+## related
+
+- <C slug="stack" /> — the gap between children.
+- <C slug="card" /> — a box with a header, a footer and standard padding.
+- [layout](/design-system/foundations/layout/) — the scale behind the padding.
+- [shape](/design-system/styles/shape/) — square frames and hairlines.

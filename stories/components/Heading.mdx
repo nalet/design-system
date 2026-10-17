@@ -1,115 +1,38 @@
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
 import * as HeadingStories from './Heading.stories';
-import { Heading, Stack } from '../../src';
-import { DoDont, Do, Dont } from '../_blocks';
 
 <Meta of={HeadingStories} />
 
 # heading
 
-mono display type for the page title (`h1`, 32px) and its sections (`h2`, 22px), optionally led by the blue `>` chevron.
+design guidance — when to use it, the two levels, the chevron, its words: **[heading on the guidelines site →](https://nalet.github.io/design-system/components/heading/)**
 
 <Canvas of={HeadingStories.Playground} />
 
-## when to use
+## examples
 
-- once per page, for its title (`level={1}`), with the chevron on product screens.
-- for the sections of a page (`level={2}`).
-
-## when not to use
-
-- **for the title of a card or panel.** use the [card](?path=/docs/components-layout-structure-card--docs) `header`.
-- **for a third level or below.** today heading stops at `h2`. a sub-section gets a native `h3` through [text](?path=/docs/components-data-display-text--docs): `as="h3"`.
-- **for emphasis or a big number.** headings are structure: screen-reader users jump between them. emphasis is [text](?path=/docs/components-data-display-text--docs) with `variant="ui"`.
-- **for the product name or logo.** use the lockup — see [brand](https://nalet.github.io/design-system/styles/brand/).
-
-## anatomy
-
-1. **heading** — a native `h1` or `h2` with no margin, jetbrains mono, `--fg`. level 1: weight 700, 32px, line height 1.15, letter-spacing -0.015em. level 2: weight 600, 22px, line height 1.2.
-2. **chevron** (optional, `chevron`) — a bold `>` in `--cloud-blue`, 0.4em before the text, hidden from assistive tech.
-
-## variants and states
-
-the level sets both the element and the size: an `h2` always looks like an `h2`.
+`level={1}` and `level={2}`.
 
 <Canvas of={HeadingStories.Levels} />
 
-`chevron` leads the heading with the brand glyph, always in `--cloud-blue`.
+`chevron` on a `level={1}` heading.
 
 <Canvas of={HeadingStories.WithChevron} />
 
-a page title with its first section:
+a `level={1}` heading with `chevron` above its first `level={2}` section, each in a `Stack` with its text.
 
 <Canvas of={HeadingStories.SectionHeader} />
 
-## behaviour and keyboard
+## implementation notes
 
-a heading is static and native. it takes no focus.
+- renders a native `h1` (`level={1}`, the default) or `h2` (`level={2}`), with `margin: 0`.
+- `chevron` puts a `span` with `aria-hidden="true"` before your text, holding a `>` in `--cloud-blue`.
+- every native heading attribute passes through (`id` for in-page links, `aria-*`, …), and the `ref` reaches the heading.
 
 | key | does |
 | --- | --- |
 | `tab` | skips it. headings are not in the tab order. |
 
-- screen readers have their own keys for moving from heading to heading (e.g. `h` in browse mode). that is why the levels must follow the page's outline.
-
-## accessibility
-
-- renders a native `h1` or `h2`, so it is in the document outline and screen readers can jump to it.
-- one `h1` per page; its sections are `h2`. pick the level for the outline, never for the size.
-- the chevron is `aria-hidden`: the heading's name is your text alone. don't type a `>` into the text — it would be read as "greater than".
-- no case is changed: the text is shown and read exactly as written. write it lowercase, as the voice asks.
-- today: only two levels.
-
-## content
-
-- a lowercase noun phrase, no full stop: `volumes`, `recent runs`, `storage settings`.
-- short. a heading that wraps at 32px mono is too long.
-- the chevron once, on the page's `h1`. on every heading it stops meaning anything.
-
-## do and don't
-
-<DoDont>
-  <Do column caption="the chevron once, on the page title.">
-    <Stack gap={8}>
-      <Heading level={1} chevron>volumes</Heading>
-      <Heading level={2}>recent runs</Heading>
-    </Stack>
-  </Do>
-  <Dont column caption="a chevron on every heading is decoration; it no longer marks the page.">
-    <Stack gap={8}>
-      <Heading level={2} chevron>recent runs</Heading>
-      <Heading level={2} chevron>snapshots</Heading>
-    </Stack>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do column caption="use chevron: the glyph is blue and stays out of the heading's name.">
-    <Heading level={1} chevron>volumes</Heading>
-  </Do>
-  <Dont column caption="a typed chevron is the wrong colour and is read aloud as 'greater than'.">
-    <Heading level={1}>{'> volumes'}</Heading>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do column caption="a short noun phrase that names the section.">
-    <Heading level={2}>recent runs</Heading>
-  </Do>
-  <Dont column caption="a sentence as a heading wraps and buries the word people scan for.">
-    <Heading level={2}>here you can see all of the runs from the last week</Heading>
-  </Dont>
-</DoDont>
-
 ## props
 
-`Heading` passes every native heading attribute through (`id` for in-page links, `aria-*`, …) and forwards its ref.
-
 <ArgTypes of={HeadingStories} />
-
-## related
-
-- [text](?path=/docs/components-data-display-text--docs) — body copy, and an `h3` with `as="h3"`.
-- [card](?path=/docs/components-layout-structure-card--docs) — titles for panels.
-- [brand](https://nalet.github.io/design-system/styles/brand/) — the chevron and the lockup.
-- [typography](https://nalet.github.io/design-system/styles/typography/) — the `h1` and `h2` type roles.

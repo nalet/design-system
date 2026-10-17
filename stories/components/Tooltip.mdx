@@ -1,117 +1,36 @@
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
-import { RotateCw } from 'lucide-react';
 import * as TooltipStories from './Tooltip.stories';
-import { Tooltip, Button, IconButton, Icon } from '../../src';
-import { DoDont, Do, Dont } from '../_blocks';
-
-export const Term = ({ children }) => (
-  <span style={{ borderBottom: '1px dotted var(--fg-dim)', cursor: 'help', fontFamily: 'var(--ff-mono)', fontSize: 13, color: 'var(--fg)' }}>{children}</span>
-);
 
 <Meta of={TooltipStories} />
 
 # tooltip
 
-a small square label with a short, optional detail about what is under the pointer or the keyboard focus. it is css only: the bubble shows while its trigger is hovered or has keyboard focus.
+design guidance — when to use it, its anatomy, sides and states, what it can't do, its words: **[tooltip on the guidelines site →](https://nalet.github.io/design-system/components/tooltip/)**
 
 <Canvas of={TooltipStories.Playground} />
 
-## when to use
+## examples
 
-- to give the detail behind a compact value or term: the window behind `142 ms`, the full time behind `3 min ago`, what an abbreviation stands for.
-- for information people can do without. anything they need to finish a task belongs on the screen.
-
-## when not to use
-
-- **to name an icon-only control.** an [icon button](?path=/docs/components-actions-icon-button--docs) takes a `label`, which becomes its accessible name and the browser's own tooltip (`title`).
-- **for anything people need**: an error, a warning, the consequence of an action. there is no hover on touch screens, so people there never see the bubble. put it on the page — a [field](?path=/docs/components-inputs-field--docs) hint or error, a [message strip](?path=/docs/components-feedback-status-message-strip--docs).
-- **for more than a short phrase.** the bubble doesn't wrap. write it on the page, or in a [modal](?path=/docs/components-overlays-modal--docs) when it needs a decision.
-- **for links, buttons or anything else to act on.** the bubble can't be hovered or focused, and it disappears when the pointer leaves the trigger. offer the actions on the page, or behind an [action menu](?path=/docs/components-actions-action-menu--docs).
-
-## anatomy
-
-1. **wrapper** — an inline-flex `<span>` around your trigger. it is focusable (`tabindex="0"`) and points at the bubble with `aria-describedby`.
-2. **trigger** — your `children`: a value or a term.
-3. **bubble** — `role="tooltip"`. `--surface-2` fill, 1px `--border-2`, square, 4px × 8px padding; jetbrains mono 12px / 1.4 in `--fg`; one line, at most 240px wide. it sits 6px from the trigger, centred on it, at `z-index: 50`, with no arrow.
-
-## variants and states
-
-`side` puts the bubble `top` (the default), `bottom`, `left` or `right` of the trigger, centred along it. nothing flips or shifts it near the edge of the viewport, and an ancestor with `overflow: hidden` cuts it off: choose the side with room.
+`side`: `top` (the default), `bottom`, `left`, `right`.
 
 <Canvas of={TooltipStories.Sides} />
 
-the bubble fades in over 100ms when the trigger is hovered or gets keyboard focus, and hides at once when both end. there is no delay before it shows.
-
-triggers can sit inside running text:
+tooltips around terms in running text, one of them with `side="bottom"`.
 
 <Canvas of={TooltipStories.Inline} />
 
-## behaviour and keyboard
+## implementation notes
 
-there is no script: css shows the bubble while the wrapper is hovered or has keyboard focus (`:focus-visible`).
+- `Tooltip` renders an inline-flex `<span>` (`position: relative`; `className` goes on it) that holds two spans: the wrapper around your `children`, with `tabindex="0"` and `aria-describedby` pointing at the bubble, and the bubble, with `role="tooltip"`. the bubble's id comes from `useId`.
+- it is css only: there is no script. the bubble shows while the wrapper is hovered or has keyboard focus (`:focus-visible`), with a 100ms opacity transition. the wrapper sets `outline: none`.
+- the bubble is `position: absolute`, 6px from the trigger, at `z-index: 50`, with `pointer-events: none`, `white-space: nowrap` and `max-width: 240px`. `side` places it with css alone, so an ancestor with `overflow: hidden` clips it.
+- `Tooltip` passes no other attributes through.
 
 | key | does |
 | --- | --- |
 | `tab` / `shift+tab` | moves focus to the wrapper, which shows the bubble. when your trigger is itself focusable, the next `tab` moves into it and the bubble hides. |
 | `esc` | nothing. today the bubble can't be dismissed from the keyboard; it hides when focus leaves the wrapper. |
 
-- pointer: hovering the wrapper shows the bubble, leaving it hides it. the bubble ignores the pointer (`pointer-events: none`), so it can't be hovered, selected or clicked.
-
-## accessibility
-
-- the bubble has `role="tooltip"`, and the wrapper refers to it with `aria-describedby`. the description belongs to the wrapper, not to your trigger.
-- the wrapper always adds a tab stop. on a value or a term, that is what makes the detail reachable by keyboard. on a button it means two tab stops for one control, and the button itself gets no description.
-
-today:
-
-- the focused wrapper draws no focus ring (`outline: none`); the bubble appearing is the only sign of focus.
-- `esc` doesn't hide the bubble, and the pointer can't rest on it: two of the three things wcag 1.4.13 asks of content that appears on hover or focus. keep only optional detail in it.
-- text longer than 240px doesn't wrap; it runs out of the bubble.
-
-## content
-
-- one short phrase, lowercase, no full stop: `p95 over the last 5 minutes`, `built 2026-06-15 09:12`.
-- add to the trigger; don't repeat it. a tooltip that says what the trigger already says is noise.
-- plain text only: no links, no buttons, nothing that has to be read in a particular order.
-
-## do and don't
-
-<DoDont>
-  <Do caption="an optional detail behind a compact value.">
-    <Tooltip content="p95 over the last 5 minutes"><Term>142 ms</Term></Tooltip>
-  </Do>
-  <Dont caption="the consequence hides behind hover: people on touch screens, and anyone who doesn't hover, never see it. say it on the page.">
-    <Tooltip content="restarts every worker; requests fail for a minute"><Button variant="primary">deploy release</Button></Tooltip>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="an icon button names itself: its label is the accessible name and the native tooltip.">
-    <IconButton label="restart worker-2"><Icon icon={RotateCw} /></IconButton>
-  </Do>
-  <Dont caption="wrapped in a tooltip, it shows two tooltips (the native one and the bubble) and puts an extra tab stop in front of the button.">
-    <Tooltip content="restart worker-2"><IconButton label="restart worker-2"><Icon icon={RotateCw} /></IconButton></Tooltip>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="one short line.">
-    <Tooltip content="3 of 3 replicas ready"><Term>worker-2</Term></Tooltip>
-  </Do>
-  <Dont caption="a sentence doesn't wrap: past 240px it runs out of the bubble. if it needs a sentence, it belongs on the page.">
-    <Tooltip content="worker-2 runs 3 replicas; they restart one at a time after each release, and the last restart took 48 seconds"><Term>worker-2</Term></Tooltip>
-  </Dont>
-</DoDont>
-
 ## props
 
-`Tooltip` passes no other attributes through; `className` goes on the wrapper.
-
 <ArgTypes of={TooltipStories} />
-
-## related
-
-- [icon button](?path=/docs/components-actions-icon-button--docs) — names an icon-only control; its label is also the native tooltip.
-- [field](?path=/docs/components-inputs-field--docs) — hints and errors next to the input they explain.
-- [message strip](?path=/docs/components-feedback-status-message-strip--docs) — information people need, on the page.
-- [modal](?path=/docs/components-overlays-modal--docs) — when the detail needs a decision.

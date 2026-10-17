@@ -50,19 +50,26 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <slot />
     <Footer />
     <script is:inline>
-      // a table or code block that scrolls sideways becomes a focusable, named
-      // region while it overflows, so the keyboard can scroll it too.
+      // a table, a code block or an example that scrolls sideways becomes a
+      // focusable, named region while it overflows, so the keyboard can scroll
+      // it too — what the library's own table and code block do once they run
+      // in the browser, done here for the examples that stay static html.
       (function () {
-        var frames = document.querySelectorAll('.ds-table-frame, .ds-prose pre.astro-code');
+        var frames = document.querySelectorAll(
+          '.ds-table-frame, .ds-prose pre.astro-code, .ds-live .nc-code--block, .ds-live .nc-table__scroll, .ds-example, .ds-verdict__stage, .ds-mock__stage'
+        );
         if (!frames.length) return;
         var used = {};
         function name(el) {
-          var caption = el.querySelector('caption');
-          var h = el.previousElementSibling;
-          while (h && !/^H[1-4]$/.test(h.tagName)) h = h.previousElementSibling;
-          var what = el.tagName === 'PRE' ? 'code' : 'table';
-          var base = (caption ? caption.textContent.trim() : h ? h.textContent.trim() + ', ' + what : what) + ', scrolls sideways';
           if (!el.dataset.dsName) {
+            var caption = el.querySelector('caption');
+            var labelled = el.querySelector('table[aria-label]');
+            var h = el.previousElementSibling;
+            while (h && !/^H[1-4]$/.test(h.tagName)) h = h.previousElementSibling;
+            var what = el.tagName === 'PRE' ? 'code' : /ds-(example|verdict|mock)/.test(el.className) ? 'example' : 'table';
+            var base =
+              (caption ? caption.textContent.trim() : labelled ? labelled.getAttribute('aria-label') : h ? h.textContent.trim() + ', ' + what : what) +
+              ', scrolls sideways';
             used[base] = (used[base] || 0) + 1;
             el.dataset.dsName = used[base] > 1 ? base + ' (' + used[base] + ')' : base;
           }
@@ -70,14 +77,25 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
         }
         function check() {
           frames.forEach(function (el) {
+            // a hydrated library component looks after itself.
+            if (/\bnc-/.test(el.className) && el.closest('astro-island:not([ssr])')) return;
+            var ownRole = el.hasAttribute('data-ds-own-role') || (el.getAttribute('role') && !el.hasAttribute('data-ds-role'));
             if (el.scrollWidth > el.clientWidth + 1) {
               el.tabIndex = 0;
-              el.setAttribute('role', 'region');
-              el.setAttribute('aria-label', name(el));
+              if (ownRole) {
+                el.setAttribute('data-ds-own-role', '');
+              } else {
+                el.setAttribute('role', 'region');
+                el.setAttribute('data-ds-role', '');
+                el.setAttribute('aria-label', name(el));
+              }
             } else {
               el.removeAttribute('tabindex');
-              el.removeAttribute('role');
-              el.removeAttribute('aria-label');
+              if (el.hasAttribute('data-ds-role')) {
+                el.removeAttribute('role');
+                el.removeAttribute('data-ds-role');
+                el.removeAttribute('aria-label');
+              }
             }
           });
         }

@@ -9,7 +9,7 @@ react:
   - { label: tile, id: components-navigation-tile }
   - { label: tile group, id: components-navigation-tile-group }
 ---
-import { Activity, Archive, GitBranch, ScrollText, Server } from 'lucide-react';
+import { Activity, Archive, Database, GitBranch, ScrollText, Server } from 'lucide-react';
 import { Button, Tile, TileGroup } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
@@ -210,6 +210,9 @@ the status draws the dot: online `--signal-green`, degraded `--signal-amber`, of
 
 a titled section of tiles in a square grid. the group is one tab stop; the arrow keys move between its tiles.
 
+- **use it** to gather tiles under a stable name on a launchpad; on its own, for a short set of destinations on a hub page; or to line up a few kpi tiles as a row of key figures.
+- **don't use it** for a single tile: a lone tile needs no section around it. for panels of text and controls, use <C slug="card">cards</C> in a <C slug="stack" />.
+
 ### anatomy
 
 1. **section** — a region named by its legend.
@@ -306,6 +309,8 @@ today:
 - **search placeholder** — `search apps…` or close to it, in the same words as the search's name.
 - **favourites** — the few apps people open every day. the launchpad doesn't keep them; store them with the person's settings.
 - **group legends** — nouns for who uses the tiles and why, one or two words, in a fixed order: `apps`, `manage`, `settings`. not `misc`, `other` or a group of everything.
+- **group description** — only when the legend needs it, as one short sentence.
+- **group action** — one action about the group as a whole (`manage`), as a ghost button.
 - **tile title** — the app's name: one or two words, a noun, no verb. `pipelines`, not `open pipelines`. the lowercase look is css, so write it as it should be read.
 - **tile description** — one line of what the app is for, in a few words: `builds and releases`. it stops after two lines.
 - **badge** — how many things wait (`3`), or one word for a state (`new`, `failed`).
@@ -365,6 +370,25 @@ today:
   </Do>
   <Dont caption="an exclamation mark says that something is wrong, not what. name it: failed." column>
     <Tile icon={Archive} title="backups" description="nightly copies" href="#" badge="!" badgeTone="danger" />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="columns that fit the width: a narrow column holds fewer, readable tiles." column>
+    <TileGroup legend="build" columns="auto" minTileWidth="9rem" gap="sm">
+      <Tile icon={GitBranch} title="pipelines" href="#" size="sm" />
+      <Tile icon={Server} title="cluster" href="#" size="sm" />
+      <Tile icon={Database} title="database" href="#" size="sm" />
+      <Tile icon={ScrollText} title="logs" href="#" size="sm" />
+    </TileGroup>
+  </Do>
+  <Dont caption="a fixed column count keeps four columns at any width and squeezes the titles." column>
+    <TileGroup legend="run" columns={4} gap="sm">
+      <Tile icon={GitBranch} title="pipelines" href="#" size="sm" />
+      <Tile icon={Server} title="cluster" href="#" size="sm" />
+      <Tile icon={Database} title="database" href="#" size="sm" />
+      <Tile icon={ScrollText} title="logs" href="#" size="sm" />
+    </TileGroup>
   </Dont>
 </DoDont>
 

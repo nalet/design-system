@@ -1,130 +1,44 @@
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
 import * as DividerStories from './Divider.stories';
-import { Divider, Heading, Stack, Text } from '../../src';
-import { DoDont, Do, Dont } from '../_blocks';
 
 <Meta of={DividerStories} />
 
 # divider
 
-a 1px rule in `--border` (`--border-2` when `heavy`), horizontal or vertical. a horizontal rule can carry a short mono label on the line.
+design guidance — when to use it, the rule and its label, what is announced, its words: **[divider on the guidelines site →](https://nalet.github.io/design-system/components/divider/)**
 
 <Canvas of={DividerStories.Playground} />
 
-## when to use
+## examples
 
-- to separate two groups of content in the same container, when space alone doesn't make the break clear.
-- vertically, between groups of short items in a row: counts, sizes, a timestamp.
-- with a label, for a quiet break in a long list: `older`, `archived`.
-
-## when not to use
-
-- **as a frame or an edge.** to outline a region, use the border of a [box](?path=/docs/components-layout-structure-box--docs) or a [card](?path=/docs/components-layout-structure-card--docs). a divider is a break between things, not a box around them.
-- **for a section title.** a label on the line isn't read as a heading (see accessibility). use a [heading](?path=/docs/components-layout-structure-heading--docs).
-- **between every item of a list.** space already separates the items: use a [stack](?path=/docs/components-layout-structure-stack--docs) `gap`. a [table](?path=/docs/components-data-display-table--docs) rules its own rows.
-
-## anatomy
-
-1. **rule** — 1px of `--border`, or `--border-2` when `heavy`. horizontal: the full width. vertical: 1px wide, stretched to the height of its row, at least 16px tall.
-2. **label** (optional, horizontal only) — centered between two rules, 12px from each: jetbrains mono 12px, letter-spacing 0.04em, `--fg-dim`, rendered lowercase, never wraps.
-
-the divider has no margin. the space around it comes from its parent's `gap`.
-
-## variants and states
+the default, `orientation="horizontal"`, between two groups in a `Stack`.
 
 <Canvas of={DividerStories.Horizontal} />
 
-`heavy` uses `--border-2`: a little stronger, still 1px.
+`heavy` next to the default.
 
 <Canvas of={DividerStories.Heavy} />
 
-`label` splits the rule around a short mono word.
+`label`, plain and with `heavy`.
 
 <Canvas of={DividerStories.Labeled} />
 
-`orientation="vertical"` draws a 1px column. it stretches to the height of its flex row (`align-self: stretch`), so place it in a horizontal [stack](?path=/docs/components-layout-structure-stack--docs) or another flex row. `label` is ignored on a vertical divider.
+`orientation="vertical"`, plain and `heavy`, in a horizontal `Stack`.
 
 <Canvas of={DividerStories.Vertical} />
 
-## behaviour and keyboard
+## implementation notes
+
+- renders a `div` with `role="separator"`. the unlabelled divider also sets `aria-orientation` to match its orientation.
+- with a `label`, the rule is two lines with the label between them, all inside the separator. a separator's children are presentational, and no `aria-label` is set from the label: when the words matter, pass the same text as `aria-label`.
+- a vertical divider stretches to the height of its flex row with `align-self: stretch`. `label` is ignored on it.
+- pass `aria-hidden="true"` to a divider that only decorates, so it isn't announced.
+- every native `div` attribute passes through, and the `ref` reaches the `div`. what you pass wins over the defaults, including `role`, `aria-orientation` and `aria-label`.
 
 | key | does |
 | --- | --- |
 | `tab` | skips it. a divider takes no focus and has no action. |
 
-## accessibility
-
-- renders a `div` with `role="separator"`, so screen readers announce a separator. the unlabelled divider also sets `aria-orientation` to match its orientation.
-- today: the label sits inside the separator, and a separator's children are presentational, so most screen readers won't read the label — and no `aria-label` is set for it. if the words matter, pass the same text as `aria-label`, or better, use a heading.
-- a divider that only decorates — inside something whose structure is already clear — can be hidden from assistive tech with `aria-hidden="true"`, so it isn't announced.
-- the rule is a decorative hairline, about 1.1:1 to 1.5:1 against the canvases, by design. never let a divider be the only thing that tells two groups apart: space and headings carry the structure.
-
-## content
-
-- a label is one or two lowercase words naming what follows: `older`, `archived`, `2023`.
-- no punctuation, no sentences, nothing people need to act on.
-
-## do and don't
-
-<DoDont>
-  <Do column caption="a label as a quiet break in a long list.">
-    <Stack gap={12}>
-      <Text variant="ui">run #1543</Text>
-      <Divider label="older" />
-      <Text variant="ui">run #1502</Text>
-    </Stack>
-  </Do>
-  <Dont column caption="a section title on the rule. screen-reader users can't find it or jump to it; use a heading.">
-    <Stack gap={12}>
-      <Divider label="storage settings" />
-      <Text variant="muted">412 gb used of 1 tb</Text>
-    </Stack>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do column caption="items in a list are separated by space.">
-    <Stack gap={12}>
-      <Text variant="ui">storage-01</Text>
-      <Text variant="ui">storage-02</Text>
-      <Text variant="ui">storage-03</Text>
-    </Stack>
-  </Do>
-  <Dont column caption="a rule per item is noise, and each one is announced as a separator.">
-    <Stack gap={12}>
-      <Text variant="ui">storage-01</Text>
-      <Divider />
-      <Text variant="ui">storage-02</Text>
-      <Divider />
-      <Text variant="ui">storage-03</Text>
-    </Stack>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do column caption="a section starts with a heading; space sets it apart.">
-    <Stack gap={8}>
-      <Heading level={2}>backups</Heading>
-      <Text variant="muted">every night at 02:00, kept 14 days</Text>
-    </Stack>
-  </Do>
-  <Dont column caption="rules above and below fake a frame. use a card or a box border.">
-    <Stack gap={8}>
-      <Divider />
-      <Text variant="muted">every night at 02:00, kept 14 days</Text>
-      <Divider />
-    </Stack>
-  </Dont>
-</DoDont>
-
 ## props
 
-`Divider` passes every native `div` attribute through and forwards its ref. what you pass wins over the defaults, including `role`, `aria-orientation` and `aria-label`.
-
 <ArgTypes of={DividerStories} />
-
-## related
-
-- [stack](?path=/docs/components-layout-structure-stack--docs) — the gap that spaces a divider.
-- [card](?path=/docs/components-layout-structure-card--docs) — header and footer rules come built in.
-- [heading](?path=/docs/components-layout-structure-heading--docs) — when the break needs a title.

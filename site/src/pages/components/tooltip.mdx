@@ -1,0 +1,132 @@
+---
+layout: ../../layouts/Doc.astro
+title: tooltip
+description: a small square label with a short, optional detail about what is under the pointer or the keyboard focus.
+component: tooltip
+---
+import { RotateCw } from 'lucide-react';
+import { Button, Icon, IconButton, Tooltip } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { Term } from '@site/demos/components/tooltip';
+import { Playground, Sides, Inline } from '@site/examples/tooltip';
+
+# tooltip
+
+a small square label with a short, optional detail about what is under the pointer or the keyboard focus. the bubble shows while its trigger is hovered or has keyboard focus.
+
+{/* the example frames clip what overflows them: a trigger in the middle leaves its bubble room on both sides. */}
+
+<Example label="a detail behind a value: hover it, or tab to it">
+  <div style={{ margin: '0 auto' }}>
+    <Playground />
+  </div>
+</Example>
+
+## when to use
+
+- to give the detail behind a compact value or term: the window behind `142 ms`, the full time behind `3 min ago`, what an abbreviation stands for.
+- for information people can do without. anything they need to finish a task belongs on the screen.
+
+## when not to use
+
+- **to name an icon-only control.** an <C slug="icon-button" /> takes a `label`, which becomes its accessible name and the browser's own tooltip.
+- **for anything people need**: an error, a warning, the consequence of an action. there is no hover on touch screens, so people there never see the bubble. put it on the page — a <C slug="field" /> hint or error, a <C slug="message-strip" />.
+- **for more than a short phrase.** the bubble doesn't wrap. write it on the page, or in a <C slug="modal" /> when it needs a decision.
+- **for links, buttons or anything else to act on.** the bubble can't be hovered or focused, and it disappears when the pointer leaves the trigger. offer the actions on the page, or behind an <C slug="action-menu" />.
+
+## anatomy
+
+1. **wrapper** — around your trigger. it is a tab stop of its own, and the bubble is its description.
+2. **trigger** — your content: a value or a term.
+3. **bubble** — `--surface-2` fill, 1px `--border-2`, square, 4px × 8px padding; jetbrains mono 12px / 1.4 in `--fg`; one line, at most 240px wide. it sits 6px from the trigger, centred on it, with no arrow.
+
+## variants and states
+
+the bubble goes `top` (the default), `bottom`, `left` or `right` of the trigger, centred along it. nothing flips or shifts it near the edge of the viewport, and a container that clips its overflow cuts it off: choose the side with room.
+
+<Example label="the four sides">
+  <div style={{ margin: '0 auto' }}>
+    <Sides />
+  </div>
+</Example>
+
+the bubble fades in over 100ms when the trigger is hovered or gets keyboard focus, and hides at once when both end. there is no delay before it shows.
+
+triggers can sit inside running text:
+
+<Example label="triggers in running text">
+  <Inline />
+</Example>
+
+## behaviour
+
+- hovering the wrapper shows the bubble, and leaving it hides it. the bubble ignores the pointer, so it can't be hovered, selected or clicked.
+- the wrapper is a tab stop: keyboard focus on it shows the bubble, and the bubble hides when focus leaves it.
+
+the keyboard map and the attributes it sets are on its [react page](/design-system/react/?path=/docs/components-overlays-tooltip--docs).
+
+## accessibility
+
+- the bubble describes the wrapper, not your trigger.
+- the wrapper always adds a tab stop. on a value or a term, that is what makes the detail reachable by keyboard. on a button it means two tab stops for one control, and the button itself gets no description.
+
+today:
+
+- the focused wrapper draws no focus ring; the bubble appearing is the only sign of focus.
+- `esc` doesn't hide the bubble, and the pointer can't rest on it: two of the three things wcag 1.4.13 asks of content that appears on hover or focus. keep only optional detail in it.
+- text longer than 240px doesn't wrap; it runs out of the bubble.
+
+## content
+
+- one short phrase, lowercase, no full stop: `p95 over the last 5 minutes`, `built 2026-06-15 09:12`.
+- add to the trigger; don't repeat it. a tooltip that says what the trigger already says is noise.
+- plain text only: no links, no buttons, nothing that has to be read in a particular order.
+
+## do and don't
+
+<DoDont>
+  <Do caption="an optional detail behind a compact value.">
+    <div style={{ margin: '0 auto' }}>
+      <Tooltip content="p95 over the last 5 minutes"><Term>142 ms</Term></Tooltip>
+    </div>
+  </Do>
+  <Dont caption="the consequence hides behind hover: people on touch screens, and anyone who doesn't hover, never see it. say it on the page.">
+    <div style={{ margin: '0 auto' }}>
+      <Tooltip content="restarts every worker; requests fail for a minute"><Button variant="primary">deploy release</Button></Tooltip>
+    </div>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="an icon button names itself: its label is the accessible name and the native tooltip.">
+    <div style={{ margin: '0 auto' }}>
+      <IconButton label="restart worker-2"><Icon icon={RotateCw} /></IconButton>
+    </div>
+  </Do>
+  <Dont caption="wrapped in a tooltip, it shows two tooltips (the native one and the bubble) and puts an extra tab stop in front of the button.">
+    <div style={{ margin: '0 auto' }}>
+      <Tooltip content="restart worker-2"><IconButton label="restart worker-2"><Icon icon={RotateCw} /></IconButton></Tooltip>
+    </div>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="one short line.">
+    <div style={{ margin: '0 auto' }}>
+      <Tooltip content="3 of 3 replicas ready"><Term>worker-2</Term></Tooltip>
+    </div>
+  </Do>
+  <Dont caption="a sentence doesn't wrap: past 240px it runs out of the bubble. if it needs a sentence, it belongs on the page.">
+    <div style={{ margin: '0 auto' }}>
+      <Tooltip content="worker-2 runs 3 replicas; they restart one at a time after each release, and the last restart took 48 seconds"><Term>worker-2</Term></Tooltip>
+    </div>
+  </Dont>
+</DoDont>
+
+## related
+
+- <C slug="icon-button" /> — names an icon-only control; its label is also the native tooltip.
+- <C slug="field" /> — hints and errors next to the input they explain.
+- <C slug="message-strip" /> — information people need, on the page.
+- <C slug="modal" /> — when the detail needs a decision.

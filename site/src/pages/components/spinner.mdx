@@ -1,0 +1,138 @@
+---
+layout: ../../layouts/Doc.astro
+title: spinner
+description: a ring that turns — it says working on it when you can't say how long, for a short wait in a small region.
+component: spinner
+---
+import { Button, Spinner, Stack, Text } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import MotionFrame from '@site/components/MotionFrame.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { Playground, Sizes, Colors, InheritsColor, InlineWithLabel } from '@site/examples/spinner';
+
+# spinner
+
+a ring that turns: the one moving thing in an otherwise still interface. it says "working on it" when you can't say how long.
+
+<MotionFrame what="the spinner">
+  <Example label="a spinner">
+    <Playground />
+  </Example>
+</MotionFrame>
+
+## when to use
+
+- for a short wait of unknown length in a small region: one value, a count, a panel's content.
+- in place of a value while it loads, with a label that names the value.
+- beside a short line of text that says what is loading.
+
+## when not to use
+
+- **for an action the user started.** use the busy state of the <C slug="button" /> (or <C slug="icon-button" />). the spinner sits inside the control that was pressed, and the button ignores a second press.
+- **while a table's rows load.** use the <C slug="data-table" />'s loading state: it marks the table busy and runs a progress rule along its top edge, so the wait shows where the rows will be.
+- **for the result.** when the work ends, replace the spinner with what happened: the content, a <C slug="toast" /> for a background job that finished, a <C slug="message-strip" /> for a failure.
+- **for long work with known progress.** today there is no progress bar. say the progress in <C slug="text" /> next to the spinner: `12 of 40 copied`.
+
+## anatomy
+
+1. **frame** — a square the spinner's size, 16px by default, in `--cloud-blue` unless it is given another colour.
+2. **track** — the full ring in the same colour at 20% opacity.
+3. **arc** — a quarter of the ring in full colour, with square ends.
+
+the stroke is an eighth of the size: 2px at 16px, 5px at 40px.
+
+## variants and states
+
+the size is any number of pixels, and the stroke scales with it. buttons use 12px (small) and 14px (medium, large); 14px also sits well beside 13px text; 16px on its own; 24 to 40px for a panel.
+
+<MotionFrame what="the spinners">
+  <Example label="four sizes">
+    <Sizes />
+  </Example>
+</MotionFrame>
+
+the ring is `--cloud-blue` by default — it does not pick up the surrounding text colour on its own. it can take any colour: a token such as `--fg-muted`, or the colour of the text around it.
+
+<MotionFrame what="the spinners">
+  <Example label="three colours">
+    <Colors />
+  </Example>
+  <Example label="a spinner in the colour of the text beside it">
+    <InheritsColor />
+  </Example>
+</MotionFrame>
+
+in place of a value, the spinner's label names what is loading.
+
+<MotionFrame what="the spinner">
+  <Example label="a spinner in place of a value">
+    <InlineWithLabel />
+  </Example>
+</MotionFrame>
+
+## behaviour
+
+- it turns at a steady speed, without end, and takes no focus.
+- it never stops by itself. remove it when the work ends.
+
+today: the spinner is a turning ring — a faint circle with a lit quarter that turns, 0.7s a turn. under reduced motion it turns more slowly, once every 1.6s, rather than standing still. the square loader is **planned**: a faint, still square frame with three quarters of it lit, and the gap travelling round at a steady pace, one lap in four seconds; still under reduced motion. what to show while something loads, and when, is [loading and progress](/design-system/patterns/loading-and-progress/).
+
+the keyboard map and the attributes it sets are on its [react page](/design-system/react/?path=/docs/components-feedback-status-spinner--docs).
+
+## accessibility
+
+- a spinner is a status, named "loading" unless it is given a label.
+- give the label the specific thing: `loading volumes`, not the default.
+- beside visible text that says the same thing, the label is read twice. hide the spinner from assistive tech and let the text speak.
+- the ring meets 3:1 against every background (`--cloud-blue` is at least 6.8:1); the track is decoration. a custom colour must keep 3:1.
+
+today:
+
+- the label is a name, not text content, and a live region announces changes to its text. a spinner added to the page carries no text, so most screen readers won't announce it appearing. when the wait matters, put a short message in a live region that is already on the page and update its text.
+
+## content
+
+- the label says what is loading, lowercase, without an ellipsis: `loading volumes`, `checking storage-01`.
+- text beside it uses the same words as the label. no "please wait".
+- when a wait runs past a few seconds, say more: what is happening, and whether people can leave the page meanwhile.
+
+## do and don't
+
+<MotionFrame what="the examples">
+<DoDont>
+  <Do caption="the action carries its own wait: the button spins, and can't be pressed twice.">
+    <Button variant="primary" loading>saving</Button>
+  </Do>
+  <Dont caption="a spinner beside a button that still works. people press again, and the wait isn't where they look.">
+    <Stack direction="horizontal" gap={8} align="center">
+      <Button variant="primary">save changes</Button>
+      <Spinner label="saving" />
+    </Stack>
+  </Dont>
+</DoDont>
+</MotionFrame>
+
+<MotionFrame what="the examples">
+<DoDont>
+  <Do column caption="one wait, one spinner, with words that say what is loading.">
+    <Stack direction="horizontal" gap={8} align="center">
+      <Spinner size={14} aria-hidden="true" />
+      <Text variant="muted">loading volumes</Text>
+    </Stack>
+  </Do>
+  <Dont column caption="a spinner on every row. load the list as one, and say so once.">
+    <Stack gap={8}>
+      <Stack direction="horizontal" gap={8} align="center"><Spinner size={14} /><Text variant="muted">storage-01</Text></Stack>
+      <Stack direction="horizontal" gap={8} align="center"><Spinner size={14} /><Text variant="muted">storage-02</Text></Stack>
+      <Stack direction="horizontal" gap={8} align="center"><Spinner size={14} /><Text variant="muted">storage-03</Text></Stack>
+    </Stack>
+  </Dont>
+</DoDont>
+</MotionFrame>
+
+## related
+
+- <C slug="button" /> — the busy state for an action in progress.
+- <C slug="data-table" /> — its loading state while rows load.
+- [loading and progress](/design-system/patterns/loading-and-progress/) — what to show while something loads, and the square loader that is planned.
+- [message handling](/design-system/patterns/message-handling/) — what to show once the wait is over.

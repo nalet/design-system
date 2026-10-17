@@ -43,9 +43,10 @@ describe('old storybook urls', () => {
     );
   });
 
-  it('keeps a component on the react subsite, query unchanged', () => {
-    expect(go('?path=/docs/components-actions-button--docs')).toBe(
-      '/design-system/react/?path=/docs/components-actions-button--docs',
+  it("sends a component's docs page to its guidance", () => {
+    expect(go('?path=/docs/components-actions-button--docs')).toBe('/design-system/components/button/');
+    expect(go('?path=/docs/components-data-display-data-table--docs', '#keyboard')).toBe(
+      '/design-system/components/data-table/#keyboard',
     );
   });
 
@@ -93,10 +94,9 @@ describe('the redirect map', () => {
     }
   });
 
-  it('covers every page the 0.3.0 storybook had outside the components', () => {
+  it('covers every docs page the 0.3.0 storybook had', () => {
     const old = JSON.parse(readFileSync('site/test/storybook-0.3.0.json', 'utf8')) as { docs: string[] };
-    const titles = old.docs.map((id) => id.split('--')[0]).filter((t) => !t.startsWith('components-') || t === 'components-overview');
-    for (const title of titles) expect(MOVED, title).toHaveProperty([title]);
+    for (const title of old.docs.map((id) => id.split('--')[0])) expect(MOVED, title).toHaveProperty([title]);
   });
 
   it('inlines as a script that runs on its own', () => {

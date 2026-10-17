@@ -1,139 +1,46 @@
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
 import * as IllustratedMessageStories from './IllustratedMessage.stories';
-import { IllustratedMessage, Button } from '../../src';
-import { DoDont, Do, Dont } from '../_blocks';
 
 <Meta of={IllustratedMessageStories} />
 
 # illustrated message
 
-what a list or a panel shows when it has nothing to show: a line illustration, a title that says what is true, a description that says what to do, and at most one primary action. five kinds — `empty`, `done`, `search`, `error`, `unknown` — one for each reason there is nothing.
+design guidance — when to use it, its kinds, sizes and actions, its words: **[illustrated message on the guidelines site →](https://nalet.github.io/design-system/components/illustrated-message/)**
 
 <Canvas of={IllustratedMessageStories.Playground} />
 
-## when to use
+## examples
 
-- in place of a list, a table or a panel that has nothing to show, once you know why: nothing is there yet, nothing is left to do, the filters match nothing, it couldn't load, or it can't be told yet.
-- at the size of what it replaces: `sm` inside a panel or a table (a [data table](?path=/docs/components-data-display-data-table--docs) takes it in its `empty` prop), `md` for a section, `lg` for a whole page.
-
-## when not to use
-
-- **while the list is still loading.** use `loading` on the [data table](?path=/docs/components-data-display-data-table--docs), or a [spinner](?path=/docs/components-feedback-status-spinner--docs). say "nothing here" only once you know.
-- **above content that still shows** — the rows from 4 minutes ago, with an error on top. use a [message strip](?path=/docs/components-feedback-status-message-strip--docs).
-- **for one item's state** in a list that is otherwise there. use an [object status](?path=/docs/components-feedback-status-object-status--docs) in its row.
-- **to confirm an action that just finished.** use a [toast](?path=/docs/components-feedback-status-toast--docs).
-
-## anatomy
-
-1. **container** — a centred column. 32px × 16px padding at `md`, 16px × 12px at `sm`, 64px × 16px at `lg`.
-2. **illustration** — a 160 × 120 line drawing of a square terminal window: the frame in `--border-control`, quiet lines in `--border-2`, one accent in the kind's colour. 96px wide at `sm`, 160px at `md`, 220px at `lg`, with 12, 16 or 24px under it. hidden from assistive tech.
-3. **title** — a real heading (`h2` unless you set `headingLevel`): jetbrains mono 600, 14, 16 or 22px by size, line-height 1.3, `--fg`, shown lowercase.
-4. **description** (optional) — inter 13px / 1.55 in `--fg-muted`, at most 46ch wide, 8px under the title.
-5. **actions** (optional) — centred, 8px apart, 16px under the text.
-
-## variants and states
-
-### kinds
-
-pick the kind by what is true, not by the picture.
-
-| kind | picture | accent | when | what it offers |
-| --- | --- | --- | --- | --- |
-| `empty` (default) | a prompt with nothing typed after it | `--cloud-blue` | nothing here yet: a new list, nothing tracked | the action that adds the first item, if there is one |
-| `done` | the prompt, and a check | `--state-success` | nothing left to do: the good end of a worklist | usually nothing |
-| `search` | rows under a square lens that finds none | `--cloud-blue` | the search or the filters match nothing | `clear filters` |
-| `error` | a line that doesn't connect | `--state-error` | it couldn't load | `try again` |
-| `unknown` | a question that can't be answered yet | `--state-warning` | it can't be told yet, for example because the holdings are unknown | the step that makes it known: `ask the catalog again` |
+the five values of `illustration`, at `size="sm"`; two with a button in `actions`.
 
 <Canvas of={IllustratedMessageStories.Kinds} />
 
-`empty` and `done` both mean "nothing here", for opposite reasons: `empty` before anything has happened, `done` after everything has. `search` is never `empty`: the data is there, and the filters hide it.
-
-### sizes
-
-`sm` (96px illustration, 14px title), `md` (160px, 16px, the default) and `lg` (220px, 22px).
+`size`: `sm`, `md` (the default) and `lg`.
 
 <Canvas of={IllustratedMessageStories.Sizes} />
 
-### actions
-
-pass the actions as buttons in `actions`: at most one `primary`, and an optional second, `default` or `ghost`.
+`actions` with one primary button.
 
 <Canvas of={IllustratedMessageStories.WithAction} />
 
-### heading level
+## implementation notes
 
-the title is an `h2` unless you set `headingLevel` (2 to 6). match the page's outline: inside a section whose heading is an `h2`, use `3`.
-
-## behaviour and keyboard
-
-an illustrated message is static. the only things in it that take focus are the actions you pass.
+- renders a `<div>`, a centred column: the svg illustration, the title, the description and the actions.
+- `illustration` picks the picture: `empty` (the default), `done`, `search`, `error` or `unknown`.
+- `title` is a heading: an `h2` unless `headingLevel` (2 to 6) sets another level. `description` is a `<p>` under it.
+- `actions` takes the buttons and renders whatever it is given.
+- `size`: `sm`, `md` (the default) or `lg`.
+- the svg has `aria-hidden="true"` and `focusable="false"`.
+- it is not a live region: it doesn't announce itself when it appears.
+- a [data table](?path=/docs/components-data-display-data-table--docs) takes it in its `empty` prop.
+- other `<div>` attributes (all but `title`, which is the heading) and the `ref` reach the container.
+- axe-core finds no violations in any kind, with a title, a description and an action.
 
 | key | does |
 | --- | --- |
 | `tab` / `shift+tab` | moves to and from your actions, in order. the picture, the title and the description take no focus. |
 | `enter` / `space` | native: activates the focused action. |
 
-- it doesn't announce itself when it appears: it is not a live region. when it replaces a list because the filters changed, the [filter bar](?path=/docs/components-inputs-filter-bar--docs)'s live result count is what a screen reader hears.
-
-## accessibility
-
-- the illustration is decoration: `aria-hidden="true"` and `focusable="false"`. the title says what is true.
-- the title is a real heading, so people who move through a page by its headings find it. keep the outline in order with `headingLevel`.
-- the accent colour repeats the kind; the words carry it.
-- axe-core finds no violations in any kind, with a title, a description and an action.
-
-today:
-
-- pressing the action usually removes the message, and the button with it, so focus falls back to the page: after `clear filters`, nothing has focus. move it yourself, to the search field for instance.
-- nothing holds you to one primary action: `actions` renders whatever it is given.
-
-## content
-
-- **title** — what is true, in a few words: `nothing missing`, `no matches`, `couldn't load`, `nothing tracked yet`, `nothing can be checked yet`. lowercase, no full stop.
-- **description** — one or two sentences: why, and what the person can do. `nothing fits these filters.` `import a list to start tracking.`
-- **actions** — one primary at most. when the view already has its one emphasized action (in a toolbar, say), make this one `default`.
-- calm: say what is true. no apology, no joke, no `oops`.
-- name the way out for each kind: `clear filters` for `search`, `try again` for `error`, the step that makes it known for `unknown`.
-
-## do and don't
-
-<DoDont>
-  <Do caption="the filters hide everything: say so, and offer the way back." column>
-    <IllustratedMessage illustration="search" size="sm" headingLevel={3} title="no matches" description="nothing fits these filters." actions={<Button size="sm">clear filters</Button>} />
-  </Do>
-  <Dont caption="“empty” when it is the filters: people think the data is gone, and have no way back." column>
-    <IllustratedMessage illustration="empty" size="sm" headingLevel={3} title="nothing here" description="there are no items." />
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="what failed, and the way forward." column>
-    <IllustratedMessage illustration="error" size="sm" headingLevel={3} title="couldn't load" description="the list could not be read. try again." actions={<Button size="sm">try again</Button>} />
-  </Do>
-  <Dont caption="vague, and nothing to do about it: people reload the page and hope." column>
-    <IllustratedMessage illustration="error" size="sm" headingLevel={3} title="something went wrong" />
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="one primary action: the step that resolves it." column>
-    <IllustratedMessage illustration="unknown" size="sm" headingLevel={3} title="nothing can be checked yet" description="the library's holdings are unknown for all 105 titles." actions={<Button size="sm" variant="primary">ask the catalog again</Button>} />
-  </Do>
-  <Dont caption="three primaries: nothing reads as the next step." column>
-    <IllustratedMessage illustration="unknown" size="sm" headingLevel={3} title="nothing can be checked yet" actions={<><Button size="sm" variant="primary">ask again</Button><Button size="sm" variant="primary">open settings</Button><Button size="sm" variant="primary">read the docs</Button></>} />
-  </Dont>
-</DoDont>
-
 ## props
 
-`IllustratedMessage` passes other `<div>` attributes (all but `title`, which is the heading) and its `ref` to the container.
-
 <ArgTypes of={IllustratedMessageStories} />
-
-## related
-
-- [empty states](https://nalet.github.io/design-system/patterns/empty-states/) — which kind applies when, and what each one offers.
-- [filter bar](?path=/docs/components-inputs-filter-bar--docs) — its live count is what a screen reader hears when the filters leave nothing.
-- [message strip](?path=/docs/components-feedback-status-message-strip--docs) — a condition above content that still shows.
-- [data table](?path=/docs/components-data-display-data-table--docs) — the list an illustrated message most often stands in for.

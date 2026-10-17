@@ -1,69 +1,33 @@
-import { useState } from 'react';
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
 import * as MultiSelectStories from './MultiSelect.stories';
-import { MultiSelect } from '../../src';
-import { DoDont, Do, Dont } from '../_blocks';
-
-export const DemoMulti = ({ initial = [], ...props }) => {
-  const [value, setValue] = useState(initial);
-  return <MultiSelect {...props} value={value} onChange={setValue} />;
-};
-
-export const STATES = [
-  { value: 'missing', label: 'missing', count: 2318 },
-  { value: 'way', label: 'on its way', count: 182 },
-  { value: 'attention', label: 'needs attention', count: 3 },
-];
 
 <Meta of={MultiSelectStories} />
 
 # multi select
 
-a facet that keeps several values: a trigger that shows the facet's name and what is chosen — `state`, `2 chosen` — and a panel of native checkboxes. it is a disclosure, not a menu: `tab` moves through the checkboxes, and `esc` or a press outside closes it.
+design guidance — when to use it, its parts and states, how it opens and closes, its words: **[multi select on the guidelines site →](https://nalet.github.io/design-system/components/multi-select/)**
 
 <Canvas of={MultiSelectStories.Playground} />
 
-## when to use
+## examples
 
-- in a [filter bar](?path=/docs/components-inputs-filter-bar--docs), for a facet that can keep several values at once: `state` — `missing` and `on its way`.
-- for a handful of options that fit a small panel, each with a count of what it would keep, when you know it.
-
-## when not to use
-
-- **for one value at a time** — a kind, a time range. use a [select](?path=/docs/components-inputs-select--docs); the filter bar takes those as `select` facets.
-- **for a setting, or a form that submits.** use [checkboxes](?path=/docs/components-inputs-checkbox--docs) in a [field](?path=/docs/components-inputs-field--docs). the multi select's checkboxes have no `name`, so a form sends none of them.
-- **for many options.** the panel has no search and no maximum height. let people type in the [filter bar](?path=/docs/components-inputs-filter-bar--docs)'s search instead.
-- **to run commands.** use an [action menu](?path=/docs/components-actions-action-menu--docs).
-
-## anatomy
-
-1. **trigger** — a `<button>` 34px tall (`md`, the default) or 28px (`sm`), with 0 × 12px padding (8px at `sm`), a 1px `--border-control` frame on `--bg-2`, square corners, jetbrains mono 13px (12px at `sm`). it holds:
-   - the facet's **label**, in `--fg-muted`, lowercase;
-   - the **summary**: `emptyText` (`any`) while nothing is chosen, the option's label when one is, `2 chosen` when several are. it turns `--cloud-blue` once something is chosen, and ends in an ellipsis when it is long;
-   - a 12px **chevron** in `--cloud-blue`, which turns over while the panel is open.
-2. **panel** — 4px under the trigger, lined up with its left edge, at `z-index: 120`: `--surface` fill, a 1px `--border-2` frame, a shadow, 8px of padding above and below. at least as wide as the trigger, at most 320px (or the viewport minus 16px).
-3. **options** — a `fieldset` named by the facet's label, with one native [checkbox](?path=/docs/components-inputs-checkbox--docs) per option, 8px × 12px padding each, `--surface-2` on hover. an option's count, when you give one, follows its label in `--fg-dim`, mono 12px, tabular figures.
-4. **clear** — `clear` and the facet's label (`clear state`), at the bottom under a 1px `--border` rule, only while something is chosen.
-
-## variants and states
-
-| state | the trigger shows |
-| --- | --- |
-| nothing chosen | the label, then `any` (`emptyText`) |
-| one chosen | the label, then that option's label in `--cloud-blue` |
-| several chosen | the label, then `2 chosen` in `--cloud-blue` |
-| open | the chevron turned over, and the panel under it |
-| disabled | 50% opacity. it can't be focused or opened |
+`value` with two options chosen: the summary says `2 chosen`.
 
 <Canvas of={MultiSelectStories.Chosen} />
 
-two sizes: `md` (34px, the default) and `sm` (28px), next to other `sm` controls.
+`size="sm"`.
 
 <Canvas of={MultiSelectStories.Small} />
 
-## behaviour and keyboard
+## implementation notes
 
-a disclosure: the trigger shows and hides a panel of native checkboxes. opening it doesn't move focus.
+- it is controlled: pass `value` and `onChange`. every change calls `onChange` at once, with the new list of values in the order they were chosen. `clear` calls `onChange([])`.
+- values in `value` that aren't in `options` stay in `value`, but the summary doesn't count them.
+- the trigger is a `<button type="button">` with `aria-expanded`, and `aria-controls` pointing at the panel. it has no `aria-haspopup`: it opens a group of checkboxes, not a menu or a listbox.
+- the options are a `fieldset` named by the facet's label (a visually hidden `legend`), and each is a native [checkbox](?path=/docs/components-inputs-checkbox--docs). the checkboxes have no `name`, so a form sends none of them.
+- a closed panel is `hidden`.
+- today: the panel isn't rendered into `document.body`, so an ancestor with `overflow: hidden` cuts it off. it is positioned under the trigger, at `z-index: 120`.
+- `MultiSelect` passes no other attributes through; `className` goes on the wrapper around the trigger and the panel.
 
 | key | does |
 | --- | --- |
@@ -72,74 +36,8 @@ a disclosure: the trigger shows and hides a panel of native checkboxes. opening 
 | `space` on a checkbox | native: checks or unchecks it. |
 | `esc` | closes the panel and puts focus back on the trigger. the key goes no further, so a modal around it stays open. |
 
-- a click on the trigger opens or closes the panel; a press anywhere outside closes it.
-- every change calls `onChange` at once, with the new list of values in the order they were chosen. there is no apply button.
-- `clear` calls `onChange([])`.
-- the arrow keys do nothing special: each checkbox is its own tab stop.
-- values in `value` that aren't in `options` stay in `value`, but the summary doesn't count them.
-
-## accessibility
-
-- the trigger is a `<button>` with `aria-expanded`, and `aria-controls` pointing at the panel. it has no `aria-haspopup`: it opens a group of checkboxes, not a menu or a listbox.
-- its name is its text: the facet's label, then the summary — "state 2 chosen". write the label so the two read as a phrase.
-- the options are a `fieldset` named by the facet's label (a visually hidden `legend`), so the checkboxes are announced as one group. each is a native checkbox, named by its option's label and count.
-- a closed panel is `hidden`: not read and not focusable.
-- focus is never moved for you, except back to the trigger on `esc`.
-- the trigger and `clear` show a 2px `--focus-ring` outline; each checkbox shows its own.
-
-today:
-
-- `clear` closes the panel and moves focus back to the trigger: the button itself goes once nothing is chosen.
-- `clear` is fixed english — "clear" and the label — and can't be translated.
-- the panel isn't rendered into `document.body`, so an ancestor with `overflow: hidden` cuts it off. it always opens below, from the trigger's left edge, with no flip near the viewport's edges, and it has no maximum height.
-
-## content
-
-- **label** — the facet's name, a noun: `state`, `aired`, `kind`.
-- **options** — the values in the list's words, in an order that means something (the states in their usual order, not sorted by count): `missing`, `on its way`, `needs attention`.
-- **counts** — how many items each option would keep, when you know it.
-- **`emptyText`** — what no choice means: `any`, the default, or `all states`.
-
-## do and don't
-
-<DoDont>
-  <Do caption="several values of one facet, kept together.">
-    <DemoMulti label="state" options={STATES} initial={['way', 'attention']} />
-  </Do>
-  <Dont caption="values that exclude each other: newest and oldest can both be ticked. one value at a time is a select.">
-    <DemoMulti label="sort" options={[{ value: 'new', label: 'newest first' }, { value: 'old', label: 'oldest first' }]} />
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="the label names the facet, so the trigger reads as a phrase: “state any”.">
-    <DemoMulti label="state" options={STATES} />
-  </Do>
-  <Dont caption="a label that says what to do instead of what it filters: the trigger reads “select any”.">
-    <DemoMulti label="select" options={STATES} />
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="a handful of options, each with what it would keep.">
-    <DemoMulti label="aired" options={[{ value: 'week', label: 'this week', count: 40 }, { value: 'month', label: 'this month', count: 210 }, { value: 'older', label: 'older', count: 2250 }]} />
-  </Do>
-  <Dont caption="a long list with no search: the panel grows past the screen. let people search for these instead.">
-    <DemoMulti label="series" options={['The Quiet Harbour', 'Copper Valley', 'Northern Orchard', 'Silver Engine', 'Hollow Garden', 'Amber Station', 'Distant Meridian', 'Paper Circuit', 'Iron Archive', 'The Lantern'].map((t) => ({ value: t, label: t }))} />
-  </Dont>
-</DoDont>
-
 ## props
-
-`MultiSelect` passes no other attributes through; `className` goes on the wrapper around the trigger and the panel.
 
 <ArgTypes of={MultiSelectStories} />
 
 each entry in `options` has a `value`, a `label` and, optionally, a `count`.
-
-## related
-
-- [filter bar](?path=/docs/components-inputs-filter-bar--docs) — where multi selects live, next to the search and the select facets.
-- [select](?path=/docs/components-inputs-select--docs) — one value at a time.
-- [checkbox](?path=/docs/components-inputs-checkbox--docs) — the native box each option is.
-- [action menu](?path=/docs/components-actions-action-menu--docs) — a menu of commands: the pattern this is not.

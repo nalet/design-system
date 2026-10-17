@@ -1,0 +1,110 @@
+---
+layout: ../../layouts/Doc.astro
+title: tabs
+description: a row of mono tabs that switch between views of the same object, the selected one underlined in cloud blue.
+component: tabs
+---
+import { Tabs } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { WithPanel, WithDisabled } from '@site/examples/tabs';
+
+# tabs
+
+a row of mono tabs that switch between views of the same object. the selected tab is underlined in `--cloud-blue`.
+
+<Example label="tabs and the view they switch, live">
+  <WithPanel client:visible />
+</Example>
+
+## when to use
+
+- to switch between views of one object at the same level: the `overview`, `logs`, `metrics` and `events` of one service.
+- when each view makes sense on its own and people move between them in no fixed order.
+- for two to six short labels that fit on one row.
+
+## when not to use
+
+- **to filter one list.** use <C slug="filter-tabs" />: each tab is a count over a label, and the list below follows the choice.
+- **to go to another page or app.** use links; for a home page of apps, <C slug="tile">tiles</C> in a <C slug="tile-group" />.
+- **for more views than fit on one row.** today the row doesn't scroll, wrap or overflow into a menu. use a <C slug="select" />.
+- **to turn a setting on or off.** use a <C slug="switch" />.
+
+## anatomy
+
+1. **tab list** — a row with a 1px `--border` rule underneath.
+2. **tab** — jetbrains mono 500, 13px, 8px × 12px padding, `--fg-muted`, shown lowercase.
+3. **selection** — the selected tab's label and a 2px underline in `--cloud-blue`, laid over the list's rule.
+4. **panel** — not part of the component. it goes right below the list; what it needs is under [accessibility](#accessibility).
+
+## variants and states
+
+| state | looks |
+| --- | --- |
+| rest | `--fg-muted` label |
+| hover | `--fg` label |
+| selected | `--cloud-blue` label and 2px underline |
+| focus | a 2px `--focus-ring` outline inside the tab |
+| disabled | 40% opacity. it can't be focused, clicked or reached with the arrow keys |
+
+<Example label="tabs with a disabled one, live">
+  <WithDisabled client:visible />
+</Example>
+
+## behaviour
+
+- a click selects the tab.
+- the row is one tab stop, on the selected tab; the arrow keys move along it and select as they go, wrapping at the ends.
+- selection follows the arrow keys: every press switches the view. keep the views quick to switch, or load a slow one only after the selection has settled.
+
+the keyboard map and the attributes it sets are on its [react page](/design-system/react/?path=/docs/components-navigation-tabs--docs).
+
+## accessibility
+
+- screen readers hear a tab list, its tabs, and which one is selected.
+- the panel is yours to name: name it after the selected tab, and when it holds nothing focusable, make it a tab stop, so keyboard users can reach its content. the example at the top does this.
+
+today:
+
+- disabled tabs can't be focused, so screen-reader users don't learn that they exist.
+
+## content
+
+- one or two words per tab, nouns: `overview`, `logs`, `metrics`. no verbs and no counts — a count belongs in <C slug="filter-tabs" />.
+- the same views in the same order on every object of a kind, so `logs` is always in the same place.
+- write labels as they should be read; the lowercase look is css.
+
+## do and don't
+
+<DoDont>
+  <Do caption="views of one object, at one level.">
+    <Tabs client:visible defaultValue="overview" items={[{ value: 'overview', label: 'overview' }, { value: 'logs', label: 'logs' }, { value: 'metrics', label: 'metrics' }, { value: 'events', label: 'events' }]} />
+  </Do>
+  <Dont caption="counts that filter one list are filter tabs, which show the count and connect the tabs to the list.">
+    <Tabs client:visible defaultValue="open" items={[{ value: 'open', label: 'open 12' }, { value: 'done', label: 'done 40' }, { value: 'all', label: 'all 52' }]} />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="one or two words, nouns.">
+    <Tabs client:visible defaultValue="logs" items={[{ value: 'logs', label: 'logs' }, { value: 'metrics', label: 'metrics' }, { value: 'events', label: 'events' }]} />
+  </Do>
+  <Dont caption="sentences and verbs make the row long and slow to scan.">
+    <Tabs client:visible defaultValue="logs" items={[{ value: 'logs', label: 'show me the logs' }, { value: 'metrics', label: 'see recent metrics' }]} />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="leave out a view that doesn't apply.">
+    <Tabs client:visible defaultValue="overview" items={[{ value: 'overview', label: 'overview' }, { value: 'logs', label: 'logs' }, { value: 'events', label: 'events' }]} />
+  </Do>
+  <Dont caption="a disabled tab can't be focused and doesn't say why it is off.">
+    <Tabs client:visible defaultValue="overview" items={[{ value: 'overview', label: 'overview' }, { value: 'logs', label: 'logs' }, { value: 'traces', label: 'traces', disabled: true }, { value: 'events', label: 'events' }]} />
+  </Dont>
+</DoDont>
+
+## related
+
+- <C slug="filter-tabs" /> — tabs that filter one list, with counts, a named tab list and the list wired to it.
+- <C slug="select" /> — when the views don't fit on one row.
+- <C slug="tile-group" /> — moving between apps rather than views.

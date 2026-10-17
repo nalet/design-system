@@ -1,0 +1,137 @@
+---
+layout: ../../layouts/Doc.astro
+title: stack
+description: a column or a row whose gap comes from the space scale — the workhorse for laying out everything else.
+component: stack
+---
+import { Badge, Box, Button, Stack } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { Playground, Vertical, Horizontal, GapScale, Justified, Wrap } from '@site/examples/stack';
+
+# stack
+
+a column or a row whose gap comes from the space scale. the workhorse for laying out everything else.
+
+<Example label="three items in a column, 16px apart">
+  <Playground />
+</Example>
+
+## when to use
+
+- to lay out siblings in one direction with even space between them: a form's fields, a row of badges, a header with a title and an action.
+- wherever you would write `display: flex` and a `gap`.
+
+## when not to use
+
+- **for a grid of items in rows and columns.** a stack runs in one direction. launchpad tiles go in a <C slug="tile-group" />; for other grids, use css grid (see [layout](/design-system/foundations/layout/#grid-and-layout)).
+- **for a row of actions.** use a <C slug="toolbar">toolbar</C>: it sets the emphasis and moves what doesn't fit into an overflow menu.
+- **for padding or a background.** a stack only spaces its children. padding around them is a <C slug="box" /> or a <C slug="card" />.
+
+## anatomy
+
+1. **container** — a column or a row. it can shrink inside other layouts.
+2. **gap** — between children only, never around them: a step of the [space scale](/design-system/foundations/layout/#the-scale), 16px by default.
+3. **children** — laid out in source order.
+
+## variants and states
+
+| option | values | default |
+| --- | --- | --- |
+| direction | `vertical` (a column), `horizontal` (a row) | `vertical` |
+| gap | a step of the scale, from 0 to 64px | 16px |
+| align | `start`, `center`, `end`, `stretch`, `baseline` — across the stack | not set: children stretch |
+| justify | `start`, `center`, `end`, `between`, `around` — along the stack | not set: children pack at the start |
+| wrap | children flow onto a new line when they run out of room | off |
+| inline | the stack is as wide as its content and sits in the line of text | off |
+
+with no alignment set, children stretch across the stack: full width in a vertical stack, full height in a row.
+
+<Example label="a vertical stack">
+  <Vertical />
+</Example>
+
+<Example label="a horizontal stack">
+  <Horizontal />
+</Example>
+
+<Example label="gaps of 4, 16 and 32px">
+  <GapScale />
+</Example>
+
+`between` pushes the first and last child to the ends, e.g. a title and its action.
+
+<Example label="a title and its action at the ends">
+  <Justified />
+</Example>
+
+wrapping is for horizontal stacks. a vertical stack only wraps when you give it a fixed height.
+
+<Example label="badges that wrap onto a second line">
+  <Wrap />
+</Example>
+
+## behaviour
+
+- a stack takes no focus: `tab` moves through its children in source order.
+- there is no reverse direction, so what people see, what they read and where focus goes stay in the same order. keep it that way: don't reorder children with css `order` or a reversed `flex-direction`.
+
+the keyboard map and the element it renders are on its [react page](/design-system/react/?path=/docs/components-layout-structure-stack--docs).
+
+## accessibility
+
+- a stack adds no structure for assistive tech: it has no role.
+- a stack of similar items is not a list to a screen reader. when the items are a list, mark them up as one.
+
+## content
+
+a stack has no text of its own. order its children the way people read and act: what the group is about first, its actions last.
+
+## do and don't
+
+<DoDont>
+  <Do caption="children in the order people read and tab: cancel, then the emphasized action.">
+    <Stack direction="horizontal" gap={8}>
+      <Button variant="ghost">cancel</Button>
+      <Button variant="primary">save changes</Button>
+    </Stack>
+  </Do>
+  <Dont caption="the same look made with row-reverse. tab now reaches save before cancel, against what people see.">
+    <Stack direction="horizontal" gap={8} style={{ flexDirection: 'row-reverse' }}>
+      <Button variant="primary">save changes</Button>
+      <Button variant="ghost">cancel</Button>
+    </Stack>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do column caption="a row of tags in a narrow space wraps onto the next line.">
+    <Box border style={{ width: '200px' }}>
+      <Stack direction="horizontal" gap={8} wrap>
+        <Badge>gpu</Badge>
+        <Badge>batch</Badge>
+        <Badge>http</Badge>
+        <Badge>stateful</Badge>
+        <Badge>read-only</Badge>
+      </Stack>
+    </Box>
+  </Do>
+  <Dont column caption="without wrap, the row runs out of its container.">
+    <Box border style={{ width: '200px' }}>
+      <Stack direction="horizontal" gap={8}>
+        <Badge>gpu</Badge>
+        <Badge>batch</Badge>
+        <Badge>http</Badge>
+        <Badge>stateful</Badge>
+        <Badge>read-only</Badge>
+      </Stack>
+    </Box>
+  </Dont>
+</DoDont>
+
+## related
+
+- <C slug="box" /> — padding and a background around content.
+- <C slug="divider" /> — a rule between groups in a stack.
+- <C slug="toolbar">toolbar</C> — a row of actions with emphasis and overflow.
+- [layout](/design-system/foundations/layout/) — the scale behind the gap.

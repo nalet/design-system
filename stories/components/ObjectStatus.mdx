@@ -1,74 +1,50 @@
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
 import * as ObjectStatusStories from './ObjectStatus.stories';
-import { ObjectStatus } from '../../src';
-import { DoDont, Do, Dont } from '../_blocks';
-
-export const Host = ({ children }) => (
-  <span style={{ fontFamily: 'var(--ff-mono)', fontSize: 13, color: 'var(--fg)' }}>{children}</span>
-);
 
 <Meta of={ObjectStatusStories} />
 
 # object status
 
-the state of one object, said once and said truthfully: a semantic state and a few words in the object's own terms. the state decides the colour, the glyph and what a screen reader hears, so there is no colour prop.
+design guidance — when to use it, its states and appearances, the vocabulary, its words: **[object status on the guidelines site →](https://nalet.github.io/design-system/components/object-status/)**
+
+<Canvas of={ObjectStatusStories.Playground} />
+
+## examples
+
+the five values of `state`, as a `chip` (the default `appearance`).
 
 <Canvas of={ObjectStatusStories.States} />
 
-## when to use
-
-- to show where one object stands: a host is `unreachable`, an episode is `on its way`, a title is `held`.
-- once per object, in a list row or a table cell.
-- inside a sentence, with `appearance="text"`: storage-01 is `healthy`.
-
-## when not to use
-
-- **for a tag, a label or a count that is not a state** — `gpu`, `v2.4.1`, `12 episodes`. use a [badge](?path=/docs/components-data-display-badge--docs).
-- **for a condition of the whole page or list** — `105 titles can't be checked`. use a [message strip](?path=/docs/components-feedback-status-message-strip--docs) above the content.
-- **to confirm an action that just finished** — `8 episodes queued`. use a [toast](?path=/docs/components-feedback-status-toast--docs).
-- **for a list with nothing in it, or one that couldn't load.** use an [illustrated message](?path=/docs/components-feedback-status-illustrated-message--docs) in place of the list.
-- **for a status and its reason in a data table.** use `StatusCell` from [table cells](?path=/docs/components-data-display-table-cells--docs): it renders this component with a detail line under it.
-
-## anatomy
-
-1. **container** — an inline-flex `<span>`. glyph and text sit 6px apart, never wrap and never grow wider than the parent. as a `chip` (the default): 20px tall, 0 × 8px padding, a 1px frame in `--state-*-border` on a `--state-*-bg` fill, square corners. as `text`: no frame and no fill.
-2. **glyph** — 12px, a different shape for each state, drawn in the state's colour. hidden from assistive tech.
-3. **state word** — by default for `warning` and `error` only: a visually hidden `warning: ` or `error: ` in front of the text.
-4. **text** — jetbrains mono 11px (12px as `text`), letter-spacing 0.02em, shown lowercase, in the state's colour `--state-*`. when there is no room it ends in an ellipsis.
-
-## variants and states
-
-five states. pick the state by what the value means for the person, not by the colour you want to see.
-
-| state | glyph | colour | a screen reader hears | use for |
-| --- | --- | --- | --- | --- |
-| `neutral` (default) | a dash | `--state-neutral` | the text | a plain fact: missing, queued, not checked yet |
-| `information` | a bar with a dot | `--state-information` | the text | under way, or worth knowing: on its way, syncing |
-| `success` | a check | `--state-success` | the text | done and good: held, saved, healthy. never for a problem |
-| `warning` | a triangle with a bar | `--state-warning` | "warning:" and the text | works, but someone should look: connection firewalled, degraded, can't be checked |
-| `error` | a cross | `--state-error` | "error:" and the text | failed or blocked, needs action: needs attention, unreachable |
-
-a chip's fill and frame come from the same state's `-bg` and `-border` tokens. `neutral` is the default, so a value you forgot to map never looks like it means something.
-
-### why there is no colour prop
-
-the state is the meaning. colour, glyph and the word a screen reader hears all follow from it, so they can't disagree, and the same meaning looks the same on every screen. a colour prop would let a failure render in green. a [badge](?path=/docs/components-data-display-badge--docs) has a tone, and nothing stops a badge from saying `failed` in green; object status can't. when a status looks wrong, its mapping is wrong: change the value's state in the vocabulary, not its colour.
-
-### appearance
-
-`appearance="text"` drops the frame and the fill, for dense rows and running text. the glyph stays, so the state never rests on colour alone.
+`appearance="text"`: no frame and no fill, for dense rows and sentences.
 
 <Canvas of={ObjectStatusStories.TextAppearance} />
 
-### glyph
-
-`icon={false}` hides the glyph, and `icon` takes your own node in its place (it is hidden from assistive tech the same way). without the glyph, the words and the colour are left to carry the state; keep it unless the words say the state on their own.
+`icon={false}` hides the glyph.
 
 <Canvas of={ObjectStatusStories.WithoutGlyph} />
 
+a vocabulary written once with `defineStates`; each row spreads its entry into `ObjectStatus`.
+
+<Canvas of={ObjectStatusStories.Vocabulary} />
+
+hosts sorted with `STATE_SEVERITY`, most urgent first.
+
+<Canvas of={ObjectStatusStories.BySeverity} />
+
+## implementation notes
+
+- renders an inline-flex `<span>` and sets `data-state` on it. it takes no focus, has no keys of its own and doesn't animate.
+- the glyph sits in an `aria-hidden` span. `icon={false}` hides it, and `icon` takes your own node in its place, hidden the same way.
+- for `warning` and `error`, a visually hidden `warning: ` or `error: ` goes in front of the text. `stateLabel` changes that word: a string replaces it (`stateLabel="fehler"` reads "fehler: failed"), and on a calm state adds one; `false` leaves it out.
+- the text is lowercased with `text-transform`; the dom keeps the text you wrote.
+- it isn't a live region: a status that changes in place is not announced.
+- `text` and `children` fill the same slot (`text` wins when both are given); `text` is what lets a vocabulary entry spread in.
+- every other `<span>` attribute (`id`, `title`, `aria-*`, `data-*`) and the `ref` reach the outer `span`.
+- axe-core finds no violations, colour contrast included, in any state, as a chip or as text.
+
 ### vocabulary: `defineStates`
 
-write every value an object can take, with its state and its words, once, in one table, and render every status from it.
+one table per object: each value, with its state and its words.
 
 ```tsx
 import { ObjectStatus, defineStates } from '@nalet/design-system';
@@ -88,82 +64,17 @@ const LINK = defineStates<LinkValue>({
 
 `defineStates` returns a frozen copy of the table. pass your value type as the type argument, as above, and typescript makes the table exhaustive: a value without a row, or a row for a value that doesn't exist, is a type error. without the type argument, the keys you write are the type. a reviewer reads in one place that `firewalled` is a warning, not a success.
 
-several values can share a state and a text. the sample backlog maps `queued`, `grabbed`, `downloaded` and `waiting` all to `information` · `on its way`: say what the person needs to know, and keep the specifics for the detail line of a [status cell](?path=/docs/components-data-display-table-cells--docs).
-
-<Canvas of={ObjectStatusStories.Vocabulary} />
-
 ### sorting: `STATE_SEVERITY`
 
-`STATE_SEVERITY` ranks the states for sorting a list by status, most urgent first: `error` 4, `warning` 3, `information` 2, `neutral` 1, `success` 0. the hosts below are sorted with it.
+`STATE_SEVERITY` ranks the states for sorting a list by status, most urgent first: `error` 4, `warning` 3, `information` 2, `neutral` 1, `success` 0.
 
 ```tsx
 rows.sort((a, b) => STATE_SEVERITY[HOST[b.status].state] - STATE_SEVERITY[HOST[a.status].state]);
 ```
 
-<Canvas of={ObjectStatusStories.BySeverity} />
-
-use the same ranking when one object has several conditions at once: show the most severe, and say the rest in the detail line. `OBJECT_STATES` lists the five states from `neutral` to `error`, for a legend or a filter.
-
-## behaviour and keyboard
-
-object status is static: a `span` with no focus and no keys of its own. it doesn't animate, and it doesn't announce a change.
-
-## accessibility
-
-- each state has its own glyph shape, so the state never rests on colour alone (wcag 1.4.1). the glyph is `aria-hidden`; the words carry the meaning.
-- `warning` and `error` read their state first, from visually hidden text: "error: needs attention". `neutral`, `information` and `success` read only their text.
-- `stateLabel` changes that word. a string replaces it (`stateLabel="fehler"` reads "fehler: failed"), and on a calm state adds one; `false` leaves it out. leave it out only where the text would say it twice.
-- axe-core finds no violations, colour contrast included, in any state, as a chip or as text.
-- the lowercase look is css (`text-transform`). write the text as it should be read.
-- it isn't a live region: a status that changes in place is not announced. when someone needs to hear the result of what they did, confirm it with a [toast](?path=/docs/components-feedback-status-toast--docs); when the change affects the whole list, a [message strip](?path=/docs/components-feedback-status-message-strip--docs).
-
-today:
-
-- text that runs out of room ends in an ellipsis, and nothing shows the rest. keep the words short; where they can be cut, pass the full text as `title` too.
-
-## content
-
-- name the state in the object's words: `held`, `on its way`, `needs attention`, `connection firewalled`. one to three words, lowercase, no full stop.
-- say it once: one status per object, from one table. the same value reads the same words on every screen.
-- no colour words (`red`, `green`) in code or copy. the state names belong in the vocabulary table, not in the text.
-- why it is so, or what happens next, goes in a detail line under the status — `needs attention` · `every source that answered timed out` — in a [status cell](?path=/docs/components-data-display-table-cells--docs), not in the status itself.
-- honest status: `success` never covers a problem. "connected, but firewalled" works and needs a look, so it is a `warning`.
-
-## do and don't
-
-<DoDont>
-  <Do caption="a problem said as one: it works, but someone should look.">
-    <ObjectStatus state="warning">connection firewalled</ObjectStatus>
-  </Do>
-  <Dont caption="a problem dressed as success. people learn to skip the calm ones and miss this one.">
-    <ObjectStatus state="success">connection firewalled</ObjectStatus>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="the state carries the severity; the words say what is wrong, in the object's terms.">
-    <ObjectStatus state="error">needs attention</ObjectStatus>
-  </Do>
-  <Dont caption="the state's name as the text. a screen reader hears “error: error”, and nobody learns what to do.">
-    <ObjectStatus state="error">error</ObjectStatus>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="one status per object: the most severe one.">
-    <Host>worker-2</Host>
-    <ObjectStatus state="warning">degraded</ObjectStatus>
-  </Do>
-  <Dont caption="two statuses for one object leave people to work out which is true. show the most severe and put the rest in the detail line.">
-    <Host>worker-2</Host>
-    <ObjectStatus state="information">syncing</ObjectStatus>
-    <ObjectStatus state="warning">degraded</ObjectStatus>
-  </Dont>
-</DoDont>
+`OBJECT_STATES` lists the five states from `neutral` to `error`, for a legend or a filter.
 
 ## props
-
-`ObjectStatus` passes every other `<span>` attribute (`id`, `title`, `aria-*`, `data-*`) and its `ref` to the outer `span`, and sets `data-state` on it. `text` and `children` fill the same slot (`text` wins when both are given); `text` is what lets a vocabulary entry spread in.
 
 <ArgTypes of={ObjectStatusStories} />
 
@@ -173,10 +84,3 @@ today:
 | `STATE_SEVERITY` | the frozen ranking `error` 4, `warning` 3, `information` 2, `neutral` 1, `success` 0. |
 | `OBJECT_STATES` | the five states as an array, `neutral` first. |
 | `ObjectState`, `StateSpec` | the types of a state and of a vocabulary entry. |
-
-## related
-
-- [status vocabulary](https://nalet.github.io/design-system/patterns/status-vocabulary/) — one table per object, and which state each kind of value gets.
-- [table cells](?path=/docs/components-data-display-table-cells--docs) — `StatusCell`: this status with a detail line under it, for data tables.
-- [badge](?path=/docs/components-data-display-badge--docs) — tags, labels and counts that aren't a state.
-- [message strip](?path=/docs/components-feedback-status-message-strip--docs) — a condition of the whole page or list, with a way forward.

@@ -1,141 +1,52 @@
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
 import * as MessageStripStories from './MessageStrip.stories';
-import { MessageStrip, Button } from '../../src';
-import { DoDont, Do, Dont } from '../_blocks';
 
 <Meta of={MessageStripStories} />
 
 # message strip
 
-a message about the content of the page: a square strip with a state rule, a glyph, one or two human sentences, a way forward, and the technical part behind a `details` disclosure. only its text is a live region.
+design guidance — when to use it, its states, details and dismiss, its words: **[message strip on the guidelines site →](https://nalet.github.io/design-system/components/message-strip/)**
 
 <Canvas of={MessageStripStories.Playground} />
 
-## when to use
+## examples
 
-- for a condition of the page's content that lasts until it is resolved or dismissed: `105 titles can't be checked: the catalog holds them without an identity.`
-- for an error from loading or from an action, with a way forward: `couldn't load the list.` and `try again`.
-- above the content it is about. at most one or two at a time: more than that, and none of them reads as important.
-
-## when not to use
-
-- **to confirm an action someone just took** — `8 episodes queued`. use a [toast](?path=/docs/components-feedback-status-toast--docs): it says so and leaves.
-- **for one item** — a field's error, a row's state. use the [field](?path=/docs/components-inputs-field--docs) error text, or an [object status](?path=/docs/components-feedback-status-object-status--docs) in the row.
-- **in place of a list that has nothing to show** — it is empty, or it couldn't load and there is nothing older to show. that is an [illustrated message](?path=/docs/components-feedback-status-illustrated-message--docs) where the list would be. keep the strip for content that is still on screen.
-- **to stop everything for a decision.** use a [modal](?path=/docs/components-overlays-modal--docs).
-- **for help that is always true about one control.** that is a [field](?path=/docs/components-inputs-field--docs) hint.
-
-## anatomy
-
-1. **container** — a flex row with 12px padding (16px on the left), a 3px rule on the left in the state's colour (`--state-*`), a 1px `--state-*-border` frame, a `--state-*-bg` fill and square corners. inter 13px / 1.5 in `--fg`.
-2. **glyph** — the state's 14px glyph in its colour, set 3px down so it sits on the first line. hidden from assistive tech.
-3. **text** — your `children`, and the live region. it takes the free width, at least 24ch before the actions wrap under it.
-4. **actions** (optional) — after the text, 8px apart. they wrap under the text when there is no room.
-5. **details toggle** (with `details`) — a quiet text button: jetbrains mono 12px in `--fg-muted`, 28px tall, with a 10px caret that turns down while the details are open.
-6. **details** (with `details`) — 8px under the text: jetbrains mono 12px / 1.55 in `--fg-muted`, 8px × 12px padding and a 1px `--state-*-border` rule on the left. line breaks are kept, and long ids break anywhere.
-7. **dismiss** (with `onDismiss`) — a 28px square button at the right edge, with a 12px × in `--fg-muted`.
-
-## variants and states
-
-five states; `information` is the default.
-
-| state | announced | use for |
-| --- | --- | --- |
-| `neutral` | politely (`role="status"`), the text alone | a plain fact about the content: what runs on its own, what is switched off |
-| `information` | politely, "information:" and the text | under way, or worth knowing: the list is being refreshed, an index is rebuilding |
-| `success` | politely, "success:" and the text | a good condition that lasts — every source answered in the last hour — or what a save changed on this page: `saved. times on this page now show in utc.` a plain confirmation is a toast |
-| `warning` | politely, "warning:" and the text | works, but someone should look: titles that can't be checked, sources over their limit, a refresh that failed while the last data still shows |
-| `error` | at once (`role="alert"`), "error:" and the text | failed or blocked, needs action: an action that failed, a list that couldn't load. always give a way forward |
+`state`: `neutral`, `information` (the default), `success`, `warning` and `error`.
 
 <Canvas of={MessageStripStories.States} />
 
-### details
-
-`details` puts the technical part — ids, raw errors, http codes — behind a `details` disclosure, in mono. it is closed until someone opens it; `defaultDetailsOpen` opens it on the first render. it sits outside the live region, so an announcement never reads it out.
+`details` behind its disclosure, and a ghost button in `actions`.
 
 <Canvas of={MessageStripStories.WithDetails} />
 
-### dismiss
-
-`onDismiss` adds the dismiss button. the strip doesn't hide itself: it calls `onDismiss`, and you stop rendering it. offer it for a message people can read and move on from — what a save changed, an action that failed — and leave it off a condition that is still true, like a list that can't load. the strip doesn't remember a dismissal: the screen does, and brings the strip back when its condition changes again.
+`onDismiss` adds the dismiss button; the story stops rendering the strip when it is called.
 
 <Canvas of={MessageStripStories.Dismissible} />
 
-## behaviour and keyboard
+## implementation notes
 
-the strip's own controls are native buttons. the order is: your actions, the details toggle, dismiss.
+- renders a `<div>` with `data-state`: the glyph, the text, `actions`, the details toggle, the details and dismiss. its own controls are native buttons, in this order: your actions, the details toggle, dismiss.
+- the text alone is the live region: `role="status"` (polite) by default, `role="alert"` for `error`, with `aria-atomic="true"`, so an update reads the whole message and never the actions, the details or dismiss.
+- `live` overrides the role: `"polite"` gives a status, `"assertive"` an alert, and `"off"` no role at all, for a static note — a strip that is on the page from the start and doesn't change.
+- every state but `neutral` puts its name, visually hidden, before the text. a `stateLabel` string replaces the word (and gives `neutral` one); `false` leaves it out.
+- the glyph is `aria-hidden`.
+- `details` is a disclosure: the toggle has `aria-expanded` and `aria-controls` pointing at the details, and closed details are `hidden`, so they are neither read nor focusable. the details sit outside the live region. `detailsLabel` names the toggle (default "details").
+- the strip keeps the details' open state itself. `defaultDetailsOpen` opens them on the first render, and is read only then.
+- `onDismiss` adds the dismiss button, named by `dismissLabel` (default "dismiss"). the strip doesn't hide itself: it calls `onDismiss`, and you stop rendering it.
+- the toggle and dismiss show a 2px `--focus-ring` outline on `:focus-visible`.
+- other `<div>` attributes (all but `title`) and the `ref` reach the container.
+- axe-core finds no violations in any state, with actions, open details and dismiss.
 
 | key | does |
 | --- | --- |
 | `tab` / `shift+tab` | moves through the actions, the details toggle and dismiss. the text takes no focus. |
 | `enter` / `space` | on the details toggle: shows or hides the details. on dismiss: calls `onDismiss`. on your actions: whatever they do. |
 
-- `esc` does nothing. a strip is part of the page, not an overlay.
-- the strip keeps the details' open state itself. `defaultDetailsOpen` is read once, on the first render.
-- the strip announces its text when it appears or changes; what that means for each state is under accessibility.
-
-## accessibility
-
-- **only the text is live.** `role="status"` or `role="alert"` sits on the text alone, with `aria-atomic="true"`: an update reads the whole message, and never the actions, the details or dismiss.
-- **the role follows the state.** `error` is an alert (assertive: it interrupts); every other state is a status (polite: it waits for a pause). `live` overrides that: `"polite"` gives a status, `"assertive"` an alert, and `"off"` no role at all, for a strip that is on the page from the start and doesn't change. it is then read with the page, like any text.
-- **the state word.** every state but `neutral` reads its name before the text, from visually hidden text: "warning: 105 titles can't be checked". a `stateLabel` string replaces the word (and gives `neutral` one); `false` leaves it out. an [object status](?path=/docs/components-feedback-status-object-status--docs) names only `warning` and `error`.
-- the glyph is hidden from assistive tech. each state has its own glyph shape, so the state never rests on colour alone.
-- the details toggle has `aria-expanded` and `aria-controls` pointing at the details. closed details are `hidden`: not read and not focusable.
-- dismiss is named by `dismissLabel` (default "dismiss") and is 28px square, above the 24px minimum target size. the toggle and dismiss show a 2px `--focus-ring` outline.
-- axe-core finds no violations in any state, with actions, open details and dismiss.
-
 today:
 
-- a live region announces changes to content it already holds. a polite strip that appears together with its text may go unannounced in some screen readers; an alert is announced as it appears.
-- dismissing removes the button that had focus, and focus falls back to the page. move it yourself in `onDismiss`, to the content's heading or the next control.
-- the toggle and dismiss carry the same names on every strip. with two strips on a page, set `detailsLabel` and `dismissLabel` so they can be told apart.
-
-## content
-
-- **the text** — one or two human sentences: what is true, then what it means or what happens next. `105 titles can't be checked: the catalog holds them without an identity.` lowercase. no ids, codes or raw errors.
-- **numbers** — exact, with thousands separators: `2,500`, not `2.5k`.
-- **an error** says what failed and offers the way forward: `couldn't load the list.` and `try again`. when the last data still shows, keep it, and make the strip a `warning` that says how old it is: `couldn't refresh the list; it shows what was loaded 4m ago.`
-- **actions** — one or two small ghost buttons (`size="sm" variant="ghost"`), each a verb: `show them`, `try again`, `ask the catalog again`. never `primary`: the view's one emphasized action is elsewhere.
-- **details** — the raw part as it came: `GET /api/missing: http 502 bad gateway`, `request id 7d1c0e4a`. line breaks are kept.
-
-## do and don't
-
-<DoDont>
-  <Do caption="the human part first, the raw part behind details." column>
-    <MessageStrip live="off" state="warning" details="item 3f2a9c1e-5b7d-4c11-9e02-6a1d0b8f4c21 has no identity">105 titles can't be checked: the catalog holds them without an identity.</MessageStrip>
-  </Do>
-  <Dont caption="the raw part as the message: screen readers read the codes aloud, and nobody learns what it means." column>
-    <MessageStrip live="off" state="warning">105 items: identity_id is null (catalog item 3f2a9c1e-5b7d-4c11-9e02-6a1d0b8f4c21)</MessageStrip>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="a condition that lasts. it stays until it is resolved or dismissed." column>
-    <MessageStrip live="off" state="warning">2 sources are over their daily query limit until midnight. searches use the other 3.</MessageStrip>
-  </Do>
-  <Dont caption="the confirmation of something just done is a toast. as a strip it stays, and pushes the list down." column>
-    <MessageStrip live="off" state="success">8 episodes queued.</MessageStrip>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="a small ghost action: the way forward, without competing with the view's emphasized action." column>
-    <MessageStrip live="off" state="warning" actions={<Button size="sm" variant="ghost">show them</Button>}>105 titles can't be checked.</MessageStrip>
-  </Do>
-  <Dont caption="a primary button in a strip competes with the one emphasized action of the view." column>
-    <MessageStrip live="off" state="warning" actions={<Button size="sm" variant="primary">show them</Button>}>105 titles can't be checked.</MessageStrip>
-  </Dont>
-</DoDont>
+- dismissing removes the button that had focus: move focus yourself in `onDismiss`.
+- with two strips on a page, set `detailsLabel` and `dismissLabel` so they can be told apart.
 
 ## props
 
-`MessageStrip` passes other `<div>` attributes (all but `title`) and its `ref` to the container.
-
 <ArgTypes of={MessageStripStories} />
-
-## related
-
-- [message handling](https://nalet.github.io/design-system/patterns/message-handling/) — which message goes where: strip, toast, inline, details or modal.
-- [toast](?path=/docs/components-feedback-status-toast--docs) — the confirmation of an action that just finished.
-- [illustrated message](?path=/docs/components-feedback-status-illustrated-message--docs) — in place of a list that is empty or couldn't load.
-- [object status](?path=/docs/components-feedback-status-object-status--docs) — the state of one item, in its row.

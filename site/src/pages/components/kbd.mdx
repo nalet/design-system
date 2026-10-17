@@ -1,0 +1,103 @@
+---
+layout: ../../layouts/Doc.astro
+title: kbd
+description: a single keycap that names a key — square, a hairline frame with a heavier bottom edge, a mono label; a shortcut is several of them side by side.
+component: kbd
+---
+import { Code, Kbd, Text } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { Keys, Combo, InShortcutList } from '@site/examples/kbd';
+
+# kbd
+
+a single keycap: square, a hairline frame with a heavier bottom edge, a mono label. it names a key; a shortcut is several of them side by side.
+
+<Example label="keycaps">
+  <Keys />
+</Example>
+
+## when to use
+
+- to name a key or a shortcut in help text, a tooltip, a menu or a list of shortcuts: `esc` closes the dialog, `ctrl` + `k` opens search.
+
+## when not to use
+
+- **for text people type.** "type `storage-01` to confirm" is typed input, not a key: use <C slug="code" />.
+- **as a control.** a keycap is a picture of a key; pressing it does nothing. the action itself is a <C slug="button" />.
+
+## anatomy
+
+1. **keycap** — inline, at least 20px wide, 20px tall, padding 0 6px. 1px `--border-2` frame with a 2px bottom edge, `--surface-2` fill, square.
+2. **label** — jetbrains mono 12px, `--fg-2`, centered, never wraps. shown as written: no case change.
+
+## variants and states
+
+one look. a combination is several keycaps you place yourself, with a joiner between them.
+
+`+` joins keys pressed together; `then` joins keys pressed one after another.
+
+<Example label="keys pressed together, and one after another">
+  <Combo />
+</Example>
+
+a list of shortcuts is a description list: the action as the term, the keys as its description.
+
+<Example label="a list of shortcuts">
+  <InShortcutList />
+</Example>
+
+## behaviour
+
+- a keycap only shows a key. it doesn't listen for it: the shortcut is yours to implement.
+- it takes no focus: `tab` skips it.
+
+the element it renders and what it passes through are on its [react page](/design-system/react/?path=/docs/components-data-display-kbd--docs).
+
+## accessibility
+
+- screen readers read a keycap's label as text; most don't say "key".
+- write keys as words — `ctrl`, `shift`, `cmd`, `esc` — not symbols like `⌘` or `⇧`, which screen readers name inconsistently and not everyone recognises.
+- keep a visible joiner between keys. most screen readers read it aloud ("ctrl plus k"), and it tells keys pressed together from a sequence.
+- a shortcut is never the only way to do something: the same action needs a visible control.
+
+## content
+
+- lowercase key names as printed on most keyboards: `esc`, `tab`, `enter`, `shift`, `ctrl`, `alt`, `cmd`, `space`.
+- one key per keycap. a letter is the letter: `k`, not `K`, and not `ctrl+k` in one cap.
+- when a shortcut differs by platform, show the one the reader is on, or both: `ctrl` on windows and linux, `cmd` on mac.
+
+## do and don't
+
+<DoDont>
+  <Do caption="one key per cap, joined by a plus: pressed together.">
+    <Text variant="muted"><Kbd>ctrl</Kbd> + <Kbd>k</Kbd></Text>
+  </Do>
+  <Dont caption="the whole shortcut in one cap. it reads as one key with a strange name.">
+    <Kbd>ctrl+k</Kbd>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="key names as words: read the same by everyone.">
+    <Text variant="muted"><Kbd>cmd</Kbd> + <Kbd>shift</Kbd> + <Kbd>p</Kbd></Text>
+  </Do>
+  <Dont caption="symbols are named inconsistently by screen readers, and not everyone knows them.">
+    <Text variant="muted"><Kbd>⌘</Kbd> + <Kbd>⇧</Kbd> + <Kbd>p</Kbd></Text>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="typed text is code.">
+    <Text as="p" variant="body">type <Code>storage-01</Code> to confirm.</Text>
+  </Do>
+  <Dont caption="a keycap is one key. text in a keycap looks like a key nobody can find.">
+    <Text as="p" variant="body">type <Kbd>storage-01</Kbd> to confirm.</Text>
+  </Dont>
+</DoDont>
+
+## related
+
+- <C slug="code" /> — commands and text people type.
+- <C slug="tooltip" /> — where a control's shortcut is usually shown.
+- [content & voice](/design-system/foundations/content-voice/) — how labels and key names are written.

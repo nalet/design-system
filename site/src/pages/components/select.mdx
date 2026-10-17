@@ -1,0 +1,137 @@
+---
+layout: ../../layouts/Doc.astro
+title: select
+description: a square, native drop-down for choosing one value from a list, marked by a small cloud-blue chevron.
+component: select
+---
+import { Switch } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { SelectField } from '@site/demos/components/select';
+import { Playground, Sizes, States, WithChildren } from '@site/examples/select';
+
+# select
+
+a square, native drop-down for choosing one value from a list. the browser draws the list; a small `--cloud-blue` chevron marks the box.
+
+<Example label="a select">
+  <Playground />
+</Example>
+
+## when to use
+
+- to choose exactly one value from a known list that is too long to show at once: a region, a retention period, a sort order.
+- in a form, inside a <C slug="field" /> for its label and hint.
+- when the list is stable and people recognise their option by its name.
+
+## when not to use
+
+- **for two or three options that should stay visible.** show them all as a native radio group (`<fieldset>` with `<input type="radio">`); the system has no radio component today. see [forms and settings](/design-system/patterns/forms-and-settings/).
+- **for on/off.** use a <C slug="switch" /> when the change applies at once, or a <C slug="checkbox" /> in a form that is saved.
+- **to choose several values.** use a group of <C slug="checkbox">checkboxes</C>; this select holds one value.
+- **to filter a list or table.** use the <C slug="filter-bar" />.
+- **to switch between views of one page.** use <C slug="tabs" />.
+- **for a long list that people need to search.** a native select only jumps by the letters typed, and there is no searchable combobox today. let people type the value in an <C slug="input" /> and check it.
+
+## anatomy
+
+1. **box** — square, 1px `--border-control` border on `--bg-2`; height 28 / 34 / 42px by size. padding is 8 / 12 / 16px on the left and 28 / 32 / 36px on the right, which keeps the value clear of the chevron. it fills the width of its container.
+2. **value** — jetbrains mono 13px (14px in `lg`) in `--fg`.
+3. **chevron** — 12px, `--cloud-blue`, 12px from the right edge. decoration only: hidden from assistive tech and not clickable.
+4. **list** — drawn by the browser and the operating system. where the browser allows it, options take `--surface` and `--fg`.
+
+## variants and states
+
+three sizes: `sm` (28px), `md` (34px, the default), `lg` (42px) — the heights of <C slug="input" /> and <C slug="button" />, so they line up in a row.
+
+<Example label="three sizes">
+  <Sizes />
+</Example>
+
+| state | looks |
+| --- | --- |
+| default | `--border-control` border |
+| focused | `--cloud-blue` border, 2px thick (an inset shadow), on any focus, by mouse or keyboard |
+| invalid | `--state-error` border, kept while focused |
+| disabled | 50% opacity; cannot be focused, changed or submitted |
+
+<Example label="default, invalid and disabled">
+  <States />
+</Example>
+
+a disabled option stays in the list but cannot be chosen.
+
+<Example label="a list with a disabled option: open it">
+  <WithChildren />
+</Example>
+
+## behaviour
+
+- the browser and the operating system draw the list and own the keys, so the details differ by platform. the select is one tab stop.
+- choosing an option only sets the value. don't navigate, submit or delete on a change: on some platforms the arrow keys change the value without opening the list, so a keyboard user would trigger it just by looking through the options.
+- today: only the text area of the box is the native control. a click on the chevron or on the padding around the value does not open the list.
+
+the keyboard map and the attributes it sets are on its [react page](/design-system/react/?path=/docs/components-inputs-select--docs).
+
+## accessibility
+
+- the browser exposes the native select with its role, its value and its options. give it a visible label: a <C slug="field" /> renders one.
+- an invalid select turns its border `--state-error`. say in words what is wrong; a field's error does.
+- if the reason an option is disabled matters, put it in the option's label: `1 year (needs more storage)`.
+- today: there are no forced-colours (windows high contrast) styles. focus is a border colour and an inset shadow, which forced colours override.
+
+## content
+
+- **label** — a noun for the value: `region`, `keep backups for`. not `select a region`; the control already says how it works.
+- **options** — short, lowercase and parallel: `7 days`, `30 days`, `90 days`. order them by size, time or how often they are chosen; alphabetically only when there is no natural order.
+- **default** — preselect the safe or the most common value. when there is none, start with an empty option such as `choose a region`, and make the choice required, so the form cannot be sent without one.
+
+## do and don't
+
+<DoDont>
+  <Do caption="short, parallel options in a natural order." column>
+    <SelectField
+      label="keep backups for"
+      defaultValue="30"
+      options={[
+        { label: '7 days', value: '7' },
+        { label: '30 days', value: '30' },
+        { label: '90 days', value: '90' },
+      ]}
+    />
+  </Do>
+  <Dont caption="sentences as options are slow to scan and hard to compare." column>
+    <SelectField
+      label="keep backups for"
+      defaultValue="30"
+      options={[
+        { label: 'one week, then they are deleted', value: '7' },
+        { label: 'a month is enough for most teams', value: '30' },
+        { label: 'three months (best if unsure)', value: '90' },
+      ]}
+    />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="on or off is a switch: one press, and the state is always visible.">
+    <Switch label="email alerts" defaultChecked />
+  </Do>
+  <Dont caption="a select with on and off hides the state behind a list and takes two steps to change." column>
+    <SelectField
+      label="email alerts"
+      defaultValue="on"
+      options={[
+        { label: 'on', value: 'on' },
+        { label: 'off', value: 'off' },
+      ]}
+    />
+  </Dont>
+</DoDont>
+
+## related
+
+- <C slug="field" /> — the label, hint and error around the select.
+- <C slug="input" /> — free text when the values are not known in advance.
+- <C slug="checkbox" /> — for several values, or a single yes/no in a form.
+- <C slug="filter-bar" /> — selects and search that filter a list.

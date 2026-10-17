@@ -59,19 +59,22 @@ export function Dont(props: VerdictProps) {
 export function Example({
   column,
   flush,
+  scroll,
   children,
   label,
 }: {
   column?: boolean;
   /** no padding: for a full-width floorplan. */
   flush?: boolean;
+  /** a long list: the frame keeps a height and scrolls, and a sticky header sticks inside it. */
+  scroll?: boolean;
   children: ReactNode;
   /** accessible name for the example region. */
   label?: string;
 }) {
   return (
     <div
-      className={`ds-live ds-example${column ? ' ds-example--column' : ''}${flush ? ' ds-example--flush' : ''}`}
+      className={`ds-live ds-example${column ? ' ds-example--column' : ''}${flush ? ' ds-example--flush' : ''}${scroll ? ' ds-example--scroll' : ''}`}
       role={label ? 'group' : undefined}
       aria-label={label}
     >

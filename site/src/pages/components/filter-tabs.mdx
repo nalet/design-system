@@ -1,0 +1,126 @@
+---
+layout: ../../layouts/Doc.astro
+title: filter tabs
+description: key figures that filter one list — each tab a count over a label — in a tab list with one tab stop, where the arrow keys select as they move.
+component: filter-tabs
+---
+import C from '@site/components/C.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { Playground, WithoutState } from '@site/examples/filter-tabs';
+import { DemoTabs } from '@site/demos/components/filter-tabs';
+
+# filter tabs
+
+key figures that filter one list: each tab is a count over a label — `3` over `needs attention` — and choosing a tab filters the list below it. a tab list with one tab stop, where the arrow keys select as they move.
+
+<Example label="filter tabs over the list they filter, live">
+  <div style={{ width: '100%' }}>
+    <Playground client:visible />
+  </div>
+</Example>
+
+## when to use
+
+- at the top of one list, to show the few subsets people act on and let them pick one: `missing`, `on their way`, `needs attention`.
+- when each subset's count is worth seeing before choosing it.
+- for one subset at a time, from two to about six. the [worklist](/design-system/patterns/worklist/) puts them over its table.
+
+## when not to use
+
+- **to switch between views of one object** — overview, logs, metrics. use <C slug="tabs" />.
+- **for filters people combine** — a kind, and a time, and a state. use the facets of a <C slug="filter-bar" />, which combine.
+- **for a figure that filters nothing.** show the number as text, or as a <C slug="badge" /> beside what it counts.
+- **to go to another page.** use a link.
+
+## anatomy
+
+1. **tab list** — a row with a 1px `--border` rule under it. when the tabs don't fit, the row scrolls sideways, and the edge where more tabs are cut off fades out over 48px.
+2. **tab** — at least 96px wide, 8px 16px 12px padding, jetbrains mono, left-aligned. the count sits on top, but the label is read first: "needs attention 3".
+3. **count** (optional) — 20px, weight 600, tabular figures, with thousands separators (`2,500`), in `--fg` or in the colour of the tab's state.
+4. **label** — 12px, weight 500, lowercase, one line, in `--fg-muted`; `--fg` on hover and when selected.
+5. **selection** — a 2px `--cloud-blue` underline, laid over the row's rule.
+6. **panel** — yours: the list the tabs filter. it isn't part of the component; how it is named is under [accessibility](#accessibility).
+
+## variants and states
+
+| state | looks |
+| --- | --- |
+| rest | label in `--fg-muted`; count in `--fg` or in its state's colour |
+| hover | `--surface` fill, label in `--fg` |
+| selected | label in `--fg`, 2px `--cloud-blue` underline |
+| focus | a 2px `--focus-ring` outline inside the tab |
+| disabled | 45% opacity. it can't be focused, chosen or reached with the arrow keys |
+
+### states on counts
+
+a state colours the count, and only the count, when the number carries a meaning: `error` for `needs attention`, `warning` for `can't be checked`, `information` for `on their way` (the colours of the [status vocabulary](/design-system/patterns/status-vocabulary/)). leave it off for counts that only say how many, `missing` or `not yet aired`: they stay plain `--fg`. a tab without a count shows no state at all. the example at the top uses both.
+
+plain counts, with no state anywhere:
+
+<Example label="filter tabs with plain counts, live">
+  <WithoutState client:visible />
+</Example>
+
+leave the count out when the number isn't known; the tab then shows its label alone.
+
+## behaviour
+
+- a click selects a tab.
+- automatic activation: the selection follows focus, so every arrow press filters the list. keep the filtering quick — it is usually local — or let a slow list settle before it loads.
+
+the keyboard map and the attributes it sets are on its [react page](/design-system/react/?path=/docs/components-navigation-filter-tabs--docs).
+
+## accessibility
+
+- the tab list has a name, and it is required: what it filters, and by what — `filter missing by state`. only the selected tab is in the tab order.
+- a tab's name is its label, then its count: "needs attention 3".
+- the list below is the tabs' panel, named after the selected tab: "needs attention 3".
+- the state colour on a count is a second signal: the label says what the count means. a count has no glyph, unlike an <C slug="object-status" />, so never let the colour say what the label doesn't.
+- a count that changes is not announced.
+
+today:
+
+- disabled tabs can't be focused, so screen-reader users don't learn that they exist.
+
+## content
+
+- **label** — what the tab keeps, in the list's words: `needs attention`, `on their way`, `can't be checked`. a few words, lowercase.
+- **count** — exact, never rounded. leave it out when it isn't known, rather than showing `0`.
+- **first tab** — the whole list, `missing` or `all`, so there is always a way back.
+- **the tab list's name** — what it filters, and by what: `filter missing by state`.
+
+## do and don't
+
+<DoDont>
+  <Do caption="a state only where the count means something: 2 unreachable, 5 degraded." column>
+    <DemoTabs client:visible label="filter hosts by state" tabs={[{ id: 'all', label: 'all hosts', count: 48 }, { id: 'down', label: 'unreachable', count: 2, state: 'error' }, { id: 'slow', label: 'degraded', count: 5, state: 'warning' }]} />
+  </Do>
+  <Dont caption="every count in a colour: nothing stands out, and a plain total looks like an alarm." column>
+    <DemoTabs client:visible label="filter hosts by state" tabs={[{ id: 'all', label: 'all hosts', count: 48, state: 'error' }, { id: 'down', label: 'unreachable', count: 2, state: 'warning' }, { id: 'slow', label: 'degraded', count: 5, state: 'information' }]} />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="labels in the list's words: what each tab keeps." column>
+    <DemoTabs client:visible label="filter missing by state" tabs={[{ id: 'missing', label: 'missing', count: 2500 }, { id: 'way', label: 'on their way', count: 182, state: 'information' }, { id: 'attention', label: 'needs attention', count: 3, state: 'error' }]} />
+  </Do>
+  <Dont caption="state names as labels say how a tab looks, not what is in it." column>
+    <DemoTabs client:visible label="filter missing by state" tabs={[{ id: 'missing', label: 'all', count: 2500 }, { id: 'way', label: 'info', count: 182, state: 'information' }, { id: 'attention', label: 'errors', count: 3, state: 'error' }]} />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="the number isn't known yet, so the tab shows its label alone." column>
+    <DemoTabs client:visible label="filter titles by state" tabs={[{ id: 'missing', label: 'missing', count: 2500 }, { id: 'unchecked', label: 'not checked yet' }]} />
+  </Do>
+  <Dont caption="0 says there are none. when the number isn't known, leave it out." column>
+    <DemoTabs client:visible label="filter titles by state" tabs={[{ id: 'missing', label: 'missing', count: 2500 }, { id: 'unchecked', label: 'not checked yet', count: 0 }]} />
+  </Dont>
+</DoDont>
+
+## related
+
+- <C slug="tabs" /> — views of one object, not filters of one list.
+- [worklist](/design-system/patterns/worklist/) — puts the tabs over the list and wires the panel.
+- <C slug="filter-bar" /> — filters that combine: a search and facets.
+- [status vocabulary](/design-system/patterns/status-vocabulary/) — the states the counts take their colours from.

@@ -93,10 +93,13 @@ export const COMPONENTS: ComponentEntry[] = [
 ];
 
 /**
- * the components whose guidance page has moved to this site. until a page is
- * here, its card links to the component's react page, which still carries it.
+ * the components that have a guidance page of their own here: every
+ * site/src/pages/components/<slug>.mdx. a component without one links to its
+ * react page instead.
  */
-export const GUIDANCE_PAGES = new Set<string>([]);
+export const GUIDANCE_PAGES = new Set(
+  Object.keys(import.meta.glob('../pages/components/*.mdx')).map((path) => path.replace(/^.*\/|\.mdx$/g, '')),
+);
 
 /** where a component's design guidance is read. */
 export function guidanceHref(c: ComponentEntry): string {

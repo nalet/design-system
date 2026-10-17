@@ -6,7 +6,7 @@ draft: true
 draftNote: "the selection modes, press versus select, select all and keeping a selection are proposed and under review. where the data table doesn't do a rule yet, the page says so under today."
 react: patterns-selection-and-bulk-actions
 ---
-import { SelectionToolbar, Toaster } from '@nalet/design-system';
+import { Toaster } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { ToastButton } from '@site/demos/ToastButton';
@@ -95,7 +95,7 @@ today: the header checkbox selects every *visible* row — the rows on screen, n
 - leave the action out when it would act on nothing.
 - a group action works without a selection, and pressing it doesn't toggle the group.
 
-<Example label="group actions on a season, live">
+<Example scroll label="group actions on a season, live">
   <div style={{ width: '100%' }}>
     <GroupActions client:visible />
   </div>
@@ -163,15 +163,6 @@ today: the header checkbox's name ("select every visible row") and the "select" 
 - **why a row can't be selected** — its status, in the object's words: `on its way`, `held`. not `disabled` or `n/a`.
 
 ## do and don't
-
-<DoDont>
-  <Do column caption="the action and its count: people check the number before they press.">
-    <SelectionToolbar label="missing episodes" selectedCount={8} onClearSelection={() => undefined} primaryAction={(n) => ({ label: `grab ${n} selected`, onSelect: () => undefined })} />
-  </Do>
-  <Dont column caption="no count: people have to scroll the list to know what the button will do.">
-    <SelectionToolbar label="missing episodes, without a count" selectedCount={8} onClearSelection={() => undefined} primaryAction={() => ({ label: 'grab selected', onSelect: () => undefined })} />
-  </Dont>
-</DoDont>
 
 <DoDont>
   <Do column caption="one action menu per row, named by the row.">

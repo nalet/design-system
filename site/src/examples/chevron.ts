@@ -1,5 +1,4 @@
-import { composeStories } from '@storybook/react';
 import * as stories from '@stories/components/Chevron.stories';
-import { SITE } from './site';
+import { compose } from './site';
 
-export const { Playground, Sizes, InUse } = composeStories(stories, SITE);
+export const { Playground, Sizes, InUse } = compose(stories);

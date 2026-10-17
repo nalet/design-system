@@ -1,0 +1,127 @@
+---
+layout: ../../layouts/Doc.astro
+title: input
+description: a square, single-line text field in mono type, with its label, hint and error from a field around it.
+component: input
+---
+import { Input } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { InputField } from '@site/demos/components/input';
+import { Playground, Sizes, WithAffixes, States } from '@site/examples/input';
+
+# input
+
+a square, single-line text field in mono type. put it in a <C slug="field" /> for its label, hint and error.
+
+<Example label="an input">
+  <Playground />
+</Example>
+
+## when to use
+
+- for one line of text that people type: a name, a host, an id, a number, a search term.
+- inside a <C slug="field" />, which gives it a visible label and wires its hint and error to it.
+- with a `leading` icon or prompt when it says what kind of value goes in (a search icon, a `>` prompt), or a `trailing` unit such as `ms` or `GiB`.
+
+## when not to use
+
+- **for more than one line.** use a <C slug="textarea" />. an input cannot wrap, and hides whatever scrolls out of view.
+- **to pick from a known list.** use a <C slug="select" />, so people cannot type a value that does not exist.
+- **for on/off.** use a <C slug="checkbox" /> in a form that is saved, or a <C slug="switch" /> when the change applies at once.
+- **to filter a list or table.** use the <C slug="filter-bar" />, which lays out the search, the filters and their reset.
+- **to lay out a whole form or settings page.** start from [forms and settings](/design-system/patterns/forms-and-settings/).
+
+## anatomy
+
+1. **box** — square, 1px `--border-control` border on `--bg-2`; height 28 / 34 / 42px and side padding 8 / 12 / 16px by size. it fills the width of its container.
+2. **leading affix** (optional) — an icon or prompt before the text, in `--fg-dim`, 8px from the text (12px in `lg`).
+3. **text** — jetbrains mono 13px (14px in `lg`) in `--fg`. the placeholder is `--fg-dim`.
+4. **trailing affix** (optional) — a unit or icon after the text, with the same colour and spacing.
+
+## variants and states
+
+three sizes: `sm` (28px) for toolbars, filter rows and table cells, `md` (34px, the default) for forms, `lg` (42px) for a lone search or command prompt. match the height of the buttons beside it.
+
+<Example label="three sizes">
+  <Sizes />
+</Example>
+
+`leading` and `trailing` put an icon, a prompt or a unit inside the box.
+
+<Example label="inputs with affixes">
+  <WithAffixes />
+</Example>
+
+| state | looks |
+| --- | --- |
+| default | `--border-control` border |
+| focused | `--cloud-blue` border, 2px thick (an inset shadow), on any focus, by mouse or keyboard |
+| invalid | `--state-error` border, also while focused |
+| disabled | the whole box at 50% opacity; cannot be focused, edited or submitted |
+| read-only | looks like default; can be focused, selected and submitted, not edited |
+
+<Example label="default, invalid, disabled and read-only">
+  <States />
+</Example>
+
+## behaviour
+
+- the input is one tab stop. people type, move the caret and select as in any text field, and `enter` can submit the form it is in.
+- today: only the text area takes clicks. a click on the box's padding or on an affix does not focus the field.
+
+the keyboard map and the attributes it sets are on its [react page](/design-system/react/?path=/docs/components-inputs-input--docs).
+
+## accessibility
+
+- give it a visible label: a <C slug="field" /> renders one, and links the hint or the error to the input so they are read with it. a placeholder is not a label: it disappears with the first keystroke.
+- where a visible label does not fit (a search box in a toolbar), give it an `aria-label`, and add a leading search icon so sighted people see what the box is for.
+- an invalid input turns its border `--state-error`. the colour alone is a weak cue — about 1.6:1 against the normal border — so always say in words what is wrong. a field's error does that.
+- affixes are not part of the input's name. an icon hides itself, and text such as `ms` is not announced when the field is focused, so put the unit in the label too: `timeout (ms)`.
+- focus shows in the border (`--cloud-blue`, 2px), not with the `--focus-ring` outline of buttons and checkboxes — see [interaction](/design-system/foundations/interaction/#focus).
+- a disabled field cannot be focused, so screen-reader users may never find it. when people need to read or copy the value, make it read-only instead — today it looks the same as an editable field, so say why it cannot change.
+- today: there are no forced-colours (windows high contrast) styles. forced colours replace border colours and remove the inset shadow, so a focused field can look unfocused there.
+
+## content
+
+- **label** — a noun for the value, lowercase, no colon: `host`, `release name`, `timeout (ms)`.
+- **placeholder** — an example of a valid value, or nothing: `api.example.com`. never the label, never an instruction: both vanish on the first keystroke.
+- **hint** — the format or the limit, in one short line: `lowercase letters, digits and hyphens`.
+- **error** — what is wrong and how to fix it: `use 63 characters or fewer`. not `invalid input`.
+- **unit** — in the label, and as a `trailing` affix when people need to see it while they type.
+
+## do and don't
+
+<DoDont>
+  <Do caption="a visible label above, an example in the placeholder." column>
+    <InputField label="host" hint="the name the service answers on" placeholder="api.example.com" />
+  </Do>
+  <Dont caption="the placeholder as the label: once people type, nothing says what the field is for." column>
+    <Input aria-label="host" placeholder="host" />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="the error says what is wrong and how to fix it." column>
+    <InputField label="release name" error="use lowercase letters, digits and hyphens" defaultValue="The Lantern" />
+  </Do>
+  <Dont caption="a red border alone shows that something is wrong, not what. it is also easy to miss." column>
+    <InputField label="release name" invalid defaultValue="The Lantern" />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="the unit in the label and beside the value." column>
+    <InputField label="timeout (ms)" defaultValue="250" trailing="ms" />
+  </Do>
+  <Dont caption="the unit only in the affix: a screen reader announces the field as just “timeout, 250”." column>
+    <InputField label="timeout" defaultValue="250" trailing="ms" />
+  </Dont>
+</DoDont>
+
+## related
+
+- <C slug="field" /> — the label, hint and error around the input.
+- <C slug="textarea" /> — the same field for several lines.
+- <C slug="select" /> — a value from a known list.
+- <C slug="filter-bar" /> — search and filters above a list or table.

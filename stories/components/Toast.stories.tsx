@@ -10,13 +10,18 @@ const meta: Meta<ToasterProps> = {
   },
   decorators: [
     // every mounted <Toaster /> renders every toast. a docs page shows several
-    // stories at once, so there the page mounts one toaster and the stories none.
-    (Story, context) => (
-      <div style={{ minHeight: 220 }}>
-        <Story />
-        {context.viewMode === 'docs' ? null : <Toaster />}
-      </div>
-    ),
+    // stories at once, so there the page mounts one toaster and the stories none;
+    // so does a page that embeds the story (parameters.embedded, the guidelines
+    // site), which also needs no room kept for the toasts.
+    (Story, context) => {
+      const embedded = !!context.parameters.embedded;
+      return (
+        <div style={{ minHeight: embedded ? undefined : 220 }}>
+          <Story />
+          {context.viewMode === 'docs' || embedded ? null : <Toaster />}
+        </div>
+      );
+    },
   ],
 };
 export default meta;

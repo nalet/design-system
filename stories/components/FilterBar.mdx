@@ -1,75 +1,36 @@
-import { useState } from 'react';
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
 import * as FilterBarStories from './FilterBar.stories';
-import { FilterBar } from '../../src';
-import { DoDont, Do, Dont } from '../_blocks';
-
-export const DemoBar = ({ label, noun, total, facet, options, initial = '', count = true }) => {
-  const [q, setQ] = useState('');
-  const [value, setValue] = useState(initial);
-  const set = (q ? 1 : 0) + (value ? 1 : 0);
-  const left = Math.max(1, Math.round(total / (1 + set * 3)));
-  return (
-    <FilterBar
-      label={label}
-      search={{ value: q, onChange: setQ, placeholder: `search ${noun}`, label: `search ${noun}` }}
-      filters={[{ type: 'select', id: facet, label: facet, value, onChange: setValue, options }]}
-      resultCount={count ? (set ? `${left} of ${total}` : String(total)) : undefined}
-      onClearAll={() => {
-        setQ('');
-        setValue(initial);
-      }}
-    />
-  );
-};
 
 <Meta of={FilterBarStories} />
 
 # filter bar
 
-what narrows a list: a search field, facets that keep one value (a select) or several (a multi select), `clear all`, and the count of what is left. it is fully controlled: the list filters itself from the values. on a narrow screen the facets fold behind one `filters` toggle.
+design guidance — when to use it, its parts, wide and narrow, its words: **[filter bar on the guidelines site →](https://nalet.github.io/design-system/components/filter-bar/)**
 
 <Canvas of={FilterBarStories.Playground} />
 
-## when to use
+## examples
 
-- above a list or a table, for the search and the two to four facets that narrow it.
-- with the result count — `312 of 2,500` — so people see the filters work, and screen-reader users hear it.
-- under [filter tabs](?path=/docs/components-navigation-filter-tabs--docs) and above the [toolbar](?path=/docs/components-actions-toolbar--docs), the way the [worklist](https://nalet.github.io/design-system/patterns/worklist/) arranges them.
-
-## when not to use
-
-- **for a few key figures that each pick one subset.** use [filter tabs](?path=/docs/components-navigation-filter-tabs--docs).
-- **to sort.** sort with the column headers of the [data table](?path=/docs/components-data-display-data-table--docs).
-- **for a form that is submitted** — settings, a new item. use [fields](?path=/docs/components-inputs-field--docs) and a save button, as in [forms and settings](https://nalet.github.io/design-system/patterns/forms-and-settings/). the filter bar filters as values change and submits nothing.
-- **for actions on the list.** use a [toolbar](?path=/docs/components-actions-toolbar--docs).
-
-## anatomy
-
-1. **container** — `role="search"`, named by `label` (default "filters"): a flex row that wraps, with 8px × 12px gaps.
-2. **search** (optional) — an `<input type="search">`, 34px tall, with a square search glyph in front. it starts at 240px and grows or shrinks between 180 and 420px.
-3. **facets** — a `select` facet is a visible label (jetbrains mono 12px, `--fg-muted`, lowercase) and a native [select](?path=/docs/components-inputs-select--docs), at least 128px wide; while it filters, its value shows in `--cloud-blue`. a `multiselect` facet is a [multi select](?path=/docs/components-inputs-multi-select--docs) at `md`.
-4. **children** (optional) — your controls, after the facets. they fold with them.
-5. **end** — pushed to the right: the result count (jetbrains mono 12px, `--fg-muted`, tabular figures) and `clear all`, a ghost `md` button. on a narrow bar, `clear all` moves to the end of the folded facets.
-6. **filters toggle** (narrow only) — a default `md` button: `filters`, or `filters · 2` while two facets are set.
-
-## variants and states
-
-wide, the bar is one row that wraps when it has to.
-
-below `collapseBelow` — 640px by default, measured on the bar itself — the facets fold behind the `filters` toggle. the search and the toggle share the first line; the facets open in a column under them, with `clear all` at their end; the count keeps a line of its own, and takes no room while there is no count. until the bar has been measured, and wherever there is no `ResizeObserver`, it lays out wide. the toggle counts the facets that are set, not the search.
+in a 360px column, below `collapseBelow`, the facets fold behind the `filters` toggle; `label` names the landmark.
 
 <Canvas of={FilterBarStories.Narrow} />
 
-a search on its own, with a count:
+`search` and `resultCount` alone, with no `filters` and no `onClearAll`.
 
 <Canvas of={FilterBarStories.SearchOnly} />
 
-a facet is **set** while it filters: a `select` whose value isn't its `emptyValue` (`""` by default), a `multiselect` with anything chosen. `clear all` is enabled while any facet is set or the search holds text, and disabled otherwise.
+## implementation notes
 
-## behaviour and keyboard
-
-the bar holds no values of its own. each value comes from you and goes back through its `onChange`; the list filters itself from them.
+- fully controlled: the bar holds no values of its own. each value comes from you and goes back through its `onChange`; the list filters itself from them.
+- renders a `<div role="search">` named by `label` (`aria-label`, default "filters").
+- `search` renders an `Input` with `type="search"`, named by `search.label` (`aria-label`, default "search").
+- each `select` facet is a native `Select` inside its own `<label>`; a `multiselect` facet is a `MultiSelect`.
+- `collapseBelow` (640 by default) is compared with the bar's own width, measured with a `ResizeObserver`. until the bar has been measured, and wherever there is no `ResizeObserver`, it lays out wide.
+- narrow, the toggle has `aria-expanded`, and `aria-controls` pointing at the facets. folded facets are `hidden`.
+- the count is a live region, `aria-live="polite"` with `aria-atomic="true"`. it is always on the page, empty while there is no `resultCount`, so the first count is announced too.
+- `clear all` calls `onClearAll`. reset the search and every facet there.
+- axe-core finds no violations, with a multi select open.
+- other `<div>` attributes and the `ref` reach the `role="search"` element.
 
 | key | does |
 | --- | --- |
@@ -80,64 +41,7 @@ the bar holds no values of its own. each value comes from you and goes back thro
 | keys in a multi select facet | see [multi select](?path=/docs/components-inputs-multi-select--docs). |
 | `enter` / `space` on the `filters` toggle | shows or hides the facets. |
 
-- `clear all` calls `onClearAll`. reset the search and every facet there.
-- the `filters` toggle starts closed and keeps its state while the bar is on the page.
-
-## accessibility
-
-- the bar is a `search` landmark named by `label` (default "filters"), so screen-reader users can jump to it. with two filter bars on one page, give each its own `label`.
-- the search field is named by `search.label` (default "search"), as an `aria-label`. the placeholder is only a hint: it is gone with the first keystroke.
-- each `select` facet sits inside its own `<label>`, so the facet's label is its name: "kind".
-- **the result count is live**: `aria-live="polite"` with `aria-atomic="true"`, so each change is read whole — "312 of 2,500" — when the screen reader has a pause. the region is always on the page, empty while there is no `resultCount`, so the first count is announced too. it is how someone typing hears that the list changed, also when it is left empty.
-- narrow, the toggle has `aria-expanded`, and `aria-controls` pointing at the facets. folded facets are `hidden`, out of the tab order.
-- axe-core finds no violations, with a multi select open.
-
-- `clear all` disables itself once everything is clear, so it moves focus to the search field first.
-
-today:
-
-- narrow, `clear all` folds with the facets, so it can be reached only once `filters` is open.
-- `clear all` and `filters` are fixed english and can't be translated.
-- `clear all` only knows the search and the facets in `filters`. a control in `children` doesn't enable it.
-- narrow, a bar with `children` or `onClearAll` but no `filters` shows no toggle: the children and `clear all` stay folded away, with no way to open them.
-
-## content
-
-- **search** — the placeholder says what can be searched, `search titles`. give `search.label` the same words.
-- **facet labels** — a noun: `kind`, `aired`, `state`.
-- **the no-filter option** — first in every select, in plain words: `all`, `any time`. its value is the facet's `emptyValue`.
-- **result count** — what is left, of what: `312 of 2,500`, with thousands separators. while nothing filters, the total (`2,500`), or nothing.
-- two to four facets. with more, the bar turns into a form.
-
-## do and don't
-
-<DoDont>
-  <Do caption="the count says what is left: people see the filters work, and screen readers hear each change.">
-    <DemoBar label="filter volumes" noun="volumes" total={48} facet="size" options={[{ value: '', label: 'all' }, { value: 'small', label: 'under 100 gb' }, { value: 'large', label: '100 gb and over' }]} />
-  </Do>
-</DoDont>
-
-<DoDont>
-  <Dont caption="no count: people can't tell whether the filters did anything, and screen-reader users hear nothing as the list changes.">
-    <DemoBar label="filter snapshots" noun="snapshots" total={120} facet="age" count={false} options={[{ value: '', label: 'any time' }, { value: 'week', label: 'this week' }, { value: 'older', label: 'older' }]} />
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="the no-filter option comes first, so every facet has a way back.">
-    <DemoBar label="filter workers" noun="workers" total={36} facet="pool" options={[{ value: '', label: 'all' }, { value: 'gpu', label: 'gpu' }, { value: 'cpu', label: 'cpu' }]} />
-  </Do>
-</DoDont>
-
-<DoDont>
-  <Dont caption="no “all” option: the facet can never stop filtering, and clear all has nothing to go back to.">
-    <DemoBar label="filter jobs" noun="jobs" total={240} facet="state" initial="running" options={[{ value: 'running', label: 'running' }, { value: 'failed', label: 'failed' }]} />
-  </Dont>
-</DoDont>
-
 ## props
-
-`FilterBar` passes other `<div>` attributes and its `ref` to the `role="search"` element.
 
 <ArgTypes of={FilterBarStories} />
 
@@ -152,10 +56,3 @@ today:
 | `onChange` | gets the new string | gets the new array |
 | `options` | `value` and `label`, the no-filter option first | `value`, `label` and an optional `count` |
 | `emptyValue` | the value that means no filter, default `""` | — |
-
-## related
-
-- [multi select](?path=/docs/components-inputs-multi-select--docs) — the facet that keeps several values.
-- [filter tabs](?path=/docs/components-navigation-filter-tabs--docs) — key figures that pick one subset, above the filter bar.
-- [illustrated message](?path=/docs/components-feedback-status-illustrated-message--docs) — what the list shows when the filters leave nothing: `search`, with `clear filters`.
-- [worklist](https://nalet.github.io/design-system/patterns/worklist/) — the tabs, the filter bar, the toolbar and the table in their places.

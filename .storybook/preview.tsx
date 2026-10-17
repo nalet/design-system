@@ -68,7 +68,7 @@ const preview: Preview = {
       toc: {
         headingSelector: 'h2, h3',
         title: 'on this page',
-        ignoreSelector: '.docs-story *, .skip-toc, .dsdoc-dodont *, .dsdoc-example *',
+        ignoreSelector: '.docs-story *, .skip-toc',
       },
       // real, copy-able tsx snippets under each live example.
       source: { type: 'dynamic', language: 'tsx' },

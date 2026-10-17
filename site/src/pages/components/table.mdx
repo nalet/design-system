@@ -1,0 +1,161 @@
+---
+layout: ../../layouts/Doc.astro
+title: table
+description: a hairline-grid table for reading a short set of records — mono cells, lowercase mono headers, no zebra; it shows rows and doesn't act on them.
+component: table
+---
+import { Table } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { Basic, Dense, CustomCells, Empty, Overflow, Primitives } from '@site/examples/table';
+
+# table
+
+a hairline-grid table for reading records: mono cells, lowercase mono headers, no zebra. it shows rows; it doesn't sort, select or navigate them — that's the <C slug="data-table" />.
+
+<Example column label="a table of workloads">
+  <Basic />
+</Example>
+
+## when to use
+
+- to show a short, read-only set of records with the same fields, so people can compare values down a column: workloads, volumes, recent runs.
+- when every row fits on the screen and nobody needs to sort, select or act on the rows.
+- as the body of a panel: a <C slug="card" /> with `flush`.
+
+## when not to use
+
+- **for a list people work through** — sorting, selecting rows, grouping, loading more, moving between rows with the keyboard. use the <C slug="data-table" />; this table has none of that, and adding it on top is how keyboard and screen-reader support gets lost.
+- **for a screen whose job is to find items and act on them.** that's a [worklist](/design-system/patterns/worklist/): a filter bar, a data table and a toolbar.
+- **for layout.** a table announces rows and columns, which means nothing for a form. lay forms out with a <C slug="stack" /> — see [forms and settings](/design-system/patterns/forms-and-settings/).
+- **for the fields of one record.** one row with many columns reads badly and scrolls sideways. list label and value pairs in a <C slug="card" />.
+
+## anatomy
+
+1. **scroll frame** — 1px `--border` on every side, full width. a table wider than its frame scrolls sideways inside it.
+2. **header row** — on `--bg-2`. each column header: jetbrains mono 600, 11px, letter-spacing 0.04em, `--fg-muted`, shown lowercase, never wraps. padding 8px 12px, 1px `--border` below.
+3. **body row** — on hover its cells tint to `--surface-2`. the last row drops its bottom rule; the frame closes it.
+4. **cell** — jetbrains mono 13px, `--fg-2` on `--surface`, padding 12px, vertically centered, 1px `--border` below.
+5. **empty row** (with no rows) — one cell across every column: mono 12px, `--fg-dim`, centered, padding 24px 12px.
+
+## variants and states
+
+`dense` cuts the padding of header and body cells to 4px 8px, for long lists and side panels.
+
+<Example column label="a dense table">
+  <Dense />
+</Example>
+
+a cell can hold more than text. tags go in as <C slug="badge">badges</C>; the state of the record goes in as an <C slug="object-status" />, never as a coloured badge.
+
+<Example column label="cells with badges and counts">
+  <CustomCells />
+</Example>
+
+with no rows, a single row says so. it reads `no rows` until you give it the table's own words — see content, below.
+
+<Example column label="a table with no rows">
+  <Empty />
+</Example>
+
+a table wider than its container scrolls sideways inside its frame; the page doesn't.
+
+<Example column label="a table wider than its frame">
+  <Overflow />
+</Example>
+
+for what the columns can't express — a grouped header, a row header, a cell that spans — a table is built from its parts, with the same look.
+
+<Example column label="a grouped header, built from the parts">
+  <Primitives />
+</Example>
+
+## behaviour
+
+- the table takes no focus itself; what you put in its cells does. `tab` moves through the links and buttons in the cells, in reading order.
+- rows tint on hover but do nothing on click. there is no row selection, row action or sorting.
+- while a table is wider than its frame, the frame is a stop of its own: `tab` reaches it, and the arrow keys scroll it sideways.
+
+the keyboard map and the attributes it sets are on its [react page](/design-system/react/?path=/docs/components-data-display-table--docs).
+
+## accessibility
+
+- the markup is a real table, so screen readers' own table commands work: move by cell, row and column, and hear each cell with its column header.
+- **name every table**, by the heading above it or with a label of its own.
+- headers are lowercased by css only. screen readers read the text as you wrote it, so write it the way it should be read.
+- a row header — a first cell that names the row — needs the table built from its parts. today that cell takes the header look (11px muted mono, 8px 12px padding) and keeps its bottom rule in the last row.
+- colour in a cell is never announced. say a state in words, with <C slug="object-status" />.
+- a frame that scrolls is named like its table, and shows the focus ring when it has focus. keep tables narrow enough to fit where you can, and put the columns that matter first.
+- changes to the rows are not announced. when rows change because of something the user did, say what happened — see [message handling](/design-system/patterns/message-handling/).
+
+## content
+
+- headers: a lowercase noun, one or two words — `workload`, `size`, `last run`. put the unit in the header, `cpu (cores)`, not in every cell.
+- right-align numbers and give them the same number of decimals down a column, so the digits line up.
+- the empty text says what is missing, in the table's own words: `no workloads in this project`, not `no data`.
+- a failed load is not an empty table. show the error in a <C slug="message-strip" /> above it. when an empty table needs an explanation or a next step, see [empty states](/design-system/patterns/empty-states/).
+
+## do and don't
+
+<DoDont>
+  <Do column caption="numbers right-aligned with the same precision, the unit in the header: the digits line up.">
+    <Table
+      aria-label="workloads"
+      columns={[
+        { key: 'name', header: 'workload' },
+        { key: 'cpu', header: 'cpu (cores)', align: 'right' },
+      ]}
+      rows={[
+        { name: 'api-7f9c', cpu: '0.42' },
+        { name: 'worker-2', cpu: '12.10' },
+        { name: 'db-0', cpu: '1.05' },
+      ]}
+    />
+  </Do>
+  <Dont column caption="left-aligned numbers, mixed precision and the unit in every cell: nothing lines up.">
+    <Table
+      aria-label="workloads"
+      columns={[
+        { key: 'name', header: 'workload' },
+        { key: 'cpu', header: 'cpu' },
+      ]}
+      rows={[
+        { name: 'api-7f9c', cpu: '0.42 cores' },
+        { name: 'worker-2', cpu: '12.1 cores' },
+        { name: 'db-0', cpu: '1 core' },
+      ]}
+    />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do column caption="the empty row says what is missing, in the table's own words.">
+    <Table
+      aria-label="volumes"
+      columns={[
+        { key: 'name', header: 'volume' },
+        { key: 'size', header: 'size (gb)', align: 'right' },
+      ]}
+      rows={[]}
+      empty="no volumes in this project"
+    />
+  </Do>
+  <Dont column caption="a failed load is not an empty list. say the error in a message strip above the table.">
+    <Table
+      aria-label="volumes"
+      columns={[
+        { key: 'name', header: 'volume' },
+        { key: 'size', header: 'size (gb)', align: 'right' },
+      ]}
+      rows={[]}
+      empty="error: could not load volumes"
+    />
+  </Dont>
+</DoDont>
+
+## related
+
+- <C slug="data-table" /> — the interactive table: sorting, selection, grouping, growing, keyboard navigation.
+- <C slug="card" /> — the frame a table usually sits in, with `flush`.
+- <C slug="object-status" /> — the state of a record, inside a cell.
+- [empty states](/design-system/patterns/empty-states/) — when one line in an empty row isn't enough.

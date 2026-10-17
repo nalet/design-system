@@ -1,59 +1,44 @@
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
-import { Activity, Database, Film, GitBranch, ScrollText, Server } from 'lucide-react';
 import * as TileGroupStories from './TileGroup.stories';
-import { TileGroup, Tile, Button } from '../../src';
-import { DoDont, Do, Dont } from '../_blocks';
 
 <Meta of={TileGroupStories} />
 
 # tile group
 
-a titled section of [tiles](?path=/docs/components-navigation-tile--docs) in a square grid. the group is one tab stop; the arrow keys move between its tiles.
+design guidance — when to group tiles, the parts, the columns and the keyboard model, the words: **[tile group on the guidelines site →](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/#tile-groups)**
 
 <Canvas of={TileGroupStories.Playground} />
 
-## when to use
+## examples
 
-- to gather tiles under a stable name on a launchpad: `operations`, `media`, `admin`.
-- on its own, for a short set of destinations on a hub page.
-- to line up a few kpi tiles as a row of key figures.
-
-## when not to use
-
-- **for a whole launchpad with search and favourites.** use the [portal](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/); it holds tile groups and runs one keyboard model across all of them.
-- **for records, or anything people compare row by row.** use a [data table](?path=/docs/components-data-display-data-table--docs).
-- **for a single tile.** a lone [tile](?path=/docs/components-navigation-tile--docs) needs no section around it.
-- **for panels of text and controls.** use [cards](?path=/docs/components-layout-structure-card--docs) in a [stack](?path=/docs/components-layout-structure-stack--docs).
-
-## anatomy
-
-1. **section** — a `<section>` named by its legend.
-2. **legend** — an `<h2>` led by a 14px brand chevron: jetbrains mono 600, 13px, letter-spacing 0.04em, `--fg-muted`, shown lowercase.
-3. **action** (optional) — a slot at the right end of the legend row, 12px from the legend.
-4. **description** (optional) — a `<p>` under the legend: inter 13px in `--fg-dim`.
-5. **grid** — a css grid of tiles, 12px below the legend row or the description.
-
-## variants and states
-
-`columns="auto"` (the default) fits as many columns as there is room for at `minTileWidth` (default 14rem, 224px at a 16px root) and stretches them evenly, so the grid reflows with the width. a number fixes the column count at every width.
+`columns={4}`: a fixed column count, at every width.
 
 <Canvas of={TileGroupStories.FixedColumns} />
 
-`gap` sets the space between tiles: `xs` 4px, `sm` 8px, `md` 16px (the default), `lg` 24px.
-
-`action` takes one low-weight control for the group as a whole; `description` adds a line under the legend.
+`action`: one low-weight control at the end of the legend row.
 
 <Canvas of={TileGroupStories.WithAction} />
 
+`description`: a line under the legend.
+
 <Canvas of={TileGroupStories.WithDescription} />
 
-`navigation` picks the keyboard model: `roving` (the default; one tab stop and the arrow keys) or `tab` (every tile is its own tab stop).
+`navigation="tab"`: every tile is its own tab stop.
 
 <Canvas of={TileGroupStories.TabOrder} />
 
-a group with the `hidden` attribute disappears; the portal's search hides groups that way when none of their tiles match.
+## implementation notes
 
-## behaviour and keyboard
+- renders a `<section>` labelled by its legend with `aria-labelledby`, so it is a region landmark. the legend is a real `<h2>`, and the chevron before it is `aria-hidden`; `description` is a `<p>`; `action` sits in a slot at the end of the legend row; the tiles go in a css grid.
+- `columns="auto"` (the default) is `repeat(auto-fill, minmax(minTileWidth, 1fr))`, with `minTileWidth` 14rem by default (224px at a 16px root). a number is `repeat(n, minmax(0, 1fr))`: that many columns at every width, and `minTileWidth` has no effect.
+- `gap` sets the space between tiles: `xs` 4px, `sm` 8px, `md` 16px (the default), `lg` 24px.
+- `navigation` picks the keyboard model: `roving` (the default; one tab stop and the arrow keys) or `tab` (every tile is its own tab stop).
+- with `roving`, the group keeps exactly one tile at `tabindex="0"` and the rest at `-1`, and checks again on every render, so it follows tiles that appear or are hidden. the tiles it moves between are the elements that carry `data-nc-tile`, which interactive [tiles](?path=/docs/components-navigation-tile--docs) set: links, buttons and `as` elements.
+- inside a [portal](?path=/docs/patterns-portal--docs) that runs roving (its default), the group leaves the keys to the portal, and they move across all groups.
+- a group with the `hidden` attribute disappears; the portal's search hides groups that way when none of their tiles match.
+- today: the legend is always an `<h2>`, whatever the headings around it; there is no prop for another level.
+- today: the grid is a plain `<div>`, with no role that announces the arrow keys. if people get stuck, use `navigation="tab"`.
+- other `<section>` attributes and the `ref` reach the section.
 
 with `navigation="roving"`:
 
@@ -67,87 +52,8 @@ with `navigation="roving"`:
 
 - the keys act only while focus is on a tile in the grid. the action slot keeps its own tab stop.
 - the arrow keys skip disabled and display-only tiles (they aren't links or buttons) and tiles that aren't visible.
-- inside a [portal](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/) that runs roving (its default), the group leaves the keys to the portal, and they move across all groups.
 - with `navigation="tab"`, every tile is its own tab stop and the arrow keys do nothing.
-
-## accessibility
-
-- the group is a `<section>` labelled by its legend, so it is a region landmark that people can jump to.
-- the legend is a real `<h2>`; the chevron before it is `aria-hidden`.
-
-today:
-
-- the legend is always an `<h2>`, whatever the headings around it; there is no prop for another level.
-- nothing tells screen-reader users that the arrow keys move between tiles: the grid has no role that announces it. with roving on, `tab` reaches one tile per group, while a screen reader's browse mode still reads every tile. if people get stuck, use `navigation="tab"`.
-
-## content
-
-- **legend** — a noun for what the tiles are for, one or two words: `operations`, `media`, `admin`. not `misc`, `other` or `apps`.
-- **description** — only when the legend needs it, as one short sentence.
-- **action** — one action about the group as a whole (`manage`), as a ghost button.
-- order the tiles the way people think about them, and keep that order. don't reorder by use: people find tiles by where they were.
-
-## do and don't
-
-<div className="docs-story">
-<DoDont>
-  <Do caption="the legend names what the tiles are for." column>
-    <TileGroup legend="telemetry" minTileWidth="9rem" gap="sm">
-      <Tile icon={ScrollText} title="logs" href="#" size="sm" />
-      <Tile icon={Activity} title="metrics" href="#" size="sm" />
-    </TileGroup>
-  </Do>
-  <Dont caption="misc, other, apps: a legend that names nothing makes people read every tile." column>
-    <TileGroup legend="misc" minTileWidth="9rem" gap="sm">
-      <Tile icon={ScrollText} title="logs" href="#" size="sm" />
-      <Tile icon={Film} title="video" href="#" size="sm" />
-    </TileGroup>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="columns=auto lets a narrow column hold fewer, readable tiles." column>
-    <TileGroup legend="build" columns="auto" minTileWidth="9rem" gap="sm">
-      <Tile icon={GitBranch} title="pipelines" href="#" size="sm" />
-      <Tile icon={Server} title="cluster" href="#" size="sm" />
-      <Tile icon={Database} title="database" href="#" size="sm" />
-      <Tile icon={ScrollText} title="logs" href="#" size="sm" />
-    </TileGroup>
-  </Do>
-  <Dont caption="a fixed column count keeps four columns at any width and squeezes the titles." column>
-    <TileGroup legend="run" columns={4} gap="sm">
-      <Tile icon={GitBranch} title="pipelines" href="#" size="sm" />
-      <Tile icon={Server} title="cluster" href="#" size="sm" />
-      <Tile icon={Database} title="database" href="#" size="sm" />
-      <Tile icon={ScrollText} title="logs" href="#" size="sm" />
-    </TileGroup>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="one low-weight action for the whole group." column>
-    <TileGroup legend="logs and metrics" minTileWidth="9rem" gap="sm" action={<Button variant="ghost" size="sm">manage</Button>}>
-      <Tile icon={ScrollText} title="logs" href="#" size="sm" />
-      <Tile icon={Activity} title="metrics" href="#" size="sm" />
-    </TileGroup>
-  </Do>
-  <Dont caption="a row of primary buttons on the legend competes with the tiles themselves." column>
-    <TileGroup legend="signals" minTileWidth="9rem" gap="sm" action={<><Button variant="primary" size="sm">add</Button><Button variant="primary" size="sm">sort</Button><Button variant="primary" size="sm">export</Button></>}>
-      <Tile icon={ScrollText} title="logs" href="#" size="sm" />
-      <Tile icon={Activity} title="metrics" href="#" size="sm" />
-    </TileGroup>
-  </Dont>
-</DoDont>
-</div>
 
 ## props
 
-`TileGroup` passes other `<section>` attributes and its `ref` to the section.
-
 <ArgTypes of={TileGroupStories} />
-
-## related
-
-- [tile](?path=/docs/components-navigation-tile--docs) — what goes in the grid.
-- [portal (launchpad)](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/) — groups on a launchpad, with search, favourites and one keyboard model.
-- [card](?path=/docs/components-layout-structure-card--docs) — panels of text and controls.

@@ -4,6 +4,11 @@
   border: 1px solid var(--border);
 }
 
+.nc-table__scroll:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
 .nc-table {
   width: 100%;
   border-collapse: collapse;

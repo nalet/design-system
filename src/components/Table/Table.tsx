@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
+import { useOverflowX } from '../../lib/useOverflowX';
 import './Table.css';
 
 export interface TableColumn<Row> {
@@ -39,8 +40,20 @@ export function Table<Row>({
   className,
   ...rest
 }: TableProps<Row>) {
+  // a table wider than its frame scrolls sideways; while it does, the frame is a
+  // focusable, named region so the keyboard can scroll it too.
+  const scrollRef = React.useRef<HTMLDivElement>(null);
+  const overflowing = useOverflowX(scrollRef);
+  const region = overflowing
+    ? {
+        tabIndex: 0,
+        role: 'region',
+        'aria-label': rest['aria-labelledby'] ? undefined : (rest['aria-label'] ?? 'table'),
+        'aria-labelledby': rest['aria-labelledby'],
+      }
+    : {};
   return (
-    <div className="nc-table__scroll">
+    <div ref={scrollRef} className="nc-table__scroll" {...region}>
       <table className={cx('nc-table', dense && 'nc-table--dense', className)} {...rest}>
         <thead className="nc-table__head">
           <tr>

@@ -12,6 +12,11 @@
   color: var(--cloud-cyan);
 }
 
+.nc-code--block:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
 .nc-code--block {
   display: block;
   margin: 0;

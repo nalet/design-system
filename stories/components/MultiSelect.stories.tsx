@@ -20,7 +20,7 @@ const meta: Meta<MultiSelectProps> = {
     disabled: { control: 'boolean' },
   },
   parameters: {
-    docs: { description: { component: 'a facet that keeps several values: a trigger and a panel of checkboxes.' } },
+    docs: { description: { component: 'A facet that keeps several values: a trigger and a panel of checkboxes.' } },
   },
   decorators: [(Story) => <div style={{ minHeight: 200 }}>{Story()}</div>],
 };

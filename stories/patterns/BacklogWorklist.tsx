@@ -45,7 +45,7 @@ function airedBucket(b: BacklogItem): 'week' | 'month' | 'older' {
 const grabbable = (b: BacklogItem) => b.state === 'wanted' || b.state === 'failed';
 
 export interface BacklogWorklistProps {
-  /** which data to show: the full backlog, nothing missing, or holdings unknown for everything. */
+  /** Which data to show: the full backlog, nothing missing, or holdings unknown for everything. */
   variant?: 'backlog' | 'empty' | 'unknown';
 }
 
@@ -151,7 +151,7 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
             <Button size="sm" variant="ghost" onClick={() => setTab('unknown')}>
               show them
             </Button>
-            <Button size="sm" variant="ghost" onClick={() => toast('asking the catalog again — the list follows', { state: 'information' })}>
+            <Button size="sm" variant="ghost" onClick={() => toast('Asking the catalog again — the list follows', { state: 'information' })}>
               ask the catalog again
             </Button>
           </>
@@ -168,7 +168,7 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
       <IllustratedMessage
         illustration="unknown"
         title="nothing can be checked yet"
-        description={`the library's holdings are unknown for all ${formatCount(unknownCount)} titles, so nothing is known to be missing.`}
+        description={`The library's holdings are unknown for all ${formatCount(unknownCount)} titles, so nothing is known to be missing.`}
         actions={<Button variant="primary">ask the catalog again</Button>}
       />
     );
@@ -178,7 +178,7 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
         aria-label="titles that can't be checked"
         columns={[
           { id: 'title', header: 'title', cell: (t) => t.title, sortValue: (t) => t.title },
-          { id: 'why', header: 'why', cell: () => <Text variant="muted">the catalog holds it without an identity</Text> },
+          { id: 'why', header: 'why', cell: () => <Text variant="muted">The catalog holds it without an identity</Text> },
           { id: 'item', header: 'catalog item', importance: 'low', cell: (t) => <code style={{ fontSize: 11, color: 'var(--fg-dim)' }}>{t.item}</code> },
         ]}
         rows={UNKNOWN_TITLES}
@@ -191,19 +191,19 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
       <IllustratedMessage
         illustration="empty"
         title={`${formatCount(variant === 'backlog' ? UNAIRED : 0)} not yet aired`}
-        description="episodes that have not aired are not missing yet. each joins this list on the day it airs."
+        description="Episodes that have not aired are not missing yet. Each joins this list on the day it airs."
       />
     );
   } else if (items.length === 0) {
     body = (
-      <IllustratedMessage illustration="done" title="nothing missing" description="every aired, monitored episode and movie is in the library." />
+      <IllustratedMessage illustration="done" title="nothing missing" description="Every aired, monitored episode and movie is in the library." />
     );
   } else if (filtered.length === 0) {
     body = filtersActive ? (
       <IllustratedMessage
         illustration="search"
         title="no matches"
-        description="nothing in this list fits the search and filters."
+        description="Nothing in this list fits the search and filters."
         actions={<Button onClick={clearFilters}>clear filters</Button>}
       />
     ) : (
@@ -247,7 +247,7 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
     <>
       <Worklist
         title="missing"
-        subtitle="aired, monitored and not in the library"
+        subtitle="Aired, monitored and not in the library"
         headerInfo={
           <>
             <span>holdings last asked 3h ago</span>
@@ -328,7 +328,7 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
                   label: 'ask the catalog again',
                   icon: <Icon icon={RefreshCw} size={14} />,
                   overflow: true,
-                  onSelect: () => toast('asking the catalog again — the list follows', { state: 'information' }),
+                  onSelect: () => toast('Asking the catalog again — the list follows', { state: 'information' }),
                 },
               ]}
             />

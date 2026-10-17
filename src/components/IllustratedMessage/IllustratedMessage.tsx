@@ -7,19 +7,19 @@ export type IllustratedMessageSize = 'sm' | 'md' | 'lg';
 
 export interface IllustratedMessageProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   /**
-   * which picture. empty: nothing here yet. done: nothing left to do. search:
-   * filters match nothing. error: could not load. unknown: cannot be told.
+   * Which picture. `empty`: nothing here yet. `done`: nothing left to do. `search`:
+   * filters match nothing. `error`: could not load. `unknown`: cannot be told.
    */
   illustration?: Illustration;
-  /** the headline: what is true, in a few words ("nothing missing"). */
+  /** The headline: what is true, in a few words ("nothing missing"). */
   title: React.ReactNode;
-  /** one or two sentences: why, and what the person can do. */
+  /** One or two sentences: why, and what the person can do. */
   description?: React.ReactNode;
-  /** at most one primary action, plus an optional secondary. */
+  /** At most one primary action, plus an optional secondary. */
   actions?: React.ReactNode;
-  /** sm inside a panel or table, md for a section (default), lg for a whole page. */
+  /** `sm` inside a panel or table, `md` for a section (default), `lg` for a whole page. */
   size?: IllustratedMessageSize;
-  /** the title's heading level. default 2. */
+  /** The title's heading level. Default 2. */
   headingLevel?: 2 | 3 | 4 | 5 | 6;
 }
 
@@ -85,7 +85,7 @@ const ART: Record<Illustration, React.ReactNode> = {
 /**
  * IllustratedMessage — an empty, done, no-match, error or unknown state: a
  * line illustration in the identity's style, a title that says what is true,
- * a description that says what to do, and at most one primary action. the
+ * a description that says what to do, and at most one primary action. The
  * illustration is decoration (aria-hidden); the title is a real heading.
  */
 export const IllustratedMessage = React.forwardRef<HTMLDivElement, IllustratedMessageProps>(

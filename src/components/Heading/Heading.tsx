@@ -3,15 +3,15 @@ import { cx } from '../../lib/cx';
 import './Heading.css';
 
 export interface HeadingProps extends React.HTMLAttributes<HTMLHeadingElement> {
-  /** heading level. 1 maps to h1 role, 2 to h2. default 1. */
+  /** Heading level. 1 maps to h1 role, 2 to h2. Default 1. */
   level?: 1 | 2;
-  /** prefix the heading with the brand chevron mark in cloud-blue. */
+  /** Prefix the heading with the brand chevron mark in cloud-blue. */
   chevron?: boolean;
 }
 
 /**
- * Heading — mono display type at the h1/h2 roles. always JetBrains Mono.
- * optionally led by a blue `>` to set the terminal tone.
+ * Heading — mono display type at the h1/h2 roles. Always JetBrains Mono.
+ * Optionally led by a blue `>` to set the terminal tone.
  */
 export const Heading = React.forwardRef<HTMLHeadingElement, HeadingProps>(function Heading(
   { level = 1, chevron, className, children, ...rest },

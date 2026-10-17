@@ -3,22 +3,22 @@ import { cx } from '../../lib/cx';
 import './Spinner.css';
 
 export interface SpinnerProps extends React.HTMLAttributes<HTMLSpanElement> {
-  /** width and height in px. default 16. */
+  /** Width and height in px. Default 16. */
   size?: number;
-  /** stroke color. defaults to currentColor so it inherits. */
+  /** Stroke color. Defaults to currentColor so it inherits. */
   color?: string;
-  /** accessible label announced to screen readers. default 'loading'. */
+  /** Accessible label announced to screen readers. Default 'loading'. */
   label?: string;
 }
 
-/** the share of the frame that is lit; the rest is the gap that travels round. */
+/** The share of the frame that is lit; the rest is the gap that travels round. */
 const LIT = 0.75;
 
 /**
  * Spinner — a still square frame with three quarters of it lit, the gap
- * running round it at a steady pace, one lap in four seconds. the frame never moves, so the loader
- * stays calm; only the snake says "working". under reduced motion it stands
- * still and the label carries the state. inherits currentColor.
+ * running round it at a steady pace, one lap in four seconds. The frame never moves, so the loader
+ * stays calm; only the snake says "working". Under reduced motion it stands
+ * still and the label carries the state. Inherits currentColor.
  */
 export const Spinner = React.forwardRef<HTMLSpanElement, SpinnerProps>(function Spinner(
   { size = 16, color, label = 'loading', className, style, ...rest },

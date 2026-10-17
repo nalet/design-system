@@ -6,7 +6,7 @@ const meta: Meta<ToasterProps> = {
   title: 'Components/feedback & status/toast',
   component: Toaster,
   parameters: {
-    docs: { description: { component: 'transient feedback after an action. never takes focus; leaves on its own.' } },
+    docs: { description: { component: 'Transient feedback after an action. Never takes focus; leaves on its own.' } },
   },
   decorators: [
     // every mounted <Toaster /> renders every toast. a docs page shows several
@@ -34,7 +34,7 @@ export const Playground: Story = {
       <Button variant="primary" onClick={() => toast('8 episodes queued', { state: 'success' })}>
         grab 8 selected
       </Button>
-      <Button onClick={() => toast('asking the catalog again — the list follows', { state: 'information' })}>
+      <Button onClick={() => toast('Asking the catalog again — the list follows', { state: 'information' })}>
         ask the catalog again
       </Button>
       <Button variant="ghost" onClick={() => toast('3 skipped: held already or under way')}>
@@ -48,7 +48,7 @@ export const States: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
       <Button onClick={() => toast('3 skipped: held already or under way')}>neutral</Button>
-      <Button onClick={() => toast('asking the catalog again — the list follows', { state: 'information' })}>
+      <Button onClick={() => toast('Asking the catalog again — the list follows', { state: 'information' })}>
         information
       </Button>
       <Button onClick={() => toast('8 episodes queued', { state: 'success' })}>success</Button>
@@ -80,7 +80,7 @@ export const ReplaceById: Story = {
       <Button
         onClick={() => {
           presses.current += 1;
-          toast(`asking the catalog again (${presses.current})`, { id: 'ask-again', state: 'information' });
+          toast(`Asking the catalog again (${presses.current})`, { id: 'ask-again', state: 'information' });
         }}
       >
         ask the catalog again

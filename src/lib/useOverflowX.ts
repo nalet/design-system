@@ -2,10 +2,10 @@ import * as React from 'react';
 
 /**
  * useOverflowX — whether an element's content is wider than the element, so it
- * scrolls sideways. tracked with a ResizeObserver on the element and its first
+ * scrolls sideways. Tracked with a ResizeObserver on the element and its first
  * child; false where ResizeObserver does not exist (jsdom).
  *
- * a region that scrolls must be reachable from the keyboard (wcag 2.1.1): a
+ * A region that scrolls must be reachable from the keyboard (WCAG 2.1.1): a
  * component makes its scroll frame focusable and named only while this is true.
  */
 export function useOverflowX(ref: React.RefObject<HTMLElement | null>): boolean {

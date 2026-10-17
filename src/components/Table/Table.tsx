@@ -4,13 +4,13 @@ import { useOverflowX } from '../../lib/useOverflowX';
 import './Table.css';
 
 export interface TableColumn<Row> {
-  /** column key, used for the cell value when no `render` is given. */
+  /** Column key, used for the cell value when no `render` is given. */
   key: keyof Row & string;
-  /** header label, lowercase. */
+  /** Header label, lowercase. */
   header: React.ReactNode;
-  /** custom cell renderer. */
+  /** Custom cell renderer. */
   render?: (row: Row, index: number) => React.ReactNode;
-  /** text alignment. default left. */
+  /** Text alignment. Default left. */
   align?: 'left' | 'right' | 'center';
   /** fixed/min width. */
   width?: string | number;
@@ -19,17 +19,17 @@ export interface TableColumn<Row> {
 export interface TableProps<Row> extends React.TableHTMLAttributes<HTMLTableElement> {
   columns: TableColumn<Row>[];
   rows: Row[];
-  /** stable key per row. defaults to the row index. */
+  /** Stable key per row. Defaults to the row index. */
   rowKey?: (row: Row, index: number) => React.Key;
-  /** tighter cell padding. */
+  /** Tighter cell padding. */
   dense?: boolean;
-  /** shown when rows is empty. */
+  /** Shown when rows is empty. */
   empty?: React.ReactNode;
 }
 
 /**
- * Table — a hairline-grid data table with mono headers. square, no zebra by
- * default (terminal rows). pass `columns` + `rows`, or use the primitives.
+ * Table — a hairline-grid data table with mono headers. Square, no zebra by
+ * default (terminal rows). Pass `columns` + `rows`, or use the primitives.
  */
 export function Table<Row>({
   columns,

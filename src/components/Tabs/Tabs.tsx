@@ -3,26 +3,26 @@ import { cx } from '../../lib/cx';
 import './Tabs.css';
 
 export interface TabItem {
-  /** unique value/id for the tab. */
+  /** Unique value/id for the tab. */
   value: string;
-  /** label, lowercase. */
+  /** Label, lowercase. */
   label: React.ReactNode;
   disabled?: boolean;
 }
 
 export interface TabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   items: TabItem[];
-  /** controlled selected value. */
+  /** Controlled selected value. */
   value?: string;
-  /** uncontrolled initial value. */
+  /** Uncontrolled initial value. */
   defaultValue?: string;
   onChange?: (value: string) => void;
 }
 
 /**
  * Tabs — a row of mono tab triggers with a cloud-blue active underline.
- * controlled via `value`/`onChange` or uncontrolled via `defaultValue`.
- * roving arrow-key focus, square corners.
+ * Controlled via `value`/`onChange` or uncontrolled via `defaultValue`.
+ * Roving arrow-key focus, square corners.
  */
 export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(function Tabs(
   { items, value, defaultValue, onChange, className, ...rest },

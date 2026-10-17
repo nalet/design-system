@@ -23,7 +23,7 @@ const meta: Meta<DataTableProps<BacklogItem>> = {
     docs: {
       description: {
         component:
-          'the interactive table: sorting, selection, grouping, growing, pop-in and a row-focus keyboard model.',
+          'The interactive table: sorting, selection, grouping, growing, pop-in and a row-focus keyboard model.',
       },
     },
   },
@@ -202,7 +202,7 @@ export const Empty: Story = {
       columns={BACKLOG_COLUMNS}
       rows={[]}
       rowKey={(b) => b.id}
-      empty={<IllustratedMessage illustration="done" size="sm" title="nothing missing" description="every aired episode is in the library." headingLevel={3} />}
+      empty={<IllustratedMessage illustration="done" size="sm" title="nothing missing" description="Every aired episode is in the library." headingLevel={3} />}
     />
   ),
 };
@@ -216,9 +216,9 @@ export const Loading: Story = {
 const THREE_THOUSAND = makeBacklog({ episodes: 2860, series: 120, movies: 140, seed: 11 });
 
 /**
- * every row rendered at once — no growing — to measure the worst case. the a11y
+ * Every row rendered at once — no growing — to measure the worst case. The a11y
  * panel is off here: axe over ~80,000 nodes takes seconds and would be measured
- * instead of the table. the same table is checked at 100 rows in "growing".
+ * instead of the table. The same table is checked at 100 rows in "growing".
  */
 export const ThreeThousandRows: Story = {
   name: '3,000 rows, grouped, no growing',

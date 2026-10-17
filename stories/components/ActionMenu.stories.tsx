@@ -25,7 +25,7 @@ const meta: Meta<ActionMenuProps> = {
     buttonLabel: { control: 'text' },
   },
   parameters: {
-    docs: { description: { component: 'actions behind one trigger: a menu button and a menu of verbs.' } },
+    docs: { description: { component: 'Actions behind one trigger: a menu button and a menu of verbs.' } },
   },
 };
 export default meta;

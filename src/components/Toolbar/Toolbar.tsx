@@ -9,42 +9,42 @@ import './Toolbar.css';
 
 export interface ToolbarAction {
   id: string;
-  /** a verb and its object, lowercase: "grab 8 selected". */
+  /** A verb and its object, lowercase: "grab 8 selected". */
   label: string;
   onSelect: () => void;
-  /** decoration before the label. */
+  /** Decoration before the label. */
   icon?: React.ReactNode;
-  /** the one emphasized action of the toolbar. at most one. */
+  /** The one emphasized action of the toolbar. At most one. */
   emphasized?: boolean;
   disabled?: boolean;
   loading?: boolean;
-  /** an action that deletes or cannot be undone. */
+  /** An action that deletes or cannot be undone. */
   danger?: boolean;
-  /** always in the overflow menu, never inline. */
+  /** Always in the overflow menu, never inline. */
   overflow?: boolean;
 }
 
 export interface ToolbarProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
-  /** the toolbar's accessible name ("missing episodes"). */
+  /** The toolbar's accessible name ("missing episodes"). */
   label: string;
-  /** the left side: what the actions act on, often with a count. */
+  /** The left side: what the actions act on, often with a count. */
   heading?: React.ReactNode;
-  /** emphasized first, then default actions, then the overflow menu. */
+  /** Emphasized first, then default actions, then the overflow menu. */
   actions?: ToolbarAction[];
-  /** below this width (px) every non-emphasized action moves into the overflow menu. default 560. */
+  /** Below this width (px) every non-emphasized action moves into the overflow menu. Default 560. */
   collapseBelow?: number;
-  /** the overflow trigger's accessible name. default "more actions". */
+  /** The overflow trigger's accessible name. Default "more actions". */
   overflowLabel?: string;
-  /** extra content between the heading and the actions. */
+  /** Extra content between the heading and the actions. */
   children?: React.ReactNode;
 }
 
 const FOCUSABLE = 'button:not([disabled]), [href], input:not([disabled]), select:not([disabled])';
 
 /**
- * Toolbar — a row of actions above the content they act on. one action may be
+ * Toolbar — a row of actions above the content they act on. One action may be
  * emphasized (primary); the others are default buttons, and whatever does not
- * fit — or is marked overflow — goes into a "more" menu. role=toolbar with one
+ * fit — or is marked overflow — goes into a "more" menu. `role=toolbar` with one
  * tab stop: arrow keys move between its controls.
  */
 export const Toolbar = React.forwardRef<HTMLDivElement, ToolbarProps>(function Toolbar(
@@ -189,32 +189,32 @@ export const Toolbar = React.forwardRef<HTMLDivElement, ToolbarProps>(function T
 export interface SelectionToolbarAction extends Omit<ToolbarAction, 'id' | 'emphasized' | 'overflow'> {}
 
 export interface SelectionToolbarProps extends Omit<ToolbarProps, 'heading' | 'actions'> {
-  /** how many items are selected. */
+  /** How many items are selected. */
   selectedCount: number;
-  /** shown on the left while nothing is selected: what the list holds ("2,500 missing"). */
+  /** Shown on the left while nothing is selected: what the list holds ("2,500 missing"). */
   heading?: React.ReactNode;
   /**
-   * the one emphasized action, given the selection: `(n) => ({ label: \`grab ${n} selected\`, … })`.
-   * return null for no emphasized action (e.g. while nothing is selected).
+   * The one emphasized action, given the selection: `(n) => ({ label: \`grab ${n} selected\`, … })`.
+   * Return null for no emphasized action (e.g. while nothing is selected).
    */
   primaryAction?: (selectedCount: number) => SelectionToolbarAction | null;
-  /** the other actions; never emphasized. */
+  /** The other actions; never emphasized. */
   actions?: ToolbarAction[];
-  /** shows "clear" next to the count while something is selected. */
+  /** Shows "clear" next to the count while something is selected. */
   onClearSelection?: () => void;
-  /** the clear button's label. default "clear". */
+  /** The clear button's label. Default "clear". */
   clearLabel?: string;
-  /** offer to extend the selection, e.g. "select all 2,500" when only the visible rows are selected. */
+  /** Offer to extend the selection, e.g. "select all 2,500" when only the visible rows are selected. */
   selectAll?: { label: string; onSelect: () => void } | null;
-  /** how the count reads. default "8 selected". */
+  /** How the count reads. Default "8 selected". */
   formatSelected?: (selectedCount: number) => string;
 }
 
 /**
- * SelectionToolbar — the toolbar of a list whose rows can be selected. while
+ * SelectionToolbar — the toolbar of a list whose rows can be selected. While
  * nothing is selected it shows the heading; once something is, it shows the
  * count, a clear button and the emphasized action for exactly that selection
- * ("grab 8 selected"). changes of the count are announced politely.
+ * ("grab 8 selected"). Changes of the count are announced politely.
  */
 export const SelectionToolbar = React.forwardRef<HTMLDivElement, SelectionToolbarProps>(
   function SelectionToolbar(

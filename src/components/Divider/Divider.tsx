@@ -3,17 +3,17 @@ import { cx } from '../../lib/cx';
 import './Divider.css';
 
 export interface DividerProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** axis of the rule. default horizontal. */
+  /** Axis of the rule. Default horizontal. */
   orientation?: 'horizontal' | 'vertical';
-  /** use the heavier divider token. default false (hairline). */
+  /** Use the heavier divider token. Default false (hairline). */
   heavy?: boolean;
-  /** optional inline label, centered on the rule (horizontal only). */
+  /** Optional inline label, centered on the rule (horizontal only). */
   label?: React.ReactNode;
 }
 
 /**
- * Divider — a hairline rule in var(--border). heavier variant uses --border-2.
- * optionally carries a small mono label split across the line.
+ * Divider — a hairline rule in var(--border). Heavier variant uses --border-2.
+ * Optionally carries a small mono label split across the line.
  */
 export const Divider = React.forwardRef<HTMLDivElement, DividerProps>(function Divider(
   { orientation = 'horizontal', heavy, label, className, ...rest },

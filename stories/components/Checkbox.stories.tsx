@@ -6,7 +6,7 @@ const meta: Meta<CheckboxProps> = {
   title: 'Components/inputs/checkbox',
   component: Checkbox,
   args: {
-    label: 'send a weekly summary',
+    label: 'Send a weekly summary',
     defaultChecked: false,
     indeterminate: false,
     disabled: false,
@@ -21,7 +21,7 @@ const meta: Meta<CheckboxProps> = {
     docs: {
       description: {
         component:
-          'a square box that turns one option on or off in a form that is saved later, with a mixed (indeterminate) state and an optional label.',
+          'A square box that turns one option on or off in a form that is saved later, with a mixed (indeterminate) state and an optional label.',
       },
     },
   },
@@ -40,7 +40,7 @@ const legend = {
   color: 'var(--fg-2)',
 } as const;
 
-/** a parent box whose children are partly on: a click turns them all on, the next all off. */
+/** A parent box whose children are partly on: a click turns them all on, the next all off. */
 function MixedParent(props: CheckboxProps) {
   const [on, setOn] = useState<boolean | 'mixed'>('mixed');
   return (
@@ -58,11 +58,11 @@ export const Playground: Story = {};
 export const States: Story = {
   render: () => (
     <div style={stack}>
-      <Checkbox label="include archived items" />
-      <Checkbox label="send a weekly summary" defaultChecked />
-      <MixedParent label="all volumes" />
-      <Checkbox label="notify the owner" disabled />
-      <Checkbox label="keep snapshots" defaultChecked disabled />
+      <Checkbox label="Include archived items" />
+      <Checkbox label="Send a weekly summary" defaultChecked />
+      <MixedParent label="All volumes" />
+      <Checkbox label="Notify the owner" disabled />
+      <Checkbox label="Keep snapshots" defaultChecked disabled />
     </div>
   ),
 };
@@ -70,12 +70,12 @@ export const States: Story = {
 export const Group: Story = {
   render: () => (
     <fieldset style={{ border: 0, margin: 0, padding: 0, minWidth: 0 }}>
-      <legend style={legend}>notify me about</legend>
+      <legend style={legend}>Notify me about</legend>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
-        <Checkbox label="failed releases" defaultChecked />
-        <Checkbox label="finished releases" defaultChecked />
-        <Checkbox label="new comments" />
-        <Checkbox label="weekly summary" />
+        <Checkbox label="Failed releases" defaultChecked />
+        <Checkbox label="Finished releases" defaultChecked />
+        <Checkbox label="New comments" />
+        <Checkbox label="Weekly summary" />
       </div>
     </fieldset>
   ),
@@ -96,7 +96,7 @@ export const Interactive: Story = {
 
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
-        <Checkbox label="back up all volumes" checked={allOn} indeterminate={someOn} onChange={toggleAll} />
+        <Checkbox label="Back up all volumes" checked={allOn} indeterminate={someOn} onChange={toggleAll} />
         <div
           style={{
             display: 'flex',

@@ -3,13 +3,13 @@ import { cx } from '../../lib/cx';
 import './Textarea.css';
 
 export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  /** paint the error border (--state-error) and set aria-invalid. */
+  /** Paint the error border (--state-error) and set aria-invalid. */
   invalid?: boolean;
 }
 
 /**
- * Textarea — a square multiline field. mono text, hairline border, cyan focus.
- * vertical resize only.
+ * Textarea — a square multiline field. Mono text, hairline border, cyan focus.
+ * Vertical resize only.
  */
 export const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(function Textarea(
   { invalid, className, rows = 4, ...rest },

@@ -3,15 +3,15 @@ import { cx } from '../../lib/cx';
 import './Checkbox.css';
 
 export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
-  /** label rendered beside the box. */
+  /** Label rendered beside the box. */
   label?: React.ReactNode;
-  /** render the indeterminate dash state. */
+  /** Render the indeterminate dash state. */
   indeterminate?: boolean;
 }
 
 /**
- * Checkbox — a square checkbox with a blue fill when on. supports the
- * indeterminate dash. label sits to the right in ui type.
+ * Checkbox — a square checkbox with a blue fill when on. Supports the
+ * indeterminate dash. Label sits to the right in ui type.
  */
 export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(
   { label, indeterminate = false, disabled, className, id, ...rest },

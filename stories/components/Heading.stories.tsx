@@ -18,7 +18,7 @@ const meta: Meta<HeadingProps> = {
     docs: {
       description: {
         component:
-          'mono display heading for the page title (h1) and its sections (h2), optionally led by the blue chevron.',
+          'Mono display heading for the page title (h1) and its sections (h2), optionally led by the blue chevron.',
       },
     },
   },
@@ -47,7 +47,7 @@ export const WithChevron: Story = {
   ),
 };
 
-/** a page title with its first section. */
+/** A page title with its first section. */
 export const SectionHeader: Story = {
   name: 'section header',
   render: () => (
@@ -56,12 +56,12 @@ export const SectionHeader: Story = {
         <Heading level={1} chevron>
           storage-01
         </Heading>
-        <Text variant="muted">412 gb used of 1 tb, 3 snapshots</Text>
+        <Text variant="muted">412 GB used of 1 TB, 3 snapshots</Text>
       </Stack>
       <Stack gap={8}>
         <Heading level={2}>backups</Heading>
         <Text as="p" variant="body">
-          backups run every night at 02:00 and are kept for 14 days.
+          Backups run every night at 02:00 and are kept for 14 days.
         </Text>
       </Stack>
     </Stack>

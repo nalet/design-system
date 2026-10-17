@@ -12,13 +12,13 @@ describe('IllustratedMessage', () => {
       <IllustratedMessage
         illustration="done"
         title="nothing missing"
-        description="every aired episode is in the library."
+        description="Every aired episode is in the library."
         actions={<Button>refresh</Button>}
         headingLevel={3}
       />,
     );
     expect(screen.getByRole('heading', { level: 3, name: 'nothing missing' })).toBeInTheDocument();
-    expect(screen.getByText('every aired episode is in the library.')).toBeInTheDocument();
+    expect(screen.getByText('Every aired episode is in the library.')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: 'refresh' })).toBeInTheDocument();
     expect(container.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
   });
@@ -35,7 +35,7 @@ describe('IllustratedMessage', () => {
 
   it.each(ALL)('has no axe violations (%s)', async (kind) => {
     const { container } = render(
-      <IllustratedMessage illustration={kind} title="title" description="description" actions={<Button>act</Button>} />,
+      <IllustratedMessage illustration={kind} title="title" description="Description" actions={<Button>act</Button>} />,
     );
     await expectNoAxeViolations(container);
   });

@@ -23,15 +23,15 @@ const meta: Meta<TileProps> = {
     docs: {
       description: {
         component:
-          'a square launch tile. an app tile (icon + title + description) or a kpi tile ' +
-          '(value + unit + trend). renders an `<a>` for href, a `<button>` for onClick, or a ' +
-          'plain panel when it is display-only. the whole tile is the target.',
+          'A square launch tile. An app tile (icon + title + description) or a KPI tile ' +
+          '(value + unit + trend). Renders an `<a>` for href, a `<button>` for onClick, or a ' +
+          'plain panel when it is display-only. The whole tile is the target.',
       },
     },
   },
   args: {
     title: 'pipelines',
-    description: 'builds and releases',
+    description: 'Builds and releases',
     icon: GitBranch,
     variant: 'app',
     size: 'md',
@@ -69,8 +69,8 @@ export const Playground: Story = {
 export const App: Story = {
   render: () => (
     <TileGroup legend="workspace" columns="auto" minTileWidth="13rem">
-      <Tile icon={GitBranch} title="pipelines" description="builds and releases" href="#" />
-      <Tile icon={Server} title="cluster" description="nodes and workloads" href="#" />
+      <Tile icon={GitBranch} title="pipelines" description="Builds and releases" href="#" />
+      <Tile icon={Server} title="cluster" description="Nodes and workloads" href="#" />
       <Tile icon={Database} title="database" description="db-0, the primary" href="#" status="online" />
     </TileGroup>
   ),
@@ -112,9 +112,9 @@ export const Badges: Story = {
   render: () => (
     <TileGroup legend="badges" columns="auto" minTileWidth="13rem">
       <Tile icon={Activity} title="metrics" description="3 alerts open" href="#" badge={3} badgeTone="warning" />
-      <Tile icon={Gauge} title="reports" description="monthly usage" href="#" badge="new" badgeTone="info" />
-      <Tile icon={Archive} title="backups" description="last run at 02:00" href="#" badge="failed" badgeTone="danger" />
-      <Tile icon={ScrollText} title="logs" description="live tail" href="#" badge="paused" badgeTone="neutral" />
+      <Tile icon={Gauge} title="reports" description="Monthly usage" href="#" badge="new" badgeTone="info" />
+      <Tile icon={Archive} title="backups" description="Last run at 02:00" href="#" badge="failed" badgeTone="danger" />
+      <Tile icon={ScrollText} title="logs" description="Live tail" href="#" badge="paused" badgeTone="neutral" />
     </TileGroup>
   ),
 };
@@ -123,10 +123,10 @@ export const Status: Story = {
   name: 'status dots',
   render: () => (
     <TileGroup legend="service health" columns="auto" minTileWidth="11rem">
-      <Tile icon={Server} title="api" description="all workers up" href="#" status="online" />
+      <Tile icon={Server} title="api" description="All workers up" href="#" status="online" />
       <Tile icon={Server} title="queue" description="2 of 3 workers down" href="#" status="degraded" />
-      <Tile icon={Server} title="worker" description="not responding" href="#" status="offline" />
-      <Tile icon={Server} title="scheduler" description="no recent check" href="#" status="unknown" />
+      <Tile icon={Server} title="worker" description="Not responding" href="#" status="offline" />
+      <Tile icon={Server} title="scheduler" description="No recent check" href="#" status="unknown" />
     </TileGroup>
   ),
 };
@@ -137,20 +137,20 @@ export const States: Story = {
       <Tile
         icon={Settings}
         title="settings"
-        description="the current app"
+        description="The current app"
         href="#"
         selected
         aria-current="page"
       />
-      <Tile icon={Archive} title="archive" description="read-only during the move" disabled />
+      <Tile icon={Archive} title="archive" description="Read-only during the move" disabled />
       <Tile
         icon={BookOpen}
         title="docs"
-        description="opens in a new tab"
+        description="Opens in a new tab"
         href="https://example.com"
         external
       />
-      <Tile icon={Timer} title="uptime" description="display only, no link" />
+      <Tile icon={Timer} title="uptime" description="Display only, no link" />
     </TileGroup>
   ),
 };
@@ -158,9 +158,9 @@ export const States: Story = {
 export const Sizes: Story = {
   render: () => (
     <TileGroup legend="sizes" columns="auto" minTileWidth="13rem">
-      <Tile icon={Server} title="sm" description="compact" href="#" size="sm" />
-      <Tile icon={Server} title="md" description="default" href="#" size="md" />
-      <Tile icon={Server} title="lg" description="roomy" href="#" size="lg" />
+      <Tile icon={Server} title="sm" description="Compact" href="#" size="sm" />
+      <Tile icon={Server} title="md" description="Default" href="#" size="md" />
+      <Tile icon={Server} title="lg" description="Roomy" href="#" size="lg" />
     </TileGroup>
   ),
 };

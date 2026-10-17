@@ -5,36 +5,36 @@ import '../../lib/a11y.css';
 import './MessageStrip.css';
 
 export interface MessageStripProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
-  /** the message's meaning. default information. */
+  /** The message's meaning. Default information. */
   state?: ObjectState;
   /**
-   * the message: one or two human sentences that say what is true and what it
-   * means. no ids, codes or raw errors here — they go in `details`.
+   * The message: one or two human sentences that say what is true and what it
+   * means. No IDs, codes or raw errors here — they go in `details`.
    */
   children: React.ReactNode;
-  /** actions after the text: one or two ghost buttons or links ("show them", "ask again"). */
+  /** Actions after the text: one or two ghost buttons or links ("show them", "ask again"). */
   actions?: React.ReactNode;
-  /** technical detail (ids, raw reasons) behind a disclosure, shown in mono. */
+  /** Technical detail (IDs, raw reasons) behind a disclosure, shown in mono. */
   details?: React.ReactNode;
-  /** the disclosure's label. default "details". */
+  /** The disclosure's label. Default "details". */
   detailsLabel?: string;
-  /** open the details initially. */
+  /** Open the details initially. */
   defaultDetailsOpen?: boolean;
-  /** shows a dismiss button when set. */
+  /** Shows a dismiss button when set. */
   onDismiss?: () => void;
-  /** the dismiss button's accessible name. default "dismiss". */
+  /** The dismiss button's accessible name. Default "dismiss". */
   dismissLabel?: string;
   /**
-   * how the text is announced when it appears or changes: "polite"
-   * (role=status), "assertive" (role=alert) or "off". default: assertive for
+   * How the text is announced when it appears or changes: "polite"
+   * (role=status), "assertive" (role=alert) or "off". Default: assertive for
    * error, polite otherwise.
    */
   live?: 'polite' | 'assertive' | 'off';
-  /** show the state's glyph (default), hide it, or pass your own. */
+  /** Show the state's glyph (default), hide it, or pass your own. */
   icon?: boolean | React.ReactNode;
   /**
-   * the word read before the text: the state's name ("warning: …") by default
-   * for every state but neutral. a string translates it; false omits it.
+   * The word read before the text: the state's name ("warning: …") by default
+   * for every state but neutral. A string translates it; false omits it.
    */
   stateLabel?: string | false;
 }
@@ -42,7 +42,7 @@ export interface MessageStripProps extends Omit<React.HTMLAttributes<HTMLDivElem
 /**
  * MessageStrip — a page-level message about the screen's content: a square
  * strip with a state rule, a glyph, human text, optional actions, an optional
- * "details" disclosure for the technical part, and an optional dismiss. the
+ * "details" disclosure for the technical part, and an optional dismiss. The
  * text alone is the live region, so an announcement never reads the buttons.
  */
 export const MessageStrip = React.forwardRef<HTMLDivElement, MessageStripProps>(function MessageStrip(

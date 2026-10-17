@@ -2,7 +2,7 @@ import * as React from 'react';
 
 /**
  * useElementWidth — the current content-box width of an element, tracked with
- * a ResizeObserver. returns null until measured (and always in environments
+ * a ResizeObserver. Returns null until measured (and always in environments
  * without ResizeObserver, e.g. jsdom), so callers treat null as "wide".
  */
 export function useElementWidth(ref: React.RefObject<HTMLElement | null>): number | null {

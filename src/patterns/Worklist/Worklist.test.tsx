@@ -16,7 +16,7 @@ function Harness() {
   return (
     <Worklist
       title="missing"
-      subtitle="aired, monitored and not in the library"
+      subtitle="Aired, monitored and not in the library"
       headingLevel={2}
       tabs={[
         { id: 'all', label: 'missing', count: 0 },

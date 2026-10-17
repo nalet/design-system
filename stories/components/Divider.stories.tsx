@@ -17,7 +17,7 @@ const meta: Meta<DividerProps> = {
     docs: {
       description: {
         component:
-          'a 1px rule in the border token; heavy uses border-2, and a horizontal rule can carry a short mono label split across the line.',
+          'A 1px rule in the border token; heavy uses border-2, and a horizontal rule can carry a short mono label split across the line.',
       },
     },
   },
@@ -39,12 +39,12 @@ export const Horizontal: Story = {
     <Stack gap={12} style={{ width: 320 }}>
       <Stack gap={4}>
         <Text variant="ui">storage-01</Text>
-        <Text variant="muted">412 gb used of 1 tb</Text>
+        <Text variant="muted">412 GB used of 1 TB</Text>
       </Stack>
       <Divider />
       <Stack gap={4}>
-        <Text variant="ui">backups</Text>
-        <Text variant="muted">every night at 02:00, kept 14 days</Text>
+        <Text variant="ui">Backups</Text>
+        <Text variant="muted">Every night at 02:00, kept 14 days</Text>
       </Stack>
     </Stack>
   ),
@@ -53,9 +53,9 @@ export const Horizontal: Story = {
 export const Heavy: Story = {
   render: () => (
     <Stack gap={12} style={{ width: 320 }}>
-      <Text variant="dim">default</Text>
+      <Text variant="dim">Default</Text>
       <Divider />
-      <Text variant="dim">heavy</Text>
+      <Text variant="dim">Heavy</Text>
       <Divider heavy />
     </Stack>
   ),
@@ -64,11 +64,11 @@ export const Heavy: Story = {
 export const Labeled: Story = {
   render: () => (
     <Stack gap={12} style={{ width: 320 }}>
-      <Text variant="ui">run #1543</Text>
+      <Text variant="ui">Run #1543</Text>
       <Divider label="older" />
-      <Text variant="ui">run #1502</Text>
+      <Text variant="ui">Run #1502</Text>
       <Divider label="archived" heavy />
-      <Text variant="ui">run #1388</Text>
+      <Text variant="ui">Run #1388</Text>
     </Stack>
   ),
 };
@@ -78,9 +78,9 @@ export const Vertical: Story = {
     <Stack direction="horizontal" gap={12} align="center" style={{ height: 'var(--s-5)' }}>
       <Text variant="muted">12 volumes</Text>
       <Divider orientation="vertical" />
-      <Text variant="muted">1.2 tb used</Text>
+      <Text variant="muted">1.2 TB used</Text>
       <Divider orientation="vertical" heavy />
-      <Text variant="muted">updated 3 min ago</Text>
+      <Text variant="muted">Updated 3 min ago</Text>
     </Stack>
   ),
 };

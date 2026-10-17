@@ -22,18 +22,18 @@ const meta: Meta<SelectProps> = {
     selectSize: {
       control: 'inline-radio',
       options: ['sm', 'md', 'lg'],
-      description: 'height: sm 28px, md 34px, lg 42px.',
+      description: 'Height: sm 28px, md 34px, lg 42px.',
     },
     invalid: {
       control: 'boolean',
-      description: 'paint the error border (--state-error) and set aria-invalid.',
+      description: 'Paint the error border (--state-error) and set aria-invalid.',
     },
     disabled: { control: 'boolean' },
     options: {
       control: false,
       // the source comment says children take precedence; the code renders options when both are given.
       description:
-        'declarative options: { label, value, disabled? }. when both options and children are passed, options win and the children are ignored.',
+        'Declarative options: { label, value, disabled? }. When both options and children are passed, options win and the children are ignored.',
     },
     children: { control: false },
   },
@@ -41,7 +41,7 @@ const meta: Meta<SelectProps> = {
     docs: {
       description: {
         component:
-          'a square, native drop-down for choosing one value from a list, with a small cloud-blue chevron. pass options or <option> children.',
+          'A square, native drop-down for choosing one value from a list, with a small cloud-blue chevron. Pass options or <option> children.',
       },
     },
   },

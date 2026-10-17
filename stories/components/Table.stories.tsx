@@ -46,9 +46,9 @@ const meta: Meta<TableProps<Workload>> = {
   argTypes: {
     columns: {
       control: false,
-      description: 'the columns, in order: key, header, and optional render, align and width.',
+      description: 'The columns, in order: key, header, and optional render, align and width.',
     },
-    rows: { control: 'object', description: 'the records, one per row. empty shows the empty row.' },
+    rows: { control: 'object', description: 'The records, one per row. Empty shows the empty row.' },
     rowKey: { control: false },
     dense: { control: 'boolean' },
     empty: { control: 'text' },
@@ -57,7 +57,7 @@ const meta: Meta<TableProps<Workload>> = {
     docs: {
       description: {
         component:
-          'a hairline-grid table for reading records: mono cells, lowercase mono headers, no zebra. pass columns and rows, or build one from the primitives. for sorting, selection or keyboard navigation use the data table.',
+          'A hairline-grid table for reading records: mono cells, lowercase mono headers, no zebra. Pass columns and rows, or build one from the primitives. For sorting, selection or keyboard navigation use the data table.',
       },
     },
   },
@@ -142,7 +142,7 @@ const space: Space[] = [
   { volume: 'storage-03', used: 780, free: 244 },
 ];
 
-/** hand-built from the primitives: a grouped header the columns api can't express. */
+/** Hand-built from the primitives: a grouped header the columns API can't express. */
 export const Primitives: Story = {
   name: 'primitives',
   render: () => (
@@ -206,7 +206,7 @@ const placementColumns: TableColumn<Placement>[] = [
   { key: 'image', header: 'image' },
 ];
 
-/** wider than its container: the frame scrolls sideways, the page doesn't. */
+/** Wider than its container: the frame scrolls sideways, the page doesn't. */
 export const Overflow: Story = {
   name: 'overflow',
   render: () => (

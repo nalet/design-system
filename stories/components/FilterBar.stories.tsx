@@ -13,7 +13,7 @@ const meta: Meta<FilterBarProps> = {
   },
   parameters: {
     layout: 'padded',
-    docs: { description: { component: 'what narrows a list: search, facets, clear all, and what is left.' } },
+    docs: { description: { component: 'What narrows a list: search, facets, clear all, and what is left.' } },
   },
   // room under the bar for an open multi select panel.
   decorators: [(Story) => <div style={{ minHeight: 240 }}>{Story()}</div>],

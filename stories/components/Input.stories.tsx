@@ -24,7 +24,7 @@ const meta: Meta<InputProps> = {
     docs: {
       description: {
         component:
-          'a square, single-line text field in mono type, with optional leading and trailing affixes. put it in a field for its label, hint and error.',
+          'A square, single-line text field in mono type, with optional leading and trailing affixes. Put it in a field for its label, hint and error.',
       },
     },
   },

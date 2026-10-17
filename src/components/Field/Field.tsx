@@ -2,7 +2,7 @@ import * as React from 'react';
 import { cx } from '../../lib/cx';
 import './Field.css';
 
-/** the props Field reads from and passes to its control. */
+/** The props Field reads from and passes to its control. */
 export interface FieldControlProps {
   id?: string;
   'aria-describedby'?: string;
@@ -11,23 +11,23 @@ export interface FieldControlProps {
 }
 
 export interface FieldProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'children'> {
-  /** field label, lowercase. */
+  /** Field label, in sentence case: it is set in the body face and shown as written. */
   label?: React.ReactNode;
-  /** helper text below the control. */
+  /** Helper text below the control. */
   hint?: React.ReactNode;
-  /** error text. when set, replaces the hint, renders in --state-error and marks the control invalid. */
+  /** Error text. When set, replaces the hint, renders in --state-error and marks the control invalid. */
   error?: React.ReactNode;
-  /** mark the field required (adds a subtle marker). */
+  /** Mark the field required (adds a subtle marker). */
   required?: boolean;
-  /** the control to wrap. receives id / aria-describedby / aria-invalid. */
+  /** The control to wrap. Receives `id` / `aria-describedby` / `aria-invalid`. */
   children: React.ReactElement<FieldControlProps>;
-  /** id for the control. auto-generated when omitted. */
+  /** ID for the control. Auto-generated when omitted. */
   htmlFor?: string;
 }
 
 /**
- * Field — label + control + hint/error in a vertical stack. wires the control's
- * id, aria-describedby and aria-invalid so it stays accessible by default.
+ * Field — label + control + hint/error in a vertical stack. Wires the control's
+ * `id`, `aria-describedby` and `aria-invalid` so it stays accessible by default.
  */
 export const Field = React.forwardRef<HTMLDivElement, FieldProps>(function Field(
   { label, hint, error, required, children, htmlFor, className, ...rest },

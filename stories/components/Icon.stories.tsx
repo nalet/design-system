@@ -47,7 +47,7 @@ const meta: Meta<IconProps> = {
   parameters: {
     docs: {
       description: {
-        component: 'a lucide icon at the system defaults: 16px, a 1.75 stroke, currentColor, hidden from assistive tech unless named.',
+        component: 'A Lucide icon at the system defaults: 16px, a 1.75 stroke, currentColor, hidden from assistive tech unless named.',
       },
     },
   },
@@ -83,7 +83,7 @@ const GLYPHS: [string, LucideIcon][] = [
   ['Settings', Settings],
 ];
 
-/** a few lucide glyphs at the default size. */
+/** A few Lucide glyphs at the default size. */
 export const Gallery: Story = {
   name: 'gallery',
   render: () => (
@@ -109,7 +109,7 @@ export const Gallery: Story = {
   ),
 };
 
-/** the four sizes the components use. */
+/** The four sizes the components use. */
 export const Sizes: Story = {
   name: 'sizes',
   render: () => (

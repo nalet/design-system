@@ -4,40 +4,40 @@ import { FilterTabs, filterTabId, type FilterTab } from '../../components/Filter
 import './Worklist.css';
 
 export interface WorklistProps extends Omit<React.HTMLAttributes<HTMLElement>, 'title'> {
-  /** what the list is, lowercase: "missing". */
+  /** What the list is, lowercase: "missing". */
   title: React.ReactNode;
-  /** one line on what is in it and why: "aired, monitored and not in the library". */
+  /** One line on what is in it and why: "Aired, monitored and not in the library". */
   subtitle?: React.ReactNode;
-  /** the title's heading level. 1 when the worklist is the page; 2 inside an app shell that owns the h1. */
+  /** The title's heading level. 1 when the worklist is the page; 2 inside an app shell that owns the h1. */
   headingLevel?: 1 | 2 | 3;
-  /** a quiet line of facts under the subtitle (last checked, what runs on its own). */
+  /** A quiet line of facts under the subtitle (last checked, what runs on its own). */
   headerInfo?: React.ReactNode;
-  /** page-level actions, top right. rare: list actions belong in the toolbar. */
+  /** Page-level actions, top right. Rare: list actions belong in the toolbar. */
   headerActions?: React.ReactNode;
 
-  /** key-figure tabs that filter the list ("needs attention 3"). */
+  /** Key-figure tabs that filter the list ("needs attention 3"). */
   tabs?: FilterTab[];
   activeTab?: string;
   onTabChange?: (id: string) => void;
-  /** the tablist's accessible name. default "filter the list". */
+  /** The tablist's accessible name. Default "filter the list". */
   tabsLabel?: string;
 
-  /** at most one or two message strips about the list as a whole. */
+  /** At most one or two message strips about the list as a whole. */
   messages?: React.ReactNode;
-  /** a FilterBar. */
+  /** A FilterBar. */
   filterBar?: React.ReactNode;
-  /** a Toolbar or SelectionToolbar, attached to the top of the table. */
+  /** A Toolbar or SelectionToolbar, attached to the top of the table. */
   toolbar?: React.ReactNode;
-  /** the toolbar sticks to the top while the list scrolls, and the table header under it. default true. */
+  /** The toolbar sticks to the top while the list scrolls, and the table header under it. Default true. */
   stickyToolbar?: boolean;
-  /** the DataTable — or the IllustratedMessage when there is nothing to show. */
+  /** The DataTable — or the IllustratedMessage when there is nothing to show. */
   children: React.ReactNode;
 }
 
 /**
  * Worklist — the floorplan for "the things that need doing": a header, key
  * figures as filter tabs, an optional message strip, a filter bar, a toolbar
- * with the one emphasized action, and the table (or its empty state). the tabs
+ * with the one emphasized action, and the table (or its empty state). The tabs
  * and the content are a tablist and its tabpanel; the toolbar and the table
  * header stay in view while the list scrolls.
  */

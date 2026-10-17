@@ -5,7 +5,7 @@ import './Kbd.css';
 export interface KbdProps extends React.HTMLAttributes<HTMLElement> {}
 
 /**
- * Kbd — a single keycap. square, hairline border, mono. e.g. <Kbd>esc</Kbd>.
+ * Kbd — a single keycap. Square, hairline border, mono. E.g. <Kbd>esc</Kbd>.
  */
 export const Kbd = React.forwardRef<HTMLElement, KbdProps>(function Kbd(
   { className, ...rest },

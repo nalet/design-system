@@ -19,7 +19,7 @@ const meta: Meta<ChevronProps> = {
   parameters: {
     docs: {
       description: {
-        component: 'the brand glyph: one `>` in cloud blue. role="img", named "chevron"; pass aria-hidden next to a title.',
+        component: 'The brand glyph: one `>` in cloud blue. `role="img"`, named "chevron"; pass `aria-hidden` next to a title.',
       },
     },
   },
@@ -49,8 +49,8 @@ export const InUse: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 'var(--s-6)', width: '100%', maxWidth: 560 }}>
       <TileGroup legend="operations" columns="auto" minTileWidth="13rem">
-        <Tile icon={Server} title="cluster" description="hover or focus: the chevron follows the title" href="#" />
-        <Tile icon={GitBranch} title="pipelines" description="builds and releases" href="#" />
+        <Tile icon={Server} title="cluster" description="Hover or focus: the chevron follows the title" href="#" />
+        <Tile icon={GitBranch} title="pipelines" description="Builds and releases" href="#" />
       </TileGroup>
       <Input aria-label="command" placeholder="type a command" leading={<Chevron size={14} aria-hidden />} />
     </div>

@@ -14,7 +14,7 @@ const meta: Meta<KbdProps> = {
     docs: {
       description: {
         component:
-          'a single keycap: square, hairline frame with a 2px bottom edge, mono label. one key per kbd; place several, with a joiner, for a shortcut.',
+          'A single keycap: square, hairline frame with a 2px bottom edge, mono label. One key per kbd; place several, with a joiner, for a shortcut.',
       },
     },
   },
@@ -70,19 +70,19 @@ export const InShortcutList: Story = {
       }}
     >
       <Text as="dt" variant="ui">
-        search
+        Search
       </Text>
       <Text as="dd" variant="muted">
         <Kbd>ctrl</Kbd> + <Kbd>k</Kbd>
       </Text>
       <Text as="dt" variant="ui">
-        open the selected row
+        Open the selected row
       </Text>
       <Text as="dd" variant="muted">
         <Kbd>enter</Kbd>
       </Text>
       <Text as="dt" variant="ui">
-        close the dialog
+        Close the dialog
       </Text>
       <Text as="dd" variant="muted">
         <Kbd>esc</Kbd>

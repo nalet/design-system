@@ -14,7 +14,7 @@ const meta: Meta<ToolbarProps> = {
   },
   parameters: {
     layout: 'padded',
-    docs: { description: { component: 'actions above the content they act on: one emphasized, the rest default or in overflow.' } },
+    docs: { description: { component: 'Actions above the content they act on: one emphasized, the rest default or in overflow.' } },
   },
 };
 export default meta;

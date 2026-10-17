@@ -5,18 +5,18 @@ import './Tooltip.css';
 export type TooltipSide = 'top' | 'bottom' | 'left' | 'right';
 
 export interface TooltipProps {
-  /** the tooltip text/content, lowercase. */
+  /** The tooltip text/content, lowercase. */
   content: React.ReactNode;
-  /** placement relative to the trigger. default top. */
+  /** Placement relative to the trigger. Default top. */
   side?: TooltipSide;
-  /** the trigger element. */
+  /** The trigger element. */
   children: React.ReactNode;
   className?: string;
 }
 
 /**
- * Tooltip — a small square label shown on hover/focus. mono, hairline border,
- * shows on pointer hover and keyboard focus-within. css-only visibility.
+ * Tooltip — a small square label shown on hover/focus. Mono, hairline border,
+ * shows on pointer hover and keyboard focus-within. CSS-only visibility.
  */
 export function Tooltip({ content, side = 'top', children, className }: TooltipProps) {
   const id = React.useId();

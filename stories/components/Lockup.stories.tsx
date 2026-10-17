@@ -18,7 +18,7 @@ const meta: Meta<LockupProps> = {
   parameters: {
     docs: {
       description: {
-        component: 'the chevron, the wordmark and the cursor, in a 300 × 160 box. role="img", named by its wordmark.',
+        component: 'The chevron, the wordmark and the cursor, in a 300 × 160 box. `role="img"`, named by its wordmark.',
       },
     },
   },

@@ -15,12 +15,12 @@ const meta: Meta<BoxProps> = {
     px: {
       control: 'select',
       options: [0, 4, 8, 12, 16, 24, 32, 48, 64],
-      description: 'left and right padding from the space scale, applied after p.',
+      description: 'Left and right padding from the space scale, applied after p.',
     },
     py: {
       control: 'select',
       options: [0, 4, 8, 12, 16, 24, 32, 48, 64],
-      description: 'top and bottom padding from the space scale, applied after p.',
+      description: 'Top and bottom padding from the space scale, applied after p.',
     },
     bg: { control: 'inline-radio', options: ['bg', 'bg-2', 'surface', 'surface-2'] },
     border: { control: 'boolean' },
@@ -30,7 +30,7 @@ const meta: Meta<BoxProps> = {
     docs: {
       description: {
         component:
-          'the base layout primitive: a square div with padding from the space scale, an optional canvas background and an optional hairline border. never rounded.',
+          'The base layout primitive: a square div with padding from the space scale, an optional canvas background and an optional hairline border. Never rounded.',
       },
     },
   },
@@ -93,12 +93,12 @@ export const AsymmetricPadding: Story = {
   ),
 };
 
-/** a surface with a sunken region inside it. */
+/** A surface with a sunken region inside it. */
 export const Panel: Story = {
   render: () => (
     <Box p={16} bg="surface" border style={{ width: 320 }}>
       <Stack gap={12}>
-        <Text variant="ui">release 2.4.1</Text>
+        <Text variant="ui">Release 2.4.1</Text>
         <Box p={12} bg="bg-2" border>
           <Stack gap={8}>
             <Text variant="code">pipeline #1543 passed</Text>

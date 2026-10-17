@@ -19,7 +19,7 @@ const meta: Meta<MessageStripProps> = {
   },
   parameters: {
     layout: 'padded',
-    docs: { description: { component: 'a page-level message about the content of the screen.' } },
+    docs: { description: { component: 'A page-level message about the content of the screen.' } },
   },
 };
 export default meta;
@@ -48,11 +48,11 @@ export const Playground: Story = {
 export const States: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 'var(--s-3)' }}>
-      <MessageStrip state="neutral">the sweep only searches; grabbing on its own is off in settings.</MessageStrip>
-      <MessageStrip state="information">asking the catalog what the library holds. the list follows.</MessageStrip>
-      <MessageStrip state="success">every source answered in the last hour.</MessageStrip>
+      <MessageStrip state="neutral">The sweep only searches; grabbing on its own is off in settings.</MessageStrip>
+      <MessageStrip state="information">Asking the catalog what the library holds. The list follows.</MessageStrip>
+      <MessageStrip state="success">Every source answered in the last hour.</MessageStrip>
       <MessageStrip state="warning">2 sources are over their daily query limit until midnight.</MessageStrip>
-      <MessageStrip state="error">couldn&apos;t queue the grab: the download client didn&apos;t answer. nothing was changed.</MessageStrip>
+      <MessageStrip state="error">Couldn&apos;t queue the grab: the download client didn&apos;t answer. Nothing was changed.</MessageStrip>
     </div>
   ),
 };
@@ -69,7 +69,7 @@ export const WithDetails: Story = {
         </Button>
       }
     >
-      couldn&apos;t load the list.
+      Couldn&apos;t load the list.
     </MessageStrip>
   ),
 };
@@ -79,7 +79,7 @@ export const Dismissible: Story = {
     const [open, setOpen] = useState(true);
     return open ? (
       <MessageStrip state="success" onDismiss={() => setOpen(false)}>
-        saved. times on this page now show in utc.
+        Saved. Times on this page now show in UTC.
       </MessageStrip>
     ) : (
       <Button onClick={() => setOpen(true)}>show the message again</Button>

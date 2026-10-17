@@ -18,11 +18,11 @@ describe('MessageStrip', () => {
   });
 
   it('is an alert for an error, and can be made static', () => {
-    const { rerender } = render(<MessageStrip state="error">couldn&apos;t load the list.</MessageStrip>);
-    expect(screen.getByRole('alert')).toHaveTextContent("error: couldn't load the list.");
+    const { rerender } = render(<MessageStrip state="error">Couldn&apos;t load the list.</MessageStrip>);
+    expect(screen.getByRole('alert')).toHaveTextContent("error: Couldn't load the list.");
     rerender(
       <MessageStrip state="error" live="off">
-        couldn&apos;t load the list.
+        Couldn&apos;t load the list.
       </MessageStrip>,
     );
     expect(screen.queryByRole('alert')).toBeNull();
@@ -33,7 +33,7 @@ describe('MessageStrip', () => {
     const user = userEvent.setup();
     render(
       <MessageStrip state="warning" details="item 3f2a9c1e-0000-4000-8000-000000000001">
-        the catalog holds them without an identity.
+        The catalog holds them without an identity.
       </MessageStrip>,
     );
     const toggle = screen.getByRole('button', { name: 'details' });
@@ -51,7 +51,7 @@ describe('MessageStrip', () => {
     const onDismiss = vi.fn();
     render(
       <MessageStrip state="success" onDismiss={onDismiss}>
-        saved.
+        Saved.
       </MessageStrip>,
     );
     await user.click(screen.getByRole('button', { name: 'dismiss' }));
@@ -67,7 +67,7 @@ describe('MessageStrip', () => {
         defaultDetailsOpen
         onDismiss={() => undefined}
       >
-        a message.
+        A message.
       </MessageStrip>,
     );
     await expectNoAxeViolations(container);

@@ -6,13 +6,13 @@ import './Box.css';
 type SurfaceToken = 'bg' | 'bg-2' | 'surface' | 'surface-2';
 
 export interface BoxProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** inner padding from the 4-base space scale. */
+  /** Inner padding from the 4-base space scale. */
   p?: SpaceToken;
   px?: SpaceToken;
   py?: SpaceToken;
-  /** background from the canvas tokens. */
+  /** Background from the canvas tokens. */
   bg?: SurfaceToken;
-  /** draw a hairline border (var(--border)). */
+  /** Draw a hairline border (var(--border)). */
   border?: boolean;
 }
 
@@ -24,8 +24,8 @@ const BG_VAR: Record<SurfaceToken, string> = {
 };
 
 /**
- * Box — the base layout primitive. square by definition, padding from tokens,
- * optional canvas background and hairline border. no radius, ever.
+ * Box — the base layout primitive. Square by definition, padding from tokens,
+ * optional canvas background and hairline border. No radius, ever.
  */
 export const Box = React.forwardRef<HTMLDivElement, BoxProps>(function Box(
   { p, px, py, bg, border, className, style, ...rest },

@@ -7,7 +7,7 @@ export type IconButtonVariant = 'primary' | 'default' | 'ghost' | 'danger';
 export type IconButtonSize = 'sm' | 'md' | 'lg';
 
 export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  /** required for accessibility — icon-only buttons need a name. */
+  /** Required for accessibility — icon-only buttons need a name. */
   label: string;
   variant?: IconButtonVariant;
   size?: IconButtonSize;
@@ -15,7 +15,7 @@ export interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonEl
 }
 
 /**
- * IconButton — a square icon-only button. same variants as Button, equal
+ * IconButton — a square icon-only button. Same variants as Button, equal
  * width and height. `label` is mandatory and becomes aria-label.
  */
 export const IconButton = React.forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(

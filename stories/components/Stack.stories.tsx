@@ -17,22 +17,22 @@ const meta: Meta<StackProps> = {
     align: {
       control: 'select',
       options: ['start', 'center', 'end', 'stretch', 'baseline'],
-      description: 'cross-axis alignment (align-items). not set: children stretch.',
+      description: 'Cross-axis alignment (align-items). Not set: children stretch.',
     },
     justify: {
       control: 'select',
       options: ['start', 'center', 'end', 'between', 'around'],
-      description: 'main-axis distribution (justify-content). not set: children pack at the start.',
+      description: 'Main-axis distribution (justify-content). Not set: children pack at the start.',
     },
     wrap: {
       control: 'boolean',
       description:
-        'let children wrap onto a new line. meant for horizontal stacks; a vertical stack wraps only with a fixed height.',
+        'Let children wrap onto a new line. Meant for horizontal stacks; a vertical stack wraps only with a fixed height.',
     },
     // the source comment says "stretch to fill the cross axis"; the code renders inline-flex.
     inline: {
       control: 'boolean',
-      description: 'render inline-flex: the stack sizes to its content and sits in the line of text.',
+      description: 'Render inline-flex: the stack sizes to its content and sits in the line of text.',
     },
     children: { control: false },
   },
@@ -40,7 +40,7 @@ const meta: Meta<StackProps> = {
     docs: {
       description: {
         component:
-          'a flex row or column whose gap comes straight off the space scale; the workhorse for laying out everything else.',
+          'A flex row or column whose gap comes straight off the space scale; the workhorse for laying out everything else.',
       },
     },
   },
@@ -49,7 +49,7 @@ export default meta;
 
 type Story = StoryObj<StackProps>;
 
-/** a sample child: a framed block, so the gap is visible. */
+/** A sample child: a framed block, so the gap is visible. */
 const Item = ({ children }: { children: ReactNode }) => (
   <Box p={12} bg="surface-2" border>
     <Text variant="code">{children}</Text>
@@ -95,7 +95,7 @@ export const GapScale: Story = {
           <Item>p50</Item>
           <Item>p95</Item>
           <Item>p99</Item>
-          <Text variant="dim">gap {g}</Text>
+          <Text variant="dim">Gap {g}</Text>
         </Stack>
       ))}
     </Stack>

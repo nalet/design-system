@@ -11,13 +11,13 @@ export interface SelectOption {
 export interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   selectSize?: 'sm' | 'md' | 'lg';
   invalid?: boolean;
-  /** optional declarative options. children take precedence when provided. */
+  /** Optional declarative options. Children take precedence when provided. */
   options?: SelectOption[];
 }
 
 /**
- * Select — a square native select. hairline border, mono text, a small blue
- * chevron drawn in the corner. pass `options` or <option> children.
+ * Select — a square native select. Hairline border, mono text, a small blue
+ * chevron drawn in the corner. Pass `options` or <option> children.
  */
 export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function Select(
   { selectSize = 'md', invalid, options, disabled, className, children, ...rest },

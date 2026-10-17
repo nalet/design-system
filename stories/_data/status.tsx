@@ -61,7 +61,7 @@ export const BACKLOG_COLUMNS: DataTableColumn<BacklogItem>[] = [
   },
 ];
 
-/** series and season, or "movies": the sample backlog's groups. */
+/** Series and season, or "movies": the sample backlog's groups. */
 export const backlogGroup = (b: BacklogItem) =>
   b.kind === 'movie' ? 'movies' : `${b.title}\u0000S${String(b.season).padStart(2, '0')}`;
 

@@ -199,8 +199,8 @@ describe('DataTable', () => {
   });
 
   it('shows its empty content without rows', () => {
-    render(<Harness rows={[]} empty={<p>nothing missing</p>} />);
-    expect(screen.getByText('nothing missing')).toBeInTheDocument();
+    render(<Harness rows={[]} empty={<p>Nothing missing.</p>} />);
+    expect(screen.getByText('Nothing missing.')).toBeInTheDocument();
   });
 
   it('has no axe violations: flat, selected, grouped, collapsed, empty', async () => {
@@ -208,7 +208,7 @@ describe('DataTable', () => {
     await expectNoAxeViolations(container);
     rerender(<Harness groupBy={(r) => r.show} defaultCollapsedGroups={['Copper Valley']} />);
     await expectNoAxeViolations(container);
-    rerender(<Harness rows={[]} empty={<p>nothing missing</p>} />);
+    rerender(<Harness rows={[]} empty={<p>Nothing missing.</p>} />);
     await expectNoAxeViolations(container);
   });
 });

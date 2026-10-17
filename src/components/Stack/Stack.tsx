@@ -7,15 +7,15 @@ type Align = 'start' | 'center' | 'end' | 'stretch' | 'baseline';
 type Justify = 'start' | 'center' | 'end' | 'between' | 'around';
 
 export interface StackProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** main axis. default vertical. */
+  /** Main axis. Default vertical. */
   direction?: 'vertical' | 'horizontal';
-  /** gap between children from the 4-base space scale. default 16. */
+  /** Gap between children from the 4-base space scale. Default 16. */
   gap?: SpaceToken;
   align?: Align;
   justify?: Justify;
-  /** allow children to wrap (horizontal only). */
+  /** Allow children to wrap (horizontal only). */
   wrap?: boolean;
-  /** stretch to fill the cross axis. */
+  /** Stretch to fill the cross axis. */
   inline?: boolean;
 }
 
@@ -37,7 +37,7 @@ const JUSTIFY: Record<Justify, string> = {
 
 /**
  * Stack — flexbox row/column with gap straight off the space tokens.
- * the workhorse for laying out everything else.
+ * The workhorse for laying out everything else.
  */
 export const Stack = React.forwardRef<HTMLDivElement, StackProps>(function Stack(
   { direction = 'vertical', gap = 16, align, justify, wrap, inline, className, style, ...rest },

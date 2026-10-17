@@ -14,7 +14,7 @@ const meta: Meta<BadgeProps> = {
       control: 'inline-radio',
       options: ['neutral', 'green', 'amber', 'blue'],
       description:
-        'colour tone: neutral (default), blue, green or amber. only a colour; the state of an object is object status.',
+        'Colour tone: neutral (default), blue, green or amber. Only a colour; the state of an object is object status.',
     },
     dot: { control: 'boolean' },
     children: { control: 'text' },
@@ -23,7 +23,7 @@ const meta: Meta<BadgeProps> = {
     docs: {
       description: {
         component:
-          'a small square label for tags, counts and short attributes: mono, lowercase, hairline frame, optional dot. the state of an object is object status, not a badge.',
+          'A small square label for tags, counts and short attributes: mono, lowercase, hairline frame, optional dot. The state of an object is object status, not a badge.',
       },
     },
   },
@@ -45,7 +45,7 @@ export const Tones: Story = {
   ),
 };
 
-/** the dot repeats the tone: a colour key, e.g. for a legend. */
+/** The dot repeats the tone: a colour key, e.g. for a legend. */
 export const WithDot: Story = {
   name: 'with dot',
   render: () => (

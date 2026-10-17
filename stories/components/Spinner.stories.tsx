@@ -14,7 +14,7 @@ const meta: Meta<SpinnerProps> = {
     color: {
       control: 'text',
       description:
-        'ring colour, any css colour. default --cloud-blue; pass currentColor to follow the surrounding text.',
+        'Frame colour, any CSS colour. Default --cloud-blue; pass currentColor to follow the surrounding text.',
     },
     label: { control: 'text' },
   },
@@ -22,7 +22,7 @@ const meta: Meta<SpinnerProps> = {
     docs: {
       description: {
         component:
-          'a square-cornered ring that turns, in --cloud-blue unless you pass color. renders role=status named by its label. for an action in progress, use a loading button instead.',
+          'A faint, still square frame with three quarters of it lit and the gap running round it, one lap in four seconds, in --cloud-blue unless you pass color. Renders role=status named by its label; under reduced motion it stands still and the label carries the state. For an action in progress, use a loading button instead.',
       },
     },
   },
@@ -54,28 +54,28 @@ export const Colors: Story = {
   ),
 };
 
-/** color="currentColor" makes the ring follow the text around it. */
+/** `color="currentColor"` makes the frame follow the text around it. */
 export const InheritsColor: Story = {
   name: 'inherits color',
   render: () => (
     <Stack direction="horizontal" gap={8} align="center" style={{ color: 'var(--fg-muted)' }}>
       <Spinner size={14} color="currentColor" aria-hidden="true" />
-      <Text variant="muted">checking storage-01</Text>
+      <Text variant="muted">Checking storage-01</Text>
     </Stack>
   ),
 };
 
-/** a spinner standing in for one value while it loads; the label names the value. */
+/** A spinner standing in for one value while it loads; the label names the value. */
 export const InlineWithLabel: Story = {
   name: 'inline with label',
   render: () => (
     <Stack gap={8} style={{ width: 240 }}>
       <Stack direction="horizontal" justify="between" align="center">
-        <Text variant="muted">volumes</Text>
+        <Text variant="muted">Volumes</Text>
         <Text variant="ui">12</Text>
       </Stack>
       <Stack direction="horizontal" justify="between" align="center">
-        <Text variant="muted">used space</Text>
+        <Text variant="muted">Used space</Text>
         <Spinner size={14} label="loading used space" />
       </Stack>
     </Stack>

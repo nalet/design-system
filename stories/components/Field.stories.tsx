@@ -5,8 +5,8 @@ const meta: Meta<FieldProps> = {
   title: 'Components/inputs/field',
   component: Field,
   args: {
-    label: 'release name',
-    hint: 'lowercase letters, digits and hyphens',
+    label: 'Release name',
+    hint: 'Lowercase letters, digits and hyphens',
     required: false,
     children: <Input placeholder="the-lantern-2024" />,
   },
@@ -29,7 +29,7 @@ const meta: Meta<FieldProps> = {
     docs: {
       description: {
         component:
-          'the label, hint and error around one control, wired with id, aria-describedby and aria-invalid.',
+          'The label, hint and error around one control, wired with `id`, `aria-describedby` and `aria-invalid`.',
       },
     },
   },
@@ -45,13 +45,13 @@ export const Playground: Story = {};
 export const States: Story = {
   render: () => (
     <div style={column}>
-      <Field label="host" hint="the name the service answers on">
+      <Field label="Host" hint="The name the service answers on">
         <Input placeholder="api.example.com" />
       </Field>
-      <Field label="replicas" required hint="at least 1">
+      <Field label="Replicas" required hint="At least 1">
         <Input type="number" defaultValue="3" min={1} required />
       </Field>
-      <Field label="image tag" error="pin a version, such as 1.4.2">
+      <Field label="Image tag" error="Pin a version, such as 1.4.2">
         <Input defaultValue="latest" />
       </Field>
     </div>
@@ -62,7 +62,7 @@ export const Controls: Story = {
   name: 'control types',
   render: () => (
     <div style={column}>
-      <Field label="region" hint="where new releases run">
+      <Field label="Region" hint="Where new releases run">
         <Select
           options={[
             { label: 'eu-central', value: 'eu-central' },
@@ -71,11 +71,11 @@ export const Controls: Story = {
           ]}
         />
       </Field>
-      <Field label="release notes" hint="shown on the release page">
+      <Field label="Release notes" hint="Shown on the release page">
         <Textarea placeholder="fixed the retry loop in the upload step" rows={3} />
       </Field>
-      <Field hint="a summary of last week's releases, every monday">
-        <Checkbox label="send a weekly summary" />
+      <Field hint="A summary of last week's releases, every Monday">
+        <Checkbox label="Send a weekly summary" />
       </Field>
     </div>
   ),
@@ -84,7 +84,7 @@ export const Controls: Story = {
 export const Required: Story = {
   name: 'required',
   render: () => (
-    <Field label="region" required hint="where new releases run">
+    <Field label="Region" required hint="Where new releases run">
       <Select
         required
         defaultValue=""
@@ -101,7 +101,7 @@ export const Required: Story = {
 export const Error: Story = {
   name: 'error',
   render: () => (
-    <Field label="host" error="use a full host name, such as api.example.com">
+    <Field label="Host" error="Use a full host name, such as api.example.com">
       <Input defaultValue="api" />
     </Field>
   ),

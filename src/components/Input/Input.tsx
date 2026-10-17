@@ -3,19 +3,19 @@ import { cx } from '../../lib/cx';
 import './Input.css';
 
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  /** size variant. default md. */
+  /** Size variant. Default md. */
   inputSize?: 'sm' | 'md' | 'lg';
-  /** paint the error border (--state-error) and set aria-invalid. */
+  /** Paint the error border (--state-error) and set aria-invalid. */
   invalid?: boolean;
-  /** node rendered inside the field on the left (e.g. an icon or `>`). */
+  /** Node rendered inside the field on the left (e.g. an icon or `>`). */
   leading?: React.ReactNode;
-  /** node rendered inside the field on the right. */
+  /** Node rendered inside the field on the right. */
   trailing?: React.ReactNode;
 }
 
 /**
- * Input — a square text field. mono text, hairline border, cyan focus ring.
- * optional in-field prefix/suffix slots for icons or the brand chevron.
+ * Input — a square text field. Mono text, hairline border, cyan focus ring.
+ * Optional in-field prefix/suffix slots for icons or the brand chevron.
  */
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(function Input(
   { inputSize = 'md', invalid, leading, trailing, disabled, className, ...rest },

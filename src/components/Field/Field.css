@@ -4,13 +4,14 @@
   gap: var(--s-2);
 }
 
+/* the label is in the body face, so it keeps the case it is written in:
+   sentence case, the reader's language. */
 .nc-field__label {
   font-family: var(--ff-ui);
   font-weight: 500;
   font-size: 13px;
   line-height: 1.4;
   color: var(--fg-2);
-  text-transform: lowercase;
 }
 
 .nc-field__req {

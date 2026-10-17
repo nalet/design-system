@@ -8,32 +8,32 @@ import './TileGroup.css';
 export type TileGroupGap = 'xs' | 'sm' | 'md' | 'lg';
 
 export interface TileGroupProps extends React.HTMLAttributes<HTMLElement> {
-  /** lowercase mono section title (gets a leading blue chevron). */
+  /** Lowercase mono section title (gets a leading blue chevron). */
   legend: string;
-  /** optional secondary line under the legend. */
+  /** Optional secondary line under the legend. */
   description?: string;
-  /** fixed column count, or 'auto' (default) for a responsive auto-fill grid. */
+  /** Fixed column count, or 'auto' (default) for a responsive auto-fill grid. */
   columns?: number | 'auto';
-  /** min tile width for the 'auto' grid. default 14rem. */
+  /** Min tile width for the 'auto' grid. Default 14rem. */
   minTileWidth?: string;
-  /** grid gap. default md. */
+  /** Grid gap. Default md. */
   gap?: TileGroupGap;
-  /** trailing slot on the legend row (e.g. a "manage" link or count). */
+  /** Trailing slot on the legend row (e.g. a "manage" link or count). */
   action?: React.ReactNode;
   /**
-   * keyboard model. 'roving' (default) = one tab stop + arrow keys move between
-   * tiles. 'tab' = every tile is its own tab stop. ignored when the group is
+   * Keyboard model. 'roving' (default) = one tab stop + arrow keys move between
+   * tiles. 'tab' = every tile is its own tab stop. Ignored when the group is
    * inside a Portal that runs roving across all groups.
    */
   navigation?: 'roving' | 'tab';
-  /** the Tile children. */
+  /** The Tile children. */
   children: React.ReactNode;
 }
 
 /**
- * TileGroup — a labelled, square-grid section of Tiles. the legend names the
+ * TileGroup — a labelled, square-grid section of Tiles. The legend names the
  * group (a stable, spatially-consistent section, per launcher research); the
- * grid is a responsive css auto-fill grid by default. provides roving-tabindex
+ * grid is a responsive CSS auto-fill grid by default. Provides roving-tabindex
  * arrow-key navigation unless a parent Portal owns it.
  */
 export const TileGroup = React.forwardRef<HTMLElement, TileGroupProps>(function TileGroup(

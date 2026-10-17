@@ -1,10 +1,10 @@
 /**
  * @nalet/design-system — react component library.
  *
- * dark canvas, monospace voice, blue chevron, square frames. every component
- * is styled with co-located css that reads the css-var tokens. importing this
- * entry also pulls in the token stylesheet (css vars, color-scheme, base and the
- * type utilities; no fonts — the app loads inter and jetbrains mono).
+ * Dark canvas, monospace voice, blue chevron, square frames. Every component
+ * is styled with co-located CSS that reads the CSS-var tokens. Importing this
+ * entry also pulls in the token stylesheet (CSS vars, color-scheme, base and the
+ * type utilities; no fonts — the app loads Inter and JetBrains Mono).
  */
 
 // foundation: css variables, fonts, base — owned by the tokens build.

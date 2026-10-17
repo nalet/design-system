@@ -6,13 +6,13 @@ import './FilterTabs.css';
 
 export interface FilterTab {
   id: string;
-  /** what the tab keeps, lowercase: "needs attention". */
+  /** What the tab keeps, lowercase: "needs attention". */
   label: string;
-  /** how many items the tab keeps. omit when unknown. */
+  /** How many items the tab keeps. Omit when unknown. */
   count?: number;
   /**
-   * the count's meaning, when it carries one: error for "needs attention",
-   * warning for "can't be checked". neutral (plain) by default.
+   * The count's meaning, when it carries one: error for "needs attention",
+   * warning for "can't be checked". Neutral (plain) by default.
    */
   state?: ObjectState;
   disabled?: boolean;
@@ -20,25 +20,25 @@ export interface FilterTab {
 
 export interface FilterTabsProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'onChange'> {
   tabs: FilterTab[];
-  /** the selected tab's id (controlled). */
+  /** The selected tab's ID (controlled). */
   value: string;
   onChange: (id: string) => void;
-  /** the tablist's accessible name ("filter missing by state"). */
+  /** The tablist's accessible name ("filter missing by state"). */
   label: string;
-  /** the id of the region the tabs filter; every tab points at it with aria-controls. */
+  /** The ID of the region the tabs filter; every tab points at it with aria-controls. */
   panelId?: string;
-  /** prefix for the tabs' ids, so the panel can be labelled by the selected one: `${idPrefix}-${tab.id}`. */
+  /** Prefix for the tabs' IDs, so the panel can be labelled by the selected one: `${idPrefix}-${tab.id}`. */
   idPrefix?: string;
 }
 
-/** the id a FilterTabs tab gets, for aria-labelledby on its panel. */
+/** The ID a FilterTabs tab gets, for aria-labelledby on its panel. */
 export function filterTabId(idPrefix: string, tabId: string): string {
   return `${idPrefix}-${tabId}`;
 }
 
 /**
  * FilterTabs — key figures that filter one list: each tab is a count over a
- * label ("3 · needs attention"); choosing a tab filters the list below it. a
+ * label ("3 · needs attention"); choosing a tab filters the list below it. A
  * tablist with automatic activation — arrow keys move and select, home and end
  * jump — and one tab stop.
  */

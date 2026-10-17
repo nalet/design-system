@@ -75,12 +75,13 @@
   display: block;
 }
 
+/* the no-match message is a sentence for the reader: the body face. */
 .nc-portal__empty {
   padding: var(--s-6);
   border: 1px dashed var(--border-2);
   border-radius: 0;
   color: var(--fg-dim);
-  font-family: var(--ff-mono);
+  font-family: var(--ff-ui);
   font-size: 13px;
   text-align: center;
 }

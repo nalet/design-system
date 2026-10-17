@@ -7,22 +7,22 @@ export type ButtonVariant = 'primary' | 'default' | 'ghost' | 'danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
 
 export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  /** primary = cloud-blue cta, default = surface+border, ghost = bare, danger = amber/red. */
+  /** `primary` = cloud-blue CTA, `default` = surface+border, `ghost` = bare, `danger` = amber/red. */
   variant?: ButtonVariant;
   size?: ButtonSize;
-  /** show a spinner and block clicks. keeps width stable. */
+  /** Show a spinner and block clicks. Keeps width stable. */
   loading?: boolean;
-  /** stretch to the full width of the container. */
+  /** Stretch to the full width of the container. */
   block?: boolean;
-  /** optional leading node (icon). hidden while loading. */
+  /** Optional leading node (icon). Hidden while loading. */
   leading?: React.ReactNode;
-  /** optional trailing node (icon). */
+  /** Optional trailing node (icon). */
   trailing?: React.ReactNode;
 }
 
 /**
- * Button — square, mono-labeled action. primary is the cloud-blue cta.
- * labels stay lowercase. loading swaps the leading slot for a spinner.
+ * Button — square, mono-labeled action. Primary is the cloud-blue CTA.
+ * Labels stay lowercase. Loading swaps the leading slot for a spinner.
  */
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {

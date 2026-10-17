@@ -10,54 +10,54 @@ export type TileBadgeTone = 'info' | 'success' | 'warning' | 'danger' | 'neutral
 export type TileStatus = 'online' | 'offline' | 'degraded' | 'unknown';
 
 export interface TileDelta {
-  /** the trend value, e.g. `4` or `'0.2'`. */
+  /** The trend value, e.g. `4` or `'0.2'`. */
   value: string | number;
-  /** arrow direction. decoupled from tone so 'down' can be good. */
+  /** Arrow direction. Decoupled from tone so 'down' can be good. */
   direction: 'up' | 'down' | 'flat';
-  /** colour of the trend. defaults to neutral. */
+  /** Colour of the trend. Defaults to neutral. */
   tone?: 'positive' | 'negative' | 'neutral';
 }
 
 export interface TileProps extends Omit<React.HTMLAttributes<HTMLElement>, 'title'> {
-  /** lowercase mono primary label. */
+  /** Lowercase mono primary label. */
   title: string;
-  /** lucide icon component, e.g. `import { Server } from 'lucide-react'`. */
+  /** Lucide icon component, e.g. `import { Server } from 'lucide-react'`. */
   icon?: LucideIcon;
-  /** one-line supporting text (app variant). */
+  /** One-line supporting text (app variant). */
   description?: string;
-  /** navigate on activate — renders an `<a>`. */
+  /** Navigate on activate — renders an `<a>`. */
   href?: string;
-  /** app tile (default) or a kpi / metric tile. */
+  /** App tile (default) or a KPI / metric tile. */
   variant?: TileVariant;
-  /** kpi value (large mono). */
+  /** KPI value (large mono). */
   value?: string | number;
-  /** kpi unit suffix, e.g. `%`, `ms`, `gb`. */
+  /** KPI unit suffix, e.g. `%`, `ms`, `gb`. */
   unit?: string;
-  /** kpi trend chip. */
+  /** KPI trend chip. */
   delta?: TileDelta;
-  /** top-right marker. a number renders a count chip, a string a status pill. */
+  /** Top-right marker. A number renders a count chip, a string a status pill. */
   badge?: string | number;
-  /** badge colour. */
+  /** Badge colour. */
   badgeTone?: TileBadgeTone;
-  /** small square health dot. */
+  /** Small square health dot. */
   status?: TileStatus;
-  /** dim + remove from tab / arrow order. */
+  /** Dim + remove from tab / arrow order. */
   disabled?: boolean;
-  /** mark as the current app (left accent rule). */
+  /** Mark as the current app (left accent rule). */
   selected?: boolean;
-  /** open in a new tab + show the external glyph (with href). */
+  /** Open in a new tab + show the external glyph (with href). */
   external?: boolean;
-  /** footprint. */
+  /** Footprint. */
   size?: TileSize;
-  /** render as a custom element (e.g. a router `Link`). */
+  /** Render as a custom element (e.g. a router `Link`). */
   as?: React.ElementType;
 }
 
 /**
- * Tile — a square launch tile for the Portal. an app tile (icon + title +
- * description) or a kpi tile (value + unit + trend). whole tile is the target;
+ * Tile — a square launch tile for the Portal. An app tile (icon + title +
+ * description) or a KPI tile (value + unit + trend). Whole tile is the target;
  * renders an `<a>` for href, a `<button>` for onClick, or a plain panel when it
- * is display-only. no border-radius — the icon is the only rounded shape.
+ * is display-only. No border-radius — the icon is the only rounded shape.
  */
 export const Tile = React.forwardRef<HTMLElement, TileProps>(function Tile(
   {

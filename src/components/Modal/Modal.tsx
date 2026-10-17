@@ -4,29 +4,29 @@ import { cx } from '../../lib/cx';
 import './Modal.css';
 
 export interface ModalProps {
-  /** whether the modal is shown. */
+  /** Whether the modal is shown. */
   open: boolean;
-  /** called on esc, backdrop click, or close button. */
+  /** Called on Esc, backdrop click, or close button. */
   onClose: () => void;
-  /** optional title rendered in a mono header with a close affordance. */
+  /** Optional title rendered in a mono header with a close affordance. */
   title?: React.ReactNode;
-  /** optional footer (e.g. action buttons). */
+  /** Optional footer (e.g. action buttons). */
   footer?: React.ReactNode;
-  /** body content. */
+  /** Body content. */
   children?: React.ReactNode;
-  /** max width in px. default 480. */
+  /** Max width in px. Default 480. */
   width?: number;
-  /** close when the backdrop is clicked. default true. */
+  /** Close when the backdrop is clicked. Default true. */
   closeOnBackdrop?: boolean;
-  /** close on the escape key. default true. */
+  /** Close on the escape key. Default true. */
   closeOnEsc?: boolean;
-  /** accessible label when no visible title is given. */
+  /** Accessible label when no visible title is given. */
   ariaLabel?: string;
   className?: string;
 }
 
 /**
- * Modal — a square dialog over a dim backdrop. traps focus, closes on esc and
+ * Modal — a square dialog over a dim backdrop. Traps focus, closes on Esc and
  * backdrop click, locks body scroll, and restores focus to the opener.
  */
 export function Modal({

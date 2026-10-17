@@ -45,7 +45,7 @@ const meta: Meta<TooltipProps> = {
     docs: {
       description: {
         component:
-          'a small square label with a short, optional detail. shows while its trigger is hovered or has keyboard focus; css only.',
+          'A small square label with a short, optional detail. Shows while its trigger is hovered or has keyboard focus; CSS only.',
       },
     },
   },
@@ -85,7 +85,7 @@ export const Sides: Story = {
 export const Inline: Story = {
   render: () => (
     <p style={{ margin: 0, fontFamily: 'var(--ff-ui)', color: 'var(--fg-2)', fontSize: 14, maxWidth: 400 }}>
-      the rollout of{' '}
+      The rollout of{' '}
       <Tooltip content="built 2026-06-15 09:12">
         <Term>api-7f9c</Term>
       </Tooltip>{' '}

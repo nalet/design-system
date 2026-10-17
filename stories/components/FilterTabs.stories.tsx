@@ -17,7 +17,7 @@ const meta: Meta<FilterTabsProps> = {
   argTypes: { tabs: { control: false }, onChange: { control: false }, value: { control: false } },
   parameters: {
     layout: 'padded',
-    docs: { description: { component: 'key figures that filter one list: a count over a label, one tab selected.' } },
+    docs: { description: { component: 'Key figures that filter one list: a count over a label, one tab selected.' } },
   },
 };
 export default meta;

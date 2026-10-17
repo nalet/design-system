@@ -27,7 +27,7 @@ const meta: Meta<ButtonProps> = {
     docs: {
       description: {
         component:
-          'a square, mono-labelled action. primary is the one emphasized action on a screen; loading swaps the leading slot for a spinner.',
+          'A square, mono-labelled action. Primary is the one emphasized action on a screen; loading swaps the leading slot for a spinner.',
       },
     },
   },

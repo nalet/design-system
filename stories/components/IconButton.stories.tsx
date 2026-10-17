@@ -24,7 +24,7 @@ const meta: Meta<IconButtonProps> = {
     docs: {
       description: {
         component:
-          'a square, icon-only action with the same variants and sizes as button. label is required: it becomes the accessible name and the native title.',
+          'A square, icon-only action with the same variants and sizes as button. Label is required: it becomes the accessible name and the native title.',
       },
     },
   },

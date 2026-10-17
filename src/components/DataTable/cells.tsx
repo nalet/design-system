@@ -5,13 +5,13 @@ import '../../lib/a11y.css';
 import './cells.css';
 
 export interface StatusCellProps extends ObjectStatusProps {
-  /** one line under the status: why, or what happens next ("again in 3h"). up to two lines show; the rest is on hover. */
+  /** One line under the status: why, or what happens next ("again in 3h"). Up to two lines show; the rest is on hover. */
   detail?: React.ReactNode;
 }
 
 /**
  * StatusCell — a table cell's status: an ObjectStatus and, optionally, the
- * reason under it. the reason is in the dom in full (screen readers read it);
+ * reason under it. The reason is in the DOM in full (screen readers read it);
  * on screen it clamps to two lines with the whole text on hover.
  */
 export function StatusCell({ detail, className, ...status }: StatusCellProps) {
@@ -29,7 +29,7 @@ export function StatusCell({ detail, className, ...status }: StatusCellProps) {
 
 const DAY = 86_400_000;
 
-/** whole calendar days from `then` to `now`, in the viewer's time zone. */
+/** Whole calendar days from `then` to `now`, in the viewer's time zone. */
 function dayDiff(then: Date, now: Date): number {
   const a = Date.UTC(then.getFullYear(), then.getMonth(), then.getDate());
   const b = Date.UTC(now.getFullYear(), now.getMonth(), now.getDate());
@@ -53,16 +53,16 @@ export function relativeDay(then: Date, now: Date = new Date()): { short: string
 }
 
 export interface DateCellProps {
-  /** a Date, an ISO string or epoch ms. empty shows the empty text. */
+  /** A Date, an ISO string or epoch ms. Empty shows the empty text. */
   value: Date | string | number | null | undefined;
-  /** also show how long ago (or until). default true. */
+  /** Also show how long ago (or until). Default true. */
   relative?: boolean;
-  /** "now", for stable stories and tests. default the current time. */
+  /** The moment taken as "now", for stable stories and tests. Default the current time. */
   now?: Date;
-  /** default en-GB: 12 oct 2026. */
+  /** Default en-GB: 12 oct 2026. */
   locale?: string;
   format?: Intl.DateTimeFormatOptions;
-  /** what an empty value shows. default an em dash, read as "no date". */
+  /** What an empty value shows. Default an em dash, read as "no date". */
   emptyText?: string;
   className?: string;
 }
@@ -124,9 +124,9 @@ export function DateCell({
 }
 
 export interface IdentifierCellProps {
-  /** what identifies the row: "S04E07", a name. */
+  /** What identifies the row: "S04E07", a name. */
   title: React.ReactNode;
-  /** a second line, when known: an episode title, a host. */
+  /** A second line, when known: an episode title, a host. */
   text?: React.ReactNode;
   className?: string;
 }

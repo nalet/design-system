@@ -15,7 +15,7 @@ const meta: Meta<DateCellProps> = {
     locale: { control: 'text' },
   },
   parameters: {
-    docs: { description: { component: 'semantic cells for tables: status with a reason, dates both ways, identifiers.' } },
+    docs: { description: { component: 'Semantic cells for tables: status with a reason, dates both ways, identifiers.' } },
   },
 };
 export default meta;
@@ -52,9 +52,9 @@ export const Statuses: Story = {
 export const Identifiers: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 'var(--s-3)' }}>
-      <IdentifierCell title="S04E07" text="the long way round" />
+      <IdentifierCell title="S04E07" text="The Long Way Round" />
       <IdentifierCell title="S04E08" />
-      <IdentifierCell title="worker-2" text="rack 4 · zone b" />
+      <IdentifierCell title="worker-2" text="Rack 4 · zone B" />
     </div>
   ),
 };

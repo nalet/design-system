@@ -3,17 +3,17 @@ import { cx } from '../../lib/cx';
 import './Lockup.css';
 
 export interface LockupProps extends React.SVGProps<SVGSVGElement> {
-  /** rendered height in px. width scales to keep the 300x160 ratio. default 40. */
+  /** Rendered height in px. Width scales to keep the 300x160 ratio. Default 40. */
   height?: number;
-  /** draw the blinking cursor block. default true. */
+  /** Draw the blinking cursor block. Default true. */
   showCursor?: boolean;
-  /** paint a solid bg rect behind the mark (matches the asset). default false. */
+  /** Paint a solid bg rect behind the mark (matches the asset). Default false. */
   filled?: boolean;
 }
 
 /**
- * Lockup — the nalet wordmark, inline svg. blue chevron, mono wordmark,
- * one blinking cursor. mirrors assets/terminal/nalet-lockup.svg.
+ * Lockup — the nalet wordmark, inline SVG. Blue chevron, mono wordmark,
+ * one blinking cursor. Mirrors assets/terminal/nalet-lockup.svg.
  */
 export const Lockup = React.forwardRef<SVGSVGElement, LockupProps>(function Lockup(
   { height = 40, showCursor = true, filled = false, className, ...rest },

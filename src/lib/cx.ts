@@ -1,6 +1,6 @@
 /**
- * cx — tiny classname joiner. no dependency, no border-radius opinions.
- * filters falsy values and joins with a space.
+ * cx — tiny classname joiner. No dependency, no border-radius opinions.
+ * Filters falsy values and joins with a space.
  */
 export type ClassValue = string | number | false | null | undefined;
 

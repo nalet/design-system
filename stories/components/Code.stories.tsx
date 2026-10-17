@@ -16,7 +16,7 @@ const meta: Meta<CodeProps> = {
     docs: {
       description: {
         component:
-          'mono code text: inline by default, in --cloud-cyan inside a hairline frame; block renders a square pre on the deeper canvas that scrolls sideways.',
+          'Mono code text: inline by default, in --cloud-cyan inside a hairline frame; block renders a square pre on the deeper canvas that scrolls sideways.',
       },
     },
   },
@@ -30,7 +30,7 @@ export const Playground: Story = {};
 export const Inline: Story = {
   render: () => (
     <Text as="p" variant="body" style={{ maxWidth: 520 }}>
-      set <Code>--replicas=0</Code> to stop the service, then check that <Code>ctl get volumes</Code>{' '}
+      Set <Code>--replicas=0</Code> to stop the service, then check that <Code>ctl get volumes</Code>{' '}
       lists the volume as detached.
     </Text>
   ),

@@ -3,14 +3,14 @@ import { cx } from '../../lib/cx';
 import './Switch.css';
 
 export interface SwitchProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
-  /** label rendered beside the switch. */
+  /** Label rendered beside the switch. */
   label?: React.ReactNode;
   size?: 'sm' | 'md';
 }
 
 /**
- * Switch — a square on/off toggle. blue track when on, square thumb that
- * slides. honors the no-radius rule: even the thumb is square.
+ * Switch — a square on/off toggle. Blue track when on, square thumb that
+ * slides. Honors the no-radius rule: even the thumb is square.
  */
 export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(function Switch(
   { label, size = 'md', disabled, className, id, ...rest },

@@ -3,15 +3,15 @@ import * as React from 'react';
 /**
  * useRovingGrid — roving-tabindex 2-D keyboard navigation over a set of tiles.
  *
- * exactly one tile in the container is tabbable (`tabindex=0`); the rest are
- * `-1`, so tab moves OUT of the grid rather than through every tile. arrow keys
- * move focus between tiles: left/right step in dom order, up/down pick the
+ * Exactly one tile in the container is tabbable (`tabindex=0`); the rest are
+ * `-1`, so tab moves OUT of the grid rather than through every tile. Arrow keys
+ * move focus between tiles: left/right step in DOM order, up/down pick the
  * geometric nearest neighbour in that direction (so it works on responsive
  * auto-fill grids and spills across group boundaries when the container holds
- * more than one group). disabled / hidden tiles are skipped.
+ * more than one group). Disabled / hidden tiles are skipped.
  *
- * tiles opt in by carrying the `data-nc-tile` attribute on a natively focusable
- * element (the `<a>` / `<button>` a Tile renders). no dependency, no dom owned
+ * Tiles opt in by carrying the `data-nc-tile` attribute on a natively focusable
+ * element (the `<a>` / `<button>` a Tile renders). No dependency, no DOM owned
  * outside the passed ref.
  */
 

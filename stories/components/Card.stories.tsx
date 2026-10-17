@@ -6,7 +6,7 @@ const meta: Meta<CardProps> = {
   component: Card,
   args: {
     header: 'storage-01',
-    children: '412 gb used of 1 tb. last checked 2 minutes ago.',
+    children: '412 GB used of 1 TB. Last checked 2 minutes ago.',
     flush: false,
     sunken: false,
   },
@@ -22,7 +22,7 @@ const meta: Meta<CardProps> = {
     docs: {
       description: {
         component:
-          'a square surface panel with a hairline border, an optional mono header row with an aside for actions, and an optional footer row.',
+          'A square surface panel with a hairline border, an optional mono header row with an aside for actions, and an optional footer row.',
       },
     },
   },
@@ -36,7 +36,7 @@ export const Playground: Story = {
 };
 
 export const Plain: Story = {
-  render: () => <Card style={{ width: 320 }}>db-0 is healthy. last checkpoint 12s ago.</Card>,
+  render: () => <Card style={{ width: 320 }}>db-0 is healthy. Last checkpoint 12s ago.</Card>,
 };
 
 export const WithHeaderAndFooter: Story = {
@@ -54,7 +54,7 @@ export const WithHeaderAndFooter: Story = {
         </Stack>
       }
     >
-      queue drained. 4 packages published to storage-01.
+      Queue drained. 4 packages published to storage-01.
     </Card>
   ),
 };
@@ -74,26 +74,26 @@ export const HeaderAside: Story = {
         </>
       }
     >
-      1.2 tb used across 12 volumes.
+      1.2 TB used across 12 volumes.
     </Card>
   ),
 };
 
-/** a sunken card nested inside a default one. */
+/** A sunken card nested inside a default one. */
 export const Sunken: Story = {
   render: () => (
     <Card header="storage-01" style={{ width: 360 }}>
       <Stack gap={12}>
-        <Text variant="muted">412 gb used of 1 tb</Text>
+        <Text variant="muted">412 GB used of 1 TB</Text>
         <Card sunken header="last backup">
-          tonight at 02:00, kept 14 days.
+          Tonight at 02:00, kept 14 days.
         </Card>
       </Stack>
     </Card>
   ),
 };
 
-/** flush body with a table built from the table primitives, so the card's frame is the only frame. */
+/** Flush body with a table built from the table primitives, so the card's frame is the only frame. */
 export const Flush: Story = {
   render: () => (
     <Card header="volumes" flush style={{ width: 360 }}>
@@ -121,7 +121,7 @@ export const Flush: Story = {
   ),
 };
 
-/** a card people navigate to by heading: a real heading as the title, and a named region. */
+/** A card people navigate to by heading: a real heading as the title, and a named region. */
 export const AsSection: Story = {
   name: 'as a section',
   render: () => (
@@ -135,7 +135,7 @@ export const AsSection: Story = {
       }
       style={{ width: 360 }}
     >
-      backups run every night at 02:00 and are kept for 14 days.
+      Backups run every night at 02:00 and are kept for 14 days.
     </Card>
   ),
 };

@@ -27,7 +27,7 @@ const meta: Meta<TabsProps> = {
     docs: {
       description: {
         component:
-          'a row of mono tab triggers with a cloud-blue underline on the selected one. renders the tablist only; you render the panel. controlled via value/onChange or uncontrolled via defaultValue.',
+          'A row of mono tab triggers with a cloud-blue underline on the selected one. Renders the tablist only; you render the panel. Controlled via value/onChange or uncontrolled via defaultValue.',
       },
     },
   },

@@ -4,12 +4,12 @@ import { useOverflowX } from '../../lib/useOverflowX';
 import './Code.css';
 
 export interface CodeProps extends React.HTMLAttributes<HTMLElement> {
-  /** render as a block (<pre><code>) instead of inline. */
+  /** Render as a block (<pre><code>) instead of inline. */
   block?: boolean;
 }
 
 /**
- * Code — mono code text. inline by default; `block` renders a square,
+ * Code — mono code text. Inline by default; `block` renders a square,
  * scrollable terminal block on the deeper canvas.
  */
 export const Code = React.forwardRef<HTMLElement, CodeProps>(function Code(

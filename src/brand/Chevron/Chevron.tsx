@@ -3,17 +3,17 @@ import { cx } from '../../lib/cx';
 import './Chevron.css';
 
 export interface ChevronProps extends React.SVGProps<SVGSVGElement> {
-  /** glyph edge length in px. default 16. */
+  /** Glyph edge length in px. Default 16. */
   size?: number;
-  /** stroke weight relative to size. default proportional. */
+  /** Stroke weight relative to size. Default proportional. */
   strokeWidth?: number;
-  /** override the brand blue. defaults to var(--cloud-blue). */
+  /** Override the brand blue. Defaults to var(--cloud-blue). */
   color?: string;
 }
 
 /**
- * Chevron — the brand glyph. a single `>` drawn in cloud-blue.
- * the one mark that says nalet. always blue unless explicitly overridden.
+ * Chevron — the brand glyph. A single `>` drawn in cloud-blue.
+ * The one mark that says nalet. Always blue unless explicitly overridden.
  */
 export const Chevron = React.forwardRef<SVGSVGElement, ChevronProps>(function Chevron(
   { size = 16, strokeWidth, color, className, style, ...rest },

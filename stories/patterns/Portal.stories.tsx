@@ -24,8 +24,8 @@ const meta: Meta<PortalProps> = {
     docs: {
       description: {
         component:
-          'the launchpad floorplan: grouped square tiles, a favourites slot, a search box and ' +
-          'one roving arrow-key model across every group. groups stay in a stable order; the ' +
+          'The launchpad floorplan: grouped square tiles, a favourites slot, a search box and ' +
+          'one roving arrow-key model across every group. Groups stay in a stable order; the ' +
           'search filters in place (`/` focuses it, `esc` clears it).',
       },
     },
@@ -63,12 +63,12 @@ export const Playground: Story = {
   render: (args) => (
     <Portal {...args}>
       <TileGroup legend="build and release" minTileWidth="14rem">
-        <Tile icon={GitBranch} title="pipelines" description="builds and releases" href="#" />
-        <Tile icon={Package} title="registry" description="images and versions" href="#" />
+        <Tile icon={GitBranch} title="pipelines" description="Builds and releases" href="#" />
+        <Tile icon={Package} title="registry" description="Images and versions" href="#" />
       </TileGroup>
       <TileGroup legend="operations" minTileWidth="14rem">
-        <Tile icon={Server} title="cluster" description="nodes and workloads" href="#" />
-        <Tile icon={ScrollText} title="logs" description="live tail across workers" href="#" />
+        <Tile icon={Server} title="cluster" description="Nodes and workloads" href="#" />
+        <Tile icon={ScrollText} title="logs" description="Live tail across workers" href="#" />
         <Tile icon={Activity} title="metrics" description="3 alerts open" href="#" badge={3} badgeTone="warning" />
         <Tile icon={Database} title="database" description="db-0, the primary" href="#" status="online" />
       </TileGroup>
@@ -88,18 +88,18 @@ export const WithFavorites: Story = {
         onQueryChange={setQ}
         favorites={
           <TileGroup legend="favourites" minTileWidth="13rem">
-            <Tile icon={GitBranch} title="pipelines" description="builds and releases" href="#" />
-            <Tile icon={ScrollText} title="logs" description="live tail across workers" href="#" />
+            <Tile icon={GitBranch} title="pipelines" description="Builds and releases" href="#" />
+            <Tile icon={ScrollText} title="logs" description="Live tail across workers" href="#" />
           </TileGroup>
         }
       >
         <TileGroup legend="media" minTileWidth="13rem">
-          <Tile icon={Film} title="video" description="films and series" href="#" />
-          <Tile icon={Music} title="music" description="albums and playlists" href="#" badge="new" badgeTone="info" />
-          <Tile icon={Tv} title="live tv" description="back after maintenance" disabled />
+          <Tile icon={Film} title="video" description="Films and series" href="#" />
+          <Tile icon={Music} title="music" description="Albums and playlists" href="#" badge="new" badgeTone="info" />
+          <Tile icon={Tv} title="live tv" description="Back after maintenance" disabled />
         </TileGroup>
         <TileGroup legend="services" minTileWidth="13rem">
-          <Tile icon={Server} title="cluster" description="nodes and workloads" href="#" />
+          <Tile icon={Server} title="cluster" description="Nodes and workloads" href="#" />
           <Tile icon={Database} title="database" description="db-0, the primary" href="#" status="online" />
         </TileGroup>
       </Portal>
@@ -125,10 +125,10 @@ export const Compact: Story = {
   render: () => (
     <Portal title="services" density="compact" searchLabel="search services">
       <TileGroup legend="workers" minTileWidth="11rem" gap="sm">
-        <Tile icon={Server} title="api" description="all workers up" href="#" status="online" size="sm" />
+        <Tile icon={Server} title="api" description="All workers up" href="#" status="online" size="sm" />
         <Tile icon={Server} title="queue" description="2 of 3 workers down" href="#" status="degraded" size="sm" />
-        <Tile icon={Server} title="worker-2" description="not responding" href="#" status="offline" size="sm" />
-        <Tile icon={Database} title="db-0" description="primary" href="#" status="online" size="sm" />
+        <Tile icon={Server} title="worker-2" description="Not responding" href="#" status="offline" size="sm" />
+        <Tile icon={Database} title="db-0" description="Primary" href="#" status="online" size="sm" />
       </TileGroup>
     </Portal>
   ),
@@ -146,13 +146,13 @@ export const NoMatches: Story = {
         onQueryChange={setQ}
         emptyState={
           <span>
-            no apps match “{q}”. try another word, or press esc in the search box to clear it.
+            No apps match “{q}”. Try another word, or press Esc in the search box to clear it.
           </span>
         }
       >
         <TileGroup legend="tools" minTileWidth="13rem">
-          <Tile icon={Server} title="cluster" description="nodes and workloads" href="#" />
-          <Tile icon={ScrollText} title="logs" description="live tail across workers" href="#" />
+          <Tile icon={Server} title="cluster" description="Nodes and workloads" href="#" />
+          <Tile icon={ScrollText} title="logs" description="Live tail across workers" href="#" />
         </TileGroup>
       </Portal>
     );

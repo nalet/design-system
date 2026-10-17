@@ -15,7 +15,7 @@ const meta: Meta<TextareaProps> = {
     invalid: {
       control: 'boolean',
       // the source comment still says amber; the css uses --state-error.
-      description: 'paint the error border (--state-error) and set aria-invalid.',
+      description: 'Paint the error border (--state-error) and set aria-invalid.',
     },
     disabled: { control: 'boolean' },
     placeholder: { control: 'text' },
@@ -25,7 +25,7 @@ const meta: Meta<TextareaProps> = {
     docs: {
       description: {
         component:
-          'a square, multi-line text field in mono type that people can drag taller. put it in a field for its label, hint and error.',
+          'A square, multi-line text field in mono type that people can drag taller. Put it in a field for its label, hint and error.',
       },
     },
   },
@@ -64,7 +64,7 @@ export const Default: Story = {
 export const Invalid: Story = {
   render: () => (
     <div style={{ width: 420 }}>
-      <Field label="manifest" error="line 1: name is empty">
+      <Field label="Manifest" error="Line 1: name is empty">
         <Textarea rows={3} defaultValue={'name:\nreplicas: 3\nimage: registry.example.com/api:1.4.2'} />
       </Field>
     </div>

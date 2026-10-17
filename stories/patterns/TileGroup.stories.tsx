@@ -10,8 +10,8 @@ const meta: Meta<TileGroupProps> = {
     docs: {
       description: {
         component:
-          'a titled section of tiles in a square grid. the legend names a stable group; the ' +
-          'grid is a responsive auto-fill grid by default. one tab stop for the group and ' +
+          'A titled section of tiles in a square grid. The legend names a stable group; the ' +
+          'grid is a responsive auto-fill grid by default. One tab stop for the group and ' +
           'arrow keys between tiles, unless a parent portal runs that model.',
       },
     },
@@ -45,10 +45,10 @@ type Story = StoryObj<TileGroupProps>;
 
 const tiles = (
   <>
-    <Tile icon={GitBranch} title="pipelines" description="builds and releases" href="#" />
-    <Tile icon={Server} title="cluster" description="nodes and workloads" href="#" />
+    <Tile icon={GitBranch} title="pipelines" description="Builds and releases" href="#" />
+    <Tile icon={Server} title="cluster" description="Nodes and workloads" href="#" />
     <Tile icon={Database} title="database" description="db-0, the primary" href="#" status="online" />
-    <Tile icon={ScrollText} title="logs" description="live tail across workers" href="#" />
+    <Tile icon={ScrollText} title="logs" description="Live tail across workers" href="#" />
     <Tile icon={Activity} title="metrics" description="3 alerts open" href="#" badge={3} badgeTone="warning" />
   </>
 );
@@ -85,7 +85,7 @@ export const WithAction: Story = {
 export const WithDescription: Story = {
   name: 'with description',
   render: () => (
-    <TileGroup legend="storage" description="the services every release depends on.">
+    <TileGroup legend="storage" description="The services every release depends on.">
       {tiles}
     </TileGroup>
   ),
@@ -96,7 +96,7 @@ export const TabOrder: Story = {
   render: () => (
     <TileGroup
       legend="monitoring"
-      description="every tile is its own tab stop; the arrow keys do nothing."
+      description="Every tile is its own tab stop; the arrow keys do nothing."
       navigation="tab"
     >
       {tiles}

@@ -7,30 +7,30 @@ import { expectNoAxeViolations } from '../../test/axe';
 describe('Field', () => {
   it('marks the control invalid on an error, and keeps an invalid control invalid without one', () => {
     const { rerender } = render(
-      <Field label="storage floor" error="must be a number">
+      <Field label="Storage floor" error="Must be a number">
         <Input />
       </Field>,
     );
-    const input = screen.getByRole('textbox', { name: 'storage floor' });
+    const input = screen.getByRole('textbox', { name: 'Storage floor' });
     expect(input).toHaveAttribute('aria-invalid', 'true');
-    expect(input).toHaveAccessibleDescription('must be a number');
+    expect(input).toHaveAccessibleDescription('Must be a number');
     rerender(
-      <Field label="storage floor">
+      <Field label="Storage floor">
         <Input invalid />
       </Field>,
     );
-    expect(screen.getByRole('textbox', { name: 'storage floor' })).toHaveAttribute('aria-invalid', 'true');
+    expect(screen.getByRole('textbox', { name: 'Storage floor' })).toHaveAttribute('aria-invalid', 'true');
     rerender(
-      <Field label="storage floor" hint="in gb">
+      <Field label="Storage floor" hint="In GB">
         <Input />
       </Field>,
     );
-    expect(screen.getByRole('textbox', { name: 'storage floor' })).not.toHaveAttribute('aria-invalid');
+    expect(screen.getByRole('textbox', { name: 'Storage floor' })).not.toHaveAttribute('aria-invalid');
   });
 
   it('has no axe violations', async () => {
     const { container } = render(
-      <Field label="storage floor" error="must be a number" required>
+      <Field label="Storage floor" error="Must be a number" required>
         <Input />
       </Field>,
     );

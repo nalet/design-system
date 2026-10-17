@@ -10,7 +10,7 @@ const meta: Meta<WorklistProps> = {
     docs: {
       description: {
         component:
-          'the floorplan for the things that need doing: header, key-figure filter tabs, one message strip, a filter bar, a toolbar with one emphasized action, and the table or its empty state.',
+          'The floorplan for the things that need doing: header, key-figure filter tabs, one message strip, a filter bar, a toolbar with one emphasized action, and the table or its empty state.',
       },
     },
   },

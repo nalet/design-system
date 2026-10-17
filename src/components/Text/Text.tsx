@@ -5,17 +5,17 @@ import './Text.css';
 export type TextVariant = 'body' | 'ui' | 'muted' | 'dim' | 'code';
 
 export interface TextProps extends React.HTMLAttributes<HTMLElement> {
-  /** type role. body/ui use Inter, code uses mono. muted/dim shift color. */
+  /** Type role. `body`/`ui` use Inter, `code` uses mono. `muted`/`dim` shift color. */
   variant?: TextVariant;
-  /** render a different element. default 'span'. */
+  /** Render a different element. Default 'span'. */
   as?: keyof React.JSX.IntrinsicElements;
-  /** truncate to a single line with an ellipsis. */
+  /** Truncate to a single line with an ellipsis. */
   truncate?: boolean;
 }
 
 /**
  * Text — inline/block copy at one of the documented type roles.
- * body and ui are Inter; code is mono; muted and dim only restyle the color.
+ * `body` and `ui` are Inter; `code` is mono; `muted` and `dim` only restyle the color.
  */
 export const Text = React.forwardRef<HTMLElement, TextProps>(function Text(
   { variant = 'body', as = 'span', truncate, className, ...rest },

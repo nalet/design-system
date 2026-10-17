@@ -16,7 +16,7 @@ const meta: Meta<ObjectStatusProps> = {
   parameters: {
     docs: {
       description: {
-        component: 'the state of one object, said once and truthfully: a semantic state and short human text.',
+        component: 'The state of one object, said once and truthfully: a semantic state and short human text.',
       },
     },
   },

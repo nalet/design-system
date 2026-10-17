@@ -7,32 +7,32 @@ import './ActionMenu.css';
 
 export interface ActionMenuItem {
   id: string;
-  /** a verb, lowercase: "pick a release", "grab now". */
+  /** A verb, lowercase: "pick a release", "grab now". */
   label: React.ReactNode;
   onSelect: () => void;
   disabled?: boolean;
-  /** optional leading icon (decoration). */
+  /** Optional leading icon (decoration). */
   icon?: React.ReactNode;
-  /** an action that deletes or cannot be undone. */
+  /** An action that deletes or cannot be undone. */
   danger?: boolean;
 }
 
 export interface ActionMenuProps {
   items: ActionMenuItem[];
   /**
-   * the icon trigger's accessible name — name the object: "actions for
-   * S04E07". the menu is named by its trigger. with a `buttonLabel` the
-   * visible text is the name (wcag 2.5.3) and this is not used.
+   * The icon trigger's accessible name — name the object: "actions for
+   * S04E07". The menu is named by its trigger. With a `buttonLabel` the
+   * visible text is the name (WCAG 2.5.3) and this is not used.
    */
   label: string;
-  /** a visible text trigger instead of the "more" icon. */
+  /** A visible text trigger instead of the "more" icon. */
   buttonLabel?: React.ReactNode;
-  /** a custom icon for the icon trigger. default: three squares. */
+  /** A custom icon for the icon trigger. Default: three squares. */
   icon?: React.ReactNode;
   size?: 'sm' | 'md';
-  /** which edge of the trigger the menu lines up with. default end. */
+  /** Which edge of the trigger the menu lines up with. Default end. */
   align?: 'start' | 'end';
-  /** busy: the trigger shows a spinner and cannot be opened. */
+  /** Busy: the trigger shows a spinner and cannot be opened. */
   loading?: boolean;
   disabled?: boolean;
   onOpenChange?: (open: boolean) => void;
@@ -59,8 +59,8 @@ const EDGE = 8;
 /**
  * ActionMenu — actions behind one trigger: a menu button (aria-haspopup=menu)
  * and a menu of menuitems, portaled to the body so no table or panel clips it.
- * opening moves focus into the menu; arrows move, enter or space selects, esc
- * closes and returns focus to the trigger, tab closes.
+ * Opening moves focus into the menu; arrows move, Enter or Space selects, Esc
+ * closes and returns focus to the trigger, Tab closes.
  */
 export function ActionMenu({
   items,

@@ -19,27 +19,27 @@ export type SortValue = string | number | Date | boolean | null | undefined;
 
 export interface DataTableColumn<Row> {
   id: string;
-  /** lowercase label. */
+  /** Lowercase label. */
   header: React.ReactNode;
-  /** the cell's content. */
+  /** The cell's content. */
   cell: (row: Row) => React.ReactNode;
-  /** makes the column sortable by this value (strings compare naturally, nulls last). */
+  /** Makes the column sortable by this value (strings compare naturally, nulls last). */
   sortValue?: (row: Row) => SortValue;
-  /** or by a full comparator. */
+  /** Or by a full comparator. */
   compare?: (a: Row, b: Row) => number;
-  /** the direction a first click sorts in. default ascending; dates usually want descending. */
+  /** The direction a first click sorts in. Default ascending; dates usually want descending. */
   firstSortDirection?: SortDirection;
   align?: 'left' | 'right' | 'center';
   width?: number | string;
   /**
-   * responsive priority, by the table's own width. high always shows; low
+   * Responsive priority, by the table's own width. High always shows; low
    * pops in under the row's first column at 720px and below, medium at 480px
-   * and below. a popped-in column is not rendered as a column at all.
+   * and below. A popped-in column is not rendered as a column at all.
    */
   importance?: 'high' | 'medium' | 'low';
-  /** the label a popped-in value carries. default: the header, when it is a string. */
+  /** The label a popped-in value carries. Default: the header, when it is a string. */
   popinLabel?: string;
-  /** the cell names the row (th scope=row). default: the first column. */
+  /** The cell names the row (th scope=row). Default: the first column. */
   rowHeader?: boolean;
 }
 
@@ -51,63 +51,63 @@ export interface DataTableGroup<Row> {
 export interface DataTableProps<Row> {
   columns: DataTableColumn<Row>[];
   rows: readonly Row[];
-  /** a stable, unique key per row. */
+  /** A stable, unique key per row. */
   rowKey: (row: Row) => string;
-  /** the table's accessible name (or pass aria-labelledby). */
+  /** The table's accessible name (or pass aria-labelledby). */
   'aria-label'?: string;
   'aria-labelledby'?: string;
 
-  /** controlled sort. the table sorts `rows` itself unless `manualSort`. */
+  /** Controlled sort. The table sorts `rows` itself unless `manualSort`. */
   sort?: DataTableSort | null;
   onSortChange?: (sort: DataTableSort) => void;
   /** `rows` arrive sorted (e.g. by a server); the table only shows the sort state. */
   manualSort?: boolean;
 
-  /** adds the checkbox column. selection is controlled. */
+  /** Adds the checkbox column. Selection is controlled. */
   selectable?: boolean;
   selected?: ReadonlySet<string>;
   onSelectionChange?: (next: Set<string>) => void;
-  /** rows that cannot be selected get a disabled checkbox. */
+  /** Rows that cannot be selected get a disabled checkbox. */
   isRowSelectable?: (row: Row) => boolean;
-  /** names a row for its checkbox: "S04E07" gives "select S04E07". */
+  /** Names a row for its checkbox: "S04E07" gives "select S04E07". */
   rowLabel?: (row: Row) => string;
 
-  /** groups rows under header rows, in order of first appearance after sorting. */
+  /** Groups rows under header rows, in order of first appearance after sorting. */
   groupBy?: (row: Row) => string;
-  /** the group row's label, usually with a count: "the example show · s04 · 8 missing". */
+  /** The group row's label, usually with a count: "The Example Show · S04 · 8 missing". */
   groupHeader?: (group: DataTableGroup<Row>) => React.ReactNode;
-  /** an action on the whole group (one ghost button). */
+  /** An action on the whole group (one ghost button). */
   groupAction?: (group: DataTableGroup<Row>) => React.ReactNode;
-  /** controlled collapsed groups; omit to let the table keep them. */
+  /** Controlled collapsed groups; omit to let the table keep them. */
   collapsedGroups?: ReadonlySet<string>;
   onCollapsedGroupsChange?: (next: Set<string>) => void;
   defaultCollapsedGroups?: Iterable<string>;
 
-  /** show this many rows, then "show more" adds as many again. omit to show every row. */
+  /** Show this many rows, then "show more" adds as many again. Omit to show every row. */
   growing?: number;
-  /** a change of this value (e.g. the active filters) starts growing over. */
+  /** A change of this value (e.g. the active filters) starts growing over. */
   growingResetKey?: unknown;
-  /** how the growing count reads. default "100 of 2,500". */
+  /** How the growing count reads. Default "100 of 2,500". */
   formatGrowing?: (shown: number, total: number) => string;
 
-  /** enter on a row, or a click outside its controls. without it a click toggles selection. */
+  /** Enter on a row, or a click outside its controls. Without it a click toggles selection. */
   onRowPress?: (row: Row) => void;
-  /** a state rule on the row's leading edge; the row must also say it in words. */
+  /** A state rule on the row's leading edge; the row must also say it in words. */
   rowHighlight?: (row: Row) => ObjectState | undefined;
 
-  /** the header row sticks while the page scrolls. default true. offset it with --nc-dt-sticky-top. */
+  /** The header row sticks while the page scrolls. Default true. Offset it with --nc-dt-sticky-top. */
   stickyHeader?: boolean;
   dense?: boolean;
-  /** shown in the body when there are no rows. */
+  /** Shown in the body when there are no rows. */
   empty?: React.ReactNode;
-  /** marks the table busy (aria-busy) and shows a progress rule. */
+  /** Marks the table busy (aria-busy) and shows a progress rule. */
   loading?: boolean;
   className?: string;
 }
 
 const EMPTY_SET: ReadonlySet<string> = new Set();
 
-/** the table widths (px) at and below which low and medium columns pop in. */
+/** The table widths (px) at and below which low and medium columns pop in. */
 const LOW_BELOW = 720;
 const MEDIUM_BELOW = 480;
 
@@ -196,7 +196,7 @@ function setAttr(el: Element, name: string, value: string) {
   if (el.getAttribute(name) !== value) el.setAttribute(name, value);
 }
 
-/** put a row (and its own controls) in or out of the tab order. */
+/** Put a row (and its own controls) in or out of the tab order. */
 function setRowTabbable(tr: HTMLTableRowElement, on: boolean) {
   tr.tabIndex = on ? 0 : -1;
   for (const el of Array.from(tr.querySelectorAll<HTMLElement>('[data-nc-tab]'))) {
@@ -336,13 +336,13 @@ const DataRow = React.memo(function DataRow<Row>({
  * DataTable — the interactive table: controlled sorting (aria-sort), row
  * selection with select-all, shift ranges and space, collapsible group rows,
  * a sticky header, growing ("show more", "100 of 2,500"), responsive pop-in,
- * and one tab stop with arrow-key row focus. a grid; a treegrid when grouped.
+ * and one tab stop with arrow-key row focus. A grid; a treegrid when grouped.
  *
- * keyboard on a focused row: ↑ ↓ home end page-up page-down move; space
+ * Keyboard on a focused row: ↑ ↓ home end page-up page-down move; space
  * toggles selection, shift+space selects the range from the last toggled row,
  * shift+↑/↓ extend it, ctrl/cmd+a selects every visible row; enter presses the
- * row. on a group row: ← collapses, → expands, enter or space toggles; ← on a
- * row moves to its group. tab enters the focused row's own controls.
+ * row. On a group row: ← collapses, → expands, enter or space toggles; ← on a
+ * row moves to its group. Tab enters the focused row's own controls.
  */
 export function DataTable<Row>({
   columns,

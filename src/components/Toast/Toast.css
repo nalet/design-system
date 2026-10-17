@@ -32,7 +32,8 @@
   border-radius: 0;
   background: var(--surface-2);
   color: var(--fg);
-  font-family: var(--ff-mono);
+  /* a toast's message is read, so it is in the body face, in sentence case. */
+  font-family: var(--ff-ui);
   font-size: 13px;
   line-height: 1.4;
   pointer-events: auto;

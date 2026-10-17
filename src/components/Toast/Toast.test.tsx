@@ -30,46 +30,46 @@ describe('toast', () => {
     const button = screen.getByRole('button', { name: 'grab' });
     button.focus();
     act(() => {
-      toast('queued');
+      toast('Queued');
     });
     expect(document.activeElement).toBe(button);
-    expect(screen.getByText('queued').closest('li')!.querySelector('button, [tabindex]')).toBeNull();
+    expect(screen.getByText('Queued').closest('li')!.querySelector('button, [tabindex]')).toBeNull();
   });
 
   it('leaves on its own after its duration', () => {
     vi.useFakeTimers();
     render(<Toaster />);
     act(() => {
-      toast('queued', { duration: 1000 });
+      toast('Queued', { duration: 1000 });
     });
-    expect(screen.queryByText('queued')).not.toBeNull();
+    expect(screen.queryByText('Queued')).not.toBeNull();
     act(() => {
       vi.advanceTimersByTime(1001);
     });
-    expect(screen.queryByText('queued')).toBeNull();
+    expect(screen.queryByText('Queued')).toBeNull();
   });
 
   it('keeps at most three, replaces by id, and dismisses on request', () => {
     render(<Toaster />);
     act(() => {
-      for (const n of [1, 2, 3, 4]) toast(`toast ${n}`);
+      for (const n of [1, 2, 3, 4]) toast(`Toast ${n}`);
     });
-    expect(screen.queryByText('toast 1')).toBeNull();
-    expect(screen.getByText('toast 4')).toBeInTheDocument();
+    expect(screen.queryByText('Toast 1')).toBeNull();
+    expect(screen.getByText('Toast 4')).toBeInTheDocument();
     let id = '';
     act(() => {
-      id = toast('first version', { id: 'same' });
-      toast('second version', { id: 'same' });
+      id = toast('First version', { id: 'same' });
+      toast('Second version', { id: 'same' });
     });
-    expect(screen.queryByText('first version')).toBeNull();
-    expect(screen.getByText('second version')).toBeInTheDocument();
+    expect(screen.queryByText('First version')).toBeNull();
+    expect(screen.getByText('Second version')).toBeInTheDocument();
     act(() => toast.dismiss(id));
-    expect(screen.queryByText('second version')).toBeNull();
+    expect(screen.queryByText('Second version')).toBeNull();
   });
 
   it('warns when no toaster is mounted', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
-    toast('nobody sees this');
+    toast('Nobody sees this');
     expect(warn).toHaveBeenCalled();
     warn.mockRestore();
   });
@@ -78,7 +78,7 @@ describe('toast', () => {
     const { container } = render(<Toaster />);
     act(() => {
       toast('8 episodes queued', { state: 'success' });
-      toast('asking the catalog again', { state: 'information' });
+      toast('Asking the catalog again', { state: 'information' });
     });
     await expectNoAxeViolations(container);
   });

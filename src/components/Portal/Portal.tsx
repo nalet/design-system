@@ -7,38 +7,38 @@ import './Portal.css';
 
 export interface PortalProps
   extends Omit<React.HTMLAttributes<HTMLElement>, 'title' | 'onChange'> {
-  /** lowercase mono heading (a leading blue chevron is added). */
+  /** Lowercase mono heading (a leading blue chevron is added). */
   title?: string;
-  /** show the search box. default true. */
+  /** Show the search box. Default true. */
   searchable?: boolean;
-  /** search input placeholder. */
+  /** Search input placeholder. */
   searchPlaceholder?: string;
-  /** names the search landmark and its field. default "search apps"; give each launcher on a page its own. */
+  /** Names the search landmark and its field. Default "search apps"; give each launcher on a page its own. */
   searchLabel?: string;
-  /** controlled search value (pair with onQueryChange). */
+  /** Controlled search value (pair with onQueryChange). */
   query?: string;
-  /** per-keystroke search callback (controlled / analytics). */
+  /** Per-keystroke search callback (controlled / analytics). */
   onQueryChange?: (query: string) => void;
   /**
-   * keyboard model. 'roving' (default) = the launcher owns one tab stop and
+   * Keyboard model. 'roving' (default) = the launcher owns one tab stop and
    * arrow keys move between tiles across groups. 'tab' = native tab order.
    */
   navigation?: 'roving' | 'tab';
-  /** global spacing scale. */
+  /** Global spacing scale. */
   density?: 'comfortable' | 'compact';
-  /** pinned slot above the groups (typically a favourites TileGroup). */
+  /** Pinned slot above the groups (typically a favourites TileGroup). */
   favorites?: React.ReactNode;
-  /** shown when search matches nothing. */
+  /** Shown when search matches nothing. */
   emptyState?: React.ReactNode;
-  /** the TileGroups. */
+  /** The TileGroups. */
   children: React.ReactNode;
 }
 
 /**
- * Portal — the launchpad home. lays out grouped square Tiles, with a persistent
+ * Portal — the launchpad home. Lays out grouped square Tiles, with a persistent
  * favourites slot, a search box, and roving-tabindex arrow-key navigation that
- * spans every group. groups stay in a stable order; search filters tiles in
- * place. the terminal-aesthetic app launcher.
+ * spans every group. Groups stay in a stable order; search filters tiles in
+ * place. The terminal-aesthetic app launcher.
  */
 export const Portal = React.forwardRef<HTMLDivElement, PortalProps>(function Portal(
   {
@@ -149,7 +149,7 @@ export const Portal = React.forwardRef<HTMLDivElement, PortalProps>(function Por
           {children}
           {matches === 0 ? (
             <div className="nc-portal__empty">
-              {emptyState ?? <span>no apps match “{query ?? innerQuery}”.</span>}
+              {emptyState ?? <span>No apps match “{query ?? innerQuery}”.</span>}
             </div>
           ) : null}
         </div>

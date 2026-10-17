@@ -109,11 +109,14 @@
   background: var(--surface-2);
 }
 
+/* an option is a filter value, like the one the trigger shows: monospace, as
+   a single select's options are, not the body face of a checkbox label. */
 .nc-multiselect__option-label {
   display: inline-flex;
   gap: var(--s-3);
   justify-content: space-between;
   min-width: 10ch;
+  font-family: var(--ff-mono);
 }
 
 .nc-multiselect__option-count {

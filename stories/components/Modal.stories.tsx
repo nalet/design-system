@@ -29,7 +29,7 @@ const meta: Meta<ModalProps> = {
     docs: {
       description: {
         component:
-          'a square dialog over a dim backdrop for one task that needs an answer. traps tab, closes on esc and backdrop click, locks page scroll and returns focus to the opener.',
+          'A square dialog over a dim backdrop for one task that needs an answer. Traps Tab, closes on Esc and backdrop click, locks page scroll and returns focus to the opener.',
       },
     },
   },
@@ -49,7 +49,7 @@ export const Playground: Story = {
       <>
         <Button onClick={() => setOpen(true)}>open modal</Button>
         <Modal {...args} open={open} onClose={close}>
-          set the title, width and dismiss options in the controls, then open the dialog again.
+          Set the title, width and dismiss options in the controls, then open the dialog again.
         </Modal>
       </>
     );
@@ -80,7 +80,7 @@ export const Confirm: Story = {
             </>
           }
         >
-          this permanently deletes storage-01 and its 3 snapshots. it can't be undone.
+          This permanently deletes storage-01 and its 3 snapshots. It can't be undone.
         </Modal>
       </>
     );
@@ -122,10 +122,10 @@ export const Form: Story = {
             }}
             style={{ display: 'grid', gap: 'var(--s-3)' }}
           >
-            <Field label="base url" hint="the address the server answers on.">
+            <Field label="Base URL" hint="The address the server answers on.">
               <Input defaultValue="https://api.example.com" />
             </Field>
-            <Field label="name">
+            <Field label="Name">
               <Input defaultValue="worker-2" />
             </Field>
           </form>
@@ -184,8 +184,8 @@ export const Persistent: Story = {
             </Button>
           }
         >
-          the schema migration on db-0 is running. esc and the backdrop don't close this dialog, so
-          a stray key can't hide the run. the close button and done still do.
+          The schema migration on db-0 is running. Esc and the backdrop don't close this dialog, so
+          a stray key can't hide the run. The close button and done still do.
         </Modal>
       </>
     );
@@ -193,14 +193,14 @@ export const Persistent: Story = {
 };
 
 const notes = [
-  'deploy release now waits until every worker reports ready.',
-  'view pipeline opens the run that built the current image.',
-  'delete volume names the volume it is about to delete.',
+  'Deploy release now waits until every worker reports ready.',
+  'View pipeline opens the run that built the current image.',
+  'Delete volume names the volume it is about to delete.',
   'storage-01 reports free space per volume.',
   'db-0 backups run at 02:00 and are kept for 14 days.',
   'api-7f9c restarts in under 10 seconds.',
-  'logs keep 7 days of history per worker.',
-  'metrics refresh every 30 seconds.',
+  'Logs keep 7 days of history per worker.',
+  'Metrics refresh every 30 seconds.',
 ];
 
 export const LongContent: Story = {

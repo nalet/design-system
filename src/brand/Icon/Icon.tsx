@@ -4,14 +4,14 @@ import { cx } from '../../lib/cx';
 import './Icon.css';
 
 export interface IconProps extends Omit<LucideProps, 'ref' | 'size'> {
-  /** the lucide icon component, e.g. `import { Terminal } from 'lucide-react'`. */
+  /** The Lucide icon component, e.g. `import { Terminal } from 'lucide-react'`. */
   icon: LucideIcon;
-  /** edge length in px. default 16 (matches ui type). */
+  /** Edge length in px. Default 16 (matches ui type). */
   size?: number;
 }
 
 /**
- * Icon — thin wrapper over a lucide icon. enforces a consistent thin stroke
+ * Icon — thin wrapper over a Lucide icon. Enforces a consistent thin stroke
  * and inherits currentColor so it tints with surrounding text.
  */
 export const Icon = React.forwardRef<SVGSVGElement, IconProps>(function Icon(

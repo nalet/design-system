@@ -6,7 +6,7 @@ const meta: Meta<SwitchProps> = {
   title: 'Components/inputs/switch',
   component: Switch,
   args: {
-    label: 'email alerts',
+    label: 'Email alerts',
     size: 'md',
     defaultChecked: false,
     disabled: false,
@@ -16,13 +16,13 @@ const meta: Meta<SwitchProps> = {
     label: { control: 'text' },
     defaultChecked: { control: 'boolean' },
     disabled: { control: 'boolean' },
-    onChange: { control: false, description: 'the native change handler. read event.target.checked.' },
+    onChange: { control: false, description: 'The native change handler. Read event.target.checked.' },
   },
   parameters: {
     docs: {
       description: {
         component:
-          'a square on/off toggle for a setting that applies at once: a native checkbox with role="switch", a cloud-blue track when on and a square thumb.',
+          'A square on/off toggle for a setting that applies at once: a native checkbox with role="switch", a cloud-blue track when on and a square thumb.',
       },
     },
   },
@@ -38,10 +38,10 @@ export const Playground: Story = {};
 export const States: Story = {
   render: () => (
     <div style={stack}>
-      <Switch label="email alerts" />
-      <Switch label="automatic updates" defaultChecked />
-      <Switch label="debug logging" disabled />
-      <Switch label="audit log" disabled defaultChecked />
+      <Switch label="Email alerts" />
+      <Switch label="Automatic updates" defaultChecked />
+      <Switch label="Debug logging" disabled />
+      <Switch label="Audit log" disabled defaultChecked />
     </div>
   ),
 };
@@ -61,7 +61,7 @@ export const Controlled: Story = {
     const [on, setOn] = useState(false);
     return (
       <div style={stack}>
-        <Switch label="maintenance mode" checked={on} onChange={(e) => setOn(e.target.checked)} />
+        <Switch label="Maintenance mode" checked={on} onChange={(e) => setOn(e.target.checked)} />
         <span role="status" style={{ fontFamily: 'var(--ff-mono)', fontSize: 12, color: 'var(--fg-dim)' }}>
           {on ? 'visitors see the maintenance notice' : 'the site is open to visitors'}
         </span>
@@ -84,10 +84,10 @@ export const SettingsPanel: Story = {
         width: 280,
       }}
     >
-      <Switch label="automatic updates" defaultChecked />
-      <Switch label="email alerts" defaultChecked />
-      <Switch label="weekly summary" />
-      <Switch label="debug logging" />
+      <Switch label="Automatic updates" defaultChecked />
+      <Switch label="Email alerts" defaultChecked />
+      <Switch label="Weekly summary" />
+      <Switch label="Debug logging" />
     </div>
   ),
 };

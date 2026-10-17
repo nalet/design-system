@@ -21,10 +21,10 @@ const FLAT = SERIES.slice(0, 40);
 const SECOND_TITLE = [...new Set(SERIES.map((b) => b.title))][1];
 const BY_SEASON = SERIES.filter((b) => b.title === SECOND_TITLE);
 
-/** rows the growing table shows before "show more". */
+/** Rows the growing table shows before "show more". */
 const PAGE = 10;
 
-/** a missing or failed episode can be grabbed; one already on its way cannot. */
+/** A missing or failed episode can be grabbed; one already on its way cannot. */
 const grabbable = (b: BacklogItem) => !onItsWay(b);
 const episodes = (n: number) => `${formatCount(n)} ${n === 1 ? 'episode' : 'episodes'}`;
 
@@ -35,7 +35,7 @@ const meta: Meta = {
     docs: {
       description: {
         component:
-          'select rows in a data table, act on all of them with the one emphasized action of the selection toolbar, act on one row from its action menu, and say what happened in a toast.',
+          'Select rows in a data table, act on all of them with the one emphasized action of the selection toolbar, act on one row from its action menu, and say what happened in a toast.',
       },
     },
   },
@@ -56,9 +56,9 @@ export default meta;
 type Story = StoryObj;
 
 /**
- * the list's state and its actions. `queue` grabs the rows it can, drops them
+ * The list's state and its actions. `queue` grabs the rows it can, drops them
  * from the selection (they can no longer be selected) and says what happened,
- * counting what it skipped. it reads the rows through a ref, so the columns
+ * counting what it skipped. It reads the rows through a ref, so the columns
  * that call it are made once and the rows' cells don't re-render on every change.
  */
 function useBacklog(initial: readonly BacklogItem[]) {
@@ -87,13 +87,13 @@ function useBacklog(initial: readonly BacklogItem[]) {
   }, []);
 
   const searchAgain = useCallback((name: string) => {
-    toast(`searching for ${name} again`, { state: 'information' });
+    toast(`Searching for ${name} again`, { state: 'information' });
   }, []);
 
   return { items, selected, setSelected, queue, searchAgain };
 }
 
-/** one action menu per row, in the last column. never a row of buttons. */
+/** One action menu per row, in the last column. Never a row of buttons. */
 function useColumns(queue: (ids: Iterable<string>, name?: string) => void, searchAgain: (name: string) => void) {
   return useMemo<DataTableColumn<BacklogItem>[]>(
     () => [
@@ -118,7 +118,7 @@ function useColumns(queue: (ids: Iterable<string>, name?: string) => void, searc
   );
 }
 
-/** the toolbar and the table read as one block: the table's top border sits under the toolbar's. */
+/** The toolbar and the table read as one block: the table's top border sits under the toolbar's. */
 const attached = { marginTop: -1 } as const;
 
 export const SelectAndAct: Story = {
@@ -164,7 +164,7 @@ export const SelectAndAct: Story = {
               id: 'search',
               label: 'search the whole list again',
               overflow: true,
-              onSelect: () => toast(`searching for ${episodes(items.length)} again`, { state: 'information' }),
+              onSelect: () => toast(`Searching for ${episodes(items.length)} again`, { state: 'information' }),
             },
           ]}
         />

@@ -5,11 +5,11 @@ import '../../lib/a11y.css';
 import './Toast.css';
 
 export interface ToastOptions {
-  /** the meaning, for the glyph. default neutral. errors belong in a message strip, not a toast. */
+  /** The meaning, for the glyph. Default neutral. Errors belong in a message strip, not a toast. */
   state?: ObjectState;
-  /** milliseconds on screen. default 5000; hovering the toast pauses it. */
+  /** Milliseconds on screen. Default 5000; hovering the toast pauses it. */
   duration?: number;
-  /** replace the toast with this id instead of adding one (e.g. a repeated action). */
+  /** Replace the toast with this ID instead of adding one (e.g. a repeated action). */
   id?: string;
 }
 
@@ -43,9 +43,9 @@ function snapshot() {
 }
 
 /**
- * toast — transient feedback after an action: "8 episodes queued". it never
- * takes focus, is announced politely, and leaves on its own. returns the id.
- * render one <Toaster /> near the app root.
+ * toast — transient feedback after an action: "8 episodes queued". It never
+ * takes focus, is announced politely, and leaves on its own. Returns the ID.
+ * Render one <Toaster /> near the app root.
  */
 export function toast(message: React.ReactNode, options: ToastOptions = {}): string {
   const id = options.id ?? `nc-toast-${++counter}`;
@@ -64,20 +64,20 @@ export function toast(message: React.ReactNode, options: ToastOptions = {}): str
   return id;
 }
 
-/** remove one toast now. */
+/** Remove one toast now. */
 toast.dismiss = (id: string): void => {
   items = items.filter((t) => t.id !== id);
   emit();
 };
 
-/** remove every toast now. */
+/** Remove every toast now. */
 toast.clear = (): void => {
   items = [];
   emit();
 };
 
 export interface ToasterProps {
-  /** the region's accessible name. default "notifications". */
+  /** The region's accessible name. Default "notifications". */
   label?: string;
   className?: string;
 }
@@ -121,7 +121,7 @@ function ToastView({ item }: { item: ToastItem }) {
 
 /**
  * Toaster — where toasts appear: bottom centre, above everything, at most three
- * at a time. the list is a polite live region that exists before the first
+ * at a time. The list is a polite live region that exists before the first
  * toast, so every addition is announced once; nothing in it is focusable.
  */
 export function Toaster({ label = 'notifications', className }: ToasterProps) {

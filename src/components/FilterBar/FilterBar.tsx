@@ -11,22 +11,22 @@ import './FilterBar.css';
 export interface FilterBarSearch {
   value: string;
   onChange: (value: string) => void;
-  /** a hint of what can be searched: "search titles". */
+  /** A hint of what can be searched: "search titles". */
   placeholder?: string;
-  /** the field's accessible name. default "search". */
+  /** The field's accessible name. Default "search". */
   label?: string;
 }
 
 export interface FilterSelectDef {
   type: 'select';
   id: string;
-  /** the facet's name: "kind". */
+  /** The facet's name: "kind". */
   label: string;
   value: string;
   onChange: (value: string) => void;
-  /** the first option should be the "no filter" one ("all"). */
+  /** The first option should be the "no filter" one ("all"). */
   options: { value: string; label: string }[];
-  /** the value that means no filter. default "". */
+  /** The value that means no filter. Default "". */
   emptyValue?: string;
 }
 
@@ -42,19 +42,19 @@ export interface FilterMultiSelectDef {
 export type FilterDef = FilterSelectDef | FilterMultiSelectDef;
 
 export interface FilterBarProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** a search field, filtering as the person types. */
+  /** A search field, filtering as the person types. */
   search?: FilterBarSearch;
-  /** facets: single (native select) or several values (multi select). */
+  /** Facets: single (native select) or several values (multi select). */
   filters?: FilterDef[];
-  /** resets search and every facet; "clear all" is enabled while any is set. */
+  /** Resets search and every facet; "clear all" is enabled while any is set. */
   onClearAll?: () => void;
-  /** what the filters leave: "312 of 2,500". announced politely as it changes. */
+  /** What the filters leave: "312 of 2,500". Announced politely as it changes. */
   resultCount?: React.ReactNode;
-  /** the landmark's accessible name. default "filters". */
+  /** The landmark's accessible name. Default "filters". */
   label?: string;
-  /** below this width (px) the facets fold behind a "filters" toggle. default 640. */
+  /** Below this width (px) the facets fold behind a "filters" toggle. Default 640. */
   collapseBelow?: number;
-  /** extra controls after the facets. */
+  /** Extra controls after the facets. */
   children?: React.ReactNode;
 }
 
@@ -71,8 +71,8 @@ function isActive(f: FilterDef): boolean {
 
 /**
  * FilterBar — what narrows a list: a search field, facets, "clear all" and the
- * count of what is left. fully controlled; the list filters itself from the
- * values. a search landmark; on a narrow screen the facets fold behind one
+ * count of what is left. Fully controlled; the list filters itself from the
+ * values. A search landmark; on a narrow screen the facets fold behind one
  * "filters" toggle that says how many are set.
  */
 export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(function FilterBar(

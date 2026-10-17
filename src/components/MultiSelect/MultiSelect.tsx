@@ -8,19 +8,19 @@ import './MultiSelect.css';
 export interface MultiSelectOption {
   value: string;
   label: string;
-  /** how many items this option would keep, when known. */
+  /** How many items this option would keep, when known. */
   count?: number;
 }
 
 export interface MultiSelectProps {
-  /** the facet's name, shown on the trigger and read as the group's name: "aired". */
+  /** The facet's name, shown on the trigger and read as the group's name: "aired". */
   label: string;
   options: MultiSelectOption[];
-  /** the chosen values (controlled). empty means no filter. */
+  /** The chosen values (controlled). Empty means no filter. */
   value: string[];
   onChange: (next: string[]) => void;
   size?: 'sm' | 'md';
-  /** what the trigger says while nothing is chosen. default "any". */
+  /** What the trigger says while nothing is chosen. Default "any". */
   emptyText?: string;
   disabled?: boolean;
   className?: string;
@@ -28,7 +28,7 @@ export interface MultiSelectProps {
 
 /**
  * MultiSelect — a facet that keeps several values: a trigger that says what is
- * chosen ("aired: 2 chosen") and a panel of native checkboxes. a disclosure,
+ * chosen ("aired: 2 chosen") and a panel of native checkboxes. A disclosure,
  * not a menu: tab moves through the checkboxes, esc or a press outside closes
  * it, and focus returns to the trigger on esc.
  */

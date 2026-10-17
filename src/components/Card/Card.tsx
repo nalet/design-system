@@ -3,21 +3,21 @@ import { cx } from '../../lib/cx';
 import './Card.css';
 
 export interface CardProps extends React.HTMLAttributes<HTMLDivElement> {
-  /** optional header row. when set, draws a hairline-separated title bar. */
+  /** Optional header row. When set, draws a hairline-separated title bar. */
   header?: React.ReactNode;
-  /** optional right-aligned node in the header (actions). */
+  /** Optional right-aligned node in the header (actions). */
   headerAside?: React.ReactNode;
-  /** optional footer row, hairline-separated. */
+  /** Optional footer row, hairline-separated. */
   footer?: React.ReactNode;
-  /** remove body padding (for tables / full-bleed content). */
+  /** Remove body padding (for tables / full-bleed content). */
   flush?: boolean;
-  /** use the deeper bg-2 instead of surface. */
+  /** Use the deeper bg-2 instead of surface. */
   sunken?: boolean;
 }
 
 /**
- * Card — a square surface panel with a hairline border. optional mono header
- * and footer rows. the default container for grouped content.
+ * Card — a square surface panel with a hairline border. Optional mono header
+ * and footer rows. The default container for grouped content.
  */
 export const Card = React.forwardRef<HTMLDivElement, CardProps>(function Card(
   { header, headerAside, footer, flush, sunken, className, children, ...rest },

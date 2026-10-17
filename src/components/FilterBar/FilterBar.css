@@ -56,6 +56,16 @@
   margin-left: auto;
 }
 
+.nc-filterbar__count--empty,
+.nc-filterbar__end--empty {
+  /* present for assistive tech, takes no room. */
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
 .nc-filterbar__count {
   font-family: var(--ff-mono);
   font-size: 12px;

@@ -49,6 +49,25 @@ export const FilterTabs = React.forwardRef<HTMLDivElement, FilterTabsProps>(func
   const fallbackPrefix = React.useId();
   const prefix = idPrefix ?? fallbackPrefix;
   const listRef = React.useRef<HTMLDivElement>(null);
+  // when the row is wider than its room it scrolls; a fade on the cut edge says so.
+  const [more, setMore] = React.useState({ start: false, end: false });
+  React.useLayoutEffect(() => {
+    const el = listRef.current;
+    if (!el) return;
+    const update = () => {
+      const start = el.scrollLeft > 1;
+      const end = el.scrollLeft + el.clientWidth < el.scrollWidth - 1;
+      setMore((m) => (m.start === start && m.end === end ? m : { start, end }));
+    };
+    update();
+    el.addEventListener('scroll', update, { passive: true });
+    const ro = typeof ResizeObserver === 'undefined' ? null : new ResizeObserver(update);
+    ro?.observe(el);
+    return () => {
+      el.removeEventListener('scroll', update);
+      ro?.disconnect();
+    };
+  }, [tabs.length]);
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
     const enabled = tabs.filter((t) => !t.disabled);
@@ -67,7 +86,16 @@ export const FilterTabs = React.forwardRef<HTMLDivElement, FilterTabsProps>(func
   };
 
   return (
-    <div ref={ref} className={cx('nc-filtertabs', className)} {...rest}>
+    <div
+      ref={ref}
+      className={cx(
+        'nc-filtertabs',
+        more.start && 'nc-filtertabs--more-start',
+        more.end && 'nc-filtertabs--more-end',
+        className,
+      )}
+      {...rest}
+    >
       <div ref={listRef} className="nc-filtertabs__list" role="tablist" aria-label={label}>
         {tabs.map((t) => {
           const selected = t.id === value;

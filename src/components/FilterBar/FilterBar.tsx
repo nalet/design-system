@@ -99,6 +99,12 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(functi
   const activeFacets = filters.filter(isActive).length;
   const anyActive = activeFacets > 0 || !!search?.value;
   const showFacets = !narrow || expanded;
+  const hasCount = resultCount != null && resultCount !== '';
+  const clearAll = onClearAll ? (
+    <Button size="md" variant="ghost" disabled={!anyActive} onClick={onClearAll}>
+      clear all
+    </Button>
+  ) : null;
 
   return (
     <div
@@ -166,18 +172,14 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(functi
             ),
           )}
           {children}
+          {narrow ? clearAll : null}
         </div>
-        <div className="nc-filterbar__end">
-          {resultCount != null ? (
-            <span className="nc-filterbar__count" aria-live="polite" aria-atomic="true">
-              {resultCount}
-            </span>
-          ) : null}
-          {onClearAll ? (
-            <Button size="md" variant="ghost" disabled={!anyActive} onClick={onClearAll}>
-              clear all
-            </Button>
-          ) : null}
+        {/* the count is a live region that is always there, so the first change is announced too. */}
+        <div className={cx('nc-filterbar__end', !hasCount && narrow && 'nc-filterbar__end--empty')}>
+          <span className={cx('nc-filterbar__count', !hasCount && 'nc-filterbar__count--empty')} aria-live="polite" aria-atomic="true">
+            {hasCount ? resultCount : ''}
+          </span>
+          {narrow ? null : clearAll}
         </div>
       </div>
     </div>

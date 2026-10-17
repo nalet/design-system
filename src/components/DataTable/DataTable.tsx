@@ -188,7 +188,7 @@ const INTERACTIVE = 'button, a[href], input, label, select, textarea, summary, [
 
 // controls inside rows that the roving tab stop has not taken over yet. one
 // scan per commit: about 6 ms over 3,000 rendered rows (77,000 nodes).
-const UNMANAGED = ['button', 'a[href]', 'input', 'select', 'textarea', '[tabindex]']
+const UNMANAGED = ['button', 'a[href]', 'input', 'select', 'textarea', 'summary', '[tabindex]']
   .map((s) => `tr[data-nc-item] ${s}:not([data-nc-tab])`)
   .join(', ');
 

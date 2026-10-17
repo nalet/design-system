@@ -7,6 +7,22 @@
   scrollbar-width: thin;
 }
 
+/* a fade on an edge where more tabs are scrolled out of view. */
+.nc-filtertabs--more-end .nc-filtertabs__list {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
+}
+
+.nc-filtertabs--more-start .nc-filtertabs__list {
+  -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 48px), transparent);
+  mask-image: linear-gradient(to left, #000 calc(100% - 48px), transparent);
+}
+
+.nc-filtertabs--more-start.nc-filtertabs--more-end .nc-filtertabs__list {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+}
+
 .nc-filtertabs__tab {
   -webkit-appearance: none;
   appearance: none;

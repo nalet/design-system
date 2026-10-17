@@ -183,7 +183,10 @@
 }
 
 .nc-dt__groupbar {
-  display: flex;
+  /* a grid, not flex: the label's track is minmax(0, 1fr), so a long series
+     name never forces the table wider than its container. */
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--s-2);
   min-height: 28px;
@@ -207,7 +210,7 @@
   font-size: 12px;
   font-weight: 600;
   color: var(--fg);
-  text-transform: lowercase;
+  /* no text-transform: a group label is content (a series' name), written as it is. */
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -228,8 +231,9 @@
 
 .nc-dt__popin {
   display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
-  gap: var(--s-2);
+  gap: 0 var(--s-2);
   font-size: 12px;
   color: var(--fg-muted);
 }
@@ -245,6 +249,11 @@
 .nc-dt--narrow .nc-dt__cell {
   padding-left: var(--s-2);
   padding-right: var(--s-2);
+}
+
+/* on a narrow table a group's name wraps rather than losing its end. */
+.nc-dt--narrow .nc-dt__grouplabel {
+  white-space: normal;
 }
 
 /* empty, growing, busy */

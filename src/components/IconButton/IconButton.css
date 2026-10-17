@@ -17,6 +17,11 @@
   outline-offset: 1px;
 }
 
+/* a loading icon button's spinner takes the button's colour, as the icon would */
+.nc-iconbtn .nc-spinner {
+  color: inherit;
+}
+
 .nc-iconbtn--sm {
   width: 28px;
   height: 28px;

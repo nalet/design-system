@@ -6,18 +6,32 @@
   flex: none;
 }
 
-.nc-spinner svg {
-  animation: nc-spinner-rotate 0.7s linear infinite;
+/* the frame: always there, never moving */
+.nc-spinner__frame {
+  fill: none;
+  stroke: currentColor;
+  stroke-opacity: 0.2;
 }
 
-@keyframes nc-spinner-rotate {
+/* the snake: three quarters of the frame, its gap travelling round */
+.nc-spinner__snake {
+  fill: none;
+  stroke: currentColor;
+  stroke-linejoin: miter;
+  stroke-linecap: butt;
+  /* one lap in four seconds: steady, never hectic */
+  animation: nc-spinner-snake 4s linear infinite;
+}
+
+@keyframes nc-spinner-snake {
   to {
-    transform: rotate(360deg);
+    stroke-dashoffset: var(--nc-spinner-travel);
   }
 }
 
+/* reduced motion: the snake stands still; the label carries the state */
 @media (prefers-reduced-motion: reduce) {
-  .nc-spinner svg {
-    animation-duration: 1.6s;
+  .nc-spinner__snake {
+    animation: none;
   }
 }

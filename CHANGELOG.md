@@ -24,6 +24,18 @@ attached to its github release.
   navigation, launchpad & tiles, settings and setup, loading and progress, and
   selection and bulk actions.
 
+### changed — visible
+
+- `Spinner` is a still square frame with three quarters of it lit and the gap
+  running round it, one lap in four seconds, instead of a turning ring: the
+  frames of the system are square, and only the moving snake says "working".
+  under reduced motion it stands still and its label carries the state.
+
+### fixed
+
+- a loading `Button` or `IconButton` shows its spinner in the label's colour;
+  on a primary button the spinner's blue vanished into the fill.
+
 ## 0.3.0 — 2026-10-17
 
 the foundation for enterprise worklists, and a documentation site that reads

@@ -118,6 +118,12 @@
   flex: none;
 }
 
+/* a loading button's spinner takes the label's colour: the spinner's own blue
+   would vanish on a primary button's blue fill */
+.nc-btn__slot .nc-spinner {
+  color: inherit;
+}
+
 .nc-btn__label {
   display: inline-flex;
   align-items: center;

@@ -1,6 +1,6 @@
 {
   "name": "@nalet/design-system",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "nalet design system — dark canvas, monospace voice, blue chevron, square frames. Tokens + React components.",
   "license": "MIT",
   "type": "module",
@@ -10,7 +10,8 @@
   "files": [
     "dist",
     "tailwind-preset.cjs",
-    "tokens/tokens.json"
+    "tokens/tokens.json",
+    "CHANGELOG.md"
   ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",

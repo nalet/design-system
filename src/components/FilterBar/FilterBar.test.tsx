@@ -96,4 +96,22 @@ describe('FilterBar', () => {
     await user.click(screen.getByRole('button', { name: /aired/ }));
     await expectNoAxeViolations(container);
   });
+
+  it('moves focus to the search after clear all, which then disables itself', async () => {
+    const user = userEvent.setup();
+    render(<Harness />);
+    await user.type(screen.getByRole('searchbox', { name: 'search titles' }), 'x');
+    await user.click(screen.getByRole('button', { name: 'clear all' }));
+    expect(screen.getByRole('searchbox', { name: 'search titles' })).toHaveFocus();
+    expect(screen.getByRole('button', { name: 'clear all' })).toBeDisabled();
+  });
+
+  it('names a multi select by its facet and summary, with a space between', async () => {
+    const user = userEvent.setup();
+    render(<Harness />);
+    const trigger = screen.getByRole('button', { name: 'aired any' });
+    await user.click(trigger);
+    await user.click(screen.getByRole('checkbox', { name: 'this week 40' }));
+    expect(screen.getByRole('button', { name: 'aired this week' })).toBeInTheDocument();
+  });
 });

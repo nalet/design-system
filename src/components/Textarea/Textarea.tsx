@@ -3,7 +3,7 @@ import { cx } from '../../lib/cx';
 import './Textarea.css';
 
 export interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  /** paint the error (amber) border. */
+  /** paint the error border (--state-error) and set aria-invalid. */
   invalid?: boolean;
 }
 

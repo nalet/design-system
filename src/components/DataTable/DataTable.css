@@ -290,9 +290,6 @@
   animation: nc-dt-busy 1.1s ease-in-out infinite;
 }
 
-.nc-dt--loading .nc-dt__body {
-  opacity: 0.6;
-}
 
 @keyframes nc-dt-busy {
   from {

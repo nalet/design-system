@@ -111,7 +111,10 @@ function ToastView({ item }: { item: ToastItem }) {
       <span className="nc-toast__icon" aria-hidden="true">
         <StateGlyph state={item.state} />
       </span>
-      <span className="nc-toast__text">{item.message}</span>
+      <span className="nc-toast__text">
+        {item.state === 'warning' || item.state === 'error' ? <span className="nc-sr-only">{item.state}: </span> : null}
+        {item.message}
+      </span>
     </li>
   );
 }

@@ -235,4 +235,24 @@ describe('cells', () => {
     render(<StatusCell state="error" text="needs attention" detail="no release passed the profile: all below 720p" />);
     expect(screen.getByText('no release passed the profile: all below 720p')).toHaveAttribute('title');
   });
+
+  it('leaves aria-selected off rows that cannot be selected', () => {
+    render(<Harness isRowSelectable={(r) => r.state !== 'failed'} />);
+    const failed = screen.getByRole('row', { name: /S04E08/ });
+    expect(failed).not.toHaveAttribute('aria-selected');
+    expect(screen.getByRole('row', { name: /S04E07/ })).toHaveAttribute('aria-selected', 'false');
+  });
+
+  it('keeps focus in the table when the focused row leaves the list', async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(<Harness />);
+    const row = screen.getByRole('row', { name: /S01E04/ });
+    row.focus();
+    await user.keyboard('{ArrowUp}');
+    const focused = document.activeElement as HTMLElement;
+    expect(focused).toHaveAttribute('data-kind', 'row');
+    rerender(<Harness rows={EPS.filter((e) => e.id !== focused.getAttribute('data-key'))} />);
+    expect(document.activeElement).not.toBe(document.body);
+    expect((document.activeElement as HTMLElement).closest('table')).not.toBeNull();
+  });
 });

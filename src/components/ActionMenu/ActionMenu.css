@@ -44,7 +44,9 @@
   box-shadow: inset 2px 0 0 var(--focus-ring);
 }
 
-.nc-actionmenu__item--danger {
+.nc-actionmenu__item--danger,
+.nc-actionmenu__item--danger:hover,
+.nc-actionmenu__item--danger:focus {
   color: var(--signal-amber);
 }
 

@@ -73,8 +73,8 @@ export const FilterTabs = React.forwardRef<HTMLDivElement, FilterTabsProps>(func
     const enabled = tabs.filter((t) => !t.disabled);
     const idx = enabled.findIndex((t) => t.id === value);
     let next: FilterTab | undefined;
-    if (e.key === 'ArrowRight') next = enabled[(idx + 1) % enabled.length];
-    else if (e.key === 'ArrowLeft') next = enabled[(idx - 1 + enabled.length) % enabled.length];
+    if (e.key === 'ArrowRight') next = enabled[idx < 0 ? 0 : (idx + 1) % enabled.length];
+    else if (e.key === 'ArrowLeft') next = enabled[idx < 0 ? enabled.length - 1 : (idx - 1 + enabled.length) % enabled.length];
     else if (e.key === 'Home') next = enabled[0];
     else if (e.key === 'End') next = enabled[enabled.length - 1];
     if (!next) return;

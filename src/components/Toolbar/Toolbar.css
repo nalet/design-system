@@ -11,6 +11,15 @@
   background: var(--surface);
 }
 
+.nc-toolbar:focus {
+  outline: none;
+}
+
+.nc-toolbar:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}
+
 .nc-toolbar__heading {
   display: flex;
   align-items: center;

@@ -13,6 +13,8 @@ export interface PortalProps
   searchable?: boolean;
   /** search input placeholder. */
   searchPlaceholder?: string;
+  /** names the search landmark and its field. default "search apps"; give each launcher on a page its own. */
+  searchLabel?: string;
   /** controlled search value (pair with onQueryChange). */
   query?: string;
   /** per-keystroke search callback (controlled / analytics). */
@@ -43,6 +45,7 @@ export const Portal = React.forwardRef<HTMLDivElement, PortalProps>(function Por
     title,
     searchable = true,
     searchPlaceholder = 'search apps…',
+    searchLabel = 'search apps',
     query,
     onQueryChange,
     navigation = 'roving',
@@ -125,13 +128,13 @@ export const Portal = React.forwardRef<HTMLDivElement, PortalProps>(function Por
               <span />
             )}
             {searchable ? (
-              <div className="nc-portal__search" role="search">
+              <div className="nc-portal__search" role="search" aria-label={searchLabel}>
                 <input
                   ref={searchRef}
                   type="text"
                   className="nc-portal__search-input"
                   placeholder={searchPlaceholder}
-                  aria-label="search apps"
+                  aria-label={searchLabel}
                   value={query ?? innerQuery}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={onSearchKeyDown}

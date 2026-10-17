@@ -308,7 +308,7 @@ const DataRow = React.memo(function DataRow<Row>({
       data-kind="row"
       data-key={itemKey}
       tabIndex={-1}
-      aria-selected={selectable ? isSelected : undefined}
+      aria-selected={selectable && canSelect ? isSelected : undefined}
       aria-level={grouped ? 2 : undefined}
       className={cx(
         'nc-dt__row',
@@ -562,6 +562,30 @@ export function DataTable<Row>({
     }
   });
 
+  // when the row (or the "show more" button) that has focus leaves the list,
+  // focus moves to the table's tab stop instead of falling to the page.
+  const focusWithin = React.useRef(false);
+  const wrapRefForFocus = React.useRef<HTMLDivElement | null>(null);
+  React.useLayoutEffect(() => {
+    if (!focusWithin.current) return;
+    const active = document.activeElement;
+    if (active && active !== document.body) return;
+    const target =
+      lastActive.current && lastActive.current.isConnected
+        ? lastActive.current
+        : tbodyRef.current?.querySelector<HTMLTableRowElement>('tr[data-nc-item]');
+    target?.focus();
+  });
+  const trackFocus = {
+    onFocusCapture: () => {
+      focusWithin.current = true;
+    },
+    onBlurCapture: (e: React.FocusEvent) => {
+      // a null relatedTarget is an element removed under the focus: still "within".
+      if (e.relatedTarget && !wrapRefForFocus.current?.contains(e.relatedTarget as Node)) focusWithin.current = false;
+    },
+  };
+
   const focusItem = (tr: HTMLElement | null | undefined) => {
     if (!tr) return;
     tr.focus();
@@ -664,7 +688,8 @@ export function DataTable<Row>({
     if (!tr) return;
     const hit = target.closest(INTERACTIVE);
     if (hit && tr.contains(hit)) return; // the row's own controls
-    if (window.getSelection?.()?.toString()) return; // selecting text, not the row
+    // selecting text, not the row — unless shift, which extends a selection of rows.
+    if (!e.shiftKey && window.getSelection?.()?.toString()) return;
     const item = itemOf(tr);
     if (!item) return;
     if (item.kind === 'group') {
@@ -728,7 +753,11 @@ export function DataTable<Row>({
 
   return (
     <div
-      ref={wrapRef}
+      ref={(el) => {
+        wrapRef.current = el;
+        wrapRefForFocus.current = el;
+      }}
+      {...trackFocus}
       className={cx(
         'nc-dt',
         hideMedium && 'nc-dt--narrow',
@@ -764,7 +793,17 @@ export function DataTable<Row>({
             {shownColumns.map(header)}
           </tr>
         </thead>
-        <tbody ref={tbodyRef} className="nc-dt__body" onKeyDown={onKeyDown} onClick={onClick} onFocus={onFocusIn}>
+        <tbody
+          ref={tbodyRef}
+          className="nc-dt__body"
+          onKeyDown={onKeyDown}
+          onClick={onClick}
+          onFocus={onFocusIn}
+          onMouseDown={(e) => {
+            // shift+click selects a range of rows; keep the browser from selecting text instead.
+            if (e.shiftKey && !(e.target as HTMLElement).closest(INTERACTIVE)) e.preventDefault();
+          }}
+        >
           {items.length === 0 && empty != null ? (
             <tr className="nc-dt__emptyrow">
               <td className="nc-dt__empty" colSpan={colCount}>

@@ -88,7 +88,8 @@ export function MultiSelect({
         disabled={disabled}
         onClick={() => setOpen((o) => !o)}
       >
-        <span className="nc-multiselect__label">{label}</span>
+        {/* real spaces, so the name reads "state 2 chosen", not "state2 chosen". */}
+        <span className="nc-multiselect__label">{label}</span>{' '}
         <span className="nc-multiselect__summary">{summary}</span>
         <svg viewBox="0 0 12 12" width="12" height="12" fill="none" aria-hidden="true" className="nc-multiselect__chevron">
           <path d="M3 4.5 L6 7.5 L9 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
@@ -106,6 +107,7 @@ export function MultiSelect({
               label={
                 <span className="nc-multiselect__option-label">
                   {o.label}
+                  {o.count != null ? ' ' : null}
                   {o.count != null ? <span className="nc-multiselect__option-count">{formatCount(o.count)}</span> : null}
                 </span>
               }
@@ -113,7 +115,16 @@ export function MultiSelect({
           ))}
         </fieldset>
         {chosen.length > 0 ? (
-          <button type="button" className="nc-multiselect__clear" onClick={() => onChange([])}>
+          <button
+            type="button"
+            className="nc-multiselect__clear"
+            onClick={() => {
+              // the button goes once nothing is chosen: focus returns to the trigger.
+              onChange([]);
+              setOpen(false);
+              triggerRef.current?.focus();
+            }}
+          >
             clear {label}
           </button>
         ) : null}

@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import * as React from 'react';
 import { SelectionToolbar, Toolbar } from './Toolbar';
 import { expectNoAxeViolations } from '../../test/axe';
 
@@ -115,5 +116,25 @@ describe('SelectionToolbar', () => {
       />,
     );
     await expectNoAxeViolations(container);
+  });
+
+  it('keeps focus in the toolbar when the control that had it goes away', async () => {
+    const user = userEvent.setup();
+    function Harness() {
+      const [n, setN] = React.useState(3);
+      return (
+        <SelectionToolbar
+          label="missing episodes"
+          heading="2,500 missing"
+          selectedCount={n}
+          onClearSelection={() => setN(0)}
+          primaryAction={(c) => (c ? { label: `grab ${c} selected`, onSelect: () => setN(0) } : null)}
+        />
+      );
+    }
+    render(<Harness />);
+    await user.click(screen.getByRole('button', { name: 'clear' }));
+    expect(screen.queryByRole('button', { name: 'clear' })).toBeNull();
+    expect(screen.getByRole('toolbar', { name: 'missing episodes' })).toHaveFocus();
   });
 });

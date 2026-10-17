@@ -3,7 +3,8 @@
  *
  * dark canvas, monospace voice, blue chevron, square frames. every component
  * is styled with co-located css that reads the css-var tokens. importing this
- * entry also pulls in the token stylesheet (css vars + @font-face + base).
+ * entry also pulls in the token stylesheet (css vars, color-scheme, base and the
+ * type utilities; no fonts — the app loads inter and jetbrains mono).
  */
 
 // foundation: css variables, fonts, base — owned by the tokens build.

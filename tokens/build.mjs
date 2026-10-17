@@ -183,6 +183,9 @@ const css = `/* nalet design system — tokens
  */
 
 :root {
+  /* the canvas is dark: native controls, scrollbars and form widgets follow. */
+  color-scheme: dark;
+
 ${emitColorBlock()}
 
   /* type */

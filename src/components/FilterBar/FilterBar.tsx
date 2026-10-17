@@ -95,13 +95,24 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(functi
   const narrow = width != null && width < collapseBelow;
   const [expanded, setExpanded] = React.useState(false);
   const facetsId = React.useId();
+  const searchRef = React.useRef<HTMLInputElement>(null);
 
   const activeFacets = filters.filter(isActive).length;
   const anyActive = activeFacets > 0 || !!search?.value;
   const showFacets = !narrow || expanded;
   const hasCount = resultCount != null && resultCount !== '';
+  // clear all disables itself once nothing is set; focus moves on to the search
+  // (or the toolbar's own button would drop it on the page).
   const clearAll = onClearAll ? (
-    <Button size="md" variant="ghost" disabled={!anyActive} onClick={onClearAll}>
+    <Button
+      size="md"
+      variant="ghost"
+      disabled={!anyActive}
+      onClick={() => {
+        onClearAll();
+        searchRef.current?.focus();
+      }}
+    >
       clear all
     </Button>
   ) : null;
@@ -118,6 +129,7 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(functi
         {search ? (
           <div className="nc-filterbar__search">
             <Input
+              ref={searchRef}
               type="search"
               inputSize="md"
               value={search.value}

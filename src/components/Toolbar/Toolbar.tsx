@@ -68,10 +68,23 @@ export const Toolbar = React.forwardRef<HTMLDivElement, ToolbarProps>(function T
   const activeIndex = React.useRef(0);
 
   const emphasizedAll = actions.filter((a) => a.emphasized);
-  if (emphasizedAll.length > 1 && typeof console !== 'undefined') {
-    console.warn(`Toolbar "${label}": ${emphasizedAll.length} emphasized actions; only the first is emphasized.`);
-  }
+  React.useEffect(() => {
+    if (emphasizedAll.length > 1 && typeof console !== 'undefined') {
+      console.warn(`Toolbar "${label}": ${emphasizedAll.length} emphasized actions; only the first is emphasized.`);
+    }
+  }, [emphasizedAll.length, label]);
   const emphasized = emphasizedAll[0];
+
+  // when the control that has focus goes away (clear, or the action for a
+  // selection that is now empty), focus stays in the toolbar instead of
+  // falling to the page.
+  const focusWithin = React.useRef(false);
+  React.useLayoutEffect(() => {
+    const root = innerRef.current;
+    if (!root || !focusWithin.current) return;
+    const active = document.activeElement;
+    if (!active || active === document.body) root.focus();
+  });
   const others = actions.filter((a) => a !== emphasized);
   const inline = narrow ? [] : others.filter((a) => !a.overflow);
   const overflow = narrow ? others : others.filter((a) => a.overflow);
@@ -127,8 +140,16 @@ export const Toolbar = React.forwardRef<HTMLDivElement, ToolbarProps>(function T
       ref={innerRef}
       role="toolbar"
       aria-label={label}
+      tabIndex={-1}
       className={cx('nc-toolbar', narrow && 'nc-toolbar--narrow', className)}
       onKeyDown={handleKeyDown}
+      onFocus={() => {
+        focusWithin.current = true;
+      }}
+      onBlur={(e) => {
+        // a null relatedTarget is a control removed under the focus: still "within".
+        if (e.relatedTarget && !innerRef.current?.contains(e.relatedTarget as Node)) focusWithin.current = false;
+      }}
       {...rest}
     >
       {heading != null ? <div className="nc-toolbar__heading">{heading}</div> : null}

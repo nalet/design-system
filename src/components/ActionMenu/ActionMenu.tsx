@@ -106,7 +106,15 @@ export function ActionMenu({
     if (top + h > window.innerHeight - EDGE && r.top - GAP - h >= EDGE) top = r.top - GAP - h;
     let left = align === 'end' ? r.right - w : r.left;
     left = Math.max(EDGE, Math.min(left, window.innerWidth - w - EDGE));
-    setPos({ top, left, minWidth: Math.max(r.width, 160) });
+    const minWidth = Math.max(r.width, 160);
+    // write the position to the node now, not only on the next render: a
+    // browser will not focus inside a subtree that is still visibility:hidden,
+    // and focus moves into the menu right after this.
+    m.style.top = `${top}px`;
+    m.style.left = `${left}px`;
+    m.style.minWidth = `${minWidth}px`;
+    m.style.visibility = 'visible';
+    setPos({ top, left, minWidth });
   }, [align]);
 
   // first paint of an open menu: measure, place, then focus the first item.
@@ -168,10 +176,11 @@ export function ActionMenu({
     let next: HTMLButtonElement | undefined;
     switch (e.key) {
       case 'ArrowDown':
-        next = list[(idx + 1) % list.length];
+        next = list[idx < 0 ? 0 : (idx + 1) % list.length];
         break;
       case 'ArrowUp':
-        next = list[(idx - 1 + list.length) % list.length];
+        // from the menu itself (or a disabled item a click focused): the last item.
+        next = list[idx < 0 ? list.length - 1 : (idx - 1 + list.length) % list.length];
         break;
       case 'Home':
         next = list[0];

@@ -38,7 +38,7 @@ export interface PortalProps
  * Portal — the launchpad home. lays out grouped square Tiles, with a persistent
  * favourites slot, a search box, and roving-tabindex arrow-key navigation that
  * spans every group. groups stay in a stable order; search filters tiles in
- * place. the terminal-aesthetic app launcher that replaces a fiori launchpad.
+ * place. the terminal-aesthetic app launcher.
  */
 export const Portal = React.forwardRef<HTMLDivElement, PortalProps>(function Portal(
   {

@@ -39,7 +39,7 @@ if (typeof document !== 'undefined' && typeof MutationObserver !== 'undefined') 
 }
 
 const preview: Preview = {
-  // every component gets a material-style docs page (overview + live examples +
+  // every component gets a docs page (overview + live examples +
   // auto api table) without a per-story opt-in.
   tags: ['autodocs'],
 

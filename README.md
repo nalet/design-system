@@ -1,8 +1,8 @@
 # @nalet/design-system
 
 the nalet design system. dark canvas, monospace voice, blue chevron, one
-cursor. a single identity for every nalet surface — it replaces fiori as the
-house style.
+cursor. a single identity for every nalet surface, and the house style of
+every console built on it.
 
 > if a screen would look at home in a tmux pane, it is on. if it looks like a
 > saas landing page, start over.

@@ -92,7 +92,7 @@ export interface DataTableProps<Row> {
 
   /** enter on a row, or a click outside its controls. without it a click toggles selection. */
   onRowPress?: (row: Row) => void;
-  /** a state rule on the row's leading edge (fiori "highlight"); the row must also say it in words. */
+  /** a state rule on the row's leading edge; the row must also say it in words. */
   rowHighlight?: (row: Row) => ObjectState | undefined;
 
   /** the header row sticks while the page scrolls. default true. offset it with --nc-dt-sticky-top. */

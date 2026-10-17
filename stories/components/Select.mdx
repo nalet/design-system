@@ -1,0 +1,145 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as SelectStories from './Select.stories';
+import { Select, Field, Switch } from '../../src';
+import { DoDont, Do, Dont } from '../_blocks';
+
+<Meta of={SelectStories} />
+
+# select
+
+a square, native drop-down for choosing one value from a list. the browser draws the list; a small `--cloud-blue` chevron marks the box.
+
+<Canvas of={SelectStories.Playground} />
+
+## when to use
+
+- to choose exactly one value from a known list that is too long to show at once: a region, a retention period, a sort order.
+- in a form, inside a [field](?path=/docs/components-inputs-field--docs) for its label and hint.
+- when the list is stable and people recognise their option by its name.
+
+## when not to use
+
+- **for two or three options that should stay visible.** show them all as a native radio group (`<fieldset>` with `<input type="radio">`); the system has no radio component today. see [forms and settings](?path=/docs/patterns-forms-and-settings--docs).
+- **for on/off.** use a [switch](?path=/docs/components-inputs-switch--docs) when the change applies at once, or a [checkbox](?path=/docs/components-inputs-checkbox--docs) in a form that is saved.
+- **to choose several values.** use a group of [checkboxes](?path=/docs/components-inputs-checkbox--docs); this select holds one value.
+- **to filter a list or table.** use the [filter bar](?path=/docs/components-inputs-filter-bar--docs).
+- **to switch between views of one page.** use [tabs](?path=/docs/components-navigation-tabs--docs).
+- **for a long list that people need to search.** a native select only jumps by the letters typed, and there is no searchable combobox today. let people type the value in an [input](?path=/docs/components-inputs-input--docs) and check it.
+
+## anatomy
+
+1. **box** — square, 1px `--border-control` border on `--bg-2`; height 28 / 34 / 42px by size. padding is 8 / 12 / 16px on the left and 28 / 32 / 36px on the right, which keeps the value clear of the chevron. it fills the width of its container.
+2. **value** — the native `<select>`: jetbrains mono 13px (14px in `lg`) in `--fg`.
+3. **chevron** — 12px, `--cloud-blue`, 12px from the right edge. decoration only: hidden from assistive tech and not clickable.
+4. **list** — drawn by the browser and the operating system. where the browser allows it, options take `--surface` and `--fg`.
+
+## variants and states
+
+three sizes, set with `selectSize`: `sm` (28px), `md` (34px, default), `lg` (42px) — the heights of input and button, so they line up in a row.
+
+<Canvas of={SelectStories.Sizes} />
+
+give the options as an `options` array (`label`, `value`, optional `disabled`) or as `<option>` children. if you pass both, `options` wins and the children are ignored.
+
+<Canvas of={SelectStories.WithChildren} />
+
+| state | looks | set by |
+| --- | --- | --- |
+| default | `--border-control` border | — |
+| focused | `--cloud-blue` border, 2px thick (an inset shadow) | focus, by mouse or keyboard |
+| invalid | `--state-error` border, kept while focused | `invalid`, or a field's `error` |
+| disabled | 50% opacity; cannot be focused, changed or submitted | `disabled` |
+
+<Canvas of={SelectStories.States} />
+
+## behaviour and keyboard
+
+the control is a native `<select>`. the browser and the operating system draw the list and own the keys, so the details differ by platform.
+
+| key | does |
+| --- | --- |
+| `tab` / `shift+tab` | moves focus to / from the select. |
+| `space` or `alt+↓` | opens the list. which one depends on the platform. |
+| `↑` / `↓` | move through the options. on some platforms this changes the value without opening the list. |
+| letters | jump to the next option that starts with what you type. |
+| `enter` | with the list open, chooses the highlighted option. |
+| `esc` | closes the list without choosing. |
+
+- `onChange` can fire on every arrow press while the list is closed. only store the value on change; don't navigate, submit or delete — a keyboard user would trigger it just by looking through the options.
+- the component holds no state. use `defaultValue`, or `value` with `onChange`.
+- today: only the text area of the box is the native control. a click on the chevron or on the padding around the value does not open the list.
+
+<Canvas of={SelectStories.Controlled} />
+
+## accessibility
+
+- the browser exposes the native select with its role, its value and its options. give it a visible label: a [field](?path=/docs/components-inputs-field--docs) renders a `<label for>`.
+- `invalid` sets `aria-invalid="true"` and turns the border `--state-error`. say in words what is wrong; a field's `error` does.
+- a disabled option (`disabled: true`) stays in the list but cannot be chosen. if the reason matters, put it in the option's label: `1 year (needs more storage)`.
+- today: there are no forced-colours (windows high contrast) styles. focus is a border colour and an inset shadow, which forced colours override.
+- today: one value only. the box has a fixed height, so `multiple` is not supported.
+
+## content
+
+- **label** — a noun for the value: `region`, `keep backups for`. not `select a region`; the control already says how it works.
+- **options** — short, lowercase and parallel: `7 days`, `30 days`, `90 days`. order them by size, time or how often they are chosen; alphabetically only when there is no natural order.
+- **default** — preselect the safe or the most common value. when there is none, start with an empty option (`value: ''`) such as `choose a region`, and pass `required` so the form cannot be sent without a choice.
+
+## do and don't
+
+<DoDont>
+  <Do caption="short, parallel options in a natural order." column>
+    <Field label="keep backups for">
+      <Select
+        defaultValue="30"
+        options={[
+          { label: '7 days', value: '7' },
+          { label: '30 days', value: '30' },
+          { label: '90 days', value: '90' },
+        ]}
+      />
+    </Field>
+  </Do>
+  <Dont caption="sentences as options are slow to scan and hard to compare." column>
+    <Field label="keep backups for">
+      <Select
+        defaultValue="30"
+        options={[
+          { label: 'one week, then they are deleted', value: '7' },
+          { label: 'a month is enough for most teams', value: '30' },
+          { label: 'three months (best if unsure)', value: '90' },
+        ]}
+      />
+    </Field>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="on or off is a switch: one press, and the state is always visible.">
+    <Switch label="email alerts" defaultChecked />
+  </Do>
+  <Dont caption="a select with on and off hides the state behind a list and takes two steps to change." column>
+    <Field label="email alerts">
+      <Select
+        defaultValue="on"
+        options={[
+          { label: 'on', value: 'on' },
+          { label: 'off', value: 'off' },
+        ]}
+      />
+    </Field>
+  </Dont>
+</DoDont>
+
+## props
+
+`className` lands on the box; every other attribute — `value`, `onChange`, `name`, `required`, `aria-*`, `style` — and the ref land on the native `<select>`. set the width on the container: the box always fills it. the size prop is `selectSize` because `size` is the native attribute (the number of rows shown at once).
+
+<ArgTypes of={SelectStories} />
+
+## related
+
+- [field](?path=/docs/components-inputs-field--docs) — the label, hint and error around the select.
+- [input](?path=/docs/components-inputs-input--docs) — free text when the values are not known in advance.
+- [checkbox](?path=/docs/components-inputs-checkbox--docs) — for several values, or a single yes/no in a form.
+- [filter bar](?path=/docs/components-inputs-filter-bar--docs) — selects and search that filter a list.

@@ -1,0 +1,147 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import { Activity, Archive, GitBranch, Server } from 'lucide-react';
+import * as TileStories from './Tile.stories';
+import { Tile } from '../../src';
+import { DoDont, Do, Dont } from '../_blocks';
+
+<Meta of={TileStories} />
+
+# tile
+
+a square launch tile. as an `app` tile it is one link or button into an app — icon, name, one line on what is there; as a `kpi` tile it shows a key figure and its trend. tiles live in a [tile group](?path=/docs/components-navigation-tile-group--docs).
+
+<Canvas of={TileStories.App} />
+
+## when to use
+
+- to offer an app or a tool as a destination on a launchpad or a hub page.
+- to show a key figure and where it is heading, at a glance: cpu, latency, free space (`variant="kpi"`).
+- with a `badge` or a `status` when a destination needs attention before people open it.
+
+## when not to use
+
+- **for records people work through.** use a [data table](?path=/docs/components-data-display-data-table--docs) — see the [worklist](?path=/docs/patterns-worklist--docs) pattern.
+- **for an action on the current screen.** a tile goes somewhere; to do something here, use a [button](?path=/docs/components-actions-button--docs).
+- **to switch between views of one object.** use [tabs](?path=/docs/components-navigation-tabs--docs).
+- **for a state with its own words in a row or a form.** use [object status](?path=/docs/components-feedback-status-object-status--docs).
+- **for a panel of text and controls.** use a [card](?path=/docs/components-layout-structure-card--docs).
+
+## anatomy
+
+1. **container** — an `<a>` with `href`, a `<button>` with `onClick`, your element with `as`, otherwise a `<div>`. square, 1px `--border`, `--surface` fill, 16px padding and 12px between rows; at least 7rem tall (112px at the default 16px root).
+2. **icon** (optional) — the lucide glyph you pass, drawn at 22px with a 1.75 stroke in `--cloud-blue`, in a 28px square box. decoration only.
+3. **title** — jetbrains mono 600, 14px, `--fg`, shown lowercase. one line, cut with an ellipsis.
+4. **chevron** — the brand chevron, 14px, after the title on link and button tiles. it shows on hover and focus.
+5. **badge** (optional) — top right, 18px high, mono 11px. a number becomes a count chip with tabular figures, a string a status pill.
+6. **status** (optional) — an 8px square dot coloured by health.
+7. **description** (`app`) — inter 13px / 1.45 in `--fg-muted`, at most two lines.
+8. **figure** (`kpi`) — the value in mono 700, 28px; the unit in 14px `--fg-muted`; the delta in mono 12px with a small triangle. pinned to the bottom of the tile.
+
+## variants and states
+
+two variants: `app` (the default: icon, title, description) and `kpi` (title, value, unit, delta).
+
+<Canvas of={TileStories.Kpi} />
+
+the delta's `direction` (`up`, `down`, `flat`) draws the triangle; its `tone` picks the colour — `positive` `--signal-green`, `negative` `--signal-red`, `neutral` (the default) `--fg-muted`. the two are separate, so a latency that goes down can be good news.
+
+three sizes: `sm` (at least 5.5rem tall, 12px padding, 8px between rows), `md` (7rem, the default) and `lg` (9rem).
+
+<Canvas of={TileStories.Sizes} />
+
+| state | how | looks |
+| --- | --- | --- |
+| interactive | `href`, `onClick` or `as` | hover: `--surface-2` fill and `--border-2`. focus: a 2px `--cloud-blue` frame. the chevron shows on both |
+| selected | `selected` | a 2px `--cloud-blue` rule on the left edge: the current app |
+| disabled | `disabled` | 45% opacity. renders a `<div>`: no link, no click, no focus |
+| external | `external`, with `href` | opens in a new tab (`target="_blank"`, `rel="noopener noreferrer"`). today nothing on the tile says so |
+| display only | no `href`, `onClick` or `as` | a `<div>`: no hover, no chevron, not focusable |
+
+<Canvas of={TileStories.States} />
+
+`badgeTone` colours the badge's text and border on a tinted fill: `info` (the default, `--cloud-blue`), `success` (`--signal-green`), `warning` (`--signal-amber`), `danger` (`--signal-red`) and `neutral` (`--fg-muted` on `--surface-2`).
+
+<Canvas of={TileStories.Badges} />
+
+`status` draws the dot: `online` `--signal-green`, `degraded` `--signal-amber`, `offline` `--signal-red`, `unknown` `--fg-dim`.
+
+<Canvas of={TileStories.Status} />
+
+## behaviour and keyboard
+
+a link or button tile is a native `<a>` or `<button>`, so the browser provides the keys.
+
+| key | does |
+| --- | --- |
+| `tab` / `shift+tab` | moves focus to / from the tile. in a tile group, the group decides which tile is in the tab order — see [tile group](?path=/docs/components-navigation-tile-group--docs). |
+| `enter` | link: follows it. button: presses it. |
+| `space` | button: presses it. |
+
+- in a [tile group](?path=/docs/components-navigation-tile-group--docs) or a [portal](?path=/docs/patterns-portal--docs), the arrow keys move between tiles. link and button tiles opt in with the `data-nc-tile` attribute they set.
+- the [portal](?path=/docs/patterns-portal--docs) search matches against the title and the description, lowercased, which every tile carries in `data-nc-search`.
+- `as` renders your component, e.g. a router link. today `Tile` passes `href` and `external` only to a plain `<a>`: give your component its destination yourself.
+- transitions are off under `prefers-reduced-motion`.
+
+## accessibility
+
+- a link or button tile is one target. its accessible name is all of its text, in order: title, badge, status (`status: online`), then the description, or the value, unit and delta. keep every part short; people hear all of it.
+- the icon, the chevron and the delta's triangle are `aria-hidden`.
+- the status dot has `role="img"` and the label `status: <status>`. on screen it is colour only, so put the state into words too (the description) when it matters.
+- the delta's direction is drawn, not written: write the sign into `value` (`+4`, `−11`) so that it is read.
+- `selected` is visual only. pass `aria-current="page"` on the current app's tile yourself; other attributes reach the element.
+
+today:
+
+- focus shows as a 2px `--cloud-blue` frame, not the `--focus-ring` outline that other controls use.
+- a disabled tile is a `<div>` with `aria-disabled`, which assistive tech ignores on a plain element: it is read as text, not as an unavailable link. if the reason matters, put it in the description.
+- `external` opens a new tab without saying so. say it in the description.
+- a count badge is read as a bare number (`metrics 3 …`). say what it counts in the description.
+
+## content
+
+- **title** — the app's name: one or two words, a noun, no verb. `pipelines`, not `open pipelines`. the lowercase look is css, so write it as it should be read.
+- **description** — what people find there, in a few words: `builds and releases`. it stops after two lines.
+- **badge** — how many things wait (`3`), or one word for a state (`new`, `failed`).
+- **kpi** — the figure and its unit (`142`, `ms`); the delta with its sign (`−11`). round to what people can act on.
+
+## do and don't
+
+<DoDont>
+  <Do caption="the app's name and a few words on what is there." column>
+    <Tile icon={GitBranch} title="pipelines" description="builds and releases" href="#" />
+  </Do>
+  <Dont caption="a verb in the title and a sentence for a description: long titles are cut to one line, and the description stops after two." column>
+    <Tile icon={GitBranch} title="open the pipelines app" description="click here to see every build and every release that ran on any of the workers this week" href="#" />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="the dot and words: the description says what the colour means." column>
+    <Tile icon={Server} title="queue" description="2 of 3 workers down" href="#" status="degraded" />
+  </Do>
+  <Dont caption="the dot alone: on screen, colour is the only cue." column>
+    <Tile icon={Server} title="queue" href="#" status="degraded" />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="a count says how many things wait; the description says what they are." column>
+    <Tile icon={Activity} title="metrics" description="3 alerts open" href="#" badge={3} badgeTone="warning" />
+  </Do>
+  <Dont caption="an exclamation mark says that something is wrong, not what. name it: failed." column>
+    <Tile icon={Archive} title="backups" description="nightly copies" href="#" badge="!" badgeTone="danger" />
+  </Dont>
+</DoDont>
+
+## props
+
+`Tile` passes every other attribute and its `ref` to the element it renders (`aria-current`, `target`, `data-*`, …).
+
+<ArgTypes of={TileStories} />
+
+## related
+
+- [tile group](?path=/docs/components-navigation-tile-group--docs) — the titled grid that holds tiles and runs the arrow keys.
+- [portal (launchpad)](?path=/docs/patterns-portal--docs) — the home page built from groups of tiles.
+- [object status](?path=/docs/components-feedback-status-object-status--docs) — a state with its own words, for rows and forms.
+- [iconography](?path=/docs/foundations-iconography--docs) — which icons to use, and how.

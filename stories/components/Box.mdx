@@ -1,0 +1,116 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as BoxStories from './Box.stories';
+import { Box, Card, Stack, Text } from '../../src';
+import { DoDont, Do, Dont } from '../_blocks';
+
+<Meta of={BoxStories} />
+
+# box
+
+the base layout primitive: a square `div` with padding from the space scale, an optional canvas background and an optional hairline border.
+
+<Canvas of={BoxStories.Playground} />
+
+## when to use
+
+- to pad a region with the space scale instead of hand-written css: `p={16}`.
+- to set a region on another canvas, such as a sunken area inside a surface (`bg="bg-2"`).
+- to frame something with a hairline when a card's header and footer would be too much.
+
+## when not to use
+
+- **for a titled group of content.** use a [card](?path=/docs/components-layout-structure-card--docs): the header, its rule, the footer and the standard padding come with it.
+- **for the space between siblings.** use a [stack](?path=/docs/components-layout-structure-stack--docs) and its `gap`. padding or margins on each child drift off the scale.
+- **for a line between sections.** use a [divider](?path=/docs/components-layout-structure-divider--docs).
+- **for something people click.** a box is a `div`: no focus, no keyboard. an action is a [button](?path=/docs/components-actions-button--docs); an entry on the launchpad is a [tile](?path=/docs/components-navigation-tile--docs).
+
+## anatomy
+
+1. **container** — a `div`, `box-sizing: border-box`, never rounded. no padding, background or border unless you ask.
+2. **padding** (optional) — `p` for all sides, `px` for left and right, `py` for top and bottom, each one of 0, 4, 8, 12, 16, 24, 32, 48 or 64px (the `--s-1` … `--s-8` tokens).
+3. **background** (optional) — `bg`: `bg`, `bg-2`, `surface` or `surface-2`.
+4. **border** (optional) — `border`: 1px `--border` on every side.
+
+## variants and states
+
+padding comes in the steps of the scale; there is no default.
+
+<Canvas of={BoxStories.Padding} />
+
+`px` and `py` are applied after `p`, so `p={16} px={24}` gives 16px top and bottom and 24px left and right.
+
+<Canvas of={BoxStories.AsymmetricPadding} />
+
+`bg` sets one of the four canvas colours; without it the box is transparent.
+
+<Canvas of={BoxStories.Backgrounds} />
+
+boxes nest: a sunken `bg-2` region inside a `surface` panel.
+
+<Canvas of={BoxStories.Panel} />
+
+## behaviour and keyboard
+
+| key | does |
+| --- | --- |
+| `tab` | skips the box; focus moves through what's inside it, in order. |
+
+- `p`, `px`, `py` and `bg` are written as inline styles over your `style`, so they win over the same properties there.
+- today: if `p` changes on a re-render while `px` or `py` is set, the new `padding` shorthand can overwrite the `px`/`py` sides (react warns about this in development). use `p` alone, or `px` and `py` together, when padding changes at run time.
+
+## accessibility
+
+- a plain `div` with no role. it adds no structure for assistive tech.
+- landmarks and regions are yours: pass `role` with `aria-label` or `aria-labelledby` through, or use a native element.
+- today: it is always a `div`; there is no `as` prop for a `section`, `aside` or `ul`.
+- `--border` is a decorative hairline, below 3:1 by design. a box's border must never be the only thing that marks a control or a selected item.
+- `bg` changes only the background; text inside keeps its own colour, and every text colour meets 4.5:1 on all four backgrounds.
+
+## content
+
+a box has no text of its own. keep what's inside it about one thing; if it needs a title, it is a [card](?path=/docs/components-layout-structure-card--docs).
+
+## do and don't
+
+<DoDont>
+  <Do column caption="space between boxes from the stack's gap: one value, on the scale.">
+    <Stack gap={12}>
+      <Box p={12} bg="surface-2" border><Text variant="ui">storage-01</Text></Box>
+      <Box p={12} bg="surface-2" border><Text variant="ui">storage-02</Text></Box>
+      <Box p={12} bg="surface-2" border><Text variant="ui">storage-03</Text></Box>
+    </Stack>
+  </Do>
+  <Dont column caption="margins on each box drift off the scale and never quite match.">
+    <div>
+      <Box p={12} bg="surface-2" border style={{ marginBottom: 10 }}><Text variant="ui">storage-01</Text></Box>
+      <Box p={12} bg="surface-2" border style={{ marginBottom: 5 }}><Text variant="ui">storage-02</Text></Box>
+      <Box p={12} bg="surface-2" border><Text variant="ui">storage-03</Text></Box>
+    </div>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do column caption="a titled group is a card: header, rule and padding come with it.">
+    <Card header="backups">every night at 02:00, kept 14 days.</Card>
+  </Do>
+  <Dont column caption="a box with a hand-made title is a card that drifts: other padding, no header rule, the title in the wrong type.">
+    <Box p={12} bg="surface" border>
+      <Stack gap={4}>
+        <Text variant="ui">backups</Text>
+        <Text variant="muted">every night at 02:00, kept 14 days.</Text>
+      </Stack>
+    </Box>
+  </Dont>
+</DoDont>
+
+## props
+
+`Box` passes every native `div` attribute through and forwards its ref.
+
+<ArgTypes of={BoxStories} />
+
+## related
+
+- [stack](?path=/docs/components-layout-structure-stack--docs) — the gap between children.
+- [card](?path=/docs/components-layout-structure-card--docs) — a box with a header, a footer and standard padding.
+- [space & grid](?path=/docs/foundations-space-grid--docs) — the scale behind `p`, `px` and `py`.

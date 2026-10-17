@@ -1,0 +1,129 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as StackStories from './Stack.stories';
+import { Stack, Box, Badge, Button } from '../../src';
+import { DoDont, Do, Dont } from '../_blocks';
+
+<Meta of={StackStories} />
+
+# stack
+
+a flex column or row whose `gap` comes from the space scale. the workhorse for laying out everything else.
+
+<Canvas of={StackStories.Playground} />
+
+## when to use
+
+- to lay out siblings in one direction with even space between them: a form's fields, a row of badges, a header with a title and an action.
+- wherever you would write `display: flex` and a `gap`.
+
+## when not to use
+
+- **for a grid of items in rows and columns.** a stack runs in one direction. launchpad tiles go in a [tile group](?path=/docs/components-navigation-tile-group--docs); for other grids, use css grid.
+- **for a row of actions.** use a [toolbar](?path=/docs/components-actions-toolbar--docs): it sets the emphasis and moves what doesn't fit into an overflow menu.
+- **for padding or a background.** a stack only spaces its children. padding around them is a [box](?path=/docs/components-layout-structure-box--docs) or a [card](?path=/docs/components-layout-structure-card--docs).
+
+## anatomy
+
+1. **container** — a `div` with `display: flex` (`inline-flex` with `inline`), `box-sizing: border-box` and `min-width: 0`, so it can shrink inside other flex and grid layouts.
+2. **gap** — between children only, never around them: 0, 4, 8, 12, 16 (default), 24, 32, 48 or 64px, from the `--s-*` tokens.
+3. **children** — laid out in source order.
+
+## variants and states
+
+| prop | values | default |
+| --- | --- | --- |
+| `direction` | `vertical` (a column), `horizontal` (a row) | `vertical` |
+| `gap` | 0, 4, 8, 12, 16, 24, 32, 48, 64 | 16 |
+| `align` | `start`, `center`, `end`, `stretch`, `baseline` — across the stack | not set: children stretch |
+| `justify` | `start`, `center`, `end`, `between`, `around` — along the stack | not set: children pack at the start |
+| `wrap` | children flow onto a new line when they run out of room | off |
+| `inline` | renders `inline-flex`: the stack is as wide as its content and sits in the line of text | off |
+
+without `align`, children stretch across the stack: full width in a vertical stack, full height in a row.
+
+<Canvas of={StackStories.Vertical} />
+
+<Canvas of={StackStories.Horizontal} />
+
+<Canvas of={StackStories.GapScale} />
+
+`justify="between"` pushes the first and last child to the ends, e.g. a title and its action.
+
+<Canvas of={StackStories.Justified} />
+
+`wrap` is for horizontal stacks. a vertical stack only wraps when you give it a fixed height.
+
+<Canvas of={StackStories.Wrap} />
+
+## behaviour and keyboard
+
+| key | does |
+| --- | --- |
+| `tab` | skips the stack; focus moves through its children in source order. |
+
+- there is no reverse direction, so what people see, what they read and where focus goes stay in the same order. keep it that way: don't reorder children with css `order` or a reversed `flex-direction`.
+
+## accessibility
+
+- a plain `div` with no role. it adds no structure for assistive tech.
+- a stack of similar items is not a list to a screen reader. for a real list, render `ul` and `li`, or pass `role="list"` to the stack and `role="listitem"` to each child.
+- today: it is always a `div`; there is no `as` prop.
+
+## content
+
+a stack has no text of its own. order its children the way people read and act: what the group is about first, its actions last.
+
+## do and don't
+
+<DoDont>
+  <Do caption="children in the order people read and tab: cancel, then the emphasized action.">
+    <Stack direction="horizontal" gap={8}>
+      <Button variant="ghost">cancel</Button>
+      <Button variant="primary">save changes</Button>
+    </Stack>
+  </Do>
+  <Dont caption="the same look made with row-reverse. tab now reaches save before cancel, against what people see.">
+    <Stack direction="horizontal" gap={8} style={{ flexDirection: 'row-reverse' }}>
+      <Button variant="primary">save changes</Button>
+      <Button variant="ghost">cancel</Button>
+    </Stack>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do column caption="a row of tags in a narrow space wraps onto the next line.">
+    <Box border style={{ width: 200 }}>
+      <Stack direction="horizontal" gap={8} wrap>
+        <Badge>gpu</Badge>
+        <Badge>batch</Badge>
+        <Badge>http</Badge>
+        <Badge>stateful</Badge>
+        <Badge>read-only</Badge>
+      </Stack>
+    </Box>
+  </Do>
+  <Dont column caption="without wrap, the row runs out of its container.">
+    <Box border style={{ width: 200 }}>
+      <Stack direction="horizontal" gap={8}>
+        <Badge>gpu</Badge>
+        <Badge>batch</Badge>
+        <Badge>http</Badge>
+        <Badge>stateful</Badge>
+        <Badge>read-only</Badge>
+      </Stack>
+    </Box>
+  </Dont>
+</DoDont>
+
+## props
+
+`Stack` passes every native `div` attribute through and forwards its ref. your `style` is merged over the base layout, so it can change `display`, the direction and the `gap`; `align`, `justify` and `wrap` are applied after it and win.
+
+<ArgTypes of={StackStories} />
+
+## related
+
+- [box](?path=/docs/components-layout-structure-box--docs) — padding and a background around content.
+- [divider](?path=/docs/components-layout-structure-divider--docs) — a rule between groups in a stack.
+- [toolbar](?path=/docs/components-actions-toolbar--docs) — a row of actions with emphasis and overflow.
+- [space & grid](?path=/docs/foundations-space-grid--docs) — the scale behind `gap`.

@@ -1,0 +1,115 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as SpinnerStories from './Spinner.stories';
+import { Spinner, Button, Stack, Text } from '../../src';
+import { DoDont, Do, Dont } from '../_blocks';
+
+<Meta of={SpinnerStories} />
+
+# spinner
+
+a square-cornered ring that turns: the one moving thing in an otherwise still interface. it says "working on it" when you can't say how long. it renders `role="status"`, named by its `label`.
+
+<Canvas of={SpinnerStories.Playground} />
+
+## when to use
+
+- for a short wait of unknown length in a small region: one value, a count, a panel's content.
+- in place of a value while it loads, with a label that names the value.
+- beside a short line of text that says what is loading.
+
+## when not to use
+
+- **for an action the user started.** use the `loading` state of the [button](?path=/docs/components-actions-button--docs) (or [icon button](?path=/docs/components-actions-icon-button--docs)). the spinner sits inside the control that was pressed, the button is disabled against a second press, and `aria-busy` is set.
+- **while a table's rows load.** use the [data table](?path=/docs/components-data-display-data-table--docs) with `loading`: it marks the table busy (`aria-busy`) and runs a progress rule along its top edge, so the wait shows where the rows will be.
+- **for the result.** when the work ends, replace the spinner with what happened: the content, a [toast](?path=/docs/components-feedback-status-toast--docs) for a background job that finished, a [message strip](?path=/docs/components-feedback-status-message-strip--docs) for a failure.
+- **for long work with known progress.** today there is no progress bar. say the progress in [text](?path=/docs/components-data-display-text--docs) next to the spinner: `12 of 40 copied`.
+
+## anatomy
+
+1. **frame** — an inline-flex `span`, `size` × `size` px (default 16), in `--cloud-blue` unless you pass `color`.
+2. **track** — the full ring in the same colour at 20% opacity.
+3. **arc** — a quarter of the ring in full colour, with square ends.
+
+the stroke is an eighth of the size: 2px at 16px, 5px at 40px.
+
+## variants and states
+
+`size` takes any number of pixels, and the stroke scales with it. buttons use 12px (small) and 14px (medium, large); 14px also sits well beside 13px text; 16px on its own; 24 to 40px for a panel.
+
+<Canvas of={SpinnerStories.Sizes} />
+
+the ring is `--cloud-blue` by default — it does not pick up the surrounding text colour on its own. `color` takes any css colour: a token such as `var(--fg-muted)`, or `currentColor` to follow the text around it.
+
+<Canvas of={SpinnerStories.Colors} />
+
+<Canvas of={SpinnerStories.InheritsColor} />
+
+in place of a value, the spinner's label names what is loading.
+
+<Canvas of={SpinnerStories.InlineWithLabel} />
+
+## behaviour and keyboard
+
+| key | does |
+| --- | --- |
+| `tab` | skips it. a spinner takes no focus. |
+
+- it turns once every 0.7s, at a steady speed, without end. with `prefers-reduced-motion: reduce` it still turns, more slowly: once every 1.6s.
+- it never stops by itself. remove it when the work ends.
+
+## accessibility
+
+- renders `role="status"` with `aria-label` set from `label` (default `loading`). the svg inside is `aria-hidden`.
+- give the label the specific thing: `label="loading volumes"`, not the default.
+- today: the label is a name, not text content, and a live region announces changes to its text. a spinner added to the page carries no text, so most screen readers won't announce it appearing. when the wait matters, put a short message in a live region that is already on the page and update its text.
+- beside visible text that says the same thing, the label is read twice. pass `aria-hidden="true"` to the spinner and let the text speak.
+- the ring meets 3:1 against every background (`--cloud-blue` is at least 6.8:1); the track is decoration. a custom `color` must keep 3:1.
+- today: under reduced motion the ring slows down but doesn't stop.
+
+## content
+
+- the label says what is loading, lowercase, without an ellipsis: `loading volumes`, `checking storage-01`.
+- text beside it uses the same words as the label. no "please wait".
+- when a wait runs past a few seconds, say more: what is happening, and whether people can leave the page meanwhile.
+
+## do and don't
+
+<DoDont>
+  <Do caption="the action carries its own wait: the button spins, and can't be pressed twice.">
+    <Button variant="primary" loading>saving</Button>
+  </Do>
+  <Dont caption="a spinner beside a button that still works. people press again, and the wait isn't where they look.">
+    <Stack direction="horizontal" gap={8} align="center">
+      <Button variant="primary">save changes</Button>
+      <Spinner label="saving" />
+    </Stack>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do column caption="one wait, one spinner, with words that say what is loading.">
+    <Stack direction="horizontal" gap={8} align="center">
+      <Spinner size={14} aria-hidden="true" />
+      <Text variant="muted">loading volumes</Text>
+    </Stack>
+  </Do>
+  <Dont column caption="a spinner on every row. load the list as one, and say so once.">
+    <Stack gap={8}>
+      <Stack direction="horizontal" gap={8} align="center"><Spinner size={14} /><Text variant="muted">storage-01</Text></Stack>
+      <Stack direction="horizontal" gap={8} align="center"><Spinner size={14} /><Text variant="muted">storage-02</Text></Stack>
+      <Stack direction="horizontal" gap={8} align="center"><Spinner size={14} /><Text variant="muted">storage-03</Text></Stack>
+    </Stack>
+  </Dont>
+</DoDont>
+
+## props
+
+`Spinner` passes every native `span` attribute through and forwards its ref. `style` is merged over its size and colour, and attributes you pass win over its own, including `role` and `aria-label`.
+
+<ArgTypes of={SpinnerStories} />
+
+## related
+
+- [button](?path=/docs/components-actions-button--docs) — the `loading` state for an action in progress.
+- [data table](?path=/docs/components-data-display-data-table--docs) — `loading` while rows load.
+- [message handling](?path=/docs/patterns-message-handling--docs) — what to show once the wait is over.

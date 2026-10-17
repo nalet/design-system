@@ -2,26 +2,34 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Field, type FieldProps, Input, Select, Textarea, Checkbox } from '../../src';
 
 const meta: Meta<FieldProps> = {
-  title: 'Components/field',
+  title: 'Components/inputs/field',
   component: Field,
   args: {
-    label: 'namespace',
-    hint: 'lowercase, dns-safe',
+    label: 'release name',
+    hint: 'lowercase letters, digits and hyphens',
     required: false,
-    children: <Input placeholder="cloud-nalet-alm" />,
+    children: <Input placeholder="the-lantern-2024" />,
   },
   argTypes: {
     label: { control: 'text' },
     hint: { control: 'text' },
     error: { control: 'text' },
     required: { control: 'boolean' },
-    children: { table: { disable: true } },
-    htmlFor: { table: { disable: true } },
+    children: { control: false },
+    htmlFor: { control: false },
   },
+  decorators: [
+    (Story) => (
+      <div style={{ width: 320 }}>
+        <Story />
+      </div>
+    ),
+  ],
   parameters: {
     docs: {
       description: {
-        component: 'label, control and hint/error wired into one accessible vertical stack.',
+        component:
+          'the label, hint and error around one control, wired with id, aria-describedby and aria-invalid.',
       },
     },
   },
@@ -30,18 +38,20 @@ export default meta;
 
 type Story = StoryObj<FieldProps>;
 
+const column = { display: 'grid', gap: 'var(--s-4)' } as const;
+
 export const Playground: Story = {};
 
 export const States: Story = {
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--s-4)', maxWidth: 320 }}>
-      <Field label="registry" hint="gitlab.example.com">
-        <Input placeholder="registry host" defaultValue="gitlab.example.com" />
+    <div style={column}>
+      <Field label="host" hint="the name the service answers on">
+        <Input placeholder="api.example.com" />
       </Field>
-      <Field label="replicas" required hint="must be at least 1">
-        <Input type="number" defaultValue="3" />
+      <Field label="replicas" required hint="at least 1">
+        <Input type="number" defaultValue="3" min={1} required />
       </Field>
-      <Field label="image tag" error="tag 'latest' is not allowed in prod">
+      <Field label="image tag" error="pin a version, such as 1.4.2">
         <Input defaultValue="latest" />
       </Field>
     </div>
@@ -51,21 +61,21 @@ export const States: Story = {
 export const Controls: Story = {
   name: 'control types',
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--s-4)', maxWidth: 320 }}>
-      <Field label="database" hint="pick a backing store">
+    <div style={column}>
+      <Field label="region" hint="where new releases run">
         <Select
           options={[
-            { label: 'postgres', value: 'postgres' },
-            { label: 'redis', value: 'redis' },
-            { label: 'sqlite', value: 'sqlite' },
+            { label: 'eu-central', value: 'eu-central' },
+            { label: 'eu-west', value: 'eu-west' },
+            { label: 'us-east', value: 'us-east' },
           ]}
         />
       </Field>
-      <Field label="rollout notes" hint="shown in the okd console">
-        <Textarea placeholder="bumped chino api to p95" rows={3} />
+      <Field label="release notes" hint="shown on the release page">
+        <Textarea placeholder="fixed the retry loop in the upload step" rows={3} />
       </Field>
-      <Field hint="streams build logs to the pipeline view">
-        <Checkbox label="verbose ci output" />
+      <Field hint="a summary of last week's releases, every monday">
+        <Checkbox label="send a weekly summary" />
       </Field>
     </div>
   ),
@@ -74,11 +84,14 @@ export const Controls: Story = {
 export const Required: Story = {
   name: 'required',
   render: () => (
-    <Field label="cluster" required hint="the blue marker signals a required field">
+    <Field label="region" required hint="where new releases run">
       <Select
+        required
+        defaultValue=""
         options={[
-          { label: 'okd-prod', value: 'okd-prod' },
-          { label: 'okd-staging', value: 'okd-staging' },
+          { label: 'choose a region', value: '' },
+          { label: 'eu-central', value: 'eu-central' },
+          { label: 'eu-west', value: 'eu-west' },
         ]}
       />
     </Field>
@@ -88,8 +101,8 @@ export const Required: Story = {
 export const Error: Story = {
   name: 'error',
   render: () => (
-    <Field label="hostname" error="hostname must resolve before deploy">
-      <Input defaultValue="chino.nalet" />
+    <Field label="host" error="use a full host name, such as api.example.com">
+      <Input defaultValue="api" />
     </Field>
   ),
 };

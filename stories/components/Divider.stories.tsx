@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Divider, type DividerProps } from '../../src';
+import { Divider, type DividerProps, Stack, Text } from '../../src';
 
 const meta: Meta<DividerProps> = {
-  title: 'Components/divider',
+  title: 'Components/layout & structure/divider',
   component: Divider,
   args: {
     orientation: 'horizontal',
@@ -16,7 +16,8 @@ const meta: Meta<DividerProps> = {
   parameters: {
     docs: {
       description: {
-        component: 'a hairline rule in the border token; the heavy variant uses border-2 and a horizontal rule can carry a small mono label split across the line.',
+        component:
+          'a 1px rule in the border token; heavy uses border-2, and a horizontal rule can carry a short mono label split across the line.',
       },
     },
   },
@@ -35,48 +36,51 @@ export const Playground: Story = {
 
 export const Horizontal: Story = {
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--s-3)', width: 320 }}>
-      <span style={{ color: 'var(--fg-dim)' }}>okd console</span>
+    <Stack gap={12} style={{ width: 320 }}>
+      <Stack gap={4}>
+        <Text variant="ui">storage-01</Text>
+        <Text variant="muted">412 gb used of 1 tb</Text>
+      </Stack>
       <Divider />
-      <span style={{ color: 'var(--fg-dim)' }}>gitlab pipeline</span>
-    </div>
+      <Stack gap={4}>
+        <Text variant="ui">backups</Text>
+        <Text variant="muted">every night at 02:00, kept 14 days</Text>
+      </Stack>
+    </Stack>
   ),
 };
 
 export const Heavy: Story = {
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--s-3)', width: 320 }}>
+    <Stack gap={12} style={{ width: 320 }}>
+      <Text variant="dim">default</Text>
       <Divider />
+      <Text variant="dim">heavy</Text>
       <Divider heavy />
-    </div>
+    </Stack>
   ),
 };
 
 export const Labeled: Story = {
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--s-4)', width: 320 }}>
-      <Divider label="postgres" />
-      <Divider label="p95 latency" heavy />
-    </div>
+    <Stack gap={12} style={{ width: 320 }}>
+      <Text variant="ui">run #1543</Text>
+      <Divider label="older" />
+      <Text variant="ui">run #1502</Text>
+      <Divider label="archived" heavy />
+      <Text variant="ui">run #1388</Text>
+    </Stack>
   ),
 };
 
 export const Vertical: Story = {
   render: () => (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 'var(--s-3)',
-        height: 'var(--s-5)',
-        color: 'var(--fg-dim)',
-      }}
-    >
-      <span>deploy</span>
+    <Stack direction="horizontal" gap={12} align="center" style={{ height: 'var(--s-5)' }}>
+      <Text variant="muted">12 volumes</Text>
       <Divider orientation="vertical" />
-      <span>chino</span>
+      <Text variant="muted">1.2 tb used</Text>
       <Divider orientation="vertical" heavy />
-      <span>gitlab</span>
-    </div>
+      <Text variant="muted">updated 3 min ago</Text>
+    </Stack>
   ),
 };

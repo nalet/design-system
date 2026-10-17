@@ -1,0 +1,117 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as CardStories from './Card.stories';
+import { Card, Badge } from '../../src';
+import { DoDont, Do, Dont } from '../_blocks';
+
+<Meta of={CardStories} />
+
+# card
+
+a square surface panel with a 1px frame, an optional mono header row (with an aside for actions) and an optional footer row. the default container for grouped content.
+
+<Canvas of={CardStories.Playground} />
+
+## when to use
+
+- to group content about one thing under a short title: a volume's details, a run's summary, a section of settings.
+- to give a table or a list a frame and a title, with `flush`.
+- with `sunken`, for a panel nested inside another surface.
+
+## when not to use
+
+- **for something people open or launch.** a card is not clickable. an entry on the launchpad is a [tile](?path=/docs/components-navigation-tile--docs); an action is a [button](?path=/docs/components-actions-button--docs).
+- **for padding or a background without a title.** use a [box](?path=/docs/components-layout-structure-box--docs).
+- **for a message** — saved, could not load, needs attention. use a [message strip](?path=/docs/components-feedback-status-message-strip--docs).
+- **for content that must interrupt.** use a [modal](?path=/docs/components-overlays-modal--docs).
+
+## anatomy
+
+1. **container** — a `div` on `--surface` (`--bg-2` when `sunken`), 1px `--border`, square, text in `--fg-2`.
+2. **header** (when `header` or `headerAside` is set) — a row with padding 12px 16px and a 1px `--border` rule below; the title on the left, the aside on the right, at least 12px apart.
+3. **title** — jetbrains mono 600, 13px, letter-spacing 0.01em, `--fg`, rendered lowercase. it can shrink and wraps when long.
+4. **aside** (optional) — right-aligned, never shrinks, its items 8px apart: actions, a count.
+5. **body** — padding 16px; `flush` removes it.
+6. **footer** (optional) — padding 12px 16px, with a 1px `--border` rule above.
+
+## variants and states
+
+with no `header`, `headerAside` or `footer`, a card is a framed, padded surface.
+
+<Canvas of={CardStories.Plain} />
+
+<Canvas of={CardStories.WithHeaderAndFooter} />
+
+`headerAside` holds the card's own actions and a count; the title gives way to it.
+
+<Canvas of={CardStories.HeaderAside} />
+
+`sunken` moves the card to `--bg-2`, for a panel inside another surface.
+
+<Canvas of={CardStories.Sunken} />
+
+`flush` removes the body padding, so a table meets the frame. build that table from the [table](?path=/docs/components-data-display-table--docs) primitives: today `Table` draws its own 1px frame, which doubles the card's edge.
+
+<Canvas of={CardStories.Flush} />
+
+a card people should find by heading gets a real heading as its title and a name as a region (see accessibility).
+
+<Canvas of={CardStories.AsSection} />
+
+## behaviour and keyboard
+
+| key | does |
+| --- | --- |
+| `tab` | skips the card; focus moves through the controls inside it — header aside, then body, then footer. |
+
+- a card has no click, hover, selected or disabled state.
+- the header comes first in the dom, so keyboard users reach the header actions before the body.
+
+## accessibility
+
+- a plain `div` with no role and no name.
+- today: the title renders in a `div`. it is not a heading and doesn't name the card. when people should find the card by heading, pass a heading element as `header`; with `margin: 0` and `font: inherit` it keeps the title's look. to make the card a landmark, add `role="region"` and `aria-labelledby` pointing at that heading — `Card` passes both to its container.
+- icon-only actions in the aside need a name: use an [icon button](?path=/docs/components-actions-icon-button--docs), whose `label` is required.
+- the title is lowercased by css only; screen readers read it as you wrote it.
+
+## content
+
+- the title is a lowercase noun phrase naming what's inside: `volumes`, `last backup`, `storage-01`. no verbs, no full stop.
+- the aside holds one or two actions or a count. more goes into an [action menu](?path=/docs/components-actions-action-menu--docs).
+- the footer holds a summary (`3 of 12 shown`) or the card's closing actions.
+
+## do and don't
+
+<DoDont>
+  <Do column caption="a short noun title, a count in the aside.">
+    <Card header="volumes" headerAside={<Badge>12</Badge>}>1.2 tb used across 12 volumes.</Card>
+  </Do>
+  <Dont column caption="a sentence as a title. it wraps, pushes the aside and says what the body should say.">
+    <Card header="here are all of the volumes in this project" headerAside={<Badge>12</Badge>}>1.2 tb used across 12 volumes.</Card>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do column caption="a nested panel is sunken, so the two surfaces read apart.">
+    <Card header="storage-01">
+      <Card sunken header="last backup">tonight at 02:00, kept 14 days.</Card>
+    </Card>
+  </Do>
+  <Dont column caption="a default card inside a default card: the same surface, two frames, no depth.">
+    <Card header="storage-01">
+      <Card header="last backup">tonight at 02:00, kept 14 days.</Card>
+    </Card>
+  </Dont>
+</DoDont>
+
+## props
+
+`Card` passes every native `div` attribute to its container (`role`, `aria-labelledby`, `id`, …) and forwards its ref there.
+
+<ArgTypes of={CardStories} />
+
+## related
+
+- [box](?path=/docs/components-layout-structure-box--docs) — padding and a background without a header.
+- [table](?path=/docs/components-data-display-table--docs) — the usual body of a flush card.
+- [tile](?path=/docs/components-navigation-tile--docs) — a clickable entry on the launchpad.
+- [heading](?path=/docs/components-layout-structure-heading--docs) — page and section titles above the cards.

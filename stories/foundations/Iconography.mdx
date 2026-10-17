@@ -1,0 +1,127 @@
+import { Meta, ArgTypes } from '@storybook/addon-docs/blocks';
+import { Activity, Bell, CircleCheck, Copy, Cpu, Database, Download, FileText, Folder, GitBranch, HardDrive, Lock, Play, Rocket, RotateCw, Search, Server, Settings, Terminal, Timer, Trash2, Upload, Users } from 'lucide-react';
+import { Icon, IconButton, Button } from '../../src';
+import { DoDont, Do, Dont, Example } from '../_blocks';
+
+export const glyphs = [['Terminal', Terminal], ['Server', Server], ['Database', Database], ['HardDrive', HardDrive], ['Cpu', Cpu], ['Activity', Activity], ['Timer', Timer], ['GitBranch', GitBranch], ['Rocket', Rocket], ['Play', Play], ['RotateCw', RotateCw], ['Copy', Copy], ['Trash2', Trash2], ['Download', Download], ['Upload', Upload], ['Search', Search], ['Folder', Folder], ['FileText', FileText], ['Bell', Bell], ['Lock', Lock], ['Users', Users], ['Settings', Settings]];
+
+export const IconGrid = () => (
+  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(104px, 1fr))', gap: 'var(--s-2)', width: '100%' }}>
+    {glyphs.map(([name, glyph]) => (
+      <div key={name} style={{ display: 'grid', justifyItems: 'center', gap: 'var(--s-2)', padding: 'var(--s-3) var(--s-2)', background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--fg-2)' }}>
+        <Icon icon={glyph} />
+        <span style={{ fontFamily: 'var(--ff-mono)', fontSize: 11, color: 'var(--fg-muted)' }}>{name}</span>
+      </div>
+    ))}
+  </div>
+);
+
+export const SizeRow = () => (
+  <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', gap: 'var(--s-6)', color: 'var(--fg-2)' }}>
+    {[12, 16, 20, 22].map((s) => (
+      <div key={s} style={{ display: 'grid', justifyItems: 'center', gap: 'var(--s-2)' }}>
+        <Icon icon={Server} size={s} />
+        <span style={{ fontFamily: 'var(--ff-mono)', fontSize: 11, color: 'var(--fg-muted)' }}>{s}px</span>
+      </div>
+    ))}
+  </div>
+);
+
+<Meta title="Foundations/iconography" />
+
+# iconography
+
+line icons from [lucide](https://lucide.dev), drawn through `Icon`: 16px, a 1.75 stroke, the colour of the text around them, and hidden from assistive tech unless you name them.
+
+<Example label="a few icons at the default size">
+  <IconGrid />
+</Example>
+
+## the icon component
+
+- `Icon` takes the lucide component in `icon` — the component, not an element: `<Icon icon={Terminal} />`.
+- `size` is the edge length in px: 16 by default, to match the ui text. `strokeWidth` is 1.75 by default; lucide's own default is 2.
+- it renders lucide's `<svg>` with the class `nc-icon`: inline-block, `color: inherit`, never shrinking in a flex row, sitting on the middle of the text line.
+- the stroke is `currentColor`, so an icon takes the colour of its parent. tint the parent, not the icon.
+- it sets `aria-hidden="true"` unless you pass an `aria-label`, rather than rely on lucide's own default, which depends on the lucide version.
+- every other lucide prop passes through (`className`, `style`, `absoluteStrokeWidth`, `aria-*`, …), and the `ref` reaches the `<svg>`.
+
+## lucide is a peer dependency
+
+- install `lucide-react` (0.300.0 or later) next to the library; `react` and `react-dom` 18 or later are peers too.
+- the library imports lucide for its types only and bundles no icons. import each icon you use by name — `import { Terminal } from 'lucide-react'` — and your bundle carries only those.
+- where a component takes an icon, it wants the component: `Icon`'s `icon`, `Tile`'s `icon`. slots take an element: a [button](?path=/docs/components-actions-button--docs)'s `leading={<Icon icon={Rocket} />}`, or the icon as an [icon button](?path=/docs/components-actions-icon-button--docs)'s child.
+
+## sizes
+
+| size | where |
+| --- | --- |
+| 12px | inside `sm` (28px) buttons and icon buttons, the size of their spinner |
+| 16px | the default: next to ui text, inside `md` (34px) buttons and icon buttons |
+| 20px | inside `lg` (42px) icon buttons |
+| 22px | a tile's app icon. `Tile` sets the size and the stroke; you pass only the component |
+
+<Example label="icon sizes">
+  <SizeRow />
+</Example>
+
+the stroke stays 1.75 at every size. lucide measures it on its 24-unit grid, so the line thins as the icon shrinks: about 1.2px at 16px, 1.6px at 22px. don't mix stroke widths on one screen.
+
+## colour
+
+- icons are `currentColor`: next to body text they are `--fg-2`, in a quiet label `--fg-muted`.
+- `--cloud-blue` marks a destination: it is the colour of a tile's app icon.
+- the signal colours belong to states, and a state needs words: see [object status](?path=/docs/components-feedback-status-object-status--docs). an icon alone in green or red tells many people nothing.
+
+## decoration and meaning
+
+- **next to words, an icon is decoration.** `Icon` hides it from assistive tech, and the words carry the meaning — in a button's slots, in a tile.
+- **an icon that is a control's only content** belongs in an [icon button](?path=/docs/components-actions-icon-button--docs). its required `label` becomes the button's accessible name and its native tooltip; leave the icon inside unlabelled.
+- **an icon that informs on its own** is rare. give it a name — `aria-label` with `role="img"` — and `Icon` stops hiding it. words next to it are still better.
+- **never make a bare icon clickable.** an `<svg>` takes no focus and has no role, so keyboard and screen-reader users can't use it.
+
+## shape
+
+icons are the only rounded shape in the system. lucide draws them with round caps and joins, and the app icons in `assets/icons/` carry their rounded corners in the png. everything around an icon stays square: no `border-radius`, no circle or pill behind it. the tile's 28px icon box is square and unfilled.
+
+## do and don't
+
+<DoDont>
+  <Do caption="the defaults, 16px and a 1.75 stroke, next to the label.">
+    <Button leading={<Icon icon={Rocket} />}>deploy release</Button>
+  </Do>
+  <Dont caption="a raw lucide icon at its defaults (24px, stroke 2) is heavier than everything around it and crowds the button.">
+    <Button leading={<Rocket />}>deploy release</Button>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="an icon-only action is an icon button with a label.">
+    <IconButton label="restart worker-2"><Icon icon={RotateCw} /></IconButton>
+  </Do>
+  <Dont caption="a clickable bare icon has no focus and no name; the keyboard can't reach it.">
+    <span onClick={() => {}} style={{ cursor: 'pointer', color: 'var(--fg-2)' }}><Icon icon={RotateCw} /></span>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="a state in words, with the icon beside them as decoration.">
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)', color: 'var(--state-success)', fontFamily: 'var(--ff-mono)', fontSize: 13 }}><Icon icon={CircleCheck} />healthy</span>
+  </Do>
+  <Dont caption="the icon alone is hidden from screen readers and told apart only by its colour.">
+    <span style={{ color: 'var(--state-success)' }}><Icon icon={CircleCheck} /></span>
+  </Dont>
+</DoDont>
+
+## props
+
+`Icon` passes every lucide prop through; `size` and `strokeWidth` carry the library's defaults.
+
+<ArgTypes of={Icon} />
+
+## related
+
+- [icon button](?path=/docs/components-actions-icon-button--docs) — an action that is only an icon, with its required label.
+- [button](?path=/docs/components-actions-button--docs) — icons in the leading and trailing slots.
+- [tile](?path=/docs/components-navigation-tile--docs) — the app icon at 22px.
+- [brand](?path=/docs/foundations-brand--docs) — the chevron and the lockup, which the library draws itself.

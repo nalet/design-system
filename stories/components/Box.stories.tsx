@@ -1,19 +1,27 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Box, type BoxProps } from '../../src';
+import { Box, type BoxProps, Stack, Text } from '../../src';
 
 const meta: Meta<BoxProps> = {
-  title: 'Components/box',
+  title: 'Components/layout & structure/box',
   component: Box,
   args: {
     p: 16,
     bg: 'surface',
     border: true,
-    children: 'okd console',
+    children: 'storage-01',
   },
   argTypes: {
     p: { control: 'select', options: [0, 4, 8, 12, 16, 24, 32, 48, 64] },
-    px: { control: 'select', options: [0, 4, 8, 12, 16, 24, 32, 48, 64] },
-    py: { control: 'select', options: [0, 4, 8, 12, 16, 24, 32, 48, 64] },
+    px: {
+      control: 'select',
+      options: [0, 4, 8, 12, 16, 24, 32, 48, 64],
+      description: 'left and right padding from the space scale, applied after p.',
+    },
+    py: {
+      control: 'select',
+      options: [0, 4, 8, 12, 16, 24, 32, 48, 64],
+      description: 'top and bottom padding from the space scale, applied after p.',
+    },
     bg: { control: 'inline-radio', options: ['bg', 'bg-2', 'surface', 'surface-2'] },
     border: { control: 'boolean' },
     children: { control: 'text' },
@@ -22,7 +30,7 @@ const meta: Meta<BoxProps> = {
     docs: {
       description: {
         component:
-          'square layout primitive with token padding, canvas background and an optional hairline border; never rounded.',
+          'the base layout primitive: a square div with padding from the space scale, an optional canvas background and an optional hairline border. never rounded.',
       },
     },
   },
@@ -85,19 +93,20 @@ export const AsymmetricPadding: Story = {
   ),
 };
 
+/** a surface with a sunken region inside it. */
 export const Panel: Story = {
   render: () => (
     <Box p={16} bg="surface" border style={{ width: 320 }}>
-      <div style={{ display: 'grid', gap: 'var(--s-3)' }}>
-        <div style={{ color: 'var(--fg)' }}>chino deploy</div>
-        <Box p={12} bg="bg" border>
-          <div style={{ display: 'grid', gap: 'var(--s-2)', color: 'var(--cloud-blue)' }}>
-            <span>gitlab pipeline #1543</span>
-            <span>okd rollout: ready</span>
-            <span>p95: 142ms</span>
-          </div>
+      <Stack gap={12}>
+        <Text variant="ui">release 2.4.1</Text>
+        <Box p={12} bg="bg-2" border>
+          <Stack gap={8}>
+            <Text variant="code">pipeline #1543 passed</Text>
+            <Text variant="code">rollout ready, 3 of 3</Text>
+            <Text variant="code">p95 142ms</Text>
+          </Stack>
         </Box>
-      </div>
+      </Stack>
     </Box>
   ),
 };

@@ -1,28 +1,28 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Card, type CardProps, Badge, Button } from '../../src';
+import { Card, type CardProps, Badge, Button, Stack, Text, Thead, Tbody, Tr, Th, Td } from '../../src';
 
 const meta: Meta<CardProps> = {
-  title: 'Components/card',
+  title: 'Components/layout & structure/card',
   component: Card,
   args: {
-    header: 'okd console',
-    children: 'rollout completed across 3 worker nodes.',
+    header: 'storage-01',
+    children: '412 gb used of 1 tb. last checked 2 minutes ago.',
     flush: false,
     sunken: false,
   },
   argTypes: {
     flush: { control: 'boolean' },
     sunken: { control: 'boolean' },
-    header: { table: { disable: true } },
-    headerAside: { table: { disable: true } },
-    footer: { table: { disable: true } },
-    children: { table: { disable: true } },
+    header: { control: 'text' },
+    headerAside: { control: false },
+    footer: { control: false },
+    children: { control: 'text' },
   },
   parameters: {
     docs: {
       description: {
         component:
-          'a square surface panel with a hairline border and optional mono header and footer rows.',
+          'a square surface panel with a hairline border, an optional mono header row with an aside for actions, and an optional footer row.',
       },
     },
   },
@@ -31,68 +31,111 @@ export default meta;
 
 type Story = StoryObj<CardProps>;
 
-export const Playground: Story = {};
+export const Playground: Story = {
+  render: (args) => <Card {...args} style={{ width: 320 }} />,
+};
 
 export const Plain: Story = {
-  render: () => (
-    <Card>postgres primary is healthy. last checkpoint 12s ago.</Card>
-  ),
+  render: () => <Card style={{ width: 320 }}>db-0 is healthy. last checkpoint 12s ago.</Card>,
 };
 
 export const WithHeaderAndFooter: Story = {
+  name: 'with header and footer',
   render: () => (
     <Card
-      header="chino"
+      header="api-7f9c"
+      style={{ width: 360 }}
       footer={
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ color: 'var(--fg-3)' }}>p95 142ms</span>
+        <Stack direction="horizontal" justify="between" align="center">
+          <Text variant="muted">p95 142ms</Text>
           <Button variant="ghost" size="sm">
-            logs
+            view logs
           </Button>
-        </div>
+        </Stack>
       }
     >
-      transcoder queue drained. 4 packages published to nas001.
+      queue drained. 4 packages published to storage-01.
     </Card>
   ),
 };
 
 export const HeaderAside: Story = {
+  name: 'header aside',
   render: () => (
-    <Card header="gitlab pipeline" headerAside={<Badge tone="green" dot>passed</Badge>}>
-      build → image push → okd rollout finished in 6m12s.
+    <Card
+      header="volumes"
+      style={{ width: 360 }}
+      headerAside={
+        <>
+          <Badge>12</Badge>
+          <Button variant="ghost" size="sm">
+            add volume
+          </Button>
+        </>
+      }
+    >
+      1.2 tb used across 12 volumes.
     </Card>
   ),
 };
 
+/** a sunken card nested inside a default one. */
 export const Sunken: Story = {
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--s-3)', maxWidth: 360 }}>
-      <Card header="surface" headerAside={<Badge tone="blue">default</Badge>}>
-        the default container for grouped content.
-      </Card>
-      <Card sunken header="sunken" headerAside={<Badge tone="amber">bg-2</Badge>}>
-        deeper background for nested or inset panels.
-      </Card>
-    </div>
+    <Card header="storage-01" style={{ width: 360 }}>
+      <Stack gap={12}>
+        <Text variant="muted">412 gb used of 1 tb</Text>
+        <Card sunken header="last backup">
+          tonight at 02:00, kept 14 days.
+        </Card>
+      </Stack>
+    </Card>
   ),
 };
 
+/** flush body with a table built from the table primitives, so the card's frame is the only frame. */
 export const Flush: Story = {
   render: () => (
-    <Card header="worker nodes" flush>
-      <table style={{ width: '100%', borderCollapse: 'collapse', fontFamily: 'var(--ff-mono)', fontSize: 13 }}>
-        <tbody>
-          <tr style={{ borderBottom: '1px solid var(--border)' }}>
-            <td style={{ padding: 'var(--s-3) var(--s-4)' }}>worker6</td>
-            <td style={{ padding: 'var(--s-3) var(--s-4)', textAlign: 'right', color: 'var(--cloud-blue)' }}>ready</td>
-          </tr>
-          <tr>
-            <td style={{ padding: 'var(--s-3) var(--s-4)' }}>worker7</td>
-            <td style={{ padding: 'var(--s-3) var(--s-4)', textAlign: 'right', color: 'var(--fg-3)' }}>draining</td>
-          </tr>
-        </tbody>
+    <Card header="volumes" flush style={{ width: 360 }}>
+      <table className="nc-table" aria-label="volumes">
+        <Thead>
+          <Tr>
+            <Th scope="col">volume</Th>
+            <Th scope="col" style={{ textAlign: 'right' }}>
+              used (gb)
+            </Th>
+          </Tr>
+        </Thead>
+        <Tbody>
+          <Tr>
+            <Td>storage-01</Td>
+            <Td style={{ textAlign: 'right' }}>412</Td>
+          </Tr>
+          <Tr>
+            <Td>storage-02</Td>
+            <Td style={{ textAlign: 'right' }}>96</Td>
+          </Tr>
+        </Tbody>
       </table>
+    </Card>
+  ),
+};
+
+/** a card people navigate to by heading: a real heading as the title, and a named region. */
+export const AsSection: Story = {
+  name: 'as a section',
+  render: () => (
+    <Card
+      role="region"
+      aria-labelledby="card-backups-title"
+      header={
+        <h2 id="card-backups-title" style={{ margin: 0, font: 'inherit' }}>
+          backups
+        </h2>
+      }
+      style={{ width: 360 }}
+    >
+      backups run every night at 02:00 and are kept for 14 days.
     </Card>
   ),
 };

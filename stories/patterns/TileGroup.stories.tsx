@@ -1,24 +1,23 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Server, GitBranch, Database, Terminal, Activity } from 'lucide-react';
+import { Activity, Database, GitBranch, ScrollText, Server } from 'lucide-react';
 import { TileGroup, Tile, Button, type TileGroupProps } from '../../src';
 
 const meta: Meta<TileGroupProps> = {
-  title: 'Patterns/tile group',
+  title: 'Components/navigation/tile group',
   component: TileGroup,
   parameters: {
     layout: 'fullscreen',
     docs: {
       description: {
         component:
-          'a labelled, square-grid section of Tiles. the legend names a stable, ' +
-          'spatially-consistent group; the grid is a responsive css auto-fill grid by ' +
-          'default. provides roving-tabindex arrow-key navigation unless a parent Portal ' +
-          'owns it.',
+          'a titled section of tiles in a square grid. the legend names a stable group; the ' +
+          'grid is a responsive auto-fill grid by default. one tab stop for the group and ' +
+          'arrow keys between tiles, unless a parent portal runs that model.',
       },
     },
   },
   args: {
-    legend: 'infra',
+    legend: 'operations',
     columns: 'auto',
     minTileWidth: '14rem',
     gap: 'md',
@@ -28,8 +27,17 @@ const meta: Meta<TileGroupProps> = {
     gap: { control: 'inline-radio', options: ['xs', 'sm', 'md', 'lg'] },
     navigation: { control: 'inline-radio', options: ['roving', 'tab'] },
     columns: { control: 'text' },
+    description: { control: 'text' },
+    action: { control: false },
+    children: { control: false },
   },
-  decorators: [(Story) => <div style={{ padding: 'var(--s-6)', maxWidth: 920 }}>{Story()}</div>],
+  decorators: [
+    (Story) => (
+      <div style={{ padding: 'var(--s-5)', maxWidth: 920 }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 export default meta;
 
@@ -37,11 +45,11 @@ type Story = StoryObj<TileGroupProps>;
 
 const tiles = (
   <>
-    <Tile icon={GitBranch} title="gitlab" description="ci/cd + registry" href="#" external />
-    <Tile icon={Server} title="okd console" description="cluster ops" href="#" />
-    <Tile icon={Database} title="postgres" description="primary db" href="#" status="online" />
-    <Tile icon={Terminal} title="logs" description="loki tail" href="#" />
-    <Tile icon={Activity} title="metrics" description="apm" href="#" badge={3} badgeTone="warning" />
+    <Tile icon={GitBranch} title="pipelines" description="builds and releases" href="#" />
+    <Tile icon={Server} title="cluster" description="nodes and workloads" href="#" />
+    <Tile icon={Database} title="database" description="db-0, the primary" href="#" status="online" />
+    <Tile icon={ScrollText} title="logs" description="live tail across workers" href="#" />
+    <Tile icon={Activity} title="metrics" description="3 alerts open" href="#" badge={3} badgeTone="warning" />
   </>
 );
 
@@ -52,7 +60,7 @@ export const Playground: Story = {
 export const FixedColumns: Story = {
   name: 'fixed columns',
   render: () => (
-    <TileGroup legend="four up" columns={4} minTileWidth="11rem">
+    <TileGroup legend="deploy" columns={4} minTileWidth="11rem">
       {tiles}
     </TileGroup>
   ),
@@ -63,7 +71,11 @@ export const WithAction: Story = {
   render: () => (
     <TileGroup
       legend="observability"
-      action={<Button variant="ghost" size="sm">manage</Button>}
+      action={
+        <Button variant="ghost" size="sm">
+          manage
+        </Button>
+      }
     >
       {tiles}
     </TileGroup>
@@ -73,7 +85,20 @@ export const WithAction: Story = {
 export const WithDescription: Story = {
   name: 'with description',
   render: () => (
-    <TileGroup legend="infra" description="core platform services. arrow keys move between tiles.">
+    <TileGroup legend="storage" description="the services every release depends on.">
+      {tiles}
+    </TileGroup>
+  ),
+};
+
+export const TabOrder: Story = {
+  name: 'tab order',
+  render: () => (
+    <TileGroup
+      legend="monitoring"
+      description="every tile is its own tab stop; the arrow keys do nothing."
+      navigation="tab"
+    >
       {tiles}
     </TileGroup>
   ),

@@ -15,6 +15,8 @@ const meta: Meta<FilterBarProps> = {
     layout: 'padded',
     docs: { description: { component: 'what narrows a list: search, facets, clear all, and what is left.' } },
   },
+  // room under the bar for an open multi select panel.
+  decorators: [(Story) => <div style={{ minHeight: 240 }}>{Story()}</div>],
 };
 export default meta;
 
@@ -89,7 +91,7 @@ export const Narrow: Story = {
   render: function Narrow() {
     return (
       <div style={{ width: 360 }}>
-        <FilterBar {...useFilters().props} />
+        <FilterBar {...useFilters().props} label="filter titles" />
       </div>
     );
   },
@@ -99,6 +101,12 @@ export const SearchOnly: Story = {
   name: 'search only',
   render: function SearchOnly() {
     const [q, setQ] = useState('');
-    return <FilterBar search={{ value: q, onChange: setQ, placeholder: 'search hosts', label: 'search hosts' }} resultCount="48" />;
+    return (
+      <FilterBar
+        label="filter hosts"
+        search={{ value: q, onChange: setQ, placeholder: 'search hosts', label: 'search hosts' }}
+        resultCount="48"
+      />
+    );
   },
 };

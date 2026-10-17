@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Heading, type HeadingProps } from '../../src';
+import { Heading, type HeadingProps, Stack, Text } from '../../src';
 
 const meta: Meta<HeadingProps> = {
-  title: 'Components/heading',
+  title: 'Components/layout & structure/heading',
   component: Heading,
   args: {
-    children: 'okd console',
+    children: 'volumes',
     level: 1,
     chevron: false,
   },
@@ -17,7 +17,8 @@ const meta: Meta<HeadingProps> = {
   parameters: {
     docs: {
       description: {
-        component: 'mono display heading at the h1/h2 roles, optionally led by a blue chevron for terminal tone.',
+        component:
+          'mono display heading for the page title (h1) and its sections (h2), optionally led by the blue chevron.',
       },
     },
   },
@@ -30,33 +31,39 @@ export const Playground: Story = {};
 
 export const Levels: Story = {
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--s-3)' }}>
-      <Heading level={1}>deploy pipeline</Heading>
-      <Heading level={2}>gitlab runners</Heading>
-    </div>
+    <Stack gap={12}>
+      <Heading level={1}>volumes</Heading>
+      <Heading level={2}>recent runs</Heading>
+    </Stack>
   ),
 };
 
 export const WithChevron: Story = {
+  name: 'with chevron',
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--s-3)' }}>
-      <Heading level={1} chevron>
-        chino
-      </Heading>
-      <Heading level={2} chevron>
-        stube platform
-      </Heading>
-    </div>
+    <Heading level={1} chevron>
+      volumes
+    </Heading>
   ),
 };
 
+/** a page title with its first section. */
 export const SectionHeader: Story = {
+  name: 'section header',
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--s-2)' }}>
-      <Heading level={1} chevron>
-        postgres
-      </Heading>
-      <Heading level={2}>p95 latency</Heading>
-    </div>
+    <Stack gap={24} style={{ maxWidth: 520 }}>
+      <Stack gap={8}>
+        <Heading level={1} chevron>
+          storage-01
+        </Heading>
+        <Text variant="muted">412 gb used of 1 tb, 3 snapshots</Text>
+      </Stack>
+      <Stack gap={8}>
+        <Heading level={2}>backups</Heading>
+        <Text as="p" variant="body">
+          backups run every night at 02:00 and are kept for 14 days.
+        </Text>
+      </Stack>
+    </Stack>
   ),
 };

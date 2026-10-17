@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Kbd, type KbdProps } from '../../src';
+import { Kbd, type KbdProps, Stack, Text } from '../../src';
 
 const meta: Meta<KbdProps> = {
-  title: 'Components/kbd',
+  title: 'Components/data display/kbd',
   component: Kbd,
   args: {
     children: 'esc',
@@ -13,7 +13,8 @@ const meta: Meta<KbdProps> = {
   parameters: {
     docs: {
       description: {
-        component: 'a single square keycap with a hairline border and mono label, e.g. esc or ctrl.',
+        component:
+          'a single keycap: square, hairline frame with a 2px bottom edge, mono label. one key per kbd; place several, with a joiner, for a shortcut.',
       },
     },
   },
@@ -26,64 +27,66 @@ export const Playground: Story = {};
 
 export const Keys: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap', alignItems: 'center' }}>
+    <Stack direction="horizontal" gap={12} align="center" wrap>
       <Kbd>esc</Kbd>
       <Kbd>tab</Kbd>
       <Kbd>enter</Kbd>
       <Kbd>shift</Kbd>
       <Kbd>ctrl</Kbd>
       <Kbd>alt</Kbd>
+      <Kbd>cmd</Kbd>
       <Kbd>k</Kbd>
-    </div>
+    </Stack>
   ),
 };
 
 export const Combo: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'center', flexWrap: 'wrap' }}>
-      <div style={{ display: 'flex', gap: 'var(--s-2)', alignItems: 'center' }}>
-        <Kbd>ctrl</Kbd>
-        <Kbd>k</Kbd>
-      </div>
-      <div style={{ display: 'flex', gap: 'var(--s-2)', alignItems: 'center' }}>
-        <Kbd>ctrl</Kbd>
-        <Kbd>shift</Kbd>
-        <Kbd>p</Kbd>
-      </div>
-    </div>
+    <Stack direction="horizontal" gap={24} align="center" wrap>
+      <Text variant="muted">
+        <Kbd>ctrl</Kbd> + <Kbd>k</Kbd>
+      </Text>
+      <Text variant="muted">
+        <Kbd>ctrl</Kbd> + <Kbd>shift</Kbd> + <Kbd>p</Kbd>
+      </Text>
+      <Text variant="muted">
+        <Kbd>g</Kbd> then <Kbd>i</Kbd>
+      </Text>
+    </Stack>
   ),
 };
 
 export const InShortcutList: Story = {
+  name: 'in shortcut list',
   render: () => (
-    <div
+    <dl
       style={{
         display: 'grid',
-        gap: 'var(--s-3)',
-        width: 280,
-        color: 'var(--fg)',
-        fontFamily: 'var(--ff-mono)',
-        fontSize: 13,
+        gridTemplateColumns: '1fr auto',
+        alignItems: 'center',
+        gap: 'var(--s-3) var(--s-5)',
+        width: 300,
+        margin: 0,
       }}
     >
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span>open command palette</span>
-        <div style={{ display: 'flex', gap: 'var(--s-2)' }}>
-          <Kbd>ctrl</Kbd>
-          <Kbd>k</Kbd>
-        </div>
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span>focus terminal</span>
-        <div style={{ display: 'flex', gap: 'var(--s-2)' }}>
-          <Kbd>ctrl</Kbd>
-          <Kbd>`</Kbd>
-        </div>
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span>dismiss</span>
+      <Text as="dt" variant="ui">
+        search
+      </Text>
+      <Text as="dd" variant="muted">
+        <Kbd>ctrl</Kbd> + <Kbd>k</Kbd>
+      </Text>
+      <Text as="dt" variant="ui">
+        open the selected row
+      </Text>
+      <Text as="dd" variant="muted">
+        <Kbd>enter</Kbd>
+      </Text>
+      <Text as="dt" variant="ui">
+        close the dialog
+      </Text>
+      <Text as="dd" variant="muted">
         <Kbd>esc</Kbd>
-      </div>
-    </div>
+      </Text>
+    </dl>
   ),
 };

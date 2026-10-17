@@ -1,7 +1,7 @@
 /* nalet storybook preview canvas
  *
  * the generated tokens.css (src/styles/tokens.css) already declares the
- * :root css-vars, the @font-face / @import for inter + jetbrains mono, and
+ * :root css-vars, color-scheme and the type utilities (no fonts: they are loaded below), and
  * base body rules. this file only forces the dark terminal canvas inside the
  * storybook iframe and the docs surface so previews never flash white.
  */
@@ -47,4 +47,35 @@ body,
 .sbdocs li {
   color: var(--fg-2, #C9D1D9);
   font-family: var(--ff-ui, 'Inter', system-ui, sans-serif);
+}
+
+/* the "on this page" links: 24px targets (wcag 2.2, 2.5.8) instead of the
+   tightly stacked default. */
+.toc-wrapper .toc-link {
+  display: inline-block;
+  box-sizing: border-box;
+  min-height: 24px;
+  padding: 3px 0;
+  line-height: 18px;
+}
+
+/* markdown tables on the dark canvas: the default zebra stripe is a light grey
+   (#454c54) that takes link blue under 4.5:1. stripes and rules from the tokens. */
+.sbdocs table tr,
+.sbdocs table tr:nth-of-type(2n) {
+  background-color: transparent !important;
+}
+
+.sbdocs table tr:nth-of-type(2n) {
+  background-color: var(--surface) !important;
+}
+
+.sbdocs table th,
+.sbdocs table td {
+  border-color: var(--border) !important;
+}
+
+.sbdocs table th {
+  background-color: var(--bg-2) !important;
+  color: var(--fg-muted) !important;
 }

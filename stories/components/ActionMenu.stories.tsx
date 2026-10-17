@@ -102,3 +102,26 @@ export const DisabledAndDanger: Story = {
 export const Busy: Story = {
   args: { loading: true },
 };
+
+export const Alignment: Story = {
+  name: 'align start and end',
+  render: () => (
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: 360 }}>
+      <ActionMenu
+        label="actions for db-0"
+        align="start"
+        items={[
+          { id: 'logs', label: 'open logs', onSelect: () => undefined },
+          { id: 'restart', label: 'restart', onSelect: () => undefined },
+        ]}
+      />
+      <ActionMenu
+        label="actions for worker-2"
+        items={[
+          { id: 'logs', label: 'open logs', onSelect: () => undefined },
+          { id: 'restart', label: 'restart', onSelect: () => undefined },
+        ]}
+      />
+    </div>
+  ),
+};

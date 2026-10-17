@@ -1,0 +1,18 @@
+import { Meta, Markdown } from '@storybook/addon-docs/blocks';
+import changelog from '../../CHANGELOG.md?raw';
+
+<Meta title="Introduction/changelog" />
+
+# versions and changes
+
+## versioning
+
+- **semantic versions.** while the system is 0.x, a minor version (0.3.0) may change how existing components look — the changelog lists every visible change; a patch (0.3.1) only fixes.
+- **one release per version tag.** a tag `vX.Y.Z` builds the library and attaches the packed tarball to a github release; apps install that url (see [getting started](?path=/docs/introduction-getting-started--docs)).
+- **this site follows main.** it is built from the main branch on every push, so it can describe changes that are not in a release yet. the version in a page's code samples is the latest release.
+
+## changelog
+
+the file `CHANGELOG.md` in the repository, rendered here as it is:
+
+<Markdown>{changelog}</Markdown>

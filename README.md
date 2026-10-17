@@ -15,7 +15,7 @@ house style.
 install a release tarball (each github release carries one; no registry needed):
 
 ```sh
-npm i https://github.com/nalet/design-system/releases/download/v0.2.0/nalet-design-system-0.2.0.tgz
+npm i https://github.com/nalet/design-system/releases/download/v0.3.0/nalet-design-system-0.3.0.tgz
 ```
 
 peer dependencies: `react` and `react-dom` 18 or 19, `lucide-react`.
@@ -24,7 +24,7 @@ the components are plain react + css (no tailwind dependency inside the library)
 import the two stylesheets once, near your app root, then use components:
 
 ```tsx
-// tokens: css custom properties + @font + base.
+// tokens: css custom properties, the page base and the type utilities (no fonts).
 import '@nalet/design-system/tokens.css';
 // component styles.
 import '@nalet/design-system/styles.css';
@@ -40,6 +40,11 @@ export function App() {
   );
 }
 ```
+
+no font files ship with the package. load **inter** (400–700) and **jetbrains mono**
+(400–800) in the app — self-hosted (e.g. `@fontsource/inter`,
+`@fontsource/jetbrains-mono`) or from google fonts; without them the stacks fall back
+to `system-ui` and `ui-monospace`.
 
 typed token objects are available too:
 
@@ -67,7 +72,8 @@ library itself does not depend on tailwind.
 - **dark canvas only.** `--bg #0B0F19` / `--bg-2 #0D1117` / `--surface #11161F` /
   `--surface-2 #161B26` / `--border #1F2633` / `--border-2 #2A3142`.
 - **foreground.** `--fg #E6E6E6` / `--fg-2 #C9D1D9` / `--fg-muted #AEB8C2` /
-  `--fg-dim #6E7787`.
+  `--fg-dim #7B8597`. every text token meets 4.5:1 on every background — a
+  test enforces it.
 - **the `>` chevron is the brand glyph** and is **always** `--cloud-blue`
   (`#58A6FF`) — links and the primary cta too. `--cloud-cyan #00A4DC` is the
   cursor / active stroke. `--signal-green #2EA043` = ok, `--signal-amber #F2B233`
@@ -85,7 +91,7 @@ library itself does not depend on tailwind.
 
 - `@nalet/design-system` — react components + brand glyphs (`Chevron`, `Lockup`,
   `Icon`).
-- `@nalet/design-system/tokens.css` — css custom properties, `@font`, and base.
+- `@nalet/design-system/tokens.css` — css custom properties, the page base and the type utilities (no font files: see install).
 - `@nalet/design-system/styles.css` — the component styles.
 - `@nalet/design-system/tokens` — typed token objects.
 - `@nalet/design-system/tailwind` — tailwind preset for consumer apps.

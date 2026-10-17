@@ -24,7 +24,7 @@ landing page, start over.
 | `--fg`       | `#E6E6E6` | primary text, titles         |
 | `--fg-2`     | `#C9D1D9` | body text, the n glyph       |
 | `--fg-muted` | `#AEB8C2` | labels, meta, captions       |
-| `--fg-dim`   | `#6E7787` | helpers, hints, off state    |
+| `--fg-dim`   | `#7B8597` | helpers, hints, off state    |
 
 ## brand & signal
 
@@ -35,6 +35,22 @@ landing page, start over.
 | `--signal-green` | `#2EA043` | ok / running / healthy               |
 | `--signal-amber` | `#F2B233` | warn / delayed / degraded            |
 | `--signal-red`   | `#F85149` | error / failed / offline             |
+
+## semantic state
+
+status and messages never pick a signal colour directly; they use one of five
+semantic states. each has a text/icon colour, a `-bg` tint and a `-border`.
+
+| token                 | value     | means                                         |
+| --------------------- | --------- | --------------------------------------------- |
+| `--state-neutral`     | `#AEB8C2` | a plain fact: missing, queued                 |
+| `--state-information` | `#58A6FF` | under way or worth knowing: on its way        |
+| `--state-success`     | `#2EA043` | done and good: held, saved                    |
+| `--state-warning`     | `#F2B233` | works, but someone should look: firewalled    |
+| `--state-error`       | `#F85149` | failed or blocked, needs action               |
+
+every text token meets 4.5:1 on every background, and control boundaries
+(`--border-control #646C7A`) meet 3:1; `tokens/contrast.test.ts` enforces it.
 
 the `>` chevron is the brand glyph. it is **always** `--cloud-blue` (`#58A6FF`).
 

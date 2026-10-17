@@ -1,0 +1,156 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+import { Server } from 'lucide-react';
+import { Button, Checkbox, DataTable, Lockup, MessageStrip, Spinner, Switch, Text, Tile, Toaster, Tooltip, toast } from '../../src';
+import { DoDont, Do, Dont, Example } from '../_blocks';
+
+export const Specimen = ({ name, note, children }) => (
+  <div style={{ display: 'grid', alignContent: 'space-between', gap: 'var(--s-3)', minWidth: 0, padding: 'var(--s-3)', background: 'var(--bg-2)', border: '1px solid var(--border)' }}>
+    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--s-2)', minHeight: 56, minWidth: 0 }}>{children}</div>
+    <div style={{ fontFamily: 'var(--ff-mono)', fontSize: 12, color: 'var(--fg)' }}>
+      {name}
+      <div style={{ fontSize: 11, color: 'var(--fg-muted)', marginTop: 'var(--s-1)' }}>{note}</div>
+    </div>
+  </div>
+);
+
+export const busyRows = [
+  { id: 'a', name: 'storage-01' },
+  { id: 'b', name: 'storage-02' },
+];
+
+export const busyColumns = [{ id: 'name', header: 'volume', cell: (v) => v.name }];
+
+<Meta title="Foundations/motion" />
+
+# motion
+
+small and quick, and only to say something: that a control heard you, that a state changed, that work is under way. nothing bounces, slides in from far away or plays for show.
+
+<Example label="every motion in the library, live">
+  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 14rem), 1fr))', gap: 'var(--s-3)', width: '100%' }}>
+    <Specimen name="colour change" note="120ms ease · hover, press, check">
+      <Button>check now</Button>
+      <Checkbox label="include archived" />
+    </Specimen>
+    <Specimen name="switch thumb" note="140ms ease · slides 16px">
+      <Switch label="email alerts" defaultChecked />
+    </Specimen>
+    <Specimen name="tile hover" note="80ms linear · surface, border, chevron">
+      <div style={{ width: '100%' }}>
+        <Tile icon={Server} title="cluster" href="#" size="sm" />
+      </div>
+    </Specimen>
+    <Specimen name="tooltip" note="100ms ease · fades in, hides at once">
+      <Tooltip content="checked today at 02:00">
+        <Text variant="ui">storage-01</Text>
+      </Tooltip>
+    </Specimen>
+    <Specimen name="disclosure caret" note="120ms ease · turns 90°">
+      <MessageStrip state="neutral" live="off" details="run 2a7f · 41s · 412 gb">the last backup finished at 02:01.</MessageStrip>
+    </Specimen>
+    <Specimen name="toast" note="160ms ease-out · rises 6px, leaves at once">
+      <Button onClick={() => toast('8 volumes checked', { state: 'success', id: 'motion-specimen' })}>check 8 volumes</Button>
+    </Specimen>
+    <Specimen name="spinner" note="0.7s a turn, while busy">
+      <Spinner />
+    </Specimen>
+    <Specimen name="busy rule" note="1.1s ease-in-out · runs along the top">
+      <div style={{ width: '100%' }}>
+        <DataTable aria-label="volumes" columns={busyColumns} rows={busyRows} rowKey={(v) => v.id} loading stickyHeader={false} />
+      </div>
+    </Specimen>
+  </div>
+</Example>
+
+the lockup's blinking cursor, the ninth, is in the do and don't below.
+
+## what moves
+
+| motion | where | duration, easing | it says | with reduced motion |
+| --- | --- | --- | --- | --- |
+| colour change | button, icon button, input, select, textarea, checkbox, switch track, tabs, filter tabs, multi select trigger, modal close button | 120ms `ease` | the control heard you: hover, press, focus, on | unchanged: colour, not movement |
+| tile hover | tile surface and border; the brand chevron fades in | 80ms `linear` | this tile is a way in | instant |
+| tooltip | the bubble fades in; it hides at once | 100ms `ease` | here is the detail | unchanged |
+| switch thumb | slides 16px (14px at `sm`) | 140ms `ease` | the setting changed | no transition: the thumb moves at once |
+| disclosure caret | message strip details (turns 90°), multi select (180°), a data table group (90°) | 120ms `ease` | open, or closed | instant |
+| toast | rises 6px as it fades in; leaves at once | 160ms `ease-out` | something just happened | appears at once |
+| spinner | turns at a steady speed, without end | 0.7s a turn, `linear` | working on it | turns once every 1.6s; it doesn't stop |
+| busy rule | on a loading data table, a 2px `--cloud-blue` bar, 30% wide, runs along the top edge, over and over | 1.1s a run, `ease-in-out` | this list is being refreshed | stops: a still 2px rule across the full width; the rows still dim |
+| lockup cursor | the cursor block blinks: on for half of each cycle, off for the other half | 1.05s a cycle, without end | the brand's one cursor | keeps blinking (see accessibility) |
+
+## what doesn't move
+
+- modals, action menus and the multi select panel open and close at once. only the multi select's chevron turns.
+- toasts and tooltips leave at once; only their entrance is animated.
+- sorting, selecting a row, pop-in, the filter bar folding and actions moving into the overflow menu happen at once. nothing animates a width, a height or a row's position.
+- the active tab's underline changes colour in place; it doesn't slide between tabs.
+- keyboard focus rings (`--focus-ring` outlines) appear at once. a field's blue focus border comes in with its 120ms colour change.
+- nothing scrolls smoothly: moving focus, or the roving tab stop, jumps.
+
+## durations and easing
+
+- **80ms `linear`** — the tile, a surface people sweep the pointer over.
+- **100ms `ease`** — the tooltip's fade.
+- **120ms `ease`** — every other change of state: colours and carets.
+- **140ms `ease`** — the switch thumb, the one control part that travels.
+- **160ms `ease-out`** — the toast, the one thing that enters.
+- **loops** — the spinner (0.7s a turn), the busy rule (1.1s a run) and the lockup cursor (1.05s a cycle) repeat for as long as they show.
+
+today: there are no motion tokens. each component writes its durations and easings in its own css, so an app can't read them from the library; match the values above.
+
+## how to apply it in your app
+
+- keep a response to a person at 120ms, and never past 160ms. a reaction that takes longer feels like lag, not polish.
+- fade, or move a few pixels, as the toast does with its 6px. don't slide panels across the screen or scale things up on hover.
+- run a loop only while something is busy, and stop it the moment the work is done.
+- don't animate layout. rows, columns and panels change at once, as the data table's do.
+- put every movement and every loop behind `@media (prefers-reduced-motion: reduce)`, and there stop it or show its end state, as the toast and the busy rule do.
+- to see the reduced versions, turn on reduced motion in the system settings, or emulate `prefers-reduced-motion` in the browser's developer tools.
+
+## accessibility
+
+with `prefers-reduced-motion: reduce`:
+
+- **stop:** the toast's entrance, the carets, the tile's hover and its chevron, the busy rule (it becomes a still rule).
+- **slow down:** the spinner, to one turn every 1.6s. it keeps turning.
+- **unchanged:** the colour changes and the tooltip's fade, which don't move anything; and today the switch thumb, which slides 16px in 140ms.
+- **doesn't stop:** the lockup cursor. the stylesheet hides the cursor's `<animate>` element with `display: none`, but `display` doesn't apply to svg animation elements, so the blink carries on.
+
+and:
+
+- the lockup cursor blinks for as long as the page is open. content that moves for more than five seconds next to other content needs a way to stop it (wcag 2.2.2): wherever the lockup stays in view, pass `showCursor={false}`. see [brand](?path=/docs/foundations-brand--docs).
+- nothing flashes. the only thing that turns on and off is the cursor, less than once a second, far under the limit of three flashes a second.
+- motion never says something alone: a loading data table also sets `aria-busy`, a spinner is a `status` named "loading", a toast is text in a live region, and a switch announces on or off.
+
+## do and don't
+
+<DoDont>
+  <Do caption="busy where the content is: the rows stay in place under the running rule." column>
+    <div style={{ width: '100%' }}>
+      <DataTable aria-label="volumes" columns={busyColumns} rows={busyRows} rowKey={(v) => v.id} loading stickyHeader={false} />
+    </div>
+  </Do>
+  <Dont caption="a spinner in place of the list: the page jumps when it goes, and again when the rows come back." column>
+    <div style={{ display: 'grid', placeItems: 'center', width: '100%', minHeight: 96, border: '1px solid var(--border)' }}>
+      <Spinner size={24} />
+    </div>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="in a header that stays on screen, the lockup holds still.">
+    <Lockup height={32} showCursor={false} />
+  </Do>
+  <Dont caption="a cursor that blinks for as long as the page is open pulls the eye from the work, and reduced motion doesn't stop it.">
+    <Lockup height={32} />
+  </Dont>
+</DoDont>
+
+## related
+
+- [brand](?path=/docs/foundations-brand--docs) — the lockup and its one cursor.
+- [spinner](?path=/docs/components-feedback-status-spinner--docs) — the loop for work under way.
+- [toast](?path=/docs/components-feedback-status-toast--docs) — the one thing that enters.
+- [accessibility](?path=/docs/foundations-accessibility--docs) — reduced motion among the other settings people bring.
+
+<Toaster />

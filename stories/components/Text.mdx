@@ -1,0 +1,120 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as TextStories from './Text.stories';
+import { Text, Code } from '../../src';
+import { DoDont, Do, Dont } from '../_blocks';
+
+<Meta of={TextStories} />
+
+# text
+
+copy at one of five type roles: `body` for prose, `ui` for interface text, `muted` and `dim` for secondary lines, `code` for mono values. it renders a `span` unless you choose another element with `as`.
+
+<Canvas of={TextStories.Playground} />
+
+## when to use
+
+- for sentences and paragraphs (`body`, rendered `as="p"`).
+- for short interface text that isn't a control's own label: a name in a list, a value in a panel (`ui`).
+- for secondary facts beside the main line: a timestamp, a size, a path (`muted`); and for the line people can safely skip (`dim`).
+- for values people read in mono — durations, hashes, sizes — that don't need the frame of [code](?path=/docs/components-data-display-code--docs) (`code`).
+- with `truncate`, for one line that must not wrap, such as a long path in a narrow column.
+
+## when not to use
+
+- **for a page or section title.** use [heading](?path=/docs/components-layout-structure-heading--docs), which renders a real `h1` or `h2`.
+- **for commands, flags or anything people type or copy.** use [code](?path=/docs/components-data-display-code--docs): a `code` element in a frame.
+- **for a keyboard key.** use [kbd](?path=/docs/components-data-display-kbd--docs).
+- **for a form label, hint or error.** use [field](?path=/docs/components-inputs-field--docs). it renders the `label`, ties the hint and error to the control and marks it invalid. `Text as="label"` is only styled text, tied to nothing.
+- **for a state or a message.** an object's state is [object status](?path=/docs/components-feedback-status-object-status--docs); a message about the page is a [message strip](?path=/docs/components-feedback-status-message-strip--docs).
+
+## anatomy
+
+one element (default `span`) with no margin. the variant sets the family, weight, size, line height and colour:
+
+| variant | family | weight | size / line height | colour |
+| --- | --- | --- | --- | --- |
+| `body` (default) | inter (`--ff-ui`) | 400 | 16px / 1.55 | `--fg-2` |
+| `ui` | inter | 500 | 13px / 1.4 | `--fg` |
+| `muted` | inter | 400 | 13px / 1.4 | `--fg-muted` |
+| `dim` | inter | 400 | 13px / 1.4 | `--fg-dim` |
+| `code` | jetbrains mono (`--ff-mono`) | 500 | 13px / 1.5 | `--fg-2` |
+
+with `truncate`, the element becomes an `inline-block` no wider than its container (`max-width: 100%`), on one line, cut with an ellipsis.
+
+## variants and states
+
+<Canvas of={TextStories.Variants} />
+
+`muted` and `dim` are 13px, the size of `ui`, not of `body`: they are for secondary lines in an interface, not for quieter paragraphs. there is no muted 16px body.
+
+`code` is mono text without the frame and colour of [code](?path=/docs/components-data-display-code--docs), and it still renders a `span`. use it for values people read, not for code.
+
+<Canvas of={TextStories.InlineMono} />
+
+`truncate` cuts a single line where its container ends.
+
+<Canvas of={TextStories.Truncate} />
+
+`as` picks the element; the variant's look stays the same. `as="p"` gives a paragraph, `as="h3"` a heading level that [heading](?path=/docs/components-layout-structure-heading--docs) doesn't offer.
+
+<Canvas of={TextStories.AsElement} />
+
+## behaviour and keyboard
+
+text is static: it takes no focus and handles no keys.
+
+| key | does |
+| --- | --- |
+| `tab` | skips it. text is not in the tab order. |
+
+- `truncate` needs a width to cut against: it fills at most its container. inside a flex row, that container must be allowed to shrink (`min-width: 0`), or it grows to fit the text and nothing is cut.
+
+## accessibility
+
+- `Text` adds no role or aria. the element you pick with `as` is the semantics: `p` for a paragraph, `h3` for a heading, `span` (the default) for a run inside other text.
+- colour carries no meaning. `muted` and `dim` lower emphasis, not importance: never put the only copy of something people need in `dim`.
+- every text colour meets 4.5:1 on every background, `--fg-dim` included.
+- today: `truncate` cuts the text only for the eye. screen readers read all of it, but sighted keyboard, touch and mouse users can't reach the rest: there is no `title` or tooltip built in. show the full value somewhere reachable — a detail view, or a [tooltip](?path=/docs/components-overlays-tooltip--docs), whose trigger takes focus.
+
+## content
+
+- `body` is for full sentences. follow the voice: lowercase, plain, no exclamation marks.
+- `ui` is a few words: a name, a value, a short phrase.
+- `muted` states facts, not instructions: `updated 3 min ago`, `412 gb used`.
+- `dim` is only for what people can skip. warnings and next steps never go there.
+- mono (`code`) is for values. a sentence set in mono to look technical is harder to read, not more precise.
+
+## do and don't
+
+<DoDont>
+  <Do column caption="the main line in ui, the facts that qualify it in muted.">
+    <Text variant="ui">storage-01</Text>
+    <Text variant="muted">412 gb used, updated 3 min ago</Text>
+  </Do>
+  <Dont column caption="dim is for what people can skip. a warning in dim is a warning nobody reads; use a message strip.">
+    <Text variant="ui">storage-01</Text>
+    <Text variant="dim">this volume will be deleted at midnight</Text>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="a command people copy is code: framed, in a code element.">
+    <Text as="p" variant="body">run <Code>ctl get volumes</Code> to list them.</Text>
+  </Do>
+  <Dont caption="mono text without the frame doesn't read as something to type.">
+    <Text as="p" variant="body">run <Text variant="code">ctl get volumes</Text> to list them.</Text>
+  </Dont>
+</DoDont>
+
+## props
+
+`Text` passes every native attribute to its element and forwards its ref.
+
+<ArgTypes of={TextStories} />
+
+## related
+
+- [heading](?path=/docs/components-layout-structure-heading--docs) — page and section titles.
+- [code](?path=/docs/components-data-display-code--docs) — commands and identifiers, in a frame.
+- [typography](?path=/docs/foundations-typography--docs) — the type roles these variants come from.
+- [voice & content](?path=/docs/foundations-voice-content--docs) — how to write it.

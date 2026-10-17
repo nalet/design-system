@@ -1,5 +1,6 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 import { mergeConfig } from 'vite';
+import remarkGfm from 'remark-gfm';
 
 const config: StorybookConfig = {
   stories: [
@@ -8,7 +9,15 @@ const config: StorybookConfig = {
     '../src/**/*.stories.@(ts|tsx)',
   ],
 
-  addons: ['@storybook/addon-a11y', '@storybook/addon-docs'],
+  addons: [
+    '@storybook/addon-a11y',
+    {
+      // github-flavoured markdown in the mdx guidelines: tables (keyboard maps,
+      // decision tables) and strikethrough.
+      name: '@storybook/addon-docs',
+      options: { mdxPluginOptions: { mdxCompileOptions: { remarkPlugins: [remarkGfm] } } },
+    },
+  ],
 
   framework: {
     name: '@storybook/react-vite',

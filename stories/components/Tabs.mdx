@@ -1,0 +1,123 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as TabsStories from './Tabs.stories';
+import { Tabs } from '../../src';
+import { DoDont, Do, Dont } from '../_blocks';
+
+<Meta of={TabsStories} />
+
+# tabs
+
+a row of mono tabs that switch between views of the same object. the selected tab is underlined in `--cloud-blue`. `Tabs` renders the tablist only: you render the panel.
+
+<Canvas of={TabsStories.WithPanel} />
+
+## when to use
+
+- to switch between views of one object at the same level: the `overview`, `logs`, `metrics` and `events` of one service.
+- when each view makes sense on its own and people move between them in no fixed order.
+- for two to six short labels that fit on one row.
+
+## when not to use
+
+- **to filter one list.** use [filter tabs](?path=/docs/components-navigation-filter-tabs--docs): each tab is a count over a label, and the list below follows the choice.
+- **to go to another page or app.** use links; for a home page of apps, [tiles](?path=/docs/components-navigation-tile--docs) in a [tile group](?path=/docs/components-navigation-tile-group--docs).
+- **for more views than fit on one row.** today the row doesn't scroll, wrap or overflow into a menu. use a [select](?path=/docs/components-inputs-select--docs).
+- **to turn a setting on or off.** use a [switch](?path=/docs/components-inputs-switch--docs).
+
+## anatomy
+
+1. **tablist** — a flex row with a 1px `--border` rule underneath (`role="tablist"`).
+2. **tab** — a `<button>` with `role="tab"`: jetbrains mono 500, 13px, 8px × 12px padding, `--fg-muted`, shown lowercase.
+3. **selection** — the selected tab's label and a 2px underline in `--cloud-blue`, laid over the list's rule.
+4. **panel** — not part of the component. render it right below the list; the attributes it needs are under accessibility.
+
+## variants and states
+
+| state | looks |
+| --- | --- |
+| rest | `--fg-muted` label |
+| hover | `--fg` label |
+| selected | `--cloud-blue` label and 2px underline |
+| focus | a 2px `--focus-ring` outline inside the tab |
+| disabled | 40% opacity. it can't be focused, clicked or reached with the arrow keys |
+
+<Canvas of={TabsStories.WithDisabled} />
+
+uncontrolled: pass `defaultValue` (without it, the first item is selected) and listen with `onChange`. `defaultValue` is read once, on the first render.
+
+<Canvas of={TabsStories.Uncontrolled} />
+
+controlled: pass `value` and set it in `onChange`. a `value` you don't update freezes the row.
+
+<Canvas of={TabsStories.Controlled} />
+
+## behaviour and keyboard
+
+| key | does |
+| --- | --- |
+| `tab` | moves focus into the row, onto the selected tab — the only tab with `tabindex="0"` — and out of it on the next press. |
+| `→` / `←` | selects the next / previous enabled tab, wrapping at the ends, calls `onChange` and moves focus to it. |
+| `enter` / `space` | native button: selects the focused tab. |
+| `home` / `end` | selects and focuses the first / last enabled tab. |
+
+- a click selects the tab.
+- selection follows the arrow keys: every press calls `onChange`. keep the views quick to switch, or load a slow one only after the selection has settled.
+
+## accessibility
+
+- the row has `role="tablist"`; each tab is a `<button>` with `role="tab"` and `aria-selected`. only the selected tab is in the tab order.
+- `Tabs` renders no panel, no ids and no `aria-controls`. give your panel `role="tabpanel"`, name it after the selected tab with `aria-label`, and give it `tabIndex={0}` when it holds nothing focusable, so keyboard users can reach its content. the with-panel story above does this.
+
+today:
+
+- `aria-label` and other attributes go on the wrapper `<div>`, not on the tablist, so the tablist can't be named.
+- the tabs have no ids, so a panel can't point at its tab with `aria-labelledby`.
+- a `value` that matches no item leaves every tab at `tabindex="-1"`, and the row can't be reached with `tab`.
+- disabled tabs can't be focused, so screen-reader users don't learn that they exist.
+
+## content
+
+- one or two words per tab, nouns: `overview`, `logs`, `metrics`. no verbs and no counts — a count belongs in [filter tabs](?path=/docs/components-navigation-filter-tabs--docs).
+- the same views in the same order on every object of a kind, so `logs` is always in the same place.
+- write labels as they should be read; the lowercase look is css.
+
+## do and don't
+
+<DoDont>
+  <Do caption="views of one object, at one level.">
+    <Tabs defaultValue="overview" items={[{ value: 'overview', label: 'overview' }, { value: 'logs', label: 'logs' }, { value: 'metrics', label: 'metrics' }, { value: 'events', label: 'events' }]} />
+  </Do>
+  <Dont caption="counts that filter one list are filter tabs, which show the count and connect the tabs to the list.">
+    <Tabs defaultValue="open" items={[{ value: 'open', label: 'open 12' }, { value: 'done', label: 'done 40' }, { value: 'all', label: 'all 52' }]} />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="one or two words, nouns.">
+    <Tabs defaultValue="logs" items={[{ value: 'logs', label: 'logs' }, { value: 'metrics', label: 'metrics' }, { value: 'events', label: 'events' }]} />
+  </Do>
+  <Dont caption="sentences and verbs make the row long and slow to scan.">
+    <Tabs defaultValue="logs" items={[{ value: 'logs', label: 'show me the logs' }, { value: 'metrics', label: 'see recent metrics' }]} />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="leave out a view that doesn't apply.">
+    <Tabs defaultValue="overview" items={[{ value: 'overview', label: 'overview' }, { value: 'logs', label: 'logs' }, { value: 'events', label: 'events' }]} />
+  </Do>
+  <Dont caption="a disabled tab can't be focused and doesn't say why it is off.">
+    <Tabs defaultValue="overview" items={[{ value: 'overview', label: 'overview' }, { value: 'logs', label: 'logs' }, { value: 'traces', label: 'traces', disabled: true }, { value: 'events', label: 'events' }]} />
+  </Dont>
+</DoDont>
+
+## props
+
+`Tabs` passes other `<div>` attributes and its `ref` to the wrapper around the tablist.
+
+<ArgTypes of={TabsStories} />
+
+## related
+
+- [filter tabs](?path=/docs/components-navigation-filter-tabs--docs) — tabs that filter one list, with counts, a named tablist and the list wired to it.
+- [select](?path=/docs/components-inputs-select--docs) — when the views don't fit on one row.
+- [tile group](?path=/docs/components-navigation-tile-group--docs) — moving between apps rather than views.

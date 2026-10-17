@@ -1,0 +1,68 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Foundations/accessibility" />
+
+# accessibility
+
+the baseline is **wcag 2.2 level aa**. components carry their roles, names, focus handling and announcements, so the obvious way to use one is the accessible way — and what a component can't do for you, its page says.
+
+## what is checked, and how
+
+| check | where | what it covers |
+| --- | --- | --- |
+| token contrast | `tokens/contrast.test.ts` (in `npm test` and ci) | every text token on every background and state tint at 4.5:1; control boundaries, the focus ring and checked fills at 3:1 — see [colour](?path=/docs/foundations-colour--docs) |
+| axe in unit tests | `src/**/*.test.tsx` (jsdom) | every new component in each state its tests render: roles, names, aria use, structure. jsdom can't compute colour, so contrast is the token test's job there |
+| axe in a browser | the storybook a11y panel, and a headless chromium run over every story | the rendered stories, colour contrast included |
+| behaviour | the unit tests | keyboard maps, focus movement and live-region text, asserted with testing-library |
+
+passing these is the floor, not proof. screen-reader testing with real assistive technology is not automated here.
+
+## keyboard
+
+- **everything is reachable and operable without a pointer.** native elements are used where they exist (buttons, checkboxes, selects, `<details>`).
+- **composite widgets take one tab stop** and move with the arrow keys inside: [tabs](?path=/docs/components-navigation-tabs--docs) and [filter tabs](?path=/docs/components-navigation-filter-tabs--docs) (←/→, home, end), [toolbars](?path=/docs/components-actions-toolbar--docs) (←/→, home, end), the [data table](?path=/docs/components-data-display-data-table--docs) (↑/↓ by row, home, end, page up/down; ←/→ collapse and expand groups) and the [portal](?path=/docs/patterns-portal--docs) launchpad (a 2-d grid).
+- **menus and disclosures** open on enter or space ([action menu](?path=/docs/components-actions-action-menu--docs) also on ↓), close on esc and give focus back to their trigger. the innermost thing closes first: an open menu in a dialog takes the first esc, the dialog the next.
+- **dialogs** trap tab, close on esc, and return focus to what opened them ([modal](?path=/docs/components-overlays-modal--docs)).
+- **selection** follows the same keys everywhere it exists: space toggles, shift extends, ctrl/cmd+a selects every visible row.
+
+## focus
+
+buttons, icon buttons, tabs, filter tabs, checkboxes, switches, sort headers and disclosures show a 2px `--focus-ring` outline on keyboard focus (`:focus-visible`) — at least 6:1 against every background; a focused menu item shows a 2px `--focus-ring` bar on its leading edge and a fill. table rows draw the same ring on their cells, because outlines on table rows are unreliable. two older families differ today: text fields, selects and textareas show focus as a `--cloud-blue` border with an inset shadow, and launchpad tiles as a `--cloud-blue` frame.
+
+focus is never moved without a reason: toasts never take it, live updates never steal it, and a menu or dialog gives it back.
+
+## names, roles and states
+
+- icon-only controls require a name ([icon button](?path=/docs/components-actions-icon-button--docs) `label`, [action menu](?path=/docs/components-actions-action-menu--docs) `label`) — name the object: "actions for S04E07".
+- a visible label is the accessible name (wcag 2.5.3): a text trigger is named by its text.
+- states are set, not drawn: `aria-selected`, `aria-expanded`, `aria-sort`, `aria-invalid`, `aria-busy`, `aria-disabled` on menu items.
+- the data table is a `grid` (a `treegrid` when grouped), with row headers, levels, positions and `aria-rowcount` for rows not rendered yet.
+
+## announcements
+
+| what changes | how it is announced |
+| --- | --- |
+| a message strip appears or changes | its text alone is a live region: `role=status` (polite), `role=alert` for errors, `live="off"` for a static note |
+| a toast | the toaster's list is a polite live region that exists before the first toast |
+| the selection | the selection toolbar announces "8 selected", "selection cleared" |
+| a filter's result | the filter bar's count ("312 of 2,500") is a polite live region that always exists |
+| a table grows | "200 of 2,500" is polite |
+| warnings and errors in a status | read with their state first: "warning: connection firewalled" |
+
+## colour and motion
+
+colour never carries meaning alone: every state has a glyph of its own shape and words; a selected row has a checked box. motion is short and functional, and honours `prefers-reduced-motion` where the component implements it — see [motion](?path=/docs/foundations-motion--docs) for exactly what each does.
+
+## known gaps
+
+the pages say what each component can't do yet, under "today:". the ones that matter most across the system:
+
+- **no light, high-contrast or forced-colours styling.** under windows high contrast, focus that is drawn with a border colour and an inset shadow (inputs, selects, textareas) can look unfocused. planned with the themes.
+- **tooltip** shows on hover and on focus of its own wrapper, adds a tab stop, and can't be dismissed with esc (wcag 1.4.13) — see its page.
+- **modal**: several open modals all close on one esc; the page behind is not made inert.
+- **no radio group and no searchable combobox** component yet; use native radios and the patterns on the input pages.
+- **fonts are not bundled**, so the type renders in fallbacks until the app loads them.
+
+## your part
+
+the components can't know your content. give tables an `aria-label`, give checkboxes a `rowLabel`, keep one `h1` per page (the [worklist](?path=/docs/patterns-worklist--docs) takes a `headingLevel`), write messages that make sense read aloud on their own, and keep raw ids out of primary text.

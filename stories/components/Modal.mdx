@@ -1,0 +1,160 @@
+import { useCallback, useState } from 'react';
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ModalStories from './Modal.stories';
+import { Modal, Button, Field, Input } from '../../src';
+import { DoDont, Do, Dont } from '../_blocks';
+
+export const DemoModal = ({ opener, openerVariant = 'default', title, body, fields = [], actions = [], closeOnEsc = true, closeOnBackdrop = true }) => {
+  const [open, setOpen] = useState(false);
+  const close = useCallback(() => setOpen(false), []);
+  return (
+    <>
+      <Button variant={openerVariant} onClick={() => setOpen(true)}>{opener}</Button>
+      <Modal
+        open={open}
+        onClose={close}
+        title={title}
+        closeOnEsc={closeOnEsc}
+        closeOnBackdrop={closeOnBackdrop}
+        footer={actions.length ? actions.map((a) => <Button key={a.label} variant={a.variant} onClick={close}>{a.label}</Button>) : undefined}
+      >
+        {body}
+        {fields.length ? <div style={{ display: 'grid', gap: 'var(--s-3)' }}>{fields.map((f) => <Field key={f} label={f}><Input /></Field>)}</div> : null}
+      </Modal>
+    </>
+  );
+};
+
+<Meta of={ModalStories} />
+
+# modal
+
+a square dialog over a dim backdrop for one task that needs an answer before the page can go on. it traps `tab`, closes on `esc` and on a backdrop click, locks page scroll and gives focus back to the element that opened it.
+
+<Canvas of={ModalStories.Confirm} />
+
+## when to use
+
+- to confirm an action that deletes something or can't be undone: `delete volume`, `revoke token`.
+- to collect two or three inputs for one task without leaving the page: `add server`.
+- when the next step depends on the answer, and nothing else on the page should happen until it is given.
+
+## when not to use
+
+- **to report that something happened.** use a [toast](?path=/docs/components-feedback-status-toast--docs) for a passing confirmation, or a [message strip](?path=/docs/components-feedback-status-message-strip--docs) for a message that stays on the page. a dialog that only says `saved` interrupts and asks nothing.
+- **in front of an action that can be undone.** do it, and confirm it with a [toast](?path=/docs/components-feedback-status-toast--docs); the way back is the opposite action on the page (toasts carry no actions).
+- **for a long form or several steps.** give it a page; see [forms and settings](?path=/docs/patterns-forms-and-settings--docs).
+- **for a short explanation.** an optional detail fits a [tooltip](?path=/docs/components-overlays-tooltip--docs); help for an input is the [field](?path=/docs/components-inputs-field--docs) hint.
+- **to offer a list of actions.** use an [action menu](?path=/docs/components-actions-action-menu--docs).
+
+## anatomy
+
+1. **backdrop** — covers the viewport in the canvas colour (`--bg`) at 72% opacity.
+2. **dialog** — `--surface` fill, 1px `--border-2`, square corners. `width` sets its max width (480px by default); it is never taller than the viewport minus 48px and keeps 16px from the viewport's edges. it renders into `document.body`, centred, at `z-index: 100`.
+3. **header** (with `title` only) — 12px × 16px padding and a 1px `--border` rule below. it holds:
+   - **title** — an `<h2>` in jetbrains mono 600, 15px, `--fg`, shown lowercase.
+   - **close button** — 26px square, an `×` in `--fg-muted`, named "close".
+4. **body** — 16px padding, inter 14px / 1.55 in `--fg-2`. it scrolls when the content is taller than the dialog; the header and the footer stay in place.
+5. **footer** (optional) — the actions, right-aligned with 8px between them, 12px × 16px padding and a 1px `--border` rule above.
+
+## variants and states
+
+| setup | how | use for |
+| --- | --- | --- |
+| confirm | `title`, one or two sentences, a footer with `cancel` and the action | an action that deletes or can't be undone |
+| form | `title`, fields in the body, a footer | a few inputs for one task |
+| no title | `ariaLabel` instead of `title` | a short readout. there is no header, so no close button: put one in the footer |
+| persistent | `closeOnEsc={false}` and `closeOnBackdrop={false}` | work that a stray key must not hide. the header's close button and the footer still close it |
+
+a form in the body can submit from the footer: give the `<form>` an `id`, and the footer button `type="submit"` and `form={id}`. `enter` in a field then submits it.
+
+<Canvas of={ModalStories.Form} />
+
+<Canvas of={ModalStories.NoTitle} />
+
+<Canvas of={ModalStories.Persistent} />
+
+long content scrolls inside the body; the title and the actions stay in view. there is no open or close animation.
+
+<Canvas of={ModalStories.LongContent} />
+
+## behaviour and keyboard
+
+while it is open, the modal listens for keys on the whole document, so they work wherever focus is.
+
+| key | does |
+| --- | --- |
+| `tab` / `shift+tab` | moves through the dialog in the usual order. from its last focusable element it wraps to the first, and back, so focus stays in the dialog (with the limits listed under accessibility). |
+| `esc` | calls `onClose`, unless `closeOnEsc={false}`. widgets inside the dialog get it first: an open [action menu](?path=/docs/components-actions-action-menu--docs) closes on the first press, the dialog on the next. once the dialog takes the key, it goes no further. |
+| `enter` / `space` | native: activates the focused button. `enter` in a field submits its form. |
+
+- **on open**, focus moves to the first focusable element in the dialog: with a `title`, that is the header's close button; without one, the first control in the body or the footer, or the dialog itself when there is none.
+- **closing** — `esc`, a click on the backdrop and the close button call `onClose`. the modal never closes itself: you set `open` to `false`.
+- **on close**, focus returns to the element that had it when the modal opened.
+- **scroll lock** — while open, `<body>` gets `overflow: hidden`; its earlier value comes back on close.
+- `onClose` may be an inline function. the modal calls the latest one and runs its open steps only when `open` (or `closeOnEsc`) changes, so a parent that re-renders — a list that polls, a field that types — does not pull focus back to the start.
+
+## accessibility
+
+- the dialog has `role="dialog"` and `aria-modal="true"`. the `title` names it (`aria-labelledby`); without a title, `ariaLabel` does. give it one or the other: with neither, the dialog has no name.
+- the page behind is not made `inert` or `aria-hidden`. `aria-modal` and the tab trap are what keep people in the dialog.
+- the close button is named "close" and is 26px square, above the 24px minimum target size.
+- a click on plain text puts focus on the dialog itself; `tab` and `shift+tab` from there stay inside.
+- the title is always an `<h2>`.
+
+today:
+
+- you can't choose where focus starts. with a `title` it is always the close button, and `autoFocus` on a field is overridden.
+- the dialog takes no `aria-describedby`: `Modal` passes no other attributes to it. screen readers announce the title, not the consequence, so make the title say what happens (`delete volume`, not `are you sure?`).
+- the tab trap counts hidden elements, `<input type="hidden">` included. when one is the first or the last focusable match in the dialog, `tab` can leave it.
+- one modal at a time: every open modal listens for `esc`, so one press closes them all.
+- the scroll lock doesn't make up for the scrollbar's width, so the page behind can shift sideways when the modal opens.
+- if the opener is gone when the modal closes (you deleted its row), focus has nowhere to return to. move it yourself, to the next sensible element.
+
+## content
+
+- **title** — a verb and its object, in the same words as the control that opened it: `delete volume`, `add server`. not a question, no full stop. the lowercase look is css, so write it as it should be read.
+- **body** — one or two sentences: what happens, to what, and whether it can be undone. name the object: `this permanently deletes storage-01 and its 3 snapshots.`
+- **actions** — the confirming button repeats the title's verb (`delete volume`); the way out is `cancel`, as a ghost button. the confirming action goes last, on the right. `danger` only for an action that deletes or can't be undone.
+
+## do and don't
+
+<DoDont>
+  <Do caption="the title and the confirming button use the same words; the body says what is lost.">
+    <DemoModal opener="delete volume" openerVariant="danger" title="delete volume" body="this permanently deletes storage-01 and its 3 snapshots. it can't be undone." actions={[{ label: 'cancel', variant: 'ghost' }, { label: 'delete volume', variant: 'danger' }]} />
+  </Do>
+  <Dont caption="a question with yes and no makes people reread the dialog to find out what yes does.">
+    <DemoModal opener="delete volume" openerVariant="danger" title="are you sure?" body="do you really want to continue?" actions={[{ label: 'no', variant: 'ghost' }, { label: 'yes', variant: 'primary' }]} />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="two fields for one task fit a dialog.">
+    <DemoModal opener="add server" title="add server" fields={['base url', 'name']} actions={[{ label: 'cancel', variant: 'ghost' }, { label: 'add server', variant: 'primary' }]} />
+  </Do>
+  <Dont caption="a long form scrolls inside the dialog, hides its own fields and is lost with one esc. give it a page.">
+    <DemoModal opener="edit settings" title="edit settings" fields={['name', 'base url', 'region', 'owner', 'retention', 'backup window', 'alert contact', 'notes']} actions={[{ label: 'cancel', variant: 'ghost' }, { label: 'save changes', variant: 'primary' }]} />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="keep esc and the backdrop on (the default) when closing loses nothing.">
+    <DemoModal opener="revoke token" openerVariant="danger" title="revoke token" body="worker-2 loses access at once and has to sign in again." actions={[{ label: 'cancel', variant: 'ghost' }, { label: 'revoke token', variant: 'danger' }]} />
+  </Do>
+  <Dont caption="esc is how people back out. turned off for a plain confirmation, it leaves them pressing it with nothing happening.">
+    <DemoModal opener="revoke token" openerVariant="danger" title="revoke token" body="worker-2 loses access at once and has to sign in again." closeOnEsc={false} closeOnBackdrop={false} actions={[{ label: 'cancel', variant: 'ghost' }, { label: 'revoke token', variant: 'danger' }]} />
+  </Dont>
+</DoDont>
+
+## props
+
+`Modal` passes no other attributes through. `className` lands on the dialog element; `ariaLabel` names the dialog when there is no `title`.
+
+<ArgTypes of={ModalStories} />
+
+## related
+
+- [button](?path=/docs/components-actions-button--docs) — the opener and the footer actions.
+- [toast](?path=/docs/components-feedback-status-toast--docs) — confirms what happened without blocking.
+- [message strip](?path=/docs/components-feedback-status-message-strip--docs) — a message that stays on the page.
+- [forms and settings](?path=/docs/patterns-forms-and-settings--docs) — where longer forms go.

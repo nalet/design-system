@@ -1,25 +1,51 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Server, Info } from 'lucide-react';
-import { Tooltip, type TooltipProps, Button, IconButton } from '../../src';
+import type { ReactNode } from 'react';
+import { Tooltip, type TooltipProps } from '../../src';
+
+// a non-interactive trigger: a value or a term with a dotted underline. the
+// tooltip's wrapper supplies the tab stop that makes it reachable by keyboard.
+function Term({ children }: { children: ReactNode }) {
+  return (
+    <span
+      style={{
+        borderBottom: '1px dotted var(--fg-dim)',
+        cursor: 'help',
+        fontFamily: 'var(--ff-mono)',
+        fontSize: 13,
+        color: 'var(--fg)',
+      }}
+    >
+      {children}
+    </span>
+  );
+}
 
 const meta: Meta<TooltipProps> = {
-  title: 'Components/tooltip',
+  title: 'Components/overlays/tooltip',
   component: Tooltip,
   args: {
-    content: 'p95 latency over the last 5m',
+    content: 'p95 over the last 5 minutes',
     side: 'top',
-    children: <Button variant="default">hover me</Button>,
+    children: <Term>142 ms</Term>,
   },
   argTypes: {
     side: { control: 'inline-radio', options: ['top', 'bottom', 'left', 'right'] },
     content: { control: 'text' },
-    children: { table: { disable: true } },
-    className: { table: { disable: true } },
+    children: { control: false },
   },
+  // room around the trigger so the bubble is never clipped by the canvas edge.
+  decorators: [
+    (Story) => (
+      <div style={{ padding: 'var(--s-7)' }}>
+        <Story />
+      </div>
+    ),
+  ],
   parameters: {
     docs: {
       description: {
-        component: 'small square mono label shown on pointer hover and keyboard focus of its trigger.',
+        component:
+          'a small square label with a short, optional detail. shows while its trigger is hovered or has keyboard focus; css only.',
       },
     },
   },
@@ -36,34 +62,21 @@ export const Sides: Story = {
       style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(2, max-content)',
-        gap: 'var(--s-6)',
-        padding: 'var(--s-6)',
+        gap: 'var(--s-6) var(--s-8)',
+        padding: 'var(--s-4) var(--s-8)',
       }}
     >
-      <Tooltip side="top" content="restart deployment">
-        <Button variant="default">top</Button>
+      <Tooltip side="top" content="shown above">
+        <Term>top</Term>
       </Tooltip>
-      <Tooltip side="bottom" content="scale to 0 replicas">
-        <Button variant="default">bottom</Button>
+      <Tooltip side="bottom" content="shown below">
+        <Term>bottom</Term>
       </Tooltip>
-      <Tooltip side="left" content="open gitlab pipeline">
-        <Button variant="default">left</Button>
+      <Tooltip side="left" content="shown to the left">
+        <Term>left</Term>
       </Tooltip>
-      <Tooltip side="right" content="tail pod logs">
-        <Button variant="default">right</Button>
-      </Tooltip>
-    </div>
-  ),
-};
-
-export const OnIconButton: Story = {
-  render: () => (
-    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'center', padding: 'var(--s-6)' }}>
-      <Tooltip content="restart chino-api" side="bottom">
-        <IconButton icon={Server} aria-label="restart chino-api" />
-      </Tooltip>
-      <Tooltip content="cluster: okd-prod" side="bottom">
-        <IconButton icon={Info} aria-label="cluster info" />
+      <Tooltip side="right" content="shown to the right">
+        <Term>right</Term>
       </Tooltip>
     </div>
   ),
@@ -71,15 +84,20 @@ export const OnIconButton: Story = {
 
 export const Inline: Story = {
   render: () => (
-    <p style={{ fontFamily: 'var(--ff-mono)', color: 'var(--fg)', fontSize: 13, maxWidth: 360 }}>
-      rollout of{' '}
-      <Tooltip content="image: chino:2026.06.15" side="top">
-        <span style={{ color: 'var(--cloud-blue)', cursor: 'help' }}>chino</span>
+    <p style={{ margin: 0, fontFamily: 'var(--ff-ui)', color: 'var(--fg-2)', fontSize: 14, maxWidth: 400 }}>
+      the rollout of{' '}
+      <Tooltip content="built 2026-06-15 09:12">
+        <Term>api-7f9c</Term>
       </Tooltip>{' '}
       finished on{' '}
-      <Tooltip content="3 of 3 replicas ready" side="top">
-        <span style={{ color: 'var(--cloud-blue)', cursor: 'help' }}>worker6</span>
+      <Tooltip content="3 of 3 replicas ready">
+        <Term>worker-2</Term>
+      </Tooltip>{' '}
+      in{' '}
+      <Tooltip content="from first pull to all replicas ready" side="bottom">
+        <Term>48 s</Term>
       </Tooltip>
+      .
     </p>
   ),
 };

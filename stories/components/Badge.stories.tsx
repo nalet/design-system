@@ -1,22 +1,30 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Badge, type BadgeProps } from '../../src';
+import { Badge, type BadgeProps, Stack, Text } from '../../src';
 
 const meta: Meta<BadgeProps> = {
-  title: 'Components/badge',
+  title: 'Components/data display/badge',
   component: Badge,
   args: {
-    children: 'running',
+    children: 'gpu',
     tone: 'neutral',
     dot: false,
   },
   argTypes: {
-    tone: { control: 'inline-radio', options: ['neutral', 'green', 'amber', 'blue'] },
+    tone: {
+      control: 'inline-radio',
+      options: ['neutral', 'green', 'amber', 'blue'],
+      description:
+        'colour tone: neutral (default), blue, green or amber. only a colour; the state of an object is object status.',
+    },
     dot: { control: 'boolean' },
     children: { control: 'text' },
   },
   parameters: {
     docs: {
-      description: { component: 'a small square status chip with a hairline border and an optional status dot.' },
+      description: {
+        component:
+          'a small square label for tags, counts and short attributes: mono, lowercase, hairline frame, optional dot. the state of an object is object status, not a badge.',
+      },
     },
   },
 };
@@ -28,59 +36,56 @@ export const Playground: Story = {};
 
 export const Tones: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
-      <Badge tone="neutral">queued</Badge>
-      <Badge tone="green">healthy</Badge>
-      <Badge tone="amber">degraded</Badge>
-      <Badge tone="blue">syncing</Badge>
-    </div>
+    <Stack direction="horizontal" gap={12} wrap>
+      <Badge tone="neutral">v2.4.1</Badge>
+      <Badge tone="blue">new</Badge>
+      <Badge tone="green">verified</Badge>
+      <Badge tone="amber">read-only</Badge>
+    </Stack>
   ),
 };
 
+/** the dot repeats the tone: a colour key, e.g. for a legend. */
 export const WithDot: Story = {
+  name: 'with dot',
   render: () => (
-    <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
-      <Badge tone="green" dot>ready</Badge>
-      <Badge tone="amber" dot>pending</Badge>
-      <Badge tone="blue" dot>rollout</Badge>
-      <Badge tone="neutral" dot>idle</Badge>
-    </div>
+    <Stack direction="horizontal" gap={12} wrap>
+      <Badge tone="blue" dot>
+        reads
+      </Badge>
+      <Badge tone="amber" dot>
+        writes
+      </Badge>
+      <Badge dot>other</Badge>
+    </Stack>
   ),
 };
 
-export const PodStatus: Story = {
-  name: 'pod status',
+export const InContext: Story = {
+  name: 'in context',
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--s-3)' }}>
-      <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'center' }}>
-        <span style={{ color: 'var(--fg)', fontFamily: 'var(--ff-mono)', fontSize: 12 }}>
-          chino-stream-7d9f
-        </span>
-        <Badge tone="green" dot>running</Badge>
-      </div>
-      <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'center' }}>
-        <span style={{ color: 'var(--fg)', fontFamily: 'var(--ff-mono)', fontSize: 12 }}>
-          postgres-0
-        </span>
-        <Badge tone="amber" dot>pending</Badge>
-      </div>
-      <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'center' }}>
-        <span style={{ color: 'var(--fg)', fontFamily: 'var(--ff-mono)', fontSize: 12 }}>
-          gitlab-runner-2
-        </span>
-        <Badge tone="blue" dot>terminating</Badge>
-      </div>
-    </div>
+    <Stack gap={12}>
+      <Stack direction="horizontal" gap={12} align="center">
+        <Text variant="ui">The Lantern (2024)</Text>
+        <Badge>4k</Badge>
+        <Badge>hdr</Badge>
+      </Stack>
+      <Stack direction="horizontal" gap={12} align="center">
+        <Text variant="ui">The Example Show</Text>
+        <Badge>12 episodes</Badge>
+        <Badge tone="blue">new</Badge>
+      </Stack>
+    </Stack>
   ),
 };
 
 export const Labels: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
-      <Badge>okd</Badge>
-      <Badge tone="blue">p95 142ms</Badge>
-      <Badge tone="green">deploy ok</Badge>
-      <Badge tone="amber">retry x3</Badge>
-    </div>
+    <Stack direction="horizontal" gap={12} wrap>
+      <Badge>v2.4.1</Badge>
+      <Badge>default</Badge>
+      <Badge>12 files</Badge>
+      <Badge>3 new</Badge>
+    </Stack>
   ),
 };

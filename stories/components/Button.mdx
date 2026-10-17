@@ -1,0 +1,131 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ButtonStories from './Button.stories';
+import { Button } from '../../src';
+import { DoDont, Do, Dont } from '../_blocks';
+
+<Meta of={ButtonStories} />
+
+# button
+
+a square, mono-labelled action. `primary` is the one emphasized action on a screen; every other action is `default` or `ghost`.
+
+<Canvas of={ButtonStories.Playground} />
+
+## when to use
+
+- to start an action on the current screen: save, run, grab, ask again.
+- as the single emphasized action of a view, a toolbar or a dialog footer (`variant="primary"`).
+- for the secondary actions beside it (`default`), and for low-weight escapes like cancel (`ghost`).
+
+## when not to use
+
+- **to go somewhere.** navigation is a link (`<a href>`), not a button. a button that changes the url breaks open-in-new-tab and the browser's back.
+- **for an icon with no label.** use [icon button](?path=/docs/components-actions-icon-button--docs), which requires an accessible name.
+- **for more than two or three actions in a row.** put them in a [toolbar](?path=/docs/components-actions-toolbar--docs) and let the rest overflow into an [action menu](?path=/docs/components-actions-action-menu--docs).
+- **for an action on each row of a table.** use one action menu per row and a selection toolbar for bulk actions — see [selection and bulk actions](?path=/docs/patterns-selection-and-bulk-actions--docs).
+
+## anatomy
+
+1. **container** — square (`border-radius: 0`), 1px border, height 28 / 34 / 42px by size.
+2. **leading slot** (optional) — an icon, or the spinner while `loading`.
+3. **label** — jetbrains mono 600, rendered lowercase.
+4. **trailing slot** (optional) — an icon after the label, hidden while loading.
+
+## variants and states
+
+four variants. only `primary` is filled; it is the emphasized action.
+
+| variant | looks | use for |
+| --- | --- | --- |
+| `primary` | cloud-blue fill, dark label | the one emphasized action of a view or region |
+| `default` | surface fill, hairline border, blue border on hover | every other action |
+| `ghost` | no fill or border until hover | cancel, dismiss, low-weight actions next to a primary |
+| `danger` | amber outline, amber fill on hover | an action that deletes or cannot be undone |
+
+<Canvas of={ButtonStories.Variants} />
+
+three sizes: `sm` (28px) for toolbars and table rows, `md` (34px, default), `lg` (42px) for a lone call to action.
+
+<Canvas of={ButtonStories.Sizes} />
+
+`loading` shows a spinner in the leading slot, disables the button and sets `aria-busy`; the width stays stable. `disabled` dims the button to 45% and removes it from the tab order.
+
+<Canvas of={ButtonStories.States} />
+
+icons go in `leading` or `trailing`; `block` stretches the button to its container.
+
+<Canvas of={ButtonStories.WithIcons} />
+
+<Canvas of={ButtonStories.Block} />
+
+## behaviour and keyboard
+
+the component renders a native `<button>`, so the browser provides the keyboard model.
+
+| key | does |
+| --- | --- |
+| `tab` / `shift+tab` | moves focus to / from the button. a focused button shows a 2px cloud-cyan ring (`--focus-ring`). |
+| `enter` / `space` | activates it. |
+
+- `type` defaults to `"button"`, not the browser's `"submit"`. pass `type="submit"` for the button that submits a form.
+- a disabled or loading button ignores clicks and cannot be focused.
+
+## accessibility
+
+- the accessible name is the label's text. the lowercase look is css (`text-transform`), so write the label as you want it read.
+- a disabled button cannot be focused, so a keyboard or screen-reader user may never find it. when the reason matters ("nothing selected"), say it next to the button, or keep the button enabled and explain on press.
+- `loading` sets `aria-busy="true"`; the spinner inside announces "loading".
+- icons in the slots are decoration. the label carries the meaning; an icon-only action is an [icon button](?path=/docs/components-actions-icon-button--docs).
+
+## content
+
+- start with a verb, and name the object when the screen holds more than one kind: `grab 8 selected`, `ask the catalog again`, `save changes`.
+- lowercase, short, no full stop, no exclamation mark.
+- never `ok`, `submit`, `yes` or `click here`: say what happens.
+- a count in the label keeps a bulk action honest: `grab 8 selected` rather than `grab selected`.
+
+## do and don't
+
+<DoDont>
+  <Do caption="one emphasized action; the rest default or ghost.">
+    <Button variant="primary">save changes</Button>
+    <Button variant="ghost">cancel</Button>
+  </Do>
+  <Dont caption="several primaries compete; nothing reads as the next step.">
+    <Button variant="primary">save</Button>
+    <Button variant="primary">test</Button>
+    <Button variant="primary">reset</Button>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="a verb and its object, with the count.">
+    <Button variant="primary">grab 8 selected</Button>
+  </Do>
+  <Dont caption="vague labels make people read the whole screen to know what happens.">
+    <Button variant="primary">ok</Button>
+    <Button>submit</Button>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="danger only for what deletes or cannot be undone.">
+    <Button variant="danger">delete volume</Button>
+  </Do>
+  <Dont caption="danger as decoration teaches people to ignore it.">
+    <Button variant="danger">refresh</Button>
+  </Dont>
+</DoDont>
+
+## props
+
+`Button` also passes every native `<button>` attribute through (`onClick`, `type`, `aria-*`, …).
+
+<ArgTypes of={ButtonStories} />
+
+## related
+
+- [icon button](?path=/docs/components-actions-icon-button--docs) — the same action without a visible label.
+- [toolbar](?path=/docs/components-actions-toolbar--docs) — a row of actions with one emphasized and the rest overflowing.
+- [action menu](?path=/docs/components-actions-action-menu--docs) — actions behind one trigger, e.g. per table row.
+- [voice & content](?path=/docs/foundations-voice-content--docs) — how labels are written.

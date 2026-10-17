@@ -1,34 +1,35 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
-import { Modal, type ModalProps, Button } from '../../src';
+import { useCallback, useId, useState } from 'react';
+import { Modal, type ModalProps, Button, Field, Input } from '../../src';
 
 const meta: Meta<ModalProps> = {
-  title: 'Components/modal',
+  title: 'Components/overlays/modal',
   component: Modal,
   args: {
     open: false,
-    title: 'drop postgres',
+    title: 'delete volume',
     width: 480,
     closeOnBackdrop: true,
     closeOnEsc: true,
   },
   argTypes: {
-    open: { control: 'boolean' },
+    // the stories own `open` and `onClose`; a control for them would do nothing.
+    open: { control: false },
+    onClose: { control: false },
     title: { control: 'text' },
     width: { control: 'number' },
     closeOnBackdrop: { control: 'boolean' },
     closeOnEsc: { control: 'boolean' },
     ariaLabel: { control: 'text' },
-    onClose: { table: { disable: true } },
-    footer: { table: { disable: true } },
-    children: { table: { disable: true } },
-    className: { table: { disable: true } },
+    footer: { control: false },
+    children: { control: false },
+    className: { control: false },
   },
   parameters: {
     docs: {
       description: {
         component:
-          'square dialog over a dim backdrop that traps focus, closes on esc and backdrop click, locks body scroll, and restores focus to the opener.',
+          'a square dialog over a dim backdrop for one task that needs an answer. traps tab, closes on esc and backdrop click, locks page scroll and returns focus to the opener.',
       },
     },
   },
@@ -37,17 +38,18 @@ export default meta;
 
 type Story = StoryObj<ModalProps>;
 
+// every story keeps onClose stable with useCallback: the modal re-runs its
+// open steps (and moves focus) whenever onClose changes identity.
+
 export const Playground: Story = {
-  render: (args) => {
+  render: function PlaygroundModal(args) {
     const [open, setOpen] = useState(false);
+    const close = useCallback(() => setOpen(false), []);
     return (
       <>
-        <Button variant="default" onClick={() => setOpen(true)}>
-          open modal
-        </Button>
-        <Modal {...args} open={open} onClose={() => setOpen(false)}>
-          drag the controls panel to change the title, width, and dismiss behaviour, then
-          reopen this dialog.
+        <Button onClick={() => setOpen(true)}>open modal</Button>
+        <Modal {...args} open={open} onClose={close}>
+          set the title, width and dismiss options in the controls, then open the dialog again.
         </Modal>
       </>
     );
@@ -55,30 +57,30 @@ export const Playground: Story = {
 };
 
 export const Confirm: Story = {
-  render: () => {
+  render: function ConfirmModal() {
     const [open, setOpen] = useState(false);
+    const close = useCallback(() => setOpen(false), []);
     return (
       <>
         <Button variant="danger" onClick={() => setOpen(true)}>
-          drop postgres
+          delete volume
         </Button>
         <Modal
           open={open}
-          onClose={() => setOpen(false)}
-          title="drop postgres"
+          onClose={close}
+          title="delete volume"
           footer={
             <>
-              <Button variant="ghost" onClick={() => setOpen(false)}>
+              <Button variant="ghost" onClick={close}>
                 cancel
               </Button>
-              <Button variant="danger" onClick={() => setOpen(false)}>
-                drop
+              <Button variant="danger" onClick={close}>
+                delete volume
               </Button>
             </>
           }
         >
-          this permanently deletes the chino database on the okd cluster. all watch-history
-          rows are lost and the volume is reclaimed.
+          this permanently deletes storage-01 and its 3 snapshots. it can't be undone.
         </Modal>
       </>
     );
@@ -86,8 +88,10 @@ export const Confirm: Story = {
 };
 
 export const Form: Story = {
-  render: () => {
+  render: function FormModal() {
     const [open, setOpen] = useState(false);
+    const close = useCallback(() => setOpen(false), []);
+    const formId = useId();
     return (
       <>
         <Button variant="primary" onClick={() => setOpen(true)}>
@@ -95,56 +99,36 @@ export const Form: Story = {
         </Button>
         <Modal
           open={open}
-          onClose={() => setOpen(false)}
+          onClose={close}
           title="add server"
           width={420}
           footer={
             <>
-              <Button variant="ghost" onClick={() => setOpen(false)}>
+              <Button variant="ghost" onClick={close}>
                 cancel
               </Button>
-              <Button variant="primary" onClick={() => setOpen(false)}>
-                connect
+              {/* the footer sits outside the body: `form` ties the button to the form. */}
+              <Button variant="primary" type="submit" form={formId}>
+                add server
               </Button>
             </>
           }
         >
-          <div style={{ display: 'grid', gap: 'var(--s-3)' }}>
-            <label style={{ display: 'grid', gap: 'var(--s-1)' }}>
-              <span style={{ fontFamily: 'var(--ff-mono)', fontSize: 12, color: 'var(--fg-muted)' }}>
-                base url
-              </span>
-              <input
-                defaultValue="https://chino.example.com"
-                style={{
-                  background: 'var(--surface-2)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 0,
-                  color: 'var(--fg)',
-                  fontFamily: 'var(--ff-mono)',
-                  fontSize: 13,
-                  padding: 'var(--s-2) var(--s-3)',
-                }}
-              />
-            </label>
-            <label style={{ display: 'grid', gap: 'var(--s-1)' }}>
-              <span style={{ fontFamily: 'var(--ff-mono)', fontSize: 12, color: 'var(--fg-muted)' }}>
-                client id
-              </span>
-              <input
-                defaultValue="chino"
-                style={{
-                  background: 'var(--surface-2)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 0,
-                  color: 'var(--fg)',
-                  fontFamily: 'var(--ff-mono)',
-                  fontSize: 13,
-                  padding: 'var(--s-2) var(--s-3)',
-                }}
-              />
-            </label>
-          </div>
+          <form
+            id={formId}
+            onSubmit={(e) => {
+              e.preventDefault();
+              close();
+            }}
+            style={{ display: 'grid', gap: 'var(--s-3)' }}
+          >
+            <Field label="base url" hint="the address the server answers on.">
+              <Input defaultValue="https://api.example.com" />
+            </Field>
+            <Field label="name">
+              <Input defaultValue="worker-2" />
+            </Field>
+          </form>
         </Modal>
       </>
     );
@@ -153,17 +137,26 @@ export const Form: Story = {
 
 export const NoTitle: Story = {
   name: 'no title',
-  render: () => {
+  render: function NoTitleModal() {
     const [open, setOpen] = useState(false);
+    const close = useCallback(() => setOpen(false), []);
     return (
       <>
-        <Button variant="default" onClick={() => setOpen(true)}>
-          view p95 latency
-        </Button>
-        <Modal open={open} onClose={() => setOpen(false)} ariaLabel="latency report" width={360}>
-          <div style={{ fontFamily: 'var(--ff-mono)', fontSize: 13, color: 'var(--fg)' }}>
-            gitlab pipeline #1497 p95 latency held at 142 ms across the last deploy.
-          </div>
+        <Button onClick={() => setOpen(true)}>view latency</Button>
+        <Modal
+          open={open}
+          onClose={close}
+          ariaLabel="latency of api-7f9c"
+          width={360}
+          footer={
+            <Button variant="ghost" onClick={close}>
+              close
+            </Button>
+          }
+        >
+          <span style={{ fontFamily: 'var(--ff-mono)', fontSize: 13, color: 'var(--fg)' }}>
+            p95 latency of api-7f9c held at 142 ms across the last release.
+          </span>
         </Modal>
       </>
     );
@@ -171,8 +164,9 @@ export const NoTitle: Story = {
 };
 
 export const Persistent: Story = {
-  render: () => {
+  render: function PersistentModal() {
     const [open, setOpen] = useState(false);
+    const close = useCallback(() => setOpen(false), []);
     return (
       <>
         <Button variant="primary" onClick={() => setOpen(true)}>
@@ -180,18 +174,72 @@ export const Persistent: Story = {
         </Button>
         <Modal
           open={open}
-          onClose={() => setOpen(false)}
+          onClose={close}
           title="run migration"
           closeOnBackdrop={false}
           closeOnEsc={false}
           footer={
-            <Button variant="primary" onClick={() => setOpen(false)}>
-              acknowledge
+            <Button variant="primary" onClick={close}>
+              done
             </Button>
           }
         >
-          the katalog schema migration is in flight. backdrop and esc dismissal are disabled so
-          the rollout is not interrupted; use the action below to close.
+          the schema migration on db-0 is running. esc and the backdrop don't close this dialog, so
+          a stray key can't hide the run. the close button and done still do.
+        </Modal>
+      </>
+    );
+  },
+};
+
+const notes = [
+  'deploy release now waits until every worker reports ready.',
+  'view pipeline opens the run that built the current image.',
+  'delete volume names the volume it is about to delete.',
+  'storage-01 reports free space per volume.',
+  'db-0 backups run at 02:00 and are kept for 14 days.',
+  'api-7f9c restarts in under 10 seconds.',
+  'logs keep 7 days of history per worker.',
+  'metrics refresh every 30 seconds.',
+];
+
+export const LongContent: Story = {
+  name: 'long content',
+  render: function LongContentModal() {
+    const [open, setOpen] = useState(false);
+    const close = useCallback(() => setOpen(false), []);
+    return (
+      <>
+        <Button onClick={() => setOpen(true)}>view release notes</Button>
+        <Modal
+          open={open}
+          onClose={close}
+          title="release notes"
+          footer={
+            <Button variant="ghost" onClick={close}>
+              close
+            </Button>
+          }
+        >
+          {[3, 2, 1].map((minor) => (
+            <section key={minor} style={{ marginBottom: 'var(--s-4)' }}>
+              <h3
+                style={{
+                  margin: '0 0 var(--s-2)',
+                  fontFamily: 'var(--ff-mono)',
+                  fontSize: 13,
+                  color: 'var(--fg)',
+                }}
+              >
+                2.{minor}.0
+              </h3>
+              <ul style={{ margin: 0, paddingLeft: 'var(--s-4)' }}>
+                {notes.map((n) => (
+                  <li key={n}>{n}</li>
+                ))}
+              </ul>
+            </section>
+          ))}
         </Modal>
       </>
     );

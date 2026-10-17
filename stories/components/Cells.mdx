@@ -1,0 +1,204 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as CellsStories from './Cells.stories';
+import { DataTable, DateCell, IdentifierCell, StatusCell } from '../../src';
+import { DoDont, Do, Dont, Example } from '../_blocks';
+
+export const NOW = new Date('2026-10-17T12:00:00Z');
+
+export const ROWS = [
+  { id: 'a', code: 'S04E07', name: 'the long way round', aired: '2026-10-12T20:00:00Z', state: 'neutral', text: 'missing', detail: 'nothing found · again in 6h' },
+  { id: 'b', code: 'S04E08', name: 'low tide', aired: '2026-10-16T20:00:00Z', state: 'error', text: 'needs attention', detail: 'no release passed the quality profile: every one was below 720p' },
+  { id: 'c', code: 'S04E09', name: null, aired: null, state: 'information', text: 'on its way', detail: 'waiting for the catalog' },
+];
+
+export const COLUMNS = [
+  { id: 'item', header: 'episode', cell: (r) => <IdentifierCell title={r.code} text={r.name} /> },
+  { id: 'aired', header: 'aired', cell: (r) => <DateCell value={r.aired} now={NOW} /> },
+  { id: 'state', header: 'state', cell: (r) => <StatusCell state={r.state} text={r.text} detail={r.detail} /> },
+];
+
+<Meta of={CellsStories} />
+
+# table cells
+
+three cells for a [data table](?path=/docs/components-data-display-data-table--docs)'s columns, so every table says the same things the same way: `StatusCell`, a status and its reason; `DateCell`, a date absolute and relative; `IdentifierCell`, what names the row.
+
+<Example column label="the three cells in a data table">
+  <DataTable aria-label="missing episodes" columns={COLUMNS} rows={ROWS} rowKey={(r) => r.id} />
+</Example>
+
+## when to use
+
+- **status cell** — the state column of a data table: one status per row, from the object's one table of states, with the reason or the next step under it when there is one.
+- **date cell** — a date column where age matters: aired, last searched, created, expires.
+- **identifier cell** — the row header column: the id people know the row by, with a quieter second line that says more.
+
+## when not to use
+
+- **for a status outside a table** — beside a heading, in a card, in a sentence. use an [object status](?path=/docs/components-feedback-status-object-status--docs) on its own; the status cell only adds the detail line, sized for a row.
+- **for a message about the whole list** ("105 titles can't be checked"). that's a [message strip](?path=/docs/components-feedback-status-message-strip--docs) above the table, not a status in every row.
+- **for tags, kinds and categories.** they aren't states. use a [badge](?path=/docs/components-data-display-badge--docs).
+- **for numbers and sizes.** a plain right-aligned column (`align: 'right'`) with the unit in the header — see the [table](?path=/docs/components-data-display-table--docs)'s content rules.
+
+## anatomy
+
+### status cell
+
+1. **wrapper** — a flex column with 3px between its lines, its items at the cell's leading edge, never wider than the cell.
+2. **status** — an [object status](?path=/docs/components-feedback-status-object-status--docs): a 20px chip with 8px side padding, a 1px `--state-*-border`, a `--state-*-bg` fill and `--state-*` text, the state's 12px glyph, jetbrains mono 11px, lowercase, on one line.
+3. **detail** (optional) — jetbrains mono 11px, line-height 1.45, in `--fg-dim`, at most 44 characters wide. at most two lines show. it breaks anywhere, so a long id can't widen the column.
+
+### date cell
+
+1. **wrapper** — inline-flex, baseline-aligned, 8px between the parts. in a narrow column the relative part wraps under the date. jetbrains mono 12px with tabular figures, so dates line up down a column.
+2. **absolute date** — a `<time>` with an iso `datetime`, in `--fg-2`, lowercase: "12 oct 2026" (en-GB: day, short month, year). hovering it shows the full weekday, date and time.
+3. **relative part** (`relative`, on by default) — in `--fg-dim`: "5d ago" on screen, "5 days ago" for a screen reader.
+4. **empty** — an em dash in `--fg-dim`, read "no date".
+
+### identifier cell
+
+1. **wrapper** — an inline-flex column, 2px between its lines.
+2. **title** — jetbrains mono 13px in `--fg`: "S04E07", "worker-2".
+3. **text** (optional) — inter 12px in `--fg-muted`, on one line. it ends in an ellipsis when its box is narrower than the text.
+
+## variants and states
+
+### status cell
+
+the state sets the colour, the glyph and what a screen reader hears first; there is no colour prop. the five states, as the [status vocabulary](?path=/docs/patterns-status-vocabulary--docs) uses them:
+
+| state | means | for instance |
+| --- | --- | --- |
+| `neutral` | a plain fact | `missing` |
+| `information` | under way, or worth knowing | `on its way` |
+| `success` | done and good — never for a problem | `held` |
+| `warning` | works, but someone should look | `can't be checked` |
+| `error` | failed or blocked; needs action | `needs attention` |
+
+`detail` is the line under the status: why, or what happens next. every other [object status](?path=/docs/components-feedback-status-object-status--docs) prop works too — `appearance="text"` drops the chip for dense rows, keeping the glyph and 12px text.
+
+<Canvas of={CellsStories.Statuses} />
+
+### date cell
+
+the relative part counts whole calendar days, in the viewer's time zone:
+
+| how far | on screen | read as |
+| --- | --- | --- |
+| the same day | `today` | today |
+| one day | `yesterday`, `tomorrow` | yesterday, tomorrow |
+| 2 to 13 days | `5d ago`, `in 3d` | 5 days ago, in 3 days |
+| 14 to 59 days | `7w ago` | 7 weeks ago |
+| 60 days to just under two years | `20mo ago` | 20 months ago |
+| two years or more | `2y ago` | 2 years ago |
+
+`value` takes a `Date`, an iso string or epoch milliseconds; an empty or unreadable value shows the empty text. `locale` (default `en-GB`) and `format` (default: day, short month, year) shape the absolute date, `relative={false}` drops the relative part, `emptyText` replaces the dash, and `now` pins "today" for stories and tests.
+
+<Canvas of={CellsStories.Dates} />
+
+the playground changes one date cell:
+
+<Canvas of={CellsStories.Playground} />
+
+`relativeDay(then, now)` is the same wording as a function, for a date said outside a cell ("last searched 5 days ago"). it returns both forms: `{ short: '5d ago', long: '5 days ago' }`. `now` defaults to the current time.
+
+### identifier cell
+
+`title` is what identifies the row; `text` is a second line, when there is one to give. both take any node, so the title can be a link to the row's own page.
+
+<Canvas of={CellsStories.Identifiers} />
+
+## behaviour and keyboard
+
+the cells are text. none of them takes focus or handles a key; the keys belong to the row they sit in — see the [data table](?path=/docs/components-data-display-data-table--docs).
+
+| key | does |
+| --- | --- |
+| `tab` | passes them by. nothing in a cell is focusable, unless you put a link in an identifier's `title`. |
+
+- the date cell works out "today" when it renders, against `now` (default: the current time). it doesn't tick: a page left open past midnight says "today" about yesterday until it renders again.
+- the hover texts — a status detail in full, a date's full timestamp — are the browser's native `title` tooltips.
+- the date cell builds one formatter per locale and format and reuses it, so a table of thousands of dates stays cheap.
+
+## accessibility
+
+- **status cell** — the glyph is hidden from assistive tech: the text carries the state, and warnings and errors are read with their state first ("error: needs attention"). the detail is in the dom in full, so a screen reader reads all of it, the lines cut off on screen included.
+- **date cell** — a `<time>` with the iso `datetime`. the date is read as written ("12 Oct 2026"; the lowercase is css), then the relative part in words ("5 days ago"); the compact "5d ago" is hidden from screen readers. an empty value is read "no date".
+- **identifier cell** — plain text. as the row header, it names the row for every other cell in it.
+
+today:
+
+- a status detail longer than two lines and a date's full timestamp are shown only in a native `title` tooltip: on hover, with a mouse. keyboard and touch users can't open it. screen readers read the whole detail, but the time of day is only in that `title`, which most of them don't read for plain text.
+- a detail that isn't a plain string gets no tooltip at all, so its cut-off lines can't be seen on screen.
+- the spoken words are fixed english: "no date", and the relative words ("5 days ago") whatever the `locale`. `emptyText` changes only the visible dash, and `locale` only the absolute date.
+- an identifier's second line that doesn't fit is cut with an ellipsis and has no tooltip.
+
+## content
+
+- **status** — the state in the object's words, one to three words: `missing`, `on its way`, `needs attention`. write the vocabulary once with `defineStates` and spread it in: `<StatusCell {...STATES[row.state]} detail={why(row)} />`.
+- **detail** — why, or what happens next, on one short line: `nothing found · again in 6h`, `waiting for the catalog`. a human reason, not a raw error or a code.
+- **dates** — pass the value and let the cell format it; don't pre-format a string. keep `relative` where recency matters (aired, last searched); turn it off where it doesn't, like a fixed release date.
+- **identifier** — the title is the id people use, `S04E07` or `worker-2`; the text is the human name, `the long way round`. never an internal uuid as the title.
+
+## do and don't
+
+<DoDont>
+  <Do column caption="the state in a few words, the reason on the line under it.">
+    <div style={{ width: 240 }}>
+      <StatusCell state="error" text="needs attention" detail="no release passed the quality profile" />
+    </div>
+  </Do>
+  <Dont column caption="the reason crammed into the status: the chip is cut off, and no two rows read alike.">
+    <div style={{ width: 240 }}>
+      <StatusCell state="error" text="failed: no release passed the quality profile, every one was below 720p" />
+    </div>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="the date and how long ago, at a glance.">
+    <DateCell value="2026-10-12T20:00:00Z" now={NOW} />
+  </Do>
+  <Dont caption="a timestamp to the second and no relative part: people do the arithmetic for every row.">
+    <DateCell value="2026-10-12T20:00:00Z" now={NOW} relative={false} format={{ year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }} />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="the name people use as the title; what else is known on the quiet line.">
+    <IdentifierCell title="worker-2" text="zone b · 4 cpu" />
+  </Do>
+  <Dont caption="an internal id as the title: nobody can say it, and the name people know is the quiet line.">
+    <IdentifierCell title="3f2a1000-5b7d-4c11-9e02-6a1d0b8f4c21" text="worker-2" />
+  </Dont>
+</DoDont>
+
+## props
+
+### status cell
+
+`StatusCell` takes every [object status](?path=/docs/components-feedback-status-object-status--docs) prop — `state`, `text` (or children), `icon`, `appearance`, `stateLabel` — and the native `<span>` attributes, which all go to the status, plus `detail`. `className` goes to the wrapper. there is no `ref`.
+
+<ArgTypes of={StatusCell} />
+
+### date cell
+
+`DateCell` takes only the props below; there is no `ref`.
+
+<ArgTypes of={DateCell} />
+
+### identifier cell
+
+`IdentifierCell` takes only the props below; there is no `ref`.
+
+<ArgTypes of={IdentifierCell} />
+
+### relative days
+
+`relativeDay(then: Date, now?: Date): { short: string; long: string }` — `now` defaults to the current time.
+
+## related
+
+- [data table](?path=/docs/components-data-display-data-table--docs) — the table these cells are made for.
+- [object status](?path=/docs/components-feedback-status-object-status--docs) — the status inside a status cell, on its own.
+- [status vocabulary](?path=/docs/patterns-status-vocabulary--docs) — how one table of states keeps every status cell honest.

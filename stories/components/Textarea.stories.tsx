@@ -1,18 +1,22 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
-import { Textarea, type TextareaProps } from '../../src';
+import { useId, useState } from 'react';
+import { Textarea, type TextareaProps, Field } from '../../src';
 
 const meta: Meta<TextareaProps> = {
-  title: 'Components/textarea',
+  title: 'Components/inputs/textarea',
   component: Textarea,
   args: {
-    placeholder: 'paste your kubeconfig',
+    placeholder: 'fixed the retry loop in the upload step',
     rows: 4,
     invalid: false,
     disabled: false,
   },
   argTypes: {
-    invalid: { control: 'boolean' },
+    invalid: {
+      control: 'boolean',
+      // the source comment still says amber; the css uses --state-error.
+      description: 'paint the error border (--state-error) and set aria-invalid.',
+    },
     disabled: { control: 'boolean' },
     placeholder: { control: 'text' },
     rows: { control: 'number' },
@@ -20,7 +24,8 @@ const meta: Meta<TextareaProps> = {
   parameters: {
     docs: {
       description: {
-        component: 'a square multiline field with mono text, hairline border and cyan focus.',
+        component:
+          'a square, multi-line text field in mono type that people can drag taller. put it in a field for its label, hint and error.',
       },
     },
   },
@@ -29,43 +34,64 @@ export default meta;
 
 type Story = StoryObj<TextareaProps>;
 
-export const Playground: Story = {};
+const caption = { fontFamily: 'var(--ff-mono)', fontSize: 12, color: 'var(--fg-dim)' } as const;
+
+export const Playground: Story = {
+  render: (args) => <Textarea aria-label="release notes" {...args} />,
+  decorators: [
+    (Story) => (
+      <div style={{ width: 420 }}>
+        <Story />
+      </div>
+    ),
+  ],
+};
 
 export const Default: Story = {
   args: {
-    defaultValue: 'kubectl rollout restart deploy/chino-api -n stube',
-    placeholder: 'enter a command',
+    'aria-label': 'release notes',
+    defaultValue: 'scaled worker-2 to three replicas.\nrestarted api-7f9c after the update.',
   },
+  decorators: [
+    (Story) => (
+      <div style={{ width: 420 }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export const Invalid: Story = {
   render: () => (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', maxWidth: 420 }}>
-      <Textarea
-        invalid
-        rows={3}
-        defaultValue={'image: registry.example.com/stube/chino-api:\nport: 8080'}
-      />
-      <span style={{ color: 'var(--signal-amber)', fontFamily: 'var(--ff-mono)', fontSize: 12 }}>
-        line 1: image tag is empty
-      </span>
+    <div style={{ width: 420 }}>
+      <Field label="manifest" error="line 1: name is empty">
+        <Textarea rows={3} defaultValue={'name:\nreplicas: 3\nimage: registry.example.com/api:1.4.2'} />
+      </Field>
     </div>
   ),
 };
 
 export const Disabled: Story = {
   args: {
+    'aria-label': 'release notes',
     disabled: true,
-    defaultValue: 'p95 latency budget locked while pipeline #1543 runs',
+    defaultValue: 'locked while the release runs',
   },
+  decorators: [
+    (Story) => (
+      <div style={{ width: 420 }}>
+        <Story />
+      </div>
+    ),
+  ],
 };
 
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--s-3)', maxWidth: 420 }}>
-      <Textarea rows={2} placeholder='2 rows — commit message' />
-      <Textarea rows={4} placeholder='4 rows — gitlab-ci job script' />
-      <Textarea rows={8} placeholder='8 rows — postgres dump notes' />
+    <div style={{ display: 'grid', gap: 'var(--s-3)', width: 420 }}>
+      <Textarea aria-label="2 rows" rows={2} placeholder="2 rows — a short note" />
+      <Textarea aria-label="4 rows" rows={4} placeholder="4 rows, the default — a description" />
+      <Textarea aria-label="8 rows" rows={8} placeholder="8 rows — a pasted config" />
     </div>
   ),
 };
@@ -73,19 +99,21 @@ export const Sizes: Story = {
 export const Controlled: Story = {
   name: 'controlled',
   render: () => {
-    const [value, setValue] = useState(
-      'apiVersion: stube.io/v1alpha1\nkind: Stube\nmetadata:\n  name: appliance',
-    );
+    const limit = 120;
+    const countId = useId();
+    const [value, setValue] = useState('name: api\nreplicas: 3\nimage: registry.example.com/api:1.4.2');
     return (
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-3)', maxWidth: 420 }}>
+      <div style={{ display: 'grid', gap: 'var(--s-2)', width: 420 }}>
         <Textarea
+          aria-label="manifest"
+          aria-describedby={countId}
           rows={5}
+          maxLength={limit}
           value={value}
           onChange={(e) => setValue(e.target.value)}
-          placeholder='edit the stube custom resource'
         />
-        <span style={{ color: 'var(--fg-dim)', fontFamily: 'var(--ff-mono)', fontSize: 12 }}>
-          {value.length} chars
+        <span id={countId} style={caption}>
+          {value.length} / {limit} characters
         </span>
       </div>
     );

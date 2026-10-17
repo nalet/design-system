@@ -92,13 +92,16 @@ export function makeBacklog({ episodes = 2500, series = 120, movies = 140, seed 
     const n = Math.max(1, Math.round((weights[i] / total) * episodes));
     const seasons = 1 + Math.floor(r() * 4);
     const firstSeason = 1 + Math.floor(r() * 5);
+    // about one series in six is airing now; the rest last aired weeks to years ago.
+    const lastAired = i % 6 === 0 ? 1 + Math.floor(r() * 6) : 30 + Math.floor(r() * 870);
     let left = n;
     for (let s = 0; s < seasons && left > 0; s++) {
       const season = firstSeason + s;
       const inSeason = s === seasons - 1 ? left : Math.max(1, Math.round(left / (seasons - s)));
-      const startDaysAgo = (seasons - s) * 120 + Math.floor(r() * 60) - (i % 5 === 0 ? 400 : 0);
+      // seasons a year apart, episodes a week apart, the last season ending on lastAired.
+      const seasonEnd = lastAired + (seasons - 1 - s) * 365;
       for (let e = 1; e <= inSeason; e++) {
-        const daysAgo = Math.max(0, startDaysAgo - e * 7);
+        const daysAgo = seasonEnd + (inSeason - e) * 7;
         out.push({
           id: `t${++id}`,
           title: name,

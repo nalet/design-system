@@ -1,0 +1,133 @@
+import { Meta, Source } from '@storybook/addon-docs/blocks';
+import { Badge, ObjectStatus, StatusCell, defineStates } from '../../src';
+import { DoDont, Do, Dont, Example } from '../_blocks';
+
+<Meta title="Patterns/status vocabulary" />
+
+export const BACKLOG = defineStates({
+  wanted: { state: 'neutral', text: 'missing' },
+  queued: { state: 'information', text: 'on its way' },
+  grabbed: { state: 'information', text: 'on its way' },
+  failed: { state: 'error', text: 'needs attention' },
+  held: { state: 'success', text: 'held' },
+});
+
+# status vocabulary
+
+one status per object, said once, in the object's own words, from one table — the same everywhere the object appears.
+
+<Example label="a backlog's vocabulary" column>
+  <StatusCell {...BACKLOG.wanted} detail="nothing found · again in 6h" />
+  <StatusCell {...BACKLOG.queued} detail="queued for a search and grab" />
+  <StatusCell {...BACKLOG.failed} detail="the release was removed by its source before it finished" />
+  <StatusCell {...BACKLOG.held} />
+</Example>
+
+## when to use
+
+- every list, row, card or page that shows the state of things: items in a backlog, hosts, jobs, sources, downloads.
+- before building the screen: the vocabulary decides the tabs, the counts, the toasts and the empty states.
+
+## when not to use
+
+- **a label, a tag or a count** that is not a state → [badge](?path=/docs/components-data-display-badge--docs).
+- **a condition of the whole page** ("105 titles can't be checked") → a [message strip](?path=/docs/components-feedback-status-message-strip--docs).
+- **the result of an action just taken** ("8 episodes queued") → a [toast](?path=/docs/components-feedback-status-toast--docs).
+
+## anatomy
+
+1. **the state** — one of five: neutral, information, success, warning, error. it carries the meaning and decides colour and glyph; see [colour](?path=/docs/foundations-colour--docs) for what each means and must never mean.
+2. **the text** — the state in the object's words, two or three words: `missing`, `on its way`, `needs attention`.
+3. **the detail** — optional, one line: why, or what happens next: `nothing found · again in 6h`. raw errors go behind it (on hover, or in a details disclosure), not in it.
+4. **the glyph** — a shape per state (dash, bar and dot, check, triangle, cross), so the state never rests on colour.
+5. **the announcement** — warnings and errors are read with their state first: "error: needs attention".
+
+## writing a vocabulary
+
+1. **list every value the system has**: wanted, queued, searching, grabbed, downloaded, waiting, failed, held.
+2. **group them by what the person needs to know**, not by how the system works: *missing* (nothing under way), *on its way* (something is), *needs attention* (a person must act), *held*.
+3. **give each group one state.** the words decide it: on its way is information, not success — nothing is done yet.
+4. **write the detail per raw value**: queued → `queued for a search and grab`; waiting → `waiting for the catalog`.
+5. **put it in one table** with `defineStates` and render every status from it.
+
+<Source
+  language="tsx"
+  dark
+  code={`import { defineStates, StatusCell } from '@nalet/design-system';
+
+// the one place a backlog item's state is decided.
+const BACKLOG = defineStates({
+  wanted:  { state: 'neutral',     text: 'missing' },
+  queued:  { state: 'information', text: 'on its way' },
+  grabbed: { state: 'information', text: 'on its way' },
+  failed:  { state: 'error',       text: 'needs attention' },
+  held:    { state: 'success',     text: 'held' },
+});
+
+<StatusCell {...BACKLOG[item.state]} detail={detailOf(item)} />`}
+/>
+
+`defineStates` returns the table frozen, and typescript makes it cover every key you list. a reviewer sees in one place that "connection firewalled" is a warning.
+
+## one status, end to end
+
+an item reads the same wherever it shows up: the row says `on its way`, the tab that keeps it is `on their way`, its group counts it among what is on its way, and the toast after a grab says it was queued — never "success" in one place and "pending" in another. a list whose items can be in several states at once is a list whose vocabulary isn't finished.
+
+## sorting by status
+
+`STATE_SEVERITY` orders the states by urgency — error 4, warning 3, information 2, neutral 1, success 0 — so a status column can sort "most urgent first" with one comparator:
+
+<Source language="tsx" dark code={`compare: (a, b) => STATE_SEVERITY[statusOf(b).state] - STATE_SEVERITY[statusOf(a).state]`} />
+
+## examples
+
+| object | raw value | status | detail |
+| --- | --- | --- | --- |
+| backlog item | `failed` | <ObjectStatus state="error">needs attention</ObjectStatus> | the download finished but the file did not match the episode |
+| backlog item | `waiting` | <ObjectStatus state="information">on its way</ObjectStatus> | waiting for the catalog |
+| host | `firewalled` | <ObjectStatus state="warning">connection firewalled</ObjectStatus> | reachable only through the relay |
+| host | `down` | <ObjectStatus state="error">unreachable</ObjectStatus> | no answer for 4m |
+| source | `limit` | <ObjectStatus state="warning">over its daily limit</ObjectStatus> | resets at midnight |
+| title | `holdings unknown` | <ObjectStatus state="warning">can&apos;t be checked</ObjectStatus> | the catalog holds it without an identity |
+
+## do and don't
+
+<DoDont>
+  <Do caption="the words decide the state: firewalled works, but someone should look.">
+    <ObjectStatus state="warning">connection firewalled</ObjectStatus>
+  </Do>
+  <Dont caption="a green chip for a degraded connection: the colour contradicts the words.">
+    <Badge tone="green" dot>connection firewalled</Badge>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="one status per row, and the detail says why.">
+    <StatusCell state="neutral" text="missing" detail="search failed · again in 2h" />
+  </Do>
+  <Dont caption="two states on one row: which one is true?">
+    <ObjectStatus state="neutral">missing</ObjectStatus>
+    <ObjectStatus state="warning">search failed</ObjectStatus>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="neutral for a plain fact.">
+    <ObjectStatus state="neutral">queued</ObjectStatus>
+  </Do>
+  <Dont caption="information blue for everything: it stops meaning anything.">
+    <ObjectStatus state="information">queued</ObjectStatus>
+    <ObjectStatus state="information">missing</ObjectStatus>
+    <ObjectStatus state="information">held</ObjectStatus>
+  </Dont>
+</DoDont>
+
+## keyboard and accessibility
+
+statuses are text, not controls: they take no focus. the glyph is decoration (`aria-hidden`); the text and, for warnings and errors, the state's name are what a screen reader hears. in a table, the status cell's full detail is in the dom even where the screen clamps it to two lines.
+
+## related
+
+- [object status](?path=/docs/components-feedback-status-object-status--docs) and [table cells](?path=/docs/components-data-display-table-cells--docs) — the components.
+- [colour](?path=/docs/foundations-colour--docs) — what each state means and must never mean.
+- [worklist](?path=/docs/patterns-worklist--docs) — tabs and counts built from the vocabulary.

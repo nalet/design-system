@@ -1,12 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Play, Square, RotateCw, Trash2, Terminal, Copy } from 'lucide-react';
-import { IconButton, type IconButtonProps } from '../../src';
+import { IconButton, type IconButtonProps, Icon } from '../../src';
 
 const meta: Meta<IconButtonProps> = {
-  title: 'Components/iconbutton',
+  title: 'Components/actions/icon button',
   component: IconButton,
   args: {
-    label: 'restart pod',
+    label: 'restart worker',
     variant: 'default',
     size: 'md',
     loading: false,
@@ -16,12 +16,15 @@ const meta: Meta<IconButtonProps> = {
     label: { control: 'text' },
     variant: { control: 'inline-radio', options: ['primary', 'default', 'ghost', 'danger'] },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
-    children: { table: { disable: true } },
+    loading: { control: 'boolean' },
+    disabled: { control: 'boolean' },
+    children: { control: false },
   },
   parameters: {
     docs: {
       description: {
-        component: 'a square icon-only button with the same variants as button and a mandatory label for accessibility.',
+        component:
+          'a square, icon-only action with the same variants and sizes as button. label is required: it becomes the accessible name and the native title.',
       },
     },
   },
@@ -32,24 +35,24 @@ type Story = StoryObj<IconButtonProps>;
 
 export const Playground: Story = {
   args: {
-    children: <RotateCw size={16} />,
+    children: <Icon icon={RotateCw} />,
   },
 };
 
 export const Variants: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'center' }}>
-      <IconButton label="deploy" variant="primary">
-        <Play size={16} />
+      <IconButton label="start release" variant="primary">
+        <Icon icon={Play} />
       </IconButton>
-      <IconButton label="restart deploy" variant="default">
-        <RotateCw size={16} />
+      <IconButton label="restart worker" variant="default">
+        <Icon icon={RotateCw} />
       </IconButton>
       <IconButton label="open shell" variant="ghost">
-        <Terminal size={16} />
+        <Icon icon={Terminal} />
       </IconButton>
-      <IconButton label="drop database" variant="danger">
-        <Trash2 size={16} />
+      <IconButton label="delete volume" variant="danger">
+        <Icon icon={Trash2} />
       </IconButton>
     </div>
   ),
@@ -58,14 +61,33 @@ export const Variants: Story = {
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'center' }}>
-      <IconButton label="copy" size="sm">
-        <Copy size={12} />
+      <IconButton label="copy link" size="sm">
+        <Icon icon={Copy} size={12} />
       </IconButton>
-      <IconButton label="copy" size="md">
-        <Copy size={16} />
+      <IconButton label="copy link" size="md">
+        <Icon icon={Copy} size={16} />
       </IconButton>
-      <IconButton label="copy" size="lg">
-        <Copy size={20} />
+      <IconButton label="copy link" size="lg">
+        <Icon icon={Copy} size={20} />
+      </IconButton>
+    </div>
+  ),
+};
+
+export const States: Story = {
+  render: () => (
+    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'center' }}>
+      <IconButton label="restart worker" variant="primary">
+        <Icon icon={RotateCw} />
+      </IconButton>
+      <IconButton label="restart worker" variant="primary" loading>
+        <Icon icon={RotateCw} />
+      </IconButton>
+      <IconButton label="restart worker" variant="primary" disabled>
+        <Icon icon={RotateCw} />
+      </IconButton>
+      <IconButton label="delete volume" variant="danger" disabled>
+        <Icon icon={Trash2} />
       </IconButton>
     </div>
   ),
@@ -73,27 +95,35 @@ export const Sizes: Story = {
 
 export const Toolbar: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: 'var(--s-2)', alignItems: 'center', padding: 'var(--s-3)', background: 'var(--surface)' }}>
-      <IconButton label="start chino" variant="primary">
-        <Play size={16} />
+    <div
+      style={{
+        display: 'flex',
+        gap: 'var(--s-2)',
+        alignItems: 'center',
+        padding: 'var(--s-3)',
+        background: 'var(--surface)',
+      }}
+    >
+      <IconButton label="start worker-2" variant="primary">
+        <Icon icon={Play} />
       </IconButton>
-      <IconButton label="stop chino" variant="ghost">
-        <Square size={16} />
+      <IconButton label="stop worker-2" variant="ghost">
+        <Icon icon={Square} />
       </IconButton>
-      <IconButton label="restart chino" variant="ghost">
-        <RotateCw size={16} />
+      <IconButton label="restart worker-2" variant="ghost">
+        <Icon icon={RotateCw} />
       </IconButton>
-      <IconButton label="open shell" variant="ghost">
-        <Terminal size={16} />
+      <IconButton label="open shell on worker-2" variant="ghost">
+        <Icon icon={Terminal} />
       </IconButton>
     </div>
   ),
 };
 
 export const Loading: Story = {
-  args: { loading: true, variant: 'primary', label: 'rolling out gitlab' },
+  args: { loading: true, variant: 'primary', label: 'restart worker', children: <Icon icon={RotateCw} /> },
 };
 
 export const Disabled: Story = {
-  args: { disabled: true, label: 'drop postgres', variant: 'danger', children: <Trash2 size={16} /> },
+  args: { disabled: true, label: 'delete volume', variant: 'danger', children: <Icon icon={Trash2} /> },
 };

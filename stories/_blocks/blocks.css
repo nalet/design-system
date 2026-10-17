@@ -1,0 +1,157 @@
+/* docs-only blocks for the guideline pages (the mdx files under stories/). not
+   part of the library build: nothing under stories/ ships in the package. */
+
+.dsdoc-dodont {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--s-4);
+  margin: var(--s-4) 0 var(--s-5);
+}
+
+.dsdoc-verdict {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--border);
+  border-top-width: 2px;
+  background: var(--surface);
+}
+
+.dsdoc-verdict--do {
+  border-top-color: var(--state-success);
+}
+
+.dsdoc-verdict--dont {
+  border-top-color: var(--state-error);
+}
+
+.dsdoc-verdict__label {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: lowercase;
+}
+
+.dsdoc-verdict--do .dsdoc-verdict__label {
+  color: var(--state-success);
+}
+
+.dsdoc-verdict--dont .dsdoc-verdict__label {
+  color: var(--state-error);
+}
+
+.dsdoc-verdict__stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 72px;
+  padding: var(--s-4);
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.dsdoc-verdict__stage--column {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.dsdoc-verdict__caption {
+  padding: var(--s-3);
+  font-family: var(--ff-ui);
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--fg-2);
+}
+
+/* a live example without the storybook canvas chrome (no code drawer). */
+.dsdoc-example {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  margin: var(--s-4) 0;
+  padding: var(--s-4);
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+}
+
+.dsdoc-example--column {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+/* a short labelled fact row: "status: planned", "since: 0.3.0". */
+.dsdoc-facts {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  margin: var(--s-2) 0 var(--s-4);
+}
+
+/* tables rendered by the blocks (contrast, tokens). markdown tables use the
+   docs theme's own table styles. */
+.dsdoc-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: var(--s-4) 0;
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  color: var(--fg-2);
+}
+
+.dsdoc-table caption {
+  caption-side: top;
+  text-align: left;
+  padding-bottom: var(--s-2);
+  color: var(--fg-muted);
+  font-family: var(--ff-ui);
+  font-size: 13px;
+}
+
+.dsdoc-table th,
+.dsdoc-table td {
+  padding: var(--s-2);
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.dsdoc-table th {
+  background: var(--bg-2);
+  color: var(--fg-muted);
+  font-weight: 600;
+}
+
+.dsdoc-table td.dsdoc-num {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.dsdoc-swatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: var(--s-2);
+  vertical-align: -1px;
+  border: 1px solid var(--border-2);
+}
+
+.dsdoc-sample {
+  display: inline-block;
+  padding: 2px var(--s-2);
+  font-family: var(--ff-mono);
+}
+
+.dsdoc-pass {
+  color: var(--state-success);
+}
+
+.dsdoc-fail {
+  color: var(--state-error);
+}

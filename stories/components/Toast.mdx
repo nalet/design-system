@@ -1,0 +1,135 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ToastStories from './Toast.stories';
+import { Toaster, toast, Button } from '../../src';
+import { DoDont, Do, Dont } from '../_blocks';
+
+<Meta of={ToastStories} />
+
+# toast
+
+a short confirmation of an action someone just took — `8 episodes queued` — at the bottom of the screen. it never takes focus, is announced politely and leaves on its own. call `toast()` from anywhere; one `<Toaster />` near the root of the app shows it.
+
+<Canvas of={ToastStories.Playground} />
+
+## when to use
+
+- to confirm an action the person just took, once it is done or under way: `8 episodes queued`, `settings saved`, `asking the catalog again — the list follows`.
+- when the result shows on the page as well (the rows change to `on its way`) and the toast only says that it happened.
+- after a bulk action from a [selection toolbar](?path=/docs/components-actions-toolbar--docs), with the count: `8 episodes queued · 3 skipped: held already or under way`.
+
+## when not to use
+
+- **for an error that needs acting on.** use a [message strip](?path=/docs/components-feedback-status-message-strip--docs) with `state="error"` and a way forward. an error has to stay until it is resolved, offer `try again`, and be announced at once. a toast does none of that: it leaves after five seconds, can't be focused, holds no button, and is announced only when the screen reader has a pause.
+- **for a condition that lasts** — `2 sources are over their daily limit`. use a [message strip](?path=/docs/components-feedback-status-message-strip--docs).
+- **to ask, or to offer undo or a link.** a toast has nothing to press. when an action can't be undone, ask first in a [modal](?path=/docs/components-overlays-modal--docs).
+- **for the state of one item.** that is an [object status](?path=/docs/components-feedback-status-object-status--docs) in its row.
+- **for anything people must not miss.** after five seconds it is gone, and nothing brings it back.
+
+## anatomy
+
+1. **toaster** — a `<section>` named "notifications", fixed at the bottom centre, 24px above the viewport's bottom edge, at `z-index: 200` (above a modal at 100 and an action menu at 150), at most the viewport's width minus 32px. clicks pass through it everywhere but on the toasts.
+2. **list** — an `<ol>`, the polite live region. toasts stack 8px apart, centred, the newest at the bottom.
+3. **toast** — an `<li>`: `--surface-2` fill, a 1px `--border-2` frame, a 3px rule on the left in the state's colour, square corners, 8px × 16px padding (12px on the left), jetbrains mono 13px / 1.4 in `--fg`. it slides up 6px and fades in over 160ms; with reduced motion it just appears. it leaves without an animation.
+4. **glyph** — the state's 12px glyph in its colour. hidden from assistive tech.
+5. **message** — the text you pass.
+
+## variants and states
+
+`state` sets the glyph and the rule. it doesn't change what a screen reader hears.
+
+| state | use for |
+| --- | --- |
+| `neutral` (default) | a plain fact about what happened: `3 skipped: held already or under way` |
+| `information` | something started that finishes later: `asking the catalog again — the list follows` |
+| `success` | done: `8 episodes queued`, `settings saved` |
+| `warning` | done, with a part that didn't go through: `6 queued · 2 skipped: their source is over its daily limit` |
+
+`state` also accepts `error`. don't use it: an error belongs in a message strip (see when not to use).
+
+<Canvas of={ToastStories.States} />
+
+at most three toasts show at a time. a fourth pushes out the oldest at once.
+
+<Canvas of={ToastStories.AtMostThree} />
+
+`id` replaces the toast that has the same id instead of adding one, for an action people repeat. press this one a few times: one toast stays, with its text and its timer renewed.
+
+<Canvas of={ToastStories.ReplaceById} />
+
+## behaviour and keyboard
+
+nothing in a toast can take focus, so a toast has no keys.
+
+| key | does |
+| --- | --- |
+| `tab` | never reaches a toast: there is nothing in it to focus. |
+| `esc` | nothing. a toast can't be dismissed from the keyboard; it leaves on its own. |
+
+- **timing** — a toast leaves after `duration`, 5000ms by default, counted from when it shows. hovering it pauses the count; moving off resumes it with the time that was left.
+- **the queue** — at most three. a fourth pushes out the oldest. a toast with an `id` that is already showing replaces it: the new one takes the newest place, with a fresh timer.
+- **from code** — `toast(message, options)` returns the toast's id. `toast.dismiss(id)` removes that toast now; `toast.clear()` removes all of them.
+- **one store per copy of the library.** call `toast()` from anywhere — an event handler, async code — and every mounted `<Toaster />` shows the same toasts. mount exactly one, near the root of the app: two show each toast twice, and a screen reader hears it twice. if an app bundles two copies of the library (two versions, or a linked one), a `toast()` from one copy doesn't reach a toaster from the other.
+- **no toaster** — `toast()` without a mounted `<Toaster />` warns in the console, and nothing shows until a toaster mounts.
+
+## accessibility
+
+- the toaster is a region named by `label` (default "notifications"). inside it, the list is a polite live region (`aria-live="polite"`, `aria-relevant="additions text"`) that exists before the first toast, so each new toast is read once, after whatever the screen reader is saying. a toast that leaves is not announced.
+- nothing takes focus. a toast never moves the reader, never interrupts typing, and adds no tab stop.
+- the glyph is hidden from assistive tech. a `warning` or `error` toast reads its state first ("warning: …"), like an [object status](?path=/docs/components-feedback-status-object-status--docs); the calmer states read only the message, so put what matters in the words: `6 queued · 2 skipped`.
+- with reduced motion, toasts appear without the slide.
+
+today:
+
+- only the pointer can pause a toast. keyboard and screen-reader users can't pause it or bring it back, so a toast must never be the only record of what happened: the page shows the result too (wcag 2.2.1).
+- there is no way to dismiss one toast by hand, with the pointer or the keyboard. it leaves after its `duration`.
+
+## content
+
+- what just happened, with the object and the count: `8 episodes queued`, `settings saved`, `api-7f9c restarted`. lowercase, no full stop. past tense for what is done, `-ing` for what is under way.
+- a part that didn't go through follows a ` · `, with the reason: `8 episodes queued · 3 skipped: held already or under way`.
+- one line. it leaves after five seconds, so it has to be read at a glance.
+- pass text. the message takes any node, but a link or a button in it would vanish after five seconds and is out of reach of the keyboard.
+- never an error that needs doing something about: that is a [message strip](?path=/docs/components-feedback-status-message-strip--docs).
+
+## do and don't
+
+<DoDont>
+  <Do caption="what just happened, with the count: read at a glance, and the rows show the result too.">
+    <Button variant="primary" onClick={() => toast('8 episodes queued', { state: 'success' })}>grab 8 selected</Button>
+  </Do>
+  <Dont caption="an error that needs acting on leaves in five seconds, can't be focused and offers no way forward. put it in a message strip with try again.">
+    <Button onClick={() => toast("couldn't save: the server didn't answer", { state: 'error' })}>save changes</Button>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="one short line. a part that didn't go through follows the dot, with its reason.">
+    <Button onClick={() => toast('6 queued · 2 skipped: their source is over its daily limit', { state: 'warning' })}>grab 8 selected</Button>
+  </Do>
+  <Dont caption="a paragraph with an instruction and an undo it can't offer: it is gone before it is read.">
+    <Button onClick={() => toast('your 8 episodes were added to the download queue. you can follow them on the downloads page, or press undo to take them out again.', { state: 'success' })}>grab 8 selected</Button>
+  </Dont>
+</DoDont>
+
+## props
+
+`toast(message, options)` takes the message and these options:
+
+| option | default | does |
+| --- | --- | --- |
+| `state` | `"neutral"` | the glyph and the rule: `neutral`, `information`, `success` or `warning` |
+| `duration` | `5000` | milliseconds on screen; hovering pauses it |
+| `id` | a new id | replaces the toast with this id instead of adding one |
+
+it returns the toast's id. `toast.dismiss(id)` removes one toast and `toast.clear()` all of them. `Toaster` takes `label` and `className`, and nothing else:
+
+<ArgTypes of={ToastStories} />
+
+## related
+
+- [message handling](?path=/docs/patterns-message-handling--docs) — when a message is a toast, a strip, inline text or details.
+- [message strip](?path=/docs/components-feedback-status-message-strip--docs) — errors and conditions that last, with a way forward.
+- [selection and bulk actions](?path=/docs/patterns-selection-and-bulk-actions--docs) — the bulk actions a toast usually confirms.
+- [object status](?path=/docs/components-feedback-status-object-status--docs) — where the lasting result shows, row by row.
+
+<Toaster />

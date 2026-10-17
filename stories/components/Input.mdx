@@ -1,0 +1,139 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as InputStories from './Input.stories';
+import { Input, Field } from '../../src';
+import { DoDont, Do, Dont } from '../_blocks';
+
+<Meta of={InputStories} />
+
+# input
+
+a square, single-line text field in mono type. put it in a [field](?path=/docs/components-inputs-field--docs) for its label, hint and error.
+
+<Canvas of={InputStories.Playground} />
+
+## when to use
+
+- for one line of text that people type: a name, a host, an id, a number, a search term.
+- inside a [field](?path=/docs/components-inputs-field--docs), which gives it a visible label and wires its hint and error to it.
+- with a `leading` icon or prompt when it says what kind of value goes in (a search icon, a `>` prompt), or a `trailing` unit such as `ms` or `GiB`.
+
+## when not to use
+
+- **for more than one line.** use a [textarea](?path=/docs/components-inputs-textarea--docs). an input cannot wrap, and hides whatever scrolls out of view.
+- **to pick from a known list.** use a [select](?path=/docs/components-inputs-select--docs), so people cannot type a value that does not exist.
+- **for on/off.** use a [checkbox](?path=/docs/components-inputs-checkbox--docs) in a form that is saved, or a [switch](?path=/docs/components-inputs-switch--docs) when the change applies at once.
+- **to filter a list or table.** use the [filter bar](?path=/docs/components-inputs-filter-bar--docs), which lays out the search, the filters and their reset.
+- **to lay out a whole form or settings page.** start from [forms and settings](?path=/docs/patterns-forms-and-settings--docs).
+
+## anatomy
+
+1. **box** — square, 1px `--border-control` border on `--bg-2`; height 28 / 34 / 42px and side padding 8 / 12 / 16px by size. it fills the width of its container.
+2. **leading affix** (optional) — an icon or prompt before the text, in `--fg-dim`, 8px from the text (12px in `lg`).
+3. **text** — the native `<input>`: jetbrains mono 13px (14px in `lg`) in `--fg`. the placeholder is `--fg-dim`.
+4. **trailing affix** (optional) — a unit or icon after the text, with the same colour and spacing.
+
+## variants and states
+
+three sizes, set with `inputSize`: `sm` (28px) for toolbars, filter rows and table cells, `md` (34px, default) for forms, `lg` (42px) for a lone search or command prompt. match the height of the buttons beside it.
+
+<Canvas of={InputStories.Sizes} />
+
+`leading` and `trailing` put an icon, a prompt or a unit inside the box.
+
+<Canvas of={InputStories.WithAffixes} />
+
+| state | looks | set by |
+| --- | --- | --- |
+| default | `--border-control` border | — |
+| focused | `--cloud-blue` border, 2px thick (an inset shadow) | focus, by mouse or keyboard |
+| invalid | `--state-error` border, also while focused | `invalid`, or a field's `error` |
+| disabled | the whole box at 50% opacity; cannot be focused, edited or submitted | `disabled` |
+| read-only | looks like default; can be focused, selected and submitted, not edited | native `readOnly` |
+
+<Canvas of={InputStories.States} />
+
+## behaviour and keyboard
+
+the text is a native `<input>`, so the browser provides the keyboard model.
+
+| key | does |
+| --- | --- |
+| `tab` / `shift+tab` | moves focus to / from the field. |
+| characters | type into it. `←` `→` `home` `end` move the caret; with `shift` they select. |
+| `enter` | can submit the surrounding form (the browser's implicit submission). |
+
+- `type` is the browser's default, `text`, unless you pass one. `search`, `number`, `email` and `password` keep their native behaviour.
+- the component holds no state. use `defaultValue`, or `value` with `onChange`.
+- today: only the text area takes clicks. a click on the box's padding or on an affix does not focus the field.
+
+<Canvas of={InputStories.Controlled} />
+
+## accessibility
+
+- the native `<input>` carries the name, the value and the state. give it a visible label: a [field](?path=/docs/components-inputs-field--docs) renders a `<label for>` and links the hint or error with `aria-describedby`. a placeholder is not a label: it disappears with the first keystroke.
+- where a visible label does not fit (a search box in a toolbar), pass `aria-label`, and add a leading search icon so sighted people see what the box is for.
+- `invalid` sets `aria-invalid="true"` and turns the border `--state-error`. the colour alone is a weak cue — about 1.6:1 against the normal border — so always say in words what is wrong. a field's `error` does that.
+- affixes are not part of the input's name. an `Icon` hides itself, and text such as `ms` is not announced when the field is focused, so put the unit in the label too: `timeout (ms)`.
+- focus shows in the border (`--cloud-blue`, 2px), not with the `--focus-ring` outline of buttons and checkboxes.
+- a disabled field cannot be focused, so screen-reader users may never find it. when people need to read or copy the value, use `readOnly` instead — today it looks the same as an editable field, so say why it cannot change.
+- today: there are no forced-colours (windows high contrast) styles. forced colours replace border colours and remove the inset shadow, so a focused field can look unfocused there.
+
+## content
+
+- **label** — a noun for the value, lowercase, no colon: `host`, `release name`, `timeout (ms)`.
+- **placeholder** — an example of a valid value, or nothing: `api.example.com`. never the label, never an instruction: both vanish on the first keystroke.
+- **hint** — the format or the limit, in one short line: `lowercase letters, digits and hyphens`.
+- **error** — what is wrong and how to fix it: `use 63 characters or fewer`. not `invalid input`.
+- **unit** — in the label, and as a `trailing` affix when people need to see it while they type.
+
+## do and don't
+
+<DoDont>
+  <Do caption="a visible label above, an example in the placeholder." column>
+    <Field label="host" hint="the name the service answers on">
+      <Input placeholder="api.example.com" />
+    </Field>
+  </Do>
+  <Dont caption="the placeholder as the label: once people type, nothing says what the field is for." column>
+    <Input aria-label="host" placeholder="host" />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="the error says what is wrong and how to fix it." column>
+    <Field label="release name" error="use lowercase letters, digits and hyphens">
+      <Input defaultValue="The Lantern" />
+    </Field>
+  </Do>
+  <Dont caption="a red border alone shows that something is wrong, not what. it is also easy to miss." column>
+    <Field label="release name">
+      <Input invalid defaultValue="The Lantern" />
+    </Field>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="the unit in the label and beside the value." column>
+    <Field label="timeout (ms)">
+      <Input defaultValue="250" trailing="ms" />
+    </Field>
+  </Do>
+  <Dont caption="the unit only in the affix: a screen reader announces the field as just “timeout, 250”." column>
+    <Field label="timeout">
+      <Input defaultValue="250" trailing="ms" />
+    </Field>
+  </Dont>
+</DoDont>
+
+## props
+
+`className` lands on the box; every other attribute — `value`, `onChange`, `type`, `name`, `aria-*`, `style` — and the ref land on the native `<input>`. set the width on the container: the box always fills it. the size prop is `inputSize` because `size` is the native attribute (a width in characters).
+
+<ArgTypes of={InputStories} />
+
+## related
+
+- [field](?path=/docs/components-inputs-field--docs) — the label, hint and error around the input.
+- [textarea](?path=/docs/components-inputs-textarea--docs) — the same field for several lines.
+- [select](?path=/docs/components-inputs-select--docs) — a value from a known list.
+- [filter bar](?path=/docs/components-inputs-filter-bar--docs) — search and filters above a list or table.

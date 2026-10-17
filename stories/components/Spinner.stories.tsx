@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Spinner, type SpinnerProps } from '../../src';
+import { Spinner, type SpinnerProps, Stack, Text } from '../../src';
 
 const meta: Meta<SpinnerProps> = {
-  title: 'Components/spinner',
+  title: 'Components/feedback & status/spinner',
   component: Spinner,
   args: {
     size: 16,
@@ -10,13 +10,19 @@ const meta: Meta<SpinnerProps> = {
   },
   argTypes: {
     size: { control: { type: 'number', min: 12, max: 64, step: 2 } },
-    color: { control: 'text' },
+    // the source comment says it defaults to currentColor; Spinner.css sets --cloud-blue.
+    color: {
+      control: 'text',
+      description:
+        'ring colour, any css colour. default --cloud-blue; pass currentColor to follow the surrounding text.',
+    },
     label: { control: 'text' },
   },
   parameters: {
     docs: {
       description: {
-        component: 'square-cornered ring that rotates and inherits currentcolor; the one moving thing in an otherwise still terminal ui.',
+        component:
+          'a square-cornered ring that turns, in --cloud-blue unless you pass color. renders role=status named by its label. for an action in progress, use a loading button instead.',
       },
     },
   },
@@ -29,60 +35,49 @@ export const Playground: Story = {};
 
 export const Sizes: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'center' }}>
+    <Stack direction="horizontal" gap={12} align="center">
       <Spinner size={12} />
       <Spinner size={16} />
       <Spinner size={24} />
       <Spinner size={40} />
-    </div>
+    </Stack>
   ),
 };
 
 export const Colors: Story = {
   render: () => (
-    <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'center' }}>
-      <Spinner color="var(--cloud-blue)" />
+    <Stack direction="horizontal" gap={12} align="center">
+      <Spinner />
       <Spinner color="var(--fg)" />
-      <Spinner color="var(--muted)" />
-    </div>
+      <Spinner color="var(--fg-muted)" />
+    </Stack>
   ),
 };
 
+/** color="currentColor" makes the ring follow the text around it. */
 export const InheritsColor: Story = {
   name: 'inherits color',
   render: () => (
-    <div
-      style={{
-        display: 'flex',
-        gap: 'var(--s-3)',
-        alignItems: 'center',
-        color: 'var(--cloud-blue)',
-        fontFamily: 'var(--font-mono)',
-        fontSize: 13,
-      }}
-    >
-      <Spinner size={14} />
-      <span>rolling out chino to okd</span>
-    </div>
+    <Stack direction="horizontal" gap={8} align="center" style={{ color: 'var(--fg-muted)' }}>
+      <Spinner size={14} color="currentColor" aria-hidden="true" />
+      <Text variant="muted">checking storage-01</Text>
+    </Stack>
   ),
 };
 
+/** a spinner standing in for one value while it loads; the label names the value. */
 export const InlineWithLabel: Story = {
   name: 'inline with label',
   render: () => (
-    <div style={{ display: 'grid', gap: 'var(--s-3)', fontFamily: 'var(--font-mono)', fontSize: 13 }}>
-      <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'center', color: 'var(--muted)' }}>
-        <Spinner size={14} label="waiting for postgres" />
-        <span>waiting for postgres</span>
-      </div>
-      <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'center', color: 'var(--muted)' }}>
-        <Spinner size={14} label="streaming gitlab pipeline logs" />
-        <span>streaming gitlab pipeline logs</span>
-      </div>
-      <div style={{ display: 'flex', gap: 'var(--s-3)', alignItems: 'center', color: 'var(--muted)' }}>
-        <Spinner size={14} label="computing p95 latency" />
-        <span>computing p95 latency</span>
-      </div>
-    </div>
+    <Stack gap={8} style={{ width: 240 }}>
+      <Stack direction="horizontal" justify="between" align="center">
+        <Text variant="muted">volumes</Text>
+        <Text variant="ui">12</Text>
+      </Stack>
+      <Stack direction="horizontal" justify="between" align="center">
+        <Text variant="muted">used space</Text>
+        <Spinner size={14} label="loading used space" />
+      </Stack>
+    </Stack>
   ),
 };

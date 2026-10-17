@@ -52,7 +52,7 @@ export const States: Story = {
       <MessageStrip state="information">asking the catalog what the library holds. the list follows.</MessageStrip>
       <MessageStrip state="success">every source answered in the last hour.</MessageStrip>
       <MessageStrip state="warning">2 sources are over their daily query limit until midnight.</MessageStrip>
-      <MessageStrip state="error">couldn&apos;t load the list. the rows shown are from 4 minutes ago.</MessageStrip>
+      <MessageStrip state="error">couldn&apos;t queue the grab: the download client didn&apos;t answer. nothing was changed.</MessageStrip>
     </div>
   ),
 };
@@ -79,7 +79,7 @@ export const Dismissible: Story = {
     const [open, setOpen] = useState(true);
     return open ? (
       <MessageStrip state="success" onDismiss={() => setOpen(false)}>
-        settings saved. the sweep uses them from its next run.
+        saved. times on this page now show in utc.
       </MessageStrip>
     ) : (
       <Button onClick={() => setOpen(true)}>show the message again</Button>

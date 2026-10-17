@@ -31,7 +31,7 @@ const GROUPS: Group[] = [
       { varName: '--fg', note: 'primary text, titles' },
       { varName: '--fg-2', note: 'body text, the n glyph' },
       { varName: '--fg-muted', note: 'labels, meta, captions' },
-      { varName: '--fg-dim', note: 'helpers, hints, off' },
+      { varName: '--fg-dim', note: 'helpers, hints, off; still 4.5:1' },
     ],
   },
   {
@@ -44,9 +44,32 @@ const GROUPS: Group[] = [
   {
     title: 'signal',
     tokens: [
-      { varName: '--signal-green', note: 'ok / running / healthy' },
-      { varName: '--signal-amber', note: 'warn / delayed / degraded' },
-      { varName: '--signal-red', note: 'error / failed / offline' },
+      { varName: '--signal-green', note: 'the raw green; components use --state-success' },
+      { varName: '--signal-amber', note: 'the raw amber; components use --state-warning' },
+      { varName: '--signal-red', note: 'the raw red; components use --state-error' },
+    ],
+  },
+  {
+    title: 'controls',
+    tokens: [
+      { varName: '--border-control', note: 'boundary of an input, select, checkbox; 3:1' },
+      { varName: '--focus-ring', note: 'the keyboard focus outline' },
+      { varName: '--surface-selected', note: 'a selected row or item' },
+    ],
+  },
+  {
+    title: 'semantic state',
+    tokens: [
+      { varName: '--state-neutral', note: 'a plain fact: missing, queued' },
+      { varName: '--state-information', note: 'under way or worth knowing' },
+      { varName: '--state-success', note: 'done and good; never a problem' },
+      { varName: '--state-warning', note: 'works, but someone should look' },
+      { varName: '--state-error', note: 'failed or blocked; needs action' },
+      { varName: '--state-neutral-bg', note: 'neutral tint' },
+      { varName: '--state-information-bg', note: 'information tint' },
+      { varName: '--state-success-bg', note: 'success tint' },
+      { varName: '--state-warning-bg', note: 'warning tint' },
+      { varName: '--state-error-bg', note: 'error tint' },
     ],
   },
 ];
@@ -128,7 +151,7 @@ const GroupBlock = ({ group }: { group: Group }) => (
 );
 
 const meta: Meta = {
-  title: 'Foundations/Colors',
+  title: 'Foundations/colour',
   parameters: { layout: 'fullscreen' },
 };
 export default meta;
@@ -137,7 +160,7 @@ type Story = StoryObj;
 
 export const Palette: Story = {
   render: () => (
-    <div style={{ padding: 'var(--s-6)', background: 'var(--bg)', minHeight: '100vh' }}>
+    <div style={{ padding: 'var(--s-5)', background: 'var(--bg)' }}>
       {GROUPS.map((g) => (
         <GroupBlock key={g.title} group={g} />
       ))}

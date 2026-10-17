@@ -1,0 +1,166 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as TableStories from './Table.stories';
+import { Table } from '../../src';
+import { DoDont, Do, Dont } from '../_blocks';
+
+<Meta of={TableStories} />
+
+# table
+
+a hairline-grid table for reading records: mono cells, lowercase mono headers, no zebra. it shows rows; it doesn't sort, select or navigate them — that's the [data table](?path=/docs/components-data-display-data-table--docs).
+
+<Canvas of={TableStories.Playground} />
+
+## when to use
+
+- to show a short, read-only set of records with the same fields, so people can compare values down a column: workloads, volumes, recent runs.
+- when every row fits on the screen and nobody needs to sort, select or act on the rows.
+- as the body of a panel: a [card](?path=/docs/components-layout-structure-card--docs) with `flush`.
+
+## when not to use
+
+- **for a list people work through** — sorting, selecting rows, grouping, loading more, moving between rows with the keyboard. use the [data table](?path=/docs/components-data-display-data-table--docs); this table has none of that, and adding it on top is how keyboard and screen-reader support gets lost.
+- **for a screen whose job is to find items and act on them.** that's a [worklist](?path=/docs/patterns-worklist--docs): a filter bar, a data table and a toolbar.
+- **for layout.** a table announces rows and columns, which means nothing for a form. lay forms out with a [stack](?path=/docs/components-layout-structure-stack--docs) — see [forms and settings](?path=/docs/patterns-forms-and-settings--docs).
+- **for the fields of one record.** one row with many columns reads badly and scrolls sideways. list label and value pairs in a [card](?path=/docs/components-layout-structure-card--docs).
+
+## anatomy
+
+1. **scroll frame** — a `div` around the table: 1px `--border` on every side, full width, `overflow-x: auto`.
+2. **header row** — `thead` on `--bg-2`. each header is a `th scope="col"`: jetbrains mono 600, 11px, letter-spacing 0.04em, `--fg-muted`, rendered lowercase, never wraps. padding 8px 12px, 1px `--border` below.
+3. **body row** — a `tr`. on hover its cells tint to `--surface-2`. the last row drops its bottom rule; the frame closes it.
+4. **cell** — a `td`: jetbrains mono 13px, `--fg-2` on `--surface`, padding 12px, vertically centered, 1px `--border` below.
+5. **empty row** (when `rows` is empty) — one cell across every column: mono 12px, `--fg-dim`, centered, padding 24px 12px.
+
+## variants and states
+
+`dense` cuts the padding of header and body cells to 4px 8px, for long lists and side panels.
+
+<Canvas of={TableStories.Dense} />
+
+each column is an object:
+
+| field | does |
+| --- | --- |
+| `key` | the row field the cell shows when there's no `render`. it is also the column's react key, so every column needs its own, and it must be a field of the row. |
+| `header` | the header label (any node). css lowercases it. |
+| `render` | `(row, index) => node` draws the cell yourself: a formatted value, tags. |
+| `align` | `left` (default), `right` or `center`, for the header and its cells. |
+| `width` | a width for the column (a css length, or a number of px), set on its header cell. |
+
+`render` is where a cell gets more than text. tags go in as [badges](?path=/docs/components-data-display-badge--docs); the state of the record goes in as an [object status](?path=/docs/components-feedback-status-object-status--docs), never as a coloured badge.
+
+<Canvas of={TableStories.CustomCells} />
+
+`empty` is the text of the single row shown when `rows` is empty. the default is `no rows`.
+
+<Canvas of={TableStories.Empty} />
+
+a table wider than its container scrolls sideways inside its frame; the page doesn't.
+
+<Canvas of={TableStories.Overflow} />
+
+**primitives.** `Thead`, `Tbody`, `Tr`, `Th` and `Td` render their native element with the table's classes (`Tbody` is a plain `tbody`), for what `columns` can't express: a grouped header, a row header, a cell that spans. they don't include the `table` element or its frame: put them in a native `table` with `className="nc-table"` (add `nc-table--dense` for dense), inside a `div` with `className="nc-table__scroll"` for the frame. `Th` sets no `scope` — pass `scope="col"` or `scope="row"` yourself.
+
+<Canvas of={TableStories.Primitives} />
+
+## behaviour and keyboard
+
+the table is native html and takes no focus itself; what you put in its cells does.
+
+| key | does |
+| --- | --- |
+| `tab` / `shift+tab` | moves through focusable content in the cells (links, buttons), in reading order. the table, its rows and its cells are not focusable; the frame is, only while it overflows. |
+| arrow keys | scroll the page. a table wider than its frame makes the frame a focusable region while it overflows: `tab` reaches it and the arrow keys scroll it sideways. |
+
+- the markup is a real table, so screen readers' own table commands work: move by cell, row and column, and hear each cell with its column header.
+- rows are keyed by index unless you pass `rowKey`. pass a stable id (`rowKey={(r) => r.id}`) whenever rows can be added, removed or reordered, so react keeps each row — and any focus inside it — with the right record.
+- rows tint on hover but do nothing on click. there is no row selection, row action or sorting.
+
+## accessibility
+
+- native semantics: `table`, `thead`, `tbody`, and a `th scope="col"` for every column, so each cell is announced with its header.
+- **name every table.** there is no caption prop, and children passed to `Table` are dropped. pass `aria-labelledby` with the id of the heading above the table, or `aria-label`; both reach the `table` element.
+- headers are lowercased by css only. screen readers read the text as you wrote it, so write it the way it should be read.
+- `Table` renders every body cell as a `td`. for a row header — a first cell that names the row — build the table from the primitives and use `Th` with `scope="row"`. today that cell takes the header look (11px muted mono, 8px 12px padding) and keeps its bottom rule in the last row.
+- colour in a cell is never announced. say a state in words, with [object status](?path=/docs/components-feedback-status-object-status--docs).
+- a table wider than its frame scrolls sideways. while it does, the frame becomes a focusable region (`tabindex="0"`, `role="region"`) named by the table's `aria-label` or `aria-labelledby` ("table" without either), so the arrow keys can scroll it; it shows the `--focus-ring` when focused. the frame takes no other props (they all go to the `table`). keep tables narrow enough to fit where you can, and put the columns that matter first.
+- changes to the rows are not announced. when rows change because of something the user did, say what happened — see [message handling](?path=/docs/patterns-message-handling--docs).
+
+## content
+
+- headers: a lowercase noun, one or two words — `workload`, `size`, `last run`. put the unit in the header, `cpu (cores)`, not in every cell.
+- right-align numbers and give them the same number of decimals down a column, so the digits line up.
+- the empty text says what is missing, in the table's own words: `no workloads in this project`, not `no data`.
+- a failed load is not an empty table. show the error in a [message strip](?path=/docs/components-feedback-status-message-strip--docs) above it. when an empty table needs an explanation or a next step, see [empty states](?path=/docs/patterns-empty-states--docs).
+
+## do and don't
+
+<DoDont>
+  <Do column caption="numbers right-aligned with the same precision, the unit in the header: the digits line up.">
+    <Table
+      aria-label="workloads"
+      columns={[
+        { key: 'name', header: 'workload' },
+        { key: 'cpu', header: 'cpu (cores)', align: 'right' },
+      ]}
+      rows={[
+        { name: 'api-7f9c', cpu: '0.42' },
+        { name: 'worker-2', cpu: '12.10' },
+        { name: 'db-0', cpu: '1.05' },
+      ]}
+    />
+  </Do>
+  <Dont column caption="left-aligned numbers, mixed precision and the unit in every cell: nothing lines up.">
+    <Table
+      aria-label="workloads"
+      columns={[
+        { key: 'name', header: 'workload' },
+        { key: 'cpu', header: 'cpu' },
+      ]}
+      rows={[
+        { name: 'api-7f9c', cpu: '0.42 cores' },
+        { name: 'worker-2', cpu: '12.1 cores' },
+        { name: 'db-0', cpu: '1 core' },
+      ]}
+    />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do column caption="the empty row says what is missing, in the table's own words.">
+    <Table
+      aria-label="volumes"
+      columns={[
+        { key: 'name', header: 'volume' },
+        { key: 'size', header: 'size (gb)', align: 'right' },
+      ]}
+      rows={[]}
+      empty="no volumes in this project"
+    />
+  </Do>
+  <Dont column caption="a failed load is not an empty list. say the error in a message strip above the table.">
+    <Table
+      aria-label="volumes"
+      columns={[
+        { key: 'name', header: 'volume' },
+        { key: 'size', header: 'size (gb)', align: 'right' },
+      ]}
+      rows={[]}
+      empty="error: could not load volumes"
+    />
+  </Dont>
+</DoDont>
+
+## props
+
+`Table` passes every native `<table>` attribute — `aria-label`, `aria-labelledby`, `id`, `className` — to the `table` element, not to the scroll frame. the primitives pass everything to their element and add their class to yours. today `Table` and the primitives take no `ref`: they aren't `forwardRef` components, and their props have no `ref`.
+
+<ArgTypes of={TableStories} />
+
+## related
+
+- [data table](?path=/docs/components-data-display-data-table--docs) — the interactive table: sorting, selection, grouping, growing, keyboard navigation.
+- [card](?path=/docs/components-layout-structure-card--docs) — the frame a table usually sits in, with `flush`.
+- [object status](?path=/docs/components-feedback-status-object-status--docs) — the state of a record, inside a cell.
+- [empty states](?path=/docs/patterns-empty-states--docs) — when one line in an empty row isn't enough.

@@ -54,7 +54,7 @@ export const Identifiers: Story = {
     <div style={{ display: 'grid', gap: 'var(--s-3)' }}>
       <IdentifierCell title="S04E07" text="the long way round" />
       <IdentifierCell title="S04E08" />
-      <IdentifierCell title="worker-2" text="10.0.0.12 · zone b" />
+      <IdentifierCell title="worker-2" text="rack 4 · zone b" />
     </div>
   ),
 };

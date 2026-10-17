@@ -1,0 +1,134 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as SwitchStories from './Switch.stories';
+import { Switch, Button } from '../../src';
+import { DoDont, Do, Dont } from '../_blocks';
+
+<Meta of={SwitchStories} />
+
+# switch
+
+a square on/off toggle for a setting that applies the moment it is flipped. it is a native checkbox with `role="switch"`.
+
+<Canvas of={SwitchStories.Playground} />
+
+## when to use
+
+- for one setting that takes effect at once, with no save button: `email alerts`, `maintenance mode`.
+- in a settings list or panel: one switch per setting, each with its own label.
+
+## when not to use
+
+- **inside a form that is saved with a button.** use a [checkbox](?path=/docs/components-inputs-checkbox--docs). a switch promises an immediate effect that the form does not have.
+- **for a choice between two things that are not on and off** (`daily` or `weekly`). use a [select](?path=/docs/components-inputs-select--docs), or [tabs](?path=/docs/components-navigation-tabs--docs) to change the view.
+- **to start an action** such as `deploy release`. use a [button](?path=/docs/components-actions-button--docs): an action happens once, a switch holds a state.
+
+## anatomy
+
+1. **hit area** — the whole `<label>`: the track, an 8px gap and the label text.
+2. **track** — square, 36 × 20px (`md`) or 30 × 16px (`sm`), 2px inner padding. off: 1px `--border-control` border on `--bg-2`. on: `--cloud-blue` fill and border.
+3. **thumb** — square, 14px (`md`) or 10px (`sm`). off: `--fg-dim`, at the left. on: `--bg`, slid to the right in 0.14s.
+4. **label** (optional) — inter 13px in `--fg-2`.
+
+the native `<input type="checkbox" role="switch">` lies over the track, transparent. it takes the focus, the clicks and the form value.
+
+## variants and states
+
+two sizes: `md` (default) for settings lists and panels, `sm` for dense rows and tables.
+
+<Canvas of={SwitchStories.Sizes} />
+
+| state | looks | set by |
+| --- | --- | --- |
+| off | dark track, `--fg-dim` thumb at the left | — |
+| on | `--cloud-blue` track, dark thumb at the right | `checked` or `defaultChecked` |
+| focused | 2px `--focus-ring` outline, 2px around the thumb; keyboard focus only | native `:focus-visible` |
+| disabled | track and label at 50% opacity; cannot be focused, changed or submitted | `disabled` |
+
+there is no hover style and no invalid look.
+
+<Canvas of={SwitchStories.States} />
+
+the change applies at once. keep the label the same in both states, and when the effect is out of view, show it — here a status line says what changed.
+
+<Canvas of={SwitchStories.Controlled} />
+
+in a settings panel, stack one switch per setting, each with its own label.
+
+<Canvas of={SwitchStories.SettingsPanel} />
+
+## behaviour and keyboard
+
+the control is a native checkbox, so the browser provides the keyboard model.
+
+| key | does |
+| --- | --- |
+| `tab` / `shift+tab` | moves focus to / from the switch. |
+| `space` | toggles it. |
+
+- `enter` does not toggle it, as with any native checkbox.
+- a click on the label text toggles it too.
+- the component holds no state. use `defaultChecked`, or `checked` with `onChange`. apply the setting in `onChange`; if applying can fail, set the switch back and say why.
+
+## accessibility
+
+- `role="switch"` on the native checkbox makes screen readers announce a switch that is on or off. the state is the native `checked`: don't add `aria-checked`.
+- with `label`, the wrapping `<label>` names it. without one, pass `aria-label`; nothing enforces it today.
+- the label must not change with the state — the announced on or off already says it.
+- if the change takes time, or shows somewhere else, confirm it with a [toast](?path=/docs/components-feedback-status-toast--docs) or a [message strip](?path=/docs/components-feedback-status-message-strip--docs). the switch only announces its own state.
+- today: the focus ring is drawn around the thumb. on an on switch it falls mostly on the `--cloud-blue` track, where `--focus-ring` contrasts about 1.1:1, and only a 1px edge shows against the page — keyboard focus on an on switch is hard to see.
+- today: there is no invalid state. inside a [field](?path=/docs/components-inputs-field--docs) with `error`, react warns about an unknown `invalid` attribute and the switch does not change.
+- today: there are no forced-colours (windows high contrast) styles.
+
+## content
+
+- name the setting, not the action: `email alerts`, `maintenance mode` — not `turn on email alerts`.
+- keep the label the same in both states. no `on`, `off`, `enabled` or `disabled` in it.
+- phrase it so that on means the feature runs: `email alerts`, not `mute email alerts`.
+- when the effect is not obvious, say it in a [field](?path=/docs/components-inputs-field--docs) hint: `visitors see a maintenance notice`.
+
+## do and don't
+
+<DoDont>
+  <Do caption="the label names the setting; the switch shows the state.">
+    <Switch label="email alerts" defaultChecked />
+  </Do>
+  <Dont caption="a label that carries the state is announced twice and goes stale the moment it flips.">
+    <Switch label="email alerts: on" defaultChecked />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="switches that each apply at once." column>
+    <Switch label="email alerts" defaultChecked />
+    <Switch label="weekly summary" />
+  </Do>
+  <Dont caption="switches above a save button: does the change apply now, or on save?" column>
+    <Switch label="email alerts" defaultChecked />
+    <Switch label="weekly summary" />
+    <div>
+      <Button variant="primary">save changes</Button>
+    </div>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="on means the feature runs.">
+    <Switch label="debug logging" />
+  </Do>
+  <Dont caption="a negative label makes on mean off.">
+    <Switch label="disable debug logging" defaultChecked />
+  </Dont>
+</DoDont>
+
+## props
+
+`className` lands on the outer `<label>`; every other attribute — `checked`, `defaultChecked`, `onChange`, `name`, `aria-*` — and the ref land on the native `<input type="checkbox" role="switch">`.
+
+<ArgTypes of={SwitchStories} />
+
+## related
+
+- [checkbox](?path=/docs/components-inputs-checkbox--docs) — on/off inside a form that is saved.
+- [field](?path=/docs/components-inputs-field--docs) — adds a hint that explains the effect.
+- [toast](?path=/docs/components-feedback-status-toast--docs) — confirms a change that happens out of view.
+- [forms and settings](?path=/docs/patterns-forms-and-settings--docs) — settings pages built from switches.

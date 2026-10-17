@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { ObjectStatus, defineStates, type ObjectStatusProps } from '../../src';
+import { ObjectStatus, STATE_SEVERITY, defineStates, type ObjectStatusProps } from '../../src';
 
 const meta: Meta<ObjectStatusProps> = {
   title: 'Components/feedback & status/object status',
@@ -100,4 +100,50 @@ export const Vocabulary: Story = {
       </tbody>
     </table>
   ),
+};
+
+// a host list, its vocabulary written once, sorted so what needs acting on comes first.
+const HOST = defineStates({
+  healthy: { state: 'success', text: 'healthy' },
+  degraded: { state: 'warning', text: 'degraded' },
+  syncing: { state: 'information', text: 'syncing' },
+  down: { state: 'error', text: 'unreachable' },
+  unchecked: { state: 'neutral', text: 'not checked yet' },
+});
+
+const HOSTS: { name: string; status: keyof typeof HOST }[] = [
+  { name: 'storage-01', status: 'healthy' },
+  { name: 'db-0', status: 'syncing' },
+  { name: 'api-7f9c', status: 'down' },
+  { name: 'worker-3', status: 'unchecked' },
+  { name: 'worker-2', status: 'degraded' },
+];
+
+export const BySeverity: Story = {
+  name: 'sorted by severity',
+  render: () => {
+    const rows = [...HOSTS].sort(
+      (a, b) => STATE_SEVERITY[HOST[b.status].state] - STATE_SEVERITY[HOST[a.status].state],
+    );
+    return (
+      <table style={{ borderCollapse: 'collapse', fontFamily: 'var(--ff-mono)', fontSize: 12, color: 'var(--fg-2)' }}>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'left', padding: 'var(--s-2)', color: 'var(--fg-muted)' }}>host</th>
+            <th style={{ textAlign: 'left', padding: 'var(--s-2)', color: 'var(--fg-muted)' }}>status</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((h) => (
+            <tr key={h.name}>
+              <td style={{ padding: 'var(--s-2)', borderTop: '1px solid var(--border)' }}>{h.name}</td>
+              <td style={{ padding: 'var(--s-2)', borderTop: '1px solid var(--border)' }}>
+                <ObjectStatus {...HOST[h.status]} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  },
 };

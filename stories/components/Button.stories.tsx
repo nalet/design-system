@@ -3,7 +3,7 @@ import { Terminal, Rocket, Trash2, ArrowRight } from 'lucide-react';
 import { Button, type ButtonProps, Icon } from '../../src';
 
 const meta: Meta<ButtonProps> = {
-  title: 'Components/button',
+  title: 'Components/actions/button',
   component: Button,
   args: {
     children: 'run',
@@ -20,13 +20,14 @@ const meta: Meta<ButtonProps> = {
     block: { control: 'boolean' },
     disabled: { control: 'boolean' },
     children: { control: 'text' },
-    leading: { table: { disable: true } },
-    trailing: { table: { disable: true } },
+    leading: { control: false },
+    trailing: { control: false },
   },
   parameters: {
     docs: {
       description: {
-        component: 'square mono-labeled action button; primary is the cloud-blue cta and loading swaps the leading slot for a spinner.',
+        component:
+          'a square, mono-labelled action. primary is the one emphasized action on a screen; loading swaps the leading slot for a spinner.',
       },
     },
   },
@@ -43,7 +44,7 @@ export const Variants: Story = {
       <Button variant="primary">deploy</Button>
       <Button variant="default">run</Button>
       <Button variant="ghost">cancel</Button>
-      <Button variant="danger">drop</Button>
+      <Button variant="danger">delete</Button>
     </div>
   ),
 };
@@ -59,10 +60,11 @@ export const Sizes: Story = {
 };
 
 export const WithIcons: Story = {
+  name: 'with icons',
   render: () => (
     <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
       <Button variant="primary" leading={<Icon icon={Rocket} />}>
-        deploy to okd
+        deploy release
       </Button>
       <Button variant="default" leading={<Icon icon={Terminal} />}>
         open shell
@@ -71,7 +73,7 @@ export const WithIcons: Story = {
         next
       </Button>
       <Button variant="danger" leading={<Icon icon={Trash2} />}>
-        drop postgres
+        delete volume
       </Button>
     </div>
   ),
@@ -80,12 +82,15 @@ export const WithIcons: Story = {
 export const States: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
-      <Button variant="primary">rollout</Button>
+      <Button variant="primary">roll out</Button>
       <Button variant="primary" loading>
         rolling out
       </Button>
       <Button variant="primary" disabled>
-        rollout
+        roll out
+      </Button>
+      <Button variant="default" disabled>
+        run
       </Button>
     </div>
   ),
@@ -95,10 +100,10 @@ export const Block: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 'var(--s-3)', width: 280 }}>
       <Button variant="primary" block leading={<Icon icon={Rocket} />}>
-        deploy chino
+        deploy release
       </Button>
       <Button variant="default" block>
-        view gitlab pipeline
+        view pipeline
       </Button>
     </div>
   ),

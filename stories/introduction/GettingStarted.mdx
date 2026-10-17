@@ -1,0 +1,91 @@
+import { Meta, Source } from '@storybook/addon-docs/blocks';
+
+<Meta title="Introduction/getting started" />
+
+# getting started
+
+install the package from a release tarball, load its stylesheet and the two fonts, and use the components.
+
+## install
+
+each github release carries the packed package; apps install it by url — no registry needed.
+
+<Source
+  language="sh"
+  dark
+  code={`npm i https://github.com/nalet/design-system/releases/download/v0.3.0/nalet-design-system-0.3.0.tgz`}
+/>
+
+peer dependencies: `react` and `react-dom` 18 or 19, and `lucide-react` 0.300 or newer (the library imports its types; your app passes icons in). an app that must not fetch at install time can vendor the tarball and depend on it with `file:`.
+
+## load the styles
+
+<Source
+  language="tsx"
+  dark
+  code={`// once, near the app root:
+import '@nalet/design-system/styles.css';
+
+import { Button, ObjectStatus } from '@nalet/design-system';
+
+export function Example() {
+  return (
+    <>
+      <ObjectStatus state="information">on its way</ObjectStatus>
+      <Button variant="primary">grab 8 selected</Button>
+    </>
+  );
+}`}
+/>
+
+- `styles.css` holds the component styles **and** the tokens (the `:root` custom properties, the page base and the type utilities).
+- `tokens.css` holds only the tokens — for an app that uses the identity without the components.
+- nothing else is global. the components are plain react with co-located css; no provider is needed. one exception: render one `<Toaster />` near the root if you call `toast()`.
+
+## fonts
+
+the package ships no font files. load **inter** (400, 500, 600, 700) and **jetbrains mono** (400–800) yourself — self-hosted (for example with `@fontsource/inter` and `@fontsource/jetbrains-mono`) or from google fonts:
+
+<Source
+  language="html"
+  dark
+  code={`<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" />`}
+/>
+
+without them the stacks fall back to `system-ui` and `ui-monospace`. shipping the fonts in the package is **planned**.
+
+## tokens and theming
+
+tokens live in `tokens/tokens.json` (dtcg format) and are built into three forms:
+
+| form | import | for |
+| --- | --- | --- |
+| css custom properties | `@nalet/design-system/tokens.css` (also inside `styles.css`) | everything: components read `var(--fg-2)`, `var(--state-error)`, `var(--s-4)` |
+| typed objects | `import { tokens } from '@nalet/design-system/tokens'` | js that needs a value (a chart, a canvas) |
+| tailwind preset | `presets: [require('@nalet/design-system/tailwind')]` | tailwind apps that want the same colours, fonts and spacing |
+
+the system is dark only. you can redefine a custom property in your app, but the [contrast policy](?path=/docs/foundations-colour--docs) only covers the shipped values. light and high-contrast themes are **planned**.
+
+## in a portal shell
+
+the components work inside a federated module rendered in another app's react tree:
+
+- react is a peer dependency, so the shell's single copy is used.
+- the modal and the action menu render into `document.body` through a portal, so no panel or table of the shell can clip them; toasts are fixed to the viewport.
+- the toast store belongs to one copy of the library: a module that bundles its own copy renders its own `<Toaster />`.
+
+## develop
+
+<Source
+  language="sh"
+  dark
+  code={`npm ci
+npm run build-tokens     # tokens.json -> tokens.css, typed tokens, tailwind preset
+npm run storybook        # this site on :6006
+npm test                 # unit, accessibility (axe) and token-contrast tests
+npm run lint             # typecheck
+npm run build            # the library (dist/)
+npm run build-storybook  # this site, static`}
+/>
+
+see [contributing](https://github.com/nalet/design-system/blob/main/CONTRIBUTING.md) for how to add a component.

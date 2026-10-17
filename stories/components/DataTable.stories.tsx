@@ -147,7 +147,7 @@ export const Grouped: Story = {
         groupBy={backlogGroup}
         groupHeader={(g) => backlogGroupLabel(g.key, g.rows.length)}
         groupAction={(g) => (
-          <Button size="sm" variant="ghost" onClick={() => t.onSelectionChange(new Set(g.rows.map((b) => b.id)))}>
+          <Button size="sm" variant="ghost" onClick={() => t.onSelectionChange(new Set([...t.selected, ...g.rows.map((b) => b.id)]))}>
             select all {g.rows.length}
           </Button>
         )}

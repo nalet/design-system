@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useRef } from 'react';
 import { Button, Toaster, toast, type ToasterProps } from '../../src';
 
 const meta: Meta<ToasterProps> = {
@@ -8,10 +9,12 @@ const meta: Meta<ToasterProps> = {
     docs: { description: { component: 'transient feedback after an action. never takes focus; leaves on its own.' } },
   },
   decorators: [
-    (Story) => (
+    // every mounted <Toaster /> renders every toast. a docs page shows several
+    // stories at once, so there the page mounts one toaster and the stories none.
+    (Story, context) => (
       <div style={{ minHeight: 220 }}>
         <Story />
-        <Toaster />
+        {context.viewMode === 'docs' ? null : <Toaster />}
       </div>
     ),
   ],
@@ -39,11 +42,44 @@ export const Playground: Story = {
 export const States: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
-      {(['neutral', 'information', 'success', 'warning'] as const).map((s) => (
-        <Button key={s} onClick={() => toast(`${s}: a short confirmation`, { state: s })}>
-          {s}
-        </Button>
-      ))}
+      <Button onClick={() => toast('3 skipped: held already or under way')}>neutral</Button>
+      <Button onClick={() => toast('asking the catalog again — the list follows', { state: 'information' })}>
+        information
+      </Button>
+      <Button onClick={() => toast('8 episodes queued', { state: 'success' })}>success</Button>
+      <Button onClick={() => toast('6 queued · 2 skipped: their source is over its daily limit', { state: 'warning' })}>
+        warning
+      </Button>
     </div>
   ),
+};
+
+export const AtMostThree: Story = {
+  name: 'at most three',
+  render: () => (
+    <Button
+      onClick={() => {
+        for (const host of ['api-7f9c', 'worker-2', 'db-0', 'storage-01']) toast(`${host} restarted`, { state: 'success' });
+      }}
+    >
+      restart 4 hosts
+    </Button>
+  ),
+};
+
+export const ReplaceById: Story = {
+  name: 'replace by id',
+  render: function ReplaceById() {
+    const presses = useRef(0);
+    return (
+      <Button
+        onClick={() => {
+          presses.current += 1;
+          toast(`asking the catalog again (${presses.current})`, { id: 'ask-again', state: 'information' });
+        }}
+      >
+        ask the catalog again
+      </Button>
+    );
+  },
 };

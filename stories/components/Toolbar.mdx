@@ -1,0 +1,167 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ToolbarStories from './Toolbar.stories';
+import { Toolbar, SelectionToolbar } from '../../src';
+import { DoDont, Do, Dont } from '../_blocks';
+
+export const noop = () => undefined;
+
+<Meta of={ToolbarStories} />
+
+# toolbar
+
+a row of actions above the content they act on: a heading that says what they act on, at most one emphasized action, default buttons for the rest, and a `more actions` menu for what doesn't fit. `SelectionToolbar` is the same row for a list whose rows can be selected. both are one tab stop, with the arrow keys inside.
+
+<Canvas of={ToolbarStories.Playground} />
+
+## when to use
+
+- above a list, a table or a panel, for the actions on it, under a heading that says what they act on: `2,500 missing`.
+- with one emphasized action — the next step for most people — a few default ones, and the rarely used ones in the overflow menu.
+- `SelectionToolbar`, for a list with selectable rows: while nothing is selected it shows the heading; once rows are selected, the count, `clear`, and the action for exactly that selection: `grab 8 selected`.
+
+## when not to use
+
+- **for the buttons at the end of a form or a dialog.** use [buttons](?path=/docs/components-actions-button--docs) in a footer; a [modal](?path=/docs/components-overlays-modal--docs) has its own.
+- **for the actions of one row.** use one [action menu](?path=/docs/components-actions-action-menu--docs) per row.
+- **for search and filters.** use a [filter bar](?path=/docs/components-inputs-filter-bar--docs), above the toolbar.
+- **to move between views.** use [tabs](?path=/docs/components-navigation-tabs--docs), or [filter tabs](?path=/docs/components-navigation-filter-tabs--docs) to filter one list.
+
+## anatomy
+
+the toolbar:
+
+1. **container** — `role="toolbar"`: a flex row that wraps, at least 45px tall, 8px × 12px padding and gaps, a 1px `--border` frame, `--surface` fill, square corners.
+2. **heading** (optional) — on the left, taking the free width: jetbrains mono 600, 13px, `--fg`, shown lowercase.
+3. **children** (optional) — your content, between the heading and the actions.
+4. **actions** — on the right, 8px apart, all `sm` buttons (28px): the emphasized one first (`primary`, or `danger`), then `default` buttons (or `danger`).
+5. **overflow** — an [action menu](?path=/docs/components-actions-action-menu--docs) named `more actions`, last: the actions marked `overflow` and, below `collapseBelow`, every action but the emphasized one.
+
+a selection toolbar adds, while rows are selected:
+
+1. **selection rule** — the frame turns `--state-information-border`, with a 3px `--cloud-blue` rule on the left.
+2. **count** — `8 selected` in `--cloud-blue`, in place of the heading.
+3. **clear** and **select all** (optional) — small ghost buttons after the count.
+4. **emphasized action** — the one `primaryAction(n)` returns for this selection.
+5. **announcement** — a visually hidden polite live region that says each change of the count.
+
+## variants and states
+
+### one emphasized action
+
+mark at most one action `emphasized`. it renders first, as `primary`, or as `danger` when it is also `danger`. a second emphasized action renders as a default button, and the toolbar warns in the console: `Toolbar "missing episodes": 2 emphasized actions; only the first is emphasized.`
+
+the other actions are `default` buttons, or `danger` ones for an action that deletes or can't be undone. `disabled` and `loading` work as on a [button](?path=/docs/components-actions-button--docs).
+
+### overflow and `collapseBelow`
+
+`overflow: true` keeps an action in the `more actions` menu. the toolbar also measures its own width (inside its padding): below `collapseBelow`, 560px by default, every action but the emphasized one moves into the menu. until it has been measured, and wherever there is no `ResizeObserver`, it lays out as wide. in the menu, a `disabled` or `loading` action is a disabled item, and a `danger` action a danger item. `overflowLabel` names the menu's trigger (default "more actions").
+
+<Canvas of={ToolbarStories.Narrow} />
+
+### selection toolbar
+
+`SelectionToolbar` takes `selectedCount`. at 0 it shows `heading` — what the list holds — and no emphasized action, unless `primaryAction(0)` returns one. above 0 it shows the count (`formatSelected`, by default `8 selected` with thousands separators), `clear` when you pass `onClearSelection`, `selectAll` when you pass it (`select all 2,500`, while only the visible rows are selected), and the emphasized action that `primaryAction(n)` returns. `actions` are never emphasized.
+
+<Canvas of={ToolbarStories.Selection} />
+
+## behaviour and keyboard
+
+a toolbar is one tab stop, and the arrow keys move inside it (a roving tabindex).
+
+| key | does |
+| --- | --- |
+| `tab` / `shift+tab` | moves into the toolbar, onto one control — the first, or the one last focused in it — and out of it on the next press. |
+| `→` / `←` | moves to the next / previous control, wrapping at the ends. |
+| `home` / `end` | moves to the first / last control. |
+| `enter` / `space` | native: activates the focused button. |
+| `↓` / `↑` on `more actions` | opens the overflow menu. inside it, the [action menu](?path=/docs/components-actions-action-menu--docs)'s keys apply. |
+
+- the arrows move through every enabled button, link, input and select inside the toolbar, in order — including the heading's and your `children`'s. in a selection toolbar with rows selected, `clear` comes first. disabled buttons are skipped, and so is a `loading` one, which is disabled while it is busy.
+- in an `input` or a `select`, the arrow keys, `home` and `end` stay with the field; `tab` leaves the toolbar from there.
+- after every render, the toolbar puts `tabindex="0"` on one control and `-1` on the others, so there is still one tab stop when actions come and go.
+- an `onKeyDown` you pass runs first. call `preventDefault()` on a key to keep the toolbar from acting on it.
+- a selection toolbar announces every change of `selectedCount` after the first render, politely: the count as `formatSelected` writes it (`8 selected`), or `selection cleared` at 0.
+
+## accessibility
+
+- `role="toolbar"`, named by `label` (required). name what the actions act on: `missing episodes`. the heading is not the name.
+- keyboard first: one tab stop and arrow keys, so a page with a filter bar, a toolbar and a table takes a few presses of `tab` to cross, not dozens.
+- the overflow trigger is an [action menu](?path=/docs/components-actions-action-menu--docs) named by `overflowLabel`.
+- the selection count is on the screen and said once per change; nothing is said on the first render.
+- the selection rule and the blue count repeat what the count's words say.
+- axe-core finds no violations in either toolbar.
+
+- when the control that has focus goes away — `clear`, `select all n`, or the emphasized action once the selection is empty — the toolbar itself takes focus (it carries `tabindex="-1"` for this), so focus stays where the person was, and the change is announced.
+
+today:
+
+- `selection cleared` is fixed english. `formatSelected` and `clearLabel` can be translated; the cleared announcement can't.
+- a `textarea` in `children` is not in the arrow-key set.
+
+## content
+
+- **`label`** — what the actions act on, a noun phrase: `missing episodes`.
+- **heading** — what the list holds, with the count: `2,500 missing`.
+- **actions** — a verb and its object. bulk actions carry the count: `grab 8 selected`. build that label from `n` in `primaryAction`.
+- **emphasized** — the next step for most people. not the newest action, not the most dangerous one.
+- **overflow** — what people rarely need: `export csv`, `sweep settings`.
+- **select all** — with the whole count: `select all 2,500`.
+
+## do and don't
+
+<DoDont>
+  <Do caption="the emphasized action is the next step; the rarely used ones wait in the menu." column>
+    <Toolbar label="missing episodes" heading="2,500 missing" actions={[{ id: 'grab', label: 'grab all missing', emphasized: true, onSelect: noop }, { id: 'refresh', label: 'refresh', onSelect: noop }, { id: 'export', label: 'export csv', overflow: true, onSelect: noop }]} />
+  </Do>
+  <Dont caption="emphasis on a rare action: people look for the next step and find export." column>
+    <Toolbar label="missing episodes" heading="2,500 missing" actions={[{ id: 'export', label: 'export csv', emphasized: true, onSelect: noop }, { id: 'grab', label: 'grab all missing', onSelect: noop }, { id: 'refresh', label: 'refresh', onSelect: noop }]} />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="the heading says what the actions act on, and how much of it there is." column>
+    <Toolbar label="missing episodes" heading="2,500 missing" actions={[{ id: 'grab', label: 'grab all missing', emphasized: true, onSelect: noop }]} />
+  </Do>
+  <Dont caption="a heading that names the toolbar instead of the list: nobody learns what the actions act on." column>
+    <Toolbar label="actions" heading="actions" actions={[{ id: 'grab', label: 'grab all missing', emphasized: true, onSelect: noop }]} />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="the action carries the count, so people can check it covers what they meant to select." column>
+    <SelectionToolbar label="missing episodes" selectedCount={8} onClearSelection={noop} primaryAction={(n) => ({ label: 'grab ' + n + ' selected', onSelect: noop })} />
+  </Do>
+  <Dont caption="without the count, the action could mean the selection, the page or the whole list." column>
+    <SelectionToolbar label="missing episodes" selectedCount={8} onClearSelection={noop} primaryAction={() => ({ label: 'grab selected', onSelect: noop })} />
+  </Dont>
+</DoDont>
+
+## props
+
+`Toolbar` passes other `<div>` attributes (all but `title`) and its `ref` to the `role="toolbar"` element. `SelectionToolbar` takes everything `Toolbar` takes except `heading` and `actions`, which it defines itself, and passes the rest on.
+
+<ArgTypes of={ToolbarStories} />
+
+each entry in `actions`:
+
+| field | does |
+| --- | --- |
+| `id` | a key, unique within the toolbar |
+| `label` | the button's text: a verb and its object |
+| `onSelect` | runs on press, or when chosen from the overflow menu |
+| `emphasized` | the one primary action; at most one |
+| `danger` | a danger button, or a danger item in the menu |
+| `disabled`, `loading` | as on a button; in the menu, either makes a disabled item |
+| `overflow` | always in the `more actions` menu |
+| `icon` | decoration before the label |
+
+`SelectionToolbar`:
+
+<ArgTypes of={SelectionToolbar} />
+
+## related
+
+- [selection and bulk actions](?path=/docs/patterns-selection-and-bulk-actions--docs) — selecting rows, the count, select all, and the actions on them.
+- [action menu](?path=/docs/components-actions-action-menu--docs) — the overflow menu, and the actions of one row.
+- [filter bar](?path=/docs/components-inputs-filter-bar--docs) — what narrows the list. it sits above the toolbar.
+- [worklist](?path=/docs/patterns-worklist--docs) — the floorplan that puts filter tabs, a filter bar, the toolbar and the table together.

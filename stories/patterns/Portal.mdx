@@ -1,0 +1,260 @@
+import { useState } from 'react';
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import { Activity, Database, Film, GitBranch, Music, Package, ScrollText, Server } from 'lucide-react';
+import * as PortalStories from './Portal.stories';
+import { Portal, TileGroup, Tile, Chevron } from '../../src';
+import { DoDont, Do, Dont, Example } from '../_blocks';
+
+export const Zone = ({ n, name, note, dashed, grow, children }) => (
+  <div style={{ display: 'grid', gap: 'var(--s-2)', alignContent: 'start', minWidth: 0, flex: grow ? '1 1 12rem' : undefined, padding: 'var(--s-3)', background: 'var(--bg)', border: `1px ${dashed ? 'dashed' : 'solid'} var(--border-2)` }}>
+    <span style={{ fontFamily: 'var(--ff-mono)', fontSize: 12, color: 'var(--fg)' }}>
+      <span style={{ display: 'inline-block', minWidth: 18, marginRight: 'var(--s-2)', border: '1px solid var(--border-2)', color: 'var(--fg-muted)', textAlign: 'center' }}>{n}</span>
+      {name}
+      {note ? <span style={{ color: 'var(--fg-dim)' }}> · {note}</span> : null}
+    </span>
+    {children}
+  </div>
+);
+
+export const Slots = ({ count }) => (
+  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-2)' }}>
+    {Array.from({ length: count }, (_, i) => <span key={i} style={{ width: 64, height: 40, background: 'var(--surface)', border: '1px solid var(--border)' }} />)}
+  </div>
+);
+
+export const Legend = ({ children, action }) => (
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--s-3)', fontFamily: 'var(--ff-mono)', fontSize: 12, color: 'var(--fg-muted)' }}>
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-1)' }}><Chevron size={12} aria-hidden />{children}</span>
+    {action ? <span style={{ color: 'var(--fg-dim)' }}>{action}</span> : null}
+  </div>
+);
+
+export const Floorplan = () => (
+  <div style={{ display: 'grid', gap: 'var(--s-3)', width: '100%' }}>
+    <Zone n="1" name="title bar">
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--s-3)' }}>
+        <Zone n="2" name="title" note="h1, led by the chevron" grow />
+        <Zone n="3" name="search" note="a search landmark" grow />
+      </div>
+    </Zone>
+    <Zone n="4" name="favourites slot" note="a tile group you render">
+      <Slots count={3} />
+    </Zone>
+    <Zone n="5" name="groups" note="tile groups, in the order you give them">
+      <Legend action="action">legend</Legend>
+      <Slots count={4} />
+      <Legend>legend</Legend>
+      <Slots count={2} />
+    </Zone>
+    <Zone n="6" name="empty state" note="only while a search matches nothing" dashed />
+    <Zone n="7" name="live region" note="not visible; announces the match count" dashed />
+  </div>
+);
+
+export const Launcher = ({ initialQuery = '', empty, ...props }) => {
+  const [q, setQ] = useState(initialQuery);
+  return <Portal {...props} query={q} onQueryChange={setQ} emptyState={empty ? empty(q) : undefined} />;
+};
+
+<Meta of={PortalStories} />
+
+# portal (launchpad)
+
+the launchpad floorplan: a home page of apps in titled groups of tiles, with favourites on top, a search that filters in place, and one keyboard model across every group.
+
+<Canvas of={PortalStories.WithFavorites} />
+
+## when to use
+
+- as the start page of a product made of many apps or tools, where people come to pick where to go.
+- as a hub of a few key figures: kpi tiles, with `searchable={false}`.
+
+## when not to use
+
+- **for the views of one object.** use [tabs](?path=/docs/components-navigation-tabs--docs).
+- **for work people go through item by item.** use the [worklist](?path=/docs/patterns-worklist--docs) floorplan.
+- **for a handful of links at the end of a page.** a [tile group](?path=/docs/components-navigation-tile-group--docs) on its own is enough.
+- **as a menu inside an app.** a launchpad is a page. an app's own commands go in a [toolbar](?path=/docs/components-actions-toolbar--docs) or an [action menu](?path=/docs/components-actions-action-menu--docs).
+
+## anatomy
+
+### the floorplan
+
+<Example label="the launchpad floorplan as a schematic">
+  <Floorplan />
+</Example>
+
+1. **title bar** — shown when there is a `title` or a search: a flex row with 16px gaps that wraps on narrow screens. without a title, the search sits alone at the right end.
+2. **title** — an `<h1>` led by an 18px brand chevron: jetbrains mono 700, 22px, letter-spacing −0.01em, `--fg`, shown lowercase.
+3. **search** — a `role="search"` landmark around a text input: 32px high, mono 13px, `--surface` fill, 1px `--border-2`, placeholder in `--fg-dim`. it starts from 16rem and grows to at most 24rem.
+4. **favourites slot** — `favorites`, pinned above the groups; usually a tile group with the legend `favourites`. the portal doesn't store favourites: you render them.
+5. **groups** — your [tile groups](?path=/docs/components-navigation-tile-group--docs), in the order you give them, 32px apart (24px at `compact`).
+6. **empty state** — while a search matches nothing: `emptyState`, or `no apps match “…”.`, in a dashed `--border-2` box with 32px padding, mono 13px in `--fg-dim`, centred.
+7. **live region** — visually hidden; announces how many apps match.
+
+the parts stack on `--bg`, with 24px between the title bar and the body (16px at `compact`).
+
+## variants and states
+
+| prop | does |
+| --- | --- |
+| `density` | `comfortable` (the default) or `compact`: 24px → 16px under the title bar, 32px → 24px between groups |
+| `searchable` | shows the search (default `true`). `false` drops it, and `/` does nothing |
+| `query` with `onQueryChange` | a controlled search. it is uncontrolled by default; `onQueryChange` fires on every keystroke either way |
+| `searchPlaceholder` | the placeholder, `search apps…` by default |
+| `searchLabel` | names the search landmark and its field, `search apps` by default. give each launcher on a page its own |
+| `favorites` | the slot above the groups |
+| `emptyState` | replaces the default no-match text |
+| `navigation` | `roving` (the default) or `tab` — see behaviour |
+| `title` | optional. with neither a title nor a search there is no title bar |
+
+the default: a title, the search and groups.
+
+<Canvas of={PortalStories.Playground} />
+
+a hub of key figures, without the search:
+
+<Canvas of={PortalStories.KpiDashboard} />
+
+`compact` density, here with `sm` tiles:
+
+<Canvas of={PortalStories.Compact} />
+
+a search that matches nothing, with its own empty state:
+
+<Canvas of={PortalStories.NoMatches} />
+
+## behaviour and keyboard
+
+### search
+
+- the search filters as people type. a tile stays when its title or its description contains the query, ignoring case and the spaces around it. groups without a match are hidden, and the empty state shows when nothing matches.
+- the live region announces the number of matching apps.
+- tiles that don't match are hidden, and so is every group left without a match.
+
+| key | does |
+| --- | --- |
+| `/` | with focus anywhere in the launcher's body (a tile, a group's action), moves focus to the search. it isn't a page-wide shortcut: with focus elsewhere, `/` does nothing. |
+| `esc` (in the search) | clears the query and moves focus to the first tile of the launcher — the first favourite, if there are any. today it only gets there when that tile's group was visible under the query; otherwise focus stays in the search. |
+
+### the roving-grid model
+
+with `navigation="roving"` (the default), the portal runs one model across every tile in its body, favourites included:
+
+| key | does |
+| --- | --- |
+| `tab` / `shift+tab` | reaches one tile for the whole launcher and leaves on the next press. that tile is the one you last moved to with the arrow keys, otherwise the first enabled tile — usually the first favourite. |
+| `→` / `←` | the next / previous tile in reading order, across group boundaries. stops at the first and the last tile of the launcher. |
+| `↓` / `↑` | the nearest tile below / above by position on screen, preferring the same column. it works at any grid width and crosses into the next group. |
+| `home` / `end` | the first / last tile of the launcher. |
+| `enter` / `space` | native: `enter` follows a link tile; `enter` and `space` press a button tile. |
+
+- skipped: disabled and display-only tiles (they aren't links or buttons), and the tiles of hidden groups.
+- an arrow key or `home` pressed on something else in the body — a group's action button, say — jumps to the first tile; `end` jumps to the last.
+- the model is `useRovingGrid(ref, enabled)`, which the library exports. it keeps one `[data-nc-tile]` element under `ref` at `tabindex="0"` and the rest at `-1`, and returns the `onKeyDown` handler for the container. a custom launcher can reuse it.
+- `navigation="tab"` turns the launcher-wide model off. each tile group then runs its own roving model, one tab stop per group; set `navigation="tab"` on the groups as well for a plain tab order.
+
+## accessibility
+
+- the title is the page's `<h1>`, each group an `<h2>` and a region landmark, and the search a search landmark: people can jump between them.
+- the search landmark and its field are named by `searchLabel` ("search apps" by default).
+- a polite live region says how many apps match while a query is active, and nothing otherwise. the empty state is visible text; "0 apps match" is what a screen reader hears.
+
+today:
+
+- the arrow keys don't work from the search box: it sits outside the launcher's body, which owns them. `tab` from the search reaches the first visible tile (a hidden tile never keeps the tab stop), and the arrows work from there.
+- the live region's words ("3 apps match") and the default empty text are fixed english; `searchLabel`, the placeholder and `emptyState` can change.
+- with one match, the live region says "1 app match".
+- nothing announces the arrow-key model: the body has no role that tells screen-reader users about it.
+- the search box's border is `--border-2`, not the 3:1 `--border-control` that inputs use now, and its focus is a `--cloud-blue` frame rather than the `--focus-ring` outline.
+- the launcher takes `/` and the arrow keys from anything in its body, so a text field in a group's action slot can't type `/`. keep text fields out of the body.
+- the title is always an `<h1>`: the portal is a page's main content, not a part of another titled page.
+
+## content
+
+- **title** — the name of the place, one word: `launchpad`, `home`, `tools`. no greeting, no tagline.
+- **placeholder** — `search apps…` (the default) or close to it, in the same words as `searchLabel`, which names the field.
+- **favourites** — the few apps people open every day. the portal doesn't keep them; store them with the person's settings and render them in `favorites`.
+- **groups** — nouns for domains, in a fixed order; see the [tile group](?path=/docs/components-navigation-tile-group--docs) content rules.
+- **empty state** — say what didn't match and what to do next: `no apps match “backup”. try another word, or press esc in the search box to clear it.`
+
+## do and don't
+
+<div className="docs-story">
+<DoDont>
+  <Do caption="pinned favourites first, then a few groups named by domain, in a fixed order." column>
+    <Portal searchable={false} favorites={<TileGroup legend="pinned" minTileWidth="8rem" gap="sm"><Tile icon={GitBranch} title="pipelines" href="#" size="sm" /></TileGroup>}>
+      <TileGroup legend="infrastructure" minTileWidth="8rem" gap="sm">
+        <Tile icon={Server} title="cluster" href="#" size="sm" />
+        <Tile icon={ScrollText} title="logs" href="#" size="sm" />
+      </TileGroup>
+      <TileGroup legend="entertainment" minTileWidth="8rem" gap="sm">
+        <Tile icon={Film} title="video" href="#" size="sm" />
+        <Tile icon={Music} title="music" href="#" size="sm" />
+      </TileGroup>
+    </Portal>
+  </Do>
+  <Dont caption="one group called apps, holding everything: people read every tile to find one." column>
+    <Portal searchable={false}>
+      <TileGroup legend="apps" minTileWidth="8rem" gap="sm">
+        <Tile icon={Music} title="music" href="#" size="sm" />
+        <Tile icon={Server} title="cluster" href="#" size="sm" />
+        <Tile icon={GitBranch} title="pipelines" href="#" size="sm" />
+        <Tile icon={Film} title="video" href="#" size="sm" />
+        <Tile icon={ScrollText} title="logs" href="#" size="sm" />
+      </TileGroup>
+    </Portal>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="the title names the place." column>
+    <Portal title="launchpad" searchable={false}>
+      <TileGroup legend="runtime" minTileWidth="8rem" gap="sm">
+        <Tile icon={Server} title="cluster" href="#" size="sm" />
+        <Tile icon={Activity} title="metrics" href="#" size="sm" />
+      </TileGroup>
+    </Portal>
+  </Do>
+  <Dont caption="a greeting is a line people skip on every visit, and it pushes the tiles down." column>
+    <Portal title="welcome back, here is everything you can do today" searchable={false}>
+      <TileGroup legend="platform" minTileWidth="8rem" gap="sm">
+        <Tile icon={Server} title="cluster" href="#" size="sm" />
+        <Tile icon={Activity} title="metrics" href="#" size="sm" />
+      </TileGroup>
+    </Portal>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="the empty state says what didn't match and what to try next." column>
+    <Launcher title="launchpad" searchLabel="search, a helpful empty state" initialQuery="backup" empty={(q) => <span>no apps match “{q}”. try another word, or press esc in the search box to clear it.</span>}>
+      <TileGroup legend="backups" minTileWidth="8rem" gap="sm">
+        <Tile icon={Database} title="database" href="#" size="sm" />
+        <Tile icon={Package} title="registry" href="#" size="sm" />
+      </TileGroup>
+    </Launcher>
+  </Do>
+  <Dont caption="a bare no results leaves people guessing what went wrong and what to do." column>
+    <Launcher title="launchpad" searchLabel="search, a bare empty state" initialQuery="backup" empty={() => <span>no results</span>}>
+      <TileGroup legend="storage" minTileWidth="8rem" gap="sm">
+        <Tile icon={Database} title="database" href="#" size="sm" />
+        <Tile icon={Package} title="registry" href="#" size="sm" />
+      </TileGroup>
+    </Launcher>
+  </Dont>
+</DoDont>
+</div>
+
+## props
+
+`Portal` passes other attributes and its `ref` to its root `<div>`.
+
+<ArgTypes of={PortalStories} />
+
+## related
+
+- [tile group](?path=/docs/components-navigation-tile-group--docs) — the titled groups.
+- [tile](?path=/docs/components-navigation-tile--docs) — the destinations and key figures inside them.
+- [worklist](?path=/docs/patterns-worklist--docs) — the floorplan for working through items, not for launching apps.
+- [empty states](?path=/docs/patterns-empty-states--docs) — how to write the no-match state.

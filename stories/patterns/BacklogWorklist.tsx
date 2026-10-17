@@ -64,7 +64,8 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
   const queue = (ids: string[]) => {
     const can = new Set(items.filter((b) => ids.includes(b.id) && grabbable(b)).map((b) => b.id));
     setItems((prev) => prev.map((b) => (can.has(b.id) ? { ...b, state: 'queued', reason: undefined } : b)));
-    setSelected(new Set());
+    // what was queued leaves the selection; a single-row grab keeps the rest of it.
+    setSelected((prev) => new Set([...prev].filter((id) => !ids.includes(id))));
     const skipped = ids.length - can.size;
     toast(
       `${formatCount(can.size)} ${can.size === 1 ? 'episode' : 'episodes'} queued${skipped ? ` · ${formatCount(skipped)} skipped: held already or under way` : ''}`,
@@ -96,6 +97,11 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
         (!needle || b.title.toLowerCase().includes(needle) || code(b).toLowerCase().includes(needle)),
     );
   }, [inTab, q, kind, aired]);
+
+  // act on what is visible: a filter that hides a selected row drops it from the selection.
+  const inView = useMemo(() => new Set(filtered.map((b) => b.id)), [filtered]);
+  const selectedInView = useMemo(() => new Set([...selected].filter((id) => inView.has(id))), [selected, inView]);
+  const grabbableInView = useMemo(() => filtered.filter(grabbable), [filtered]);
 
   const filtersActive = !!(q || kind || aired);
   const clearFilters = () => {
@@ -215,7 +221,7 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
         onSortChange={setSort}
         selectable
         isRowSelectable={grabbable}
-        selected={selected}
+        selected={selectedInView}
         onSelectionChange={setSelected}
         groupBy={backlogGroup}
         groupHeader={(g) => backlogGroupLabel(g.key, g.rows.length)}
@@ -234,7 +240,7 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
     );
   }
 
-  const showList = tab !== 'unaired' && tab !== 'unknown' && !(variant === 'unknown');
+  const showList = tab !== 'unaired' && tab !== 'unknown' && variant !== 'unknown' && items.length > 0;
   const tabNoun = tab === 'way' ? 'on their way' : tab === 'attention' ? 'need attention' : 'missing';
 
   return (
@@ -297,14 +303,22 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
             <SelectionToolbar
               label="missing episodes and movies"
               heading={`${formatCount(filtered.length)} ${tabNoun}`}
-              selectedCount={selected.size}
+              selectedCount={selectedInView.size}
               onClearSelection={() => setSelected(new Set())}
+              selectAll={
+                selectedInView.size > 0 && selectedInView.size < grabbableInView.length
+                  ? {
+                      label: `select all ${formatCount(grabbableInView.length)}`,
+                      onSelect: () => setSelected(new Set(grabbableInView.map((b) => b.id))),
+                    }
+                  : null
+              }
               primaryAction={(n) =>
                 n
                   ? {
                       label: `grab ${formatCount(n)} selected`,
                       icon: <Icon icon={Download} size={14} />,
-                      onSelect: () => queue([...selected]),
+                      onSelect: () => queue([...selectedInView]),
                     }
                   : null
               }

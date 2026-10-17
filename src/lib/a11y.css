@@ -1,0 +1,15 @@
+/* shared accessibility utilities. imported by the components that use them;
+   the bundler keeps one copy. */
+
+/* visually hidden, still read by screen readers. */
+.nc-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

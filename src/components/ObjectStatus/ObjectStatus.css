@@ -1,0 +1,69 @@
+.nc-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  box-sizing: border-box;
+  max-width: 100%;
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  white-space: nowrap;
+  vertical-align: middle;
+}
+
+.nc-status--chip {
+  height: 20px;
+  padding: 0 var(--s-2);
+  border: 1px solid var(--nc-status-border);
+  border-radius: 0;
+  background: var(--nc-status-bg);
+  color: var(--nc-status-fg);
+}
+
+.nc-status--text {
+  color: var(--nc-status-fg);
+  font-size: 12px;
+}
+
+.nc-status__icon {
+  display: inline-flex;
+  flex: none;
+}
+
+.nc-status__text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* colours come only from the semantic state tokens. */
+.nc-status--neutral {
+  --nc-status-fg: var(--state-neutral);
+  --nc-status-bg: var(--state-neutral-bg);
+  --nc-status-border: var(--state-neutral-border);
+}
+
+.nc-status--information {
+  --nc-status-fg: var(--state-information);
+  --nc-status-bg: var(--state-information-bg);
+  --nc-status-border: var(--state-information-border);
+}
+
+.nc-status--success {
+  --nc-status-fg: var(--state-success);
+  --nc-status-bg: var(--state-success-bg);
+  --nc-status-border: var(--state-success-border);
+}
+
+.nc-status--warning {
+  --nc-status-fg: var(--state-warning);
+  --nc-status-bg: var(--state-warning-bg);
+  --nc-status-border: var(--state-warning-border);
+}
+
+.nc-status--error {
+  --nc-status-fg: var(--state-error);
+  --nc-status-bg: var(--state-error-bg);
+  --nc-status-border: var(--state-error-border);
+}

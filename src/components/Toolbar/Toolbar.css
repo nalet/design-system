@@ -1,0 +1,51 @@
+.nc-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-3);
+  box-sizing: border-box;
+  min-height: 45px;
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid var(--border);
+  border-radius: 0;
+  background: var(--surface);
+}
+
+.nc-toolbar__heading {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex: 1 1 auto;
+  min-width: 0;
+  font-family: var(--ff-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+  text-transform: lowercase;
+}
+
+.nc-toolbar__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: var(--s-2);
+  margin-left: auto;
+}
+
+/* the selection state of a selection toolbar: a blue rule says "acting on a selection". */
+.nc-seltoolbar--active {
+  border-color: var(--state-information-border);
+  box-shadow: inset 3px 0 0 var(--cloud-blue);
+}
+
+.nc-seltoolbar__count {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-1) var(--s-2);
+}
+
+.nc-seltoolbar__number {
+  color: var(--cloud-blue);
+}

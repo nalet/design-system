@@ -17,6 +17,7 @@ export { cx } from './lib/cx';
 export type { ClassValue } from './lib/cx';
 export { space } from './lib/space';
 export type { SpaceToken } from './lib/space';
+export { formatCount } from './lib/format';
 
 // brand
 export { Chevron } from './brand/Chevron/Chevron';
@@ -78,6 +79,59 @@ export type { ModalProps } from './components/Modal/Modal';
 export { Spinner } from './components/Spinner/Spinner';
 export type { SpinnerProps } from './components/Spinner/Spinner';
 
+// feedback & status — semantic state, page messages, transient feedback, empty states
+export { ObjectStatus, defineStates, STATE_SEVERITY } from './components/ObjectStatus/ObjectStatus';
+export type { ObjectStatusProps, ObjectState, StateSpec } from './components/ObjectStatus/ObjectStatus';
+export { OBJECT_STATES } from './lib/StateGlyph';
+export { MessageStrip } from './components/MessageStrip/MessageStrip';
+export type { MessageStripProps } from './components/MessageStrip/MessageStrip';
+export { toast, Toaster } from './components/Toast/Toast';
+export type { ToastOptions, ToasterProps, ToastItem } from './components/Toast/Toast';
+export { IllustratedMessage } from './components/IllustratedMessage/IllustratedMessage';
+export type {
+  IllustratedMessageProps,
+  Illustration,
+  IllustratedMessageSize,
+} from './components/IllustratedMessage/IllustratedMessage';
+
+// actions on lists
+export { ActionMenu } from './components/ActionMenu/ActionMenu';
+export type { ActionMenuProps, ActionMenuItem } from './components/ActionMenu/ActionMenu';
+export { Toolbar, SelectionToolbar } from './components/Toolbar/Toolbar';
+export type {
+  ToolbarProps,
+  ToolbarAction,
+  SelectionToolbarProps,
+  SelectionToolbarAction,
+} from './components/Toolbar/Toolbar';
+
+// filtering
+export { FilterTabs, filterTabId } from './components/FilterTabs/FilterTabs';
+export type { FilterTabsProps, FilterTab } from './components/FilterTabs/FilterTabs';
+export { MultiSelect } from './components/MultiSelect/MultiSelect';
+export type { MultiSelectProps, MultiSelectOption } from './components/MultiSelect/MultiSelect';
+export { FilterBar } from './components/FilterBar/FilterBar';
+export type {
+  FilterBarProps,
+  FilterBarSearch,
+  FilterDef,
+  FilterSelectDef,
+  FilterMultiSelectDef,
+} from './components/FilterBar/FilterBar';
+
+// the interactive table and its cells
+export { DataTable } from './components/DataTable/DataTable';
+export type {
+  DataTableProps,
+  DataTableColumn,
+  DataTableGroup,
+  DataTableSort,
+  SortDirection,
+  SortValue,
+} from './components/DataTable/DataTable';
+export { StatusCell, DateCell, IdentifierCell, relativeDay } from './components/DataTable/cells';
+export type { StatusCellProps, DateCellProps, IdentifierCellProps } from './components/DataTable/cells';
+
 // patterns — the portal / launchpad
 export { Tile } from './components/Tile/Tile';
 export type {
@@ -94,3 +148,7 @@ export { Portal } from './components/Portal/Portal';
 export type { PortalProps } from './components/Portal/Portal';
 export { useRovingGrid } from './lib/useRovingGrid';
 export type { RovingGrid } from './lib/useRovingGrid';
+
+// patterns — the worklist floorplan
+export { Worklist } from './patterns/Worklist/Worklist';
+export type { WorklistProps } from './patterns/Worklist/Worklist';

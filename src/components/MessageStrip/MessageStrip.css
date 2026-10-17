@@ -1,0 +1,155 @@
+.nc-strip {
+  --nc-strip-fg: var(--state-information);
+  --nc-strip-bg: var(--state-information-bg);
+  --nc-strip-border: var(--state-information-border);
+  display: flex;
+  align-items: flex-start;
+  gap: var(--s-3);
+  box-sizing: border-box;
+  padding: var(--s-3) var(--s-3) var(--s-3) var(--s-4);
+  border: 1px solid var(--nc-strip-border);
+  border-left: 3px solid var(--nc-strip-fg);
+  border-radius: 0;
+  background: var(--nc-strip-bg);
+  color: var(--fg);
+  font-family: var(--ff-ui);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.nc-strip--neutral {
+  --nc-strip-fg: var(--state-neutral);
+  --nc-strip-bg: var(--state-neutral-bg);
+  --nc-strip-border: var(--state-neutral-border);
+}
+
+.nc-strip--success {
+  --nc-strip-fg: var(--state-success);
+  --nc-strip-bg: var(--state-success-bg);
+  --nc-strip-border: var(--state-success-border);
+}
+
+.nc-strip--warning {
+  --nc-strip-fg: var(--state-warning);
+  --nc-strip-bg: var(--state-warning-bg);
+  --nc-strip-border: var(--state-warning-border);
+}
+
+.nc-strip--error {
+  --nc-strip-fg: var(--state-error);
+  --nc-strip-bg: var(--state-error-bg);
+  --nc-strip-border: var(--state-error-border);
+}
+
+.nc-strip__icon {
+  display: inline-flex;
+  flex: none;
+  /* centre the 14px glyph on the first line of text */
+  margin-top: 3px;
+  color: var(--nc-strip-fg);
+}
+
+.nc-strip__body {
+  flex: 1;
+  min-width: 0;
+}
+
+.nc-strip__line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--s-1) var(--s-4);
+}
+
+.nc-strip__text {
+  flex: 1 1 24ch;
+  min-width: 0;
+}
+
+.nc-strip__actions {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2);
+}
+
+/* the disclosure reads as a quiet text control, not a second button style. */
+.nc-strip__toggle {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  height: 28px;
+  padding: 0 var(--s-2);
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg-muted);
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  text-transform: lowercase;
+  cursor: pointer;
+}
+
+.nc-strip__toggle:hover {
+  color: var(--fg);
+}
+
+.nc-strip__toggle:focus-visible,
+.nc-strip__dismiss:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.nc-strip__caret {
+  transition: transform 0.12s ease;
+}
+
+.nc-strip__toggle[aria-expanded='true'] .nc-strip__caret {
+  transform: rotate(90deg);
+}
+
+.nc-strip__details {
+  margin-top: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border-left: 1px solid var(--nc-strip-border);
+  color: var(--fg-muted);
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.nc-strip__details[hidden] {
+  display: none;
+}
+
+.nc-strip__dismiss {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  width: 28px;
+  height: 28px;
+  margin: -2px -2px -2px 0;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg-muted);
+  cursor: pointer;
+}
+
+.nc-strip__dismiss:hover {
+  color: var(--fg);
+  border-color: var(--nc-strip-border);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-strip__caret {
+    transition: none;
+  }
+}

@@ -1,0 +1,93 @@
+.nc-illu {
+  --nc-illu-accent: var(--cloud-blue);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  padding: var(--s-6) var(--s-4);
+  text-align: center;
+}
+
+.nc-illu--done {
+  --nc-illu-accent: var(--state-success);
+}
+
+.nc-illu--error {
+  --nc-illu-accent: var(--state-error);
+}
+
+.nc-illu--unknown {
+  --nc-illu-accent: var(--state-warning);
+}
+
+.nc-illu__art {
+  display: block;
+  width: 160px;
+  height: auto;
+  margin-bottom: var(--s-4);
+}
+
+.nc-illu__frame {
+  stroke: var(--border-control);
+}
+
+.nc-illu__soft {
+  stroke: var(--border-2);
+}
+
+.nc-illu__accent {
+  stroke: var(--nc-illu-accent);
+}
+
+.nc-illu__title {
+  margin: 0;
+  font-family: var(--ff-mono);
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 1.3;
+  color: var(--fg);
+  text-transform: lowercase;
+}
+
+.nc-illu__description {
+  margin: var(--s-2) 0 0;
+  max-width: 46ch;
+  font-family: var(--ff-ui);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--fg-muted);
+}
+
+.nc-illu__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--s-2);
+  margin-top: var(--s-4);
+}
+
+.nc-illu--sm {
+  padding: var(--s-4) var(--s-3);
+}
+
+.nc-illu--sm .nc-illu__art {
+  width: 96px;
+  margin-bottom: var(--s-3);
+}
+
+.nc-illu--sm .nc-illu__title {
+  font-size: 14px;
+}
+
+.nc-illu--lg {
+  padding: var(--s-8) var(--s-4);
+}
+
+.nc-illu--lg .nc-illu__art {
+  width: 220px;
+  margin-bottom: var(--s-5);
+}
+
+.nc-illu--lg .nc-illu__title {
+  font-size: 22px;
+}

@@ -1,67 +1,90 @@
 # changelog
 
-the design system follows [semantic versioning](https://semver.org). while it is
+The design system follows [semantic versioning](https://semver.org). While it is
 0.x, a minor version (0.3.0) may change how existing components look; a patch
-(0.3.1) only fixes. every release is a git tag `vX.Y.Z` with the packed tarball
-attached to its github release.
+(0.3.1) only fixes. Every release is a Git tag `vX.Y.Z` with the packed tarball
+attached to its GitHub release.
 
 ## unreleased
 
 ### documentation
 
-- **two sites.** the guidelines are a site of their own at `/design-system/`,
-  built with astro and with the design system itself: get started,
+- **Two sites.** The guidelines are a site of their own at `/design-system/`,
+  built with Astro and with the design system itself: get started,
   foundations (principles, accessibility, content & voice, interaction,
   layout), styles (colour, typography, iconography, shape, motion, brand),
-  a guidance page per component and patterns. the storybook moved to
+  a guidance page per component and patterns. The Storybook moved to
   `/design-system/react/` and keeps the implementation: playgrounds, examples,
-  implementation notes, props. each component's two pages link to each other,
+  implementation notes, props. Each component's two pages link to each other,
   and examples are written once, as stories, and appear on both.
-- **old links keep working.** an old storybook url sends itself on to its new
-  page, or to the same entry on the react subsite.
-- **search** over the guidelines, with pagefind.
-- **drafts under review:** the principles, and the patterns shell bar, app
+- **Old links keep working.** An old Storybook URL sends itself on to its new
+  page, or to the same entry on the React subsite.
+- **Search** over the guidelines, with Pagefind.
+- **Drafts under review:** the principles, and the patterns shell bar, app
   navigation, launchpad & tiles, settings and setup, loading and progress, and
   selection and bulk actions.
 
 ### changed — visible
 
+- **Two voices, one per typeface.** Monospace is the system's voice, and it is
+  lowercase: titles and headings, buttons, tabs and navigation, status chips and
+  badges, table and column headers, menu items, toolbar and filter labels,
+  numbers and codes. Names and codes inside it keep their own case. The body
+  face is the reader's language and follows that language's rules, in sentence
+  case: descriptions and subtitles, messages, empty-state descriptions, field
+  labels, hints and errors, checkbox and switch labels. The brand lives in the
+  monospace layer, where text is short and set apart; readability and correct
+  spelling in every language live in the layer people read.
+- `Field`'s label is no longer lowercased by CSS: it shows what you write, in
+  sentence case. `text-transform: lowercase` is now set on monospace chrome
+  only, and nothing in the body face is transformed.
+- `toast()`'s message is set in Inter, the body face, instead of JetBrains Mono,
+  and is written in sentence case: `Settings saved`.
+- `Portal`'s built-in no-match message is set in Inter and reads
+  `No apps match “…”.`
+- `MultiSelect`'s options are set in JetBrains Mono, like the value its trigger
+  shows and the options of a `Select`: they are filter values.
+- The docs follow the same rule. The guidelines, the React subsite and its props
+  tables are written in sentence case, with headings, labels, statuses and other
+  monospace samples lowercase; the content & voice page states the rule, with
+  examples in English and German. On the guidelines site, "on this page" and the
+  search's buttons are set in mono, as navigation and buttons are.
 - `Spinner` is a still square frame with three quarters of it lit and the gap
   running round it, one lap in four seconds, instead of a turning ring: the
   frames of the system are square, and only the moving snake says "working".
-  under reduced motion it stands still and its label carries the state.
+  Under reduced motion it stands still and its label carries the state.
 
 ### fixed
 
-- a loading `Button` or `IconButton` shows its spinner in the label's colour;
+- A loading `Button` or `IconButton` shows its spinner in the label's colour;
   on a primary button the spinner's blue vanished into the fill.
 
 ## 0.3.0 — 2026-10-17
 
-the foundation for enterprise worklists, and a documentation site that reads
+The foundation for enterprise worklists, and a documentation site that reads
 like guidelines.
 
 ### added
 
-- **semantic state tokens.** `--state-{neutral,information,success,warning,error}`,
-  each with a `-bg` tint and a `-border`. status and messages use only these.
-- **control and selection tokens.** `--border-control` (the 3:1 boundary of an
+- **Semantic state tokens.** `--state-{neutral,information,success,warning,error}`,
+  each with a `-bg` tint and a `-border`. Status and messages use only these.
+- **Control and selection tokens.** `--border-control` (the 3:1 boundary of an
   input, select, textarea, checkbox and the switch track), `--focus-ring` (the
   focus outline, `--cloud-cyan`), `--surface-selected` (a selected row).
-- **a contrast policy with a test.** `tokens/contrast.mjs` names every pair that
-  must meet wcag 2.2 aa (text 4.5:1 on every background and state tint, non-text
-  ui 3:1). `tokens/contrast.test.ts` fails on any pair below it; the token build
+- **A contrast policy with a test.** `tokens/contrast.mjs` names every pair that
+  must meet WCAG 2.2 AA (text 4.5:1 on every background and state tint, non-text
+  UI 3:1). `tokens/contrast.test.ts` fails on any pair below it; the token build
   warns; the colour page renders the same table.
-- **components:** `ObjectStatus` (+ `defineStates`, `STATE_SEVERITY`),
+- **Components:** `ObjectStatus` (+ `defineStates`, `STATE_SEVERITY`),
   `MessageStrip`, `toast()` and `Toaster`, `IllustratedMessage`, `ActionMenu`,
   `Toolbar`, `SelectionToolbar`, `FilterTabs`, `MultiSelect`, `FilterBar`,
   `DataTable` (sorting, selection, grouping, growing, pop-in, row-focus
   keyboard model) and its cells `StatusCell`, `DateCell`, `IdentifierCell`;
   helpers `formatCount`, `relativeDay`, `filterTabId`, `OBJECT_STATES`.
-- **pattern:** `Worklist`, the floorplan for lists of things that need doing.
-- **tests.** vitest, testing-library and axe-core; `npm test` runs unit,
-  accessibility and token-contrast tests, and ci runs it.
-- **documentation.** the storybook is now the guidelines site: introduction,
+- **Pattern:** `Worklist`, the floorplan for lists of things that need doing.
+- **Tests.** Vitest, Testing Library and axe-core; `npm test` runs unit,
+  accessibility and token-contrast tests, and CI runs it.
+- **Documentation.** The Storybook is now the guidelines site: introduction,
   foundations (colour with the contrast table, typography, space and grid,
   iconography, voice and content, motion, accessibility, brand), a page with
   the same anatomy for every component, grouped by role, and patterns
@@ -70,14 +93,14 @@ like guidelines.
 
 ### changed — visible
 
-- `--fg-dim` is `#7B8597` (was `#6E7787`, 4.0–4.2:1 on the canvas). it now meets
+- `--fg-dim` is `#7B8597` (was `#6E7787`, 4.0–4.2:1 on the canvas). It now meets
   4.5:1 on every background, `--surface-selected` included.
-- input, select, textarea, checkbox and switch boundaries use `--border-control`
+- Input, select, textarea, checkbox and switch boundaries use `--border-control`
   (brighter than `--border-2`), so the control is visible against the page.
-- invalid inputs, selects and textareas, and a field's error text, use
+- Invalid inputs, selects and textareas, and a field's error text, use
   `--state-error` (red) instead of amber: an error reads as an error.
-- every focus outline uses `--focus-ring` (same colour as before).
-- the tokens declare `color-scheme: dark`, so native controls, scrollbars and form
+- Every focus outline uses `--focus-ring` (same colour as before).
+- The tokens declare `color-scheme: dark`, so native controls, scrollbars and form
   widgets render dark on the canvas.
 - `Portal` takes a `searchLabel` (default "search apps") that names its search
   landmark and field; several launchers on one page each need their own.
@@ -99,21 +122,21 @@ like guidelines.
 
 ### planned
 
-- light and high-contrast themes. the system is dark only today.
-- font files in the package. load inter and jetbrains mono yourself (see the
-  readme).
+- Light and high-contrast themes. The system is dark only today.
+- Font files in the package. Load Inter and JetBrains Mono yourself (see the
+  README).
 
 ## 0.2.0 — 2026-10-02
 
-- toolchain on the newest majors: react 19.3, vite 8.3, typescript 7.0,
-  storybook 10.6, lucide-react 1.50; ci and pages on node 24.
+- Toolchain on the newest majors: React 19.3, Vite 8.3, TypeScript 7.0,
+  Storybook 10.6, lucide-react 1.50; CI and Pages on Node 24.
 - `./styles.css` export (the component styles).
-- release workflow: a version tag attaches the packed tarball to a github
+- Release workflow: a version tag attaches the packed tarball to a GitHub
   release; npm publishing only when an `NPM_TOKEN` secret exists.
 
 ## 0.1.0 — 2026-06-14
 
-- first release: tokens (dtcg `tokens/tokens.json` → css, typed tokens, tailwind
-  preset), 22 react components, the brand glyphs, storybook.
-- later in 0.1.x: the portal launchpad (`Portal`, `Tile`, `TileGroup`,
+- First release: tokens (DTCG `tokens/tokens.json` → CSS, typed tokens, Tailwind
+  preset), 22 React components, the brand glyphs, Storybook.
+- Later in 0.1.x: the portal launchpad (`Portal`, `Tile`, `TileGroup`,
   `useRovingGrid`) and per-component docs pages.

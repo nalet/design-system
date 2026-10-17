@@ -1,0 +1,109 @@
+---
+layout: ../../layouts/Doc.astro
+title: colour
+description: a dark canvas, four greys of text, one blue and five semantic states — with the contrast table generated from the tokens.
+---
+import { Badge, MessageStrip, ObjectStatus, Text } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { Palette } from '@site/specimens/colour';
+import { ContrastExemptions, ContrastSummary, OtherContrastRules, TextContrastMatrix } from '@site/specimens/contrast';
+
+# colour
+
+a dark canvas, four steps of grey text, one blue, and five semantic states. colour says what something *is*; it never decorates, and it never says anything on its own.
+
+<Example label="the palette" column>
+  <Palette />
+</Example>
+
+## the palette
+
+every colour is a token in `tokens/tokens.json`; components read the css custom properties (`var(--fg-2)`), never a hex value. the swatches above are painted with the custom properties and labelled from the typed tokens, both generated from that file, so they cannot drift.
+
+| group | tokens | use |
+| --- | --- | --- |
+| canvas | `--bg`, `--bg-2`, `--surface`, `--surface-2`, `--surface-selected`, `--border`, `--border-2` | the page, recessed areas, panels, hover, a selected row, hairlines |
+| foreground | `--fg`, `--fg-2`, `--fg-muted`, `--fg-dim` | titles and values, body text, labels and meta, hints and helpers — in that order of weight |
+| brand | `--cloud-blue`, `--cloud-cyan` | the `>` chevron, links and the primary action; the cursor and the active stroke |
+| signal | `--signal-green`, `--signal-amber`, `--signal-red` | the raw signal colours. components do not use them for status — they use the states below |
+| controls | `--border-control`, `--focus-ring` | the boundary that makes a control visible (3:1), and the keyboard focus outline |
+| semantic state | `--state-*`, `--state-*-bg`, `--state-*-border` | the colour of a status, a message, a toast: one of five meanings |
+
+## semantic state
+
+status, messages and highlights take their colour from a **state**, never from a colour name. each state has a text and icon colour, a `-bg` tint and a `-border`, and every component that shows one also gives it a glyph of its own shape, so the state never rests on colour alone.
+
+| state | means | for example | never for |
+| --- | --- | --- | --- |
+| <ObjectStatus state="neutral">neutral</ObjectStatus> | a plain fact; no judgement | missing, queued, not searched yet | something that needs attention |
+| <ObjectStatus state="information">information</ObjectStatus> | under way, or worth knowing; nothing to fix | on its way, syncing, asking again | decoration, or "this is blue" |
+| <ObjectStatus state="success">success</ObjectStatus> | done, and good | held, saved, healthy | anything with a problem in it, however small |
+| <ObjectStatus state="warning">warning</ObjectStatus> | works, but not fully; someone should look | connection firewalled, degraded, can't be checked | a failure (that is error), or emphasis |
+| <ObjectStatus state="error">error</ObjectStatus> | failed or blocked; needs action | needs attention, unreachable, couldn't load | a destructive *action* (that is the danger button) |
+
+the words decide the state, not the other way round: write the status in the object's own words first, then ask which of the five it is. a domain's whole vocabulary lives in one table — see [status vocabulary](/design-system/patterns/status-vocabulary/).
+
+## using colour
+
+- **text has four weights.** `--fg` for titles and values, `--fg-2` for body text, `--fg-muted` for labels and meta, `--fg-dim` for hints and the least important line. don't skip to a weaker step to make something "quieter" — make it shorter.
+- **on a state tint**, use `--fg-muted` or brighter. `--fg-dim` is not part of the policy there, and it falls short on two tints: 4.32:1 on `--state-warning-bg` and 4.42:1 on `--state-information-bg`.
+- **blue is the action colour.** `--cloud-blue` marks the chevron, links, the primary button, the selected tab and a selected row's rule. information uses the same blue, so information should read as information (words, a glyph), not as a link.
+- **status goes through a component.** <C slug="object-status" />, <C slug="message-strip" />, <C slug="toast" />, the filter tabs' counts and the data table's row highlight take a state, never a colour. <C slug="badge" /> still has colour tones; use it for labels and counts, not for status.
+- **never colour alone.** a state also has a glyph and words; a selected row also has a checked box; an invalid field also has error text.
+
+## contrast
+
+every pair below is computed from the tokens by `tokens/contrast.mjs` — the same function the token test runs (`tokens/contrast.test.ts`, part of `npm test` and of ci) and the token build warns with. a pair under its minimum fails ci, so a change of a token can't quietly break this table.
+
+<ContrastSummary />
+
+<TextContrastMatrix />
+
+the other rules: a state's text on its own tint, body text on every tint, the non-text ui that identifies a control (wcag 1.4.11: 3:1), and text on a filled control.
+
+<OtherContrastRules />
+
+<ContrastExemptions />
+
+## themes
+
+the system is **dark only**, and the tokens declare `color-scheme: dark`, so native controls, scrollbars and form widgets render dark too. a light theme and a high-contrast theme are **planned**, not present: there is no theme switch, and nothing here responds to `prefers-color-scheme` or `forced-colors` today. under windows high contrast, the browser's forced colours replace the palette.
+
+## do and don't
+
+<DoDont>
+  <Do caption="the state names the meaning: a firewalled connection works, but someone should look.">
+    <ObjectStatus state="warning">connection firewalled</ObjectStatus>
+  </Do>
+  <Dont caption="a colour picked for looks says the opposite of the words.">
+    <Badge tone="green">connection firewalled</Badge>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="on a tint, text stays at --fg-muted or brighter.">
+    <MessageStrip state="warning" live="off">2 sources are over their daily limit until midnight.</MessageStrip>
+  </Do>
+  <Dont caption="the dimmest text on a tint falls under 4.5:1.">
+    <div style={{ padding: 'var(--s-3)', background: 'var(--state-warning-bg)', border: '1px solid var(--state-warning-border)', width: '100%' }}>
+      <span style={{ color: 'var(--fg-dim)', fontSize: '13px' }}>2 sources are over their daily limit until midnight.</span>
+    </div>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="quieter by being shorter.">
+    <Text variant="muted">last asked 3h ago</Text>
+  </Do>
+  <Dont caption="quieter by being dimmer, for text people need to read.">
+    <Text variant="dim">the catalog was last asked what the library holds three hours ago, and it answered for 240 of 345 titles</Text>
+  </Dont>
+</DoDont>
+
+## related
+
+- [status vocabulary](/design-system/patterns/status-vocabulary/) — mapping a domain's states onto the five.
+- [accessibility](/design-system/foundations/accessibility/) — the baseline the contrast policy is part of.
+- [brand](/design-system/styles/brand/) — the chevron and its one colour.
+- [tokens](/design-system/develop/tokens/) — the colours in css, typescript and tailwind.

@@ -1,0 +1,32 @@
+---
+layout: ../../layouts/Doc.astro
+title: developing with it
+description: the react components, the tokens, and how to install a release of the nalet design system.
+---
+import Snippet from '@site/components/Snippet.astro';
+import { INSTALL } from '@site/data/site';
+
+# developing with it
+
+the design system ships as one package, `@nalet/design-system`: react components with their css, the brand glyphs, and the tokens in three forms. this site says when and why to use each part; the [react subsite](/design-system/react/) says how.
+
+## install a release
+
+each release on github carries the packed package, and apps install it by url — no registry needed:
+
+<Snippet code={INSTALL} />
+
+the release tags, the tarballs and what changed in each are on [versioning & changelog](/design-system/get-started/versioning/). [react](/design-system/develop/react/) has the rest of the setup: peer dependencies, the stylesheet and the fonts.
+
+## the parts
+
+| you need | use | read |
+| --- | --- | --- |
+| the components in a react app | `@nalet/design-system` and its `styles.css` | [react](/design-system/develop/react/), then each component on the [react subsite](/design-system/react/) |
+| the identity without the components | `tokens.css`, the typed tokens or the tailwind preset | [tokens](/design-system/develop/tokens/) |
+| an app inside the portal shell | the shell's copy of the design system | [apps in a shell](/design-system/develop/apps-in-a-shell/) |
+| a change to the system itself | the repository | [contributing](/design-system/develop/contributing/) |
+
+## from guidance to code
+
+every [component page](/design-system/components/) on this site has a **react implementation** link at its top. the react page has the playground (every prop, live), the examples with their source, the props table, and the implementation notes: the native element it renders, the aria attributes it sets, and its keyboard map. the examples on both sites are the same stories, written once.

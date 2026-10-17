@@ -1,0 +1,20 @@
+---
+// CONTRIBUTING.md from the repository root, rendered as it is: its own
+// "# contributing" is this page's title.
+import Doc from '../../layouts/Doc.astro';
+import { Content as Contributing, getHeadings } from '../../../../CONTRIBUTING.md';
+import { REPO } from '../../data/site';
+---
+<Doc
+  frontmatter={{
+    title: 'contributing',
+    description: 'the rules of the nalet design system repository, and how to add a component and its pages.',
+  }}
+  headings={getHeadings()}
+>
+  <Contributing />
+  <p>
+    this page is <code>CONTRIBUTING.md</code> from the <a href={REPO}>repository</a>, rendered as it is. issues and pull
+    requests go there.
+  </p>
+</Doc>

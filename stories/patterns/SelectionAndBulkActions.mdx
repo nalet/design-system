@@ -1,205 +1,35 @@
 import { Meta, Canvas } from '@storybook/addon-docs/blocks';
 import * as SelectionStories from './SelectionAndBulkActions.stories';
-import { ActionMenu, Button, DataTable, IdentifierCell, SelectionToolbar, StatusCell, Toaster, toast } from '../../src';
-import { DoDont, Do, Dont } from '../_blocks';
-import { code, makeBacklog } from '../_data/backlog';
-import { BACKLOG_STATES } from '../_data/status';
-
-export const ROWS = makeBacklog().filter((b) => b.kind === 'series').slice(0, 3);
-export const EPISODE = { id: 'item', header: 'episode', cell: (b) => <IdentifierCell title={code(b)} /> };
-export const STATE = { id: 'state', header: 'state', cell: (b) => <StatusCell {...BACKLOG_STATES[b.state]} /> };
-export const MENU = {
-  id: 'actions',
-  header: <span className="nc-sr-only">actions</span>,
-  align: 'right',
-  width: 44,
-  cell: (b) => (
-    <ActionMenu
-      label={`actions for ${code(b)}`}
-      items={[
-        { id: 'grab', label: 'grab now', onSelect: () => toast(`${code(b)} queued`, { state: 'success' }) },
-        { id: 'search', label: 'search again', onSelect: () => toast(`searching for ${code(b)} again`, { state: 'information' }) },
-      ]}
-    />
-  ),
-};
-export const BUTTONS = {
-  id: 'actions',
-  header: <span className="nc-sr-only">actions</span>,
-  align: 'right',
-  cell: () => (
-    <span style={{ display: 'inline-flex', gap: 'var(--s-1)' }}>
-      <Button size="sm">grab now</Button>
-      <Button size="sm">search again</Button>
-    </span>
-  ),
-};
+import { Toaster } from '../../src';
 
 <Meta of={SelectionStories} />
 
 # selection and bulk actions
 
-how people pick rows in a data table and act on them: one emphasized action for the whole selection, in the selection toolbar; one action menu per row; one action per group; and a toast that says what happened.
+design guidance — selection modes, press versus select, select all, the selection toolbar, keeping a selection, the keys: **[selection and bulk actions on the guidelines site →](https://nalet.github.io/design-system/patterns/selection-and-bulk-actions/)**
+
+the two examples below are the pattern's reference code: open "show code" under each.
+
+## select and act
+
+a flat list of 40 made-up episodes, ten at a time. select rows and grab them, use a row's menu; once the first ten are selected, the toolbar offers "select all".
 
 <Canvas of={SelectionStories.SelectAndAct} />
 
-## when to use
+## group actions
 
-- when people act on many rows the same way: grab 8 episodes, restart 3 workloads, archive 40 items.
-- in a [worklist](?path=/docs/patterns-worklist--docs), where the list is the work and its toolbar holds what to do with it.
-- when some rows can't take the action right now: they stay in the list, can't be selected, and say why.
-
-## when not to use
-
-- **for one action on one row.** use the row's [action menu](?path=/docs/components-actions-action-menu--docs), or `onRowPress` on the [data table](?path=/docs/components-data-display-data-table--docs) to open the row. don't make people select a row to act on it.
-- **to choose values in a form**, like the volumes a backup includes. use [checkboxes](?path=/docs/components-inputs-checkbox--docs) or a [multi select](?path=/docs/components-inputs-multi-select--docs): a form value is saved with the form, not acted on at once.
-- **to narrow a list.** use the [filter bar](?path=/docs/components-inputs-filter-bar--docs) or [filter tabs](?path=/docs/components-navigation-filter-tabs--docs). selecting rows hides nothing.
-- **for records nobody acts on.** a short read-only list is a [table](?path=/docs/components-data-display-table--docs), with no selection at all.
-
-## anatomy
-
-1. **selection toolbar** — a [selection toolbar](?path=/docs/components-actions-toolbar--docs) (`SelectionToolbar`) right above the table: at least 45px tall, padding 8px 12px, 1px `--border`. with nothing selected it shows its heading, what the list holds ("40 missing"). with a selection it shows the count in `--cloud-blue` ("8 selected"), "clear", and "select all 37" when you offer it; its border turns `--state-information-border`, with a 3px `--cloud-blue` rule on its leading edge.
-2. **the emphasized action** — `primaryAction(n)`: the toolbar's one primary button, labelled with the count, "grab 8 selected". it is there only while something is selected.
-3. **other actions** — `actions`: default buttons, or items of the toolbar's "more actions" menu (`overflow: true`, and all of them when the toolbar is narrower than 560px). never emphasized.
-4. **select-all checkbox** — the [data table](?path=/docs/components-data-display-data-table--docs)'s header checkbox, "select every visible row".
-5. **row checkboxes** — `selectable`, named by `rowLabel`: "select S04E07". a selected row is `--surface-selected` with a 2px `--cloud-blue` rule on its leading edge.
-6. **row action menu** — one [action menu](?path=/docs/components-actions-action-menu--docs) per row, in the last column (44px wide and right-aligned in the examples, with a visually hidden "actions" header), named by the row: "actions for S04E07". its trigger is a 28px ghost icon button.
-7. **group row and group action** — `groupHeader` with the group's count, and `groupAction` with one small ghost button that acts on the group: "grab all 9".
-8. **rows that can't be selected** — `isRowSelectable`: a disabled checkbox, and a [status cell](?path=/docs/components-data-display-table-cells--docs) that says why ("on its way").
-9. **the confirmation** — a [toast](?path=/docs/components-feedback-status-toast--docs) from `toast()`, shown by the one `<Toaster />` near the app's root: "8 episodes queued".
-
-## behaviour
-
-### selecting rows
-
-- a row's checkbox toggles it. so does a click anywhere on the row outside its controls, unless the row opens on press (`onRowPress`): then only the checkbox and the keys select.
-- `space` toggles the focused row. `shift` makes a range from the last row toggled: `shift+click` on a checkbox (or on a row), `shift+space`, and `shift+↑` / `shift+↓` while moving.
-- `ctrl+a` / `cmd+a` on a focused data row selects every visible row.
-- the selection is yours: the table hands the next set to `onSelectionChange`, and you keep it.
-
-### what select all means
-
-- the header checkbox selects **every visible row**: the rows on screen. not the rows past the "show n more" limit, and not the rows of collapsed groups.
-- it shows mixed while some rows are selected but not every visible one, and checked while every visible row that can be selected is. pressed while checked, it clears the whole selection, rows out of sight included.
-- that is on purpose: people select only what they can see, unless they ask for more.
-
-### select all n
-
-- while the selection is short of the whole list, offer the rest: `selectAll` on the selection toolbar puts "select all 37" beside the count. the number is every row that can be selected, not every row in the list.
-- it matters most right after the header checkbox has selected every visible row: that is when people wonder whether they have "only these, or all of them".
-- once chosen, the count and the action say the whole number: "37 selected", "grab 37 selected".
-- the data table doesn't report which rows it shows; work it out from what you passed it. the example above offers "select all" once its first page — the first `growing` rows — is selected.
-
-### the bulk action
-
-- one emphasized action for the selection, in the toolbar. `primaryAction(n)` returns its label and handler for exactly that selection, and `null` while nothing is selected.
-- the label is a verb, its object and the count: "grab 8 selected". the count keeps it honest; people check it before they press.
-- every other action is a default button or sits in the overflow menu; the selection toolbar never emphasizes them. (a plain [toolbar](?path=/docs/components-actions-toolbar--docs) emphasizes one action at most, and warns in the console when it is given more.)
-- a reversible action runs at once, without a confirmation. one that deletes or can't be undone asks first, in a [modal](?path=/docs/components-overlays-modal--docs) with the count in its title and on its button.
-
-### per-row actions
-
-- one action menu per row, in the last column, with the actions for that row: "grab now", "search again". no buttons in rows: a row of buttons on every row repeats the same labels down the page and buries the content.
-- name the menu by the row, "actions for S04E07". disable an item that doesn't apply to a row rather than leaving it out, so every row's menu has the same shape.
-- a per-row action doesn't clear the selection. if it leaves its row unselectable, drop that row from the selection.
-
-### group actions
-
-- a group row can carry one action for the whole group: `groupAction`, a small ghost button. "grab all 9" acts on the season's rows that can be grabbed, and its label counts them.
-- leave the action out when it would act on nothing.
-- a group action works without a selection, and pressing it doesn't toggle the group.
+the episodes of one made-up series, grouped by season, each season with "grab all n".
 
 <Canvas of={SelectionStories.GroupActions} />
 
-### after the action
-
-- update the rows: their status says the new state, "on its way". keep the rows people just acted on in the list, unless the list is defined by the old state (a "needs attention" tab); then say that they left.
-- clear the selection the action used. the toolbar goes back to its heading and announces "selection cleared".
-- confirm in a toast that counts what happened, and what didn't and why: "8 episodes queued"; "6 episodes queued · 2 skipped: on their way already". a toast is polite, leaves on its own and never carries an action.
-- rows get skipped when their state changed after they were selected, or when a service refuses some. count them; don't hide them.
-- when the action fails, or partly fails and people need to do something, say so in a [message strip](?path=/docs/components-feedback-status-message-strip--docs) above the list, with a way forward, not in a toast. see [message handling](?path=/docs/patterns-message-handling--docs).
-
-### rows that can't be selected
-
-- keep them in the list with a disabled checkbox (`isRowSelectable`), and say why in their status: "on its way". the table keeps them out of every way of selecting, select-all and ranges included.
-- don't hide the checkbox or the row. people need to see that the row is there, and why it is left out.
-
-### when the list changes
-
-- the table doesn't prune `selected` when `rows` change. when a filter, a search or a tab changes the list, hand the table and the toolbar only the selected rows that are still in it (keep the others aside or drop them), or clear the selection. act on what is in view: the count and the action must be about rows people can see, or chose with "select all n".
-
-## keyboard and accessibility
-
-the toolbar is one tab stop, and the table's rows are another; the table's header controls (select-all, the sort buttons) are tab stops of their own between them. so from the toolbar, `tab` reaches the header controls, then the focused row, then that row's checkbox and action menu.
-
-| where | key | does |
-| --- | --- | --- |
-| table | `↑` / `↓`, `home` / `end`, `page up` / `page down` | moves between rows. |
-| table | `space` | toggles the focused row. |
-| table | `shift+space`, `shift+↑` / `shift+↓` | ranges from the last row toggled. |
-| table | `ctrl+a` / `cmd+a` | on a data row, selects every visible row. |
-| table | `tab` | goes into the focused row's checkbox and action menu. |
-| toolbar | `←` / `→`, `home` / `end` | moves between the toolbar's controls; it wraps around. |
-| action menu | `enter`, `space`, `↓` | opens it on its first item (`↑` opens it on its last). |
-| action menu | `esc` | closes it, with focus back on its trigger. |
-
-- names: each checkbox "select S04E07" (`rowLabel`), the header checkbox "select every visible row", each menu "actions for S04E07", the toolbar its `label` ("missing episodes").
-- announcements: the selection toolbar announces each change of the count politely ("8 selected", "selection cleared"), never its first state. the toast is a polite live region and never takes focus. the table announces nothing about selection itself: rows carry `aria-selected`, and the table `aria-multiselectable`.
-- selection isn't shown by colour alone: the checkbox carries it, and the row's tint and rule add to it.
-
-- focus stays put when the pressed control goes away. pressing "clear", "select all n" or the bulk action changes the selection and removes the button; the selection toolbar then holds focus itself. a group action that goes once its group has nothing left, or a focused row that leaves the list, hands focus to the table's tab stop.
-
-today:
-
-- the data table doesn't say which rows it shows, so "every visible row is selected" has to be worked out from what you passed (see select all n).
-- the header checkbox's name ("select every visible row") and the "select" before each row's label are fixed english.
-
-## content
-
-- **the count** — `8 selected`, with thousands separators: `2,500 selected`. the toolbar formats it.
-- **the bulk action** — a verb, its object and the count: `grab 8 selected`, `restart 3 workloads`. never `ok`, `apply` or `submit`.
-- **select all n** — the number that will be selected: `select all 2,500`.
-- **clear** — `clear`.
-- **the heading** — what the list holds: `2,500 missing`, `40 workloads`.
-- **row menu items** — a verb for the one row: `grab now`, `search again`. lowercase, no full stop.
-- **group actions** — the count they act on: `grab all 9`.
-- **the toast** — what happened, counted, in the object's words, then what was skipped and why: `6 episodes queued · 2 skipped: on their way already`. not `done`, `success` or `action completed`.
-- **why a row can't be selected** — its status, in the object's words: `on its way`, `held`. not `disabled` or `n/a`.
-
-## do and don't
-
-<DoDont>
-  <Do column caption="the action and its count: people check the number before they press.">
-    <SelectionToolbar label="missing episodes" selectedCount={8} onClearSelection={() => undefined} primaryAction={(n) => ({ label: `grab ${n} selected`, onSelect: () => undefined })} />
-  </Do>
-  <Dont column caption="no count: people have to scroll the list to know what the button will do.">
-    <SelectionToolbar label="missing episodes" selectedCount={8} onClearSelection={() => undefined} primaryAction={() => ({ label: 'grab selected', onSelect: () => undefined })} />
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do column caption="one action menu per row, named by the row.">
-    <DataTable aria-label="missing episodes, with a menu per row" columns={[EPISODE, STATE, MENU]} rows={ROWS} rowKey={(b) => b.id} />
-  </Do>
-  <Dont column caption="buttons on every row: the same labels again and again, and no room left for the content.">
-    <DataTable aria-label="missing episodes, with buttons per row" columns={[EPISODE, STATE, BUTTONS]} rows={ROWS} rowKey={(b) => b.id} />
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="press it: the toast counts what happened, and what was skipped and why.">
-    <Button variant="primary" onClick={() => toast('6 episodes queued · 2 skipped: on their way already', { state: 'success' })}>grab 8 selected</Button>
-  </Do>
-  <Dont caption="press it: done says nothing about what was done, or what wasn't.">
-    <Button variant="primary" onClick={() => toast('done', { state: 'success' })}>grab 8 selected</Button>
-  </Dont>
-</DoDont>
-
-## related
-
-- [data table](?path=/docs/components-data-display-data-table--docs) — the selection model in full: keys, ranges, select-all.
-- [toolbar](?path=/docs/components-actions-toolbar--docs) — the selection toolbar and its props.
-- [toast](?path=/docs/components-feedback-status-toast--docs) — saying what happened.
-- [message handling](?path=/docs/patterns-message-handling--docs) — what to say when an action goes wrong.
-
 <Toaster />
+
+## implementation notes
+
+- the selection is the app's: `DataTable` takes `selectable`, `selected` (a set of row keys) and `onSelectionChange`, and hands the next set to it. it doesn't prune `selected` when `rows` change; keep, drop or clear the selection yourself when a filter, a search or a tab changes the list.
+- `isRowSelectable` gives a row a disabled checkbox and keeps it out of every way of selecting; `rowLabel` names each row's checkbox ("select S04E07").
+- `onRowPress` makes a click outside a row's controls, and `enter`, open the row; without it, a click on the row toggles its checkbox.
+- rows carry `aria-selected`, and the table `aria-multiselectable`.
+- `SelectionToolbar` takes `selectedCount` and `onClearSelection`; `primaryAction(n)` returns the emphasized action for exactly that selection (label and handler), or `null` while nothing is selected; `actions` are never emphasized (`overflow: true` puts one in the "more actions" menu); `selectAll` offers "select all n"; `formatSelected` words the count. it announces each change of the count politely, never its first state.
+- a group's action is `groupAction(group)` on the table, next to `groupBy` and `groupHeader`.
+- the toast comes from `toast()`, shown by the one `<Toaster />` near the app's root.

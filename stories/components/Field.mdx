@@ -19,9 +19,9 @@ the label, hint and error around one control, in a vertical stack. it gives the 
 
 ## when not to use
 
-- **to label a group** of checkboxes, switches or radios. a field labels one control; use a native `<fieldset>` with a `<legend>` — see [forms and settings](?path=/docs/patterns-forms-and-settings--docs).
+- **to label a group** of checkboxes, switches or radios. a field labels one control; use a native `<fieldset>` with a `<legend>` — see [forms and settings](https://nalet.github.io/design-system/patterns/forms-and-settings/).
 - **where a visible label does not fit**, such as a search box in a toolbar. use an [input](?path=/docs/components-inputs-input--docs) with an `aria-label` and a leading search icon, or the [filter bar](?path=/docs/components-inputs-filter-bar--docs).
-- **for a message about the whole form**, such as "could not save". use a [message strip](?path=/docs/components-feedback-status-message-strip--docs) above the form — see [message handling](?path=/docs/patterns-message-handling--docs).
+- **for a message about the whole form**, such as "could not save". use a [message strip](?path=/docs/components-feedback-status-message-strip--docs) above the form — see [message handling](https://nalet.github.io/design-system/patterns/message-handling/).
 
 ## anatomy
 
@@ -66,7 +66,7 @@ the field has no keys of its own; the control keeps its native keyboard model (s
 - the hint or the error is linked with `aria-describedby` and read after the name and the value.
 - with `error`, the control gets `aria-invalid="true"`; an input, select or textarea also turns its border `--state-error`.
 - today: `required` only draws the marker, and the marker is hidden from assistive tech. the field does not pass `required` to the control: pass `required` (or `aria-required`) to the control yourself, and say once per form what the asterisk means.
-- today: an error is not announced when it appears; there is no live region. after a failed submit, move focus to the first invalid control so its error is read — see [message handling](?path=/docs/patterns-message-handling--docs).
+- today: an error is not announced when it appears; there is no live region. after a failed submit, move focus to the first invalid control so its error is read — see [message handling](https://nalet.github.io/design-system/patterns/message-handling/).
 - an `error` marks the control invalid (`aria-invalid` and the error border). without an `error`, the control keeps whatever its own `invalid` says.
 - today: checkbox and switch have no `invalid` prop. with `error`, the field still passes `invalid` to them, react warns about an unknown attribute, and the box keeps its normal look; the error text is the only cue.
 - the child must be one element that passes `id` and `aria-*` on to its native control — the five inputs here do. a control wrapped in a `<div>` gets nothing: the `id` lands on the div and the label points at it.
@@ -130,5 +130,5 @@ the field has no keys of its own; the control keeps its native keyboard model (s
 
 - [input](?path=/docs/components-inputs-input--docs) — the control a field most often wraps.
 - [select](?path=/docs/components-inputs-select--docs) — a value from a known list, labelled by a field.
-- [forms and settings](?path=/docs/patterns-forms-and-settings--docs) — how fields stack into a form, with groups and a save action.
-- [message handling](?path=/docs/patterns-message-handling--docs) — field errors next to the form-level messages.
+- [forms and settings](https://nalet.github.io/design-system/patterns/forms-and-settings/) — how fields stack into a form, with groups and a save action.
+- [message handling](https://nalet.github.io/design-system/patterns/message-handling/) — field errors next to the form-level messages.

@@ -26,15 +26,19 @@ const meta: Meta<WorklistProps> = {
     headerActions: { control: false },
   },
   decorators: [
-    // one toaster per page: the docs page mounts its own, so canvases don't add more.
-    (Story, context) => (
-      <div style={{ padding: 'var(--s-5)', background: 'var(--bg)', boxSizing: 'border-box', minHeight: context.viewMode === 'docs' ? undefined : '100vh' }}>
-        <div style={{ maxWidth: 1180, margin: '0 auto' }}>
-          <Story />
+    // one toaster per page: a docs page, or a page that embeds the story
+    // (parameters.embedded, the guidelines site), mounts its own.
+    (Story, context) => {
+      const embedded = context.viewMode === 'docs' || !!context.parameters.embedded;
+      return (
+        <div style={{ padding: 'var(--s-5)', background: 'var(--bg)', boxSizing: 'border-box', minHeight: embedded ? undefined : '100vh' }}>
+          <div style={{ maxWidth: 1180, margin: '0 auto' }}>
+            <Story />
+          </div>
+          {embedded ? null : <Toaster />}
         </div>
-        {context.viewMode === 'docs' ? null : <Toaster />}
-      </div>
-    ),
+      );
+    },
   ],
 };
 export default meta;

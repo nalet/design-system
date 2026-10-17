@@ -1,0 +1,27 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as LockupStories from './Lockup.stories';
+
+<Meta of={LockupStories} />
+
+# lockup
+
+design guidance — when to show the lockup, its cursor, and the one cursor per screen: **[brand on the guidelines site →](https://nalet.github.io/design-system/styles/brand/)**
+
+<Canvas of={LockupStories.Playground} />
+
+## examples
+
+<Canvas of={LockupStories.Variants} />
+
+## implementation notes
+
+- `Lockup` renders an inline `<svg>` in a 300 × 160 box: the chevron, the wordmark in jetbrains mono 700 (`var(--ff-mono)`) and, with `showCursor` (the default), the cursor block. it mirrors `assets/terminal/nalet-lockup.svg`.
+- `height` sets the size (40px by default); the width follows the ratio.
+- `filled` paints a `--bg` rectangle behind the mark, like the svg file.
+- the cursor blinks with an svg `<animate>`: on for half of a 1.05s cycle. under `prefers-reduced-motion` the stylesheet hides that element with `display: none`, but `display` doesn't apply to svg animation elements, so a browser can keep it blinking: pass `showCursor={false}` wherever the lockup stays in view.
+- it renders `role="img"` with `aria-label="nalet"`. inside a link it names the link with the wordmark; pass `aria-label` when the link needs other words.
+- other `<svg>` attributes and its `ref` reach the `<svg>`.
+
+## props
+
+<ArgTypes of={LockupStories} />

@@ -1,0 +1,27 @@
+---
+// a section's landing page: its pages as cards, grouped as nav.ts groups them.
+import { SECTIONS, type NavSection } from '../data/nav';
+
+interface Props {
+  section: NavSection['key'];
+}
+const section = SECTIONS.find((s) => s.key === Astro.props.section)!;
+---
+{section.groups.map((g) => (
+  <>
+    {g.title && <h2 id={g.title.replace(/[^a-z0-9]+/g, '-')}>{g.title}</h2>}
+    {g.summary && <p>{g.summary}</p>}
+    <ul class="ds-cards" data-pagefind-ignore>
+      {g.pages.map((p) => (
+        <li>
+          <a class="ds-card" href={p.href}>
+            <span class="ds-card__title">{p.title}</span>
+            {p.summary && <span class="ds-card__summary">{p.summary}</span>}
+            {p.draft && <span class="ds-card__meta">draft — under review</span>}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </>
+))}
+<slot />

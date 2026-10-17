@@ -1,0 +1,41 @@
+---
+// live examples that keep moving (a blinking cursor, a spinner, a running
+// rule) with a control to stop them: moving content that lasts more than five
+// seconds needs a way to pause it (wcag 2.2.2). it starts paused when the
+// visitor asks for reduced motion.
+import { Button } from '@nalet/design-system';
+
+interface Props {
+  /** what moves, for the control's name: "the cursor", "the examples". */
+  what: string;
+}
+const { what } = Astro.props;
+---
+<div class="ds-motion" data-ds-motion>
+  <slot />
+  <div class="ds-motion__bar">
+    <Button size="sm" variant="ghost" data-ds-motion-toggle>pause {what}</Button>
+  </div>
+</div>
+<script is:inline>
+  (function () {
+    var frames = document.querySelectorAll('[data-ds-motion]:not([data-ds-motion-ready])');
+    frames.forEach(function (frame) {
+      frame.setAttribute('data-ds-motion-ready', '');
+      var button = frame.querySelector('[data-ds-motion-toggle]');
+      var label = button.textContent.replace(/^pause /, '');
+      function set(paused) {
+        frame.classList.toggle('ds-motion--paused', paused);
+        frame.querySelectorAll('svg').forEach(function (svg) {
+          if (paused && svg.pauseAnimations) svg.pauseAnimations();
+          if (!paused && svg.unpauseAnimations) svg.unpauseAnimations();
+        });
+        button.querySelector('.nc-btn__label').textContent = (paused ? 'play ' : 'pause ') + label;
+      }
+      button.addEventListener('click', function () {
+        set(!frame.classList.contains('ds-motion--paused'));
+      });
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) set(true);
+    });
+  })();
+</script>

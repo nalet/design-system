@@ -1,0 +1,1080 @@
+/* the guidelines site's own chrome and prose. the canvas, the fonts' names and
+ * the colours come from the library's tokens.css; nothing here reaches a
+ * component: prose rules skip every live example (.ds-live). */
+
+html {
+  background: var(--bg);
+  scroll-padding-top: 72px;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--fg-2);
+  font-family: var(--ff-ui);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* square frames everywhere, as in the library. */
+.ds-site *,
+.ds-site *::before,
+.ds-site *::after {
+  border-radius: 0;
+}
+
+.ds-site a:focus-visible,
+.ds-site summary:focus-visible,
+.ds-table-frame:focus-visible,
+.ds-site pre:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.ds-skip {
+  position: absolute;
+  left: var(--s-3);
+  top: -100px;
+  z-index: 50;
+  padding: var(--s-2) var(--s-3);
+  background: var(--surface);
+  border: 1px solid var(--cloud-blue);
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-size: 13px;
+  text-decoration: none;
+}
+
+.ds-skip:focus {
+  top: var(--s-2);
+}
+
+/* ---- top bar ------------------------------------------------------------- */
+
+.ds-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border);
+}
+
+.ds-topbar__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--s-5);
+  max-width: 1360px;
+  height: 56px;
+  margin: 0 auto;
+  padding: 0 var(--s-5);
+  box-sizing: border-box;
+}
+
+.ds-topbar__home {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  /* the lockup's box has room around the mark: line the chevron up with the edge. */
+  margin-left: -14px;
+  text-decoration: none;
+}
+
+.ds-topbar__home svg {
+  display: block;
+}
+
+.ds-topbar__sections,
+.ds-topbar__aside {
+  display: flex;
+  align-items: center;
+  gap: var(--s-1);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ds-topbar__aside {
+  margin-left: auto;
+}
+
+.ds-toplink {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  height: 56px;
+  padding: 0 var(--s-2);
+  box-sizing: border-box;
+  color: var(--fg-muted);
+  font-family: var(--ff-mono);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ds-toplink:hover {
+  color: var(--fg);
+}
+
+.ds-toplink[aria-current] {
+  color: var(--fg);
+  box-shadow: inset 0 -2px 0 var(--cloud-blue);
+}
+
+.ds-toplink--boxed {
+  height: 28px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--border-2);
+}
+
+.ds-toplink--boxed:hover {
+  border-color: var(--cloud-blue);
+}
+
+/* the menu: the sections behind one disclosure below 1024px */
+.ds-menu {
+  display: none;
+  margin-left: auto;
+}
+
+.ds-menu > summary {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--border-2);
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-size: 13px;
+  cursor: pointer;
+  list-style: none;
+}
+
+.ds-menu > summary::-webkit-details-marker {
+  display: none;
+}
+
+.ds-menu[open] > summary {
+  border-color: var(--cloud-blue);
+}
+
+.ds-menu__panel {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 56px;
+  max-height: calc(100vh - 56px);
+  overflow: auto;
+  padding: var(--s-3) var(--s-4) var(--s-5);
+  background: var(--bg-2);
+  border-bottom: 1px solid var(--border-2);
+}
+
+.ds-menu__panel ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ds-menu__panel a {
+  display: flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 var(--s-2);
+  color: var(--fg-2);
+  font-family: var(--ff-mono);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.ds-menu__panel a[aria-current] {
+  color: var(--fg);
+  box-shadow: inset 2px 0 0 var(--cloud-blue);
+}
+
+.ds-menu__panel hr {
+  margin: var(--s-2) 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+@media (max-width: 1023px) {
+  .ds-topbar__sections,
+  .ds-topbar__aside {
+    display: none;
+  }
+  .ds-menu {
+    display: block;
+  }
+}
+
+/* ---- the three columns ---------------------------------------------------- */
+
+.ds-shell {
+  display: grid;
+  grid-template-columns: 232px minmax(0, 760px) 200px;
+  justify-content: center;
+  gap: var(--s-7);
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: 0 var(--s-5);
+  box-sizing: border-box;
+}
+
+.ds-shell--wide {
+  grid-template-columns: 232px minmax(0, 1fr);
+}
+
+.ds-shell--bare {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 1120px;
+}
+
+.ds-sidenav {
+  position: sticky;
+  top: 56px;
+  align-self: start;
+  max-height: calc(100vh - 56px);
+  overflow-y: auto;
+  padding: var(--s-6) 0 var(--s-6);
+  box-sizing: border-box;
+}
+
+.ds-sidenav__title {
+  margin: 0 0 var(--s-3);
+  font-family: var(--ff-mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--fg);
+}
+
+.ds-sidenav__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ds-sidenav__group {
+  margin: var(--s-4) 0 var(--s-1);
+  padding: 0 var(--s-3);
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--fg-dim);
+}
+
+.ds-sidenav ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ds-sidenav a {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 30px;
+  padding: 2px var(--s-3);
+  box-sizing: border-box;
+  color: var(--fg-muted);
+  font-family: var(--ff-mono);
+  font-size: 13px;
+  line-height: 1.35;
+  text-decoration: none;
+}
+
+.ds-sidenav a:hover {
+  color: var(--fg);
+  background: var(--surface);
+}
+
+.ds-sidenav a[aria-current='page'] {
+  color: var(--fg);
+  background: var(--surface);
+  box-shadow: inset 2px 0 0 var(--cloud-blue);
+}
+
+.ds-pill {
+  flex: none;
+  margin-left: auto;
+  padding: 0 var(--s-1);
+  border: 1px solid var(--border-2);
+  color: var(--fg-muted);
+  font-family: var(--ff-mono);
+  font-size: 10px;
+  line-height: 16px;
+}
+
+/* the section navigation at the top of the content below 1024px */
+.ds-sidenav-mobile {
+  display: none;
+  margin: 0 0 var(--s-5);
+  border: 1px solid var(--border-2);
+  background: var(--bg-2);
+}
+
+.ds-sidenav-mobile > summary {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 40px;
+  padding: 0 var(--s-3);
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.ds-sidenav-mobile .ds-sidenav {
+  position: static;
+  max-height: none;
+  padding: 0 0 var(--s-3);
+}
+
+.ds-toc {
+  position: sticky;
+  top: 56px;
+  align-self: start;
+  max-height: calc(100vh - 56px);
+  overflow-y: auto;
+  padding: var(--s-6) 0;
+  box-sizing: border-box;
+}
+
+.ds-toc__title {
+  margin: 0 0 var(--s-2);
+  font-family: var(--ff-mono);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--fg-dim);
+}
+
+.ds-toc ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-left: 1px solid var(--border);
+}
+
+.ds-toc a {
+  display: block;
+  padding: 3px var(--s-3);
+  min-height: 24px;
+  box-sizing: border-box;
+  color: var(--fg-muted);
+  font-family: var(--ff-ui);
+  font-size: 13px;
+  line-height: 18px;
+  text-decoration: none;
+}
+
+.ds-toc a:hover {
+  color: var(--fg);
+}
+
+.ds-toc .ds-toc__h3 a {
+  padding-left: var(--s-5);
+  font-size: 12px;
+}
+
+@media (max-width: 1279px) {
+  .ds-shell {
+    grid-template-columns: 232px minmax(0, 760px);
+  }
+  .ds-toc {
+    display: none;
+  }
+}
+
+@media (max-width: 1023px) {
+  .ds-shell,
+  .ds-shell--wide {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0;
+    padding: 0 var(--s-4);
+  }
+  .ds-shell > .ds-sidenav {
+    display: none;
+  }
+  .ds-sidenav-mobile {
+    display: block;
+  }
+}
+
+/* ---- content -------------------------------------------------------------- */
+
+.ds-content {
+  min-width: 0;
+  padding: var(--s-6) 0 var(--s-8);
+}
+
+.ds-eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s-2) var(--s-4);
+  margin: 0 0 var(--s-4);
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  color: var(--fg-muted);
+}
+
+.ds-eyebrow__trail {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+}
+
+.ds-eyebrow__trail a {
+  color: var(--fg-muted);
+  text-decoration: none;
+}
+
+.ds-eyebrow__trail a:hover {
+  color: var(--fg);
+  text-decoration: underline;
+}
+
+.ds-react-link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 28px;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--cloud-blue);
+  color: var(--cloud-blue);
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.ds-react-link:hover {
+  background: var(--state-information-bg);
+}
+
+.ds-note {
+  margin: 0 0 var(--s-5);
+}
+
+/* prose: markdown's own elements only. markdown writes them without a class;
+   components and the site's chrome always carry one, and nothing inside a
+   live example (.ds-live) is touched. */
+.ds-prose :where(h1, h2, h3, h4):not([class], .ds-live *) {
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  text-wrap: balance;
+}
+
+.ds-prose h1:not([class], .ds-live *) {
+  margin: 0 0 var(--s-4);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
+.ds-prose h2:not([class], .ds-live *) {
+  margin: var(--s-7) 0 var(--s-3);
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.ds-prose h3:not([class], .ds-live *) {
+  margin: var(--s-6) 0 var(--s-2);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.ds-prose h4:not([class], .ds-live *) {
+  margin: var(--s-5) 0 var(--s-2);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ds-prose :where(p, li):not([class], .ds-live *) {
+  color: var(--fg-2);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.ds-prose p:not([class], .ds-live *) {
+  margin: 0 0 var(--s-4);
+}
+
+.ds-prose > h1 + p:not([class]),
+.ds-lede {
+  color: var(--fg-2);
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.ds-prose :where(ul, ol):not([class], .ds-live *) {
+  margin: 0 0 var(--s-4);
+  padding-left: var(--s-5);
+}
+
+.ds-prose :where(ul, ol):not([class], .ds-live *) > li + li {
+  margin-top: var(--s-1);
+}
+
+.ds-prose li:not([class], .ds-live *) > :where(ul, ol) {
+  margin: var(--s-1) 0 0;
+}
+
+.ds-prose li:not([class], .ds-live *)::marker {
+  color: var(--fg-dim);
+}
+
+.ds-prose :where(strong, b, em):not([class], .ds-live *) {
+  color: var(--fg);
+}
+
+.ds-prose :where(strong, b):not([class], .ds-live *) {
+  font-weight: 600;
+}
+
+.ds-prose a:not([class], .ds-live *) {
+  color: var(--cloud-blue);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.ds-prose a:not([class], .ds-live *):hover {
+  text-decoration-thickness: 2px;
+}
+
+.ds-prose code:not([class], .ds-live *, pre code) {
+  padding: 1px 5px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-size: 0.85em;
+  overflow-wrap: anywhere;
+}
+
+.ds-prose pre.astro-code:not(.ds-live *) {
+  margin: 0 0 var(--s-4);
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--border);
+  font-family: var(--ff-mono);
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: auto;
+}
+
+.ds-prose pre code {
+  font-family: inherit;
+}
+
+.ds-prose blockquote:not([class], .ds-live *) {
+  margin: 0 0 var(--s-4);
+  padding: var(--s-1) 0 var(--s-1) var(--s-4);
+  border-left: 2px solid var(--cloud-blue);
+}
+
+.ds-prose blockquote:not([class], .ds-live *) p {
+  margin: 0;
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-size: 14px;
+}
+
+.ds-prose hr:not([class], .ds-live *) {
+  margin: var(--s-6) 0;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+/* markdown tables, in a frame that scrolls sideways when it must */
+.ds-table-frame {
+  margin: 0 0 var(--s-5);
+  overflow-x: auto;
+}
+
+.ds-table-frame > table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.ds-table-frame :where(th, td) {
+  padding: var(--s-2) var(--s-3);
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: top;
+  color: var(--fg-2);
+}
+
+.ds-table-frame th {
+  background: var(--bg-2);
+  color: var(--fg-muted);
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ds-table-frame tbody tr:nth-child(2n) td {
+  background: var(--surface);
+}
+
+.ds-table-frame td code {
+  white-space: nowrap;
+  overflow-wrap: normal;
+}
+
+/* ---- live examples, do and don't ---------------------------------------- */
+
+.ds-example {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  margin: var(--s-4) 0 var(--s-5);
+  padding: var(--s-5);
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  overflow-x: auto;
+}
+
+.ds-example--column {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.ds-example--flush {
+  padding: 0;
+}
+
+.ds-example__caption {
+  margin: calc(-1 * var(--s-4)) 0 var(--s-5);
+  color: var(--fg-muted);
+  font-size: 13px;
+}
+
+.ds-dodont {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  gap: var(--s-4);
+  margin: var(--s-4) 0 var(--s-5);
+}
+
+.ds-verdict {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  margin: 0;
+  border: 1px solid var(--border);
+  border-top-width: 2px;
+  background: var(--surface);
+}
+
+.ds-verdict--do {
+  border-top-color: var(--state-success);
+}
+
+.ds-verdict--dont {
+  border-top-color: var(--state-error);
+}
+
+.ds-verdict__label {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.ds-verdict--do .ds-verdict__label {
+  color: var(--state-success);
+}
+
+.ds-verdict--dont .ds-verdict__label {
+  color: var(--state-error);
+}
+
+.ds-verdict__stage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-3);
+  min-height: 72px;
+  padding: var(--s-4);
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.ds-verdict__stage--column {
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.ds-verdict__caption {
+  padding: var(--s-3);
+  color: var(--fg-2);
+  font-family: var(--ff-ui);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* a mock-up of a component that doesn't exist yet */
+.ds-mock {
+  margin: var(--s-4) 0 var(--s-5);
+  border: 1px dashed var(--border-2);
+  background: var(--bg-2);
+}
+
+.ds-mock__label {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2);
+  justify-content: space-between;
+  padding: var(--s-2) var(--s-3);
+  border-bottom: 1px dashed var(--border-2);
+  color: var(--fg-muted);
+  font-family: var(--ff-mono);
+  font-size: 12px;
+}
+
+.ds-mock__stage {
+  padding: var(--s-4);
+  overflow-x: auto;
+}
+
+/* ---- cards: section indexes, the components index, the home page -------- */
+
+.ds-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 15rem), 1fr));
+  gap: var(--s-3);
+  margin: var(--s-4) 0 var(--s-6);
+  padding: 0;
+  list-style: none;
+}
+
+.ds-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  height: 100%;
+  min-height: 7rem;
+  padding: var(--s-4);
+  box-sizing: border-box;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--fg-2);
+  text-decoration: none;
+}
+
+a.ds-card:hover {
+  border-color: var(--border-2);
+  background: var(--surface-2);
+}
+
+a.ds-card:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.ds-card__title {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.ds-card__title svg {
+  flex: none;
+}
+
+.ds-card__summary {
+  color: var(--fg-muted);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.ds-card__meta {
+  margin-top: auto;
+  color: var(--fg-dim);
+  font-family: var(--ff-mono);
+  font-size: 11px;
+}
+
+/* ---- footer -------------------------------------------------------------- */
+
+.ds-pager {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 14rem), 1fr));
+  gap: var(--s-3);
+  margin: var(--s-7) 0 0;
+}
+
+.ds-pager a {
+  display: grid;
+  gap: 2px;
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--border);
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.ds-pager a:hover {
+  border-color: var(--cloud-blue);
+}
+
+.ds-pager__dir {
+  color: var(--fg-muted);
+  font-size: 11px;
+}
+
+.ds-pager a[rel='next'] {
+  text-align: right;
+}
+
+.ds-footer {
+  border-top: 1px solid var(--border);
+  background: var(--bg-2);
+}
+
+.ds-footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-2) var(--s-5);
+  max-width: 1360px;
+  margin: 0 auto;
+  padding: var(--s-5);
+  box-sizing: border-box;
+  color: var(--fg-muted);
+  font-family: var(--ff-mono);
+  font-size: 12px;
+}
+
+.ds-footer a {
+  color: var(--fg-2);
+}
+
+/* ---- the home page ------------------------------------------------------- */
+
+.ds-hero {
+  padding: var(--s-6) 0 var(--s-5);
+}
+
+.ds-hero > svg {
+  display: block;
+  margin-left: -26px;
+}
+
+.ds-hero h1 {
+  margin: var(--s-5) 0 var(--s-4);
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-size: clamp(30px, 6vw, 48px);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.ds-hero p {
+  max-width: 44rem;
+  margin: 0 0 var(--s-4);
+  color: var(--fg-2);
+  font-size: 18px;
+  line-height: 1.55;
+}
+
+.ds-hero blockquote {
+  max-width: 44rem;
+  margin: var(--s-5) 0;
+  padding: var(--s-1) 0 var(--s-1) var(--s-4);
+  border-left: 2px solid var(--cloud-blue);
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-size: 14px;
+}
+
+.ds-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--s-3);
+  margin-top: var(--s-5);
+}
+
+.ds-button-link {
+  display: inline-flex;
+  align-items: center;
+  height: 34px;
+  padding: 0 var(--s-4);
+  border: 1px solid var(--border-2);
+  background: var(--surface);
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.ds-button-link:hover {
+  border-color: var(--cloud-blue);
+}
+
+.ds-button-link--primary {
+  background: var(--cloud-blue);
+  border-color: var(--cloud-blue);
+  color: var(--bg);
+}
+
+.ds-button-link--primary:hover {
+  background: #6cb2ff;
+}
+
+.ds-section-title {
+  margin: var(--s-6) 0 var(--s-2);
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-size: 22px;
+  font-weight: 600;
+}
+
+/* pagefind's search ui, on the canvas */
+.ds-search {
+  --pagefind-ui-scale: 0.75;
+  --pagefind-ui-primary: var(--cloud-blue);
+  --pagefind-ui-text: var(--fg-2);
+  --pagefind-ui-background: var(--bg-2);
+  --pagefind-ui-border: var(--border-control);
+  --pagefind-ui-tag: var(--surface-2);
+  --pagefind-ui-border-width: 1px;
+  --pagefind-ui-border-radius: 0;
+  --pagefind-ui-image-border-radius: 0;
+  --pagefind-ui-image-box-ratio: 3 / 2;
+  --pagefind-ui-font: var(--ff-ui);
+}
+
+/* ---- the contrast tables on the colour page ------------------------------ */
+
+.ds-ctable {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--ff-mono);
+  font-size: 12px;
+  color: var(--fg-2);
+}
+
+.ds-ctable caption {
+  caption-side: top;
+  padding-bottom: var(--s-2);
+  color: var(--fg-muted);
+  font-family: var(--ff-ui);
+  font-size: 13px;
+  text-align: left;
+}
+
+.ds-ctable th,
+.ds-ctable td {
+  padding: var(--s-2);
+  border: 1px solid var(--border);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.ds-ctable th {
+  background: var(--bg-2);
+  color: var(--fg-muted);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.ds-ctable td.ds-cnum {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.ds-cswatch {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  margin-right: var(--s-2);
+  vertical-align: -1px;
+  border: 1px solid var(--border-2);
+}
+
+.ds-csample {
+  display: inline-block;
+  padding: 2px var(--s-2);
+  font-family: var(--ff-mono);
+}
+
+.ds-cpass {
+  color: var(--state-success);
+}
+
+.ds-cfail {
+  color: var(--state-error);
+}
+
+/* examples that move, with a control to stop them */
+.ds-motion {
+  margin: var(--s-4) 0 var(--s-5);
+}
+
+.ds-motion > .ds-example,
+.ds-motion > .ds-dodont {
+  margin-bottom: 0;
+}
+
+.ds-motion__bar {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: var(--s-2);
+}
+
+.ds-motion--paused *,
+.ds-motion--paused *::before,
+.ds-motion--paused *::after {
+  animation-play-state: paused !important;
+}
+
+.ds-search__label {
+  display: block;
+  margin: 0 0 var(--s-2);
+  color: var(--fg-2);
+  font-family: var(--ff-ui);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.ds-search .pagefind-ui__result-link,
+.ds-search .pagefind-ui__result-title {
+  font-family: var(--ff-mono);
+}
+
+.ds-search .pagefind-ui__result-excerpt mark,
+.ds-search .pagefind-ui__result-title mark {
+  background: var(--state-information-bg);
+  color: var(--fg);
+  outline: 1px solid var(--state-information-border);
+}
+
+.ds-search .pagefind-ui__search-input {
+  font-family: var(--ff-mono);
+}

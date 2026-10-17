@@ -20,8 +20,8 @@ a hairline-grid table for reading records: mono cells, lowercase mono headers, n
 ## when not to use
 
 - **for a list people work through** — sorting, selecting rows, grouping, loading more, moving between rows with the keyboard. use the [data table](?path=/docs/components-data-display-data-table--docs); this table has none of that, and adding it on top is how keyboard and screen-reader support gets lost.
-- **for a screen whose job is to find items and act on them.** that's a [worklist](?path=/docs/patterns-worklist--docs): a filter bar, a data table and a toolbar.
-- **for layout.** a table announces rows and columns, which means nothing for a form. lay forms out with a [stack](?path=/docs/components-layout-structure-stack--docs) — see [forms and settings](?path=/docs/patterns-forms-and-settings--docs).
+- **for a screen whose job is to find items and act on them.** that's a [worklist](https://nalet.github.io/design-system/patterns/worklist/): a filter bar, a data table and a toolbar.
+- **for layout.** a table announces rows and columns, which means nothing for a form. lay forms out with a [stack](?path=/docs/components-layout-structure-stack--docs) — see [forms and settings](https://nalet.github.io/design-system/patterns/forms-and-settings/).
 - **for the fields of one record.** one row with many columns reads badly and scrolls sideways. list label and value pairs in a [card](?path=/docs/components-layout-structure-card--docs).
 
 ## anatomy
@@ -85,14 +85,14 @@ the table is native html and takes no focus itself; what you put in its cells do
 - `Table` renders every body cell as a `td`. for a row header — a first cell that names the row — build the table from the primitives and use `Th` with `scope="row"`. today that cell takes the header look (11px muted mono, 8px 12px padding) and keeps its bottom rule in the last row.
 - colour in a cell is never announced. say a state in words, with [object status](?path=/docs/components-feedback-status-object-status--docs).
 - a table wider than its frame scrolls sideways. while it does, the frame becomes a focusable region (`tabindex="0"`, `role="region"`) named by the table's `aria-label` or `aria-labelledby` ("table" without either), so the arrow keys can scroll it; it shows the `--focus-ring` when focused. the frame takes no other props (they all go to the `table`). keep tables narrow enough to fit where you can, and put the columns that matter first.
-- changes to the rows are not announced. when rows change because of something the user did, say what happened — see [message handling](?path=/docs/patterns-message-handling--docs).
+- changes to the rows are not announced. when rows change because of something the user did, say what happened — see [message handling](https://nalet.github.io/design-system/patterns/message-handling/).
 
 ## content
 
 - headers: a lowercase noun, one or two words — `workload`, `size`, `last run`. put the unit in the header, `cpu (cores)`, not in every cell.
 - right-align numbers and give them the same number of decimals down a column, so the digits line up.
 - the empty text says what is missing, in the table's own words: `no workloads in this project`, not `no data`.
-- a failed load is not an empty table. show the error in a [message strip](?path=/docs/components-feedback-status-message-strip--docs) above it. when an empty table needs an explanation or a next step, see [empty states](?path=/docs/patterns-empty-states--docs).
+- a failed load is not an empty table. show the error in a [message strip](?path=/docs/components-feedback-status-message-strip--docs) above it. when an empty table needs an explanation or a next step, see [empty states](https://nalet.github.io/design-system/patterns/empty-states/).
 
 ## do and don't
 
@@ -163,4 +163,4 @@ the table is native html and takes no focus itself; what you put in its cells do
 - [data table](?path=/docs/components-data-display-data-table--docs) — the interactive table: sorting, selection, grouping, growing, keyboard navigation.
 - [card](?path=/docs/components-layout-structure-card--docs) — the frame a table usually sits in, with `flush`.
 - [object status](?path=/docs/components-feedback-status-object-status--docs) — the state of a record, inside a cell.
-- [empty states](?path=/docs/patterns-empty-states--docs) — when one line in an empty row isn't enough.
+- [empty states](https://nalet.github.io/design-system/patterns/empty-states/) — when one line in an empty row isn't enough.

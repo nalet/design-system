@@ -1,0 +1,12 @@
+---
+// a link to a component's design guidance, by its slug: <C slug="data-table" />
+// or <C slug="checkbox">checkboxes</C>. the address comes from
+// data/components.ts, so a renamed or missing component fails the build.
+import { bySlug, guidanceHref } from '../data/components';
+
+interface Props {
+  slug: string;
+}
+const c = bySlug(Astro.props.slug);
+---
+<a href={guidanceHref(c)}><slot>{c.name}</slot></a>

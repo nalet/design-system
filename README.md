@@ -7,7 +7,10 @@ house style.
 > if a screen would look at home in a tmux pane, it is on. if it looks like a
 > saas landing page, start over.
 
-- **storybook (github pages):** https://nalet.github.io/design-system/
+- **guidelines:** https://nalet.github.io/design-system/ — principles, foundations,
+  styles, a design-guidance page per component, and patterns.
+- **react:** https://nalet.github.io/design-system/react/ — the storybook: each
+  component's playground, examples, implementation notes and props.
 - **source:** https://github.com/nalet/design-system
 
 ## install
@@ -104,11 +107,22 @@ toolchain: node 20.19+ (ci uses 24), react 19, vite 8, typescript 7 (with
 ```sh
 npm ci
 npm run build-tokens     # tokens.json -> src/styles/tokens.css, src/tokens.ts, tailwind-preset.cjs
-npm run storybook        # local storybook on :6006
+npm run storybook        # the react subsite (storybook) on :6006
+npm run site:dev         # the guidelines site (astro) on :4321/design-system/
 npm run build            # build tokens + the library (vite lib mode)
 npm run build-storybook  # static storybook -> storybook-static/
+npm run site:build       # the guidelines site and its search index -> site/dist/
+npm run site:react       # the storybook into site/dist/react/, as it is published
+npm run site:check       # every internal link of site/dist resolves
+npm test                 # unit, accessibility (axe), token-contrast and redirect tests
 npm run lint             # tsc --noEmit (typecheck)
 ```
+
+the docs are two sites in one folder: the guidelines (`site/`, astro) at
+`/design-system/`, and the react subsite (`stories/`, storybook) at
+`/design-system/react/`. examples are written once, as stories, and the
+guidelines render them through storybook's portable stories. see
+[contributing](./CONTRIBUTING.md).
 
 tokens are the source of truth: edit `tokens/tokens.json`, run `build-tokens`,
 and the css, the typed tokens, and the tailwind preset regenerate together.

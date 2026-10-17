@@ -5,6 +5,24 @@ the design system follows [semantic versioning](https://semver.org). while it is
 (0.3.1) only fixes. every release is a git tag `vX.Y.Z` with the packed tarball
 attached to its github release.
 
+## unreleased
+
+### documentation
+
+- **two sites.** the guidelines are a site of their own at `/design-system/`,
+  built with astro and with the design system itself: get started,
+  foundations (principles, accessibility, content & voice, interaction,
+  layout), styles (colour, typography, iconography, shape, motion, brand),
+  components and patterns. the storybook moved to `/design-system/react/` and
+  keeps the implementation: playgrounds, examples, implementation notes, props.
+  examples are written once, as stories, and appear on both.
+- **old links keep working.** an old storybook url sends itself on to its new
+  page, or to the same entry on the react subsite.
+- **search** over the guidelines, with pagefind.
+- **drafts under review:** the principles, and the patterns shell bar, app
+  navigation, launchpad & tiles, settings and setup, loading and progress, and
+  selection and bulk actions.
+
 ## 0.3.0 — 2026-10-17
 
 the foundation for enterprise worklists, and a documentation site that reads

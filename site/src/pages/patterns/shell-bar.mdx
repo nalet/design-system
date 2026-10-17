@@ -1,0 +1,86 @@
+---
+layout: ../../layouts/Doc.astro
+title: shell bar
+description: one header for every surface — the lockup, the app's title, search, notifications and one user menu, the same in the portal, every app and every product.
+draft: true
+---
+import C from '@site/components/C.astro';
+import { DoDont, Do, Dont, Mock } from '@site/blocks';
+import { ShellBarMock, ShellBarDontMock, UserMenuMock } from '@site/demos/navigation';
+
+# shell bar
+
+the bar across the top of every surface: the portal, every app inside it, and every product opened from it, consumer apps included. the same person sees the same header everywhere.
+
+<Mock planned="ShellBar, UserMenu, Avatar" label="the shell bar with an app open">
+  <ShellBarMock />
+</Mock>
+
+the shell bar, its user menu and its avatar are **planned** components. the mock-ups on this page are built from the components that exist — the chevron, icon buttons, a badge — to show the proposal; they are pictures, not the components.
+
+## when to use
+
+- on every surface: the portal's launchpad, each app inside the shell, each product opened from it.
+- once per page, at the top, above everything the app draws.
+
+## when not to use
+
+- **for an app's own actions.** those belong in the app's header or <C slug="toolbar">toolbar</C>; the bar never carries them.
+- **for moving between an app's views.** that is the app's own navigation — see [app navigation](/design-system/patterns/app-navigation/).
+- **for an app's settings.** the user menu opens the shell's settings, where each app's setup is listed and linked — see [settings and setup](/design-system/patterns/settings-and-setup/).
+
+## anatomy
+
+left to right:
+
+1. **product lockup** — the `>` chevron and the product's name. it goes home: to the launchpad, or to the product's home.
+2. **app title** — when an app is open inside the shell, its name sits next to the lockup (`> nalet / backlog`), so a person always knows where they are.
+3. **search** — the shell's search. **planned.**
+4. **notifications** — the bell with an unread count; one panel for every app's notices.
+5. **user menu** — a square avatar, a picture or the initials in mono, that opens one menu: the person's name and email address as its header, then `account`, `settings` (for people who may change them), `help`, and `sign out` last.
+
+<Mock planned="UserMenu" label="the user menu, open">
+  <UserMenuMock />
+</Mock>
+
+## behaviour
+
+- **one user menu, the same in every surface.** no email address as a badge in the bar, and no separate sign-out button.
+- **the avatar is square**, like every frame in the system; a picture is cropped square.
+- **a consumer product keeps its own primary navigation in the bar** (home, films, series …), but the lockup, the notifications and the user menu stay where and how the shell has them.
+- **the bar never carries an app's own actions**; those belong in the app's header or toolbar.
+- **the lockup holds still.** the bar stays in view, so its lockup has no blinking cursor — see [brand](/design-system/styles/brand/#accessibility).
+
+## accessibility
+
+proposed, with the components:
+
+- the bar is the page's banner landmark; the lockup is a link named for where it goes ("nalet, home").
+- the bell is an icon button whose name carries the count: "notifications, 2 unread".
+- the avatar is a menu button whose name starts with what it shows — the initials — and says what it opens: "au, user menu". the menu behaves as the <C slug="action-menu" /> does: arrow keys inside, `esc` closes it and gives focus back.
+
+## content
+
+- **product name** — the product's own name, lowercase, as on its tile.
+- **app title** — the app's name, the same word as its tile on the launchpad.
+- **menu header** — the person's name, then their email address in the muted weight.
+- **menu items** — `account`, `settings`, `help`, `sign out`, in that order.
+
+## do and don't
+
+<DoDont>
+  <Do caption="the lockup and the app's title, the bell with its count, one square avatar that opens the one menu." column>
+    <ShellBarMock />
+  </Do>
+  <Dont caption="an email address as a badge and a separate sign-out button — or a circle avatar in one product and an email badge in another." column>
+    <ShellBarDontMock />
+  </Dont>
+</DoDont>
+
+## related
+
+- [app navigation](/design-system/patterns/app-navigation/) — the app's own views, under the bar.
+- [launchpad & tiles](/design-system/patterns/launchpad-and-tiles/) — where the lockup goes home to.
+- [settings and setup](/design-system/patterns/settings-and-setup/) — what the user menu's settings hold.
+- [brand](/design-system/styles/brand/) — the chevron and the lockup.
+- [principles](/design-system/foundations/principles/) — 4: one platform, many apps.

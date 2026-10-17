@@ -1,0 +1,37 @@
+---
+layout: ../../layouts/Doc.astro
+title: overview
+description: the nalet design system — what it is, the identity in one paragraph, who it is for, and how this site is organised.
+---
+# overview
+
+a single identity for every nalet surface — dark canvas, monospace voice, blue chevron, square frames — and the components, patterns and rules for building calm, honest admin consoles with it.
+
+> if a screen would look at home in a tmux pane, it is on. if it looks like a saas landing page, start over.
+
+## the identity
+
+the canvas is dark, and only dark: `--bg`, `--bg-2`, `--surface` and `--surface-2`, with four greys of text on top. the `>` chevron is the brand glyph and is always `--cloud-blue`, the same blue as links and the one primary action. jetbrains mono names things — headings, labels, numbers, codes, the brand — and inter carries what people read. every gap comes from one 4-base scale (4, 8, 12, 16, 24, 32, 48, 64), every frame is square, and the voice is lowercase, short, with no emoji and no exclamation marks. there is no light theme today; light and high-contrast themes are **planned**. the details are in [styles](/design-system/styles/) and [content & voice](/design-system/foundations/content-voice/).
+
+## who it is for
+
+- **admin consoles inside a portal shell.** the main audience: operator tools — lists of things that need doing, settings, status — rendered as federated modules inside one shell's react tree. the library is plain react and css: no global styles beyond the tokens and the page base, no provider required, react 18 or 19. see [apps in a shell](/design-system/develop/apps-in-a-shell/).
+- **apps that only need the identity.** a consumer app can take just the tokens — css custom properties, typed token objects, or the tailwind preset — and keep its own components. see [tokens](/design-system/develop/tokens/).
+- **the people who design and build them.** designers start at [designing with it](/design-system/get-started/designing/), developers at [developing with it](/design-system/get-started/developing/).
+
+## how this site is organised
+
+the guidelines live here; the code lives on the [react subsite](/design-system/react/). the six sections in the top bar:
+
+- **get started** — this page, [designing with it](/design-system/get-started/designing/), [developing with it](/design-system/get-started/developing/), [versioning & changelog](/design-system/get-started/versioning/) and [resources](/design-system/get-started/resources/).
+- **foundations** — the [principles](/design-system/foundations/principles/) every screen follows, and the rules underneath every component: [accessibility](/design-system/foundations/accessibility/), [content & voice](/design-system/foundations/content-voice/), [interaction](/design-system/foundations/interaction/) and [layout](/design-system/foundations/layout/).
+- **styles** — the visual language: [colour](/design-system/styles/colour/) (with the contrast table generated from the tokens), [typography](/design-system/styles/typography/), [iconography](/design-system/styles/iconography/), [shape](/design-system/styles/shape/), [motion](/design-system/styles/motion/) and the [brand](/design-system/styles/brand/).
+- **components** — every component as design guidance, grouped by role. each page has the same anatomy: when to use it and when not, its parts, variants and states, behaviour, accessibility, content, do and don't, and related pages, with a link to its react implementation. start at the [components index](/design-system/components/).
+- **patterns** — whole floorplans and the problems that recur across them: the [worklist](/design-system/patterns/worklist/), navigation from the [shell bar](/design-system/patterns/shell-bar/) to the [launchpad](/design-system/patterns/launchpad-and-tiles/), [status vocabulary](/design-system/patterns/status-vocabulary/), [message handling](/design-system/patterns/message-handling/), [empty states](/design-system/patterns/empty-states/), [selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) and [forms and settings](/design-system/patterns/forms-and-settings/).
+- **develop** — the [react](/design-system/develop/react/) implementation, the [tokens](/design-system/develop/tokens/), [apps in a shell](/design-system/develop/apps-in-a-shell/) and [contributing](/design-system/develop/contributing/).
+
+the [react subsite](/design-system/react/) is the storybook: every component's playground, its examples, its props and the notes on how it is built. each guidance page links to its react page, and each react page links back.
+
+## what this site promises
+
+it documents what the code does. where a component falls short of the principles today, its page says so under "today:" — a known limitation, not a feature. where something is coming, it is marked **planned**. a page marked **draft — under review** is a proposal that may still change. the source is [github.com/nalet/design-system](https://github.com/nalet/design-system), mit licensed.

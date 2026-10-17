@@ -1,0 +1,24 @@
+---
+// "on this page": the h2 and h3 headings of the content.
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+interface Props {
+  headings: Heading[];
+}
+const items = Astro.props.headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+{items.length > 1 && (
+  <nav class="ds-toc" aria-label="on this page">
+    <p class="ds-toc__title">on this page</p>
+    <ul>
+      {items.map((h) => (
+        <li class={h.depth === 3 ? 'ds-toc__h3' : undefined}>
+          <a href={`#${h.slug}`}>{h.text}</a>
+        </li>
+      ))}
+    </ul>
+  </nav>
+)}

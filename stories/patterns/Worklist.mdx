@@ -1,114 +1,37 @@
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
 import * as WorklistStories from './Worklist.stories';
-import { ActionMenu, Button, IllustratedMessage, MessageStrip, ObjectStatus, Toaster } from '../../src';
-import { DoDont, Do, Dont, Example } from '../_blocks';
+import { Toaster } from '../../src';
 
 <Meta of={WorklistStories} />
 
 # worklist
 
-the floorplan for a list of things that need doing: what is missing, failing or waiting, and the one next step for each. key figures filter it, one strip explains what it leaves out, and the table groups, grows and acts.
+design guidance — when to use the floorplan, its parts, its behaviour and its words: **[worklist on the guidelines site →](https://nalet.github.io/design-system/patterns/worklist/)**
 
 <Canvas of={WorklistStories.FullExample} />
 
 <Toaster />
 
-the example is live: 2,644 made-up items across 120 invented series and 140 movies. select rows and grab them, use a row's menu, collapse a season, filter, search, and press **show them** in the strip.
-
-## when to use
-
-- a backlog, a queue, an inbox of items that each need an action or a decision: missing episodes, failed jobs, unhealthy hosts, unchecked titles.
-- when the items fall into a few states that people triage by ("needs attention" first).
-- when people act on several items at once as often as on one.
-
-## when not to use
-
-- **one object, in depth** — use a page for the object (an object page floorplan is **planned**); for a summary, a [card](?path=/docs/components-layout-structure-card--docs).
-- **key figures to monitor, no list to work through** — the [portal](?path=/docs/patterns-portal--docs) with kpi [tiles](?path=/docs/components-navigation-tile--docs).
-- **static reference data** — a plain [table](?path=/docs/components-data-display-table--docs).
-- **settings** — [forms and settings](?path=/docs/patterns-forms-and-settings--docs).
-- **a dozen items with no states** — a [data table](?path=/docs/components-data-display-data-table--docs) on its own, without tabs or a filter bar.
-
-## anatomy
-
-1. **header** — the title (the list's noun: "missing"), one subtitle line with the rule that decides membership, and a quiet line of facts (`headerInfo`). [`Worklist`](#props).
-2. **key-figure tabs** — the list's states as counts that filter it: everything, then the states people triage by. [filter tabs](?path=/docs/components-navigation-filter-tabs--docs). give a count a state when it means one: information for what is under way ("on their way"), error for what needs attention, warning for what can't be checked; plain counts (everything, not yet aired) stay neutral.
-3. **message strip** — at most one or two, about the list as a whole: what it leaves out, a load that failed. [message strip](?path=/docs/components-feedback-status-message-strip--docs).
-4. **filter bar** — search and facets, the count of what is left, clear all. [filter bar](?path=/docs/components-inputs-filter-bar--docs).
-5. **toolbar** — the list's count while nothing is selected; the selection and its one emphasized action once something is. [selection toolbar](?path=/docs/components-actions-toolbar--docs).
-6. **table** — grouped by the items' parent (a series' season), a hundred rows at a time, sortable, selectable. [data table](?path=/docs/components-data-display-data-table--docs) with [table cells](?path=/docs/components-data-display-table-cells--docs).
-7. **row actions** — one menu per row, never buttons. [action menu](?path=/docs/components-actions-action-menu--docs).
-8. **empty state** — in place of the table, saying which kind of empty this is. [illustrated message](?path=/docs/components-feedback-status-illustrated-message--docs), [empty states](?path=/docs/patterns-empty-states--docs).
-9. **feedback** — a toast after an action ("8 episodes queued"); an error strip when one fails. [toast](?path=/docs/components-feedback-status-toast--docs), [message handling](?path=/docs/patterns-message-handling--docs).
-
-## behaviour
-
-- **tabs, then filters.** the selected tab decides which items are in play; search and facets narrow within it. tab counts come from the same data the table shows, so a count and its list never disagree.
-- **counts the list can't hold** (items that are not in it, like "not yet aired") can still be a tab; selecting it shows an illustrated message that says why there is no list.
-- **growing starts over when the view changes.** pass the tab and the filters as the table's `growingResetKey`; a refresh of the data keeps the person's place.
-- **act on what is visible.** in the example, a filter that hides a selected row drops it from the selection, so "grab 8 selected" never grabs rows the person can't see. the selection toolbar offers "select all n" to widen a partial selection to everything the filters keep.
-- **the toolbar and the table header stick** while the list scrolls: the `Worklist` measures its toolbar and offsets the table's sticky header under it (`--nc-dt-sticky-top`).
-- **after an action** the toast says what happened in counts ("8 episodes queued · 2 skipped: held already or under way") and the rows follow when the data reloads; a failed action is an error strip with the raw error under details.
-
-## keyboard and accessibility
-
-- the worklist is a `section` named by its title; give it `headingLevel={2}` inside an app shell that owns the page's `h1`.
-- the tabs are a `tablist` and the content below them its `tabpanel`, labelled by the selected tab — the `Worklist` wires this.
-- the tab order is short: the tabs (one stop) → the strip's actions → the filter bar → the toolbar (one stop) → the table's sort headers → the table (one stop for its rows) → "show n more".
-- give the table an `aria-label` and a `rowLabel`, so each checkbox and each row menu says what it acts on ("select The Quiet Harbour S04E07", "actions for The Quiet Harbour S04E07").
-
-## content
-
-- **title** — the list's noun, lowercase: `missing`, `failed jobs`.
-- **subtitle** — the membership rule in one line: `aired, monitored, and not in the library`.
-- **facts** — what the reader may wonder about: when the data was last refreshed, what runs on its own.
-- **tabs** — `missing`, `on their way`, `needs attention`: the object's states in its own words, with counts.
-- **toolbar heading** — the count and the noun of what is shown: `2,500 missing`, `81 need attention`.
-- **groups** — the parent's own name and the count: `The Quiet Harbour · S04 · 8 missing`.
-
-## do and don't
-
-<DoDont>
-  <Do caption="one strip for the one thing the list leaves out, with its way forward." column>
-    <MessageStrip state="warning" live="off" actions={<Button size="sm" variant="ghost">show them</Button>}>105 titles can&apos;t be checked: the catalog holds them without an identity.</MessageStrip>
-  </Do>
-  <Dont caption="a stack of strips: none of them reads as important any more." column>
-    <MessageStrip state="warning" live="off">105 titles can&apos;t be checked.</MessageStrip>
-    <MessageStrip state="information" live="off">the sweep only searches.</MessageStrip>
-    <MessageStrip state="neutral" live="off">holdings were last asked 3h ago.</MessageStrip>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="per row: the status in words and one menu.">
-    <ObjectStatus state="neutral">missing</ObjectStatus>
-    <ActionMenu label="actions for S04E07" items={[{ id: 'pick', label: 'pick a release', onSelect: () => undefined }, { id: 'grab', label: 'grab now', onSelect: () => undefined }]} />
-  </Do>
-  <Dont caption="per row: two buttons, one primary. a hundred rows, a hundred primaries.">
-    <ObjectStatus state="neutral">missing</ObjectStatus>
-    <Button size="sm" variant="primary">grab</Button>
-    <Button size="sm">releases</Button>
-  </Dont>
-</DoDont>
+the example is live: 2,644 made-up items across 120 invented series and 140 movies. its code is [`stories/patterns/BacklogWorklist.tsx`](https://github.com/nalet/design-system/blob/main/stories/patterns/BacklogWorklist.tsx), its data `stories/_data/`.
 
 ## the other states
 
-when there is nothing to list, the header, the tabs and the strip stay, and the table's place holds an [illustrated message](?path=/docs/components-feedback-status-illustrated-message--docs) that says which kind of empty it is. the whole floorplans are the stories [nothing missing](?path=/story/patterns-worklist--nothing-missing) and [holdings unknown for everything](?path=/story/patterns-worklist--holdings-unknown); their bodies:
+with nothing to list, the header, the tabs and the strip stay, and an illustrated message takes the table's place.
 
-<Example label="the worklist's empty states" column>
-  <IllustratedMessage illustration="done" headingLevel={3} title="nothing missing" description="every aired, monitored episode and movie is in the library." />
-  <IllustratedMessage illustration="unknown" headingLevel={3} title="nothing can be checked yet" description="the library's holdings are unknown for all 105 titles, so nothing is known to be missing." actions={<Button variant="primary">ask the catalog again</Button>} />
-</Example>
+<Canvas of={WorklistStories.NothingMissing} />
+
+<Canvas of={WorklistStories.HoldingsUnknown} />
+
+## implementation notes
+
+- `Worklist` lays the parts out; the parts are the components: `tabs` are `FilterTab`s, `messages` message strips, `filterBar` a `FilterBar`, `toolbar` a `Toolbar` or `SelectionToolbar`, and `children` the `DataTable` — or the `IllustratedMessage` when there is nothing to show.
+- it renders a `section` named by its title. `headingLevel` sets the title's level: 1 when the worklist is the page, 2 inside an app shell that owns the `h1`.
+- with `tabs` and `activeTab`, the tabs are a `tablist` and the content below them its `tabpanel`, labelled by the selected tab; `tabsLabel` names the tab list ("filter the list" by default).
+- the toolbar and the table header stick while the list scrolls (`stickyToolbar`, on by default): the worklist measures its toolbar and offsets the table's sticky header under it with `--nc-dt-sticky-top`.
+- pass the tab and the filters as the table's `growingResetKey`: growing starts over when the view changes, and a refresh of the data keeps the person's place.
+- give the table an `aria-label` and a `rowLabel`, so each checkbox and each row menu says what it acts on.
+- it passes other `section` attributes, and its `ref`, through.
 
 ## props
 
-`Worklist` lays out the parts; the parts are the components linked above. it passes other `section` attributes through.
-
 <ArgTypes of={WorklistStories} />
-
-## related
-
-- [selection and bulk actions](?path=/docs/patterns-selection-and-bulk-actions--docs) — selecting rows and acting on them.
-- [status vocabulary](?path=/docs/patterns-status-vocabulary--docs) — one status per item.
-- [empty states](?path=/docs/patterns-empty-states--docs) — which kind of empty.
-- [portal](?path=/docs/patterns-portal--docs) — the launchpad the worklists are opened from.

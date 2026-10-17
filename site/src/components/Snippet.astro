@@ -1,0 +1,13 @@
+---
+// a highlighted code block from a string, in the site's code theme: for code
+// that is built from data (the install line follows package.json's version).
+import { Code } from 'astro:components';
+import { codeTheme } from '../lib/code-theme.mjs';
+
+interface Props {
+  code: string;
+  lang?: string;
+}
+const { code, lang = 'sh' } = Astro.props;
+---
+<Code code={code} lang={lang as any} theme={codeTheme as any} />

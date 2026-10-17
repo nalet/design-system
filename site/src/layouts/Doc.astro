@@ -1,0 +1,45 @@
+---
+// the layout of every guideline page written in markdown or mdx: the section
+// navigation on the left, the content in the middle, "on this page" on the
+// right. frontmatter:
+//   title        the page's name (the <title>; the content has its own h1)
+//   description  one sentence for search and link previews
+//   draft        true: a removable "draft — under review" note above the title
+//   draftNote    what is under review, when it isn't the whole page
+//   component    a component's slug: links its react implementation
+//   react        a storybook id (or a list) for a page that isn't a component
+//   toc          false: no "on this page"
+import Base from './Base.astro';
+import SideNav from '../components/SideNav.astro';
+import Toc from '../components/Toc.astro';
+import Eyebrow from '../components/Eyebrow.astro';
+import Pager from '../components/Pager.astro';
+import DraftNote from '../components/DraftNote.astro';
+import { sectionOf } from '../data/nav';
+
+const { frontmatter = {}, headings = [] } = Astro.props;
+const { title, description, draft, draftNote, component, react, toc = true } = frontmatter;
+const section = sectionOf(Astro.url.pathname);
+const currentTitle =
+  section?.groups.flatMap((g) => g.pages).find((p) => p.href.split('#')[0] === Astro.url.pathname)?.title ?? title;
+---
+<Base title={title} description={description}>
+  <div class:list={['ds-shell', { 'ds-shell--wide': !toc }]}>
+    <SideNav />
+    <main id="content" class="ds-content">
+      {section && (
+        <details class="ds-sidenav-mobile">
+          <summary>{section.title} · {currentTitle}</summary>
+          <SideNav />
+        </details>
+      )}
+      <Eyebrow component={component} react={react} />
+      {draft && <DraftNote note={draftNote} />}
+      <article class="ds-prose" data-pagefind-body>
+        <slot />
+      </article>
+      <Pager />
+    </main>
+    {toc && <Toc headings={headings} />}
+  </div>
+</Base>

@@ -34,11 +34,13 @@ const meta: Meta = {
     },
   },
   decorators: [
-    (Story, { viewMode }) => (
+    (Story, { viewMode, parameters }) => (
       <>
         <Story />
-        {/* the docs page mounts one toaster for all its examples; a story on its own mounts this one. */}
-        {viewMode === 'story' ? <Toaster /> : null}
+        {/* a docs page, or a page that embeds the story (parameters.embedded, the
+            guidelines site), mounts one toaster for all its examples; a story on
+            its own mounts this one. */}
+        {viewMode === 'story' && !parameters.embedded ? <Toaster /> : null}
       </>
     ),
   ],

@@ -1,0 +1,32 @@
+---
+// the pages of the current section, grouped as nav.ts groups them.
+import { sectionOf } from '../data/nav';
+
+interface Props {
+  class?: string;
+}
+const { class: className } = Astro.props;
+const path = Astro.url.pathname;
+const section = sectionOf(path);
+const isCurrent = (href: string) => href.split('#')[0] === path && !href.includes('#');
+---
+{section && (
+  <nav class:list={['ds-sidenav', className]} aria-label={`${section.title} pages`}>
+    <p class="ds-sidenav__title"><a href={section.href} aria-current={path === section.href ? 'page' : undefined}>{section.title}</a></p>
+    {section.groups.map((g) => (
+      <>
+        {g.title && <p class="ds-sidenav__group">{g.title}</p>}
+        <ul>
+          {g.pages.map((p) => (
+            <li>
+              <a href={p.href} aria-current={isCurrent(p.href) ? 'page' : undefined}>
+                {p.title}
+                {p.draft && <span class="ds-pill">draft</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </>
+    ))}
+  </nav>
+)}

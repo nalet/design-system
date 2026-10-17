@@ -1,194 +1,44 @@
 import { Meta, Canvas } from '@storybook/addon-docs/blocks';
 import * as FormsStories from './FormsAndSettings.stories';
-import { Button, Checkbox, MessageStrip, ObjectStatus, Stack, Switch, Toaster, toast } from '../../src';
-import { DoDont, Do, Dont } from '../_blocks';
+import { Toaster } from '../../src';
 
 <Meta of={FormsStories} />
 
 # forms and settings
 
-a settings page: switches for what applies at once, a form for what waits for save, one footer with one emphasized action, and errors that appear on save and say how to fix them.
+design guidance — instant or saved, the footer and unsaved changes, validation, failed saves, the words: **[forms and settings on the guidelines site →](https://nalet.github.io/design-system/patterns/forms-and-settings/)**
+
+the three examples below are the pattern's reference code: open "show code" under each.
+
+## a settings page
+
+change a value, save with an error, fix it, save; switch the times to utc and save.
 
 <Canvas of={FormsStories.Settings} />
 
-## when to use
+## after a save with errors
 
-- for a page or a panel of settings that people change now and then: a schedule, limits, what to include, how things show.
-- for any form that ends in a save: creating an object, editing one.
-
-## when not to use
-
-- **to filter or search a list.** use the [filter bar](?path=/docs/components-inputs-filter-bar--docs): filters apply as they change, and nothing is saved.
-- **for a decision that has to come first**, such as confirming a delete. use a [modal](?path=/docs/components-overlays-modal--docs) with the question and two actions.
-- **for one action with nothing to fill in**: check now, restart. use a [button](?path=/docs/components-actions-button--docs), or the [toolbar](?path=/docs/components-actions-toolbar--docs) above the list it acts on.
-- **for settings that each apply on their own, at once.** they need no form and no footer: a card of [switches](?path=/docs/components-inputs-switch--docs), like `alerts` above.
-
-## anatomy
-
-1. **page title** — a [heading](?path=/docs/components-layout-structure-heading--docs), the page's `h1` in an app (`h2` in the example, where the docs page owns the `h1`), with a muted line of facts under it.
-2. **page message** (after a save that changed what the page shows) — a success [message strip](?path=/docs/components-feedback-status-message-strip--docs) with a dismiss, above the content.
-3. **instant settings** — a [card](?path=/docs/components-layout-structure-card--docs) of [switches](?path=/docs/components-inputs-switch--docs), each with its own label and, where the effect isn't obvious, a [field](?path=/docs/components-inputs-field--docs) hint. no footer.
-4. **the form** — a native `<form noValidate>`, named by its card's heading through `aria-labelledby`. the card's `header` is an `h3` with `margin: 0` and `font: inherit`, so it keeps the card title's look.
-5. **summary** (after a save that found errors, on a long form) — an error message strip at the top of the form that counts what needs a fix and names it.
-6. **fields** — a [field](?path=/docs/components-inputs-field--docs) around each [input](?path=/docs/components-inputs-input--docs), [select](?path=/docs/components-inputs-select--docs) and [textarea](?path=/docs/components-inputs-textarea--docs): label, hint, and the error in place of the hint. 16px between fields.
-7. **option groups** — a native `<fieldset>` whose `<legend>` asks the question, holding [checkboxes](?path=/docs/components-inputs-checkbox--docs) 8px apart. for one choice out of two or three, a native radio group in the same fieldset; out of more, a select.
-8. **footer** — the card's `footer`: the unsaved-changes signal ([object status](?path=/docs/components-feedback-status-object-status--docs), `appearance="text"`, `information`), `cancel` (a ghost [button](?path=/docs/components-actions-button--docs)) and `save changes` (primary, `type="submit"`), at the end of the row, 8px apart.
-9. **confirmation** — a [toast](?path=/docs/components-feedback-status-toast--docs), from the one `<Toaster />` at the app's root.
-
-## behaviour
-
-### instant or saved
-
-- a [switch](?path=/docs/components-inputs-switch--docs) applies the moment it is flipped. switches sit outside the form, in a card with no footer. confirm a change that shows somewhere else, or takes a while, with a toast (`email alerts off`). if applying fails, set the switch back and say why in an error strip.
-- a [checkbox](?path=/docs/components-inputs-checkbox--docs) is part of the form: it waits for save, like every field.
-- never mix the two. a switch above a save button leaves people unsure whether it applied; a checkbox with no save button sends them looking for one.
-- the library has no radio component. a native radio group works in a fieldset, with the browser's own look.
-
-### the footer and unsaved changes
-
-- one footer, at the end of the form. `save changes` is its one emphasized action; `cancel` is a ghost button before it. on a page people reached from somewhere else, cancel can also take them back.
-- the form has unsaved changes when a value differs from the last saved one. typing a value back to what was saved makes it clean again; focus and visits don't count.
-- while there are unsaved changes, the footer says so, next to the buttons: `unsaved changes`.
-- **save stays enabled**, with or without changes, with or without errors. a disabled button is skipped by `tab`, so keyboard users may never reach it, and it can't say why it is off. an enabled save answers when it is pressed: with no changes, a toast says `no changes to save`; with errors, the errors show.
-- `cancel` puts every field back to its saved value and clears the errors. it doesn't ask first: nothing that was saved is lost.
-- on a form taller than the screen, keep the footer in view with `position: sticky; bottom: 0` on a wrapper of your own. the card's footer doesn't stick by itself.
-- today: the library has nothing that warns before people leave a page with unsaved changes. do it in the app, with the router's navigation blocker or `beforeunload`.
-
-### validation
-
-- **check on save**, not while people type, and not when they leave a field. an error that appears on blur scolds people for a field they are only passing through, or haven't finished.
-- once a field shows an error, check it again on every change, so the error goes the moment the value is right.
-- save checks every field, sets `error` on each one that's wrong, and sends nothing. [field](?path=/docs/components-inputs-field--docs) then sets `aria-invalid` and the `--state-error` border on the control.
-- **then focus the first invalid control**, in reading order. people hear its name, that it is invalid, and its error, and they start where the problem is. field marks the control, so `form.querySelector('[aria-invalid="true"]')` finds it.
-- **on a long form, also summarise at the top**: an error message strip that counts what needs a fix and names it in the labels' words. it follows the fixes and goes when nothing is left. a long form is one with more than one group, or one that scrolls; a short form that fits on the screen needs only the field errors.
-- the save button never turns off to signal an error.
+the summary at the top, each error at its field.
 
 <Canvas of={FormsStories.FailedValidation} />
 
-### when the save fails
+## when the save fails
 
-- the request itself can fail. say it in an error message strip at the top of the form, with the way forward, `try again`; the technical part (the code, the service) goes behind `details`.
-- the fields keep what people typed, and the changes stay unsaved.
-- never a toast: it leaves on its own after five seconds, and the work still isn't saved.
+the values are kept, and "try again" sends them again.
 
 <Canvas of={FormsStories.SaveFails} />
 
-### after a save
-
-- while the save runs, `save changes` shows `loading`. that disables it, so a second press can't send the form twice.
-- when it is done, the fields show the saved values and `unsaved changes` goes.
-- confirm with a [toast](?path=/docs/components-feedback-status-toast--docs): `toast('settings saved', { state: 'success', id: 'backup-settings' })`. a fixed `id` makes a second save replace the toast instead of stacking another.
-- when the save changes what the page shows — every time on the page now in utc, archived items now in the list — say so in a success strip above the content, with a dismiss: `saved. times on this page now show in utc.` the change happened where people weren't looking; the strip says why, and it stays until they dismiss it. no toast as well.
-
-## keyboard and accessibility
-
-| key | does |
-| --- | --- |
-| `tab` / `shift+tab` | moves through the switches, the fields, the options, then `cancel` and `save changes`, in reading order. |
-| `enter` in a text field | submits the form: the browser presses its submit button, `save changes`. |
-| `space` | toggles a focused checkbox or switch, presses a focused button. |
-| arrow keys | native: on a select, step through its options or open its list, depending on the system; in a radio group, move to the next radio and choose it. |
-| `esc` | nothing on the form itself. it closes the innermost open thing, such as a select's list. don't bind it to cancel. |
-
-- the form is a `<form>` named by its card's heading, so it is a landmark people can jump to.
-- `Button` defaults to `type="button"`. pass `type="submit"` to `save changes` only. `enter` presses the form's first submit button, so a `cancel` made a submit button, placed before save, would be the one it presses.
-- `noValidate` on the form keeps the browser's own error bubbles out of the way. pass `required` to the controls all the same, so assistive tech says "required": field's `required` only draws an asterisk.
-- a field's error is not announced when it appears; there is no live region. moving focus to the first invalid control is what gets it read.
-- the error strips are alerts, read as they appear and again each time their text changes: once per fix. the success strip is a polite status.
-- today: a strip arrives with its text already in it. an alert is read on arrival, but not every screen reader reads a polite status that appears already filled, so a success strip can pass in silence. the toast's region is always on the page and doesn't have that problem.
-- today: `loading` disables the button, and a disabled button can't keep focus, so the browser may move focus to the page while the save runs. when it ends, put focus back on save if it was lost, as the example does.
-- today: a toast stays five seconds, and only a pointer resting on it pauses it; the keyboard can't. never put anything in it that people need later: the saved form is the record.
-- today: a field's `error` around a checkbox or a switch passes `invalid` to it, react warns about an unknown attribute, and the box looks the same. check option groups as a whole, and say what is wrong in the summary strip.
-- today: there is no fieldset or radio component. reset the native `<fieldset>` (no border, margin or padding) and give its `<legend>` the field label's look: inter 500, 13px, `--fg-2`.
-
-## content
-
-- **title** — what the settings are about: `backup settings`.
-- **labels, hints and errors** — as the [field](?path=/docs/components-inputs-field--docs) page says. a noun phrase for the label, `retention (days)`; an error that says how to fix it, `use a whole number from 1 to 90`.
-- **legend** — the question the options answer: `back up`, `notify me about`.
-- **footer** — `save changes` and `cancel`. never `ok`, `submit` or `apply`.
-- **the signal** — `unsaved changes`. nothing while there are none.
-- **summary** — `couldn't save.`, then the count and the labels: `2 settings need a fix: backup host and retention (days).`
-- **a failed save** — what happened, and that nothing is lost: `couldn't save the settings. your changes are still here.` the code goes in `details`.
-- **toasts** — the object and what happened to it, no full stop: `settings saved`, `email alerts off`, `no changes to save`.
-- **success strip** — `saved.`, then what changed on the page: `saved. times on this page now show in utc.`
-
-## do and don't
-
-<DoDont>
-  <Do caption="one emphasized action at the end; cancel is a ghost before it.">
-    <Stack direction="horizontal" gap={8} align="center" justify="end" wrap>
-      <ObjectStatus appearance="text" state="information">unsaved changes</ObjectStatus>
-      <Button variant="ghost">cancel</Button>
-      <Button variant="primary">save changes</Button>
-    </Stack>
-  </Do>
-  <Dont caption="two emphasized actions: which one finishes the form?">
-    <Stack direction="horizontal" gap={8} align="center" justify="end" wrap>
-      <Button variant="primary">cancel</Button>
-      <Button variant="primary">save changes</Button>
-    </Stack>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="save stays enabled; the signal says there is something to save.">
-    <Stack direction="horizontal" gap={8} align="center" justify="end" wrap>
-      <ObjectStatus appearance="text" state="information">unsaved changes</ObjectStatus>
-      <Button variant="primary" onClick={() => toast('settings saved', { state: 'success', id: 'forms-do' })}>save changes</Button>
-    </Stack>
-  </Do>
-  <Dont caption="a disabled save is skipped by tab, and it never says why it is off.">
-    <Stack direction="horizontal" gap={8} align="center" justify="end" wrap>
-      <Button variant="primary" disabled>save changes</Button>
-    </Stack>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="in a form that is saved, an option is a checkbox: it waits for save." column>
-    <Checkbox label="back up configuration" />
-    <div>
-      <Button variant="primary">save changes</Button>
-    </div>
-  </Do>
-  <Dont caption="a switch above a save button: does it apply now, or on save?" column>
-    <Switch label="back up configuration" />
-    <div>
-      <Button variant="primary">save changes</Button>
-    </div>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="a failed save is a strip that stays, with the way forward." column>
-    <MessageStrip state="error" live="off" actions={<Button size="sm" variant="ghost">try again</Button>} details="the settings service answered 503 service unavailable">
-      couldn't save the settings. your changes are still here.
-    </MessageStrip>
-  </Do>
-  <Dont caption="an error in a toast is gone in five seconds, maybe unread, and the work isn't saved. press it to see." column>
-    <div>
-      <Button variant="primary" onClick={() => toast("couldn't save the settings", { state: 'error', id: 'forms-dont' })}>save changes</Button>
-    </div>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="a plain save is confirmed by a toast that leaves on its own. press it to see." column>
-    <div>
-      <Button variant="primary" onClick={() => toast('settings saved', { state: 'success', id: 'forms-do' })}>save changes</Button>
-    </div>
-  </Do>
-  <Dont caption="a strip for a plain confirmation stays on the page long after it was news." column>
-    <MessageStrip state="success" live="off">settings saved.</MessageStrip>
-  </Dont>
-</DoDont>
-
-## related
-
-- [field](?path=/docs/components-inputs-field--docs) — the label, hint and error around each control.
-- [message handling](?path=/docs/patterns-message-handling--docs) — when a message is a strip, a toast or inline.
-- [switch](?path=/docs/components-inputs-switch--docs) — the setting that applies at once.
-- [toast](?path=/docs/components-feedback-status-toast--docs) — the confirmation after a save.
-
 <Toaster />
+
+## implementation notes
+
+- the form is a native `<form noValidate>`, named by its card's heading through `aria-labelledby`. the card's `header` is an `h3` with `margin: 0` and `font: inherit`, so it keeps the card title's look.
+- `Button` defaults to `type="button"`. pass `type="submit"` to `save changes` only: `enter` in a text field presses the form's first submit button.
+- `noValidate` keeps the browser's own error bubbles out of the way. pass `required` to the controls all the same, so assistive tech says "required": `Field`'s `required` only draws an asterisk.
+- `Field` sets `aria-invalid` and the `--state-error` border on its control when it has an `error`, so `form.querySelector('[aria-invalid="true"]')` finds the first invalid control to focus after a save.
+- `toast('settings saved', { state: 'success', id: 'backup-settings' })`: a fixed `id` makes a second save replace the toast instead of stacking another.
+- `loading` on the save button disables it, and a disabled button can't keep focus: when the save ends, put focus back on save if it fell to the page, as the example does.
+- to keep the footer in view on a long form, wrap it with `position: sticky; bottom: 0`; the card's footer doesn't stick by itself.
+- nothing in the library warns before leaving a page with unsaved changes: use the router's navigation blocker or `beforeunload`.
+- a `Field` `error` around a checkbox or a switch passes `invalid` to it: react warns about an unknown attribute, and the box looks the same. check option groups as a whole.
+- there is no fieldset or radio component: reset a native `<fieldset>` (no border, margin or padding, `min-width: 0`) and give its `<legend>` the field label's look — inter 500, 13px, `--fg-2`.

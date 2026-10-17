@@ -1,0 +1,13 @@
+---
+// the components index: every component as a card, grouped by role.
+import Section from '../../layouts/Section.astro';
+import { url } from '../../data/site';
+---
+<Section section="components">
+  <p slot="intro">
+    each component has a guidance page with the same anatomy: when to use it and when not, its parts, variants and
+    states, behaviour, accessibility, content, do and don't, and related pages — and a link to its{' '}
+    <a href={url('react/')}>react implementation</a>. the brand glyphs, <code>Chevron</code>, <code>Lockup</code> and{' '}
+    <code>Icon</code>, are on <a href={url('styles/brand/')}>brand</a> and <a href={url('styles/iconography/')}>iconography</a>.
+  </p>
+</Section>

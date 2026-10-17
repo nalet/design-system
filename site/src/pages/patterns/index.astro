@@ -1,0 +1,19 @@
+---
+import Section from '../../layouts/Section.astro';
+import { PLANNED_FLOORPLANS } from '../../data/nav';
+---
+<Section section="patterns">
+  <h2 id="planned">planned</h2>
+  <p>floorplans that are not here yet. until they are, compose them from the components and the patterns above.</p>
+  <ul class="ds-cards" data-pagefind-ignore>
+    {PLANNED_FLOORPLANS.map((p) => (
+      <li>
+        <div class="ds-card">
+          <span class="ds-card__title">{p.title}</span>
+          <span class="ds-card__summary">{p.summary}</span>
+          <span class="ds-card__meta">planned</span>
+        </div>
+      </li>
+    ))}
+  </ul>
+</Section>

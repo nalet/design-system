@@ -30,13 +30,14 @@ const config: StorybookConfig = {
 
   staticDirs: ['../assets'],
 
-  // github pages serves this project at the /design-system/ subpath. without a
-  // matching base the built assets resolve at "/" and 404 under the subpath.
+  // the storybook is the react subsite of the guidelines: github pages serves
+  // it at /design-system/react/ (the guidelines site is /design-system/). without
+  // a matching base the built assets resolve at "/" and 404 under the subpath.
   // the dev server is the known-bad subpath case, so allow an env override to
   // run it at "/": `STORYBOOK_BASE_PATH=/ npm run storybook`.
   async viteFinal(cfg) {
     return mergeConfig(cfg, {
-      base: process.env.STORYBOOK_BASE_PATH ?? '/design-system/',
+      base: process.env.STORYBOOK_BASE_PATH ?? '/design-system/react/',
     });
   }
 };

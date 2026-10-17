@@ -1,0 +1,37 @@
+---
+// above a page's title: where it sits, and its react implementation when it has one.
+import { sectionOf } from '../data/nav';
+import { bySlug, reactHref } from '../data/components';
+import { reactDocs } from '../data/site';
+
+interface Props {
+  /** a component's slug: links its react page. */
+  component?: string;
+  /** a storybook id, or several, for a page that isn't a component. */
+  react?: string | { label: string; id: string }[];
+}
+const { component, react } = Astro.props;
+const path = Astro.url.pathname;
+const section = sectionOf(path);
+const group = section?.groups.find((g) => g.title && g.pages.some((p) => p.href.split('#')[0] === path));
+const links: { label: string; href: string }[] = [];
+if (component) links.push({ label: 'react implementation', href: reactHref(bySlug(component)) });
+if (typeof react === 'string') links.push({ label: 'react implementation', href: reactDocs(react) });
+if (Array.isArray(react)) for (const r of react) links.push({ label: `react: ${r.label}`, href: reactDocs(r.id) });
+---
+{(section || links.length > 0) && (
+  <div class="ds-eyebrow">
+    <span class="ds-eyebrow__trail">
+      {section && <a href={section.href}>{section.title}</a>}
+      {group && <span aria-hidden="true">/</span>}
+      {group && <span>{group.title}</span>}
+    </span>
+    {links.length > 0 && (
+      <span class="ds-eyebrow__trail">
+        {links.map((l) => (
+          <a class="ds-react-link" href={l.href}>{l.label} <span aria-hidden="true">→</span></a>
+        ))}
+      </span>
+    )}
+  </div>
+)}

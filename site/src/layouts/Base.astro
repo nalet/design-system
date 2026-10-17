@@ -1,0 +1,94 @@
+---
+// the html shell of every page: fonts, tokens, the top bar and the footer.
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/jetbrains-mono/400.css';
+import '@fontsource/jetbrains-mono/500.css';
+import '@fontsource/jetbrains-mono/600.css';
+import '@fontsource/jetbrains-mono/700.css';
+import '@fontsource/jetbrains-mono/800.css';
+// the library's tokens: css custom properties, color-scheme, the page base.
+import '../../../src/styles/tokens.css';
+import '../styles/site.css';
+import TopBar from '../components/TopBar.astro';
+import Footer from '../components/Footer.astro';
+import { redirectScript } from '../../redirects.mjs';
+import { BASE, url } from '../data/site';
+
+interface Props {
+  title: string;
+  description?: string;
+  /** the home page sends old storybook urls on to their new place. */
+  redirect?: boolean;
+  /** keep the page out of the search index. */
+  noindex?: boolean;
+}
+
+const { title, description, redirect = false, noindex = false } = Astro.props;
+const pageTitle = title ? `${title} · nalet design system` : 'nalet design system';
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+<!doctype html>
+<html lang="en" class="ds-site">
+  <head>
+    <meta charset="utf-8" />
+    {redirect && <script is:inline set:html={redirectScript(BASE)} />}
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    {description && <meta name="description" content={description} />}
+    {noindex ? <meta name="robots" content="noindex" /> : <link rel="canonical" href={canonical.href} />}
+    <link rel="icon" type="image/png" sizes="32x32" href={url('icons/nalet_32.png')} />
+    <link rel="icon" type="image/png" sizes="16x16" href={url('icons/nalet_16.png')} />
+    <meta name="color-scheme" content="dark" />
+    <meta name="theme-color" content="#0D1117" />
+  </head>
+  <body>
+    <a class="ds-skip" href="#content">skip to content</a>
+    <TopBar />
+    <slot />
+    <Footer />
+    <script is:inline>
+      // a table or code block that scrolls sideways becomes a focusable, named
+      // region while it overflows, so the keyboard can scroll it too.
+      (function () {
+        var frames = document.querySelectorAll('.ds-table-frame, .ds-prose pre.astro-code');
+        if (!frames.length) return;
+        var used = {};
+        function name(el) {
+          var caption = el.querySelector('caption');
+          var h = el.previousElementSibling;
+          while (h && !/^H[1-4]$/.test(h.tagName)) h = h.previousElementSibling;
+          var what = el.tagName === 'PRE' ? 'code' : 'table';
+          var base = (caption ? caption.textContent.trim() : h ? h.textContent.trim() + ', ' + what : what) + ', scrolls sideways';
+          if (!el.dataset.dsName) {
+            used[base] = (used[base] || 0) + 1;
+            el.dataset.dsName = used[base] > 1 ? base + ' (' + used[base] + ')' : base;
+          }
+          return el.dataset.dsName;
+        }
+        function check() {
+          frames.forEach(function (el) {
+            if (el.scrollWidth > el.clientWidth + 1) {
+              el.tabIndex = 0;
+              el.setAttribute('role', 'region');
+              el.setAttribute('aria-label', name(el));
+            } else {
+              el.removeAttribute('tabindex');
+              el.removeAttribute('role');
+              el.removeAttribute('aria-label');
+            }
+          });
+        }
+        check();
+        if ('ResizeObserver' in window) {
+          var ro = new ResizeObserver(check);
+          frames.forEach(function (el) { ro.observe(el); });
+        } else {
+          window.addEventListener('resize', check);
+        }
+      })();
+    </script>
+  </body>
+</html>

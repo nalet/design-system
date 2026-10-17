@@ -1,0 +1,139 @@
+---
+layout: ../../layouts/Doc.astro
+title: brand
+description: the chevron, the lockup and the app icon — the marks that carry the nalet identity.
+react:
+  - { label: chevron, id: components-brand-icons-chevron }
+  - { label: lockup, id: components-brand-icons-lockup }
+---
+import { ArrowRight } from 'lucide-react';
+import { Button, Chevron, Icon, Lockup } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import MotionFrame from '@site/components/MotionFrame.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { Sizes as ChevronSizes, InUse as ChevronInUse } from '@site/examples/chevron';
+import { Variants as LockupVariants } from '@site/examples/lockup';
+
+# brand
+
+two marks carry the identity: the chevron and the lockup. both are inline svg components, drawn in the brand blue, `--cloud-blue`, on the dark canvas. the app icon carries them outside the browser.
+
+## the chevron
+
+the `>` is the brand glyph. it reads as a terminal prompt: this is where something starts, and the way in. the library draws it in three places — before the [portal](/design-system/patterns/launchpad-and-tiles/) title (18px), before each <C slug="tile-group" /> legend (14px), and after the title of a link or button <C slug="tile" /> on hover and focus (14px) — and it opens the lockup. `Heading`'s `chevron` prop draws the same mark as a text `>` in the heading's font, also in `--cloud-blue`.
+
+- **one colour.** always `--cloud-blue`, on the dark canvas. `Chevron` takes the colour from its own class; its `color` prop can override it, and the brand says don't.
+- **sizes.** 16px by default, and any size works. the stroke is 14% of the size, never under 1.5px (`strokeWidth` sets it in px), with rounded ends and corner, so the mark keeps its weight from 14px to 128px.
+
+<Example label="the chevron at six sizes">
+  <ChevronSizes />
+</Example>
+
+as a section mark, as the way into a tile, and as the prompt in an input's leading slot:
+
+<Example label="the chevron in use">
+  <ChevronInUse />
+</Example>
+
+## the lockup
+
+the chevron, the wordmark in jetbrains mono 700 and a cursor block, in a 300 × 160 box. `height` sets the size (40px by default, which makes it 75px wide); the width follows the ratio. it mirrors the svg file in `assets/terminal/`.
+
+- **with cursor** (the default) — a `--cloud-blue` block after the wordmark blinks: on for half of a 1.05s cycle, off for the other half.
+- **without cursor** — `showCursor={false}`: the chevron and the wordmark alone.
+- **filled** — `filled` paints a `--bg` rectangle behind the mark, like the svg file. it only shows off the canvas, where it puts the canvas colour behind the mark.
+
+<MotionFrame what="the cursor">
+  <Example label="the lockup with and without its cursor, and filled">
+    <LockupVariants />
+  </Example>
+</MotionFrame>
+
+## when to use
+
+- **the lockup** — once on a surface, where people need to know whose it is: the top of a start page, a sign-in screen, a splash, the [shell bar](/design-system/patterns/shell-bar/).
+- **the chevron** — to lead a title or a section, as the portal and the tile groups do; as the prompt at the start of a command-style input; as the way into a destination.
+
+## when not to use
+
+- **the chevron as an arrow in a control** — next, expand, sort, a submenu. use a lucide arrow or chevron through `Icon` (see [iconography](/design-system/styles/iconography/)): the brand mark isn't a ui arrow.
+- **in another colour, or on a light surface.** the chevron says brand, not state; for a state, use <C slug="object-status" />.
+- **more than one cursor on a screen.** the brand has one cursor. show any further lockup with `showCursor={false}`.
+- **a blinking cursor that stays in view.** in a header or a sidebar, turn it off with `showCursor={false}` — see [accessibility](#accessibility).
+
+## anatomy
+
+the chevron:
+
+1. **mark** — one path, `M5 3 L11 8 L5 13`, in a 16-unit square, drawn in `currentColor`.
+2. **stroke** — `strokeWidth` px, or 14% of `size` with a 1.5px floor; rounded caps and join.
+
+the lockup, in its 300 × 160 box:
+
+1. **chevron** — a 9-unit `--cloud-blue` stroke from (46, 50) to (76, 80) to (46, 110), rounded.
+2. **wordmark** — 44-unit jetbrains mono 700 in `--fg-2`, starting at x 100 on a baseline at y 100.
+3. **cursor** (optional) — a 14 × 48 `--cloud-blue` block at x 240.
+4. **fill** (optional) — a `--bg` rectangle behind everything.
+
+## the app icon
+
+the chevron and the n, on the canvas, in a square with rounded corners — with the line icons, the only rounded shape in the system. it comes as png files from 16 to 512px, with the corners baked in; never round anything else to match it. the files are on [resources](/design-system/get-started/resources/#app-icons).
+
+## accessibility
+
+- `Chevron` is an image named "chevron". next to a title it is decoration: hide it from assistive tech (`aria-hidden`), as every use inside the library does.
+- `Lockup` is an image named by its wordmark. inside a link, it names the link with the wordmark; give the link its own name when it needs other words.
+- neither mark takes focus or handles keys.
+
+today:
+
+- the cursor blinks without end. under `prefers-reduced-motion`, the stylesheet hides the cursor's `<animate>` element to hold it still, but css `display` isn't one of the properties that apply to svg animation elements, so a browser can keep it blinking. pass `showCursor={false}` wherever the lockup stays in view: blinking that lasts more than five seconds next to other content needs a way to stop it (wcag 2.2.2). on this site, the examples with a cursor have a pause control.
+
+## do and don't
+
+<DoDont>
+  <Do caption="one colour: cloud blue.">
+    <Chevron size={32} aria-hidden />
+  </Do>
+  <Dont caption="a green or an amber chevron reads as a state, not as the brand.">
+    <Chevron size={32} color="var(--signal-green)" aria-hidden />
+    <Chevron size={32} color="var(--signal-amber)" aria-hidden />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="direction in a control is a lucide arrow.">
+    <Button><Fragment slot="trailing"><Icon icon={ArrowRight} /></Fragment>next</Button>
+  </Do>
+  <Dont caption="the brand chevron as a next arrow turns the mark into ui furniture.">
+    <Button><Fragment slot="trailing"><Chevron size={14} aria-hidden /></Fragment>next</Button>
+  </Dont>
+</DoDont>
+
+<MotionFrame what="the cursors">
+  <DoDont>
+    <Do caption="one lockup, one cursor." column>
+      <Lockup height={40} />
+    </Do>
+    <Dont caption="two blinking cursors compete, and neither reads as the place to look." column>
+      <Lockup height={40} />
+      <Lockup height={40} />
+    </Dont>
+  </DoDont>
+</MotionFrame>
+
+## brand files
+
+- **`brand/brand.md`** — the brand's rules for people: the canvas, foreground and signal colours, the two type families, the 4-based space scale, square frames and the voice. it names the token file as the source of truth.
+- **`brand/llm.txt`** — the same rules, condensed for language-model agents: what the system is, which files to read first, the non-negotiables, and a one-line test of whether a screen is on brand.
+- **`tokens/tokens.json`** — the source of truth for every value. when a hex in a brand file disagrees with it, the tokens win: `--fg-dim`, for one, changed in 0.3.0.
+- **`assets/terminal/`** holds the lockup as an svg file; **`assets/icons/`** the app icon as png, 16 to 512px.
+
+these pages and the files say the same thing. where they differ, trust the tokens and the components. links to every file are on [resources](/design-system/get-started/resources/).
+
+## related
+
+- [iconography](/design-system/styles/iconography/) — the lucide icons next to the marks, and the one rounded shape.
+- [launchpad & tiles](/design-system/patterns/launchpad-and-tiles/) — the chevron before the title and every group legend.
+- [shell bar](/design-system/patterns/shell-bar/) — the lockup at the top of every surface.
+- [content & voice](/design-system/foundations/content-voice/) — the words around the marks.

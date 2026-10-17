@@ -74,26 +74,15 @@ const preview: Preview = {
       source: { type: 'dynamic', language: 'tsx' },
     },
     options: {
-      // the sidebar is the site's table of contents: guidelines first, then
-      // the components by role, then the floorplans and patterns built on them.
+      // the react subsite's table of contents: getting started and the
+      // changelog, the components by role, then the floorplans' code. the
+      // design guidance is on the guidelines site, /design-system/.
       storySort: {
         order: [
-          'Introduction',
-          ['overview', 'getting started', 'changelog'],
-          'Foundations',
-          [
-            'colour',
-            'typography',
-            'space & grid',
-            'iconography',
-            'voice & content',
-            'motion',
-            'accessibility',
-            'brand',
-          ],
+          'React',
+          ['getting started', 'changelog'],
           'Components',
           [
-            'overview',
             'actions',
             'inputs',
             'data display',
@@ -101,17 +90,10 @@ const preview: Preview = {
             'layout & structure',
             'overlays',
             'navigation',
+            'brand & icons',
           ],
           'Patterns',
-          [
-            'worklist',
-            'status vocabulary',
-            'message handling',
-            'empty states',
-            'selection and bulk actions',
-            'forms and settings',
-            'portal',
-          ],
+          ['worklist', 'portal', 'selection and bulk actions', 'forms and settings'],
         ],
       },
     },

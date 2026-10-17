@@ -80,4 +80,5 @@ lowercase. short copy. no emoji. no exclamation marks. terminal / tmux aesthetic
 - tokens: `tokens/tokens.json` (dtcg) — generates `src/styles/tokens.css`,
   `src/tokens.ts`, and the tailwind preset.
 - brand reference: `brand/llm.txt`.
-- storybook (github pages): https://nalet.github.io/design-system/
+- guidelines (github pages): https://nalet.github.io/design-system/, with the
+  react components at https://nalet.github.io/design-system/react/

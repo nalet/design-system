@@ -1,0 +1,49 @@
+---
+// search over every page of the guidelines, with pagefind: the index is built
+// after the site (npm run site:build), so it works on the built site only.
+import Bare from '../layouts/Bare.astro';
+import { url } from '../data/site';
+---
+<Bare title="search" description="search the nalet design system's guidelines." noindex>
+  <article class="ds-prose">
+    <h1>search</h1>
+    <p>every page of the guidelines. the react subsite has its own search, in its sidebar.</p>
+  </article>
+  <div id="search" class="ds-search"></div>
+  <noscript><p>search needs javascript. every page is also listed in the navigation of its section.</p></noscript>
+  <link rel="stylesheet" href={url('pagefind/pagefind-ui.css')} />
+  <script is:inline src={url('pagefind/pagefind-ui.js')}></script>
+  <script is:inline define:vars={{ bundlePath: url('pagefind/') }}>
+    window.addEventListener('DOMContentLoaded', function () {
+      if (!window.PagefindUI) return;
+      new window.PagefindUI({
+        element: '#search',
+        bundlePath: bundlePath,
+        showSubResults: true,
+        showImages: false,
+        resetStyles: false,
+        translations: {
+          placeholder: 'search the guidelines',
+          clear_search: 'clear',
+          load_more: 'show more results',
+          search_label: 'search the guidelines',
+          zero_results: 'no page matches “[SEARCH_TERM]”.',
+          many_results: '[COUNT] pages match “[SEARCH_TERM]”',
+          one_result: '1 page matches “[SEARCH_TERM]”',
+          searching: 'searching for “[SEARCH_TERM]”',
+        },
+      });
+      // a visible label for pagefind's field, which only has a placeholder.
+      var input = document.querySelector('#search input');
+      if (input) {
+        input.id = 'search-field';
+        var label = document.createElement('label');
+        label.htmlFor = 'search-field';
+        label.className = 'ds-search__label';
+        label.textContent = 'search the guidelines';
+        document.querySelector('#search').prepend(label);
+        input.focus();
+      }
+    });
+  </script>
+</Bare>

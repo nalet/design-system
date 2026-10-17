@@ -1,0 +1,31 @@
+---
+// a section's landing page, with the section navigation on the left.
+import Base from './Base.astro';
+import SideNav from '../components/SideNav.astro';
+import SectionIndex from '../components/SectionIndex.astro';
+import { SECTIONS, type NavSection } from '../data/nav';
+
+interface Props {
+  section: NavSection['key'];
+}
+const section = SECTIONS.find((s) => s.key === Astro.props.section)!;
+---
+<Base title={section.title} description={section.summary}>
+  <div class="ds-shell ds-shell--wide">
+    <SideNav />
+    <main id="content" class="ds-content">
+      <details class="ds-sidenav-mobile">
+        <summary>{section.title} · all pages</summary>
+        <SideNav />
+      </details>
+      <article class="ds-prose" data-pagefind-body>
+        <h1>{section.title}</h1>
+        <p class="ds-lede">{section.summary}</p>
+        <slot name="intro" />
+        <SectionIndex section={section.key}>
+          <slot />
+        </SectionIndex>
+      </article>
+    </main>
+  </div>
+</Base>

@@ -1,0 +1,29 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as IconStories from './Icon.stories';
+
+<Meta of={IconStories} />
+
+# icon
+
+design guidance — sizes, colour, decoration and meaning, the one rounded shape: **[iconography on the guidelines site →](https://nalet.github.io/design-system/styles/iconography/)**
+
+<Canvas of={IconStories.Playground} />
+
+## examples
+
+<Canvas of={IconStories.Gallery} />
+
+<Canvas of={IconStories.Sizes} />
+
+## implementation notes
+
+- `Icon` takes the lucide component in `icon` — the component, not an element: `<Icon icon={Terminal} />`.
+- it renders lucide's `<svg>` with the class `nc-icon`: inline-block, `color: inherit`, never shrinking in a flex row, sitting on the middle of the text line. the stroke is `currentColor`.
+- `size` is the edge length in px, 16 by default; `strokeWidth` is 1.75 by default (lucide's own is 2).
+- it sets `aria-hidden="true"` unless you pass an `aria-label`, rather than rely on lucide's own default, which depends on the lucide version. an icon that informs on its own needs `aria-label` and `role="img"`.
+- every other lucide prop passes through (`className`, `style`, `absoluteStrokeWidth`, `aria-*` …), and the `ref` reaches the `<svg>`.
+- `lucide-react` is a peer dependency: the library imports it for its types only and bundles no icons.
+
+## props
+
+<ArgTypes of={IconStories} />

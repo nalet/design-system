@@ -21,7 +21,7 @@ key figures that filter one list: each tab is a count over a label — `3` over 
 
 - at the top of one list, to show the few subsets people act on and let them pick one: `missing`, `on their way`, `needs attention`.
 - when each subset's count is worth seeing before choosing it.
-- for one subset at a time, from two to about six. the [worklist](?path=/docs/patterns-worklist--docs) puts them over its table.
+- for one subset at a time, from two to about six. the [worklist](https://nalet.github.io/design-system/patterns/worklist/) puts them over its table.
 
 ## when not to use
 
@@ -51,7 +51,7 @@ key figures that filter one list: each tab is a count over a label — `3` over 
 
 ### states on counts
 
-`state` colours the count, and only the count, when the number carries a meaning: `error` for `needs attention`, `warning` for `can't be checked`, `information` for `on their way` (the colours of the [status vocabulary](?path=/docs/patterns-status-vocabulary--docs)). leave it off for counts that only say how many, `missing` or `not yet aired`: they stay plain `--fg`. a tab without a `count` shows no state at all. the example at the top uses both.
+`state` colours the count, and only the count, when the number carries a meaning: `error` for `needs attention`, `warning` for `can't be checked`, `information` for `on their way` (the colours of the [status vocabulary](https://nalet.github.io/design-system/patterns/status-vocabulary/)). leave it off for counts that only say how many, `missing` or `not yet aired`: they stay plain `--fg`. a tab without a `count` shows no state at all. the example at the top uses both.
 
 plain counts, with no state anywhere:
 
@@ -94,7 +94,7 @@ import { FilterTabs, filterTabId } from '@nalet/design-system';
 </div>
 ```
 
-the panel is then named after the selected tab: "needs attention 3". without `idPrefix` the tabs still get ids, but from a generated prefix you can't know, so pass it whenever you render the panel, and keep it unique on the page. the [worklist](?path=/docs/patterns-worklist--docs) does all of this for you.
+the panel is then named after the selected tab: "needs attention 3". without `idPrefix` the tabs still get ids, but from a generated prefix you can't know, so pass it whenever you render the panel, and keep it unique on the page. the [worklist](https://nalet.github.io/design-system/patterns/worklist/) does all of this for you.
 
 - the state colour on a count is a second signal: the label says what the count means. a count has no glyph, unlike an [object status](?path=/docs/components-feedback-status-object-status--docs), so never let the colour say what the label doesn't.
 - a count that changes is not announced.
@@ -152,6 +152,6 @@ each entry in `tabs` has an `id`, a `label`, and optionally a `count`, a `state`
 ## related
 
 - [tabs](?path=/docs/components-navigation-tabs--docs) — views of one object, not filters of one list.
-- [worklist](?path=/docs/patterns-worklist--docs) — puts the tabs over the list and wires the panel.
+- [worklist](https://nalet.github.io/design-system/patterns/worklist/) — puts the tabs over the list and wires the panel.
 - [filter bar](?path=/docs/components-inputs-filter-bar--docs) — filters that combine: a search and facets.
-- [status vocabulary](?path=/docs/patterns-status-vocabulary--docs) — the states the counts take their colours from.
+- [status vocabulary](https://nalet.github.io/design-system/patterns/status-vocabulary/) — the states the counts take their colours from.

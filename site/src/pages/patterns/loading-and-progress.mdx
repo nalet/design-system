@@ -1,0 +1,134 @@
+---
+layout: ../../layouts/Doc.astro
+title: loading and progress
+description: what to show while something loads — nothing for a blink, the value when progress is known, the loader when it isn't, and the shape of the content for a list or a page.
+draft: true
+---
+import { Button } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import MotionFrame from '@site/components/MotionFrame.astro';
+import { DoDont, Do, Dont, Example, Mock } from '@site/blocks';
+import { BusyTable } from '@site/specimens/motion';
+import { LoaderSizes, ProgressBarMock, RegionLoaderMock, SkeletonRowsMock, SquareLoaderShape } from '@site/demos/loading';
+
+# loading and progress
+
+what to show while something loads: nothing for a blink, the value when the progress is known, the loader when it isn't, and the shape of the content for a list or a page.
+
+## which one
+
+| situation | use |
+| --- | --- |
+| under about 0.4 s | nothing: a loader that flashes reads as a glitch |
+| known progress (a copy, an upload) | a progress bar with the value: `62% · 1.4 of 2.2 gb` |
+| unknown, inline (a button, a field, a toolbar) | the loader at 16px; the label stays |
+| unknown, a region or a player | the loader at 32–48px, with one line of text |
+| a list or a page | skeleton blocks in the shape of the content, not a loader in empty space |
+| reduced motion | the loader stands still, and the text carries the state |
+| assistive technology | one status with a label, announced once |
+
+## the loader
+
+a faint, still square frame, with three quarters of it lit and the gap travelling round at a steady pace. the frames of the system are square, and only the moving gap says "working".
+
+<Mock planned="the square loader" label="the loader's shape, still">
+  <LoaderSizes />
+</Mock>
+
+- **inline**, at 16px: in a button, a field or a toolbar, before the label, which stays.
+- **in a region** or a player, at 32–48px, centred, with one line of text under it that says what is loading.
+- **with reduced motion** it stands still — the frame and its three lit quarters — and the text says that something is loading.
+
+today: the <C slug="spinner" /> is a turning ring: a faint circle with a lit quarter that turns, 0.7s a turn. under reduced motion it turns more slowly, once every 1.6s, rather than standing still. the square loader is **planned**.
+
+## known progress
+
+when the work can say how far it has come — a copy, an upload, a scan of a library — show a bar and the value in words: the percentage and the amount, `62% · 1.4 of 2.2 gb`. the words are what people read; the bar is how far, at a glance.
+
+<Mock planned="a progress bar" label="a copy, 62% done">
+  <ProgressBarMock />
+</Mock>
+
+today: there is no progress bar component. it is **planned**.
+
+## unknown, in a region
+
+a panel, a player or a detail that loads on its own shows the loader at 32–48px with one line of text: what is loading, in the object's words.
+
+<Mock planned="the square loader" label="a region that loads">
+  <RegionLoaderMock />
+</Mock>
+
+## a list or a page
+
+a list or a page that loads for the first time shows blocks in the shape of what is coming: rows of the length its rows will have, a title where its title will be. the page doesn't jump when the content arrives, and people can see what kind of thing is on its way.
+
+<Mock planned="skeleton blocks" label="a list that loads for the first time">
+  <SkeletonRowsMock />
+</Mock>
+
+a list that is refreshing keeps the rows it has: the <C slug="data-table" /> dims them under a running rule along its top edge, and they stay in place.
+
+<MotionFrame what="the rule">
+  <Example label="a table that is refreshing" column>
+    <BusyTable label="volumes, refreshing" />
+  </Example>
+</MotionFrame>
+
+today: there is no skeleton component. it is **planned**; until then, a first load shows the table's running rule over an empty body.
+
+## behaviour
+
+- **wait before showing anything.** a load that finishes within about 0.4 s shows nothing; the loader appears only after that, so a fast answer doesn't flash.
+- **show it where the content is.** a busy button keeps its place and its label; a busy list keeps its frame and its rows.
+- **one loader per region.** a page that loads three panels shows three loaders, each where its panel is — not one over the whole page.
+- **stop the moment it is done**, and replace the loader with the content, or with what went wrong — see [empty states](/design-system/patterns/empty-states/) and [message handling](/design-system/patterns/message-handling/).
+
+today: the components show their busy state the moment it is set — a button's `loading`, a data table's `loading`. waiting 0.4 s first is the app's part.
+
+## accessibility
+
+- **one status, with a label, announced once**: "loading the episode list". not a stream of updates, and not every few percent of a progress bar.
+- the area that is loading says so too: a busy list or button is marked busy for assistive tech.
+- motion never says it alone: with reduced motion the loader stands still, and the text carries the state.
+
+today: the spinner is a status named "loading"; a busy button and a busy data table mark themselves busy.
+
+## content
+
+- **the line of text** — what is loading, in the object's words: `loading the episode list`, `asking the catalog`. no "please wait", no "almost there".
+- **the value** — the percentage, then the amount: `62% · 1.4 of 2.2 gb`, with thousands separators and the unit.
+- **when it takes long** — say what is happening, not that it is slow: `scanning 2,400 of 9,000 files`.
+
+## do and don't
+
+<MotionFrame what="the examples">
+<DoDont>
+  <Do caption="the button keeps its place and its label while it works.">
+    <Button variant="primary" loading>saving changes</Button>
+  </Do>
+  <Dont caption="a loader in empty space where the list will be: the page jumps when it arrives." column>
+    <div style={{ display: 'grid', placeItems: 'center', width: '100%', minHeight: '120px', border: '1px solid var(--border)' }}>
+      <SquareLoaderShape size={32} />
+    </div>
+  </Dont>
+</DoDont>
+</MotionFrame>
+
+<DoDont>
+  <Do caption="known progress: the value in words, beside the bar." column>
+    <ProgressBarMock />
+  </Do>
+  <Dont caption="known progress shown as an endless loader: people can't tell whether it is nearly done." column>
+    <div style={{ display: 'grid', placeItems: 'center', width: '100%', minHeight: '64px' }}>
+      <SquareLoaderShape size={32} />
+    </div>
+  </Dont>
+</DoDont>
+
+## related
+
+- <C slug="spinner" /> — the loader today.
+- [motion](/design-system/styles/motion/) — durations, loops and reduced motion.
+- [empty states](/design-system/patterns/empty-states/) — what comes when the load is done and there is nothing.
+- [message handling](/design-system/patterns/message-handling/) — what comes when the load fails.

@@ -72,7 +72,7 @@ the interactive table: controlled sorting, row selection, collapsible groups, gr
 
 ## when to use
 
-- for a list people work through: scan it, sort it, select rows and act on them. it is the body of a [worklist](?path=/docs/patterns-worklist--docs).
+- for a list people work through: scan it, sort it, select rows and act on them. it is the body of a [worklist](https://nalet.github.io/design-system/patterns/worklist/).
 - when rows need any of: sorting by a column, selecting one or many, grouping under header rows, loading in pages ("show 100 more"), moving between rows from the keyboard.
 - for long lists. with `growing` it stays fast at thousands of rows — see performance, below.
 
@@ -80,7 +80,7 @@ the interactive table: controlled sorting, row selection, collapsible groups, gr
 
 - **for a short, read-only set of records.** use the [table](?path=/docs/components-data-display-table--docs): native markup, no focus model, no row state. it costs less and announces less.
 - **for the fields of one record.** one row with many columns reads badly. list label and value pairs in a [card](?path=/docs/components-layout-structure-card--docs).
-- **for destinations.** a set of apps or areas to open is a [tile group](?path=/docs/components-navigation-tile-group--docs), or the [portal](?path=/docs/patterns-portal--docs).
+- **for destinations.** a set of apps or areas to open is a [tile group](?path=/docs/components-navigation-tile-group--docs), or the [portal](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/).
 - **to pick values in a form.** use [checkboxes](?path=/docs/components-inputs-checkbox--docs) or a [multi select](?path=/docs/components-inputs-multi-select--docs). row selection is for acting on rows, not a form value.
 - **when every column must stay a column at any width.** the data table never scrolls sideways; it pops columns in. the [table](?path=/docs/components-data-display-table--docs) keeps its columns and scrolls inside its frame.
 
@@ -133,7 +133,7 @@ every feature is a prop and is off until you pass it. columns are objects:
 
 - `selectable` adds the checkbox column. selection is controlled: `selected` is a set of `rowKey` values, and `onSelectionChange` receives the next set. without `onSelectionChange` nothing can change it.
 - people select with a row's checkbox, a click on the row (when there is no `onRowPress`), `space` on a focused row, ranges with `shift`, and `ctrl+a` / `cmd+a` — see behaviour and keyboard, below.
-- the header checkbox means **every visible row**: the rows on screen, not those in collapsed groups or past the growing limit. it is checked while every visible row that can be selected is selected, and mixed (indeterminate) while anything else is selected. pressed while checked, it clears the whole selection, hidden rows included. it is disabled while no visible row can be selected. offering "select all 2,500" is the selection toolbar's job — see [selection and bulk actions](?path=/docs/patterns-selection-and-bulk-actions--docs).
+- the header checkbox means **every visible row**: the rows on screen, not those in collapsed groups or past the growing limit. it is checked while every visible row that can be selected is selected, and mixed (indeterminate) while anything else is selected. pressed while checked, it clears the whole selection, hidden rows included. it is disabled while no visible row can be selected. offering "select all 2,500" is the selection toolbar's job — see [selection and bulk actions](https://nalet.github.io/design-system/patterns/selection-and-bulk-actions/).
 - `isRowSelectable` returning `false` disables a row's checkbox and keeps the row out of clicks, `space`, ranges, select-all and `ctrl+a`. say why in the row, with a status ("on its way").
 - `rowLabel` names each checkbox: `rowLabel={(r) => r.code}` gives "select S04E07". without it every checkbox is named "select row".
 - the mixed state counts every key in `selected`, including keys of rows that are no longer in `rows`. when the list changes (a filter, a tab), keep only the rows that are still there, or clear the selection.
@@ -188,7 +188,7 @@ every feature is a prop and is off until you pass it. columns are objects:
 ### sticky header
 
 - `stickyHeader` is on by default: the header cells stick to the top of the nearest scrolling ancestor, usually the page, while the rows scroll under them. the frame has no overflow on purpose; a frame that scrolled would stop the header from sticking to the page.
-- under something else that sticks — an app bar, a sticky toolbar — offset the header with `--nc-dt-sticky-top` on any ancestor. the [worklist](?path=/docs/patterns-worklist--docs) sets it to its toolbar's measured height.
+- under something else that sticks — an app bar, a sticky toolbar — offset the header with `--nc-dt-sticky-top` on any ancestor. the [worklist](https://nalet.github.io/design-system/patterns/worklist/) sets it to its toolbar's measured height.
 - inside a panel with its own scroll, the header sticks to the top of that panel.
 
 ```tsx
@@ -208,7 +208,7 @@ every feature is a prop and is off until you pass it. columns are objects:
 
 ### empty
 
-- `empty` shows in one cell across every column when there are no rows. give it an [illustrated message](?path=/docs/components-feedback-status-illustrated-message--docs) at `size="sm"`, with a `headingLevel` that fits the page around it — see [empty states](?path=/docs/patterns-empty-states--docs).
+- `empty` shows in one cell across every column when there are no rows. give it an [illustrated message](?path=/docs/components-feedback-status-illustrated-message--docs) at `size="sm"`, with a `headingLevel` that fits the page around it — see [empty states](https://nalet.github.io/design-system/patterns/empty-states/).
 - without `empty`, an empty table is a header row with nothing under it.
 
 <Canvas of={DataTableStories.Empty} />
@@ -288,12 +288,12 @@ today:
 
 - **headers** — a lowercase noun, one or two words: `episode`, `aired`, `state`. put a unit in the header, `size (gb)`, not in every cell.
 - **the row header** — what people call the row, `S04E07` or `worker-2`, in an [identifier cell](?path=/docs/components-data-display-table-cells--docs). `rowLabel` returns the same words, so the checkbox, the action menu and the row agree.
-- **status** — one status cell per row, from one table of the object's states (`defineStates`, see [status vocabulary](?path=/docs/patterns-status-vocabulary--docs)): the state in the object's words, and a detail line for why or what happens next.
+- **status** — one status cell per row, from one table of the object's states (`defineStates`, see [status vocabulary](https://nalet.github.io/design-system/patterns/status-vocabulary/)): the state in the object's words, and a detail line for why or what happens next.
 - **dates** — a [date cell](?path=/docs/components-data-display-table-cells--docs): absolute and relative.
 - **group headers** — what the group is and how many it holds: `The Example Show · S04 · 8 missing`. a group's name is content: the label shows it as written, so write it the way the name is spelled.
 - **group actions** — a verb and the count it acts on: `grab all 8`.
 - **growing** — keep the "100 of 2,500" form. `formatGrowing` is for another language, not for other words.
-- **empty** — what is true, in the list's own words: see [empty states](?path=/docs/patterns-empty-states--docs).
+- **empty** — what is true, in the list's own words: see [empty states](https://nalet.github.io/design-system/patterns/empty-states/).
 
 ## do and don't
 
@@ -354,5 +354,5 @@ the table doesn't virtualise: every row it shows is a row in the dom. so:
 
 - [table](?path=/docs/components-data-display-table--docs) — the static table, for short read-only records.
 - [table cells](?path=/docs/components-data-display-table-cells--docs) — status with a reason, dates both ways, identifiers.
-- [selection and bulk actions](?path=/docs/patterns-selection-and-bulk-actions--docs) — selecting rows and acting on them from a toolbar.
-- [worklist](?path=/docs/patterns-worklist--docs) — the floorplan a data table usually sits in.
+- [selection and bulk actions](https://nalet.github.io/design-system/patterns/selection-and-bulk-actions/) — selecting rows and acting on them from a toolbar.
+- [worklist](https://nalet.github.io/design-system/patterns/worklist/) — the floorplan a data table usually sits in.

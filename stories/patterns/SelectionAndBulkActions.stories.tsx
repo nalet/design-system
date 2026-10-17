@@ -39,13 +39,14 @@ const meta: Meta = {
       },
     },
   },
-  // one toaster per page: the guideline page mounts its own, so a story only
+  // one toaster per page: a docs page, or a page that embeds the story
+  // (parameters.embedded, the guidelines site), mounts its own; a story only
   // brings one when it is viewed on its own.
   decorators: [
     (Story, context) => (
       <>
         <Story />
-        {context.viewMode === 'docs' ? null : <Toaster />}
+        {context.viewMode === 'docs' || context.parameters.embedded ? null : <Toaster />}
       </>
     ),
   ],

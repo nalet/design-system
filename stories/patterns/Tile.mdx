@@ -20,7 +20,7 @@ a square launch tile. as an `app` tile it is one link or button into an app — 
 
 ## when not to use
 
-- **for records people work through.** use a [data table](?path=/docs/components-data-display-data-table--docs) — see the [worklist](?path=/docs/patterns-worklist--docs) pattern.
+- **for records people work through.** use a [data table](?path=/docs/components-data-display-data-table--docs) — see the [worklist](https://nalet.github.io/design-system/patterns/worklist/) pattern.
 - **for an action on the current screen.** a tile goes somewhere; to do something here, use a [button](?path=/docs/components-actions-button--docs).
 - **to switch between views of one object.** use [tabs](?path=/docs/components-navigation-tabs--docs).
 - **for a state with its own words in a row or a form.** use [object status](?path=/docs/components-feedback-status-object-status--docs).
@@ -77,8 +77,8 @@ a link or button tile is a native `<a>` or `<button>`, so the browser provides t
 | `enter` | link: follows it. button: presses it. |
 | `space` | button: presses it. |
 
-- in a [tile group](?path=/docs/components-navigation-tile-group--docs) or a [portal](?path=/docs/patterns-portal--docs), the arrow keys move between tiles. link and button tiles opt in with the `data-nc-tile` attribute they set.
-- the [portal](?path=/docs/patterns-portal--docs) search matches against the title and the description, lowercased, which every tile carries in `data-nc-search`.
+- in a [tile group](?path=/docs/components-navigation-tile-group--docs) or a [portal](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/), the arrow keys move between tiles. link and button tiles opt in with the `data-nc-tile` attribute they set.
+- the [portal](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/) search matches against the title and the description, lowercased, which every tile carries in `data-nc-search`.
 - `as` renders your component, e.g. a router link. today `Tile` passes `href` and `external` only to a plain `<a>`: give your component its destination yourself.
 - transitions are off under `prefers-reduced-motion`.
 
@@ -142,6 +142,6 @@ today:
 ## related
 
 - [tile group](?path=/docs/components-navigation-tile-group--docs) — the titled grid that holds tiles and runs the arrow keys.
-- [portal (launchpad)](?path=/docs/patterns-portal--docs) — the home page built from groups of tiles.
+- [portal (launchpad)](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/) — the home page built from groups of tiles.
 - [object status](?path=/docs/components-feedback-status-object-status--docs) — a state with its own words, for rows and forms.
-- [iconography](?path=/docs/foundations-iconography--docs) — which icons to use, and how.
+- [iconography](https://nalet.github.io/design-system/styles/iconography/) — which icons to use, and how.

@@ -122,7 +122,7 @@ export const Badges: Story = {
 export const Status: Story = {
   name: 'status dots',
   render: () => (
-    <TileGroup legend="services" columns="auto" minTileWidth="11rem">
+    <TileGroup legend="service health" columns="auto" minTileWidth="11rem">
       <Tile icon={Server} title="api" description="all workers up" href="#" status="online" />
       <Tile icon={Server} title="queue" description="2 of 3 workers down" href="#" status="degraded" />
       <Tile icon={Server} title="worker" description="not responding" href="#" status="offline" />

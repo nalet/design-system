@@ -1,0 +1,45 @@
+---
+layout: ../../layouts/Doc.astro
+title: resources
+description: the repository, the react subsite, the brand files and the app icons of the nalet design system.
+---
+
+# resources
+
+where everything lives: the code, the implementation, the brand files.
+
+## code and implementation
+
+| what | where |
+| --- | --- |
+| the repository | [github.com/nalet/design-system](https://github.com/nalet/design-system) — mit licensed; issues and pull requests go there |
+| the react subsite | [/design-system/react/](/design-system/react/) — every component's playground, examples, implementation notes and props |
+| releases | [github releases](https://github.com/nalet/design-system/releases) — each carries the packed package to install by url |
+| the changelog | [versioning & changelog](/design-system/get-started/versioning/), from `CHANGELOG.md` |
+| the tokens | [`tokens/tokens.json`](https://github.com/nalet/design-system/blob/main/tokens/tokens.json) — the source of every value; see [tokens](/design-system/develop/tokens/) |
+
+## brand files
+
+| file | what it is |
+| --- | --- |
+| [`brand/brand.md`](https://github.com/nalet/design-system/blob/main/brand/brand.md) | the brand's rules for people: canvas, foreground and signal colours, the two type families, the space scale, square frames and the voice |
+| [`brand/llm.txt`](https://github.com/nalet/design-system/blob/main/brand/llm.txt) | the same rules, condensed for language-model agents, with a one-line test of whether a screen is on brand |
+| [`nalet-lockup.svg`](/design-system/terminal/nalet-lockup.svg) | the lockup as an svg file, on the canvas colour: chevron, wordmark and the blinking cursor |
+| [app icons](#app-icons) | the app icon — the blue chevron and the n on the canvas — as png, 16 to 512px, with its rounded corners baked in |
+| splash plates: [grid](/design-system/splash-plates/01-grid.png), [mountain](/design-system/splash-plates/02-mountain.png) | two 1536 × 1024 backgrounds for a splash or a sign-in screen |
+
+where a hex value in a brand file and `tokens/tokens.json` disagree, the tokens win; see [brand](/design-system/styles/brand/).
+
+## app icons
+
+| size | file |
+| --- | --- |
+| 16px | [nalet_16.png](/design-system/icons/nalet_16.png) |
+| 32px | [nalet_32.png](/design-system/icons/nalet_32.png) |
+| 48px | [nalet_48.png](/design-system/icons/nalet_48.png) |
+| 64px | [nalet_64.png](/design-system/icons/nalet_64.png) |
+| 128px | [nalet_128.png](/design-system/icons/nalet_128.png) |
+| 256px | [nalet_256.png](/design-system/icons/nalet_256.png) |
+| 512px | [nalet_512.png](/design-system/icons/nalet_512.png) |
+
+the files keep the addresses they had when the storybook served them, so existing links keep working.

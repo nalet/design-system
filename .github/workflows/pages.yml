@@ -1,19 +1,25 @@
 name: pages
 
+# the published docs, one folder:
+#   /design-system/         the guidelines site (astro, site/), with its search index
+#   /design-system/react/   the react subsite (storybook, stories/)
+# every pull request builds both and checks every internal link; a push to
+# main also deploys them.
+
 on:
   push:
+    branches: [main]
+  pull_request:
     branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
-  pages: write
-  id-token: write
 
-# one concurrent deploy; don't cancel an in-flight pages publish.
+# one deploy at a time, never cancelled; a pull request's check gives way to a newer push.
 concurrency:
-  group: pages
-  cancel-in-progress: false
+  group: ${{ github.event_name == 'pull_request' && format('pages-check-{0}', github.ref) || 'pages' }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   build:
@@ -34,17 +40,30 @@ jobs:
       - name: build tokens
         run: npm run build-tokens
 
-      - name: build storybook
-        run: npm run build-storybook
+      - name: build the guidelines site
+        run: npm run site:build
+
+      - name: build the react subsite into site/dist/react
+        run: npm run site:react
+        env:
+          STORYBOOK_BASE_PATH: /design-system/react/
+
+      - name: check links
+        run: npm run site:check
 
       - name: upload pages artifact
+        if: github.event_name != 'pull_request'
         uses: actions/upload-pages-artifact@v5
         with:
-          path: storybook-static
+          path: site/dist
 
   deploy:
+    if: github.event_name != 'pull_request'
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}

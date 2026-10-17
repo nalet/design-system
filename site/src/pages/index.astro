@@ -1,0 +1,64 @@
+---
+// the home page. it also sends an old storybook url (?path=…) on to its new
+// place before anything renders: see site/redirects.mjs.
+import Bare from '../layouts/Bare.astro';
+import { Lockup } from '@nalet/design-system';
+import { SECTIONS } from '../data/nav';
+import { url, REACT, REPO, VERSION } from '../data/site';
+---
+<Bare title="" description="the nalet design system: principles, foundations, styles, components and patterns for calm, honest admin consoles, and the react components that build them." redirect>
+  <section class="ds-hero" aria-labelledby="home-title" data-pagefind-body>
+    <Lockup height={88} showCursor={false} aria-hidden="true" />
+    <h1 id="home-title">the nalet design system</h1>
+    <p>
+      a single identity for every nalet surface — dark canvas, monospace voice, blue chevron, square frames — and the
+      principles, components and patterns for building calm, honest admin consoles with it.
+    </p>
+    <blockquote>if a screen would look at home in a tmux pane, it is on. if it looks like a saas landing page, start over.</blockquote>
+    <div class="ds-hero__actions">
+      <a class="ds-button-link ds-button-link--primary" href={url('get-started/')}>get started</a>
+      <a class="ds-button-link" href={url('foundations/principles/')}>the principles</a>
+      <a class="ds-button-link" href={REACT}>react components</a>
+    </div>
+  </section>
+
+  <h2 class="ds-section-title">the guidelines</h2>
+  <ul class="ds-cards">
+    {SECTIONS.map((s) => (
+      <li>
+        <a class="ds-card" href={s.href}>
+          <span class="ds-card__title">{s.title}</span>
+          <span class="ds-card__summary">{s.summary}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <h2 class="ds-section-title">build with it</h2>
+  <ul class="ds-cards">
+    <li>
+      <a class="ds-card" href={REACT}>
+        <span class="ds-card__title">react</span>
+        <span class="ds-card__summary">the react components with their playgrounds, examples and props: the implementation of these guidelines.</span>
+      </a>
+    </li>
+    <li>
+      <a class="ds-card" href={url('develop/tokens/')}>
+        <span class="ds-card__title">tokens</span>
+        <span class="ds-card__summary">css custom properties, typed token objects and a tailwind preset, from one json file.</span>
+      </a>
+    </li>
+    <li>
+      <a class="ds-card" href={url('get-started/versioning/')}>
+        <span class="ds-card__title">v{VERSION}</span>
+        <span class="ds-card__summary">the latest release, and what changed in it.</span>
+      </a>
+    </li>
+    <li>
+      <a class="ds-card" href={REPO}>
+        <span class="ds-card__title">source</span>
+        <span class="ds-card__summary">the repository on github, mit licensed.</span>
+      </a>
+    </li>
+  </ul>
+</Bare>

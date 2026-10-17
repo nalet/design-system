@@ -1,0 +1,66 @@
+---
+// the top bar: the lockup home, the six sections, the react subsite and the repo.
+import { Lockup } from '../../../src';
+import { SECTIONS, sectionOf } from '../data/nav';
+import { url, REACT, REPO } from '../data/site';
+
+const current = sectionOf(Astro.url.pathname);
+const extras = [
+  { title: 'search', href: url('search/'), current: Astro.url.pathname === url('search/') },
+  { title: 'react', href: REACT, boxed: true },
+  { title: 'github', href: REPO },
+];
+---
+<header class="ds-topbar">
+  <div class="ds-topbar__inner">
+    <a class="ds-topbar__home" href={url()} aria-label="nalet design system, home">
+      <Lockup height={48} showCursor={false} aria-hidden="true" />
+    </a>
+    <nav aria-label="sections">
+      <ul class="ds-topbar__sections">
+        {SECTIONS.map((s) => (
+          <li>
+            <a class="ds-toplink" href={s.href} aria-current={current?.key === s.key ? 'true' : undefined}>
+              {s.title}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+    <ul class="ds-topbar__aside">
+      {extras.map((x) => (
+        <li>
+          <a
+            class:list={['ds-toplink', { 'ds-toplink--boxed': x.boxed }]}
+            href={x.href}
+            aria-current={x.current ? 'page' : undefined}
+          >
+            {x.title}
+          </a>
+        </li>
+      ))}
+    </ul>
+    <details class="ds-menu">
+      <summary>menu</summary>
+      <div class="ds-menu__panel">
+        <nav aria-label="sections and links">
+          <ul>
+            {SECTIONS.map((s) => (
+              <li>
+                <a href={s.href} aria-current={current?.key === s.key ? 'true' : undefined}>{s.title}</a>
+              </li>
+            ))}
+          </ul>
+          <hr />
+          <ul>
+            {extras.map((x) => (
+              <li>
+                <a href={x.href}>{x.title}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </div>
+    </details>
+  </div>
+</header>

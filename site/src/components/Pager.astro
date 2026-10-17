@@ -1,0 +1,17 @@
+---
+// previous and next page in the section.
+import { sectionOf, flatPages } from '../data/nav';
+
+const path = Astro.url.pathname;
+const section = sectionOf(path);
+const pages = section ? flatPages(section).filter((p) => !p.href.includes('#') && p.href.startsWith(section.href)) : [];
+const i = pages.findIndex((p) => p.href === path);
+const prev = i > 0 ? pages[i - 1] : undefined;
+const next = i >= 0 && i < pages.length - 1 ? pages[i + 1] : undefined;
+---
+{(prev || next) && (
+  <nav class="ds-pager" aria-label="previous and next">
+    {prev ? <a href={prev.href} rel="prev"><span class="ds-pager__dir">previous</span>{prev.title}</a> : <span />}
+    {next && <a href={next.href} rel="next"><span class="ds-pager__dir">next</span>{next.title}</a>}
+  </nav>
+)}

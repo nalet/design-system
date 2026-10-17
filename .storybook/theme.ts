@@ -4,9 +4,10 @@ import { create } from 'storybook/theming/create';
 export default create({
   base: 'dark',
 
-  brandTitle: '> nalet / design-system',
+  // the react subsite: the brand link goes back to the guidelines site.
+  brandTitle: '> nalet / react',
   brandUrl: 'https://nalet.github.io/design-system/',
-  brandTarget: '_blank',
+  brandTarget: '_self',
 
   // canvas
   appBg: '#0B0F19',

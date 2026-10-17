@@ -1,0 +1,102 @@
+---
+layout: ../../layouts/Doc.astro
+title: iconography
+description: line icons from lucide at 16px with a 1.75 stroke, in the colour of the text around them, and hidden from assistive tech unless named.
+react: components-brand-icons-icon
+---
+import { CircleCheck, Rocket, RotateCw } from 'lucide-react';
+import { Button, Icon, IconButton } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { Gallery, Sizes } from '@site/examples/icon';
+
+# iconography
+
+line icons from [lucide](https://lucide.dev), drawn through `Icon`: 16px, a 1.75 stroke, the colour of the text around them, and hidden from assistive tech unless you name them.
+
+<Example label="a few icons at the default size">
+  <Gallery />
+</Example>
+
+## the icon component
+
+- `Icon` takes the lucide component in `icon` — the component, not an element: `<Icon icon={Terminal} />`.
+- `size` is the edge length in px: 16 by default, to match the ui text. `strokeWidth` is 1.75 by default; lucide's own default is 2.
+- the stroke is `currentColor`, so an icon takes the colour of its parent. tint the parent, not the icon.
+- it is hidden from assistive tech unless you pass an `aria-label`.
+
+how it is built — the element it renders, the props it passes through — is on its [react page](/design-system/react/?path=/docs/components-brand-icons-icon--docs).
+
+## lucide is a peer dependency
+
+- install `lucide-react` (0.300.0 or later) next to the library; `react` and `react-dom` 18 or later are peers too.
+- the library imports lucide for its types only and bundles no icons. import each icon you use by name — `import { Terminal } from 'lucide-react'` — and your bundle carries only those.
+- where a component takes an icon, it wants the component: `Icon`'s `icon`, `Tile`'s `icon`. slots take an element: a <C slug="button" />'s `leading={<Icon icon={Rocket} />}`, or the icon as an <C slug="icon-button" />'s child.
+
+## sizes
+
+| size | where |
+| --- | --- |
+| 12px | inside `sm` (28px) buttons and icon buttons, the size of their spinner |
+| 16px | the default: next to ui text, inside `md` (34px) buttons and icon buttons |
+| 20px | inside `lg` (42px) icon buttons |
+| 22px | a tile's app icon. `Tile` sets the size and the stroke; you pass only the component |
+
+<Example label="icon sizes">
+  <Sizes />
+</Example>
+
+the stroke stays 1.75 at every size. lucide measures it on its 24-unit grid, so the line thins as the icon shrinks: about 1.2px at 16px, 1.6px at 22px. don't mix stroke widths on one screen.
+
+## colour
+
+- icons are `currentColor`: next to body text they are `--fg-2`, in a quiet label `--fg-muted`.
+- `--cloud-blue` marks a destination: it is the colour of a tile's app icon.
+- the signal colours belong to states, and a state needs words: see <C slug="object-status" />. an icon alone in green or red tells many people nothing.
+
+## decoration and meaning
+
+- **next to words, an icon is decoration.** `Icon` hides it from assistive tech, and the words carry the meaning — in a button's slots, in a tile.
+- **an icon that is a control's only content** belongs in an <C slug="icon-button" />. its required `label` becomes the button's accessible name and its native tooltip; leave the icon inside unlabelled.
+- **an icon that informs on its own** is rare. give it a name — `aria-label` with `role="img"` — and `Icon` stops hiding it. words next to it are still better.
+- **never make a bare icon clickable.** an `<svg>` takes no focus and has no role, so keyboard and screen-reader users can't use it.
+
+## shape
+
+icons are the only rounded shape in the system: lucide draws them with round caps and joins, and the app icons carry their rounded corners in the png. everything around an icon stays square — see [shape](/design-system/styles/shape/).
+
+## do and don't
+
+<DoDont>
+  <Do caption="the defaults, 16px and a 1.75 stroke, next to the label.">
+    <Button><Fragment slot="leading"><Icon icon={Rocket} /></Fragment>deploy release</Button>
+  </Do>
+  <Dont caption="a raw lucide icon at its defaults (24px, stroke 2) is heavier than everything around it and crowds the button.">
+    <Button><Fragment slot="leading"><Rocket /></Fragment>deploy release</Button>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="an icon-only action is an icon button with a label.">
+    <IconButton label="restart worker-2"><Icon icon={RotateCw} /></IconButton>
+  </Do>
+  <Dont caption="a clickable bare icon has no focus and no name; the keyboard can't reach it.">
+    <span style={{ cursor: 'pointer', color: 'var(--fg-2)' }}><Icon icon={RotateCw} /></span>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="a state in words, with the icon beside them as decoration.">
+    <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)', color: 'var(--state-success)', fontFamily: 'var(--ff-mono)', fontSize: '13px' }}><Icon icon={CircleCheck} />healthy</span>
+  </Do>
+  <Dont caption="the icon alone is hidden from screen readers and told apart only by its colour.">
+    <span style={{ color: 'var(--state-success)' }}><Icon icon={CircleCheck} /></span>
+  </Dont>
+</DoDont>
+
+## related
+
+- <C slug="icon-button" /> — an action that is only an icon, with its required label.
+- <C slug="button" /> — icons in the leading and trailing slots.
+- <C slug="tile" /> — the app icon at 22px.
+- [brand](/design-system/styles/brand/) — the chevron and the lockup, which the library draws itself.

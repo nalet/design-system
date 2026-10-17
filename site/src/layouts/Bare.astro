@@ -1,0 +1,19 @@
+---
+// a page without the section navigation: the home page, search, not found.
+import Base from './Base.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  redirect?: boolean;
+  noindex?: boolean;
+}
+const props = Astro.props;
+---
+<Base {...props}>
+  <div class="ds-shell ds-shell--bare">
+    <main id="content" class="ds-content">
+      <slot />
+    </main>
+  </div>
+</Base>

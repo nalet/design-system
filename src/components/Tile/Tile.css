@@ -242,3 +242,9 @@
     transition: none;
   }
 }
+
+/* search hides tiles with the hidden attribute; the tile's display would
+   otherwise win over it. */
+.nc-tile[hidden] {
+  display: none;
+}

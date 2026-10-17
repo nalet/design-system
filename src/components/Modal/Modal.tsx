@@ -44,6 +44,12 @@ export function Modal({
   const dialogRef = React.useRef<HTMLDivElement>(null);
   const lastFocused = React.useRef<HTMLElement | null>(null);
   const titleId = React.useId();
+  // the latest onClose, so a new function on every parent render (an inline
+  // arrow) does not re-run the open steps and pull focus back to the start.
+  const onCloseRef = React.useRef(onClose);
+  React.useLayoutEffect(() => {
+    onCloseRef.current = onClose;
+  });
 
   React.useEffect(() => {
     if (!open) return;
@@ -59,9 +65,11 @@ export function Modal({
     (focusable ?? node)?.focus();
 
     const onKeyDown = (e: KeyboardEvent) => {
-      if (closeOnEsc && e.key === 'Escape') {
+      // bubble phase, after the dialog's own widgets: an open menu inside it
+      // takes esc for itself (and stops it) before the dialog closes.
+      if (closeOnEsc && e.key === 'Escape' && !e.defaultPrevented) {
         e.stopPropagation();
-        onClose();
+        onCloseRef.current();
         return;
       }
       if (e.key === 'Tab' && node) {
@@ -76,7 +84,11 @@ export function Modal({
         }
         const first = items[0];
         const last = items[items.length - 1];
-        if (e.shiftKey && document.activeElement === first) {
+        // focus on the dialog itself (after a click on plain text): stay inside.
+        if (document.activeElement === node) {
+          e.preventDefault();
+          (e.shiftKey ? last : first).focus();
+        } else if (e.shiftKey && document.activeElement === first) {
           e.preventDefault();
           last.focus();
         } else if (!e.shiftKey && document.activeElement === last) {
@@ -86,13 +98,13 @@ export function Modal({
       }
     };
 
-    document.addEventListener('keydown', onKeyDown, true);
+    document.addEventListener('keydown', onKeyDown);
     return () => {
-      document.removeEventListener('keydown', onKeyDown, true);
+      document.removeEventListener('keydown', onKeyDown);
       document.body.style.overflow = prevOverflow;
       lastFocused.current?.focus?.();
     };
-  }, [open, onClose, closeOnEsc]);
+  }, [open, closeOnEsc]);
 
   if (!open || typeof document === 'undefined') return null;
 

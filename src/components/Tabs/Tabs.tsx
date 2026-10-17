@@ -42,12 +42,24 @@ export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(function Tabs(
     const enabled = items.filter((i) => !i.disabled);
     const idx = enabled.findIndex((i) => i.value === active);
     if (idx < 0) return;
+    let next: TabItem | undefined;
     if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
-      e.preventDefault();
       const dir = e.key === 'ArrowRight' ? 1 : -1;
-      const next = enabled[(idx + dir + enabled.length) % enabled.length];
-      if (next) select(next.value);
+      next = enabled[(idx + dir + enabled.length) % enabled.length];
+    } else if (e.key === 'Home') {
+      next = enabled[0];
+    } else if (e.key === 'End') {
+      next = enabled[enabled.length - 1];
     }
+    if (!next) return;
+    e.preventDefault();
+    select(next.value);
+    // selection follows focus: move focus to the tab just selected.
+    const list = e.currentTarget.parentElement;
+    const target = Array.from(list?.querySelectorAll<HTMLButtonElement>('[role="tab"]') ?? []).find(
+      (b) => b.dataset.value === next!.value,
+    );
+    target?.focus();
   };
 
   return (
@@ -60,6 +72,7 @@ export const Tabs = React.forwardRef<HTMLDivElement, TabsProps>(function Tabs(
               key={item.value}
               type="button"
               role="tab"
+              data-value={item.value}
               aria-selected={selected}
               tabIndex={selected ? 0 : -1}
               disabled={item.disabled}

@@ -71,7 +71,10 @@ export function useRovingGrid(
     if (!root) return;
     const tiles = allTiles(root);
     if (!tiles.length) return;
-    const enabledTiles = tiles.filter((el) => el.getAttribute('aria-disabled') !== 'true');
+    // a tile hidden by search (or inside a hidden group) cannot hold the tab stop.
+    const enabledTiles = tiles.filter(
+      (el) => el.getAttribute('aria-disabled') !== 'true' && !el.closest('[hidden]'),
+    );
     const active = root.querySelector<HTMLElement>(`${TILE}[data-nc-active="true"]`);
     const current = active && enabledTiles.includes(active) ? active : enabledTiles[0];
     for (const el of tiles) el.tabIndex = el === current ? 0 : -1;

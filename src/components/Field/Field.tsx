@@ -37,11 +37,12 @@ export const Field = React.forwardRef<HTMLDivElement, FieldProps>(function Field
   const controlId = htmlFor ?? children.props.id ?? `nc-field-${reactId}`;
   const describedById = hint || error ? `${controlId}-desc` : undefined;
 
+  // only an error sets invalid: passing the child's own (often unset) value back
+  // would override what the control derives from its `invalid` prop.
   const control = React.cloneElement(children, {
     id: controlId,
     'aria-describedby': cx(children.props['aria-describedby'], describedById) || undefined,
-    'aria-invalid': error ? true : children.props['aria-invalid'],
-    invalid: error ? true : children.props.invalid,
+    ...(error ? { 'aria-invalid': true, invalid: true } : {}),
   });
 
   return (

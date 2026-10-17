@@ -5,13 +5,13 @@ import * as IconButtonStories from './IconButton.stories';
 
 # icon button
 
-design guidance — when to use it, its variants, sizes and states, its label: **[icon button on the guidelines site →](https://nalet.github.io/design-system/components/icon-button/)**
+Design guidance — when to use it, its variants, sizes and states, its label: **[icon button on the guidelines site →](https://nalet.github.io/design-system/components/icon-button/)**
 
 <Canvas of={IconButtonStories.Playground} />
 
 ## examples
 
-four variants; only `primary` is filled.
+Four variants; only `primary` is filled.
 
 <Canvas of={IconButtonStories.Variants} />
 
@@ -37,20 +37,20 @@ four variants; only `primary` is filled.
 
 ## implementation notes
 
-- renders a native `<button>`, so the browser provides the keyboard model.
-- `type` defaults to `"button"`, not the browser's `"submit"`. pass `type="submit"` when it submits a form.
-- `label` is required by the type and becomes `aria-label` and the native `title`. a `title` or `aria-label` you pass replaces the one made from `label`.
-- the icon is the child you pass, such as `<Icon icon={RotateCw} />`. the button does not size it: the `Icon` default of 16px suits `md`, and the sizes example passes `size={12}` with `sm` and `size={20}` with `lg`.
-- `loading` swaps the icon for a spinner, disables the button and sets `aria-busy="true"`; the size does not change. the spinner has `role="status"` and the name `loading`, but it appears with no text in it, so screen readers may not announce it.
-- `disabled` dims it to 45% and takes it out of the tab order. a disabled or loading button ignores clicks and cannot be focused.
-- a focused button shows a 2px `--focus-ring` outline, 1px outside its border, on `:focus-visible`.
-- every native `<button>` attribute passes through (`onClick`, `type`, `aria-*` …), and the `ref` reaches the `<button>`.
-- today: `aria-pressed` passes through to the button, but nothing changes on screen.
+- Renders a native `<button>`, so the browser provides the keyboard model.
+- `type` defaults to `"button"`, not the browser's `"submit"`. Pass `type="submit"` when it submits a form.
+- `label` is required by the type and becomes `aria-label` and the native `title`. A `title` or `aria-label` you pass replaces the one made from `label`.
+- The icon is the child you pass, such as `<Icon icon={RotateCw} />`. The button does not size it: the `Icon` default of 16px suits `md`, and the sizes example passes `size={12}` with `sm` and `size={20}` with `lg`.
+- `loading` swaps the icon for a spinner, disables the button and sets `aria-busy="true"`; the size does not change. The spinner has `role="status"` and the name `loading`, but it appears with no text in it, so screen readers may not announce it.
+- `disabled` dims it to 45% and takes it out of the tab order. A disabled or loading button ignores clicks and cannot be focused.
+- A focused button shows a 2px `--focus-ring` outline, 1px outside its border, on `:focus-visible`.
+- Every native `<button>` attribute passes through (`onClick`, `type`, `aria-*` …), and the `ref` reaches the `<button>`.
+- Today: `aria-pressed` passes through to the button, but nothing changes on screen.
 
 | key | does |
 | --- | --- |
-| `tab` / `shift+tab` | moves focus to / from the button. |
-| `enter` / `space` | activates it. |
+| `tab` / `shift+tab` | Moves focus to / from the button. |
+| `enter` / `space` | Activates it. |
 
 ## props
 

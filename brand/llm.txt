@@ -18,14 +18,17 @@ Two type families, ten color tokens, one glyph.
 
 ## Non-negotiables
 
-- canvas #0B0F19 / deeper #0D1117
-- type: 'JetBrains Mono' for system + brand, 'Inter' for prose
-- the > chevron is the brand glyph, always #58A6FF
-- copy is lowercase, short, no emoji, no exclamation marks
-- square frames; no border-radius on tiles/cards/panels
-- icons are the only rounded shape — that radius is baked in
+- Canvas #0B0F19 / deeper #0D1117
+- Type: 'JetBrains Mono' for system + brand, 'Inter' for prose
+- The > chevron is the brand glyph, always #58A6FF
+- Two voices, one per typeface: monospace chrome (titles, buttons, navigation,
+  statuses, numbers and codes) is lowercase; the body face (descriptions,
+  messages, labels and hints, prose) is in sentence case, in the reader's
+  language. Short, no emoji, no exclamation marks
+- Square frames; no border-radius on tiles/cards/panels
+- Icons are the only rounded shape — that radius is baked in
 
 ## The test
 
 If your design would look at home in a tmux pane, you're on.
-If it looks like a saas landing page, start over.
+If it looks like a SaaS landing page, start over.

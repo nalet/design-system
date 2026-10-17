@@ -5,7 +5,7 @@ import * as ChevronStories from './Chevron.stories';
 
 # chevron
 
-design guidance — where the brand glyph goes, its one colour, when not to use it: **[brand on the guidelines site →](https://nalet.github.io/design-system/styles/brand/)**
+Design guidance — where the brand glyph goes, its one colour, when not to use it: **[brand on the guidelines site →](https://nalet.github.io/design-system/styles/brand/)**
 
 <Canvas of={ChevronStories.Playground} />
 
@@ -13,17 +13,17 @@ design guidance — where the brand glyph goes, its one colour, when not to use 
 
 <Canvas of={ChevronStories.Sizes} />
 
-as a section mark, as the way into a tile, and as the prompt in an input's leading slot:
+As a section mark, as the way into a tile, and as the prompt in an input's leading slot:
 
 <Canvas of={ChevronStories.InUse} />
 
 ## implementation notes
 
 - `Chevron` renders an inline `<svg>`: one path, `M5 3 L11 8 L5 13`, in a 16-unit square, stroked in `currentColor` with rounded caps and join.
-- its colour comes from its own class, `--cloud-blue`. the `color` prop overrides it; the brand says don't.
-- `size` is the edge length in px (16 by default). the stroke is `strokeWidth` px, or 14% of `size` with a 1.5px floor.
-- it renders `role="img"` with `aria-label="chevron"`. next to a title it is decoration: pass `aria-hidden`, as every use inside the library does.
-- other `<svg>` attributes and its `ref` reach the `<svg>`.
+- Its colour comes from its own class, `--cloud-blue`. The `color` prop overrides it; the brand says don't.
+- `size` is the edge length in px (16 by default). The stroke is `strokeWidth` px, or 14% of `size` with a 1.5px floor.
+- It renders `role="img"` with `aria-label="chevron"`. Next to a title it is decoration: pass `aria-hidden`, as every use inside the library does.
+- Other `<svg>` attributes and its `ref` reach the `<svg>`.
 
 ## props
 

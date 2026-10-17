@@ -5,7 +5,7 @@ import * as TextareaStories from './Textarea.stories';
 
 # textarea
 
-design guidance — when to use it, its rows and states, length limits, its words: **[textarea on the guidelines site →](https://nalet.github.io/design-system/components/textarea/)**
+Design guidance — when to use it, its rows and states, length limits, its words: **[textarea on the guidelines site →](https://nalet.github.io/design-system/components/textarea/)**
 
 <Canvas of={TextareaStories.Playground} />
 
@@ -33,18 +33,18 @@ design guidance — when to use it, its rows and states, length limits, its word
 
 ## implementation notes
 
-- renders a native `<textarea>` — the box is the element itself — so the browser provides the keyboard model.
-- the component holds no state. use `defaultValue`, or `value` with `onChange`.
-- a [field](?path=/docs/components-inputs-field--docs) renders a `<label for>` and links the hint or error with `aria-describedby`.
-- `invalid` sets `aria-invalid="true"` and the `--state-error` border. a field's `error` sets `invalid` for you. read-only is the native `readOnly`.
-- the limit is the native `maxLength`. link a count to the textarea with `aria-describedby`, as the controlled example does.
-- every native `<textarea>` attribute passes through (`value`, `onChange`, `maxLength`, `name`, `aria-*`, …), and the ref reaches the `<textarea>`.
+- Renders a native `<textarea>` — the box is the element itself — so the browser provides the keyboard model.
+- The component holds no state. Use `defaultValue`, or `value` with `onChange`.
+- A [field](?path=/docs/components-inputs-field--docs) renders a `<label for>` and links the hint or error with `aria-describedby`.
+- `invalid` sets `aria-invalid="true"` and the `--state-error` border. A field's `error` sets `invalid` for you. Read-only is the native `readOnly`.
+- The limit is the native `maxLength`. Link a count to the textarea with `aria-describedby`, as the controlled example does.
+- Every native `<textarea>` attribute passes through (`value`, `onChange`, `maxLength`, `name`, `aria-*`, …), and the ref reaches the `<textarea>`.
 
 | key | does |
 | --- | --- |
-| `tab` / `shift+tab` | moves focus to / from the field. `tab` does not type a tab character. |
-| `enter` | starts a new line. it never submits the form. |
-| arrows, `home`, `end` | move the caret; with `shift` they select. |
+| `tab` / `shift+tab` | Moves focus to / from the field. `tab` does not type a tab character. |
+| `enter` | Starts a new line. It never submits the form. |
+| Arrows, `home`, `end` | Move the caret; with `shift` they select. |
 
 ## props
 

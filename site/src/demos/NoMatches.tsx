@@ -32,7 +32,7 @@ export function NoMatches() {
             size="sm"
             headingLevel={2}
             title="no matches"
-            description={`nothing in this list fits “${q.trim()}”. clear the search, or try another word.`}
+            description={`Nothing in this list fits “${q.trim()}”. Clear the search, or try another word.`}
             actions={
               <Button size="sm" onClick={() => setQ('')}>
                 clear filters

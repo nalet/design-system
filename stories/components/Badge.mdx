@@ -5,7 +5,7 @@ import * as BadgeStories from './Badge.stories';
 
 # badge
 
-design guidance — when to use it, its tones and the dot, its words: **[badge on the guidelines site →](https://nalet.github.io/design-system/components/badge/)**
+Design guidance — when to use it, its tones and the dot, its words: **[badge on the guidelines site →](https://nalet.github.io/design-system/components/badge/)**
 
 <Canvas of={BadgeStories.Playground} />
 
@@ -19,7 +19,7 @@ design guidance — when to use it, its tones and the dot, its words: **[badge o
 
 <Canvas of={BadgeStories.WithDot} />
 
-badges beside the item they describe: tags and a count.
+Badges beside the item they describe: tags and a count.
 
 <Canvas of={BadgeStories.InContext} />
 
@@ -29,16 +29,16 @@ badges beside the item they describe: tags and a count.
 
 ## implementation notes
 
-- renders a plain `span` with no role, so screen readers read it inline. it takes no focus and has no keys of its own.
-- the dot is a `span` with `aria-hidden="true"`.
-- the label is lowercased with `text-transform`; the dom keeps the text you wrote.
-- it never wraps (`white-space: nowrap`) and has no `max-width`.
-- don't attach `onClick`: the `span` can't be focused or pressed from the keyboard. an action is a [button](?path=/docs/components-actions-button--docs).
-- every native `<span>` attribute passes through (`id`, `title`, `aria-*` …), and the `ref` reaches the `span`.
+- Renders a plain `span` with no role, so screen readers read it inline. It takes no focus and has no keys of its own.
+- The dot is a `span` with `aria-hidden="true"`.
+- The label is lowercased with `text-transform`; the DOM keeps the text you wrote.
+- It never wraps (`white-space: nowrap`) and has no `max-width`.
+- Don't attach `onClick`: the `span` can't be focused or pressed from the keyboard. An action is a [button](?path=/docs/components-actions-button--docs).
+- Every native `<span>` attribute passes through (`id`, `title`, `aria-*` …), and the `ref` reaches the `span`.
 
 | key | does |
 | --- | --- |
-| `tab` | skips it. a badge is not focusable and has no action. |
+| `tab` | Skips it. A badge is not focusable and has no action. |
 
 ## props
 

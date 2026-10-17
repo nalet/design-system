@@ -15,6 +15,9 @@ import '../../../src/lib/a11y.css';
 const colors = flattenColors(tokens);
 const report = contrastReport(colors);
 
+/** a rule's name as the start of a caption, which is set in the body face. */
+const sentence = (rule: string) => (rule.charAt(0).toUpperCase() + rule.slice(1)).replace(/\bui\b/, 'UI');
+
 function Verdict({ row }: { row: ContrastRow }) {
   return (
     <span className={row.pass ? 'ds-cpass' : 'ds-cfail'}>
@@ -31,7 +34,7 @@ export function TextContrastMatrix() {
   return (
     <div className="ds-table-frame">
     <table className="ds-ctable">
-      <caption>text on every background — each cell needs 4.5:1 (wcag 2.2 aa, any size)</caption>
+      <caption>Text on every background — each cell needs 4.5:1 (WCAG 2.2 AA, any size)</caption>
       <thead>
         <tr>
           <th scope="col">text token</th>
@@ -75,7 +78,7 @@ export function OtherContrastRules() {
         <div key={rule} className="ds-table-frame">
         <table className="ds-ctable">
           <caption>
-            {rule} — needs {report.find((r) => r.rule === rule)!.min}:1
+            {sentence(rule)} — needs {report.find((r) => r.rule === rule)!.min}:1
           </caption>
           <thead>
             <tr>
@@ -122,7 +125,7 @@ export function ContrastExemptions() {
   return (
     <div className="ds-table-frame">
     <table className="ds-ctable">
-      <caption>outside the policy, on purpose</caption>
+      <caption>Outside the policy, on purpose</caption>
       <thead>
         <tr>
           <th scope="col">tokens</th>
@@ -148,7 +151,7 @@ export function ContrastSummary() {
   const lowest = report.filter((r) => r.rule === 'text').sort((a, b) => a.ratio - b.ratio)[0];
   return (
     <p>
-      {report.length} pairs checked, {pass} pass. the tightest text pair is <code>--{lowest.fg}</code> on{' '}
+      {report.length} pairs checked, {pass} pass. The tightest text pair is <code>--{lowest.fg}</code> on{' '}
       <code>--{lowest.bg}</code> at {lowest.ratio.toFixed(2)}:1.
     </p>
   );

@@ -1,61 +1,61 @@
 ---
 layout: ../../layouts/Doc.astro
 title: accessibility
-description: the wcag 2.2 aa baseline of the nalet design system, how it is checked, what the components do for you, and the known gaps.
+description: The WCAG 2.2 AA baseline of the nalet design system, how it is checked, what the components do for you, and the known gaps.
 ---
 import C from '@site/components/C.astro';
 
 # accessibility
 
-the baseline is **wcag 2.2 level aa**. components carry their roles, names, focus handling and announcements, so the obvious way to use one is the accessible way — and what a component can't do for you, its page says.
+The baseline is **WCAG 2.2 level AA**. Components carry their roles, names, focus handling and announcements, so the obvious way to use one is the accessible way — and what a component can't do for you, its page says.
 
 ## what is checked, and how
 
 | check | where | what it covers |
 | --- | --- | --- |
-| token contrast | `tokens/contrast.test.ts` (in `npm test` and ci) | every text token on every background and state tint at 4.5:1; control boundaries, the focus ring and checked fills at 3:1 — see [colour](/design-system/styles/colour/#contrast) |
-| axe in unit tests | `src/**/*.test.tsx` (jsdom) | every new component in each state its tests render: roles, names, aria use, structure. jsdom can't compute colour, so contrast is the token test's job there |
-| axe in a browser | the react subsite's a11y panel, and a headless chromium run over every story | the rendered stories, colour contrast included |
-| behaviour | the unit tests | keyboard maps, focus movement and live-region text, asserted with testing-library |
+| Token contrast | `tokens/contrast.test.ts` (in `npm test` and CI) | Every text token on every background and state tint at 4.5:1; control boundaries, the focus ring and checked fills at 3:1 — see [colour](/design-system/styles/colour/#contrast) |
+| Axe in unit tests | `src/**/*.test.tsx` (jsdom) | Every new component in each state its tests render: roles, names, ARIA use, structure. jsdom can't compute colour, so contrast is the token test's job there |
+| Axe in a browser | The React subsite's a11y panel, and a headless Chromium run over every story | The rendered stories, colour contrast included |
+| Behaviour | The unit tests | Keyboard maps, focus movement and live-region text, asserted with Testing Library |
 
-passing these is the floor, not proof. screen-reader testing with real assistive technology is not automated here.
+Passing these is the floor, not proof. Screen-reader testing with real assistive technology is not automated here.
 
 ## keyboard and focus
 
-everything is reachable and operable without a pointer, focus is always visible, and it always returns where it came from. composite widgets take one tab stop and move with the arrow keys. the whole model — tab stops, the arrow keys, menus and dialogs, the focus ring and where focus goes — is on [interaction](/design-system/foundations/interaction/).
+Everything is reachable and operable without a pointer, focus is always visible, and it always returns where it came from. Composite widgets take one tab stop and move with the arrow keys. The whole model — tab stops, the arrow keys, menus and dialogs, the focus ring and where focus goes — is on [interaction](/design-system/foundations/interaction/).
 
 ## names, roles and states
 
-- icon-only controls require a name (<C slug="icon-button" /> `label`, <C slug="action-menu" /> `label`) — name the object: "actions for S04E07".
-- a visible label is the accessible name (wcag 2.5.3): a text trigger is named by its text.
-- states are set, not drawn: `aria-selected`, `aria-expanded`, `aria-sort`, `aria-invalid`, `aria-busy`, `aria-disabled` on menu items.
-- the <C slug="data-table" /> is a `grid` (a `treegrid` when grouped), with row headers, levels, positions and `aria-rowcount` for rows not rendered yet.
+- Icon-only controls require a name (<C slug="icon-button" /> `label`, <C slug="action-menu" /> `label`) — name the object: "actions for S04E07".
+- A visible label is the accessible name (WCAG 2.5.3): a text trigger is named by its text.
+- States are set, not drawn: `aria-selected`, `aria-expanded`, `aria-sort`, `aria-invalid`, `aria-busy`, `aria-disabled` on menu items.
+- The <C slug="data-table" /> is a `grid` (a `treegrid` when grouped), with row headers, levels, positions and `aria-rowcount` for rows not rendered yet.
 
 ## announcements
 
 | what changes | how it is announced |
 | --- | --- |
-| a message strip appears or changes | its text alone is a live region: `role=status` (polite), `role=alert` for errors, `live="off"` for a static note |
-| a toast | the toaster's list is a polite live region that exists before the first toast |
-| the selection | the selection toolbar announces "8 selected", "selection cleared" |
-| a filter's result | the filter bar's count ("312 of 2,500") is a polite live region that always exists |
-| a table grows | "200 of 2,500" is polite |
-| warnings and errors in a status | read with their state first: "warning: connection firewalled" |
+| A message strip appears or changes | Its text alone is a live region: `role=status` (polite), `role=alert` for errors, `live="off"` for a static note |
+| A toast | The toaster's list is a polite live region that exists before the first toast |
+| The selection | The selection toolbar announces "8 selected", "selection cleared" |
+| A filter's result | The filter bar's count ("312 of 2,500") is a polite live region that always exists |
+| A table grows | "200 of 2,500" is polite |
+| Warnings and errors in a status | Read with their state first: "warning: connection firewalled" |
 
 ## colour and motion
 
-colour never carries meaning alone: every state has a glyph of its own shape and words; a selected row has a checked box. motion is short and functional, and honours `prefers-reduced-motion` where the component implements it — see [motion](/design-system/styles/motion/) for exactly what each does.
+Colour never carries meaning alone: every state has a glyph of its own shape and words; a selected row has a checked box. Motion is short and functional, and honours `prefers-reduced-motion` where the component implements it — see [motion](/design-system/styles/motion/) for exactly what each does.
 
 ## known gaps
 
-the pages say what each component can't do yet, under "today:". the ones that matter most across the system:
+The pages say what each component can't do yet, under "Today:". The ones that matter most across the system:
 
-- **no light, high-contrast or forced-colours styling.** under windows high contrast, focus that is drawn with a border colour and an inset shadow (inputs, selects, textareas) can look unfocused. planned with the themes.
-- **tooltip** shows on hover and on focus of its own wrapper, adds a tab stop, and can't be dismissed with esc (wcag 1.4.13) — see <C slug="tooltip">its page</C>.
-- **modal**: several open modals all close on one esc; the page behind is not made inert.
-- **no radio group and no searchable combobox** component yet; use native radios and the patterns on the input pages.
-- **fonts are not bundled**, so the type renders in fallbacks until the app loads them.
+- **No light, high-contrast or forced-colours styling.** Under Windows high contrast, focus that is drawn with a border colour and an inset shadow (inputs, selects, textareas) can look unfocused. Planned with the themes.
+- **Tooltip** shows on hover and on focus of its own wrapper, adds a tab stop, and can't be dismissed with Esc (WCAG 1.4.13) — see <C slug="tooltip">its page</C>.
+- **Modal**: several open modals all close on one Esc; the page behind is not made inert.
+- **No radio group and no searchable combobox** component yet; use native radios and the patterns on the input pages.
+- **Fonts are not bundled**, so the type renders in fallbacks until the app loads them.
 
 ## your part
 
-the components can't know your content. give tables an `aria-label`, give checkboxes a `rowLabel`, keep one `h1` per page (the [worklist](/design-system/patterns/worklist/) takes a `headingLevel`), write messages that make sense read aloud on their own, and keep raw ids out of primary text.
+The components can't know your content. Give tables an `aria-label`, give checkboxes a `rowLabel`, keep one `h1` per page (the [worklist](/design-system/patterns/worklist/) takes a `headingLevel`), write messages that make sense read aloud on their own, and keep raw IDs out of primary text.

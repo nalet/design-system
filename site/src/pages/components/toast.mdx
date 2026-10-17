@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: toast
-description: a short confirmation of an action someone just took, at the bottom of the screen — it never takes focus, is announced politely and leaves on its own.
+description: A short confirmation of an action someone just took, at the bottom of the screen — it never takes focus, is announced politely and leaves on its own.
 component: toast
 ---
 import { Toaster } from '@nalet/design-system';
@@ -12,7 +12,7 @@ import { Playground, States, AtMostThree, ReplaceById } from '@site/examples/toa
 
 # toast
 
-a short confirmation of an action someone just took — `8 episodes queued` — at the bottom of the screen. it never takes focus, is announced politely and leaves on its own.
+A short confirmation of an action someone just took — `8 episodes queued` — at the bottom of the screen. It never takes focus, is announced politely and leaves on its own.
 
 <Example label="toasts, live">
   <Playground client:visible />
@@ -20,50 +20,50 @@ a short confirmation of an action someone just took — `8 episodes queued` — 
 
 ## when to use
 
-- to confirm an action the person just took, once it is done or under way: `8 episodes queued`, `settings saved`, `asking the catalog again — the list follows`.
-- when the result shows on the page as well (the rows change to `on its way`) and the toast only says that it happened.
-- after a bulk action from a <C slug="toolbar">selection toolbar</C>, with the count: `8 episodes queued · 3 skipped: held already or under way`.
+- To confirm an action the person just took, once it is done or under way: `8 episodes queued`, `Settings saved`, `Asking the catalog again — the list follows`.
+- When the result shows on the page as well (the rows change to `on its way`) and the toast only says that it happened.
+- After a bulk action from a <C slug="toolbar">selection toolbar</C>, with the count: `8 episodes queued · 3 skipped: held already or under way`.
 
 ## when not to use
 
-- **for an error that needs acting on.** use an error <C slug="message-strip" /> with a way forward. an error has to stay until it is resolved, offer `try again`, and be announced at once. a toast does none of that: it leaves after five seconds, can't be focused, holds no button, and is announced only when the screen reader has a pause.
-- **for a condition that lasts** — `2 sources are over their daily limit`. use a <C slug="message-strip" />.
-- **to ask, or to offer undo or a link.** a toast has nothing to press. when an action can't be undone, ask first in a <C slug="modal" />.
-- **for the state of one item.** that is an <C slug="object-status" /> in its row.
-- **for anything people must not miss.** after five seconds it is gone, and nothing brings it back.
+- **For an error that needs acting on.** Use an error <C slug="message-strip" /> with a way forward. An error has to stay until it is resolved, offer `try again`, and be announced at once. A toast does none of that: it leaves after five seconds, can't be focused, holds no button, and is announced only when the screen reader has a pause.
+- **For a condition that lasts** — `2 sources are over their daily limit`. Use a <C slug="message-strip" />.
+- **To ask, or to offer undo or a link.** A toast has nothing to press. When an action can't be undone, ask first in a <C slug="modal" />.
+- **For the state of one item.** That is an <C slug="object-status" /> in its row.
+- **For anything people must not miss.** After five seconds it is gone, and nothing brings it back.
 
 ## anatomy
 
-1. **toaster** — a region named "notifications", fixed at the bottom centre, 24px above the viewport's bottom edge, above everything else on the page (a modal and an action menu included), at most the viewport's width minus 32px. clicks pass through it everywhere but on the toasts.
-2. **list** — toasts stack 8px apart, centred, the newest at the bottom.
-3. **toast** — `--surface-2` fill, a 1px `--border-2` frame, a 3px rule on the left in the state's colour, square corners, 8px × 16px padding (12px on the left), jetbrains mono 13px / 1.4 in `--fg`. it slides up 6px and fades in over 160ms; with reduced motion it just appears. it leaves without an animation.
-4. **glyph** — the state's 12px glyph in its colour. hidden from assistive tech.
-5. **message** — the text.
+1. **Toaster** — a region named "notifications", fixed at the bottom centre, 24px above the viewport's bottom edge, above everything else on the page (a modal and an action menu included), at most the viewport's width minus 32px. Clicks pass through it everywhere but on the toasts.
+2. **List** — toasts stack 8px apart, centred, the newest at the bottom.
+3. **Toast** — `--surface-2` fill, a 1px `--border-2` frame, a 3px rule on the left in the state's colour, square corners, 8px × 16px padding (12px on the left), Inter 13px / 1.4 in `--fg`: the body face, because a toast is read. It slides up 6px and fades in over 160ms; with reduced motion it just appears. It leaves without an animation.
+4. **Glyph** — the state's 12px glyph in its colour. Hidden from assistive tech.
+5. **Message** — the text, in sentence case.
 
 ## variants and states
 
-the state sets the glyph and the rule.
+The state sets the glyph and the rule.
 
 | state | use for |
 | --- | --- |
-| `neutral` (default) | a plain fact about what happened: `3 skipped: held already or under way` |
-| `information` | something started that finishes later: `asking the catalog again — the list follows` |
-| `success` | done: `8 episodes queued`, `settings saved` |
-| `warning` | done, with a part that didn't go through: `6 queued · 2 skipped: their source is over its daily limit` |
+| `neutral` (default) | A plain fact about what happened: `3 skipped: held already or under way` |
+| `information` | Something started that finishes later: `Asking the catalog again — the list follows` |
+| `success` | Done: `8 episodes queued`, `Settings saved` |
+| `warning` | Done, with a part that didn't go through: `6 queued · 2 skipped: their source is over its daily limit` |
 
-there is an `error` state too. don't use it: an error belongs in a message strip (see when not to use).
+There is an `error` state too. Don't use it: an error belongs in a message strip (see when not to use).
 
 <Example label="the four states, live">
   <States client:visible />
 </Example>
 
-at most three toasts show at a time. a fourth pushes out the oldest at once.
+At most three toasts show at a time. A fourth pushes out the oldest at once.
 
 <Example label="four toasts at once, live">
   <AtMostThree client:visible />
 </Example>
 
-an action people repeat can replace its own toast instead of adding one. press this one a few times: one toast stays, with its text and its timer renewed.
+An action people repeat can replace its own toast instead of adding one. Press this one a few times: one toast stays, with its text and its timer renewed.
 
 <Example label="a toast that replaces itself, live">
   <ReplaceById client:visible />
@@ -71,57 +71,57 @@ an action people repeat can replace its own toast instead of adding one. press t
 
 ## behaviour
 
-- nothing in a toast can take focus, so a toast has no keys: `tab` never reaches it, and `esc` does nothing. it leaves on its own.
-- **timing** — a toast leaves after five seconds, counted from when it shows. hovering it pauses the count; moving off resumes it with the time that was left.
-- **the queue** — a toast that replaces one already showing takes the newest place, with a fresh timer.
+- Nothing in a toast can take focus, so a toast has no keys: `tab` never reaches it, and `esc` does nothing. It leaves on its own.
+- **Timing** — a toast leaves after five seconds, counted from when it shows. Hovering it pauses the count; moving off resumes it with the time that was left.
+- **The queue** — a toast that replaces one already showing takes the newest place, with a fresh timer.
 
-the keyboard map and the attributes it sets are on its [react page](/design-system/react/?path=/docs/components-feedback-status-toast--docs).
+The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-feedback-status-toast--docs).
 
 ## accessibility
 
-- the toaster is a region named "notifications". each new toast is read once, after whatever the screen reader is saying. a toast that leaves is not announced.
-- nothing takes focus. a toast never moves the reader, never interrupts typing, and adds no tab stop.
-- the glyph is hidden from assistive tech. a `warning` or `error` toast reads its state first ("warning: …"), like an <C slug="object-status" />; the calmer states read only the message, so put what matters in the words: `6 queued · 2 skipped`.
-- with reduced motion, toasts appear without the slide.
+- The toaster is a region named "notifications". Each new toast is read once, after whatever the screen reader is saying. A toast that leaves is not announced.
+- Nothing takes focus. A toast never moves the reader, never interrupts typing, and adds no tab stop.
+- The glyph is hidden from assistive tech. A `warning` or `error` toast reads its state first ("warning: …"), like an <C slug="object-status" />; the calmer states read only the message, so put what matters in the words: `6 queued · 2 skipped`.
+- With reduced motion, toasts appear without the slide.
 
-today:
+Today:
 
-- only the pointer can pause a toast. keyboard and screen-reader users can't pause it or bring it back, so a toast must never be the only record of what happened: the page shows the result too (wcag 2.2.1).
-- there is no way to dismiss one toast by hand, with the pointer or the keyboard. it leaves when its time is up.
+- Only the pointer can pause a toast. Keyboard and screen-reader users can't pause it or bring it back, so a toast must never be the only record of what happened: the page shows the result too (WCAG 2.2.1).
+- There is no way to dismiss one toast by hand, with the pointer or the keyboard. It leaves when its time is up.
 
 ## content
 
-- what just happened, with the object and the count: `8 episodes queued`, `settings saved`, `api-7f9c restarted`. lowercase, no full stop. past tense for what is done, `-ing` for what is under way.
-- a part that didn't go through follows a ` · `, with the reason: `8 episodes queued · 3 skipped: held already or under way`.
-- one line. it leaves after five seconds, so it has to be read at a glance.
-- text only. a link or a button in a toast would vanish after five seconds, and is out of reach of the keyboard.
-- never an error that needs doing something about: that is a <C slug="message-strip" />.
+- What just happened, with the object and the count: `8 episodes queued`, `Settings saved`, `api-7f9c restarted`. Sentence case — the message is in the body face, the reader's language — and no full stop. Past tense for what is done, `-ing` for what is under way.
+- A part that didn't go through follows a ` · `, with the reason: `8 episodes queued · 3 skipped: held already or under way`.
+- One line. It leaves after five seconds, so it has to be read at a glance.
+- Text only. A link or a button in a toast would vanish after five seconds, and is out of reach of the keyboard.
+- Never an error that needs doing something about: that is a <C slug="message-strip" />.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="what just happened, with the count: read at a glance, and the rows show the result too.">
+  <Do caption="What just happened, with the count: read at a glance, and the rows show the result too.">
     <ToastButton client:visible variant="primary" label="grab 8 selected" message="8 episodes queued" state="success" />
   </Do>
-  <Dont caption="an error that needs acting on leaves in five seconds, can't be focused and offers no way forward. put it in a message strip with try again.">
-    <ToastButton client:visible label="save changes" message="couldn't save: the server didn't answer" state="error" />
+  <Dont caption="An error that needs acting on leaves in five seconds, can't be focused and offers no way forward. Put it in a message strip with try again.">
+    <ToastButton client:visible label="save changes" message="Couldn't save: the server didn't answer" state="error" />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="one short line. a part that didn't go through follows the dot, with its reason.">
+  <Do caption="One short line. A part that didn't go through follows the dot, with its reason.">
     <ToastButton client:visible label="grab 8 selected" message="6 queued · 2 skipped: their source is over its daily limit" state="warning" />
   </Do>
-  <Dont caption="a paragraph with an instruction and an undo it can't offer: it is gone before it is read.">
-    <ToastButton client:visible label="grab 8 selected" message="your 8 episodes were added to the download queue. you can follow them on the downloads page, or press undo to take them out again." state="success" />
+  <Dont caption="A paragraph with an instruction and an undo it can't offer: it is gone before it is read.">
+    <ToastButton client:visible label="grab 8 selected" message="Your 8 episodes were added to the download queue. You can follow them on the downloads page, or press undo to take them out again." state="success" />
   </Dont>
 </DoDont>
 
 ## related
 
-- [message handling](/design-system/patterns/message-handling/) — when a message is a toast, a strip, inline text or details.
-- <C slug="message-strip" /> — errors and conditions that last, with a way forward.
-- [selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) — the bulk actions a toast usually confirms.
-- <C slug="object-status" /> — where the lasting result shows, row by row.
+- [Message handling](/design-system/patterns/message-handling/) — when a message is a toast, a strip, inline text or details.
+- <C slug="message-strip">Message strip</C> — errors and conditions that last, with a way forward.
+- [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) — the bulk actions a toast usually confirms.
+- <C slug="object-status">Object status</C> — where the lasting result shows, row by row.
 
 <Toaster client:idle />

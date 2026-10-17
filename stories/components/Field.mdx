@@ -5,7 +5,7 @@ import * as FieldStories from './Field.stories';
 
 # field
 
-design guidance — when to use it, its parts and states, its words: **[field on the guidelines site →](https://nalet.github.io/design-system/components/field/)**
+Design guidance — when to use it, its parts and states, its words: **[field on the guidelines site →](https://nalet.github.io/design-system/components/field/)**
 
 <Canvas of={FieldStories.Playground} />
 
@@ -15,7 +15,7 @@ design guidance — when to use it, its parts and states, its words: **[field on
 
 <Canvas of={FieldStories.States} />
 
-the same field around a `Select`, a `Textarea` and a `Checkbox`; around the checkbox, a `hint` and no `label`.
+The same field around a `Select`, a `Textarea` and a `Checkbox`; around the checkbox, a `hint` and no `label`.
 
 <Canvas of={FieldStories.Controls} />
 
@@ -29,23 +29,23 @@ the same field around a `Select`, a `Textarea` and a `Checkbox`; around the chec
 
 ## implementation notes
 
-- renders a `<div>`: the label, the control, then the message.
-- the control is the one child element. the field clones it with `id` and `aria-describedby`, and with `aria-invalid` and `invalid` when there is an `error`.
-- the control's `id` is `htmlFor` when you pass it, else the child's own `id`, else a generated one. the field sets it on the child, so `htmlFor` wins over the child's `id`.
-- the label is a native `<label for>` pointing at that `id`. it is lowercased with `text-transform`; the dom keeps the text you wrote.
-- the message gets the id `<control id>-desc`, which is added to any `aria-describedby` the child already has.
-- with `error`, the field sets `aria-invalid` and `invalid` on the child. without it, it leaves the child's own values alone: the control keeps whatever its own `invalid` says.
-- `required` adds the ` *` marker with `aria-hidden="true"`. today the field does not pass `required` to the control: pass `required` (or `aria-required`) to the control yourself.
-- the message is not a live region: an error that appears is not announced.
-- the child must be one element that passes `id` and `aria-*` on to its native control — `Input`, `Select`, `Textarea`, `Checkbox` and `Switch` do. a control wrapped in a `<div>` gets nothing: the `id` lands on the div and the label points at it.
-- today: `Checkbox` and `Switch` have no `invalid` prop. with `error`, the field still passes `invalid` to them, and react warns about an unknown attribute.
-- other `<div>` attributes (`className`, `style`, `data-*`, …) and the `ref` reach the container.
+- Renders a `<div>`: the label, the control, then the message.
+- The control is the one child element. The field clones it with `id` and `aria-describedby`, and with `aria-invalid` and `invalid` when there is an `error`.
+- The control's `id` is `htmlFor` when you pass it, else the child's own `id`, else a generated one. The field sets it on the child, so `htmlFor` wins over the child's `id`.
+- The label is a native `<label for>` pointing at that `id`. Nothing transforms it: it shows the text you wrote, in the body face, so write it in sentence case.
+- The message gets the ID `<control id>-desc`, which is added to any `aria-describedby` the child already has.
+- With `error`, the field sets `aria-invalid` and `invalid` on the child. Without it, it leaves the child's own values alone: the control keeps whatever its own `invalid` says.
+- `required` adds the ` *` marker with `aria-hidden="true"`. Today the field does not pass `required` to the control: pass `required` (or `aria-required`) to the control yourself.
+- The message is not a live region: an error that appears is not announced.
+- The child must be one element that passes `id` and `aria-*` on to its native control — `Input`, `Select`, `Textarea`, `Checkbox` and `Switch` do. A control wrapped in a `<div>` gets nothing: the `id` lands on the div and the label points at it.
+- Today: `Checkbox` and `Switch` have no `invalid` prop. With `error`, the field still passes `invalid` to them, and React warns about an unknown attribute.
+- Other `<div>` attributes (`className`, `style`, `data-*`, …) and the `ref` reach the container.
 
-the field has no keys of its own; the control keeps its native keyboard model (see its page).
+The field has no keys of its own; the control keeps its native keyboard model (see its page).
 
 | key | does |
 | --- | --- |
-| `tab` / `shift+tab` | moves focus to / from the control. the label and the messages are not focusable. |
+| `tab` / `shift+tab` | Moves focus to / from the control. The label and the messages are not focusable. |
 
 ## props
 

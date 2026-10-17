@@ -5,13 +5,13 @@ import * as FilterBarStories from './FilterBar.stories';
 
 # filter bar
 
-design guidance — when to use it, its parts, wide and narrow, its words: **[filter bar on the guidelines site →](https://nalet.github.io/design-system/components/filter-bar/)**
+Design guidance — when to use it, its parts, wide and narrow, its words: **[filter bar on the guidelines site →](https://nalet.github.io/design-system/components/filter-bar/)**
 
 <Canvas of={FilterBarStories.Playground} />
 
 ## examples
 
-in a 360px column, below `collapseBelow`, the facets fold behind the `filters` toggle; `label` names the landmark.
+In a 360px column, below `collapseBelow`, the facets fold behind the `filters` toggle; `label` names the landmark.
 
 <Canvas of={FilterBarStories.Narrow} />
 
@@ -21,38 +21,38 @@ in a 360px column, below `collapseBelow`, the facets fold behind the `filters` t
 
 ## implementation notes
 
-- fully controlled: the bar holds no values of its own. each value comes from you and goes back through its `onChange`; the list filters itself from them.
-- renders a `<div role="search">` named by `label` (`aria-label`, default "filters").
+- Fully controlled: the bar holds no values of its own. Each value comes from you and goes back through its `onChange`; the list filters itself from them.
+- Renders a `<div role="search">` named by `label` (`aria-label`, default "filters").
 - `search` renders an `Input` with `type="search"`, named by `search.label` (`aria-label`, default "search").
-- each `select` facet is a native `Select` inside its own `<label>`; a `multiselect` facet is a `MultiSelect`.
-- `collapseBelow` (640 by default) is compared with the bar's own width, measured with a `ResizeObserver`. until the bar has been measured, and wherever there is no `ResizeObserver`, it lays out wide.
-- narrow, the toggle has `aria-expanded`, and `aria-controls` pointing at the facets. folded facets are `hidden`.
-- the count is a live region, `aria-live="polite"` with `aria-atomic="true"`. it is always on the page, empty while there is no `resultCount`, so the first count is announced too.
-- `clear all` calls `onClearAll`. reset the search and every facet there.
+- Each `select` facet is a native `Select` inside its own `<label>`; a `multiselect` facet is a `MultiSelect`.
+- `collapseBelow` (640 by default) is compared with the bar's own width, measured with a `ResizeObserver`. Until the bar has been measured, and wherever there is no `ResizeObserver`, it lays out wide.
+- Narrow, the toggle has `aria-expanded`, and `aria-controls` pointing at the facets. Folded facets are `hidden`.
+- The count is a live region, `aria-live="polite"` with `aria-atomic="true"`. It is always on the page, empty while there is no `resultCount`, so the first count is announced too.
+- `clear all` calls `onClearAll`. Reset the search and every facet there.
 - axe-core finds no violations, with a multi select open.
-- other `<div>` attributes and the `ref` reach the `role="search"` element.
+- Other `<div>` attributes and the `ref` reach the `role="search"` element.
 
 | key | does |
 | --- | --- |
-| `tab` / `shift+tab` | native order: the search, each facet, your controls, `clear all`. narrow: the search, the `filters` toggle and, while it is open, the facets, your controls and `clear all`. a disabled `clear all` is skipped. |
-| typing in the search | calls `search.onChange` on every keystroke: the list filters as the person types. |
-| `esc` in the search | clears it, when it holds text. a modal around the bar stays open. on an empty search, the key goes on to the page. |
-| keys in a select facet | native: see [select](?path=/docs/components-inputs-select--docs). |
-| keys in a multi select facet | see [multi select](?path=/docs/components-inputs-multi-select--docs). |
-| `enter` / `space` on the `filters` toggle | shows or hides the facets. |
+| `tab` / `shift+tab` | Native order: the search, each facet, your controls, `clear all`. Narrow: the search, the `filters` toggle and, while it is open, the facets, your controls and `clear all`. A disabled `clear all` is skipped. |
+| Typing in the search | Calls `search.onChange` on every keystroke: the list filters as the person types. |
+| `esc` in the search | Clears it, when it holds text. A modal around the bar stays open. On an empty search, the key goes on to the page. |
+| Keys in a select facet | Native: see [select](?path=/docs/components-inputs-select--docs). |
+| Keys in a multi select facet | See [multi select](?path=/docs/components-inputs-multi-select--docs). |
+| `enter` / `space` on the `filters` toggle | Shows or hides the facets. |
 
 ## props
 
 <ArgTypes of={FilterBarStories} />
 
-`search` takes `value`, `onChange`, `placeholder` and `label` (default "search"). each entry in `filters` is one facet:
+`search` takes `value`, `onChange`, `placeholder` and `label` (default "search"). Each entry in `filters` is one facet:
 
 | field | `select` facet | `multiselect` facet |
 | --- | --- | --- |
 | `type` | `"select"` | `"multiselect"` |
-| `id` | a key, unique in the bar | the same |
-| `label` | the facet's name, shown before the select | the multi select's label |
-| `value` | a string | an array of strings |
-| `onChange` | gets the new string | gets the new array |
+| `id` | A key, unique in the bar | The same |
+| `label` | The facet's name, shown before the select | The multi select's label |
+| `value` | A string | An array of strings |
+| `onChange` | Gets the new string | Gets the new array |
 | `options` | `value` and `label`, the no-filter option first | `value`, `label` and an optional `count` |
-| `emptyValue` | the value that means no filter, default `""` | — |
+| `emptyValue` | The value that means no filter, default `""` | — |

@@ -5,7 +5,7 @@ import * as TooltipStories from './Tooltip.stories';
 
 # tooltip
 
-design guidance — when to use it, its anatomy, sides and states, what it can't do, its words: **[tooltip on the guidelines site →](https://nalet.github.io/design-system/components/tooltip/)**
+Design guidance — when to use it, its anatomy, sides and states, what it can't do, its words: **[tooltip on the guidelines site →](https://nalet.github.io/design-system/components/tooltip/)**
 
 <Canvas of={TooltipStories.Playground} />
 
@@ -15,21 +15,21 @@ design guidance — when to use it, its anatomy, sides and states, what it can't
 
 <Canvas of={TooltipStories.Sides} />
 
-tooltips around terms in running text, one of them with `side="bottom"`.
+Tooltips around terms in running text, one of them with `side="bottom"`.
 
 <Canvas of={TooltipStories.Inline} />
 
 ## implementation notes
 
-- `Tooltip` renders an inline-flex `<span>` (`position: relative`; `className` goes on it) that holds two spans: the wrapper around your `children`, with `tabindex="0"` and `aria-describedby` pointing at the bubble, and the bubble, with `role="tooltip"`. the bubble's id comes from `useId`.
-- it is css only: there is no script. the bubble shows while the wrapper is hovered or has keyboard focus (`:focus-visible`), with a 100ms opacity transition. the wrapper sets `outline: none`.
-- the bubble is `position: absolute`, 6px from the trigger, at `z-index: 50`, with `pointer-events: none`, `white-space: nowrap` and `max-width: 240px`. `side` places it with css alone, so an ancestor with `overflow: hidden` clips it.
+- `Tooltip` renders an inline-flex `<span>` (`position: relative`; `className` goes on it) that holds two spans: the wrapper around your `children`, with `tabindex="0"` and `aria-describedby` pointing at the bubble, and the bubble, with `role="tooltip"`. The bubble's ID comes from `useId`.
+- It is CSS only: there is no script. The bubble shows while the wrapper is hovered or has keyboard focus (`:focus-visible`), with a 100ms opacity transition. The wrapper sets `outline: none`.
+- The bubble is `position: absolute`, 6px from the trigger, at `z-index: 50`, with `pointer-events: none`, `white-space: nowrap` and `max-width: 240px`. `side` places it with CSS alone, so an ancestor with `overflow: hidden` clips it.
 - `Tooltip` passes no other attributes through.
 
 | key | does |
 | --- | --- |
-| `tab` / `shift+tab` | moves focus to the wrapper, which shows the bubble. when your trigger is itself focusable, the next `tab` moves into it and the bubble hides. |
-| `esc` | nothing. today the bubble can't be dismissed from the keyboard; it hides when focus leaves the wrapper. |
+| `tab` / `shift+tab` | Moves focus to the wrapper, which shows the bubble. When your trigger is itself focusable, the next `tab` moves into it and the bubble hides. |
+| `esc` | Nothing. Today the bubble can't be dismissed from the keyboard; it hides when focus leaves the wrapper. |
 
 ## props
 

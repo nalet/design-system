@@ -14,7 +14,7 @@ export function GET() {
     <title>moved · nalet design system</title>
   </head>
   <body>
-    <p>the react examples moved to <a href="${url('react/')}">${url('react/')}</a>.</p>
+    <p>The React examples moved to <a href="${url('react/')}">${url('react/')}</a>.</p>
   </body>
 </html>
 `;

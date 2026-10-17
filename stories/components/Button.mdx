@@ -5,13 +5,13 @@ import * as ButtonStories from './Button.stories';
 
 # button
 
-design guidance — when to use it, its variants and states, its words: **[button on the guidelines site →](https://nalet.github.io/design-system/components/button/)**
+Design guidance — when to use it, its variants and states, its words: **[button on the guidelines site →](https://nalet.github.io/design-system/components/button/)**
 
 <Canvas of={ButtonStories.Playground} />
 
 ## examples
 
-four variants; only `primary` is filled.
+Four variants; only `primary` is filled.
 
 <Canvas of={ButtonStories.Variants} />
 
@@ -23,7 +23,7 @@ four variants; only `primary` is filled.
 
 <Canvas of={ButtonStories.States} />
 
-icons in `leading` and `trailing`.
+Icons in `leading` and `trailing`.
 
 <Canvas of={ButtonStories.WithIcons} />
 
@@ -33,19 +33,19 @@ icons in `leading` and `trailing`.
 
 ## implementation notes
 
-- renders a native `<button>`, so the browser provides the keyboard model.
-- `type` defaults to `"button"`, not the browser's `"submit"`. pass `type="submit"` for the button that submits a form.
-- `loading` shows a spinner in the leading slot, disables the button and sets `aria-busy="true"`; the spinner is a `status` named "loading". the width stays stable.
-- `disabled` dims the button to 45% and removes it from the tab order. a disabled or loading button ignores clicks and cannot be focused.
+- Renders a native `<button>`, so the browser provides the keyboard model.
+- `type` defaults to `"button"`, not the browser's `"submit"`. Pass `type="submit"` for the button that submits a form.
+- `loading` shows a spinner in the leading slot, disables the button and sets `aria-busy="true"`; the spinner is a `status` named "loading". The width stays stable.
+- `disabled` dims the button to 45% and removes it from the tab order. A disabled or loading button ignores clicks and cannot be focused.
 - `leading` and `trailing` take an element, such as `<Icon icon={Rocket} />`; `trailing` is hidden while `loading`.
-- the label is lowercased with `text-transform`; the dom keeps the text you wrote.
-- a focused button shows a 2px `--focus-ring` outline on `:focus-visible`.
-- every native `<button>` attribute passes through (`onClick`, `type`, `aria-*` …), and the `ref` reaches the `<button>`.
+- The label is lowercased with `text-transform`; the DOM keeps the text you wrote.
+- A focused button shows a 2px `--focus-ring` outline on `:focus-visible`.
+- Every native `<button>` attribute passes through (`onClick`, `type`, `aria-*` …), and the `ref` reaches the `<button>`.
 
 | key | does |
 | --- | --- |
-| `tab` / `shift+tab` | moves focus to / from the button. |
-| `enter` / `space` | activates it. |
+| `tab` / `shift+tab` | Moves focus to / from the button. |
+| `enter` / `space` | Activates it. |
 
 ## props
 

@@ -1,38 +1,25 @@
-// static mock-ups for the loading pattern: the planned square loader, a
-// progress bar with its value, skeleton rows. pictures, not components.
+// examples for the loading pattern: the loader, which is the real spinner, and
+// static mock-ups of what isn't a component yet — a progress bar with its
+// value, skeleton rows. pictures, not components.
 import type { CSSProperties } from 'react';
-import { Text } from '@nalet/design-system';
-
-/**
- * the planned loader, still: a faint square frame with three quarters of it
- * lit; the gap is the quarter that would travel round.
- */
-export function SquareLoaderShape({ size = 48 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 48 48" fill="none" aria-hidden="true" focusable="false">
-      <rect x="4" y="4" width="40" height="40" stroke="var(--border-2)" strokeWidth="3" />
-      {/* three quarters of the frame lit: top, right and bottom; the left edge is the gap. */}
-      <path d="M4 4 H44 V44 H4" stroke="var(--cloud-blue)" strokeWidth="3" strokeLinecap="square" />
-    </svg>
-  );
-}
+import { Spinner, Text } from '@nalet/design-system';
 
 const label: CSSProperties = { fontFamily: 'var(--ff-mono)', fontSize: 12, color: 'var(--fg-muted)' };
 
-/** the loader at the two sizes the pattern names: inline, and for a region. */
+/** the loader at the sizes the pattern names: inline, and for a region or a player. */
 export function LoaderSizes() {
   return (
     <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', gap: 'var(--s-6)' }}>
       <div style={{ display: 'grid', justifyItems: 'center', gap: 'var(--s-2)' }}>
-        <SquareLoaderShape size={16} />
+        <Spinner size={16} label="loading, inline" />
         <span style={label}>16px · inline</span>
       </div>
       <div style={{ display: 'grid', justifyItems: 'center', gap: 'var(--s-2)' }}>
-        <SquareLoaderShape size={32} />
+        <Spinner size={32} label="loading a region" />
         <span style={label}>32px · a region</span>
       </div>
       <div style={{ display: 'grid', justifyItems: 'center', gap: 'var(--s-2)' }}>
-        <SquareLoaderShape size={48} />
+        <Spinner size={48} label="loading a player" />
         <span style={label}>48px · a player</span>
       </div>
     </div>
@@ -51,8 +38,8 @@ export function ProgressBarMock({ value = 62, text = '62% · 1.4 of 2.2 gb' }: {
   );
 }
 
-/** a region that loads: the loader with one line of text. */
-export function RegionLoaderMock() {
+/** a region that loads: the loader with one line of text, which speaks for it. */
+export function RegionLoader() {
   return (
     <div
       style={{
@@ -64,8 +51,8 @@ export function RegionLoaderMock() {
         border: '1px solid var(--border)',
       }}
     >
-      <SquareLoaderShape size={32} />
-      <Text variant="muted">loading the episode list</Text>
+      <Spinner size={32} aria-hidden="true" />
+      <Text variant="muted">Loading the episode list</Text>
     </div>
   );
 }

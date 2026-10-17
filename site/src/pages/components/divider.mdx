@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: divider
-description: a 1px rule between two groups of content, horizontal or vertical — a horizontal rule can carry a short mono label.
+description: A 1px rule between two groups of content, horizontal or vertical — a horizontal rule can carry a short mono label.
 component: divider
 ---
 import { Divider, Heading, Stack, Text } from '@nalet/design-system';
@@ -11,7 +11,7 @@ import { Horizontal, Heavy, Labeled, Vertical } from '@site/examples/divider';
 
 # divider
 
-a 1px rule in `--border` (`--border-2` when `heavy`), horizontal or vertical. a horizontal rule can carry a short mono label on the line.
+A 1px rule in `--border` (`--border-2` when `heavy`), horizontal or vertical. A horizontal rule can carry a short mono label on the line.
 
 <Example label="a rule between two groups">
   <Horizontal />
@@ -19,22 +19,22 @@ a 1px rule in `--border` (`--border-2` when `heavy`), horizontal or vertical. a 
 
 ## when to use
 
-- to separate two groups of content in the same container, when space alone doesn't make the break clear.
-- vertically, between groups of short items in a row: counts, sizes, a timestamp.
-- with a label, for a quiet break in a long list: `older`, `archived`.
+- To separate two groups of content in the same container, when space alone doesn't make the break clear.
+- Vertically, between groups of short items in a row: counts, sizes, a timestamp.
+- With a label, for a quiet break in a long list: `older`, `archived`.
 
 ## when not to use
 
-- **as a frame or an edge.** to outline a region, use the border of a <C slug="box" /> or a <C slug="card" />. a divider is a break between things, not a box around them.
-- **for a section title.** a label on the line isn't read as a heading (see [accessibility](#accessibility)). use a <C slug="heading" />.
-- **between every item of a list.** space already separates the items: use a <C slug="stack" />'s gap. a <C slug="table" /> rules its own rows.
+- **As a frame or an edge.** To outline a region, use the border of a <C slug="box" /> or a <C slug="card" />. A divider is a break between things, not a box around them.
+- **For a section title.** A label on the line isn't read as a heading (see [accessibility](#accessibility)). Use a <C slug="heading" />.
+- **Between every item of a list.** Space already separates the items: use a <C slug="stack" />'s gap. A <C slug="table" /> rules its own rows.
 
 ## anatomy
 
-1. **rule** — 1px of `--border`, or `--border-2` when `heavy`. horizontal: the full width. vertical: 1px wide, stretched to the height of its row, at least 16px tall.
-2. **label** (optional, horizontal only) — centered between two rules, 12px from each: jetbrains mono 12px, letter-spacing 0.04em, `--fg-dim`, shown lowercase, never wraps.
+1. **Rule** — 1px of `--border`, or `--border-2` when `heavy`. Horizontal: the full width. Vertical: 1px wide, stretched to the height of its row, at least 16px tall.
+2. **Label** (optional, horizontal only) — centered between two rules, 12px from each: JetBrains Mono 12px, letter-spacing 0.04em, `--fg-dim`, shown lowercase, never wraps.
 
-the divider has no margin. the space around it comes from its parent's gap.
+The divider has no margin. The space around it comes from its parent's gap.
 
 ## variants and states
 
@@ -44,13 +44,13 @@ the divider has no margin. the space around it comes from its parent's gap.
   <Heavy />
 </Example>
 
-a label splits the rule around a short mono word.
+A label splits the rule around a short mono word.
 
 <Example label="labelled rules in a list of runs">
   <Labeled />
 </Example>
 
-a vertical divider is a 1px column. it stretches to the height of its row, so place it in a horizontal <C slug="stack" /> or another flex row. it takes no label.
+A vertical divider is a 1px column. It stretches to the height of its row, so place it in a horizontal <C slug="stack" /> or another flex row. It takes no label.
 
 <Example label="vertical rules between counts">
   <Vertical />
@@ -58,49 +58,49 @@ a vertical divider is a 1px column. it stretches to the height of its row, so pl
 
 ## behaviour
 
-- a divider takes no focus and has no action: `tab` skips it.
+- A divider takes no focus and has no action: `tab` skips it.
 
-the keyboard map and the attributes it sets are on its [react page](/design-system/react/?path=/docs/components-layout-structure-divider--docs).
+The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-layout-structure-divider--docs).
 
 ## accessibility
 
-- screen readers announce a divider as a separator.
-- today: most screen readers won't read the label: it sits inside the separator, and a separator's contents aren't read. if the words matter, give the divider the same text as its name, or better, use a heading.
-- a divider that only decorates — inside something whose structure is already clear — can be hidden from assistive tech, so it isn't announced.
-- the rule is a decorative hairline, about 1.1:1 to 1.5:1 against the canvases, by design (see [shape](/design-system/styles/shape/#lines)). never let a divider be the only thing that tells two groups apart: space and headings carry the structure.
+- Screen readers announce a divider as a separator.
+- Today: most screen readers won't read the label: it sits inside the separator, and a separator's contents aren't read. If the words matter, give the divider the same text as its name, or better, use a heading.
+- A divider that only decorates — inside something whose structure is already clear — can be hidden from assistive tech, so it isn't announced.
+- The rule is a decorative hairline, about 1.1:1 to 1.5:1 against the canvases, by design (see [shape](/design-system/styles/shape/#lines)). Never let a divider be the only thing that tells two groups apart: space and headings carry the structure.
 
 ## content
 
-- a label is one or two lowercase words naming what follows: `older`, `archived`, `2023`.
-- no punctuation, no sentences, nothing people need to act on.
+- A label is one or two lowercase words naming what follows: `older`, `archived`, `2023`.
+- No punctuation, no sentences, nothing people need to act on.
 
 ## do and don't
 
 <DoDont>
-  <Do column caption="a label as a quiet break in a long list.">
+  <Do column caption="A label as a quiet break in a long list.">
     <Stack gap={12}>
-      <Text variant="ui">run #1543</Text>
+      <Text variant="ui">Run #1543</Text>
       <Divider label="older" />
-      <Text variant="ui">run #1502</Text>
+      <Text variant="ui">Run #1502</Text>
     </Stack>
   </Do>
-  <Dont column caption="a section title on the rule. screen-reader users can't find it or jump to it; use a heading.">
+  <Dont column caption="A section title on the rule. Screen-reader users can't find it or jump to it; use a heading.">
     <Stack gap={12}>
       <Divider label="storage settings" />
-      <Text variant="muted">412 gb used of 1 tb</Text>
+      <Text variant="muted">412 GB used of 1 TB</Text>
     </Stack>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do column caption="items in a list are separated by space.">
+  <Do column caption="Items in a list are separated by space.">
     <Stack gap={12}>
       <Text variant="ui">storage-01</Text>
       <Text variant="ui">storage-02</Text>
       <Text variant="ui">storage-03</Text>
     </Stack>
   </Do>
-  <Dont column caption="a rule per item is noise, and each one is announced as a separator.">
+  <Dont column caption="A rule per item is noise, and each one is announced as a separator.">
     <Stack gap={12}>
       <Text variant="ui">storage-01</Text>
       <Divider />
@@ -112,16 +112,16 @@ the keyboard map and the attributes it sets are on its [react page](/design-syst
 </DoDont>
 
 <DoDont>
-  <Do column caption="a section starts with a heading; space sets it apart.">
+  <Do column caption="A section starts with a heading; space sets it apart.">
     <Stack gap={8}>
       <Heading level={2}>backups</Heading>
-      <Text variant="muted">every night at 02:00, kept 14 days</Text>
+      <Text variant="muted">Every night at 02:00, kept 14 days</Text>
     </Stack>
   </Do>
-  <Dont column caption="rules above and below fake a frame. use a card or a box border.">
+  <Dont column caption="Rules above and below fake a frame. Use a card or a box border.">
     <Stack gap={8}>
       <Divider />
-      <Text variant="muted">every night at 02:00, kept 14 days</Text>
+      <Text variant="muted">Every night at 02:00, kept 14 days</Text>
       <Divider />
     </Stack>
   </Dont>
@@ -129,7 +129,7 @@ the keyboard map and the attributes it sets are on its [react page](/design-syst
 
 ## related
 
-- <C slug="stack" /> — the gap that spaces a divider.
-- <C slug="card" /> — header and footer rules come built in.
-- <C slug="heading" /> — when the break needs a title.
-- [shape](/design-system/styles/shape/) — the hairlines and what they are for.
+- <C slug="stack">Stack</C> — the gap that spaces a divider.
+- <C slug="card">Card</C> — header and footer rules come built in.
+- <C slug="heading">Heading</C> — when the break needs a title.
+- [Shape](/design-system/styles/shape/) — the hairlines and what they are for.

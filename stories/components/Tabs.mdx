@@ -5,46 +5,46 @@ import * as TabsStories from './Tabs.stories';
 
 # tabs
 
-design guidance — when to use them, their parts and states, their words: **[tabs on the guidelines site →](https://nalet.github.io/design-system/components/tabs/)**
+Design guidance — when to use them, their parts and states, their words: **[tabs on the guidelines site →](https://nalet.github.io/design-system/components/tabs/)**
 
 <Canvas of={TabsStories.Playground} />
 
 ## examples
 
-`Tabs` renders the tablist only. here `value` and `onChange` drive a panel with `role="tabpanel"`, `aria-label` and `tabIndex={0}`.
+`Tabs` renders the tablist only. Here `value` and `onChange` drive a panel with `role="tabpanel"`, `aria-label` and `tabIndex={0}`.
 
 <Canvas of={TabsStories.WithPanel} />
 
-an item with `disabled`.
+An item with `disabled`.
 
 <Canvas of={TabsStories.WithDisabled} />
 
-uncontrolled: pass `defaultValue` (without it, the first item is selected) and listen with `onChange`. `defaultValue` is read once, on the first render.
+Uncontrolled: pass `defaultValue` (without it, the first item is selected) and listen with `onChange`. `defaultValue` is read once, on the first render.
 
 <Canvas of={TabsStories.Uncontrolled} />
 
-controlled: pass `value` and set it in `onChange`. a `value` you don't update freezes the row.
+Controlled: pass `value` and set it in `onChange`. A `value` you don't update freezes the row.
 
 <Canvas of={TabsStories.Controlled} />
 
 ## implementation notes
 
-- renders a `<div>` around a `<div role="tablist">`. each tab is a `<button type="button">` with `role="tab"` and `aria-selected`; only the selected tab has `tabindex="0"`, the others `-1`.
-- `Tabs` renders no panel, no ids and no `aria-controls`. give your panel `role="tabpanel"`, name it after the selected tab with `aria-label`, and give it `tabIndex={0}` when it holds nothing focusable. the with-panel story does this.
-- a disabled item is a disabled `<button>`, so it leaves the tab order, and the arrow keys skip it.
-- a focused tab shows a 2px `--focus-ring` outline on `:focus-visible`, inside the tab.
-- the labels are lowercased with `text-transform`; the dom keeps the text you wrote.
-- today: `aria-label` and other attributes go on the wrapper `<div>`, not on the tablist, so the tablist can't be named.
-- today: the tabs have no ids, so a panel can't point at its tab with `aria-labelledby`.
-- today: a `value` that matches no item leaves every tab at `tabindex="-1"`, and the row can't be reached with `tab`.
-- other `<div>` attributes and the `ref` reach the wrapper around the tablist.
+- Renders a `<div>` around a `<div role="tablist">`. Each tab is a `<button type="button">` with `role="tab"` and `aria-selected`; only the selected tab has `tabindex="0"`, the others `-1`.
+- `Tabs` renders no panel, no IDs and no `aria-controls`. Give your panel `role="tabpanel"`, name it after the selected tab with `aria-label`, and give it `tabIndex={0}` when it holds nothing focusable. The with-panel story does this.
+- A disabled item is a disabled `<button>`, so it leaves the tab order, and the arrow keys skip it.
+- A focused tab shows a 2px `--focus-ring` outline on `:focus-visible`, inside the tab.
+- The labels are lowercased with `text-transform`; the DOM keeps the text you wrote.
+- Today: `aria-label` and other attributes go on the wrapper `<div>`, not on the tablist, so the tablist can't be named.
+- Today: the tabs have no IDs, so a panel can't point at its tab with `aria-labelledby`.
+- Today: a `value` that matches no item leaves every tab at `tabindex="-1"`, and the row can't be reached with `tab`.
+- Other `<div>` attributes and the `ref` reach the wrapper around the tablist.
 
 | key | does |
 | --- | --- |
-| `tab` | moves focus into the row, onto the selected tab — the only tab with `tabindex="0"` — and out of it on the next press. |
-| `→` / `←` | selects the next / previous enabled tab, wrapping at the ends, calls `onChange` and moves focus to it. |
-| `enter` / `space` | native button: selects the focused tab. |
-| `home` / `end` | selects and focuses the first / last enabled tab. |
+| `tab` | Moves focus into the row, onto the selected tab — the only tab with `tabindex="0"` — and out of it on the next press. |
+| `→` / `←` | Selects the next / previous enabled tab, wrapping at the ends, calls `onChange` and moves focus to it. |
+| `enter` / `space` | Native button: selects the focused tab. |
+| `home` / `end` | Selects and focuses the first / last enabled tab. |
 
 ## props
 

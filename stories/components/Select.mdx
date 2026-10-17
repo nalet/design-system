@@ -5,7 +5,7 @@ import * as SelectStories from './Select.stories';
 
 # select
 
-design guidance — when to use it, its sizes and states, its options and words: **[select on the guidelines site →](https://nalet.github.io/design-system/components/select/)**
+Design guidance — when to use it, its sizes and states, its options and words: **[select on the guidelines site →](https://nalet.github.io/design-system/components/select/)**
 
 <Canvas of={SelectStories.Playground} />
 
@@ -19,7 +19,7 @@ design guidance — when to use it, its sizes and states, its options and words:
 
 <Canvas of={SelectStories.WithChildren} />
 
-default, `invalid` and `disabled`.
+Default, `invalid` and `disabled`.
 
 <Canvas of={SelectStories.States} />
 
@@ -29,27 +29,27 @@ default, `invalid` and `disabled`.
 
 ## implementation notes
 
-- renders a native `<select>` inside a box (a `<div>`), so the browser and the operating system provide the list and the keyboard model. the chevron is an svg in an `aria-hidden` span over the box's right padding, with `pointer-events: none`.
-- give the options as an `options` array (`label`, `value`, optional `disabled`) or as `<option>` children. if you pass both, `options` wins and the children are ignored.
-- the component holds no state. use `defaultValue`, or `value` with `onChange`.
+- Renders a native `<select>` inside a box (a `<div>`), so the browser and the operating system provide the list and the keyboard model. The chevron is an SVG in an `aria-hidden` span over the box's right padding, with `pointer-events: none`.
+- Give the options as an `options` array (`label`, `value`, optional `disabled`) or as `<option>` children. If you pass both, `options` wins and the children are ignored.
+- The component holds no state. Use `defaultValue`, or `value` with `onChange`.
 - `onChange` can fire on every arrow press while the list is closed: only store the value in it.
-- a [field](?path=/docs/components-inputs-field--docs) renders a `<label for>` for it.
-- `invalid` sets `aria-invalid="true"` and the `--state-error` border. a field's `error` sets `invalid` for you.
-- an empty first option has `value: ''`. pass `required` with it, so the form cannot be sent without a choice.
-- `className` lands on the box; every other attribute — `value`, `onChange`, `name`, `required`, `aria-*`, `style` — and the ref land on the native `<select>`. set the width on the container: the box always fills it.
-- today: one value only. the box has a fixed height, so `multiple` is not supported.
+- A [field](?path=/docs/components-inputs-field--docs) renders a `<label for>` for it.
+- `invalid` sets `aria-invalid="true"` and the `--state-error` border. A field's `error` sets `invalid` for you.
+- An empty first option has `value: ''`. Pass `required` with it, so the form cannot be sent without a choice.
+- `className` lands on the box; every other attribute — `value`, `onChange`, `name`, `required`, `aria-*`, `style` — and the ref land on the native `<select>`. Set the width on the container: the box always fills it.
+- Today: one value only. The box has a fixed height, so `multiple` is not supported.
 
 | key | does |
 | --- | --- |
-| `tab` / `shift+tab` | moves focus to / from the select. |
-| `space` or `alt+↓` | opens the list. which one depends on the platform. |
-| `↑` / `↓` | move through the options. on some platforms this changes the value without opening the list. |
-| letters | jump to the next option that starts with what you type. |
-| `enter` | with the list open, chooses the highlighted option. |
-| `esc` | closes the list without choosing. |
+| `tab` / `shift+tab` | Moves focus to / from the select. |
+| `space` or `alt+↓` | Opens the list. Which one depends on the platform. |
+| `↑` / `↓` | Move through the options. On some platforms this changes the value without opening the list. |
+| Letters | Jump to the next option that starts with what you type. |
+| `enter` | With the list open, chooses the highlighted option. |
+| `esc` | Closes the list without choosing. |
 
 ## props
 
-the size prop is `selectSize` because `size` is the native attribute (the number of rows shown at once).
+The size prop is `selectSize` because `size` is the native attribute (the number of rows shown at once).
 
 <ArgTypes of={SelectStories} />

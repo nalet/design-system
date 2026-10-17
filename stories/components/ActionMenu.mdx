@@ -5,13 +5,13 @@ import * as ActionMenuStories from './ActionMenu.stories';
 
 # action menu
 
-design guidance — when to use it, its trigger, items and states, where it opens, its words: **[action menu on the guidelines site →](https://nalet.github.io/design-system/components/action-menu/)**
+Design guidance — when to use it, its trigger, items and states, where it opens, its words: **[action menu on the guidelines site →](https://nalet.github.io/design-system/components/action-menu/)**
 
 <Canvas of={ActionMenuStories.Playground} />
 
 ## examples
 
-one menu in a row, named by the row with `label`; each item's `onSelect` writes the line under it.
+One menu in a row, named by the row with `label`; each item's `onSelect` writes the line under it.
 
 <Canvas of={ActionMenuStories.InARow} />
 
@@ -19,7 +19,7 @@ one menu in a row, named by the row with `label`; each item's `onSelect` writes 
 
 <Canvas of={ActionMenuStories.TextTrigger} />
 
-items with `disabled` and `danger`.
+Items with `disabled` and `danger`.
 
 <Canvas of={ActionMenuStories.DisabledAndDanger} />
 
@@ -33,40 +33,40 @@ items with `disabled` and `danger`.
 
 ## implementation notes
 
-- the trigger is a ghost `IconButton` with three squares (`icon` replaces them) or, with `buttonLabel`, a default `Button` with your text and a trailing chevron. `size` (`sm` by default, or `md`) and `className` go to the trigger.
-- the trigger has `aria-haspopup="menu"`, `aria-expanded`, and `aria-controls` pointing at the menu while it is open.
-- the menu exists only while it is open. it renders into `document.body` (a portal), outside any ancestor with `overflow: hidden`: `position: fixed`, `z-index: 150`. it has `role="menu"` and `tabindex="-1"`, and takes its name from the trigger (`aria-labelledby`).
-- the items are `<button type="button">` elements with `role="menuitem"` and `tabindex="-1"`: inside the menu, the arrow keys move. a disabled item keeps `aria-disabled="true"`, not the native `disabled`, and stays in the menu. an item's icon sits in a span with `aria-hidden="true"`.
-- the menu is measured before it shows (`visibility: hidden` until it is placed), so it never flashes in the wrong place. `align` lines up its `end` edge with the trigger's (the default) or its `start` edge. while it is open it listens for `pointerdown` on the document, to close on a press outside, and for `scroll` (in the capture phase, so any scroll container counts) and `resize` on the window, to follow the trigger.
-- on open, focus goes to the first item that isn't disabled, or to the last one after `↑`; when every item is disabled, to the menu itself.
+- The trigger is a ghost `IconButton` with three squares (`icon` replaces them) or, with `buttonLabel`, a default `Button` with your text and a trailing chevron. `size` (`sm` by default, or `md`) and `className` go to the trigger.
+- The trigger has `aria-haspopup="menu"`, `aria-expanded`, and `aria-controls` pointing at the menu while it is open.
+- The menu exists only while it is open. It renders into `document.body` (a portal), outside any ancestor with `overflow: hidden`: `position: fixed`, `z-index: 150`. It has `role="menu"` and `tabindex="-1"`, and takes its name from the trigger (`aria-labelledby`).
+- The items are `<button type="button">` elements with `role="menuitem"` and `tabindex="-1"`: inside the menu, the arrow keys move. A disabled item keeps `aria-disabled="true"`, not the native `disabled`, and stays in the menu. An item's icon sits in a span with `aria-hidden="true"`.
+- The menu is measured before it shows (`visibility: hidden` until it is placed), so it never flashes in the wrong place. `align` lines up its `end` edge with the trigger's (the default) or its `start` edge. While it is open it listens for `pointerdown` on the document, to close on a press outside, and for `scroll` (in the capture phase, so any scroll container counts) and `resize` on the window, to follow the trigger.
+- On open, focus goes to the first item that isn't disabled, or to the last one after `↑`; when every item is disabled, to the menu itself.
 - `onOpenChange(open)` is called when the menu opens and when it closes.
-- `loading` puts a spinner in the trigger, sets `aria-busy` and keeps the menu from opening. `disabled` turns the whole menu off. both disable the trigger, so it can't be focused.
-- with `buttonLabel`, the visible text is the name, and `label` isn't used. `label` is still required by the type, so pass the same words.
+- `loading` puts a spinner in the trigger, sets `aria-busy` and keeps the menu from opening. `disabled` turns the whole menu off. Both disable the trigger, so it can't be focused.
+- With `buttonLabel`, the visible text is the name, and `label` isn't used. `label` is still required by the type, so pass the same words.
 - `ActionMenu` passes no other attributes through.
 - axe-core finds no violations, closed or open.
 
 | key | does |
 | --- | --- |
-| `enter` / `space` on the trigger | opens the menu and focuses its first item that isn't disabled. |
-| `↓` on the trigger | the same: opens on the first item. |
-| `↑` on the trigger | opens on the last item. |
-| `↓` / `↑` in the menu | moves to the next / previous item, wrapping at the ends. disabled items are skipped. |
-| `home` / `end` | moves to the first / last item. |
-| `enter` / `space` on an item | closes the menu, puts focus back on the trigger, then runs the item. |
-| `esc` | closes the menu and puts focus back on the trigger. the key goes no further, so a modal around the menu stays open. |
-| `tab` / `shift+tab` | closes the menu, and focus moves on from the trigger as if the menu had not been there. |
+| `enter` / `space` on the trigger | Opens the menu and focuses its first item that isn't disabled. |
+| `↓` on the trigger | The same: opens on the first item. |
+| `↑` on the trigger | Opens on the last item. |
+| `↓` / `↑` in the menu | Moves to the next / previous item, wrapping at the ends. Disabled items are skipped. |
+| `home` / `end` | Moves to the first / last item. |
+| `enter` / `space` on an item | Closes the menu, puts focus back on the trigger, then runs the item. |
+| `esc` | Closes the menu and puts focus back on the trigger. The key goes no further, so a modal around the menu stays open. |
+| `tab` / `shift+tab` | Closes the menu, and focus moves on from the trigger as if the menu had not been there. |
 
 ## props
 
 <ArgTypes of={ActionMenuStories} />
 
-each entry in `items`:
+Each entry in `items`:
 
 | field | does |
 | --- | --- |
-| `id` | a key, unique within the menu |
-| `label` | the item's text: a verb and its object |
-| `onSelect` | runs once the menu has closed and focus is back on the trigger |
-| `disabled` | stays in the menu, can't be run, and the arrow keys skip it |
-| `danger` | the label in `--signal-amber`: deletes, or can't be undone |
-| `icon` | decoration before the label |
+| `id` | A key, unique within the menu |
+| `label` | The item's text: a verb and its object |
+| `onSelect` | Runs once the menu has closed and focus is back on the trigger |
+| `disabled` | Stays in the menu, can't be run, and the arrow keys skip it |
+| `danger` | The label in `--signal-amber`: deletes, or can't be undone |
+| `icon` | Decoration before the label |

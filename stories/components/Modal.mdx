@@ -5,17 +5,17 @@ import * as ModalStories from './Modal.stories';
 
 # modal
 
-design guidance — when to use it, its parts and setups, focus and closing, its words: **[modal on the guidelines site →](https://nalet.github.io/design-system/components/modal/)**
+Design guidance — when to use it, its parts and setups, focus and closing, its words: **[modal on the guidelines site →](https://nalet.github.io/design-system/components/modal/)**
 
 <Canvas of={ModalStories.Playground} />
 
 ## examples
 
-a confirm: `title`, one sentence, and a `footer` with `cancel` and a `danger` action.
+A confirm: `title`, one sentence, and a `footer` with `cancel` and a `danger` action.
 
 <Canvas of={ModalStories.Confirm} />
 
-a `<form>` in the body, submitted from the `footer` with `type="submit"` and `form={id}` on the button; `width={420}`.
+A `<form>` in the body, submitted from the `footer` with `type="submit"` and `form={id}` on the button; `width={420}`.
 
 <Canvas of={ModalStories.Form} />
 
@@ -27,32 +27,32 @@ a `<form>` in the body, submitted from the `footer` with `type="submit"` and `fo
 
 <Canvas of={ModalStories.Persistent} />
 
-long `children` scroll inside the body; the header and the `footer` stay in view.
+Long `children` scroll inside the body; the header and the `footer` stay in view.
 
 <Canvas of={ModalStories.LongContent} />
 
 ## implementation notes
 
-- `Modal` renders nothing while `open` is `false`. open, it renders into `document.body` (a portal): a fixed, full-viewport wrapper with `role="presentation"` at `z-index: 100`, the backdrop with `aria-hidden="true"`, and the dialog, centred.
-- the dialog has `role="dialog"`, `aria-modal="true"` and `tabindex="-1"`. `title` renders as an `<h2>` that names it (`aria-labelledby`); without a `title`, `ariaLabel` names it (`aria-label`). give it one or the other: with neither, the dialog has no name.
+- `Modal` renders nothing while `open` is `false`. Open, it renders into `document.body` (a portal): a fixed, full-viewport wrapper with `role="presentation"` at `z-index: 100`, the backdrop with `aria-hidden="true"`, and the dialog, centred.
+- The dialog has `role="dialog"`, `aria-modal="true"` and `tabindex="-1"`. `title` renders as an `<h2>` that names it (`aria-labelledby`); without a `title`, `ariaLabel` names it (`aria-label`). Give it one or the other: with neither, the dialog has no name.
 - `width` sets the dialog's max width in px, 480 by default. `className` lands on the dialog element.
-- the header's close button is a `<button type="button">` with `aria-label="close"`.
-- `esc`, a click on the backdrop and the close button call `onClose`. the modal never closes itself: you set `open` to `false`.
-- on open, it remembers the element that has focus, sets `overflow: hidden` on `<body>`, and focuses the first `button`, `[href]`, `input`, `select`, `textarea` or `[tabindex]` (other than `-1`) in the dialog, or the dialog itself. on close, `<body>` gets its earlier `overflow` back, and focus returns to the element it remembered.
-- while it is open, the modal listens for keys on the whole document, so they work wherever focus is. it takes `esc` in the bubble phase, after the dialog's own widgets, and only when none of them has called `preventDefault()` on it; then it stops the key.
-- `onClose` may be an inline function. the modal calls the latest one and runs its open steps only when `open` (or `closeOnEsc`) changes, so a parent that re-renders — a list that polls, a field that types — does not pull focus back to the start.
-- a form in the body can submit from the footer: give the `<form>` an `id`, and the footer button `type="submit"` and `form={id}`. `enter` in a field then submits it.
-- the page behind is not made `inert` or `aria-hidden`. `aria-modal` and the tab trap are what keep people in the dialog.
+- The header's close button is a `<button type="button">` with `aria-label="close"`.
+- `esc`, a click on the backdrop and the close button call `onClose`. The modal never closes itself: you set `open` to `false`.
+- On open, it remembers the element that has focus, sets `overflow: hidden` on `<body>`, and focuses the first `button`, `[href]`, `input`, `select`, `textarea` or `[tabindex]` (other than `-1`) in the dialog, or the dialog itself. On close, `<body>` gets its earlier `overflow` back, and focus returns to the element it remembered.
+- While it is open, the modal listens for keys on the whole document, so they work wherever focus is. It takes `esc` in the bubble phase, after the dialog's own widgets, and only when none of them has called `preventDefault()` on it; then it stops the key.
+- `onClose` may be an inline function. The modal calls the latest one and runs its open steps only when `open` (or `closeOnEsc`) changes, so a parent that re-renders — a list that polls, a field that types — does not pull focus back to the start.
+- A form in the body can submit from the footer: give the `<form>` an `id`, and the footer button `type="submit"` and `form={id}`. `enter` in a field then submits it.
+- The page behind is not made `inert` or `aria-hidden`. `aria-modal` and the tab trap are what keep people in the dialog.
 - `Modal` passes no other attributes through.
-- today: `autoFocus` on a field is overridden: focus always starts on the first focusable element.
-- today: the dialog takes no `aria-describedby`: `Modal` passes no other attributes to it.
-- today: the tab trap counts hidden elements, `<input type="hidden">` included. when one is the first or the last focusable match in the dialog, `tab` can leave it.
+- Today: `autoFocus` on a field is overridden: focus always starts on the first focusable element.
+- Today: the dialog takes no `aria-describedby`: `Modal` passes no other attributes to it.
+- Today: the tab trap counts hidden elements, `<input type="hidden">` included. When one is the first or the last focusable match in the dialog, `tab` can leave it.
 
 | key | does |
 | --- | --- |
-| `tab` / `shift+tab` | moves through the dialog in the usual order. from its last focusable element it wraps to the first, and back, so focus stays in the dialog (with the limit in the notes above). |
-| `esc` | calls `onClose`, unless `closeOnEsc={false}`. widgets inside the dialog get it first: an open [action menu](?path=/docs/components-actions-action-menu--docs) closes on the first press, the dialog on the next. once the dialog takes the key, it goes no further. |
-| `enter` / `space` | native: activates the focused button. `enter` in a field submits its form. |
+| `tab` / `shift+tab` | Moves through the dialog in the usual order. From its last focusable element it wraps to the first, and back, so focus stays in the dialog (with the limit in the notes above). |
+| `esc` | Calls `onClose`, unless `closeOnEsc={false}`. Widgets inside the dialog get it first: an open [action menu](?path=/docs/components-actions-action-menu--docs) closes on the first press, the dialog on the next. Once the dialog takes the key, it goes no further. |
+| `enter` / `space` | Native: activates the focused button. `enter` in a field submits its form. |
 
 ## props
 

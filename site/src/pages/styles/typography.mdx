@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: typography
-description: two families and six roles — jetbrains mono names things, inter carries what people read.
+description: Two families and six roles — JetBrains Mono names things, Inter carries what people read.
 ---
 import { Heading, Text, formatCount } from '@nalet/design-system';
 import C from '@site/components/C.astro';
@@ -11,7 +11,7 @@ import { BothFamilies } from '@site/demos/typography';
 
 # typography
 
-two families and six roles. jetbrains mono names things: headings, titles, labels, values, numbers and code. inter carries what people read: prose, hints, messages and interface text.
+Two families and six roles. JetBrains Mono names things: headings, titles, labels, values, numbers and code. Inter carries what people read: prose, hints, messages and interface text.
 
 <Example label="the six type roles" column>
   <TypeScale />
@@ -21,33 +21,33 @@ two families and six roles. jetbrains mono names things: headings, titles, label
 
 | token | family | stack | for |
 | --- | --- | --- | --- |
-| `--ff-mono` | jetbrains mono | `'JetBrains Mono', ui-monospace, monospace` | headings and titles, the labels of buttons, tabs, menus and table headers, badges and status, toasts and tooltips, what people type into fields, numbers, code |
-| `--ff-ui` | inter | `Inter, system-ui, sans-serif` | body copy, field labels, hints and errors, checkbox and switch labels, message strips, secondary lines |
+| `--ff-mono` | JetBrains Mono | `'JetBrains Mono', ui-monospace, monospace` | Headings and titles, the labels of buttons, tabs, menus, filters and table headers, badges and status, tooltips, what people type into fields, numbers, code |
+| `--ff-ui` | Inter | `Inter, system-ui, sans-serif` | Body copy, field labels, hints and errors, checkbox and switch labels, message strips and toasts, secondary lines |
 
-`tokens.css` sets `font-family: var(--ff-ui)` on `body`, so anything that sets no family of its own is inter.
+`tokens.css` sets `font-family: var(--ff-ui)` on `body`, so anything that sets no family of its own is Inter.
 
 <Example label="both families in one panel">
   <BothFamilies />
 </Example>
 
-in mono: the card title, the status, the value in the field and the button labels. in inter: the sentence, the field's label and its hint.
+In mono: the card title, the status, the value in the field and the button labels. In Inter: the sentence, the field's label and its hint.
 
 ## the roles
 
-the roles live in `tokens/tokens.json` (`type.role`). the specimen above is drawn from the same values.
+The roles live in `tokens/tokens.json` (`type.role`). The specimen above is drawn from the same values.
 
 | role | family | weight | size / line height | letter-spacing | in components |
 | --- | --- | --- | --- | --- | --- |
-| `display` | mono | 800 | 56px / 1.00 | -0.030em | none. a splash or a sign-in screen, through `.type-display` |
-| `h1` | mono | 700 | 32px / 1.15 | -0.015em | <C slug="heading" /> `level={1}` |
-| `h2` | mono | 600 | 22px / 1.20 | 0 | heading `level={2}` |
-| `body` | inter | 400 | 16px / 1.55 | 0 | <C slug="text" /> `variant="body"` |
-| `ui` | inter | 500 | 13px / 1.40 | 0 | text `variant="ui"`, the <C slug="field" /> label |
-| `code` | mono | 500 | 13px / 1.50 | 0 | text `variant="code"` |
+| `display` | Mono | 800 | 56px / 1.00 | -0.030em | None. A splash or a sign-in screen, through `.type-display` |
+| `h1` | Mono | 700 | 32px / 1.15 | -0.015em | <C slug="heading">Heading</C> `level={1}` |
+| `h2` | Mono | 600 | 22px / 1.20 | 0 | Heading `level={2}` |
+| `body` | Inter | 400 | 16px / 1.55 | 0 | <C slug="text">Text</C> `variant="body"` |
+| `ui` | Inter | 500 | 13px / 1.40 | 0 | Text `variant="ui"`, the <C slug="field" /> label |
+| `code` | Mono | 500 | 13px / 1.50 | 0 | Text `variant="code"` |
 
-- there is no `h3` role. a sub-section gets a native `h3` through text: `as="h3"`, as the heading page says.
-- the components also use sizes between the roles, set in their own css: 11px (badges, object status, table headers), 12px (`sm` buttons, hints and errors, tooltips, dates, counts), 14px (`lg` buttons and fields, the modal body, tile titles), 15px (modal titles), 20px (filter tab counts), 22px at 700 (the worklist and portal titles) and 28px (a tile's key figure). they are not tokens: use them through the components, not in your own css.
-- the largest mono is drawn tighter: display −0.03em, `h1` −0.015em, the portal title and the filter tab counts −0.01em. small mono labels are opened up: 0.04em on table headers, tile group legends and divider labels, 0.02em on badges and object status.
+- There is no `h3` role. A sub-section gets a native `h3` through text: `as="h3"`, as the heading page says.
+- The components also use sizes between the roles, set in their own CSS: 11px (badges, object status, table headers), 12px (`sm` buttons, hints and errors, tooltips, dates, counts), 14px (`lg` buttons and fields, the modal body, tile titles), 15px (modal titles), 20px (filter tab counts), 22px at 700 (the worklist and portal titles) and 28px (a tile's key figure). They are not tokens: use them through the components, not in your own CSS.
+- The largest mono is drawn tighter: display −0.03em, `h1` −0.015em, the portal title and the filter tab counts −0.01em. Small mono labels are opened up: 0.04em on table headers, tile group legends and divider labels, 0.02em on badges and object status.
 
 ## weights
 
@@ -55,89 +55,90 @@ the roles live in `tokens/tokens.json` (`type.role`). the specimen above is draw
   <TypeWeights />
 </Example>
 
-- most mono values set no weight: inputs, code, badges, toasts, tooltips and the cells of the plain <C slug="table" /> take the weight of the text around them, 400 on a plain page.
-- 600 marks a label that names something (a button, a title, a column); 700 is for the page title and a key figure. inter is 400 for reading and for checkbox and switch labels, 500 for field labels and `ui` text.
+- Most mono values set no weight: inputs, code, badges, tooltips and the cells of the plain <C slug="table" /> take the weight of the text around them, 400 on a plain page.
+- 600 marks a label that names something (a button, a title, a column); 700 is for the page title and a key figure. Inter is 400 for reading and for checkbox and switch labels, 500 for field labels and `ui` text.
 
 ## lowercase
 
-- the voice is lowercase. many components also set `text-transform: lowercase`: buttons, tabs and filter tabs, menu items, badges and object status, table headers, field labels, the labels of the filter bar and multi select, divider labels, and the titles of cards, modals, tiles, toolbars, tile groups, worklists, the portal and illustrated messages.
-- the transform changes the look, not the text: the dom keeps what you wrote. browsers differ in which of the two they hand to assistive tech, so write the source the way it should be read, lowercase, and both say the same.
-- headings, body text, hints and errors, checkbox and switch labels, message strips, toasts, tooltips and the values in fields have no transform. capitals you write there show.
-- names that are content keep their case: an identifier cell, the label of a data table group, a title quoted in a sentence. a card, tile or modal title is lowercased even when it holds a name, so a name that must keep its case goes in the body.
+- The two families are the system's two voices. Mono is the system's voice, and it is lowercase; Inter is the reader's language, in sentence case — see [content & voice](/design-system/foundations/content-voice/).
+- The components set `text-transform: lowercase` on mono chrome only: buttons, tabs and filter tabs, menu items, badges and object status, table headers, the labels of the filter bar and multi select, divider labels, and the titles of cards, modals, tiles, toolbars, tile groups, worklists, the portal and illustrated messages. Nothing in Inter is transformed.
+- The transform changes the look, not the text: the DOM keeps what you wrote. Browsers differ in which of the two they hand to assistive tech, so write mono chrome the way it should be read, lowercase, and both say the same.
+- Headings and tooltips are mono with no transform: write them lowercase. The values in fields are content and keep their case. Body text, field labels, hints and errors, checkbox and switch labels, message strips and toasts are Inter, with no transform: write them in sentence case. Capitals you write there show.
+- Names that are content keep their case: an identifier cell, the label of a data table group, a title quoted in a sentence. A card, tile or modal title is lowercased even when it holds a name, so a name that must keep its case goes in the body.
 
 ## numbers
 
-- numbers that people compare, count or watch change are mono: counts, sizes, dates, durations, ids. every mono glyph has the same width, so a column of numbers lines up and a count that changes doesn't push its neighbours.
-- the counts in the components also set `font-variant-numeric: tabular-nums`: filter tab counts, the filter bar's result count, multi select option counts, a tile's key figure, delta and count badge, the growing row of a data table, and the date cell.
-- a number inside an inter sentence stays inter. in an inter column or a value that updates in place, add `font-variant-numeric: tabular-nums`.
-- counts carry a thousands separator. `formatCount(2500)` gives `2,500`; it is the formatter the components use.
+- Numbers that people compare, count or watch change are mono: counts, sizes, dates, durations, IDs. Every mono glyph has the same width, so a column of numbers lines up and a count that changes doesn't push its neighbours.
+- The counts in the components also set `font-variant-numeric: tabular-nums`: filter tab counts, the filter bar's result count, multi select option counts, a tile's key figure, delta and count badge, the growing row of a data table, and the date cell.
+- A number inside an Inter sentence stays Inter. In an Inter column or a value that updates in place, add `font-variant-numeric: tabular-nums`.
+- Counts carry a thousands separator. `formatCount(2500)` gives `2,500`; it is the formatter the components use.
 
 ## loading the fonts
 
-the library does not ship or load the fonts. `tokens.css` names them in `--ff-ui` and `--ff-mono` but has no `@font-face`. until they load, or if they never do, text falls back to the rest of each stack: `system-ui`, then `sans-serif`; `ui-monospace`, then `monospace`. how to load them is on [react](/design-system/develop/react/#fonts); this site self-hosts them with `@fontsource/inter` and `@fontsource/jetbrains-mono`.
+The library does not ship or load the fonts. `tokens.css` names them in `--ff-ui` and `--ff-mono` but has no `@font-face`. Until they load, or if they never do, text falls back to the rest of each stack: `system-ui`, then `sans-serif`; `ui-monospace`, then `monospace`. How to load them is on [React](/design-system/develop/react/#fonts); this site self-hosts them with `@fontsource/inter` and `@fontsource/jetbrains-mono`.
 
-- a `<link rel="stylesheet">` in the `<head>` starts the download sooner than an `@import`. an `@import` must come before every other rule in its stylesheet.
-- to self-host by hand, declare the files with `@font-face` under the family names `Inter` and `JetBrains Mono`, exactly: the stacks look for those names.
-- load jetbrains mono 400. it is the weight most mono values are drawn in. the `@import` suggested in the comment at the top of `tokens.css` starts at 500, and with it every 400 value renders at 500.
-- the components draw inter at 400 and 500 only; 600 and 700 are there for bold text in your own content. jetbrains mono 800 is only for the display role.
+- A `<link rel="stylesheet">` in the `<head>` starts the download sooner than an `@import`. An `@import` must come before every other rule in its stylesheet.
+- To self-host by hand, declare the files with `@font-face` under the family names `Inter` and `JetBrains Mono`, exactly: the stacks look for those names.
+- Load JetBrains Mono 400. It is the weight most mono values are drawn in. The `@import` suggested in the comment at the top of `tokens.css` starts at 500, and with it every 400 value renders at 500.
+- The components draw Inter at 400 and 500 only; 600 and 700 are there for bold text in your own content. JetBrains Mono 800 is only for the display role.
 - `display=swap` shows the fallback first and swaps the font in when it arrives.
 
 ## how to apply it
 
-- **components first.** <C slug="heading" />, <C slug="text" />, <C slug="code" /> and <C slug="kbd" /> carry the roles; every other component sets its own type.
-- **role classes.** `tokens.css` defines `.type-display`, `.type-h1`, `.type-h2`, `.type-body`, `.type-ui` and `.type-code`: family, weight, size, line height and letter-spacing. no colour, no margin.
-- **css variables.** the families are `var(--ff-mono)` and `var(--ff-ui)`. sizes and weights are not variables.
-- **typescript.** `typography.h1` and `fontFamily.mono` come from `@nalet/design-system` (or `@nalet/design-system/tokens`): the same metrics as objects, ready to spread into a `style`.
-- **tailwind.** the preset maps `font-mono` and `font-sans` to the two stacks. it adds no font sizes.
+- **Components first.** <C slug="heading">Heading</C>, <C slug="text" />, <C slug="code" /> and <C slug="kbd" /> carry the roles; every other component sets its own type.
+- **Role classes.** `tokens.css` defines `.type-display`, `.type-h1`, `.type-h2`, `.type-body`, `.type-ui` and `.type-code`: family, weight, size, line height and letter-spacing. No colour, no margin.
+- **CSS variables.** The families are `var(--ff-mono)` and `var(--ff-ui)`. Sizes and weights are not variables.
+- **TypeScript.** `typography.h1` and `fontFamily.mono` come from `@nalet/design-system` (or `@nalet/design-system/tokens`): the same metrics as objects, ready to spread into a `style`.
+- **Tailwind.** The preset maps `font-mono` and `font-sans` to the two stacks. It adds no font sizes.
 
 ## accessibility
 
-- the lowercase look is css, and assistive tech may get either the written or the transformed text. written lowercase, the two are the same.
-- don't let a family, a weight or a size carry meaning on its own. a state is <C slug="object-status" />, with words and a glyph; a structure is a real heading.
-- today: every size is in px. text grows with the browser's zoom, but not with a larger default font size set in the browser's settings.
-- today: the role classes in `tokens.css` write the font stacks out instead of using `var(--ff-ui)` and `var(--ff-mono)`, so overriding a family variable doesn't reach them.
+- The lowercase look of mono chrome is CSS, and assistive tech may get either the written or the transformed text. Written lowercase, the two are the same.
+- Don't let a family, a weight or a size carry meaning on its own. A state is <C slug="object-status" />, with words and a glyph; a structure is a real heading.
+- Today: every size is in px. Text grows with the browser's zoom, but not with a larger default font size set in the browser's settings.
+- Today: the role classes in `tokens.css` write the font stacks out instead of using `var(--ff-ui)` and `var(--ff-mono)`, so overriding a family variable doesn't reach them.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="prose in inter: sentences are read, not scanned." column>
-    <Text as="p" variant="body">backups run every night at 02:00 and are kept for 14 days. a run that fails is tried again an hour later.</Text>
+  <Do caption="Prose in Inter: sentences are read, not scanned." column>
+    <Text as="p" variant="body">Backups run every night at 02:00 and are kept for 14 days. A run that fails is tried again an hour later.</Text>
   </Do>
-  <Dont caption="a paragraph in mono reads slower. mono is for names, labels and values." column>
-    <Text as="p" variant="code">backups run every night at 02:00 and are kept for 14 days. a run that fails is tried again an hour later.</Text>
+  <Dont caption="A paragraph in mono reads slower. Mono is for names, labels and values." column>
+    <Text as="p" variant="code">Backups run every night at 02:00 and are kept for 14 days. A run that fails is tried again an hour later.</Text>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="the source is written as it is read: lowercase." column>
+  <Do caption="The source is written as it is read: lowercase." column>
     <Heading level={2}>recent runs</Heading>
   </Do>
-  <Dont caption="headings have no transform. capitals in the source show on screen." column>
+  <Dont caption="Headings have no transform. Capitals in the source show on screen." column>
     <Heading level={2}>Recent Runs</Heading>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="a count in mono, with its thousands separator.">
+  <Do caption="A count in mono, with its thousands separator.">
     <Text variant="code">{formatCount(2500)} missing</Text>
   </Do>
-  <Dont caption="without the separator, people count the digits.">
+  <Dont caption="Without the separator, people count the digits.">
     <Text variant="code">2500 missing</Text>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="a section title is a heading at the h2 role." column>
+  <Do caption="A section title is a heading at the h2 role." column>
     <Heading level={2}>recent runs</Heading>
   </Do>
-  <Dont caption="a hand-sized title matches no role, and to assistive tech it is not a heading." column>
+  <Dont caption="A hand-sized title matches no role, and to assistive tech it is not a heading." column>
     <span style={{ fontFamily: 'var(--ff-ui)', fontSize: '19px', fontWeight: 700, color: 'var(--fg)' }}>recent runs</span>
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="heading" /> — the `h1` and `h2` roles as real headings.
-- <C slug="text" /> — the `body`, `ui` and `code` roles, and `as` for other elements.
-- [content & voice](/design-system/foundations/content-voice/) — how the words are written, lowercase included.
-- [colour](/design-system/styles/colour/) — the text colours and their contrast.
+- <C slug="heading">Heading</C> — the `h1` and `h2` roles as real headings.
+- <C slug="text">Text</C> — the `body`, `ui` and `code` roles, and `as` for other elements.
+- [Content & voice](/design-system/foundations/content-voice/) — how the words are written, in the two voices.
+- [Colour](/design-system/styles/colour/) — the text colours and their contrast.

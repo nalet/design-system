@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: motion
-description: small and quick, and only to say something — every motion of the nalet design system, its duration and what reduced motion does to it.
+description: Small and quick, and only to say something — every motion of the nalet design system, its duration and what reduced motion does to it.
 ---
 import { Server } from 'lucide-react';
 import { Button, Checkbox, Lockup, MessageStrip, Spinner, Switch, Text, Tile, Toaster, Tooltip } from '@nalet/design-system';
@@ -13,17 +13,17 @@ import { BusyTable, Specimen, SpecimenGrid } from '@site/specimens/motion';
 
 # motion
 
-small and quick, and only to say something: that a control heard you, that a state changed, that work is under way. nothing bounces, slides in from far away or plays for show.
+Small and quick, and only to say something: that a control heard you, that a state changed, that work is under way. Nothing bounces, slides in from far away or plays for show.
 
 <MotionFrame what="the examples">
   <Example label="every motion in the library, live">
     <SpecimenGrid>
       <Specimen name="colour change" note="120ms ease · hover, press, check">
         <Button>check now</Button>
-        <Checkbox label="include archived" />
+        <Checkbox label="Include archived" />
       </Specimen>
       <Specimen name="switch thumb" note="140ms ease · slides 16px">
-        <Switch label="email alerts" defaultChecked />
+        <Switch label="Email alerts" defaultChecked />
       </Specimen>
       <Specimen name="tile hover" note="80ms linear · surface, border, chevron">
         <div style={{ width: '100%' }}>
@@ -36,12 +36,12 @@ small and quick, and only to say something: that a control heard you, that a sta
         </Tooltip>
       </Specimen>
       <Specimen name="disclosure caret" note="120ms ease · turns 90°">
-        <MessageStrip client:visible state="neutral" live="off" details="run 2a7f · 41s · 412 gb">the last backup finished at 02:01.</MessageStrip>
+        <MessageStrip client:visible state="neutral" live="off" details="run 2a7f · 41s · 412 gb">The last backup finished at 02:01.</MessageStrip>
       </Specimen>
       <Specimen name="toast" note="160ms ease-out · rises 6px, leaves at once">
         <ToastButton client:visible label="check 8 volumes" message="8 volumes checked" state="success" id="motion-specimen" />
       </Specimen>
-      <Specimen name="spinner" note="0.7s a turn, while busy">
+      <Specimen name="spinner" note="4s a lap, while busy">
         <Spinner />
       </Specimen>
       <Specimen name="busy rule" note="1.1s ease-in-out · runs along the top">
@@ -51,30 +51,30 @@ small and quick, and only to say something: that a control heard you, that a sta
   </Example>
 </MotionFrame>
 
-the lockup's blinking cursor, the ninth, is in the do and don't below.
+The lockup's blinking cursor, the ninth, is in the do and don't below.
 
 ## what moves
 
 | motion | where | duration, easing | it says | with reduced motion |
 | --- | --- | --- | --- | --- |
-| colour change | button, icon button, input, select, textarea, checkbox, switch track, tabs, filter tabs, multi select trigger, modal close button | 120ms `ease` | the control heard you: hover, press, focus, on | unchanged: colour, not movement |
-| tile hover | tile surface and border; the brand chevron fades in | 80ms `linear` | this tile is a way in | instant |
-| tooltip | the bubble fades in; it hides at once | 100ms `ease` | here is the detail | unchanged |
-| switch thumb | slides 16px (14px at `sm`) | 140ms `ease` | the setting changed | no transition: the thumb moves at once |
-| disclosure caret | message strip details (turns 90°), multi select (180°), a data table group (90°) | 120ms `ease` | open, or closed | instant |
-| toast | rises 6px as it fades in; leaves at once | 160ms `ease-out` | something just happened | appears at once |
-| spinner | turns at a steady speed, without end | 0.7s a turn, `linear` | working on it | turns once every 1.6s; it doesn't stop |
-| busy rule | on a loading data table, a 2px `--cloud-blue` bar, 30% wide, runs along the top edge, over and over | 1.1s a run, `ease-in-out` | this list is being refreshed | stops: a still 2px rule across the full width |
-| lockup cursor | the cursor block blinks: on for half of each cycle, off for the other half | 1.05s a cycle, without end | the brand's one cursor | keeps blinking (see accessibility) |
+| Colour change | Button, icon button, input, select, textarea, checkbox, switch track, tabs, filter tabs, multi select trigger, modal close button | 120ms `ease` | The control heard you: hover, press, focus, on | Unchanged: colour, not movement |
+| Tile hover | Tile surface and border; the brand chevron fades in | 80ms `linear` | This tile is a way in | Instant |
+| Tooltip | The bubble fades in; it hides at once | 100ms `ease` | Here is the detail | Unchanged |
+| Switch thumb | Slides 16px (14px at `sm`) | 140ms `ease` | The setting changed | No transition: the thumb moves at once |
+| Disclosure caret | Message strip details (turns 90°), multi select (180°), a data table group (90°) | 120ms `ease` | Open, or closed | Instant |
+| Toast | Rises 6px as it fades in; leaves at once | 160ms `ease-out` | Something just happened | Appears at once |
+| Spinner | The gap in its still square frame runs round at a steady pace, without end | 4s a lap, `linear` | Working on it | Stands still; its label carries the state |
+| Busy rule | On a loading data table, a 2px `--cloud-blue` bar, 30% wide, runs along the top edge, over and over | 1.1s a run, `ease-in-out` | This list is being refreshed | Stops: a still 2px rule across the full width |
+| Lockup cursor | The cursor block blinks: on for half of each cycle, off for the other half | 1.05s a cycle, without end | The brand's one cursor | Keeps blinking (see accessibility) |
 
 ## what doesn't move
 
-- modals, action menus and the multi select panel open and close at once. only the multi select's chevron turns.
-- toasts and tooltips leave at once; only their entrance is animated.
-- sorting, selecting a row, pop-in, the filter bar folding and actions moving into the overflow menu happen at once. nothing animates a width, a height or a row's position.
-- the active tab's underline changes colour in place; it doesn't slide between tabs.
-- keyboard focus rings (`--focus-ring` outlines) appear at once. a field's blue focus border comes in with its 120ms colour change.
-- nothing scrolls smoothly: moving focus, or the roving tab stop, jumps.
+- Modals, action menus and the multi select panel open and close at once. Only the multi select's chevron turns.
+- Toasts and tooltips leave at once; only their entrance is animated.
+- Sorting, selecting a row, pop-in, the filter bar folding and actions moving into the overflow menu happen at once. Nothing animates a width, a height or a row's position.
+- The active tab's underline changes colour in place; it doesn't slide between tabs.
+- Keyboard focus rings (`--focus-ring` outlines) appear at once. A field's blue focus border comes in with its 120ms colour change.
+- Nothing scrolls smoothly: moving focus, or the roving tab stop, jumps.
 
 ## durations and easing
 
@@ -83,42 +83,41 @@ the lockup's blinking cursor, the ninth, is in the do and don't below.
 - **120ms `ease`** — every other change of state: colours and carets.
 - **140ms `ease`** — the switch thumb, the one control part that travels.
 - **160ms `ease-out`** — the toast, the one thing that enters.
-- **loops** — the spinner (0.7s a turn), the busy rule (1.1s a run) and the lockup cursor (1.05s a cycle) repeat for as long as they show.
+- **Loops** — the spinner (4s a lap), the busy rule (1.1s a run) and the lockup cursor (1.05s a cycle) repeat for as long as they show.
 
-today: there are no motion tokens. each component writes its durations and easings in its own css, so an app can't read them from the library; match the values above.
+Today: there are no motion tokens. Each component writes its durations and easings in its own CSS, so an app can't read them from the library; match the values above.
 
 ## how to apply it in your app
 
-- keep a response to a person at 120ms, and never past 160ms. a reaction that takes longer feels like lag, not polish.
-- fade, or move a few pixels, as the toast does with its 6px. don't slide panels across the screen or scale things up on hover.
-- run a loop only while something is busy, and stop it the moment the work is done. what to show while something loads is [loading and progress](/design-system/patterns/loading-and-progress/).
-- don't animate layout. rows, columns and panels change at once, as the data table's do.
-- put every movement and every loop behind `@media (prefers-reduced-motion: reduce)`, and there stop it or show its end state, as the toast and the busy rule do.
-- to see the reduced versions, turn on reduced motion in the system settings, or emulate `prefers-reduced-motion` in the browser's developer tools.
+- Keep a response to a person at 120ms, and never past 160ms. A reaction that takes longer feels like lag, not polish.
+- Fade, or move a few pixels, as the toast does with its 6px. Don't slide panels across the screen or scale things up on hover.
+- Run a loop only while something is busy, and stop it the moment the work is done. What to show while something loads is [loading and progress](/design-system/patterns/loading-and-progress/).
+- Don't animate layout. Rows, columns and panels change at once, as the data table's do.
+- Put every movement and every loop behind `@media (prefers-reduced-motion: reduce)`, and there stop it or show its end state, as the toast and the busy rule do.
+- To see the reduced versions, turn on reduced motion in the system settings, or emulate `prefers-reduced-motion` in the browser's developer tools.
 
 ## accessibility
 
-with `prefers-reduced-motion: reduce`:
+With `prefers-reduced-motion: reduce`:
 
-- **stop:** the toast's entrance, the carets, the tile's hover and its chevron, the busy rule (it becomes a still rule).
-- **slow down:** the spinner, to one turn every 1.6s. it keeps turning.
-- **unchanged:** the colour changes and the tooltip's fade, which don't move anything; and today the switch thumb, which slides 16px in 140ms.
-- **doesn't stop:** the lockup cursor. the stylesheet hides the cursor's `<animate>` element with `display: none`, but `display` doesn't apply to svg animation elements, so the blink carries on.
+- **Stop:** the toast's entrance, the carets, the tile's hover and its chevron, the busy rule (it becomes a still rule), and the spinner (its frame stands still, three quarters lit, and its label carries the state).
+- **Unchanged:** the colour changes and the tooltip's fade, which don't move anything; and today the switch thumb, which slides 16px in 140ms.
+- **Doesn't stop:** the lockup cursor. The stylesheet hides the cursor's `<animate>` element with `display: none`, but `display` doesn't apply to SVG animation elements, so the blink carries on.
 
-and:
+And:
 
-- the lockup cursor blinks for as long as the page is open. content that moves for more than five seconds next to other content needs a way to stop it (wcag 2.2.2): wherever the lockup stays in view, pass `showCursor={false}`. see [brand](/design-system/styles/brand/). on this site, the examples that keep moving have a pause control.
-- nothing flashes. the only thing that turns on and off is the cursor, less than once a second, far under the limit of three flashes a second.
-- motion never says something alone: a loading data table also sets `aria-busy`, a spinner is a `status` named "loading", a toast is text in a live region, and a switch announces on or off.
+- The lockup cursor blinks for as long as the page is open. Content that moves for more than five seconds next to other content needs a way to stop it (WCAG 2.2.2): wherever the lockup stays in view, pass `showCursor={false}`. See [brand](/design-system/styles/brand/). On this site, the examples that keep moving have a pause control.
+- Nothing flashes. The only thing that turns on and off is the cursor, less than once a second, far under the limit of three flashes a second.
+- Motion never says something alone: a loading data table also sets `aria-busy`, a spinner is a `status` named "loading", a toast is text in a live region, and a switch announces on or off.
 
 ## do and don't
 
 <MotionFrame what="the examples">
   <DoDont>
-    <Do caption="busy where the content is: the rows stay in place under the running rule." column>
+    <Do caption="Busy where the content is: the rows stay in place under the running rule." column>
       <BusyTable label="volumes, refreshing" />
     </Do>
-    <Dont caption="a spinner in place of the list: the page jumps when it goes, and again when the rows come back." column>
+    <Dont caption="A spinner in place of the list: the page jumps when it goes, and again when the rows come back." column>
       <div style={{ display: 'grid', placeItems: 'center', width: '100%', minHeight: '96px', border: '1px solid var(--border)' }}>
         <Spinner size={24} />
       </div>
@@ -126,10 +125,10 @@ and:
   </DoDont>
 
   <DoDont>
-    <Do caption="in a header that stays on screen, the lockup holds still.">
+    <Do caption="In a header that stays on screen, the lockup holds still.">
       <Lockup height={32} showCursor={false} />
     </Do>
-    <Dont caption="a cursor that blinks for as long as the page is open pulls the eye from the work, and reduced motion doesn't stop it.">
+    <Dont caption="A cursor that blinks for as long as the page is open pulls the eye from the work, and reduced motion doesn't stop it.">
       <Lockup height={32} />
     </Dont>
   </DoDont>
@@ -137,10 +136,10 @@ and:
 
 ## related
 
-- [brand](/design-system/styles/brand/) — the lockup and its one cursor.
-- <C slug="spinner" /> — the loop for work under way.
-- <C slug="toast" /> — the one thing that enters.
-- [loading and progress](/design-system/patterns/loading-and-progress/) — what to show while something loads.
-- [accessibility](/design-system/foundations/accessibility/) — reduced motion among the other settings people bring.
+- [Brand](/design-system/styles/brand/) — the lockup and its one cursor.
+- <C slug="spinner">Spinner</C> — the loop for work under way.
+- <C slug="toast">Toast</C> — the one thing that enters.
+- [Loading and progress](/design-system/patterns/loading-and-progress/) — what to show while something loads.
+- [Accessibility](/design-system/foundations/accessibility/) — reduced motion among the other settings people bring.
 
 <Toaster client:idle />

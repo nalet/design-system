@@ -48,15 +48,15 @@ export const FILLS = [
 export const EXEMPT = [
   {
     tokens: ['border', 'border-2'],
-    why: 'decorative hairlines between regions. they never alone identify a control: inputs, selects and checkboxes use border-control.',
+    why: 'Decorative hairlines between regions. They never alone identify a control: inputs, selects and checkboxes use border-control.',
   },
   {
     tokens: ['state-*-border'],
-    why: 'chip outlines. a chip is identified by its text and its tint, both of which are checked.',
+    why: 'Chip outlines. A chip is identified by its text and its tint, both of which are checked.',
   },
   {
     tokens: ['signal-green', 'signal-amber', 'signal-red'],
-    why: 'checked through their aliases state-success, state-warning and state-error, which share their values.',
+    why: 'Checked through their aliases state-success, state-warning and state-error, which share their values.',
   },
 ];
 

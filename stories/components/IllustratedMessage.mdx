@@ -5,13 +5,13 @@ import * as IllustratedMessageStories from './IllustratedMessage.stories';
 
 # illustrated message
 
-design guidance — when to use it, its kinds, sizes and actions, its words: **[illustrated message on the guidelines site →](https://nalet.github.io/design-system/components/illustrated-message/)**
+Design guidance — when to use it, its kinds, sizes and actions, its words: **[illustrated message on the guidelines site →](https://nalet.github.io/design-system/components/illustrated-message/)**
 
 <Canvas of={IllustratedMessageStories.Playground} />
 
 ## examples
 
-the five values of `illustration`, at `size="sm"`; two with a button in `actions`.
+The five values of `illustration`, at `size="sm"`; two with a button in `actions`.
 
 <Canvas of={IllustratedMessageStories.Kinds} />
 
@@ -25,21 +25,21 @@ the five values of `illustration`, at `size="sm"`; two with a button in `actions
 
 ## implementation notes
 
-- renders a `<div>`, a centred column: the svg illustration, the title, the description and the actions.
+- Renders a `<div>`, a centred column: the SVG illustration, the title, the description and the actions.
 - `illustration` picks the picture: `empty` (the default), `done`, `search`, `error` or `unknown`.
 - `title` is a heading: an `h2` unless `headingLevel` (2 to 6) sets another level. `description` is a `<p>` under it.
 - `actions` takes the buttons and renders whatever it is given.
 - `size`: `sm`, `md` (the default) or `lg`.
-- the svg has `aria-hidden="true"` and `focusable="false"`.
-- it is not a live region: it doesn't announce itself when it appears.
-- a [data table](?path=/docs/components-data-display-data-table--docs) takes it in its `empty` prop.
-- other `<div>` attributes (all but `title`, which is the heading) and the `ref` reach the container.
+- The SVG has `aria-hidden="true"` and `focusable="false"`.
+- It is not a live region: it doesn't announce itself when it appears.
+- A [data table](?path=/docs/components-data-display-data-table--docs) takes it in its `empty` prop.
+- Other `<div>` attributes (all but `title`, which is the heading) and the `ref` reach the container.
 - axe-core finds no violations in any kind, with a title, a description and an action.
 
 | key | does |
 | --- | --- |
-| `tab` / `shift+tab` | moves to and from your actions, in order. the picture, the title and the description take no focus. |
-| `enter` / `space` | native: activates the focused action. |
+| `tab` / `shift+tab` | Moves to and from your actions, in order. The picture, the title and the description take no focus. |
+| `enter` / `space` | Native: activates the focused action. |
 
 ## props
 

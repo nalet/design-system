@@ -5,7 +5,7 @@ import * as FilterTabsStories from './FilterTabs.stories';
 
 # filter tabs
 
-design guidance — when to use them, their parts, states on counts, their words: **[filter tabs on the guidelines site →](https://nalet.github.io/design-system/components/filter-tabs/)**
+Design guidance — when to use them, their parts, states on counts, their words: **[filter tabs on the guidelines site →](https://nalet.github.io/design-system/components/filter-tabs/)**
 
 <Canvas of={FilterTabsStories.Playground} />
 
@@ -17,11 +17,11 @@ design guidance — when to use them, their parts, states on counts, their words
 
 ## implementation notes
 
-- controlled only: pass `value` and set it in `onChange`. a `value` you don't update freezes the row.
-- renders a `<div>` around a `<div role="tablist">` named by `label` (`aria-label`, required). each tab is a `<button type="button">` with `role="tab"` and `aria-selected`; only the selected tab has `tabindex="0"`.
-- the label comes first in the dom, so it is read first, and css draws the count above it. a real space sits between the two in the dom, so they are never read as one word.
-- the fade on a cut-off edge follows the row's scroll position, and a `ResizeObserver` on the row.
-- **wiring the panel.** pass `panelId`, and every tab points at your panel with `aria-controls`. pass `idPrefix`, and each tab's id is `filterTabId(idPrefix, tab.id)`. render the list inside the panel, named by the selected tab:
+- Controlled only: pass `value` and set it in `onChange`. A `value` you don't update freezes the row.
+- Renders a `<div>` around a `<div role="tablist">` named by `label` (`aria-label`, required). Each tab is a `<button type="button">` with `role="tab"` and `aria-selected`; only the selected tab has `tabindex="0"`.
+- The label comes first in the DOM, so it is read first, and CSS draws the count above it. A real space sits between the two in the DOM, so they are never read as one word.
+- The fade on a cut-off edge follows the row's scroll position, and a `ResizeObserver` on the row.
+- **Wiring the panel.** Pass `panelId`, and every tab points at your panel with `aria-controls`. Pass `idPrefix`, and each tab's ID is `filterTabId(idPrefix, tab.id)`. Render the list inside the panel, named by the selected tab:
 
 ```tsx
 import { FilterTabs, filterTabId } from '@nalet/design-system';
@@ -39,21 +39,21 @@ import { FilterTabs, filterTabId } from '@nalet/design-system';
 </div>
 ```
 
-without `idPrefix` the tabs still get ids, but from a generated prefix you can't know, so pass it whenever you render the panel, and keep it unique on the page. the [worklist](?path=/docs/patterns-worklist--docs) does all of this for you.
+Without `idPrefix` the tabs still get IDs, but from a generated prefix you can't know, so pass it whenever you render the panel, and keep it unique on the page. The [worklist](?path=/docs/patterns-worklist--docs) does all of this for you.
 
 - axe-core finds no violations, with the panel wired.
-- today: a `value` that matches no enabled tab leaves the row without a tab stop: no tab has `tabindex="0"`, or the one that has it is disabled, so `tab` can't reach the row.
-- other `<div>` attributes (all but `onChange`, which is its own) and the `ref` reach the wrapper around the tablist; `label` names the tablist itself.
+- Today: a `value` that matches no enabled tab leaves the row without a tab stop: no tab has `tabindex="0"`, or the one that has it is disabled, so `tab` can't reach the row.
+- Other `<div>` attributes (all but `onChange`, which is its own) and the `ref` reach the wrapper around the tablist; `label` names the tablist itself.
 
 | key | does |
 | --- | --- |
-| `tab` | moves focus into the row, onto the selected tab — the only one with `tabindex="0"` — and out of the row on the next press. |
-| `→` / `←` | selects the next / previous enabled tab, wrapping at the ends: calls `onChange` and moves focus to it. |
-| `home` / `end` | selects and focuses the first / last enabled tab. |
-| `enter` / `space` | native button: selects the focused tab. |
+| `tab` | Moves focus into the row, onto the selected tab — the only one with `tabindex="0"` — and out of the row on the next press. |
+| `→` / `←` | Selects the next / previous enabled tab, wrapping at the ends: calls `onChange` and moves focus to it. |
+| `home` / `end` | Selects and focuses the first / last enabled tab. |
+| `enter` / `space` | Native button: selects the focused tab. |
 
 ## props
 
 <ArgTypes of={FilterTabsStories} />
 
-each entry in `tabs` has an `id`, a `label`, and optionally a `count`, a `state` and `disabled`. `filterTabId(idPrefix, tabId)` returns a tab's id, for the panel's `aria-labelledby`.
+Each entry in `tabs` has an `id`, a `label`, and optionally a `count`, a `state` and `disabled`. `filterTabId(idPrefix, tabId)` returns a tab's ID, for the panel's `aria-labelledby`.

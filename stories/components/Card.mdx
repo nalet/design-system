@@ -5,13 +5,13 @@ import * as CardStories from './Card.stories';
 
 # card
 
-design guidance — when to use it, its parts and variants, titles and asides, a card as a section: **[card on the guidelines site →](https://nalet.github.io/design-system/components/card/)**
+Design guidance — when to use it, its parts and variants, titles and asides, a card as a section: **[card on the guidelines site →](https://nalet.github.io/design-system/components/card/)**
 
 <Canvas of={CardStories.Playground} />
 
 ## examples
 
-children only: no `header`, `headerAside` or `footer`.
+Children only: no `header`, `headerAside` or `footer`.
 
 <Canvas of={CardStories.Plain} />
 
@@ -31,20 +31,20 @@ children only: no `header`, `headerAside` or `footer`.
 
 <Canvas of={CardStories.Flush} />
 
-a heading element as `header`, with `role="region"` and `aria-labelledby` on the card.
+A heading element as `header`, with `role="region"` and `aria-labelledby` on the card.
 
 <Canvas of={CardStories.AsSection} />
 
 ## implementation notes
 
-- renders a plain `div` with no role and no name. inside it, in this order: the header row when `header` or `headerAside` is set, the body, and the footer row when `footer` is set.
-- in a `flush` card, build the table from the [table](?path=/docs/components-data-display-table--docs) primitives: today `Table` draws its own 1px frame, which doubles the card's edge.
-- today: the title renders in a `div`. to make it a heading, pass a heading element as `header`; with `margin: 0` and `font: inherit` it keeps the title's look. to make the card a landmark, add `role="region"` and `aria-labelledby` pointing at that heading — `Card` passes both to its container.
-- every native `div` attribute passes to the container (`role`, `aria-labelledby`, `id`, …), and the `ref` reaches it.
+- Renders a plain `div` with no role and no name. Inside it, in this order: the header row when `header` or `headerAside` is set, the body, and the footer row when `footer` is set.
+- In a `flush` card, build the table from the [table](?path=/docs/components-data-display-table--docs) primitives: today `Table` draws its own 1px frame, which doubles the card's edge.
+- Today: the title renders in a `div`. To make it a heading, pass a heading element as `header`; with `margin: 0` and `font: inherit` it keeps the title's look. To make the card a landmark, add `role="region"` and `aria-labelledby` pointing at that heading — `Card` passes both to its container.
+- Every native `div` attribute passes to the container (`role`, `aria-labelledby`, `id`, …), and the `ref` reaches it.
 
 | key | does |
 | --- | --- |
-| `tab` | skips the card; focus moves through the controls inside it — header aside, then body, then footer. |
+| `tab` | Skips the card; focus moves through the controls inside it — header aside, then body, then footer. |
 
 ## props
 

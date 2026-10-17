@@ -5,32 +5,32 @@ import * as KbdStories from './Kbd.stories';
 
 # kbd
 
-design guidance — when to use it, its anatomy, shortcuts and lists of them, key names: **[kbd on the guidelines site →](https://nalet.github.io/design-system/components/kbd/)**
+Design guidance — when to use it, its anatomy, shortcuts and lists of them, key names: **[kbd on the guidelines site →](https://nalet.github.io/design-system/components/kbd/)**
 
 <Canvas of={KbdStories.Playground} />
 
 ## examples
 
-one key per `Kbd`; its `children` are the label.
+One key per `Kbd`; its `children` are the label.
 
 <Canvas of={KbdStories.Keys} />
 
-several `Kbd`s in a muted `Text`, with a joiner between them: `+` for keys pressed together, `then` for a sequence.
+Several `Kbd`s in a muted `Text`, with a joiner between them: `+` for keys pressed together, `then` for a sequence.
 
 <Canvas of={KbdStories.Combo} />
 
-a list of shortcuts: a `<dl>`, with the action in a `Text as="dt"` and the keys in a `Text as="dd"`.
+A list of shortcuts: a `<dl>`, with the action in a `Text as="dt"` and the keys in a `Text as="dd"`.
 
 <Canvas of={KbdStories.InShortcutList} />
 
 ## implementation notes
 
-- renders a native `<kbd>` and nothing else: no key listener, no focus. it is `inline-flex` and `white-space: nowrap`, with no `text-transform`, so the label shows as written.
-- every native `<kbd>` attribute passes through, and the `ref` reaches the `<kbd>`. its children are the key's label.
+- Renders a native `<kbd>` and nothing else: no key listener, no focus. It is `inline-flex` and `white-space: nowrap`, with no `text-transform`, so the label shows as written.
+- Every native `<kbd>` attribute passes through, and the `ref` reaches the `<kbd>`. Its children are the key's label.
 
 | key | does |
 | --- | --- |
-| `tab` | skips it. a keycap takes no focus. |
+| `tab` | Skips it. A keycap takes no focus. |
 
 ## props
 

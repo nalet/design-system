@@ -19,9 +19,9 @@ export function BothFamilies() {
       >
         <Stack gap={16}>
           <Text as="p" variant="body">
-            backups run every night at 02:00 and are kept for 14 days.
+            Backups run every night at 02:00 and are kept for 14 days.
           </Text>
-          <Field label="backup host" hint="a full host name, such as storage-01.example.com">
+          <Field label="Backup host" hint="A full host name, such as storage-01.example.com">
             <Input defaultValue="storage-01.example.com" />
           </Field>
         </Stack>

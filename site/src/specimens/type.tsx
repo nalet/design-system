@@ -14,8 +14,8 @@ const SAMPLE: Record<Role, string> = {
   display: 'nalet',
   h1: 'storage settings',
   h2: 'recent runs',
-  body: 'backups run every night at 02:00 and are kept for 14 days. a run that fails is tried again an hour later.',
-  ui: 'storage-01 · 412 gb used',
+  body: 'Backups run every night at 02:00 and are kept for 14 days. A run that fails is tried again an hour later.',
+  ui: 'storage-01 · 412 GB used',
   code: 'npm i @nalet/design-system',
 };
 
@@ -91,12 +91,12 @@ export function TypeScale() {
 }
 
 const WEIGHTS: { family: 'mono' | 'ui'; weight: number; use: string }[] = [
-  { family: 'mono', weight: 400, use: 'values: inputs, code, badges, status, toasts, tooltips, plain table cells' },
+  { family: 'mono', weight: 400, use: 'values: inputs, code, badges, status, tooltips, plain table cells' },
   { family: 'mono', weight: 500, use: 'tabs, filter tab labels, text code' },
   { family: 'mono', weight: 600, use: 'buttons, card, modal and tile titles, table headers, h2' },
   { family: 'mono', weight: 700, use: 'h1, page titles, key figures, the lockup' },
   { family: 'mono', weight: 800, use: 'the display role only' },
-  { family: 'ui', weight: 400, use: 'body, hints and errors, messages, muted and dim text' },
+  { family: 'ui', weight: 400, use: 'body, hints and errors, messages and toasts, muted and dim text' },
   { family: 'ui', weight: 500, use: 'field labels, text ui' },
 ];
 
@@ -125,7 +125,7 @@ export function TypeWeights() {
               color: 'var(--fg)',
             }}
           >
-            {w.family === 'mono' ? 'api-7f9c · 2,500 missing · 0O 1lI' : 'every night at 02:00, kept 14 days'}
+            {w.family === 'mono' ? 'api-7f9c · 2,500 missing · 0O 1lI' : 'Every night at 02:00, kept 14 days'}
           </div>
         </Row>
       ))}

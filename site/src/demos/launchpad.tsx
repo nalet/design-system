@@ -134,7 +134,7 @@ export function Floorplan() {
 export function OneTilePerApp() {
   return (
     <TileGroup legend="apps" minTileWidth="11rem" gap="sm">
-      <Tile icon={Download} title="downloads" description="what is on its way, and what needs a person" href="#" />
+      <Tile icon={Download} title="downloads" description="What is on its way, and what needs a person" href="#" />
       <Tile variant="kpi" icon={AlertTriangle} title="needs attention" value={3} href="#" />
     </TileGroup>
   );
@@ -217,9 +217,9 @@ export function Launcher({ helpful }: { helpful: boolean }) {
       onQueryChange={setQ}
       emptyState={
         helpful ? (
-          <span>no apps match “{q}”. try another word, or press esc in the search box to clear it.</span>
+          <span>No apps match “{q}”. Try another word, or press Esc in the search box to clear it.</span>
         ) : (
-          <span>no results</span>
+          <span>No results</span>
         )
       }
     >

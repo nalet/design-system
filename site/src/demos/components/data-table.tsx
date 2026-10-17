@@ -160,7 +160,7 @@ export function NothingMissing() {
           size="sm"
           headingLevel={3}
           title="nothing missing"
-          description="every aired episode is in the library."
+          description="Every aired episode is in the library."
         />
       }
       stickyHeader={false}

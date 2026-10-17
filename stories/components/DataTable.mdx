@@ -34,7 +34,7 @@ export const RowPressExample = () => {
 
 # data table
 
-design guidance — when to use it, its parts, sorting, selection, grouping, growing, pop-in, focus, the words: **[data table on the guidelines site →](https://nalet.github.io/design-system/components/data-table/)**
+Design guidance — when to use it, its parts, sorting, selection, grouping, growing, pop-in, focus, the words: **[data table on the guidelines site →](https://nalet.github.io/design-system/components/data-table/)**
 
 <Canvas of={DataTableStories.Playground} />
 
@@ -78,75 +78,75 @@ design guidance — when to use it, its parts, sorting, selection, grouping, gro
 
 ### the table
 
-- it renders a `table` in a `div` frame. the table is a `grid`, and a `treegrid` once rows are grouped.
-- every feature is a prop and is off until you pass it.
-- the table carries `aria-rowcount` (the header and every row, past the growing limit too, but not the rows inside collapsed groups), `aria-colcount`, `aria-multiselectable` when `selectable`, and `aria-busy` while `loading`. rows carry `aria-rowindex`, and `aria-selected` when the table is selectable. a row that can't be selected carries no `aria-selected`; its disabled checkbox says it can't be selected.
-- column headers are `th scope="col"`, and the row header — the first column, or the one with `rowHeader` — is a `th scope="row"`.
-- name the table: pass `aria-labelledby` with the id of the heading above it, or `aria-label`.
+- It renders a `table` in a `div` frame. The table is a `grid`, and a `treegrid` once rows are grouped.
+- Every feature is a prop and is off until you pass it.
+- The table carries `aria-rowcount` (the header and every row, past the growing limit too, but not the rows inside collapsed groups), `aria-colcount`, `aria-multiselectable` when `selectable`, and `aria-busy` while `loading`. Rows carry `aria-rowindex`, and `aria-selected` when the table is selectable. A row that can't be selected carries no `aria-selected`; its disabled checkbox says it can't be selected.
+- Column headers are `th scope="col"`, and the row header — the first column, or the one with `rowHeader` — is a `th scope="row"`.
+- Name the table: pass `aria-labelledby` with the ID of the heading above it, or `aria-label`.
 - `DataTable` takes no other attributes and no `ref`: `aria-label` and `aria-labelledby` go to the `table`, and `className` to the frame.
-- axe-core finds no violations in this component's stories (wcag 2.x a and aa, best practice, colour contrast included).
+- axe-core finds no violations in this component's stories (WCAG 2.x A and AA, best practice, colour contrast included).
 
 ### columns
 
-columns are objects:
+Columns are objects:
 
 | field | does |
 | --- | --- |
-| `id` | unique. it is the sort's `columnId` and the react key. |
-| `header` | the header, any node; css lowercases it. an actions column gets a visually hidden one: `<span className="nc-sr-only">actions</span>`. |
+| `id` | Unique. It is the sort's `columnId` and the React key. |
+| `header` | The header, any node; CSS lowercases it. An actions column gets a visually hidden one: `<span className="nc-sr-only">actions</span>`. |
 | `cell` | `(row) => node`: the cell's content. |
-| `sortValue` | `(row) => value` — a string, number, date, boolean or nothing. makes the column sortable by it. |
-| `compare` | `(a, b) => number` — or sortable by a full comparator. it wins over `sortValue`. |
-| `firstSortDirection` | the direction of the first click: `ascending` (default) or `descending`. dates usually want `descending`. |
+| `sortValue` | `(row) => value` — a string, number, date, boolean or nothing. Makes the column sortable by it. |
+| `compare` | `(a, b) => number` — or sortable by a full comparator. It wins over `sortValue`. |
+| `firstSortDirection` | The direction of the first click: `ascending` (default) or `descending`. Dates usually want `descending`. |
 | `align` | `left` (default), `right` or `center`, for the header and the cells. |
-| `width` | a width for the column, a number of px or a css length, set on its header. |
+| `width` | A width for the column, a number of px or a CSS length, set on its header. |
 | `importance` | `high` (the default), `medium` or `low` — see pop-in. |
-| `popinLabel` | the label a popped-in value carries. default: the header when it is a string, otherwise the `id`. |
-| `rowHeader` | this column's cell names the row (`th scope="row"`). default: the first column. |
+| `popinLabel` | The label a popped-in value carries. Default: the header when it is a string, otherwise the `id`. |
+| `rowHeader` | This column's cell names the row (`th scope="row"`). Default: the first column. |
 
 ### sorting
 
-- sorting is controlled: pass `sort` (`{ columnId, direction }`, or `null`) and `onSortChange`. a column is sortable when it has `sortValue` or `compare`, and only while `onSortChange` is there.
-- the table sorts `rows` itself. empty values are `null`, `undefined` and `''`; a `compare` function decides everything itself, empty values included.
-- `manualSort`: `rows` arrive sorted, by a server for instance, and the table only shows the state. today every column's header becomes a sort button under `manualSort`, an actions column included; there is no way to leave one out.
-- `aria-sort` sits on the sorted column's header only (`ascending` or `descending`). the other headers carry none.
-- `sort` without `onSortChange` is a fixed order: the rows are sorted and `aria-sort` says so, but the header has no button. today it has no glyph either, so the order is not shown on screen.
+- Sorting is controlled: pass `sort` (`{ columnId, direction }`, or `null`) and `onSortChange`. A column is sortable when it has `sortValue` or `compare`, and only while `onSortChange` is there.
+- The table sorts `rows` itself. Empty values are `null`, `undefined` and `''`; a `compare` function decides everything itself, empty values included.
+- `manualSort`: `rows` arrive sorted, by a server for instance, and the table only shows the state. Today every column's header becomes a sort button under `manualSort`, an actions column included; there is no way to leave one out.
+- `aria-sort` sits on the sorted column's header only (`ascending` or `descending`). The other headers carry none.
+- `sort` without `onSortChange` is a fixed order: the rows are sorted and `aria-sort` says so, but the header has no button. Today it has no glyph either, so the order is not shown on screen.
 
 ### selection
 
-- `selectable` adds the checkbox column. selection is controlled: `selected` is a set of `rowKey` values, and `onSelectionChange` receives the next set. without `onSelectionChange` nothing can change it.
+- `selectable` adds the checkbox column. Selection is controlled: `selected` is a set of `rowKey` values, and `onSelectionChange` receives the next set. Without `onSelectionChange` nothing can change it.
 - `isRowSelectable` returning `false` disables a row's checkbox and keeps the row out of every way of selecting.
-- `rowLabel` names each checkbox: `rowLabel={(r) => r.code}` gives "select S04E07". without it every checkbox is named "select row".
-- the header checkbox's mixed state counts every key in `selected`, including keys of rows that are no longer in `rows`. whether a selection outlives a filter or a tab is the app's part — see [keeping a selection](https://nalet.github.io/design-system/patterns/selection-and-bulk-actions/#keeping-a-selection).
+- `rowLabel` names each checkbox: `rowLabel={(r) => r.code}` gives "select S04E07". Without it every checkbox is named "select row".
+- The header checkbox's mixed state counts every key in `selected`, including keys of rows that are no longer in `rows`. Whether a selection outlives a filter or a tab is the app's part — see [keeping a selection](https://nalet.github.io/design-system/patterns/selection-and-bulk-actions/#keeping-a-selection).
 
 ### grouping
 
-- `groupBy` returns a key per row; rows sharing a key go under one group row, and the table becomes a `treegrid`. group rows sit at `aria-level` 1 with `aria-expanded`, `aria-posinset` and `aria-setsize`; data rows at level 2, numbered within their group.
-- `groupHeader(group)` is the label; `group` is `{ key, rows }`. the default is `key · count`, so pass one when the keys are not words.
+- `groupBy` returns a key per row; rows sharing a key go under one group row, and the table becomes a `treegrid`. Group rows sit at `aria-level` 1 with `aria-expanded`, `aria-posinset` and `aria-setsize`; data rows at level 2, numbered within their group.
+- `groupHeader(group)` is the label; `group` is `{ key, rows }`. The default is `key · count`, so pass one when the keys are not words.
 - `groupAction(group)` adds one action at the end of the group row.
-- a collapsed group's rows leave the dom.
-- the table keeps the collapsed groups itself (`defaultCollapsedGroups` sets the start), or you do: pass `collapsedGroups` with `onCollapsedGroupsChange`, for instance to keep them in the url. `onCollapsedGroupsChange` fires either way.
+- A collapsed group's rows leave the DOM.
+- The table keeps the collapsed groups itself (`defaultCollapsedGroups` sets the start), or you do: pass `collapsedGroups` with `onCollapsedGroupsChange`, for instance to keep them in the URL. `onCollapsedGroupsChange` fires either way.
 
 ### growing
 
-- `growing={100}` shows the first 100 data rows. without `growing`, every row renders.
-- the count is a polite live region (`aria-live="polite"`). `formatGrowing(shown, total)` changes its words, and only the count: "show n more" stays as it is.
-- the limit only grows; `growingResetKey` starts it over. a change of its value goes back to one page. pass a string or a number that changes with the filters, ``growingResetKey={`${tab}|${query}`}``. an object made on every render would reset it on every render.
+- `growing={100}` shows the first 100 data rows. Without `growing`, every row renders.
+- The count is a polite live region (`aria-live="polite"`). `formatGrowing(shown, total)` changes its words, and only the count: "show n more" stays as it is.
+- The limit only grows; `growingResetKey` starts it over. A change of its value goes back to one page. Pass a string or a number that changes with the filters, ``growingResetKey={`${tab}|${query}`}``. An object made on every render would reset it on every render.
 
 ### pop-in
 
 - `importance` goes by the table's own width, measured with a `ResizeObserver` on the frame.
-- until the table has been measured — and wherever there is no `ResizeObserver` — every column shows.
+- Until the table has been measured — and wherever there is no `ResizeObserver` — every column shows.
 
 ### row press and highlight
 
-- `onRowPress(row)` makes the row itself an action. a click outside the row's controls (with `shift` or without), or `enter` on the focused row, calls it.
+- `onRowPress(row)` makes the row itself an action. A click outside the row's controls (with `shift` or without), or `enter` on the focused row, calls it.
 - `rowHighlight(row)` returns a state (`error`, `warning`, `information`, `success`, `neutral`) or nothing.
 
 ### sticky header
 
-- `stickyHeader` is on by default: the header cells stick to the top of the nearest scrolling ancestor. the frame has no overflow on purpose; a frame that scrolled would stop the header from sticking to the page.
-- under something else that sticks, offset the header with `--nc-dt-sticky-top` on any ancestor. the [worklist](?path=/docs/patterns-worklist--docs) sets it to its toolbar's measured height.
+- `stickyHeader` is on by default: the header cells stick to the top of the nearest scrolling ancestor. The frame has no overflow on purpose; a frame that scrolled would stop the header from sticking to the page.
+- Under something else that sticks, offset the header with `--nc-dt-sticky-top` on any ancestor. The [worklist](?path=/docs/patterns-worklist--docs) sets it to its toolbar's measured height.
 
 ```tsx
 <div style={{ '--nc-dt-sticky-top': '45px' } as React.CSSProperties}>
@@ -156,58 +156,58 @@ columns are objects:
 
 ### loading and empty
 
-- `loading` sets `aria-busy="true"` on the `table` and runs a 2px busy rule along the frame's top edge, still and full width under `prefers-reduced-motion`. it doesn't dim the rows.
-- `empty` renders in the body, in one cell across every column, when there are no rows. give it an illustrated message at `size="sm"`, with a `headingLevel` that fits the page around it.
-- a table given `empty` shows it whenever it has no rows, even while `loading`: pass `empty` only once the load has finished.
+- `loading` sets `aria-busy="true"` on the `table` and runs a 2px busy rule along the frame's top edge, still and full width under `prefers-reduced-motion`. It doesn't dim the rows.
+- `empty` renders in the body, in one cell across every column, when there are no rows. Give it an illustrated message at `size="sm"`, with a `headingLevel` that fits the page around it.
+- A table given `empty` shows it whenever it has no rows, even while `loading`: pass `empty` only once the load has finished.
 
 ### focus and keys
 
-- one row is in the tab order. the controls inside every other row — buttons, links, inputs, selects, textareas, summaries and anything with a `tabindex` — are taken out of it (`tabindex="-1"`), and get their own back when their row becomes the tab stop.
-- the focus ring is drawn inside the cells, on `:focus-visible` only: outlines on table rows are unreliable.
+- One row is in the tab order. The controls inside every other row — buttons, links, inputs, selects, textareas, summaries and anything with a `tabindex` — are taken out of it (`tabindex="-1"`), and get their own back when their row becomes the tab stop.
+- The focus ring is drawn inside the cells, on `:focus-visible` only: outlines on table rows are unreliable.
 
-on any focused row, data or group:
-
-| key | does |
-| --- | --- |
-| `↓` / `↑` | moves to the next / previous row, group rows included. stops at the first and the last. |
-| `home` / `end` | moves to the first / last row on screen. |
-| `page down` / `page up` | moves 10 rows down / up. |
-| `tab` | enters the focused row's own controls, then leaves the table. |
-
-on a data row:
+On any focused row, data or group:
 
 | key | does |
 | --- | --- |
-| `space` | toggles the row's selection (with `selectable`). |
-| `shift+space` | toggles the row, and sets every row from the last one toggled to this one the same way. |
-| `shift+↓` / `shift+↑` | moves, and selects every row from the last one toggled (or this one) to the row focus lands on. it only adds rows: going back up doesn't clear them. |
-| `ctrl+a` / `cmd+a` | selects every visible row that can be selected. it adds; it never clears. |
-| `enter` | calls `onRowPress`. without it, nothing. |
-| `←` | when grouped, moves to the row's group row. |
+| `↓` / `↑` | Moves to the next / previous row, group rows included. Stops at the first and the last. |
+| `home` / `end` | Moves to the first / last row on screen. |
+| `page down` / `page up` | Moves 10 rows down / up. |
+| `tab` | Enters the focused row's own controls, then leaves the table. |
 
-on a group row:
+On a data row:
 
 | key | does |
 | --- | --- |
-| `←` | collapses the group. |
-| `→` | expands it. |
-| `enter` / `space` | toggles it. |
+| `space` | Toggles the row's selection (with `selectable`). |
+| `shift+space` | Toggles the row, and sets every row from the last one toggled to this one the same way. |
+| `shift+↓` / `shift+↑` | Moves, and selects every row from the last one toggled (or this one) to the row focus lands on. It only adds rows: going back up doesn't clear them. |
+| `ctrl+a` / `cmd+a` | Selects every visible row that can be selected. It adds; it never clears. |
+| `enter` | Calls `onRowPress`. Without it, nothing. |
+| `←` | When grouped, moves to the row's group row. |
 
-keys pressed while a control inside a row has focus go to that control. the arrow keys work from the row itself (`shift+tab` back to it).
+On a group row:
+
+| key | does |
+| --- | --- |
+| `←` | Collapses the group. |
+| `→` | Expands it. |
+| `enter` / `space` | Toggles it. |
+
+Keys pressed while a control inside a row has focus go to that control. The arrow keys work from the row itself (`shift+tab` back to it).
 
 ## performance
 
-measured in headless chromium, on this storybook's build:
+Measured in headless Chromium, on this Storybook's build:
 
-- **3,000 grouped rows, every one rendered** (the [3,000-row story](?path=/story/components-data-display-data-table--three-thousand-rows)): the first render is one task of about 200 ms. scrolling runs at a median of 16.6 ms per frame (p95 about 23 ms). toggling one row takes 23–58 ms, select-all about 115 ms, and a sort of every row about 180–265 ms.
-- **the same table with `growing={100}`**: every interaction measured — toggle, select all, sort, collapse, show more — takes 5–35 ms, with no long tasks.
+- **3,000 grouped rows, every one rendered** (the [3,000-row story](?path=/story/components-data-display-data-table--three-thousand-rows)): the first render is one task of about 200 ms. Scrolling runs at a median of 16.6 ms per frame (p95 about 23 ms). Toggling one row takes 23–58 ms, select-all about 115 ms, and a sort of every row about 180–265 ms.
+- **The same table with `growing={100}`**: every interaction measured — toggle, select all, sort, collapse, show more — takes 5–35 ms, with no long tasks.
 
-the table doesn't virtualise: every row it shows is a row in the dom. so:
+The table doesn't virtualise: every row it shows is a row in the DOM. So:
 
-- **pass `growing` for long lists.** 100 is the page size measured above. pair it with `growingResetKey`, so a new filter starts again at the first page.
-- **make `columns` once**, at module scope or in `useMemo`. a row's cells re-render only when its row object or the columns change; a new `columns` array on every render re-renders every row.
-- **keep row objects stable.** replace only the rows that changed, `rows.map((r) => (r.id === id ? { ...r, state } : r))`, so the others keep their identity and don't re-render.
-- **keep the per-row functions cheap.** `rowLabel`, `isRowSelectable` and `rowHighlight` run for every shown row on every render.
+- **Pass `growing` for long lists.** 100 is the page size measured above. Pair it with `growingResetKey`, so a new filter starts again at the first page.
+- **Make `columns` once**, at module scope or in `useMemo`. A row's cells re-render only when its row object or the columns change; a new `columns` array on every render re-renders every row.
+- **Keep row objects stable.** Replace only the rows that changed, `rows.map((r) => (r.id === id ? { ...r, state } : r))`, so the others keep their identity and don't re-render.
+- **Keep the per-row functions cheap.** `rowLabel`, `isRowSelectable` and `rowHighlight` run for every shown row on every render.
 
 ## props
 

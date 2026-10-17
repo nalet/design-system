@@ -5,13 +5,13 @@ import * as SpinnerStories from './Spinner.stories';
 
 # spinner
 
-design guidance — when to use it, its sizes and colours, its label, the square loader that is planned: **[spinner on the guidelines site →](https://nalet.github.io/design-system/components/spinner/)**
+Design guidance — when to use it, its sizes and colours, its label, where the loader fits: **[spinner on the guidelines site →](https://nalet.github.io/design-system/components/spinner/)**
 
 <Canvas of={SpinnerStories.Playground} />
 
 ## examples
 
-`size` in px: 12, 16, 24 and 40. the stroke scales with it.
+`size` in px: 12, 16, 24 and 40. The stroke scales with it.
 
 <Canvas of={SpinnerStories.Sizes} />
 
@@ -29,15 +29,16 @@ design guidance — when to use it, its sizes and colours, its label, the square
 
 ## implementation notes
 
-- renders an inline-flex `<span>`, `size` × `size` px (default 16), with `role="status"` and `aria-label` set from `label` (default `loading`). the svg inside is `aria-hidden`.
-- its colour is `--cloud-blue`, set by its own css, so it doesn't follow the text colour. `color` takes any css colour: a token such as `var(--fg-muted)`, or `currentColor` to follow the text around it.
-- the svg turns with a css animation, 0.7s a turn, `linear`, without end; under `prefers-reduced-motion: reduce`, 1.6s a turn.
-- beside visible text that says the same thing, pass `aria-hidden="true"` to the spinner, so the label isn't read twice.
-- every native `span` attribute passes through and the ref is forwarded. `style` is merged over its size and colour, and attributes you pass win over its own, including `role` and `aria-label`.
+- Renders an inline-flex `<span>`, `size` × `size` px (default 16), with `role="status"` and `aria-label` set from `label` (default `loading`). The SVG inside is `aria-hidden`.
+- The SVG draws one square path twice: the frame, at 20% opacity, that never moves, and the lit part on top of it, a dash three quarters of the frame long. The path starts in the middle of the top edge, so the dash never meets itself at a corner. The stroke is 2px up to 24px, then a pixel more for every 16px.
+- A CSS animation moves the dash's offset by the frame's length in px — the gap runs round, one lap in four seconds, `linear`, without end. The length is measured in px, so no browser has to support `pathLength`. Under `prefers-reduced-motion: reduce` there is no animation: the frame stands still, three quarters lit, and the label carries the state.
+- Its colour is `--cloud-blue`, set by its own CSS, so on its own it doesn't follow the text colour. `color` takes any CSS colour: a token such as `var(--fg-muted)`, or `currentColor` to follow the text around it. Inside a `Button` it takes the label's colour, and inside an `IconButton` the button's, so it shows on a primary button's blue fill too.
+- Beside visible text that says the same thing, pass `aria-hidden="true"` to the spinner, so the label isn't read twice.
+- Every native `span` attribute passes through and the ref is forwarded. `style` is merged over its size and colour, and attributes you pass win over its own, including `role` and `aria-label`.
 
 | key | does |
 | --- | --- |
-| `tab` | skips it. a spinner takes no focus. |
+| `tab` | Skips it. A spinner takes no focus. |
 
 ## props
 

@@ -146,8 +146,8 @@ export function UserMenuMock() {
       style={{ width: 240, maxWidth: '100%', background: 'var(--surface)', border: '1px solid var(--border-2)' }}
     >
       <div style={{ padding: 'var(--s-3)', display: 'grid', gap: 2 }}>
-        <span style={mono(13, 600)}>a. user</span>
-        <Text variant="muted">the person's email address</Text>
+        <span style={mono(13, 600)}>A. User</span>
+        <Text variant="muted">The person's email address</Text>
       </div>
       <Divider />
       <div style={{ padding: 'var(--s-1) 0' }}>
@@ -348,9 +348,9 @@ export function AppSetupMock() {
 /** settings → addons: one row per app, its setup state, a one-line summary and "configure". */
 export function SetupChecklist() {
   const rows: { app: string; state: ObjectState; text: string; summary: string }[] = [
-    { app: 'downloads', state: 'warning', text: 'needs setup', summary: 'no search source yet · 2 download clients, 1 unreachable' },
+    { app: 'downloads', state: 'warning', text: 'needs setup', summary: 'No search source yet · 2 download clients, 1 unreachable' },
     { app: 'library', state: 'success', text: 'ready', summary: '3 folders · checked today' },
-    { app: 'subtitles', state: 'error', text: 'degraded', summary: 'its connection to the library is down' },
+    { app: 'subtitles', state: 'error', text: 'degraded', summary: 'Its connection to the library is down' },
   ];
   return (
     <div role="group" aria-label="settings, addons: each app's setup, mock-up" style={{ width: '100%', display: 'grid' }}>

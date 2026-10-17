@@ -1,33 +1,33 @@
 ---
 layout: ../../layouts/Doc.astro
 title: tokens
-description: the nalet design tokens as css custom properties, typed token objects and a tailwind preset, all built from tokens/tokens.json.
+description: The nalet design tokens as CSS custom properties, typed token objects and a Tailwind preset, all built from tokens/tokens.json.
 ---
 
 # tokens
 
-every colour, type role and space step lives once, in `tokens/tokens.json` (the design tokens community group format). one build turns it into three forms, so the css, the javascript and a tailwind app read the same values.
+Every colour, type role and space step lives once, in `tokens/tokens.json` (the Design Tokens Community Group format). One build turns it into three forms, so the CSS, the JavaScript and a Tailwind app read the same values.
 
 ## the three forms
 
 | form | import | for |
 | --- | --- | --- |
-| css custom properties | `@nalet/design-system/tokens.css` (also inside `styles.css`) | everything: the components read `var(--fg-2)`, `var(--state-error)`, `var(--s-4)` |
-| typed objects | `import { tokens } from '@nalet/design-system/tokens'` | javascript that needs a value: a chart, a canvas |
-| tailwind preset | `presets: [require('@nalet/design-system/tailwind')]` | tailwind apps that want the same colours, fonts and spacing |
+| CSS custom properties | `@nalet/design-system/tokens.css` (also inside `styles.css`) | Everything: the components read `var(--fg-2)`, `var(--state-error)`, `var(--s-4)` |
+| Typed objects | `import { tokens } from '@nalet/design-system/tokens'` | JavaScript that needs a value: a chart, a canvas |
+| Tailwind preset | `presets: [require('@nalet/design-system/tailwind')]` | Tailwind apps that want the same colours, fonts and spacing |
 
-the values and what each is for are on [colour](/design-system/styles/colour/), [typography](/design-system/styles/typography/) and [layout](/design-system/foundations/layout/).
+The values and what each is for are on [colour](/design-system/styles/colour/), [typography](/design-system/styles/typography/) and [layout](/design-system/foundations/layout/).
 
 ## css custom properties
 
 `tokens.css` declares, on `:root`:
 
-- **colours** — `--bg` … `--surface-selected`, `--fg` … `--fg-dim`, `--cloud-blue`, `--cloud-cyan`, `--signal-green`, `--signal-amber`, `--signal-red`, `--border-control`, `--focus-ring`, and each state's `--state-*`, `--state-*-bg` and `--state-*-border`.
-- **families** — `--ff-ui` (inter) and `--ff-mono` (jetbrains mono), with their fallbacks.
-- **space** — `--s-1` (4px) to `--s-8` (64px).
+- **Colours** — `--bg` … `--surface-selected`, `--fg` … `--fg-dim`, `--cloud-blue`, `--cloud-cyan`, `--signal-green`, `--signal-amber`, `--signal-red`, `--border-control`, `--focus-ring`, and each state's `--state-*`, `--state-*-bg` and `--state-*-border`.
+- **Families** — `--ff-ui` (Inter) and `--ff-mono` (JetBrains Mono), with their fallbacks.
+- **Space** — `--s-1` (4px) to `--s-8` (64px).
 - **`color-scheme: dark`**, so native controls, scrollbars and form widgets render dark.
 
-it also sets the page base — `body` on `--bg`, in `--fg` and inter — and the type role classes `.type-display`, `.type-h1`, `.type-h2`, `.type-body`, `.type-ui` and `.type-code`. sizes and weights are not variables: use a role class, or the components.
+It also sets the page base — `body` on `--bg`, in `--fg` and Inter — and the type role classes `.type-display`, `.type-h1`, `.type-h2`, `.type-body`, `.type-ui` and `.type-code`. Sizes and weights are not variables: use a role class, or the components.
 
 ## typed tokens
 
@@ -40,31 +40,31 @@ fontFamily.mono;           // "'JetBrains Mono', ui-monospace, monospace"
 space['s-4'];              // '16px'
 ```
 
-the main entry, `@nalet/design-system`, exports the same objects, with one difference: there `space` is the helper behind the components' space props — `space(16)` returns `'var(--s-4)'`. the types `ColorToken`, `TypographyRole` and `SpaceToken` name the keys.
+The main entry, `@nalet/design-system`, exports the same objects, with one difference: there `space` is the helper behind the components' space props — `space(16)` returns `'var(--s-4)'`. The types `ColorToken`, `TypographyRole` and `SpaceToken` name the keys.
 
 ## tailwind preset
 
-the preset only extends the theme; the library itself doesn't depend on tailwind.
+The preset only extends the theme; the library itself doesn't depend on Tailwind.
 
 | tailwind | maps to |
 | --- | --- |
-| `colors` | every colour token by its name: `bg-surface`, `text-fg-muted`, `border-state-error-border` |
+| `colors` | Every colour token by its name: `bg-surface`, `text-fg-muted`, `border-state-error-border` |
 | `fontFamily` | `font-mono` and `font-sans`, the two stacks |
-| `spacing` | the keys `1`–`8` and `s-1`–`s-8` to the scale, so `p-5` is 24px here, not tailwind's 20px |
+| `spacing` | The keys `1`–`8` and `s-1`–`s-8` to the scale, so `p-5` is 24px here, not Tailwind's 20px |
 | `borderRadius` | `DEFAULT` and `none` are 0: square frames |
 
-tailwind's other spacing keys (`0.5`, `10`, `12` …) are still there and off the scale: don't use them. the preset adds no font sizes.
+Tailwind's other spacing keys (`0.5`, `10`, `12` …) are still there and off the scale: don't use them. The preset adds no font sizes.
 
 ## theming
 
-the system is dark only. an app can redefine a custom property, but the [contrast policy](/design-system/styles/colour/#contrast) only covers the shipped values, and components assume them. light and high-contrast themes are **planned**.
+The system is dark only. An app can redefine a custom property, but the [contrast policy](/design-system/styles/colour/#contrast) only covers the shipped values, and components assume them. Light and high-contrast themes are **planned**.
 
 ## changing a token
 
-tokens change in the repository, never in an app:
+Tokens change in the repository, never in an app:
 
-1. edit `tokens/tokens.json`.
-2. run `npm run build-tokens`. it regenerates `src/styles/tokens.css`, `src/tokens.ts` and `tailwind-preset.cjs`, and warns about any colour pair that falls under its contrast minimum.
-3. run `npm test`: `tokens/contrast.test.ts` fails on a pair below the policy, and so does ci.
+1. Edit `tokens/tokens.json`.
+2. Run `npm run build-tokens`. It regenerates `src/styles/tokens.css`, `src/tokens.ts` and `tailwind-preset.cjs`, and warns about any colour pair that falls under its contrast minimum.
+3. Run `npm test`: `tokens/contrast.test.ts` fails on a pair below the policy, and so does CI.
 
-the generated files are not edited by hand; see [contributing](/design-system/develop/contributing/).
+The generated files are not edited by hand; see [contributing](/design-system/develop/contributing/).

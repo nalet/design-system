@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: button
-description: a square, mono-labelled action — primary is the one emphasized action on a screen, every other action is default or ghost.
+description: A square, mono-labelled action — primary is the one emphasized action on a screen, every other action is default or ghost.
 component: button
 ---
 import { Button } from '@nalet/design-system';
@@ -12,7 +12,7 @@ import { Variants, Sizes, States, WithIcons } from '@site/examples/button';
 
 # button
 
-a square, mono-labelled action. `primary` is the one emphasized action on a screen; every other action is `default` or `ghost`.
+A square, mono-labelled action. `primary` is the one emphasized action on a screen; every other action is `default` or `ghost`.
 
 <Example label="the four variants">
   <Variants />
@@ -20,42 +20,42 @@ a square, mono-labelled action. `primary` is the one emphasized action on a scre
 
 ## when to use
 
-- to start an action on the current screen: save, run, grab, ask again.
-- as the single emphasized action of a view, a toolbar or a dialog footer: the `primary` button.
-- for the secondary actions beside it (`default`), and for low-weight escapes like cancel (`ghost`).
+- To start an action on the current screen: save, run, grab, ask again.
+- As the single emphasized action of a view, a toolbar or a dialog footer: the `primary` button.
+- For the secondary actions beside it (`default`), and for low-weight escapes like cancel (`ghost`).
 
 ## when not to use
 
-- **to go somewhere.** navigation is a link, not a button. a button that changes the address breaks open-in-new-tab and the browser's back.
-- **for an icon with no label.** use an <C slug="icon-button" />, which requires a name.
-- **for more than two or three actions in a row.** put them in a <C slug="toolbar">toolbar</C> and let the rest overflow into an <C slug="action-menu" />.
-- **for an action on each row of a table.** use one action menu per row and a selection toolbar for bulk actions — see [selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/).
+- **To go somewhere.** Navigation is a link, not a button. A button that changes the address breaks open-in-new-tab and the browser's back.
+- **For an icon with no label.** Use an <C slug="icon-button" />, which requires a name.
+- **For more than two or three actions in a row.** Put them in a <C slug="toolbar">toolbar</C> and let the rest overflow into an <C slug="action-menu" />.
+- **For an action on each row of a table.** Use one action menu per row and a selection toolbar for bulk actions — see [selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/).
 
 ## anatomy
 
-1. **container** — square, a 1px border, 28, 34 or 42px high by size.
-2. **leading slot** (optional) — an icon, or the spinner while the button is busy.
-3. **label** — jetbrains mono 600, shown lowercase.
-4. **trailing slot** (optional) — an icon after the label, hidden while busy.
+1. **Container** — square, a 1px border, 28, 34 or 42px high by size.
+2. **Leading slot** (optional) — an icon, or the spinner while the button is busy.
+3. **Label** — JetBrains Mono 600, shown lowercase.
+4. **Trailing slot** (optional) — an icon after the label, hidden while busy.
 
 ## variants and states
 
-four variants. only `primary` is filled; it is the emphasized action.
+Four variants. Only `primary` is filled; it is the emphasized action.
 
 | variant | looks | use for |
 | --- | --- | --- |
-| `primary` | cloud-blue fill, dark label | the one emphasized action of a view or region |
-| `default` | surface fill, hairline border, blue border on hover | every other action |
-| `ghost` | no fill or border until hover | cancel, dismiss, low-weight actions next to a primary |
-| `danger` | amber outline, amber fill on hover | an action that deletes or cannot be undone |
+| `primary` | Cloud-blue fill, dark label | The one emphasized action of a view or region |
+| `default` | Surface fill, hairline border, blue border on hover | Every other action |
+| `ghost` | No fill or border until hover | Cancel, dismiss, low-weight actions next to a primary |
+| `danger` | Amber outline, amber fill on hover | An action that deletes or cannot be undone |
 
-three sizes: `sm` (28px) for toolbars and table rows, `md` (34px, the default), `lg` (42px) for a lone call to action.
+Three sizes: `sm` (28px) for toolbars and table rows, `md` (34px, the default), `lg` (42px) for a lone call to action.
 
 <Example label="three sizes">
   <Sizes />
 </Example>
 
-busy, the button shows a spinner in its leading slot and ignores presses; its width stays the same. disabled, it is dimmed to 45% and can't be focused.
+Busy, the button shows a spinner in its leading slot and ignores presses; its width stays the same. Disabled, it is dimmed to 45% and can't be focused.
 
 <MotionFrame what="the spinner">
   <Example label="rest, busy and disabled">
@@ -63,7 +63,7 @@ busy, the button shows a spinner in its leading slot and ignores presses; its wi
   </Example>
 </MotionFrame>
 
-an icon goes before or after the label, and a button can stretch to the width of its container.
+An icon goes before or after the label, and a button can stretch to the width of its container.
 
 <Example label="buttons with icons">
   <WithIcons />
@@ -71,35 +71,35 @@ an icon goes before or after the label, and a button can stretch to the width of
 
 ## behaviour
 
-- a button acts on the current screen when it is pressed, with a pointer, `enter` or `space`.
-- while its action runs, the button is busy: it keeps its place and its label, and a second press does nothing. say what happened afterwards, in a <C slug="toast" /> or where the result shows.
-- a disabled or busy button ignores presses.
-- in a form, only the button that saves submits it; every other button just acts.
+- A button acts on the current screen when it is pressed, with a pointer, `enter` or `space`.
+- While its action runs, the button is busy: it keeps its place and its label, and a second press does nothing. Say what happened afterwards, in a <C slug="toast" /> or where the result shows.
+- A disabled or busy button ignores presses.
+- In a form, only the button that saves submits it; every other button just acts.
 
-the keyboard map and the attributes it sets are on its [react page](/design-system/react/?path=/docs/components-actions-button--docs).
+The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-actions-button--docs).
 
 ## accessibility
 
-- the accessible name is the label's text. the lowercase look is css, so write the label as you want it read.
-- a disabled button can't be focused, so a keyboard or screen-reader user may never find it. when the reason matters ("nothing selected"), say it next to the button, or keep the button enabled and explain on press.
-- icons in the slots are decoration: the label carries the meaning. an icon-only action is an <C slug="icon-button" />.
-- the focus ring is the 2px `--focus-ring` outline every control shares — see [interaction](/design-system/foundations/interaction/#focus).
+- The accessible name is the label's text. The lowercase look is CSS, so write the label as you want it read.
+- A disabled button can't be focused, so a keyboard or screen-reader user may never find it. When the reason matters ("nothing selected"), say it next to the button, or keep the button enabled and explain on press.
+- Icons in the slots are decoration: the label carries the meaning. An icon-only action is an <C slug="icon-button" />.
+- The focus ring is the 2px `--focus-ring` outline every control shares — see [interaction](/design-system/foundations/interaction/#focus).
 
 ## content
 
-- start with a verb, and name the object when the screen holds more than one kind: `grab 8 selected`, `ask the catalog again`, `save changes`.
-- lowercase, short, no full stop, no exclamation mark.
-- never `ok`, `submit`, `yes` or `click here`: say what happens.
-- a count in the label keeps a bulk action honest: `grab 8 selected` rather than `grab selected`.
+- Start with a verb, and name the object when the screen holds more than one kind: `grab 8 selected`, `ask the catalog again`, `save changes`.
+- Lowercase, short, no full stop, no exclamation mark.
+- Never `ok`, `submit`, `yes` or `click here`: say what happens.
+- A count in the label keeps a bulk action honest: `grab 8 selected` rather than `grab selected`.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="one emphasized action; the rest default or ghost.">
+  <Do caption="One emphasized action; the rest default or ghost.">
     <Button variant="primary">save changes</Button>
     <Button variant="ghost">cancel</Button>
   </Do>
-  <Dont caption="several primaries compete; nothing reads as the next step.">
+  <Dont caption="Several primaries compete; nothing reads as the next step.">
     <Button variant="primary">save</Button>
     <Button variant="primary">test</Button>
     <Button variant="primary">reset</Button>
@@ -107,27 +107,27 @@ the keyboard map and the attributes it sets are on its [react page](/design-syst
 </DoDont>
 
 <DoDont>
-  <Do caption="a verb and its object, with the count.">
+  <Do caption="A verb and its object, with the count.">
     <Button variant="primary">grab 8 selected</Button>
   </Do>
-  <Dont caption="vague labels make people read the whole screen to know what happens.">
+  <Dont caption="Vague labels make people read the whole screen to know what happens.">
     <Button variant="primary">ok</Button>
     <Button>submit</Button>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="danger only for what deletes or cannot be undone.">
+  <Do caption="Danger only for what deletes or cannot be undone.">
     <Button variant="danger">delete volume</Button>
   </Do>
-  <Dont caption="danger as decoration teaches people to ignore it.">
+  <Dont caption="Danger as decoration teaches people to ignore it.">
     <Button variant="danger">refresh</Button>
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="icon-button" /> — the same action without a visible label.
-- <C slug="toolbar">toolbar</C> — a row of actions with one emphasized and the rest overflowing.
-- <C slug="action-menu" /> — actions behind one trigger, such as one menu per table row.
-- [content & voice](/design-system/foundations/content-voice/) — how labels are written.
+- <C slug="icon-button">Icon button</C> — the same action without a visible label.
+- <C slug="toolbar">Toolbar</C> — a row of actions with one emphasized and the rest overflowing.
+- <C slug="action-menu">Action menu</C> — actions behind one trigger, such as one menu per table row.
+- [Content & voice](/design-system/foundations/content-voice/) — how labels are written.

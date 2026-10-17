@@ -5,13 +5,13 @@ import * as TileStories from './Tile.stories';
 
 # tile
 
-design guidance — when to use a tile, its parts, variants and states, its words: **[tile on the guidelines site →](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/#the-tile)**
+Design guidance — when to use a tile, its parts, variants and states, its words: **[tile on the guidelines site →](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/#the-tile)**
 
 <Canvas of={TileStories.Playground} />
 
 ## examples
 
-app tiles: `icon`, `title`, `description` and `href`; the last one with a `status`. tiles live in a [tile group](?path=/docs/components-navigation-tile-group--docs).
+App tiles: `icon`, `title`, `description` and `href`; the last one with a `status`. Tiles live in a [tile group](?path=/docs/components-navigation-tile-group--docs).
 
 <Canvas of={TileStories.App} />
 
@@ -37,28 +37,28 @@ app tiles: `icon`, `title`, `description` and `href`; the last one with a `statu
 
 ## implementation notes
 
-- renders an `<a>` with `href`, a `<button type="button">` with `onClick`, your element with `as`, otherwise a `<div>`. a `disabled` tile is always a `<div>`: no link, no click, no focus.
-- link, button and `as` tiles are interactive: they get the hover, the focus frame and the chevron. a display-only `<div>` gets none of them and is not focusable.
-- `as` renders your component, e.g. a router link. today `Tile` passes `href` and `external` only to a plain `<a>`: give your component its destination yourself.
-- `external`, with `href`, sets `target="_blank"` and `rel="noopener noreferrer"`. today nothing on the tile says it opens a new tab.
-- interactive tiles set the `data-nc-tile` attribute. in a [tile group](?path=/docs/components-navigation-tile-group--docs) or a [portal](?path=/docs/patterns-portal--docs), the arrow keys move between the elements that carry it.
-- every tile carries its title and description, lowercased, in `data-nc-search`. the [portal](?path=/docs/patterns-portal--docs) search matches against it.
-- `icon` takes the lucide component, not an element: the tile draws it at 22px with a 1.75 stroke. the icon, the chevron and the delta's triangle are `aria-hidden`.
-- the status dot has `role="img"` and the label `status: <status>`.
-- `selected` is visual only. pass `aria-current="page"` on the current app's tile yourself; other attributes reach the element.
-- today: a disabled tile is a `<div>` with `aria-disabled`, which assistive tech ignores on a plain element.
-- today: focus shows on `:focus-visible` as a 2px `--cloud-blue` frame, not the `--focus-ring` outline that other controls use.
-- transitions are off under `prefers-reduced-motion`.
-- a tile fills its grid cell; on its own it needs a width, like the playground's 280px.
-- every other attribute and the `ref` reach the element it renders (`aria-current`, `target`, `data-*`, …).
+- Renders an `<a>` with `href`, a `<button type="button">` with `onClick`, your element with `as`, otherwise a `<div>`. A `disabled` tile is always a `<div>`: no link, no click, no focus.
+- Link, button and `as` tiles are interactive: they get the hover, the focus frame and the chevron. A display-only `<div>` gets none of them and is not focusable.
+- `as` renders your component, e.g. a router link. Today `Tile` passes `href` and `external` only to a plain `<a>`: give your component its destination yourself.
+- `external`, with `href`, sets `target="_blank"` and `rel="noopener noreferrer"`. Today nothing on the tile says it opens a new tab.
+- Interactive tiles set the `data-nc-tile` attribute. In a [tile group](?path=/docs/components-navigation-tile-group--docs) or a [portal](?path=/docs/patterns-portal--docs), the arrow keys move between the elements that carry it.
+- Every tile carries its title and description, lowercased, in `data-nc-search`. The [portal](?path=/docs/patterns-portal--docs) search matches against it.
+- `icon` takes the Lucide component, not an element: the tile draws it at 22px with a 1.75 stroke. The icon, the chevron and the delta's triangle are `aria-hidden`.
+- The status dot has `role="img"` and the label `status: <status>`.
+- `selected` is visual only. Pass `aria-current="page"` on the current app's tile yourself; other attributes reach the element.
+- Today: a disabled tile is a `<div>` with `aria-disabled`, which assistive tech ignores on a plain element.
+- Today: focus shows on `:focus-visible` as a 2px `--cloud-blue` frame, not the `--focus-ring` outline that other controls use.
+- Transitions are off under `prefers-reduced-motion`.
+- A tile fills its grid cell; on its own it needs a width, like the playground's 280px.
+- Every other attribute and the `ref` reach the element it renders (`aria-current`, `target`, `data-*`, …).
 
-a link or button tile is a native `<a>` or `<button>`, so the browser provides the keys.
+A link or button tile is a native `<a>` or `<button>`, so the browser provides the keys.
 
 | key | does |
 | --- | --- |
-| `tab` / `shift+tab` | moves focus to / from the tile. in a tile group, the group decides which tile is in the tab order — see [tile group](?path=/docs/components-navigation-tile-group--docs). |
-| `enter` | link: follows it. button: presses it. |
-| `space` | button: presses it. |
+| `tab` / `shift+tab` | Moves focus to / from the tile. In a tile group, the group decides which tile is in the tab order — see [tile group](?path=/docs/components-navigation-tile-group--docs). |
+| `enter` | Link: follows it. Button: presses it. |
+| `space` | Button: presses it. |
 
 ## props
 

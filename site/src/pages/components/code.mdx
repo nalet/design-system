@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: code
-description: mono code text — inline in a hairline frame for what people type or copy in a sentence, or a block that keeps its line breaks and scrolls sideways.
+description: Mono code text — inline in a hairline frame for what people type or copy in a sentence, or a block that keeps its line breaks and scrolls sideways.
 component: code
 ---
 import { Code, Text } from '@nalet/design-system';
@@ -11,7 +11,7 @@ import { Inline, Block, Overflow, Stacked } from '@site/examples/code';
 
 # code
 
-mono code text. inline by default — `--cloud-cyan` in a hairline frame — or, with `block`, a square block on the deeper canvas that keeps line breaks and scrolls sideways.
+Mono code text. Inline by default — `--cloud-cyan` in a hairline frame — or, with `block`, a square block on the deeper canvas that keeps line breaks and scrolls sideways.
 
 <Example label="inline code in a sentence">
   <Inline />
@@ -19,38 +19,38 @@ mono code text. inline by default — `--cloud-cyan` in a hairline frame — or,
 
 ## when to use
 
-- inline, for what people type or copy, inside a sentence: a command (`ctl get volumes`), a flag (`--replicas=0`), a file name, a setting.
-- as a block, for a command people copy and run, a few lines of configuration, or a command with its output.
+- Inline, for what people type or copy, inside a sentence: a command (`ctl get volumes`), a flag (`--replicas=0`), a file name, a setting.
+- As a block, for a command people copy and run, a few lines of configuration, or a command with its output.
 
 ## when not to use
 
-- **for a keyboard key.** use <C slug="kbd" />.
-- **for mono values people read rather than type** — durations, sizes, hashes in a list or a table cell. use <C slug="text" /> in its `code` variant: mono, no frame, no colour. a column of framed cyan cells is noise.
-- **for emphasis.** cyan pulls the eye; keep it for code. emphasis in prose is <C slug="text" /> in its `ui` variant.
+- **For a keyboard key.** Use <C slug="kbd" />.
+- **For mono values people read rather than type** — durations, sizes, hashes in a list or a table cell. Use <C slug="text" /> in its `code` variant: mono, no frame, no colour. A column of framed cyan cells is noise.
+- **For emphasis.** Cyan pulls the eye; keep it for code. Emphasis in prose is <C slug="text" /> in its `ui` variant.
 
 ## anatomy
 
-inline:
+Inline:
 
-1. **frame** — 1px `--border`, `--bg-2` fill, padding 1px 6px, square.
-2. **text** — jetbrains mono 13px, line height 1.5, `--cloud-cyan`.
+1. **Frame** — 1px `--border`, `--bg-2` fill, padding 1px 6px, square.
+2. **Text** — JetBrains Mono 13px, line height 1.5, `--cloud-cyan`.
 
-block:
+Block:
 
-1. **frame** — 1px `--border`, `--bg-2` fill, padding 12px 16px, no margin. it scrolls sideways.
-2. **text** — mono 13px, line height 1.5, `--fg-2`. spaces and line breaks are kept; long lines scroll, they never wrap.
+1. **Frame** — 1px `--border`, `--bg-2` fill, padding 12px 16px, no margin. It scrolls sideways.
+2. **Text** — mono 13px, line height 1.5, `--fg-2`. Spaces and line breaks are kept; long lines scroll, they never wrap.
 
 ## variants and states
 
-inline sits in running text; it wraps with the sentence at spaces, so keep it short.
+Inline sits in running text; it wraps with the sentence at spaces, so keep it short.
 
-`block` shows several lines exactly as written. it has no maximum height and grows with its content, so show a few lines, not a whole log.
+`block` shows several lines exactly as written. It has no maximum height and grows with its content, so show a few lines, not a whole log.
 
 <Example label="a command and its output, in a block">
   <Block />
 </Example>
 
-a long line scrolls inside the block instead of wrapping.
+A long line scrolls inside the block instead of wrapping.
 
 <Example label="a block with a line longer than its frame">
   <Overflow />
@@ -60,53 +60,53 @@ a long line scrolls inside the block instead of wrapping.
   <Stacked />
 </Example>
 
-there is no syntax highlighting, no line numbers, no copy button and no wrap option.
+There is no syntax highlighting, no line numbers, no copy button and no wrap option.
 
 ## behaviour
 
-- inline code, and a block that fits, take no tab stop.
-- a block whose lines run past its edge becomes a stop of its own while it overflows: `tab` reaches it, and the arrow keys scroll it.
-- text in both forms can be selected and copied like any text.
+- Inline code, and a block that fits, take no tab stop.
+- A block whose lines run past its edge becomes a stop of its own while it overflows: `tab` reaches it, and the arrow keys scroll it.
+- Text in both forms can be selected and copied like any text.
 
-the keyboard map and the attributes it sets are on its [react page](/design-system/react/?path=/docs/components-data-display-code--docs).
+The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-data-display-code--docs).
 
 ## accessibility
 
-- most screen readers read the text without saying "code".
-- a block keeps its line breaks, and screen readers read it line by line.
-- a block that scrolls is named "code" unless you name it: name it by what it holds, "install command".
+- Most screen readers read the text without saying "code".
+- A block keeps its line breaks, and screen readers read it line by line.
+- A block that scrolls is named "code" unless you name it: name it by what it holds, "install command".
 - `--cloud-cyan` on `--bg-2` is about 6.6:1; block text in `--fg-2` is about 12:1.
-- symbols are read literally: a `$` prompt is read as "dollar". leave it out of commands people copy.
+- Symbols are read literally: a `$` prompt is read as "dollar". Leave it out of commands people copy.
 
 ## content
 
-- show the command exactly as it runs, with real flags. use made-up names and hosts: `api-7f9c`, `storage-01`, `example.com`.
-- a command people copy has no prompt. when you show a command with its output, mark the typed line with `$` so the two read apart.
-- inline code is a word or a short token. a command longer than a few words gets a block.
-- never put a sentence in code.
+- Show the command exactly as it runs, with real flags. Use made-up names and hosts: `api-7f9c`, `storage-01`, `example.com`.
+- A command people copy has no prompt. When you show a command with its output, mark the typed line with `$` so the two read apart.
+- Inline code is a word or a short token. A command longer than a few words gets a block.
+- Never put a sentence in code.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="inline code for the one token people type.">
-    <Text as="p" variant="body">set <Code>--replicas=0</Code> before the backup.</Text>
+  <Do caption="Inline code for the one token people type.">
+    <Text as="p" variant="body">Set <Code>--replicas=0</Code> before the backup.</Text>
   </Do>
-  <Dont caption="a sentence in code is not code. it is harder to read and looks like something to type.">
+  <Dont caption="A sentence in code is not code. It is harder to read and looks like something to type.">
     <Code>scale it down before the backup</Code>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do column caption="a command people copy goes in a block, without a prompt.">
+  <Do column caption="A command people copy goes in a block, without a prompt.">
     <Code block>ctl backup create --volume storage-01 --keep 14d</Code>
   </Do>
-  <Dont column caption="a long command inline wraps across lines, and the frame breaks with it.">
-    <Text as="p" variant="body">run <Code>ctl backup create --volume storage-01 --keep 14d --verify</Code> and wait.</Text>
+  <Dont column caption="A long command inline wraps across lines, and the frame breaks with it.">
+    <Text as="p" variant="body">Run <Code>ctl backup create --volume storage-01 --keep 14d --verify</Code> and wait.</Text>
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="kbd" /> — a key on the keyboard, not code.
-- <C slug="text" /> — the `code` variant, for mono values without a frame.
-- [content & voice](/design-system/foundations/content-voice/) — how commands, names and examples are written.
+- <C slug="kbd">Kbd</C> — a key on the keyboard, not code.
+- <C slug="text">Text</C> — the `code` variant, for mono values without a frame.
+- [Content & voice](/design-system/foundations/content-voice/) — how commands, names and examples are written.

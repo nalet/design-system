@@ -5,7 +5,7 @@ import * as BoxStories from './Box.stories';
 
 # box
 
-design guidance — when to use it, padding, backgrounds and borders, what goes inside: **[box on the guidelines site →](https://nalet.github.io/design-system/components/box/)**
+Design guidance — when to use it, padding, backgrounds and borders, what goes inside: **[box on the guidelines site →](https://nalet.github.io/design-system/components/box/)**
 
 <Canvas of={BoxStories.Playground} />
 
@@ -23,24 +23,24 @@ design guidance — when to use it, padding, backgrounds and borders, what goes 
 
 <Canvas of={BoxStories.Backgrounds} />
 
-a `bg="bg-2"` box nested in a `bg="surface"` box.
+A `bg="bg-2"` box nested in a `bg="surface"` box.
 
 <Canvas of={BoxStories.Panel} />
 
 ## implementation notes
 
-- renders a `div` with `box-sizing: border-box` and `border-radius: 0`.
-- `p` pads every side, `px` the left and right, `py` the top and bottom. each takes 0, 4, 8, 12, 16, 24, 32, 48 or 64 and resolves to the `--s-1` … `--s-8` tokens.
+- Renders a `div` with `box-sizing: border-box` and `border-radius: 0`.
+- `p` pads every side, `px` the left and right, `py` the top and bottom. Each takes 0, 4, 8, 12, 16, 24, 32, 48 or 64 and resolves to the `--s-1` … `--s-8` tokens.
 - `px` and `py` are applied after `p`, so `p={16} px={24}` gives 16px top and bottom and 24px left and right.
 - `p`, `px`, `py` and `bg` are written as inline styles over your `style`, so they win over the same properties there.
-- today: if `p` changes on a re-render while `px` or `py` is set, the new `padding` shorthand can overwrite the `px`/`py` sides (react warns about this in development). use `p` alone, or `px` and `py` together, when padding changes at run time.
-- a plain `div` with no role. for a landmark or a region, pass `role` with `aria-label` or `aria-labelledby` through, or use a native element.
-- today: it is always a `div`; there is no `as` prop for a `section`, `aside` or `ul`.
-- every native `div` attribute passes through, and the `ref` reaches the `div`.
+- Today: if `p` changes on a re-render while `px` or `py` is set, the new `padding` shorthand can overwrite the `px`/`py` sides (React warns about this in development). Use `p` alone, or `px` and `py` together, when padding changes at run time.
+- A plain `div` with no role. For a landmark or a region, pass `role` with `aria-label` or `aria-labelledby` through, or use a native element.
+- Today: it is always a `div`; there is no `as` prop for a `section`, `aside` or `ul`.
+- Every native `div` attribute passes through, and the `ref` reaches the `div`.
 
 | key | does |
 | --- | --- |
-| `tab` | skips the box; focus moves through what's inside it, in order. |
+| `tab` | Skips the box; focus moves through what's inside it, in order. |
 
 ## props
 

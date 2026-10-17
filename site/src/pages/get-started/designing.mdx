@@ -1,23 +1,23 @@
 ---
 layout: ../../layouts/Doc.astro
 title: designing with it
-description: how to design a screen with the nalet design system, from the principles to the hand-over.
+description: How to design a screen with the nalet design system, from the principles to the hand-over.
 ---
 import { Button, ObjectStatus } from '@nalet/design-system';
 import { Example } from '@site/blocks';
 
 # designing with it
 
-start from what the person needs to do, not from a layout. the principles decide what the screen does and leaves out; the patterns give it a floorplan; the components fill it.
+Start from what the person needs to do, not from a layout. The principles decide what the screen does and leaves out; the patterns give it a floorplan; the components fill it.
 
 ## from a need to a screen
 
-1. **name the principle.** read the [principles](/design-system/foundations/principles/) first. most screens are decided by the first two: what can the system do on its own, and what is the one status a person needs to see?
-2. **write the vocabulary.** before anything is drawn, list the states of the objects on the screen and map each to one of the five semantic states — see [status vocabulary](/design-system/patterns/status-vocabulary/). the tabs, the counts, the toasts and the empty states all follow from it.
-3. **pick a floorplan.** a list of things that need doing is a [worklist](/design-system/patterns/worklist/); a start page of apps is the [launchpad](/design-system/patterns/launchpad-and-tiles/); settings are [forms and settings](/design-system/patterns/forms-and-settings/). every surface sits under the same [shell bar](/design-system/patterns/shell-bar/).
-4. **compose from components.** each [component page](/design-system/components/) says when to use it and when not, with the alternative. if no component fits, say so in review instead of drawing a new one.
-5. **write the words.** lowercase, short, true, in the person's words — see [content & voice](/design-system/foundations/content-voice/). a button starts with a verb and names its object.
-6. **check the rest of the states.** loading, empty, no match, failed, can't be known — see [empty states](/design-system/patterns/empty-states/) and [message handling](/design-system/patterns/message-handling/). then the keyboard path, and the screen at phone width.
+1. **Name the principle.** Read the [principles](/design-system/foundations/principles/) first. Most screens are decided by the first two: what can the system do on its own, and what is the one status a person needs to see?
+2. **Write the vocabulary.** Before anything is drawn, list the states of the objects on the screen and map each to one of the five semantic states — see [status vocabulary](/design-system/patterns/status-vocabulary/). The tabs, the counts, the toasts and the empty states all follow from it.
+3. **Pick a floorplan.** A list of things that need doing is a [worklist](/design-system/patterns/worklist/); a start page of apps is the [launchpad](/design-system/patterns/launchpad-and-tiles/); settings are [forms and settings](/design-system/patterns/forms-and-settings/). Every surface sits under the same [shell bar](/design-system/patterns/shell-bar/).
+4. **Compose from components.** Each [component page](/design-system/components/) says when to use it and when not, with the alternative. If no component fits, say so in review instead of drawing a new one.
+5. **Write the words.** Two voices: the monospace chrome lowercase, the text people read in sentence case; short, true, in the person's words — see [content & voice](/design-system/foundations/content-voice/). A button starts with a verb and names its object.
+6. **Check the rest of the states.** Loading, empty, no match, failed, can't be known — see [empty states](/design-system/patterns/empty-states/) and [message handling](/design-system/patterns/message-handling/). Then the keyboard path, and the screen at phone width.
 
 <Example label="one status and the one next step">
   <ObjectStatus state="error">needs attention</ObjectStatus>
@@ -27,35 +27,35 @@ start from what the person needs to do, not from a layout. the principles decide
 
 ## the tools
 
-there is no kit for a design tool today. the components are the reference: every variant and state is live on the [react subsite](/design-system/react/), where each component has a playground to try its props, and the examples on this site are the same components, rendered from the same code. the colours, type roles and spacing steps are named the way the [tokens](/design-system/develop/tokens/) name them, so a design and its code say the same thing.
+There is no kit for a design tool today. The components are the reference: every variant and state is live on the [React subsite](/design-system/react/), where each component has a playground to try its props, and the examples on this site are the same components, rendered from the same code. The colours, type roles and spacing steps are named the way the [tokens](/design-system/develop/tokens/) name them, so a design and its code say the same thing.
 
 ## the test
 
-if a screen would look at home in a tmux pane, it is on. if it looks like a saas landing page, start over. in practice:
+If a screen would look at home in a tmux pane, it is on. If it looks like a SaaS landing page, start over. In practice:
 
-- one emphasized action per view, toolbar or dialog; everything else default, ghost or in a menu.
-- colour only where it means something: a state, a link, the one primary action. never for decoration.
-- square frames; no rounded corners, no pills, no shadows on panels.
-- mono for names and values, inter for sentences.
-- no hero images, no marketing copy, no illustrations except the empty-state drawings.
+- One emphasized action per view, toolbar or dialog; everything else default, ghost or in a menu.
+- Colour only where it means something: a state, a link, the one primary action. Never for decoration.
+- Square frames; no rounded corners, no pills, no shadows on panels.
+- Mono for names and values, Inter for sentences.
+- No hero images, no marketing copy, no illustrations except the empty-state drawings.
 
 ## handing over
 
-a design is ready to build when it says, in the system's own names:
+A design is ready to build when it says, in the system's own names:
 
 | what | how it is named | for example |
 | --- | --- | --- |
-| each component | the component's name | `DataTable`, `SelectionToolbar`, `MessageStrip` |
-| variant and size | the prop and its value | `variant="primary"`, `size="sm"`, `dense` |
-| each object's status | the vocabulary table: raw value → state → words | `failed` → error → `needs attention` |
-| colour, type and space | the token, never a hex value or a pixel size off the scale | `--fg-muted`, `h2`, `--s-4` |
-| copy | the exact words, lowercase as they should be read | `grab 8 selected`, `nothing missing` |
-| the empty, loading and error states | which kind, and its words | `search` · `no matches` · `clear filters` |
-| keyboard and focus | anything beyond the components' own model | where focus goes after a dialog closes |
+| Each component | The component's name | `DataTable`, `SelectionToolbar`, `MessageStrip` |
+| Variant and size | The prop and its value | `variant="primary"`, `size="sm"`, `dense` |
+| Each object's status | The vocabulary table: raw value → state → words | `failed` → error → `needs attention` |
+| Colour, type and space | The token, never a hex value or a pixel size off the scale | `--fg-muted`, `h2`, `--s-4` |
+| Copy | The exact words as they should be read: lowercase in mono, sentence case in the body face | `grab 8 selected`, `nothing missing`, `Every aired episode is in the library.` |
+| The empty, loading and error states | Which kind, and its words | `search` · `no matches` · `clear filters` |
+| Keyboard and focus | Anything beyond the components' own model | Where focus goes after a dialog closes |
 
 ## in a review
 
-- name the principle a screen breaks: *"this breaks 2 — it says completed, but it won't play."*
-- check the components' "when not to use": most review findings are a component used for the job of another.
-- check every page's "today:" notes for the components you use; the limitation may need a word on the screen.
-- read the screen aloud: a message that only makes sense next to its icon or its colour needs more words.
+- Name the principle a screen breaks: *"This breaks 2 — it says completed, but it won't play."*
+- Check the components' "when not to use": most review findings are a component used for the job of another.
+- Check every page's "Today:" notes for the components you use; the limitation may need a word on the screen.
+- Read the screen aloud: a message that only makes sense next to its icon or its colour needs more words.

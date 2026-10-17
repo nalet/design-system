@@ -6,9 +6,9 @@ import { DateCell, IdentifierCell, StatusCell } from '../../src';
 
 # table cells
 
-design guidance — when to use each cell, their parts and states, the date wording, the words: **[table cells on the guidelines site →](https://nalet.github.io/design-system/components/table-cells/)**
+Design guidance — when to use each cell, their parts and states, the date wording, the words: **[table cells on the guidelines site →](https://nalet.github.io/design-system/components/table-cells/)**
 
-the playground changes one date cell.
+The playground changes one date cell.
 
 <Canvas of={CellsStories.Playground} />
 
@@ -26,31 +26,31 @@ the playground changes one date cell.
 
 <Canvas of={CellsStories.Identifiers} />
 
-every [data table](?path=/docs/components-data-display-data-table--docs) story puts all three in its `columns`, one per `cell`.
+Every [data table](?path=/docs/components-data-display-data-table--docs) story puts all three in its `columns`, one per `cell`.
 
 ## implementation notes
 
-- the three cells are `StatusCell`, `DateCell` and `IdentifierCell`; `relativeDay` is the date cell's wording as a function.
-- `StatusCell` renders a `span` wrapper with an `ObjectStatus` and, when there is a `detail`, the detail under it, in the dom in full. css clamps it to two lines; a string `detail` is also its `title`, the browser's native tooltip.
-- write the vocabulary once with `defineStates` and spread it in: `<StatusCell {...STATES[row.state]} detail={why(row)} />`.
-- today: a `detail` that isn't a plain string gets no `title` at all, so its cut-off lines can't be seen on screen.
-- `DateCell` renders a `<time>` with the iso `datetime`, and the full weekday, date and time in its `title`. the compact relative part is `aria-hidden`, with the words ("5 days ago") in a visually hidden span. an empty value is an `aria-hidden` dash and a visually hidden "no date".
-- `value` takes a `Date`, an iso string or epoch milliseconds; an empty or unreadable value shows the empty text. `locale` (default `en-GB`) and `format` (default: day, short month, year) shape the absolute date, `relative={false}` drops the relative part, `emptyText` replaces the dash, and `now` pins "today" for stories and tests.
-- it works out "today" against `now` (default: the current time) when it renders.
+- The three cells are `StatusCell`, `DateCell` and `IdentifierCell`; `relativeDay` is the date cell's wording as a function.
+- `StatusCell` renders a `span` wrapper with an `ObjectStatus` and, when there is a `detail`, the detail under it, in the DOM in full. CSS clamps it to two lines; a string `detail` is also its `title`, the browser's native tooltip.
+- Write the vocabulary once with `defineStates` and spread it in: `<StatusCell {...STATES[row.state]} detail={why(row)} />`.
+- Today: a `detail` that isn't a plain string gets no `title` at all, so its cut-off lines can't be seen on screen.
+- `DateCell` renders a `<time>` with the ISO `datetime`, and the full weekday, date and time in its `title`. The compact relative part is `aria-hidden`, with the words ("5 days ago") in a visually hidden span. An empty value is an `aria-hidden` dash and a visually hidden "no date".
+- `value` takes a `Date`, an ISO string or epoch milliseconds; an empty or unreadable value shows the empty text. `locale` (default `en-GB`) and `format` (default: day, short month, year) shape the absolute date, `relative={false}` drops the relative part, `emptyText` replaces the dash, and `now` pins "today" for stories and tests.
+- It works out "today" against `now` (default: the current time) when it renders.
 - `emptyText` changes only the visible dash, and `locale` only the absolute date.
-- the date cell builds one formatter per locale and format and reuses it, so a table of thousands of dates stays cheap.
-- `relativeDay(then, now)` is the same wording as a function, for a date said outside a cell ("last searched 5 days ago"). it returns both forms: `{ short: '5d ago', long: '5 days ago' }`. `now` defaults to the current time.
+- The date cell builds one formatter per locale and format and reuses it, so a table of thousands of dates stays cheap.
+- `relativeDay(then, now)` is the same wording as a function, for a date said outside a cell ("last searched 5 days ago"). It returns both forms: `{ short: '5d ago', long: '5 days ago' }`. `now` defaults to the current time.
 - `IdentifierCell`'s `title` and `text` both take any node, a link included.
 
 | key | does |
 | --- | --- |
-| `tab` | passes them by. nothing in a cell is focusable, unless you put a link in an identifier's `title`. |
+| `tab` | Passes them by. Nothing in a cell is focusable, unless you put a link in an identifier's `title`. |
 
 ## props
 
 ### status cell
 
-`StatusCell` takes every [object status](?path=/docs/components-feedback-status-object-status--docs) prop — `state`, `text` (or children), `icon`, `appearance`, `stateLabel` — and the native `<span>` attributes, which all go to the status, plus `detail`. `className` goes to the wrapper. there is no `ref`.
+`StatusCell` takes every [object status](?path=/docs/components-feedback-status-object-status--docs) prop — `state`, `text` (or children), `icon`, `appearance`, `stateLabel` — and the native `<span>` attributes, which all go to the status, plus `detail`. `className` goes to the wrapper. There is no `ref`.
 
 <ArgTypes of={StatusCell} />
 

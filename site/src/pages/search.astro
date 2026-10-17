@@ -4,13 +4,13 @@
 import Bare from '../layouts/Bare.astro';
 import { url } from '../data/site';
 ---
-<Bare title="search" description="search the nalet design system's guidelines." noindex>
+<Bare title="search" description="Search the nalet design system's guidelines." noindex>
   <article class="ds-prose">
     <h1>search</h1>
-    <p>every page of the guidelines. the react subsite has its own search, in its sidebar.</p>
+    <p>Every page of the guidelines. The React subsite has its own search, in its sidebar.</p>
   </article>
   <div id="search" class="ds-search"></div>
-  <noscript><p>search needs javascript. every page is also listed in the navigation of its section.</p></noscript>
+  <noscript><p>Search needs JavaScript. Every page is also listed in the navigation of its section.</p></noscript>
   <link rel="stylesheet" href={url('pagefind/pagefind-ui.css')} />
   <script is:inline src={url('pagefind/pagefind-ui.js')}></script>
   <script is:inline define:vars={{ bundlePath: url('pagefind/') }}>
@@ -26,11 +26,11 @@ import { url } from '../data/site';
           placeholder: 'search the guidelines',
           clear_search: 'clear',
           load_more: 'show more results',
-          search_label: 'search the guidelines',
-          zero_results: 'no page matches “[SEARCH_TERM]”.',
+          search_label: 'Search the guidelines',
+          zero_results: 'No page matches “[SEARCH_TERM]”.',
           many_results: '[COUNT] pages match “[SEARCH_TERM]”',
           one_result: '1 page matches “[SEARCH_TERM]”',
-          searching: 'searching for “[SEARCH_TERM]”',
+          searching: 'Searching for “[SEARCH_TERM]”',
         },
       });
       // a visible label for pagefind's field, which only has a placeholder.
@@ -40,7 +40,7 @@ import { url } from '../data/site';
         var label = document.createElement('label');
         label.htmlFor = 'search-field';
         label.className = 'ds-search__label';
-        label.textContent = 'search the guidelines';
+        label.textContent = 'Search the guidelines';
         document.querySelector('#search').prepend(label);
         input.focus();
       }

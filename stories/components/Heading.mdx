@@ -5,7 +5,7 @@ import * as HeadingStories from './Heading.stories';
 
 # heading
 
-design guidance — when to use it, the two levels, the chevron, its words: **[heading on the guidelines site →](https://nalet.github.io/design-system/components/heading/)**
+Design guidance — when to use it, the two levels, the chevron, its words: **[heading on the guidelines site →](https://nalet.github.io/design-system/components/heading/)**
 
 <Canvas of={HeadingStories.Playground} />
 
@@ -19,19 +19,19 @@ design guidance — when to use it, the two levels, the chevron, its words: **[h
 
 <Canvas of={HeadingStories.WithChevron} />
 
-a `level={1}` heading with `chevron` above its first `level={2}` section, each in a `Stack` with its text.
+A `level={1}` heading with `chevron` above its first `level={2}` section, each in a `Stack` with its text.
 
 <Canvas of={HeadingStories.SectionHeader} />
 
 ## implementation notes
 
-- renders a native `h1` (`level={1}`, the default) or `h2` (`level={2}`), with `margin: 0`.
+- Renders a native `h1` (`level={1}`, the default) or `h2` (`level={2}`), with `margin: 0`.
 - `chevron` puts a `span` with `aria-hidden="true"` before your text, holding a `>` in `--cloud-blue`.
-- every native heading attribute passes through (`id` for in-page links, `aria-*`, …), and the `ref` reaches the heading.
+- Every native heading attribute passes through (`id` for in-page links, `aria-*`, …), and the `ref` reaches the heading.
 
 | key | does |
 | --- | --- |
-| `tab` | skips it. headings are not in the tab order. |
+| `tab` | Skips it. Headings are not in the tab order. |
 
 ## props
 

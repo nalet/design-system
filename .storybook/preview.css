@@ -50,13 +50,15 @@ body,
 }
 
 /* the "on this page" links: 24px targets (wcag 2.2, 2.5.8) instead of the
-   tightly stacked default. */
+   tightly stacked default. they are navigation and repeat the headings, so
+   they are set in the monospace voice. */
 .toc-wrapper .toc-link {
   display: inline-block;
   box-sizing: border-box;
   min-height: 24px;
   padding: 3px 0;
   line-height: 18px;
+  font-family: var(--ff-mono, 'JetBrains Mono', ui-monospace, monospace);
 }
 
 /* markdown tables on the dark canvas: the default zebra stripe is a light grey

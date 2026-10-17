@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: text
-description: copy at one of five type roles — body for prose, ui for interface text, muted and dim for secondary lines, code for mono values.
+description: Copy at one of five type roles — body for prose, ui for interface text, muted and dim for secondary lines, code for mono values.
 component: text
 ---
 import { Code, Text } from '@nalet/design-system';
@@ -11,7 +11,7 @@ import { Variants, InlineMono, Truncate, AsElement } from '@site/examples/text';
 
 # text
 
-copy at one of five type roles: `body` for prose, `ui` for interface text, `muted` and `dim` for secondary lines, `code` for mono values.
+Copy at one of five type roles: `body` for prose, `ui` for interface text, `muted` and `dim` for secondary lines, `code` for mono values.
 
 <Example label="the five variants">
   <Variants />
@@ -19,39 +19,39 @@ copy at one of five type roles: `body` for prose, `ui` for interface text, `mute
 
 ## when to use
 
-- for sentences and paragraphs (`body`, as a paragraph).
-- for short interface text that isn't a control's own label: a name in a list, a value in a panel (`ui`).
-- for secondary facts beside the main line: a timestamp, a size, a path (`muted`); and for the line people can safely skip (`dim`).
-- for values people read in mono — durations, hashes, sizes — that don't need the frame of <C slug="code" /> (`code`).
-- with `truncate`, for one line that must not wrap, such as a long path in a narrow column.
+- For sentences and paragraphs (`body`, as a paragraph).
+- For short interface text that isn't a control's own label: a name in a list, a value in a panel (`ui`).
+- For secondary facts beside the main line: a timestamp, a size, a path (`muted`); and for the line people can safely skip (`dim`).
+- For values people read in mono — durations, hashes, sizes — that don't need the frame of <C slug="code" /> (`code`).
+- With `truncate`, for one line that must not wrap, such as a long path in a narrow column.
 
 ## when not to use
 
-- **for a page or section title.** use <C slug="heading" />, which renders a real `h1` or `h2`.
-- **for commands, flags or anything people type or copy.** use <C slug="code" />: a `code` element in a frame.
-- **for a keyboard key.** use <C slug="kbd" />.
-- **for a form label, hint or error.** use <C slug="field" />. it renders the `label`, ties the hint and error to the control and marks it invalid. `Text as="label"` is only styled text, tied to nothing.
-- **for a state or a message.** an object's state is <C slug="object-status" />; a message about the page is a <C slug="message-strip" />.
+- **For a page or section title.** Use <C slug="heading" />, which renders a real `h1` or `h2`.
+- **For commands, flags or anything people type or copy.** Use <C slug="code" />: a `code` element in a frame.
+- **For a keyboard key.** Use <C slug="kbd" />.
+- **For a form label, hint or error.** Use <C slug="field" />. It renders the `label`, ties the hint and error to the control and marks it invalid. `Text as="label"` is only styled text, tied to nothing.
+- **For a state or a message.** An object's state is <C slug="object-status" />; a message about the page is a <C slug="message-strip" />.
 
 ## anatomy
 
-one run of text with no margin. the variant sets the family, weight, size, line height and colour:
+One run of text with no margin. The variant sets the family, weight, size, line height and colour:
 
 | variant | family | weight | size / line height | colour |
 | --- | --- | --- | --- | --- |
-| `body` (default) | inter (`--ff-ui`) | 400 | 16px / 1.55 | `--fg-2` |
-| `ui` | inter | 500 | 13px / 1.4 | `--fg` |
-| `muted` | inter | 400 | 13px / 1.4 | `--fg-muted` |
-| `dim` | inter | 400 | 13px / 1.4 | `--fg-dim` |
-| `code` | jetbrains mono (`--ff-mono`) | 500 | 13px / 1.5 | `--fg-2` |
+| `body` (default) | Inter (`--ff-ui`) | 400 | 16px / 1.55 | `--fg-2` |
+| `ui` | Inter | 500 | 13px / 1.4 | `--fg` |
+| `muted` | Inter | 400 | 13px / 1.4 | `--fg-muted` |
+| `dim` | Inter | 400 | 13px / 1.4 | `--fg-dim` |
+| `code` | JetBrains Mono (`--ff-mono`) | 500 | 13px / 1.5 | `--fg-2` |
 
-with `truncate`, the text stays on one line, no wider than its container, and is cut with an ellipsis.
+With `truncate`, the text stays on one line, no wider than its container, and is cut with an ellipsis.
 
 ## variants and states
 
-`muted` and `dim` are 13px, the size of `ui`, not of `body`: they are for secondary lines in an interface, not for quieter paragraphs. there is no muted 16px body.
+`muted` and `dim` are 13px, the size of `ui`, not of `body`: they are for secondary lines in an interface, not for quieter paragraphs. There is no muted 16px body.
 
-`code` is mono text without the frame and colour of <C slug="code" />. use it for values people read, not for code.
+`code` is mono text without the frame and colour of <C slug="code" />. Use it for values people read, not for code.
 
 <Example label="mono values in a sentence">
   <InlineMono />
@@ -63,7 +63,7 @@ with `truncate`, the text stays on one line, no wider than its container, and is
   <Truncate />
 </Example>
 
-the element can change while the look stays the same: a variant can be a paragraph, or a heading level that <C slug="heading" /> doesn't offer.
+The element can change while the look stays the same: a variant can be a paragraph, or a heading level that <C slug="heading" /> doesn't offer.
 
 <Example label="text as a heading, a paragraph and a block">
   <AsElement />
@@ -71,51 +71,51 @@ the element can change while the look stays the same: a variant can be a paragra
 
 ## behaviour
 
-- text is static: it takes no focus and handles no keys.
+- Text is static: it takes no focus and handles no keys.
 - `truncate` needs a width to cut against: it fills at most its container.
 
-the keyboard map, the element it renders and what passes through are on its [react page](/design-system/react/?path=/docs/components-data-display-text--docs).
+The keyboard map, the element it renders and what passes through are on its [React page](/design-system/react/?path=/docs/components-data-display-text--docs).
 
 ## accessibility
 
-- the element carries the meaning, not the variant: pick a paragraph, a heading, or a run inside other text for what the text is.
-- colour carries no meaning. `muted` and `dim` lower emphasis, not importance: never put the only copy of something people need in `dim`.
-- every text colour meets 4.5:1 on every background, `--fg-dim` included.
-- today: `truncate` cuts the text only for the eye. screen readers read all of it, but sighted keyboard, touch and mouse users can't reach the rest: there is no tooltip built in. show the full value somewhere reachable — a detail view, or a <C slug="tooltip" />, whose trigger takes focus.
+- The element carries the meaning, not the variant: pick a paragraph, a heading, or a run inside other text for what the text is.
+- Colour carries no meaning. `muted` and `dim` lower emphasis, not importance: never put the only copy of something people need in `dim`.
+- Every text colour meets 4.5:1 on every background, `--fg-dim` included.
+- Today: `truncate` cuts the text only for the eye. Screen readers read all of it, but sighted keyboard, touch and mouse users can't reach the rest: there is no tooltip built in. Show the full value somewhere reachable — a detail view, or a <C slug="tooltip" />, whose trigger takes focus.
 
 ## content
 
-- `body` is for full sentences. follow the voice: lowercase, plain, no exclamation marks.
+- `body` is for full sentences. Follow the voice: sentence case, plain, no exclamation marks.
 - `ui` is a few words: a name, a value, a short phrase.
-- `muted` states facts, not instructions: `updated 3 min ago`, `412 gb used`.
-- `dim` is only for what people can skip. warnings and next steps never go there.
-- mono (`code`) is for values. a sentence set in mono to look technical is harder to read, not more precise.
+- `muted` states facts, not instructions: `Updated 3 min ago`, `412 GB used`.
+- `dim` is only for what people can skip. Warnings and next steps never go there.
+- Mono (`code`) is for values. A sentence set in mono to look technical is harder to read, not more precise.
 
 ## do and don't
 
 <DoDont>
-  <Do column caption="the main line in ui, the facts that qualify it in muted.">
+  <Do column caption="The main line in ui, the facts that qualify it in muted.">
     <Text variant="ui">storage-01</Text>
-    <Text variant="muted">412 gb used, updated 3 min ago</Text>
+    <Text variant="muted">412 GB used, updated 3 min ago</Text>
   </Do>
-  <Dont column caption="dim is for what people can skip. a warning in dim is a warning nobody reads; use a message strip.">
+  <Dont column caption="Dim is for what people can skip. A warning in dim is a warning nobody reads; use a message strip.">
     <Text variant="ui">storage-01</Text>
-    <Text variant="dim">this volume will be deleted at midnight</Text>
+    <Text variant="dim">This volume will be deleted at midnight</Text>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="a command people copy is code: framed, in a code element.">
-    <Text as="p" variant="body">run <Code>ctl get volumes</Code> to list them.</Text>
+  <Do caption="A command people copy is code: framed, in a code element.">
+    <Text as="p" variant="body">Run <Code>ctl get volumes</Code> to list them.</Text>
   </Do>
-  <Dont caption="mono text without the frame doesn't read as something to type.">
-    <Text as="p" variant="body">run <Text variant="code">ctl get volumes</Text> to list them.</Text>
+  <Dont caption="Mono text without the frame doesn't read as something to type.">
+    <Text as="p" variant="body">Run <Text variant="code">ctl get volumes</Text> to list them.</Text>
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="heading" /> — page and section titles.
-- <C slug="code" /> — commands and identifiers, in a frame.
-- [typography](/design-system/styles/typography/) — the type roles these variants come from.
-- [content & voice](/design-system/foundations/content-voice/) — how to write it.
+- <C slug="heading">Heading</C> — page and section titles.
+- <C slug="code">Code</C> — commands and identifiers, in a frame.
+- [Typography](/design-system/styles/typography/) — the type roles these variants come from.
+- [Content & voice](/design-system/foundations/content-voice/) — how to write it.

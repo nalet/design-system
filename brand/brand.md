@@ -1,64 +1,64 @@
 # nalet — brand non-negotiables
 
-a single identity for every nalet surface. dark canvas, monospace
-voice, blue chevron, one cursor. two type families, ten color tokens, one glyph.
+A single identity for every nalet surface. Dark canvas, monospace
+voice, blue chevron, one cursor. Two type families, ten color tokens, one glyph.
 
-if a screen would look at home in a tmux pane, it is on. if it looks like a saas
+If a screen would look at home in a tmux pane, it is on. If it looks like a SaaS
 landing page, start over.
 
 ## canvas (dark only)
 
 | token         | value     | use                              |
 | ------------- | --------- | -------------------------------- |
-| `--bg`        | `#0B0F19` | primary background, deepest      |
-| `--bg-2`      | `#0D1117` | deeper recesses, terminal blocks |
-| `--surface`   | `#11161F` | cards, panels, raised areas      |
-| `--surface-2` | `#161B26` | hover state on surface           |
-| `--border`    | `#1F2633` | hairline borders, dividers       |
-| `--border-2`  | `#2A3142` | heavier dividers                 |
+| `--bg`        | `#0B0F19` | Primary background, deepest      |
+| `--bg-2`      | `#0D1117` | Deeper recesses, terminal blocks |
+| `--surface`   | `#11161F` | Cards, panels, raised areas      |
+| `--surface-2` | `#161B26` | Hover state on surface           |
+| `--border`    | `#1F2633` | Hairline borders, dividers       |
+| `--border-2`  | `#2A3142` | Heavier dividers                 |
 
 ## foreground
 
 | token        | value     | use                          |
 | ------------ | --------- | ---------------------------- |
-| `--fg`       | `#E6E6E6` | primary text, titles         |
-| `--fg-2`     | `#C9D1D9` | body text, the n glyph       |
-| `--fg-muted` | `#AEB8C2` | labels, meta, captions       |
-| `--fg-dim`   | `#7B8597` | helpers, hints, off state    |
+| `--fg`       | `#E6E6E6` | Primary text, titles         |
+| `--fg-2`     | `#C9D1D9` | Body text, the n glyph       |
+| `--fg-muted` | `#AEB8C2` | Labels, meta, captions       |
+| `--fg-dim`   | `#7B8597` | Helpers, hints, off state    |
 
 ## brand & signal
 
 | token            | value     | use                                  |
 | ---------------- | --------- | ------------------------------------ |
-| `--cloud-blue`   | `#58A6FF` | the `>` chevron, links, primary cta  |
-| `--cloud-cyan`   | `#00A4DC` | cursor, active stroke                |
-| `--signal-green` | `#2EA043` | ok / running / healthy               |
-| `--signal-amber` | `#F2B233` | warn / delayed / degraded            |
-| `--signal-red`   | `#F85149` | error / failed / offline             |
+| `--cloud-blue`   | `#58A6FF` | The `>` chevron, links, primary CTA  |
+| `--cloud-cyan`   | `#00A4DC` | Cursor, active stroke                |
+| `--signal-green` | `#2EA043` | OK / running / healthy               |
+| `--signal-amber` | `#F2B233` | Warn / delayed / degraded            |
+| `--signal-red`   | `#F85149` | Error / failed / offline             |
 
 ## semantic state
 
-status and messages never pick a signal colour directly; they use one of five
-semantic states. each has a text/icon colour, a `-bg` tint and a `-border`.
+Status and messages never pick a signal colour directly; they use one of five
+semantic states. Each has a text/icon colour, a `-bg` tint and a `-border`.
 
 | token                 | value     | means                                         |
 | --------------------- | --------- | --------------------------------------------- |
-| `--state-neutral`     | `#AEB8C2` | a plain fact: missing, queued                 |
-| `--state-information` | `#58A6FF` | under way or worth knowing: on its way        |
-| `--state-success`     | `#2EA043` | done and good: held, saved                    |
-| `--state-warning`     | `#F2B233` | works, but someone should look: firewalled    |
-| `--state-error`       | `#F85149` | failed or blocked, needs action               |
+| `--state-neutral`     | `#AEB8C2` | A plain fact: missing, queued                 |
+| `--state-information` | `#58A6FF` | Under way or worth knowing: on its way        |
+| `--state-success`     | `#2EA043` | Done and good: held, saved                    |
+| `--state-warning`     | `#F2B233` | Works, but someone should look: firewalled    |
+| `--state-error`       | `#F85149` | Failed or blocked, needs action               |
 
-every text token meets 4.5:1 on every background, and control boundaries
+Every text token meets 4.5:1 on every background, and control boundaries
 (`--border-control #646C7A`) meet 3:1; `tokens/contrast.test.ts` enforces it.
 
-the `>` chevron is the brand glyph. it is **always** `--cloud-blue` (`#58A6FF`).
+The `>` chevron is the brand glyph. It is **always** `--cloud-blue` (`#58A6FF`).
 
 ## type
 
 - `'JetBrains Mono'` for display, headings, system, code, and brand.
-- `'Inter'` for body, prose, and ui-labels.
-- type roles (display / h1 / h2 / body / ui / code) carry exact size, weight, and
+- `'Inter'` for body, prose, and UI labels.
+- Type roles (display / h1 / h2 / body / ui / code) carry exact size, weight, and
   letter-spacing in `tokens/tokens.json` — do not eyeball them.
 
 ## space
@@ -67,18 +67,22 @@ the `>` chevron is the brand glyph. it is **always** `--cloud-blue` (`#58A6FF`).
 
 ## square frames
 
-`border-radius: 0` on every card, panel, tile, button, input, and dialog. **no
-rounded corners.** icons are the only rounded shape, and that radius is baked into
-the icon pngs — never add radius in css.
+`border-radius: 0` on every card, panel, tile, button, input, and dialog. **No
+rounded corners.** Icons are the only rounded shape, and that radius is baked into
+the icon PNGs — never add radius in CSS.
 
 ## voice
 
-lowercase. short copy. no emoji. no exclamation marks. terminal / tmux aesthetic.
+Two voices, one per typeface. Monospace is the system's voice, and it is
+lowercase: titles, buttons, tabs, navigation, statuses, headers, numbers and
+codes. The body face is the reader's language, in sentence case: descriptions,
+messages, field labels, hints and errors, and prose. Short copy. No emoji. No
+exclamation marks. Terminal / tmux aesthetic.
 
 ## source of truth
 
-- tokens: `tokens/tokens.json` (dtcg) — generates `src/styles/tokens.css`,
-  `src/tokens.ts`, and the tailwind preset.
-- brand reference: `brand/llm.txt`.
-- guidelines (github pages): https://nalet.github.io/design-system/, with the
-  react components at https://nalet.github.io/design-system/react/
+- Tokens: `tokens/tokens.json` (DTCG) — generates `src/styles/tokens.css`,
+  `src/tokens.ts`, and the Tailwind preset.
+- Brand reference: `brand/llm.txt`.
+- Guidelines (GitHub Pages): https://nalet.github.io/design-system/, with the
+  React components at https://nalet.github.io/design-system/react/

@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: app navigation
-description: side navigation for an app's views — work, find, setup — and when tabs are the better fit.
+description: Side navigation for an app's views — work, find, setup — and when tabs are the better fit.
 draft: true
 ---
 import C from '@site/components/C.astro';
@@ -10,24 +10,24 @@ import { AppLayoutMock, NineTabsMock, PhoneNavMock, SideNavMock } from '@site/de
 
 # app navigation
 
-how a person moves between the views of one app: a side navigation that lists them, grouped by what people do there, with the view where the app opens at the top.
+How a person moves between the views of one app: a side navigation that lists them, grouped by what people do there, with the view where the app opens at the top.
 
 <Mock planned="SideNavigation, an app layout" label="a downloads app: the shell bar, the side navigation and the content">
   <AppLayoutMock />
 </Mock>
 
-the side navigation and the app layout that holds it are **planned** components. the mock-ups on this page are built from the components that exist, to show the proposal.
+The side navigation and the app layout that holds it are **planned** components. The mock-ups on this page are built from the components that exist, to show the proposal.
 
 ## when to use side navigation
 
-- an app with more than four or five views, or with views of different kinds: daily work, finding things, setup.
-- a vertical list scales, can be grouped, shows a count next to each view (`needs attention 3`), and stays visible while the content scrolls.
+- An app with more than four or five views, or with views of different kinds: daily work, finding things, setup.
+- A vertical list scales, can be grouped, shows a count next to each view (`needs attention 3`), and stays visible while the content scrolls.
 
 ## when to use tabs instead
 
-- **two to five facets of one object** — the sections of an object page: overview, episodes, files, history. use <C slug="tabs" />.
-- **filters of one list** — <C slug="filter-tabs" /> with counts, in a [worklist](/design-system/patterns/worklist/).
-- tabs switch what you look at; side navigation switches what you are doing.
+- **Two to five facets of one object** — the sections of an object page: overview, episodes, files, history. Use <C slug="tabs" />.
+- **Filters of one list** — <C slug="filter-tabs" /> with counts, in a [worklist](/design-system/patterns/worklist/).
+- Tabs switch what you look at; side navigation switches what you are doing.
 
 ## anatomy
 
@@ -35,17 +35,17 @@ the side navigation and the app layout that holds it are **planned** components.
   <SideNavMock />
 </Mock>
 
-1. **groups**, in this order: **work** (the views people use daily, the exceptions view first), **find** (search, discover), **setup** (sources, clients, settings — only for people who may change them, at the bottom).
-2. **each item** — an icon, a label, and an optional count: a number someone acts on, neutral unless it means attention.
-3. **the current item** — marked by the accent bar on its leading edge and its weight, not by colour alone.
+1. **Groups**, in this order: **work** (the views people use daily, the exceptions view first), **find** (search, discover), **setup** (sources, clients, settings — only for people who may change them, at the bottom).
+2. **Each item** — an icon, a label, and an optional count: a number someone acts on, neutral unless it means attention.
+3. **The current item** — marked by the accent bar on its leading edge and its weight, not by colour alone.
 
 ## behaviour
 
-- **the first item is where the app opens**: its exceptions (see [principle 1](/design-system/foundations/principles/#1-the-system-does-the-work-people-handle-the-exceptions)), not its longest list.
-- **setup is not daily work**: it sits in the setup group at the bottom of the app's navigation, and the shell's settings lists each app's setup state and links to those forms — see [settings and setup](/design-system/patterns/settings-and-setup/).
-- **a view's address changes with the item**, so a tile, a link or the back button can land on it.
-- **at medium widths** the navigation collapses to its icons.
-- **on a phone** it becomes a menu behind the app's title, not a row of tabs that scrolls sideways.
+- **The first item is where the app opens**: its exceptions (see [principle 1](/design-system/foundations/principles/#1-the-system-does-the-work-people-handle-the-exceptions)), not its longest list.
+- **Setup is not daily work**: it sits in the setup group at the bottom of the app's navigation, and the shell's settings lists each app's setup state and links to those forms — see [settings and setup](/design-system/patterns/settings-and-setup/).
+- **A view's address changes with the item**, so a tile, a link or the back button can land on it.
+- **At medium widths** the navigation collapses to its icons.
+- **On a phone** it becomes a menu behind the app's title, not a row of tabs that scrolls sideways.
 
 <Mock planned="SideNavigation" label="at phone width: the views behind the app's title">
   <PhoneNavMock />
@@ -55,30 +55,30 @@ the side navigation and the app layout that holds it are **planned** components.
 
 | group | items |
 | --- | --- |
-| work | `needs attention 3`, `on its way 12`, `requests`, `missing`, `series` |
-| find | `search`, `discover` |
-| setup | `search sources`, `clients`, `settings` |
+| Work | `needs attention 3`, `on its way 12`, `requests`, `missing`, `series` |
+| Find | `search`, `discover` |
+| Setup | `search sources`, `clients`, `settings` |
 
 ## content
 
-- **group titles** — `work`, `find`, `setup`: the same three words in every app.
-- **items** — the view's noun, as people say it: `needs attention`, `on its way`, `search sources`. the same words as the view's title.
-- **counts** — the number someone acts on, with its thousands separator. leave a count out when nobody acts on it.
+- **Group titles** — `work`, `find`, `setup`: the same three words in every app.
+- **Items** — the view's noun, as people say it: `needs attention`, `on its way`, `search sources`. The same words as the view's title.
+- **Counts** — the number someone acts on, with its thousands separator. Leave a count out when nobody acts on it.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="views grouped by what people do there: work, find, setup; the exceptions first." column>
+  <Do caption="Views grouped by what people do there: work, find, setup; the exceptions first." column>
     <SideNavMock />
   </Do>
-  <Dont caption="nine tabs in one row, mixing work, finding and setup — and on a phone, a tab bar that scrolls sideways." column>
+  <Dont caption="Nine tabs in one row, mixing work, finding and setup — and on a phone, a tab bar that scrolls sideways." column>
     <NineTabsMock />
   </Dont>
 </DoDont>
 
 ## related
 
-- [shell bar](/design-system/patterns/shell-bar/) — the bar above the app's navigation.
-- [settings and setup](/design-system/patterns/settings-and-setup/) — where the setup group's forms are listed and linked.
-- <C slug="tabs" /> — the facets of one object.
-- [launchpad & tiles](/design-system/patterns/launchpad-and-tiles/) — one tile per app, opening where the app opens.
+- [Shell bar](/design-system/patterns/shell-bar/) — the bar above the app's navigation.
+- [Settings and setup](/design-system/patterns/settings-and-setup/) — where the setup group's forms are listed and linked.
+- <C slug="tabs">Tabs</C> — the facets of one object.
+- [Launchpad & tiles](/design-system/patterns/launchpad-and-tiles/) — one tile per app, opening where the app opens.

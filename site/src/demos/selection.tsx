@@ -21,7 +21,7 @@ const MENU: DataTableColumn<BacklogItem> = {
       label={`actions for ${code(b)}`}
       items={[
         { id: 'grab', label: 'grab now', onSelect: () => toast(`${code(b)} queued`, { state: 'success' }) },
-        { id: 'search', label: 'search again', onSelect: () => toast(`searching for ${code(b)} again`, { state: 'information' }) },
+        { id: 'search', label: 'search again', onSelect: () => toast(`Searching for ${code(b)} again`, { state: 'information' }) },
       ]}
     />
   ),

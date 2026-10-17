@@ -16,51 +16,51 @@ const headings = [
 <Doc
   frontmatter={{
     title: 'react',
-    description: 'the react implementation of the nalet design system: what the react subsite holds, install, peer dependencies, the css and the fonts.',
+    description: 'The React implementation of the nalet design system: what the React subsite holds, install, peer dependencies, the CSS and the fonts.',
     react: 'react-getting-started',
   }}
   headings={headings}
 >
   <h1>react</h1>
   <p>
-    the components are plain react with co-located css, for react 18 and 19. this site is the design guidance;
-    the <a href={REACT}>react subsite</a> is the implementation.
+    The components are plain React with co-located CSS, for React 18 and 19. This site is the design guidance;
+    the <a href={REACT}>React subsite</a> is the implementation.
   </p>
 
   <h2 id="the-react-subsite">the react subsite</h2>
-  <p>the react subsite is the storybook, at <a href={REACT}>/design-system/react/</a>. it holds:</p>
+  <p>The React subsite is the Storybook, at <a href={REACT}>/design-system/react/</a>. It holds:</p>
   <ul>
     <li>
-      <strong>a page per component</strong>, with a link back to its design guidance here: the playground, where every
+      <strong>A page per component</strong>, with a link back to its design guidance here: the playground, where every
       prop can be tried live; the examples, each with its source; the implementation notes — the native element it
       renders, the attributes it sets, its keyboard map; and the props table.
     </li>
-    <li><strong>the brand glyphs</strong> — <code>Chevron</code>, <code>Lockup</code> and <code>Icon</code> — with their props.</li>
+    <li><strong>The brand glyphs</strong> — <code>Chevron</code>, <code>Lockup</code> and <code>Icon</code> — with their props.</li>
     <li>
-      <strong>the patterns' code</strong>: the <code>Worklist</code> and <code>Portal</code> floorplans with their props, and the
+      <strong>The patterns' code</strong>: the <code>Worklist</code> and <code>Portal</code> floorplans with their props, and the
       full examples of <a href={reactDocs('patterns-selection-and-bulk-actions')}>selection and bulk actions</a> and{' '}
       <a href={reactDocs('patterns-forms-and-settings')}>forms and settings</a>.
     </li>
-    <li><strong>getting started</strong> (the setup below) and the changelog.</li>
+    <li><strong>Getting started</strong> (the setup below) and the changelog.</li>
   </ul>
   <p>
-    the examples on this site and on the react subsite are the same stories, written once in{' '}
-    <code>stories/**/*.stories.tsx</code>: the react subsite shows them with their code, this site renders them through
-    storybook's portable stories.
+    The examples on this site and on the React subsite are the same stories, written once in{' '}
+    <code>stories/**/*.stories.tsx</code>: the React subsite shows them with their code, this site renders them through
+    Storybook's portable stories.
   </p>
 
   <Setup />
 
   <h2 id="typescript">typescript</h2>
   <p>
-    the package carries its type declarations. every component exports its props type next to it (<code>ButtonProps</code>,{' '}
+    The package carries its type declarations. Every component exports its props type next to it (<code>ButtonProps</code>,{' '}
     <code>DataTableColumn</code>, <code>ObjectState</code> …), and <code>defineStates</code> checks a status table against the
-    keys you list. the typed tokens are on <a href={url('develop/tokens/')}>tokens</a>.
+    keys you list. The typed tokens are on <a href={url('develop/tokens/')}>tokens</a>.
   </p>
 
   <h2 id="in-a-portal-shell">in a portal shell</h2>
   <p>
-    an app that runs as a federated module inside the portal shell takes the design system from the shell, so a page
-    never carries two versions of it. see <a href={url('develop/apps-in-a-shell/')}>apps in a shell</a>.
+    An app that runs as a federated module inside the portal shell takes the design system from the shell, so a page
+    never carries two versions of it. See <a href={url('develop/apps-in-a-shell/')}>apps in a shell</a>.
   </p>
 </Doc>

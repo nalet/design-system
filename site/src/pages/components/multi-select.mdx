@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: multi select
-description: a facet that keeps several values — a trigger that says what is chosen, and a panel of checkboxes that opens under it.
+description: A facet that keeps several values — a trigger that says what is chosen, and a panel of checkboxes that opens under it.
 component: multi-select
 ---
 import C from '@site/components/C.astro';
@@ -11,7 +11,7 @@ import { Playground, Chosen, Small } from '@site/examples/multi-select';
 
 # multi select
 
-a facet that keeps several values: a trigger that shows the facet's name and what is chosen — `state`, `2 chosen` — and a panel of checkboxes. it is a disclosure, not a menu: `tab` moves through the checkboxes, and `esc` or a press outside closes it.
+A facet that keeps several values: a trigger that shows the facet's name and what is chosen — `state`, `2 chosen` — and a panel of checkboxes. It is a disclosure, not a menu: `tab` moves through the checkboxes, and `esc` or a press outside closes it.
 
 <Example label="a multi select, live">
   <Playground client:visible />
@@ -19,41 +19,41 @@ a facet that keeps several values: a trigger that shows the facet's name and wha
 
 ## when to use
 
-- in a <C slug="filter-bar" />, for a facet that can keep several values at once: `state` — `missing` and `on its way`.
-- for a handful of options that fit a small panel, each with a count of what it would keep, when you know it.
+- In a <C slug="filter-bar" />, for a facet that can keep several values at once: `state` — `missing` and `on its way`.
+- For a handful of options that fit a small panel, each with a count of what it would keep, when you know it.
 
 ## when not to use
 
-- **for one value at a time** — a kind, a time range. use a <C slug="select" />; the filter bar takes those as `select` facets.
-- **for a setting, or a form that submits.** use <C slug="checkbox">checkboxes</C> in a <C slug="field" />. a form sends none of the multi select's choices.
-- **for many options.** the panel has no search and no maximum height. let people type in the <C slug="filter-bar">filter bar</C>'s search instead.
-- **to run commands.** use an <C slug="action-menu" />.
+- **For one value at a time** — a kind, a time range. Use a <C slug="select" />; the filter bar takes those as `select` facets.
+- **For a setting, or a form that submits.** Use <C slug="checkbox">checkboxes</C> in a <C slug="field" />. A form sends none of the multi select's choices.
+- **For many options.** The panel has no search and no maximum height. Let people type in the <C slug="filter-bar">filter bar</C>'s search instead.
+- **To run commands.** Use an <C slug="action-menu" />.
 
 ## anatomy
 
-1. **trigger** — a button 34px tall (`md`, the default) or 28px (`sm`), with 0 × 12px padding (8px at `sm`), a 1px `--border-control` frame on `--bg-2`, square corners, jetbrains mono 13px (12px at `sm`). it holds:
-   - the facet's **label**, in `--fg-muted`, lowercase;
-   - the **summary**: the empty text (`any`) while nothing is chosen, the option's label when one is, `2 chosen` when several are. it turns `--cloud-blue` once something is chosen, and ends in an ellipsis when it is long;
-   - a 12px **chevron** in `--cloud-blue`, which turns over while the panel is open.
-2. **panel** — 4px under the trigger, lined up with its left edge: `--surface` fill, a 1px `--border-2` frame, a shadow, 8px of padding above and below. at least as wide as the trigger, at most 320px (or the viewport minus 16px).
-3. **options** — a group named by the facet's label, with one <C slug="checkbox" /> per option, 8px × 12px padding each, `--surface-2` on hover. an option's count, when you give one, follows its label in `--fg-dim`, mono 12px, tabular figures.
-4. **clear** — `clear` and the facet's label (`clear state`), at the bottom under a 1px `--border` rule, only while something is chosen.
+1. **Trigger** — a button 34px tall (`md`, the default) or 28px (`sm`), with 0 × 12px padding (8px at `sm`), a 1px `--border-control` frame on `--bg-2`, square corners, JetBrains Mono 13px (12px at `sm`). It holds:
+   - The facet's **label**, in `--fg-muted`, lowercase;
+   - The **summary**: the empty text (`any`) while nothing is chosen, the option's label when one is, `2 chosen` when several are. It turns `--cloud-blue` once something is chosen, and ends in an ellipsis when it is long;
+   - A 12px **chevron** in `--cloud-blue`, which turns over while the panel is open.
+2. **Panel** — 4px under the trigger, lined up with its left edge: `--surface` fill, a 1px `--border-2` frame, a shadow, 8px of padding above and below. At least as wide as the trigger, at most 320px (or the viewport minus 16px).
+3. **Options** — a group named by the facet's label, with one <C slug="checkbox" /> per option, 8px × 12px padding each, `--surface-2` on hover. An option's label is a filter value, in JetBrains Mono 13px, as the trigger shows it. An option's count, when you give one, follows its label in `--fg-dim`, mono 12px, tabular figures.
+4. **Clear** — `clear` and the facet's label (`clear state`), at the bottom under a 1px `--border` rule, only while something is chosen.
 
 ## variants and states
 
 | state | the trigger shows |
 | --- | --- |
-| nothing chosen | the label, then the empty text, `any` |
-| one chosen | the label, then that option's label in `--cloud-blue` |
-| several chosen | the label, then `2 chosen` in `--cloud-blue` |
-| open | the chevron turned over, and the panel under it |
-| disabled | 50% opacity. it can't be focused or opened |
+| Nothing chosen | The label, then the empty text, `any` |
+| One chosen | The label, then that option's label in `--cloud-blue` |
+| Several chosen | The label, then `2 chosen` in `--cloud-blue` |
+| Open | The chevron turned over, and the panel under it |
+| Disabled | 50% opacity. It can't be focused or opened |
 
 <Example label="with values chosen, live">
   <Chosen client:visible />
 </Example>
 
-two sizes: `md` (34px, the default) and `sm` (28px), next to other `sm` controls.
+Two sizes: `md` (34px, the default) and `sm` (28px), next to other `sm` controls.
 
 <Example label="the small size, live">
   <Small client:visible />
@@ -61,66 +61,66 @@ two sizes: `md` (34px, the default) and `sm` (28px), next to other `sm` controls
 
 ## behaviour
 
-- a disclosure: the trigger shows and hides a panel of checkboxes. opening it doesn't move focus.
-- a click on the trigger opens or closes the panel; a press anywhere outside closes it, and so does focus leaving the multi select.
-- every change applies at once. there is no apply button.
-- the arrow keys do nothing special: each checkbox is its own tab stop.
+- A disclosure: the trigger shows and hides a panel of checkboxes. Opening it doesn't move focus.
+- A click on the trigger opens or closes the panel; a press anywhere outside closes it, and so does focus leaving the multi select.
+- Every change applies at once. There is no apply button.
+- The arrow keys do nothing special: each checkbox is its own tab stop.
 
-the keyboard map and the attributes it sets are on its [react page](/design-system/react/?path=/docs/components-inputs-multi-select--docs).
+The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-inputs-multi-select--docs).
 
 ## accessibility
 
-- the trigger's name is its text: the facet's label, then the summary — "state 2 chosen". write the label so the two read as a phrase.
-- the checkboxes are announced as one group, named by the facet's label. each is named by its option's label and count.
-- a closed panel is not read and not focusable.
-- focus is never moved for you, except back to the trigger on `esc`.
-- the trigger and `clear` show a 2px `--focus-ring` outline; each checkbox shows its own.
+- The trigger's name is its text: the facet's label, then the summary — "state 2 chosen". Write the label so the two read as a phrase.
+- The checkboxes are announced as one group, named by the facet's label. Each is named by its option's label and count.
+- A closed panel is not read and not focusable.
+- Focus is never moved for you, except back to the trigger on `esc`.
+- The trigger and `clear` show a 2px `--focus-ring` outline; each checkbox shows its own.
 
-today:
+Today:
 
 - `clear` closes the panel and moves focus back to the trigger: the button itself goes once nothing is chosen.
-- `clear` is fixed english — "clear" and the label — and can't be translated.
-- the panel always opens below, from the trigger's left edge, with no flip near the viewport's edges, and it has no maximum height.
+- `clear` is fixed English — "clear" and the label — and can't be translated.
+- The panel always opens below, from the trigger's left edge, with no flip near the viewport's edges, and it has no maximum height.
 
 ## content
 
-- **label** — the facet's name, a noun: `state`, `aired`, `kind`.
-- **options** — the values in the list's words, in an order that means something (the states in their usual order, not sorted by count): `missing`, `on its way`, `needs attention`.
-- **counts** — how many items each option would keep, when you know it.
-- **empty text** — what no choice means: `any`, the default, or `all states`.
+- **Label** — the facet's name, a noun: `state`, `aired`, `kind`.
+- **Options** — the values in the list's words, in an order that means something (the states in their usual order, not sorted by count): `missing`, `on its way`, `needs attention`.
+- **Counts** — how many items each option would keep, when you know it.
+- **Empty text** — what no choice means: `any`, the default, or `all states`.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="several values of one facet, kept together.">
+  <Do caption="Several values of one facet, kept together.">
     <DemoMulti client:visible label="state" options={STATES} initial={['way', 'attention']} />
   </Do>
-  <Dont caption="values that exclude each other: newest and oldest can both be ticked. one value at a time is a select.">
+  <Dont caption="Values that exclude each other: newest and oldest can both be ticked. One value at a time is a select.">
     <DemoMulti client:visible label="sort" options={[{ value: 'new', label: 'newest first' }, { value: 'old', label: 'oldest first' }]} />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="the label names the facet, so the trigger reads as a phrase: “state any”.">
+  <Do caption="The label names the facet, so the trigger reads as a phrase: “state any”.">
     <DemoMulti client:visible label="state" options={STATES} />
   </Do>
-  <Dont caption="a label that says what to do instead of what it filters: the trigger reads “select any”.">
+  <Dont caption="A label that says what to do instead of what it filters: the trigger reads “select any”.">
     <DemoMulti client:visible label="select" options={STATES} />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="a handful of options, each with what it would keep.">
+  <Do caption="A handful of options, each with what it would keep.">
     <DemoMulti client:visible label="aired" options={[{ value: 'week', label: 'this week', count: 40 }, { value: 'month', label: 'this month', count: 210 }, { value: 'older', label: 'older', count: 2250 }]} />
   </Do>
-  <Dont caption="a long list with no search: the panel grows past the screen. let people search for these instead.">
+  <Dont caption="A long list with no search: the panel grows past the screen. Let people search for these instead.">
     <DemoMulti client:visible label="series" options={SERIES} />
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="filter-bar" /> — where multi selects live, next to the search and the select facets.
-- <C slug="select" /> — one value at a time.
-- <C slug="checkbox" /> — the native box each option is.
-- <C slug="action-menu" /> — a menu of commands: the pattern this is not.
+- <C slug="filter-bar">Filter bar</C> — where multi selects live, next to the search and the select facets.
+- <C slug="select">Select</C> — one value at a time.
+- <C slug="checkbox">Checkbox</C> — the native box each option is.
+- <C slug="action-menu">Action menu</C> — a menu of commands: the pattern this is not.

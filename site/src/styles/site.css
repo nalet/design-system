@@ -359,14 +359,15 @@ body {
   border-left: 1px solid var(--border);
 }
 
+/* "on this page" is navigation and repeats the headings: the monospace voice. */
 .ds-toc a {
   display: block;
   padding: 3px var(--s-3);
   min-height: 24px;
   box-sizing: border-box;
   color: var(--fg-muted);
-  font-family: var(--ff-ui);
-  font-size: 13px;
+  font-family: var(--ff-mono);
+  font-size: 12px;
   line-height: 18px;
   text-decoration: none;
 }
@@ -1069,7 +1070,9 @@ a.ds-card:focus-visible {
 }
 
 .ds-search .pagefind-ui__result-link,
-.ds-search .pagefind-ui__result-title {
+.ds-search .pagefind-ui__result-title,
+.ds-search .pagefind-ui__search-clear,
+.ds-search .pagefind-ui__button {
   font-family: var(--ff-mono);
 }
 

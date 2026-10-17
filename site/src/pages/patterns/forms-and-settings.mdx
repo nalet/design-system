@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: forms and settings
-description: switches for what applies at once, a form for what waits for save, one footer with one emphasized action, and errors that appear on save and say how to fix them.
+description: Switches for what applies at once, a form for what waits for save, one footer with one emphasized action, and errors that appear on save and say how to fix them.
 react: patterns-forms-and-settings
 ---
 import { Button, Checkbox, MessageStrip, ObjectStatus, Stack, Switch, Toaster } from '@nalet/design-system';
@@ -12,7 +12,7 @@ import { Settings, FailedValidation, SaveFails } from '@site/examples/forms';
 
 # forms and settings
 
-a settings page: switches for what applies at once, a form for what waits for save, one footer with one emphasized action, and errors that appear on save and say how to fix them.
+A settings page: switches for what applies at once, a form for what waits for save, one footer with one emphasized action, and errors that appear on save and say how to fix them.
 
 <Example label="a settings page, live">
   <Settings client:visible />
@@ -20,56 +20,56 @@ a settings page: switches for what applies at once, a form for what waits for sa
 
 ## when to use
 
-- for a page or a panel of settings that people change now and then: a schedule, limits, what to include, how things show.
-- for any form that ends in a save: creating an object, editing one.
-- an app's own setup views are forms like this one; where each kind of configuration lives is [settings and setup](/design-system/patterns/settings-and-setup/).
+- For a page or a panel of settings that people change now and then: a schedule, limits, what to include, how things show.
+- For any form that ends in a save: creating an object, editing one.
+- An app's own setup views are forms like this one; where each kind of configuration lives is [settings and setup](/design-system/patterns/settings-and-setup/).
 
 ## when not to use
 
-- **to filter or search a list.** use the <C slug="filter-bar" />: filters apply as they change, and nothing is saved.
-- **for a decision that has to come first**, such as confirming a delete. use a <C slug="modal" /> with the question and two actions.
-- **for one action with nothing to fill in**: check now, restart. use a <C slug="button" />, or the <C slug="toolbar">toolbar</C> above the list it acts on.
-- **for settings that each apply on their own, at once.** they need no form and no footer: a card of <C slug="switch">switches</C>, like `alerts` above.
+- **To filter or search a list.** Use the <C slug="filter-bar" />: filters apply as they change, and nothing is saved.
+- **For a decision that has to come first**, such as confirming a delete. Use a <C slug="modal" /> with the question and two actions.
+- **For one action with nothing to fill in**: check now, restart. Use a <C slug="button" />, or the <C slug="toolbar">toolbar</C> above the list it acts on.
+- **For settings that each apply on their own, at once.** They need no form and no footer: a card of <C slug="switch">switches</C>, like `alerts` above.
 
 ## anatomy
 
-1. **page title** — a <C slug="heading" />, the page's `h1` in an app (`h2` in the example, where this page owns the `h1`), with a muted line of facts under it.
-2. **page message** (after a save that changed what the page shows) — a success <C slug="message-strip" /> with a dismiss, above the content.
-3. **instant settings** — a <C slug="card" /> of <C slug="switch">switches</C>, each with its own label and, where the effect isn't obvious, a <C slug="field" /> hint. no footer.
-4. **the form** — a form named by its card's title, so it is a landmark people can jump to.
-5. **summary** (after a save that found errors, on a long form) — an error message strip at the top of the form that counts what needs a fix and names it.
-6. **fields** — a <C slug="field" /> around each <C slug="input" />, <C slug="select" /> and <C slug="textarea" />: label, hint, and the error in place of the hint. 16px between fields.
-7. **option groups** — a group whose legend asks the question, holding <C slug="checkbox">checkboxes</C> 8px apart. for one choice out of two or three, a radio group in the same kind of group; out of more, a select.
-8. **footer** — the card's footer: the unsaved-changes signal (<C slug="object-status" /> as text, `information`), `cancel` (a ghost <C slug="button" />) and `save changes` (primary, the form's submit), at the end of the row, 8px apart.
-9. **confirmation** — a <C slug="toast" />, from the one toaster at the app's root.
+1. **Page title** — a <C slug="heading" />, the page's `h1` in an app (`h2` in the example, where this page owns the `h1`), with a muted line of facts under it.
+2. **Page message** (after a save that changed what the page shows) — a success <C slug="message-strip" /> with a dismiss, above the content.
+3. **Instant settings** — a <C slug="card" /> of <C slug="switch">switches</C>, each with its own label and, where the effect isn't obvious, a <C slug="field" /> hint. No footer.
+4. **The form** — a form named by its card's title, so it is a landmark people can jump to.
+5. **Summary** (after a save that found errors, on a long form) — an error message strip at the top of the form that counts what needs a fix and names it.
+6. **Fields** — a <C slug="field" /> around each <C slug="input" />, <C slug="select" /> and <C slug="textarea" />: label, hint, and the error in place of the hint. 16px between fields.
+7. **Option groups** — a group whose legend asks the question, holding <C slug="checkbox">checkboxes</C> 8px apart. For one choice out of two or three, a radio group in the same kind of group; out of more, a select.
+8. **Footer** — the card's footer: the unsaved-changes signal (<C slug="object-status" /> as text, `information`), `cancel` (a ghost <C slug="button" />) and `save changes` (primary, the form's submit), at the end of the row, 8px apart.
+9. **Confirmation** — a <C slug="toast" />, from the one toaster at the app's root.
 
 ## behaviour
 
 ### instant or saved
 
-- a <C slug="switch" /> applies the moment it is flipped. switches sit outside the form, in a card with no footer. confirm a change that shows somewhere else, or takes a while, with a toast (`email alerts off`). if applying fails, set the switch back and say why in an error strip.
-- a <C slug="checkbox" /> is part of the form: it waits for save, like every field.
-- never mix the two. a switch above a save button leaves people unsure whether it applied; a checkbox with no save button sends them looking for one.
-- the library has no radio component. a native radio group works in a fieldset, with the browser's own look.
+- A <C slug="switch" /> applies the moment it is flipped. Switches sit outside the form, in a card with no footer. Confirm a change that shows somewhere else, or takes a while, with a toast (`Email alerts off`). If applying fails, set the switch back and say why in an error strip.
+- A <C slug="checkbox" /> is part of the form: it waits for save, like every field.
+- Never mix the two. A switch above a save button leaves people unsure whether it applied; a checkbox with no save button sends them looking for one.
+- The library has no radio component. A native radio group works in a fieldset, with the browser's own look.
 
 ### the footer and unsaved changes
 
-- one footer, at the end of the form. `save changes` is its one emphasized action; `cancel` is a ghost button before it. on a page people reached from somewhere else, cancel can also take them back.
-- the form has unsaved changes when a value differs from the last saved one. typing a value back to what was saved makes it clean again; focus and visits don't count.
-- while there are unsaved changes, the footer says so, next to the buttons: `unsaved changes`.
-- **save stays enabled**, with or without changes, with or without errors. a disabled button is skipped by `tab`, so keyboard users may never reach it, and it can't say why it is off. an enabled save answers when it is pressed: with no changes, a toast says `no changes to save`; with errors, the errors show.
-- `cancel` puts every field back to its saved value and clears the errors. it doesn't ask first: nothing that was saved is lost.
-- on a form taller than the screen, keep the footer in view: it sticks to the bottom of the viewport while the form scrolls.
-- today: the library has nothing that warns before people leave a page with unsaved changes. the app does it, with its router or the browser's leave-page prompt.
+- One footer, at the end of the form. `save changes` is its one emphasized action; `cancel` is a ghost button before it. On a page people reached from somewhere else, cancel can also take them back.
+- The form has unsaved changes when a value differs from the last saved one. Typing a value back to what was saved makes it clean again; focus and visits don't count.
+- While there are unsaved changes, the footer says so, next to the buttons: `unsaved changes`.
+- **Save stays enabled**, with or without changes, with or without errors. A disabled button is skipped by `tab`, so keyboard users may never reach it, and it can't say why it is off. An enabled save answers when it is pressed: with no changes, a toast says `No changes to save`; with errors, the errors show.
+- `cancel` puts every field back to its saved value and clears the errors. It doesn't ask first: nothing that was saved is lost.
+- On a form taller than the screen, keep the footer in view: it sticks to the bottom of the viewport while the form scrolls.
+- Today: the library has nothing that warns before people leave a page with unsaved changes. The app does it, with its router or the browser's leave-page prompt.
 
 ### validation
 
-- **check on save**, not while people type, and not when they leave a field. an error that appears on blur scolds people for a field they are only passing through, or haven't finished.
-- once a field shows an error, check it again on every change, so the error goes the moment the value is right.
-- save checks every field, shows the error at each one that's wrong, and sends nothing. the field marks its control invalid and gives it the `--state-error` border.
-- **then focus the first invalid control**, in reading order. people hear its name, that it is invalid, and its error, and they start where the problem is.
-- **on a long form, also summarise at the top**: an error message strip that counts what needs a fix and names it in the labels' words. it follows the fixes and goes when nothing is left. a long form is one with more than one group, or one that scrolls; a short form that fits on the screen needs only the field errors.
-- the save button never turns off to signal an error.
+- **Check on save**, not while people type, and not when they leave a field. An error that appears on blur scolds people for a field they are only passing through, or haven't finished.
+- Once a field shows an error, check it again on every change, so the error goes the moment the value is right.
+- Save checks every field, shows the error at each one that's wrong, and sends nothing. The field marks its control invalid and gives it the `--state-error` border.
+- **Then focus the first invalid control**, in reading order. People hear its name, that it is invalid, and its error, and they start where the problem is.
+- **On a long form, also summarise at the top**: an error message strip that counts what needs a fix and names it in the labels' words. It follows the fixes and goes when nothing is left. A long form is one with more than one group, or one that scrolls; a short form that fits on the screen needs only the field errors.
+- The save button never turns off to signal an error.
 
 <Example label="after a save with errors, live">
   <FailedValidation client:visible />
@@ -77,9 +77,9 @@ a settings page: switches for what applies at once, a form for what waits for sa
 
 ### when the save fails
 
-- the request itself can fail. say it in an error message strip at the top of the form, with the way forward, `try again`; the technical part (the code, the service) goes behind `details`.
-- the fields keep what people typed, and the changes stay unsaved.
-- never a toast: it leaves on its own after five seconds, and the work still isn't saved.
+- The request itself can fail. Say it in an error message strip at the top of the form, with the way forward, `try again`; the technical part (the code, the service) goes behind `details`.
+- The fields keep what people typed, and the changes stay unsaved.
+- Never a toast: it leaves on its own after five seconds, and the work still isn't saved.
 
 <Example label="when the save fails, live">
   <SaveFails client:visible />
@@ -87,57 +87,57 @@ a settings page: switches for what applies at once, a form for what waits for sa
 
 ### after a save
 
-- while the save runs, `save changes` shows its busy state, so a second press can't send the form twice.
-- when it is done, the fields show the saved values and `unsaved changes` goes.
-- confirm with a <C slug="toast" />: `settings saved`. a second save replaces that toast instead of stacking another.
-- when the save changes what the page shows — every time on the page now in utc, archived items now in the list — say so in a success strip above the content, with a dismiss: `saved. times on this page now show in utc.` the change happened where people weren't looking; the strip says why, and it stays until they dismiss it. no toast as well.
+- While the save runs, `save changes` shows its busy state, so a second press can't send the form twice.
+- When it is done, the fields show the saved values and `unsaved changes` goes.
+- Confirm with a <C slug="toast" />: `Settings saved`. A second save replaces that toast instead of stacking another.
+- When the save changes what the page shows — every time on the page now in UTC, archived items now in the list — say so in a success strip above the content, with a dismiss: `Saved. Times on this page now show in UTC.` The change happened where people weren't looking; the strip says why, and it stays until they dismiss it. No toast as well.
 
 ## keyboard and accessibility
 
 | key | does |
 | --- | --- |
-| `tab` / `shift+tab` | moves through the switches, the fields, the options, then `cancel` and `save changes`, in reading order. |
-| `enter` in a text field | submits the form: it presses `save changes`. |
-| `space` | toggles a focused checkbox or switch, presses a focused button. |
-| arrow keys | on a select, step through its options or open its list, depending on the system; in a radio group, move to the next radio and choose it. |
-| `esc` | nothing on the form itself. it closes the innermost open thing, such as a select's list. don't bind it to cancel. |
+| `tab` / `shift+tab` | Moves through the switches, the fields, the options, then `cancel` and `save changes`, in reading order. |
+| `enter` in a text field | Submits the form: it presses `save changes`. |
+| `space` | Toggles a focused checkbox or switch, presses a focused button. |
+| Arrow keys | On a select, step through its options or open its list, depending on the system; in a radio group, move to the next radio and choose it. |
+| `esc` | Nothing on the form itself. It closes the innermost open thing, such as a select's list. Don't bind it to cancel. |
 
-- the form is named by its card's title, so it is a landmark people can jump to.
-- only `save changes` submits the form. `enter` presses the form's first submit button, so a `cancel` that submitted, placed before save, would be the one it presses.
-- the browser's own error bubbles stay out of the way; required fields still say "required" to assistive tech.
-- a field's error is not announced when it appears. moving focus to the first invalid control is what gets it read.
-- the error strips are alerts, read as they appear and again each time their text changes: once per fix. the success strip is a polite status.
-- today: a strip arrives with its text already in it. an alert is read on arrival, but not every screen reader reads a polite status that appears already filled, so a success strip can pass in silence. the toast's region is always on the page and doesn't have that problem.
-- today: the busy save button is disabled, and a disabled button can't keep focus, so the browser may move focus to the page while the save runs. when it ends, put focus back on save if it was lost, as the example does.
-- today: a toast stays five seconds, and only a pointer resting on it pauses it; the keyboard can't. never put anything in it that people need later: the saved form is the record.
-- today: a field's error around a checkbox or a switch doesn't mark the box. check option groups as a whole, and say what is wrong in the summary strip.
-- today: there is no fieldset or radio component. a native fieldset, reset, with its legend in the field label's look (inter 500, 13px, `--fg-2`), does the job.
+- The form is named by its card's title, so it is a landmark people can jump to.
+- Only `save changes` submits the form. `enter` presses the form's first submit button, so a `cancel` that submitted, placed before save, would be the one it presses.
+- The browser's own error bubbles stay out of the way; required fields still say "required" to assistive tech.
+- A field's error is not announced when it appears. Moving focus to the first invalid control is what gets it read.
+- The error strips are alerts, read as they appear and again each time their text changes: once per fix. The success strip is a polite status.
+- Today: a strip arrives with its text already in it. An alert is read on arrival, but not every screen reader reads a polite status that appears already filled, so a success strip can pass in silence. The toast's region is always on the page and doesn't have that problem.
+- Today: the busy save button is disabled, and a disabled button can't keep focus, so the browser may move focus to the page while the save runs. When it ends, put focus back on save if it was lost, as the example does.
+- Today: a toast stays five seconds, and only a pointer resting on it pauses it; the keyboard can't. Never put anything in it that people need later: the saved form is the record.
+- Today: a field's error around a checkbox or a switch doesn't mark the box. Check option groups as a whole, and say what is wrong in the summary strip.
+- Today: there is no fieldset or radio component. A native fieldset, reset, with its legend in the field label's look (Inter 500, 13px, `--fg-2`), does the job.
 
-how the example is built — the form element, the submit button, `noValidate`, finding the first invalid control — is on the [react page](/design-system/react/?path=/docs/patterns-forms-and-settings--docs).
+How the example is built — the form element, the submit button, `noValidate`, finding the first invalid control — is on the [React page](/design-system/react/?path=/docs/patterns-forms-and-settings--docs).
 
 ## content
 
-- **title** — what the settings are about: `backup settings`.
-- **labels, hints and errors** — as the <C slug="field" /> page says. a noun phrase for the label, `retention (days)`; an error that says how to fix it, `use a whole number from 1 to 90`.
-- **legend** — the question the options answer: `back up`, `notify me about`.
-- **footer** — `save changes` and `cancel`. never `ok`, `submit` or `apply`.
-- **the signal** — `unsaved changes`. nothing while there are none.
-- **summary** — `couldn't save.`, then the count and the labels: `2 settings need a fix: backup host and retention (days).`
-- **a failed save** — what happened, and that nothing is lost: `couldn't save the settings. your changes are still here.` the code goes in `details`.
-- **toasts** — the object and what happened to it, no full stop: `settings saved`, `email alerts off`, `no changes to save`.
-- **success strip** — `saved.`, then what changed on the page: `saved. times on this page now show in utc.`
+- **Title** — what the settings are about: `backup settings`.
+- **Labels, hints and errors** — as the <C slug="field" /> page says, in sentence case. A noun phrase for the label, `Retention (days)`; an error that says how to fix it, `Use a whole number from 1 to 90`.
+- **Legend** — the question the options answer: `Back up`, `Notify me about`.
+- **Footer** — `save changes` and `cancel`. Never `ok`, `submit` or `apply`.
+- **The signal** — `unsaved changes`. Nothing while there are none.
+- **Summary** — `Couldn't save.`, then the count and the labels as they are written: `2 settings need a fix: Backup host and Retention (days).`
+- **A failed save** — what happened, and that nothing is lost: `Couldn't save the settings. Your changes are still here.` The code goes in `details`.
+- **Toasts** — the object and what happened to it, in sentence case, no full stop: `Settings saved`, `Email alerts off`, `No changes to save`.
+- **Success strip** — `Saved.`, then what changed on the page: `Saved. Times on this page now show in UTC.`
 
 ## do and don't
 
 <DoDont>
-  <Do caption="one emphasized action at the end; cancel is a ghost before it.">
+  <Do caption="One emphasized action at the end; cancel is a ghost before it.">
     <Stack direction="horizontal" gap={8} align="center" justify="end" wrap>
       <ObjectStatus appearance="text" state="information">unsaved changes</ObjectStatus>
       <Button variant="ghost">cancel</Button>
       <Button variant="primary">save changes</Button>
     </Stack>
   </Do>
-  <Dont caption="two emphasized actions: which one finishes the form?">
+  <Dont caption="Two emphasized actions: which one finishes the form?">
     <Stack direction="horizontal" gap={8} align="center" justify="end" wrap>
       <Button variant="primary">cancel</Button>
       <Button variant="primary">save changes</Button>
@@ -146,13 +146,13 @@ how the example is built — the form element, the submit button, `noValidate`, 
 </DoDont>
 
 <DoDont>
-  <Do caption="save stays enabled; the signal says there is something to save. press it to see.">
+  <Do caption="Save stays enabled; the signal says there is something to save. Press it to see.">
     <Stack direction="horizontal" gap={8} align="center" justify="end" wrap>
       <ObjectStatus appearance="text" state="information">unsaved changes</ObjectStatus>
-      <ToastButton client:visible variant="primary" label="save changes" message="settings saved" state="success" id="forms-do" />
+      <ToastButton client:visible variant="primary" label="save changes" message="Settings saved" state="success" id="forms-do" />
     </Stack>
   </Do>
-  <Dont caption="a disabled save is skipped by tab, and it never says why it is off.">
+  <Dont caption="A disabled save is skipped by tab, and it never says why it is off.">
     <Stack direction="horizontal" gap={8} align="center" justify="end" wrap>
       <Button variant="primary" disabled>save changes</Button>
     </Stack>
@@ -160,14 +160,14 @@ how the example is built — the form element, the submit button, `noValidate`, 
 </DoDont>
 
 <DoDont>
-  <Do caption="in a form that is saved, an option is a checkbox: it waits for save." column>
-    <Checkbox label="back up configuration" />
+  <Do caption="In a form that is saved, an option is a checkbox: it waits for save." column>
+    <Checkbox label="Back up configuration" />
     <div>
       <Button variant="primary">save changes</Button>
     </div>
   </Do>
-  <Dont caption="a switch above a save button: does it apply now, or on save?" column>
-    <Switch label="back up configuration, applies at once" />
+  <Dont caption="A switch above a save button: does it apply now, or on save?" column>
+    <Switch label="Back up configuration, applies at once" />
     <div>
       <Button variant="primary">save changes</Button>
     </div>
@@ -175,36 +175,36 @@ how the example is built — the form element, the submit button, `noValidate`, 
 </DoDont>
 
 <DoDont>
-  <Do caption="a failed save is a strip that stays, with the way forward." column>
+  <Do caption="A failed save is a strip that stays, with the way forward." column>
     <MessageStrip client:visible state="error" live="off" details="the settings service answered 503 service unavailable">
       <Fragment slot="actions"><Button size="sm" variant="ghost">try again</Button></Fragment>
-      couldn't save the settings. your changes are still here.
+      Couldn't save the settings. Your changes are still here.
     </MessageStrip>
   </Do>
-  <Dont caption="an error in a toast is gone in five seconds, maybe unread, and the work isn't saved. press it to see." column>
+  <Dont caption="An error in a toast is gone in five seconds, maybe unread, and the work isn't saved. Press it to see." column>
     <div>
-      <ToastButton client:visible variant="primary" label="save changes" message="couldn't save the settings" state="error" id="forms-dont" />
+      <ToastButton client:visible variant="primary" label="save changes" message="Couldn't save the settings" state="error" id="forms-dont" />
     </div>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="a plain save is confirmed by a toast that leaves on its own. press it to see." column>
+  <Do caption="A plain save is confirmed by a toast that leaves on its own. Press it to see." column>
     <div>
-      <ToastButton client:visible variant="primary" label="save changes" message="settings saved" state="success" id="forms-do" />
+      <ToastButton client:visible variant="primary" label="save changes" message="Settings saved" state="success" id="forms-do" />
     </div>
   </Do>
-  <Dont caption="a strip for a plain confirmation stays on the page long after it was news." column>
-    <MessageStrip state="success" live="off">settings saved.</MessageStrip>
+  <Dont caption="A strip for a plain confirmation stays on the page long after it was news." column>
+    <MessageStrip state="success" live="off">Settings saved.</MessageStrip>
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="field" /> — the label, hint and error around each control.
-- [message handling](/design-system/patterns/message-handling/) — when a message is a strip, a toast or inline.
-- <C slug="switch" /> — the setting that applies at once.
-- <C slug="toast" /> — the confirmation after a save.
-- [settings and setup](/design-system/patterns/settings-and-setup/) — where each kind of configuration is edited.
+- <C slug="field">Field</C> — the label, hint and error around each control.
+- [Message handling](/design-system/patterns/message-handling/) — when a message is a strip, a toast or inline.
+- <C slug="switch">Switch</C> — the setting that applies at once.
+- <C slug="toast">Toast</C> — the confirmation after a save.
+- [Settings and setup](/design-system/patterns/settings-and-setup/) — where each kind of configuration is edited.
 
 <Toaster client:idle />

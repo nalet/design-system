@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: message handling
-description: say each thing once, in the one place that fits what it is about and how long it is true.
+description: Say each thing once, in the one place that fits what it is about and how long it is true.
 ---
 import { Button, MessageStrip, ObjectStatus, Toaster } from '@nalet/design-system';
 import C from '@site/components/C.astro';
@@ -11,7 +11,7 @@ import { ToastButton } from '@site/demos/ToastButton';
 
 # message handling
 
-say each thing once, in the one place that fits what it is about and how long it is true.
+Say each thing once, in the one place that fits what it is about and how long it is true.
 
 <Example label="the four places a message goes" column>
   <MessageStrip client:visible state="warning" live="off" details="the catalog holds a title of this name without an identity (item 3f2a9c1e-5b7d-4c11-9e02-6a1d0b8f4c21)">105 titles can&apos;t be checked: the catalog holds them without an identity.</MessageStrip>
@@ -19,71 +19,71 @@ say each thing once, in the one place that fits what it is about and how long it
     <ObjectStatus state="error">needs attention</ObjectStatus>
     <ToastButton client:visible size="sm" variant="primary" label="grab 8 selected" message="8 episodes queued" state="success" />
   </div>
-  <FieldWithError label="storage floor (gb)" value="fifty" error="must be a number" />
+  <FieldWithError label="Storage floor (GB)" value="fifty" error="Must be a number" />
 </Example>
 
 ## which one
 
 | the message is about | it lasts | use | for example |
 | --- | --- | --- | --- |
-| a condition of the page's content | until the condition changes | **message strip** — information, warning or error | `105 titles can't be checked: the catalog holds them without an identity.` |
-| a load that failed, with older content still on screen | until it works again | **message strip, warning**: say how old the content is, offer "try again", raw error under details | `couldn't refresh the list; it shows what was loaded 4m ago.` |
-| a load that failed, with nothing to show | until it works again | **illustrated message, error** in place of the list, with "try again" — see [empty states](/design-system/patterns/empty-states/) | `couldn't load the list` · `try again` |
-| an action the person just took, that worked | a few seconds | **toast** — never focused, no actions | `8 episodes queued · 2 skipped: held already or under way` |
-| an action that failed | until dismissed or retried | **message strip, error**, dismissible, raw error under details | `couldn't queue the grab.` |
-| one item's state | as long as the item has it | **object status** / **status cell** | `needs attention` · `the release was removed by its source` |
-| one field's value | until it is fixed | **field error** | `must be a number` |
-| technical detail behind any of these | on request | the strip's **details** disclosure, or a row's `<details>` | `item 3f2a9c1e-…`, `http 502 bad gateway` |
-| a decision before going on | until answered | **modal** — for the decision, not for the message | `delete volume` |
-| work under way | until it is done | a **loader** or a progress value — see [loading and progress](/design-system/patterns/loading-and-progress/) | `62% · 1.4 of 2.2 gb` |
+| A condition of the page's content | Until the condition changes | **Message strip** — information, warning or error | `105 titles can't be checked: the catalog holds them without an identity.` |
+| A load that failed, with older content still on screen | Until it works again | **Message strip, warning**: say how old the content is, offer "try again", raw error under details | `Couldn't refresh the list; it shows what was loaded 4m ago.` |
+| A load that failed, with nothing to show | Until it works again | **Illustrated message, error** in place of the list, with "try again" — see [empty states](/design-system/patterns/empty-states/) | `couldn't load the list` · `try again` |
+| An action the person just took, that worked | A few seconds | **Toast** — never focused, no actions | `8 episodes queued · 2 skipped: held already or under way` |
+| An action that failed | Until dismissed or retried | **Message strip, error**, dismissible, raw error under details | `Couldn't queue the grab.` |
+| One item's state | As long as the item has it | **Object status** / **status cell** | `needs attention` · `the release was removed by its source` |
+| One field's value | Until it is fixed | **Field error** | `Must be a number` |
+| Technical detail behind any of these | On request | The strip's **details** disclosure, or a row's `<details>` | `item 3f2a9c1e-…`, `http 502 bad gateway` |
+| A decision before going on | Until answered | **Modal** — for the decision, not for the message | `delete volume` |
+| Work under way | Until it is done | A **loader** or a progress value — see [loading and progress](/design-system/patterns/loading-and-progress/) | `62% · 1.4 of 2.2 gb` |
 
 ## rules
 
-- **one place per message.** an error is a strip *or* a toast, never both; a row's status is not repeated in a strip.
-- **at most one or two strips** on a screen. a third means the screen has a problem to fix, not a message to add.
-- **toasts are for success and progress.** never for an error a person must act on — it would leave before they read it — and never with an action in it.
-- **errors say what failed and offer the way forward**: `couldn't load the list.` + `try again`. the raw error goes under details.
-- **keep what is known.** when a refresh fails, keep showing the last data and say how old it is, as a warning.
-- **no ids, codes or raw errors in primary text.** they go behind details.
+- **One place per message.** An error is a strip *or* a toast, never both; a row's status is not repeated in a strip.
+- **At most one or two strips** on a screen. A third means the screen has a problem to fix, not a message to add.
+- **Toasts are for success and progress.** Never for an error a person must act on — it would leave before they read it — and never with an action in it.
+- **Errors say what failed and offer the way forward**: `Couldn't load the list.` + `try again`. The raw error goes under details.
+- **Keep what is known.** When a refresh fails, keep showing the last data and say how old it is, as a warning.
+- **No IDs, codes or raw errors in primary text.** They go behind details.
 
 ## behaviour
 
-- a strip stays until its condition changes. the strip doesn't remember a dismissal — the screen does: bring a dismissed strip back when its condition changes again (a new count, a new failure).
-- a toast leaves after five seconds, pauses while hovered, and at most three are shown.
-- error strips are announced the moment they appear, as alerts; other strips politely.
-- focus never moves to a message. after a failed form save, focus moves to the first invalid field instead — see [forms and settings](/design-system/patterns/forms-and-settings/).
+- A strip stays until its condition changes. The strip doesn't remember a dismissal — the screen does: bring a dismissed strip back when its condition changes again (a new count, a new failure).
+- A toast leaves after five seconds, pauses while hovered, and at most three are shown.
+- Error strips are announced the moment they appear, as alerts; other strips politely.
+- Focus never moves to a message. After a failed form save, focus moves to the first invalid field instead — see [forms and settings](/design-system/patterns/forms-and-settings/).
 
 ## content
 
-- a strip: one or two sentences — what is true, and what it means for this screen. actions are verbs: `show them`, `ask the catalog again`, `try again`.
-- a toast: what happened, in counts: `8 episodes queued`. no "successfully", no full stop needed.
-- an error: `couldn't …` + the object, then the way forward. no blame, no "oops".
+- A strip: one or two sentences, in sentence case — what is true, and what it means for this screen. Actions are verbs: `show them`, `ask the catalog again`, `try again`.
+- A toast: what happened, in counts: `8 episodes queued`. No "successfully", no full stop needed.
+- An error: `Couldn't …` + the object, then the way forward. No blame, no "oops".
 
 ## do and don't
 
 <DoDont>
-  <Do caption="a failed action: an error strip with the raw text one click away." column>
-    <MessageStrip client:visible state="error" live="off" details="POST /api/targets/grab: http 503 service unavailable">couldn&apos;t queue the grab.</MessageStrip>
+  <Do caption="A failed action: an error strip with the raw text one click away." column>
+    <MessageStrip client:visible state="error" live="off" details="POST /api/targets/grab: http 503 service unavailable">Couldn&apos;t queue the grab.</MessageStrip>
   </Do>
-  <Dont caption="an error in a toast: gone before it is read, nothing to act on.">
-    <ToastButton client:visible label="show it" message="error 503: service unavailable" state="error" />
+  <Dont caption="An error in a toast: gone before it is read, nothing to act on.">
+    <ToastButton client:visible label="show it" message="Error 503: service unavailable" state="error" />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="a toast for the result of an action, in counts.">
+  <Do caption="A toast for the result of an action, in counts.">
     <ToastButton client:visible size="sm" variant="primary" label="grab 8 selected" message="8 episodes queued" state="success" />
   </Do>
-  <Dont caption="a strip that stays forever for something that happened once." column>
-    <MessageStrip state="success" live="off">success! your grab request was submitted successfully.</MessageStrip>
+  <Dont caption="A strip that stays forever for something that happened once." column>
+    <MessageStrip state="success" live="off">Success! Your grab request was submitted successfully.</MessageStrip>
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="message-strip" />, <C slug="toast" />, <C slug="field" />, <C slug="object-status" /> — the components.
-- [content & voice](/design-system/foundations/content-voice/) — how messages are written.
-- [empty states](/design-system/patterns/empty-states/) — when the message is that there is nothing.
-- [loading and progress](/design-system/patterns/loading-and-progress/) — while something is under way.
+- <C slug="message-strip">Message strip</C>, <C slug="toast" />, <C slug="field" />, <C slug="object-status" /> — the components.
+- [Content & voice](/design-system/foundations/content-voice/) — how messages are written.
+- [Empty states](/design-system/patterns/empty-states/) — when the message is that there is nothing.
+- [Loading and progress](/design-system/patterns/loading-and-progress/) — while something is under way.
 
 <Toaster client:idle />

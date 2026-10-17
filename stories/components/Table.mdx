@@ -5,7 +5,7 @@ import * as TableStories from './Table.stories';
 
 # table
 
-design guidance — when to use it, its parts, density, cells, overflow, the words: **[table on the guidelines site →](https://nalet.github.io/design-system/components/table/)**
+Design guidance — when to use it, its parts, density, cells, overflow, the words: **[table on the guidelines site →](https://nalet.github.io/design-system/components/table/)**
 
 <Canvas of={TableStories.Playground} />
 
@@ -27,7 +27,7 @@ design guidance — when to use it, its parts, density, cells, overflow, the wor
 
 <Canvas of={TableStories.Empty} />
 
-seven columns in a container 360px wide: the frame scrolls sideways.
+Seven columns in a container 360px wide: the frame scrolls sideways.
 
 <Canvas of={TableStories.Overflow} />
 
@@ -37,30 +37,30 @@ seven columns in a container 360px wide: the frame scrolls sideways.
 
 ## implementation notes
 
-- renders a `div` scroll frame (`overflow-x: auto`) around a native `table`, with native semantics: `table`, `thead`, `tbody`, and a `th scope="col"` for every column, so each cell is announced with its header.
-- each column is an object:
+- Renders a `div` scroll frame (`overflow-x: auto`) around a native `table`, with native semantics: `table`, `thead`, `tbody`, and a `th scope="col"` for every column, so each cell is announced with its header.
+- Each column is an object:
 
 | field | does |
 | --- | --- |
-| `key` | the row field the cell shows when there's no `render`. it is also the column's react key, so every column needs its own, and it must be a field of the row. |
-| `header` | the header label (any node). css lowercases it. |
+| `key` | The row field the cell shows when there's no `render`. It is also the column's React key, so every column needs its own, and it must be a field of the row. |
+| `header` | The header label (any node). CSS lowercases it. |
 | `render` | `(row, index) => node` draws the cell yourself: a formatted value, tags. |
 | `align` | `left` (default), `right` or `center`, for the header and its cells. |
-| `width` | a width for the column (a css length, or a number of px), set on its header cell. |
+| `width` | A width for the column (a CSS length, or a number of px), set on its header cell. |
 
-- `empty` is the text of the single row shown when `rows` is empty. the default is `no rows`.
-- rows are keyed by index unless you pass `rowKey`. pass a stable id (`rowKey={(r) => r.id}`) whenever rows can be added, removed or reordered, so react keeps each row — and any focus inside it — with the right record.
-- there is no caption prop, and children passed to `Table` are dropped. pass `aria-labelledby` with the id of the heading above the table, or `aria-label`; both reach the `table` element.
-- `Table` renders every body cell as a `td`. for a row header — a first cell that names the row — build the table from the primitives and use `Th` with `scope="row"`.
-- while the table is wider than its frame, the frame becomes a focusable region (`tabindex="0"`, `role="region"`) named by the table's `aria-label` or `aria-labelledby` ("table" without either), so the arrow keys can scroll it; it shows the `--focus-ring` when focused. a `ResizeObserver` on the frame and the table tracks the overflow. the frame takes no other props (they all go to the `table`).
-- **primitives.** `Thead`, `Tbody`, `Tr`, `Th` and `Td` render their native element with the table's classes (`Tbody` is a plain `tbody`), for what `columns` can't express: a grouped header, a row header, a cell that spans. they don't include the `table` element or its frame: put them in a native `table` with `className="nc-table"` (add `nc-table--dense` for dense), inside a `div` with `className="nc-table__scroll"` for the frame. `Th` sets no `scope` — pass `scope="col"` or `scope="row"` yourself.
-- `Table` passes every native `<table>` attribute — `aria-label`, `aria-labelledby`, `id`, `className` — to the `table` element, not to the scroll frame. the primitives pass everything to their element and add their class to yours.
-- today `Table` and the primitives take no `ref`: they aren't `forwardRef` components, and their props have no `ref`.
+- `empty` is the text of the single row shown when `rows` is empty. The default is `no rows`.
+- Rows are keyed by index unless you pass `rowKey`. Pass a stable ID (`rowKey={(r) => r.id}`) whenever rows can be added, removed or reordered, so React keeps each row — and any focus inside it — with the right record.
+- There is no caption prop, and children passed to `Table` are dropped. Pass `aria-labelledby` with the ID of the heading above the table, or `aria-label`; both reach the `table` element.
+- `Table` renders every body cell as a `td`. For a row header — a first cell that names the row — build the table from the primitives and use `Th` with `scope="row"`.
+- While the table is wider than its frame, the frame becomes a focusable region (`tabindex="0"`, `role="region"`) named by the table's `aria-label` or `aria-labelledby` ("table" without either), so the arrow keys can scroll it; it shows the `--focus-ring` when focused. A `ResizeObserver` on the frame and the table tracks the overflow. The frame takes no other props (they all go to the `table`).
+- **Primitives.** `Thead`, `Tbody`, `Tr`, `Th` and `Td` render their native element with the table's classes (`Tbody` is a plain `tbody`), for what `columns` can't express: a grouped header, a row header, a cell that spans. They don't include the `table` element or its frame: put them in a native `table` with `className="nc-table"` (add `nc-table--dense` for dense), inside a `div` with `className="nc-table__scroll"` for the frame. `Th` sets no `scope` — pass `scope="col"` or `scope="row"` yourself.
+- `Table` passes every native `<table>` attribute — `aria-label`, `aria-labelledby`, `id`, `className` — to the `table` element, not to the scroll frame. The primitives pass everything to their element and add their class to yours.
+- Today `Table` and the primitives take no `ref`: they aren't `forwardRef` components, and their props have no `ref`.
 
 | key | does |
 | --- | --- |
-| `tab` / `shift+tab` | moves through focusable content in the cells (links, buttons), in reading order. the table, its rows and its cells are not focusable; the frame is, only while it overflows. |
-| arrow keys | scroll the page. a table wider than its frame makes the frame a focusable region while it overflows: `tab` reaches it and the arrow keys scroll it sideways. |
+| `tab` / `shift+tab` | Moves through focusable content in the cells (links, buttons), in reading order. The table, its rows and its cells are not focusable; the frame is, only while it overflows. |
+| Arrow keys | Scroll the page. A table wider than its frame makes the frame a focusable region while it overflows: `tab` reaches it and the arrow keys scroll it sideways. |
 
 ## props
 

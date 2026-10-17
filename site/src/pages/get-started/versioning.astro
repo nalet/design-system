@@ -12,27 +12,27 @@ const headings = [
 <Doc
   frontmatter={{
     title: 'versioning & changelog',
-    description: 'what a version of the nalet design system promises, and every change so far.',
+    description: 'What a version of the nalet design system promises, and every change so far.',
   }}
   headings={headings}
 >
   <h1>versioning & changelog</h1>
-  <p>what a version number promises, and the changelog of every release.</p>
+  <p>What a version number promises, and the changelog of every release.</p>
   <h2 id="versioning">versioning</h2>
   <ul>
     <li>
-      <strong>semantic versions.</strong> while the system is 0.x, a minor version (0.3.0) may change how existing
+      <strong>Semantic versions.</strong> While the system is 0.x, a minor version (0.3.0) may change how existing
       components look — the changelog lists every visible change; a patch (0.3.1) only fixes.
     </li>
     <li>
-      <strong>one release per version tag.</strong> a tag <code>vX.Y.Z</code> builds the library and attaches the
-      packed tarball to a github release; apps install that url (see <a href={url('develop/react/')}>react</a>).
+      <strong>One release per version tag.</strong> A tag <code>vX.Y.Z</code> builds the library and attaches the
+      packed tarball to a GitHub release; apps install that URL (see <a href={url('develop/react/')}>React</a>).
     </li>
     <li>
-      <strong>this site follows main.</strong> it is built from the main branch on every push, so it can describe
-      changes that are not in a release yet. the version in its code samples is the latest release.
+      <strong>This site follows main.</strong> It is built from the main branch on every push, so it can describe
+      changes that are not in a release yet. The version in its code samples is the latest release.
     </li>
   </ul>
-  <p>the file <code>CHANGELOG.md</code> in the repository, rendered here as it is:</p>
+  <p>The file <code>CHANGELOG.md</code> in the repository, rendered here as it is:</p>
   <Changelog />
 </Doc>

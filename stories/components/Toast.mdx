@@ -6,7 +6,7 @@ import { Toaster } from '../../src';
 
 # toast
 
-design guidance — when to use it, its states, its timing and queue, its words: **[toast on the guidelines site →](https://nalet.github.io/design-system/components/toast/)**
+Design guidance — when to use it, its states, its timing and queue, its words: **[toast on the guidelines site →](https://nalet.github.io/design-system/components/toast/)**
 
 <Canvas of={ToastStories.Playground} />
 
@@ -16,30 +16,30 @@ design guidance — when to use it, its states, its timing and queue, its words:
 
 <Canvas of={ToastStories.States} />
 
-four `toast()` calls at once: at most three show, and the fourth pushes out the oldest.
+Four `toast()` calls at once: at most three show, and the fourth pushes out the oldest.
 
 <Canvas of={ToastStories.AtMostThree} />
 
-`id`: every press calls `toast()` with the same id, so one toast stays, with its text and its timer renewed.
+`id`: every press calls `toast()` with the same ID, so one toast stays, with its text and its timer renewed.
 
 <Canvas of={ToastStories.ReplaceById} />
 
 ## implementation notes
 
-- call `toast(message, options)` from anywhere — an event handler, async code. one `<Toaster />` near the root of the app shows it.
-- **one store per copy of the library.** every mounted `<Toaster />` shows the same toasts. mount exactly one, near the root of the app: two show each toast twice, and a screen reader hears it twice. if an app bundles two copies of the library (two versions, or a linked one), a `toast()` from one copy doesn't reach a toaster from the other.
-- **no toaster** — `toast()` without a mounted `<Toaster />` warns in the console, and nothing shows until a toaster mounts.
-- the toaster is a `<section>` named by `label` (default "notifications"), fixed at the bottom centre at `z-index: 200` (above a modal at 100 and an action menu at 150). it takes no pointer events itself (`pointer-events: none`); the toasts do.
-- inside it, the list is an `<ol>`, a polite live region (`aria-live="polite"`, `aria-relevant="additions text"`) that exists before the first toast, so each new toast is read once. each toast is an `<li>`.
-- nothing in a toast is focusable. the glyph is `aria-hidden`; a `warning` or `error` toast puts its state, visually hidden, before the message.
-- **timing** — a toast leaves after `duration`, 5000ms by default, counted from when it shows. hovering it pauses the count; moving off resumes it with the time that was left.
-- an `id` that is already showing is replaced: the new toast takes the newest place, with a fresh timer.
-- the message takes any node; pass text.
+- Call `toast(message, options)` from anywhere — an event handler, async code. One `<Toaster />` near the root of the app shows it.
+- **One store per copy of the library.** Every mounted `<Toaster />` shows the same toasts. Mount exactly one, near the root of the app: two show each toast twice, and a screen reader hears it twice. If an app bundles two copies of the library (two versions, or a linked one), a `toast()` from one copy doesn't reach a toaster from the other.
+- **No toaster** — `toast()` without a mounted `<Toaster />` warns in the console, and nothing shows until a toaster mounts.
+- The toaster is a `<section>` named by `label` (default "notifications"), fixed at the bottom centre at `z-index: 200` (above a modal at 100 and an action menu at 150). It takes no pointer events itself (`pointer-events: none`); the toasts do.
+- Inside it, the list is an `<ol>`, a polite live region (`aria-live="polite"`, `aria-relevant="additions text"`) that exists before the first toast, so each new toast is read once. Each toast is an `<li>`.
+- Nothing in a toast is focusable. The glyph is `aria-hidden`; a `warning` or `error` toast puts its state, visually hidden, before the message.
+- **Timing** — a toast leaves after `duration`, 5000ms by default, counted from when it shows. Hovering it pauses the count; moving off resumes it with the time that was left.
+- An `id` that is already showing is replaced: the new toast takes the newest place, with a fresh timer.
+- The message takes any node; pass text.
 
 | key | does |
 | --- | --- |
-| `tab` | never reaches a toast: there is nothing in it to focus. |
-| `esc` | nothing. a toast can't be dismissed from the keyboard; it leaves on its own. |
+| `tab` | Never reaches a toast: there is nothing in it to focus. |
+| `esc` | Nothing. A toast can't be dismissed from the keyboard; it leaves on its own. |
 
 ## props
 
@@ -47,11 +47,11 @@ four `toast()` calls at once: at most three show, and the fourth pushes out the 
 
 | option | default | does |
 | --- | --- | --- |
-| `state` | `"neutral"` | the glyph and the rule: `neutral`, `information`, `success` or `warning` |
-| `duration` | `5000` | milliseconds on screen; hovering pauses it |
-| `id` | a new id | replaces the toast with this id instead of adding one |
+| `state` | `"neutral"` | The glyph and the rule: `neutral`, `information`, `success` or `warning` |
+| `duration` | `5000` | Milliseconds on screen; hovering pauses it |
+| `id` | A new ID | Replaces the toast with this ID instead of adding one |
 
-it returns the toast's id. `toast.dismiss(id)` removes one toast and `toast.clear()` all of them. `Toaster` takes `label` and `className`, and nothing else:
+It returns the toast's ID. `toast.dismiss(id)` removes one toast and `toast.clear()` all of them. `Toaster` takes `label` and `className`, and nothing else:
 
 <ArgTypes of={ToastStories} />
 

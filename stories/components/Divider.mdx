@@ -5,13 +5,13 @@ import * as DividerStories from './Divider.stories';
 
 # divider
 
-design guidance — when to use it, the rule and its label, what is announced, its words: **[divider on the guidelines site →](https://nalet.github.io/design-system/components/divider/)**
+Design guidance — when to use it, the rule and its label, what is announced, its words: **[divider on the guidelines site →](https://nalet.github.io/design-system/components/divider/)**
 
 <Canvas of={DividerStories.Playground} />
 
 ## examples
 
-the default, `orientation="horizontal"`, between two groups in a `Stack`.
+The default, `orientation="horizontal"`, between two groups in a `Stack`.
 
 <Canvas of={DividerStories.Horizontal} />
 
@@ -29,15 +29,15 @@ the default, `orientation="horizontal"`, between two groups in a `Stack`.
 
 ## implementation notes
 
-- renders a `div` with `role="separator"`. the unlabelled divider also sets `aria-orientation` to match its orientation.
-- with a `label`, the rule is two lines with the label between them, all inside the separator. a separator's children are presentational, and no `aria-label` is set from the label: when the words matter, pass the same text as `aria-label`.
-- a vertical divider stretches to the height of its flex row with `align-self: stretch`. `label` is ignored on it.
-- pass `aria-hidden="true"` to a divider that only decorates, so it isn't announced.
-- every native `div` attribute passes through, and the `ref` reaches the `div`. what you pass wins over the defaults, including `role`, `aria-orientation` and `aria-label`.
+- Renders a `div` with `role="separator"`. The unlabelled divider also sets `aria-orientation` to match its orientation.
+- With a `label`, the rule is two lines with the label between them, all inside the separator. A separator's children are presentational, and no `aria-label` is set from the label: when the words matter, pass the same text as `aria-label`.
+- A vertical divider stretches to the height of its flex row with `align-self: stretch`. `label` is ignored on it.
+- Pass `aria-hidden="true"` to a divider that only decorates, so it isn't announced.
+- Every native `div` attribute passes through, and the `ref` reaches the `div`. What you pass wins over the defaults, including `role`, `aria-orientation` and `aria-label`.
 
 | key | does |
 | --- | --- |
-| `tab` | skips it. a divider takes no focus and has no action. |
+| `tab` | Skips it. A divider takes no focus and has no action. |
 
 ## props
 

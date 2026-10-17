@@ -5,7 +5,7 @@ import * as TextStories from './Text.stories';
 
 # text
 
-design guidance — when to use each variant, the type roles, truncation, the words: **[text on the guidelines site →](https://nalet.github.io/design-system/components/text/)**
+Design guidance — when to use each variant, the type roles, truncation, the words: **[text on the guidelines site →](https://nalet.github.io/design-system/components/text/)**
 
 <Canvas of={TextStories.Playground} />
 
@@ -29,15 +29,15 @@ design guidance — when to use each variant, the type roles, truncation, the wo
 
 ## implementation notes
 
-- renders a `span` unless you choose another element with `as` (`as="p"`, `as="h3"` …); the variant's look stays the same. the element has no margin.
-- `Text` adds no role or aria. the element you pick with `as` is the semantics: `p` for a paragraph, `h3` for a heading, `span` (the default) for a run inside other text.
+- Renders a `span` unless you choose another element with `as` (`as="p"`, `as="h3"` …); the variant's look stays the same. The element has no margin.
+- `Text` adds no role or ARIA. The element you pick with `as` is the semantics: `p` for a paragraph, `h3` for a heading, `span` (the default) for a run inside other text.
 - `variant="code"` still renders a `span`, not a `code` element.
-- `truncate` makes the element an `inline-block` with `max-width: 100%`, on one line, cut with `text-overflow: ellipsis`, and sets no `title`. inside a flex row, its container must be allowed to shrink (`min-width: 0`), or it grows to fit the text and nothing is cut.
-- every native attribute passes to the element, and the `ref` reaches it.
+- `truncate` makes the element an `inline-block` with `max-width: 100%`, on one line, cut with `text-overflow: ellipsis`, and sets no `title`. Inside a flex row, its container must be allowed to shrink (`min-width: 0`), or it grows to fit the text and nothing is cut.
+- Every native attribute passes to the element, and the `ref` reaches it.
 
 | key | does |
 | --- | --- |
-| `tab` | skips it. text is not in the tab order. |
+| `tab` | Skips it. Text is not in the tab order. |
 
 ## props
 

@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: settings and setup
-description: where configuration lives — four kinds of settings, each edited where it is owned, and an app's setup found from three places and edited in one.
+description: Where configuration lives — four kinds of settings, each edited where it is owned, and an app's setup found from three places and edited in one.
 draft: true
 ---
 import { Tile } from '@nalet/design-system';
@@ -12,24 +12,24 @@ import { AppSetupMock, SetupChecklist } from '@site/demos/navigation';
 
 # settings and setup
 
-where configuration lives. there are four kinds of settings, and each is edited where it is owned. an app's own setup is found from three places and edited in one: the app.
+Where configuration lives. There are four kinds of settings, and each is edited where it is owned. An app's own setup is found from three places and edited in one: the app.
 
 ## four kinds of settings
 
 | kind | for example | edited in | owned by |
 | --- | --- | --- | --- |
-| personal preferences | language, theme | the user menu → preferences (**planned**) | the shell |
-| platform settings | people, apps, spaces, tiles | settings | the shell |
-| an app's install values | its database address, its resources, the network it uses | settings → addons → values; the platform applies them and may restart the app | the platform, from the schema the app ships |
-| an app's own configuration | its connections, sources, policies, schedules | the app's setup views | the app: the shell never stores, receives or draws these values |
+| Personal preferences | Language, theme | The user menu → preferences (**planned**) | The shell |
+| Platform settings | People, apps, spaces, tiles | Settings | The shell |
+| An app's install values | Its database address, its resources, the network it uses | Settings → addons → values; the platform applies them and may restart the app | The platform, from the schema the app ships |
+| An app's own configuration | Its connections, sources, policies, schedules | The app's setup views | The app: the shell never stores, receives or draws these values |
 
-an addon owns its configuration. the shell shows whether an app is configured and links to its forms; it never holds the app's settings itself.
+An addon owns its configuration. The shell shows whether an app is configured and links to its forms; it never holds the app's settings itself.
 
 ## found from three places, edited in one
 
 ### settings → addons
 
-a checklist with one row per app: its setup state — ready, needs setup or degraded — with a one-line summary. each row's **configure** opens exactly that form, inside the app.
+A checklist with one row per app: its setup state — ready, needs setup or degraded — with a one-line summary. Each row's **configure** opens exactly that form, inside the app.
 
 <Example label="settings, addons: each app's setup state, built from existing components">
   <SetupChecklist />
@@ -37,7 +37,7 @@ a checklist with one row per app: its setup state — ready, needs setup or degr
 
 ### the launchpad
 
-the app's tile carries a "needs setup" badge while something required is missing — see [launchpad & tiles](/design-system/patterns/launchpad-and-tiles/).
+The app's tile carries a "needs setup" badge while something required is missing — see [launchpad & tiles](/design-system/patterns/launchpad-and-tiles/).
 
 <Example label="a tile that says its app needs setup">
   <div style={{ width: '100%', maxWidth: '18rem' }}>
@@ -47,45 +47,45 @@ the app's tile carries a "needs setup" badge while something required is missing
 
 ### inside the app
 
-the setup group of the app's side navigation marks the sections that need setup, and the app's landing view shows one message strip — "2 things to set up before it can work" — with **configure**.
+The setup group of the app's side navigation marks the sections that need setup, and the app's landing view shows one message strip — "2 things to set up before it can work" — with **configure**.
 
 <Mock planned="SideNavigation" label="inside the app: the setup group marks what needs setup">
   <AppSetupMock />
 </Mock>
 
-the side navigation is a **planned** component — see [app navigation](/design-system/patterns/app-navigation/); the checklist and the tile above are built from the components that exist.
+The side navigation is a **planned** component — see [app navigation](/design-system/patterns/app-navigation/); the checklist and the tile above are built from the components that exist.
 
 ## rules
 
-- **one form per section**, and a section's link lands on that form, never on a landing page.
-- **summaries count and name; they never quote values**: `2 download clients, 1 unreachable`, not the address of either.
-- **secrets are write-only.** a secret shows that it is stored, and offers to replace or clear it — never its value.
-- **each form has a save, with an unsaved-changes state** — see [forms and settings](/design-system/patterns/forms-and-settings/). the checklist reflects a save the next time it is read.
+- **One form per section**, and a section's link lands on that form, never on a landing page.
+- **Summaries count and name; they never quote values**: `2 download clients, 1 unreachable`, not the address of either.
+- **Secrets are write-only.** A secret shows that it is stored, and offers to replace or clear it — never its value.
+- **Each form has a save, with an unsaved-changes state** — see [forms and settings](/design-system/patterns/forms-and-settings/). The checklist reflects a save the next time it is read.
 
 ## content
 
-- **states** — `ready`, `needs setup`, `degraded`: the app's own words, mapped once onto success, warning and error — see [status vocabulary](/design-system/patterns/status-vocabulary/).
-- **summaries** — counts and names: `no search source yet · 2 download clients, 1 unreachable`.
-- **the action** — `configure`, on every row and in the strip.
-- **the strip** — what is missing and that the app can't work without it: `2 things to set up before it can work: search sources and clients.`
+- **States** — `ready`, `needs setup`, `degraded`: the app's own words, mapped once onto success, warning and error — see [status vocabulary](/design-system/patterns/status-vocabulary/).
+- **Summaries** — counts and names, in sentence case: `No search source yet · 2 download clients, 1 unreachable`.
+- **The action** — `configure`, on every row and in the strip.
+- **The strip** — what is missing and that the app can't work without it: `2 things to set up before it can work: search sources and clients.`
 
 ## do and don't
 
 <DoDont>
-  <Do caption="the shell lists the app's setup state and links to the app's own form." column>
+  <Do caption="The shell lists the app's setup state and links to the app's own form." column>
     <SetupChecklist />
   </Do>
-  <Dont caption="the shell draws a form for the app's own configuration from a schema: it would carry the app's values and its secrets." column>
+  <Dont caption="The shell draws a form for the app's own configuration from a schema: it would carry the app's values and its secrets." column>
     <span style={{ color: 'var(--fg-2)', fontSize: '13px' }}>settings → addons → downloads: a generated form with the app's connections, sources and their passwords.</span>
   </Dont>
 </DoDont>
 
-- **don't mix setup views into daily work.** setup sits in its own group, at the bottom of the app's navigation.
-- **don't report "configured" while one of the app's components is down.** whether it runs is the platform's view; whether it is configured is the app's.
+- **Don't mix setup views into daily work.** Setup sits in its own group, at the bottom of the app's navigation.
+- **Don't report "configured" while one of the app's components is down.** Whether it runs is the platform's view; whether it is configured is the app's.
 
 ## related
 
-- [app navigation](/design-system/patterns/app-navigation/) — the setup group at the bottom of an app's navigation.
-- [shell bar](/design-system/patterns/shell-bar/) — the user menu, and its settings.
-- [forms and settings](/design-system/patterns/forms-and-settings/) — the forms themselves.
-- [principles](/design-system/foundations/principles/) — 4: one platform, many apps.
+- [App navigation](/design-system/patterns/app-navigation/) — the setup group at the bottom of an app's navigation.
+- [Shell bar](/design-system/patterns/shell-bar/) — the user menu, and its settings.
+- [Forms and settings](/design-system/patterns/forms-and-settings/) — the forms themselves.
+- [Principles](/design-system/foundations/principles/) — 4: one platform, many apps.

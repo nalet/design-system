@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: table cells
-description: three cells for a data table's columns — a status and its reason, a date said both ways, what names the row — so every table says the same things the same way.
+description: Three cells for a data table's columns — a status and its reason, a date said both ways, what names the row — so every table says the same things the same way.
 component: table-cells
 ---
 import { DateCell, IdentifierCell, StatusCell } from '@nalet/design-system';
@@ -13,7 +13,7 @@ import { CellsInATable } from '@site/demos/components/table-cells';
 
 # table cells
 
-three cells for a <C slug="data-table" />'s columns, so every table says the same things the same way: the status cell, a status and its reason; the date cell, a date absolute and relative; the identifier cell, what names the row.
+Three cells for a <C slug="data-table" />'s columns, so every table says the same things the same way: the status cell, a status and its reason; the date cell, a date absolute and relative; the identifier cell, what names the row.
 
 <Example column label="the three cells in a data table">
   <CellsInATable />
@@ -21,53 +21,53 @@ three cells for a <C slug="data-table" />'s columns, so every table says the sam
 
 ## when to use
 
-- **status cell** — the state column of a data table: one status per row, from the object's one table of states, with the reason or the next step under it when there is one.
-- **date cell** — a date column where age matters: aired, last searched, created, expires.
-- **identifier cell** — the row header column: the id people know the row by, with a quieter second line that says more.
+- **Status cell** — the state column of a data table: one status per row, from the object's one table of states, with the reason or the next step under it when there is one.
+- **Date cell** — a date column where age matters: aired, last searched, created, expires.
+- **Identifier cell** — the row header column: the ID people know the row by, with a quieter second line that says more.
 
 ## when not to use
 
-- **for a status outside a table** — beside a heading, in a card, in a sentence. use an <C slug="object-status" /> on its own; the status cell only adds the detail line, sized for a row.
-- **for a message about the whole list** ("105 titles can't be checked"). that's a <C slug="message-strip" /> above the table, not a status in every row.
-- **for tags, kinds and categories.** they aren't states. use a <C slug="badge" />.
-- **for numbers and sizes.** a plain right-aligned column with the unit in the header — see the <C slug="table" />'s content rules.
+- **For a status outside a table** — beside a heading, in a card, in a sentence. Use an <C slug="object-status" /> on its own; the status cell only adds the detail line, sized for a row.
+- **For a message about the whole list** ("105 titles can't be checked"). That's a <C slug="message-strip" /> above the table, not a status in every row.
+- **For tags, kinds and categories.** They aren't states. Use a <C slug="badge" />.
+- **For numbers and sizes.** A plain right-aligned column with the unit in the header — see the <C slug="table" />'s content rules.
 
 ## anatomy
 
 ### status cell
 
-1. **wrapper** — a column with 3px between its lines, its items at the cell's leading edge, never wider than the cell.
-2. **status** — an <C slug="object-status" />: a 20px chip with 8px side padding, a 1px `--state-*-border`, a `--state-*-bg` fill and `--state-*` text, the state's 12px glyph, jetbrains mono 11px, lowercase, on one line.
-3. **detail** (optional) — jetbrains mono 11px, line-height 1.45, in `--fg-dim`, at most 44 characters wide. at most two lines show. it breaks anywhere, so a long id can't widen the column.
+1. **Wrapper** — a column with 3px between its lines, its items at the cell's leading edge, never wider than the cell.
+2. **Status** — an <C slug="object-status" />: a 20px chip with 8px side padding, a 1px `--state-*-border`, a `--state-*-bg` fill and `--state-*` text, the state's 12px glyph, JetBrains Mono 11px, lowercase, on one line.
+3. **Detail** (optional) — JetBrains Mono 11px, line-height 1.45, in `--fg-dim`, at most 44 characters wide. At most two lines show. It breaks anywhere, so a long ID can't widen the column.
 
 ### date cell
 
-1. **wrapper** — the parts on one baseline, 8px apart. in a narrow column the relative part wraps under the date. jetbrains mono 12px with tabular figures, so dates line up down a column.
-2. **absolute date** — in `--fg-2`, lowercase: "12 oct 2026" (en-GB: day, short month, year). hovering it shows the full weekday, date and time.
-3. **relative part** (`relative`, on by default) — in `--fg-dim`: "5d ago" on screen, "5 days ago" for a screen reader.
-4. **empty** — an em dash in `--fg-dim`, read "no date".
+1. **Wrapper** — the parts on one baseline, 8px apart. In a narrow column the relative part wraps under the date. JetBrains Mono 12px with tabular figures, so dates line up down a column.
+2. **Absolute date** — in `--fg-2`, lowercase: "12 oct 2026" (en-GB: day, short month, year). Hovering it shows the full weekday, date and time.
+3. **Relative part** (`relative`, on by default) — in `--fg-dim`: "5d ago" on screen, "5 days ago" for a screen reader.
+4. **Empty** — an em dash in `--fg-dim`, read "no date".
 
 ### identifier cell
 
-1. **wrapper** — a column, 2px between its lines.
-2. **title** — jetbrains mono 13px in `--fg`: "S04E07", "worker-2".
-3. **text** (optional) — inter 12px in `--fg-muted`, on one line. it ends in an ellipsis when its box is narrower than the text.
+1. **Wrapper** — a column, 2px between its lines.
+2. **Title** — JetBrains Mono 13px in `--fg`: "S04E07", "worker-2".
+3. **Text** (optional) — Inter 12px in `--fg-muted`, on one line. It ends in an ellipsis when its box is narrower than the text.
 
 ## variants and states
 
 ### status cell
 
-the state sets the colour, the glyph and what a screen reader hears first; there is no colour prop. the five states, as the [status vocabulary](/design-system/patterns/status-vocabulary/) uses them:
+The state sets the colour, the glyph and what a screen reader hears first; there is no colour prop. The five states, as the [status vocabulary](/design-system/patterns/status-vocabulary/) uses them:
 
 | state | means | for instance |
 | --- | --- | --- |
-| `neutral` | a plain fact | `missing` |
-| `information` | under way, or worth knowing | `on its way` |
-| `success` | done and good — never for a problem | `held` |
-| `warning` | works, but someone should look | `can't be checked` |
-| `error` | failed or blocked; needs action | `needs attention` |
+| `neutral` | A plain fact | `missing` |
+| `information` | Under way, or worth knowing | `on its way` |
+| `success` | Done and good — never for a problem | `held` |
+| `warning` | Works, but someone should look | `can't be checked` |
+| `error` | Failed or blocked; needs action | `needs attention` |
 
-the detail is the line under the status: why, or what happens next. the status can take object status's `text` appearance too, which drops the chip for dense rows, keeping the glyph and 12px text.
+The detail is the line under the status: why, or what happens next. The status can take object status's `text` appearance too, which drops the chip for dense rows, keeping the glyph and 12px text.
 
 <Example label="status cells, with and without a detail">
   <Statuses />
@@ -75,16 +75,16 @@ the detail is the line under the status: why, or what happens next. the status c
 
 ### date cell
 
-the relative part counts whole calendar days, in the viewer's time zone:
+The relative part counts whole calendar days, in the viewer's time zone:
 
 | how far | on screen | read as |
 | --- | --- | --- |
-| the same day | `today` | today |
-| one day | `yesterday`, `tomorrow` | yesterday, tomorrow |
+| The same day | `today` | Today |
+| One day | `yesterday`, `tomorrow` | Yesterday, tomorrow |
 | 2 to 13 days | `5d ago`, `in 3d` | 5 days ago, in 3 days |
 | 14 to 59 days | `7w ago` | 7 weeks ago |
 | 60 days to just under two years | `20mo ago` | 20 months ago |
-| two years or more | `2y ago` | 2 years ago |
+| Two years or more | `2y ago` | 2 years ago |
 
 <Example label="date cells from today back to last year, one ahead, and one empty">
   <Dates />
@@ -92,7 +92,7 @@ the relative part counts whole calendar days, in the viewer's time zone:
 
 ### identifier cell
 
-the title is what identifies the row; the text is a second line, when there is one to give. the title can be a link to the row's own page.
+The title is what identifies the row; the text is a second line, when there is one to give. The title can be a link to the row's own page.
 
 <Example label="identifier cells, with and without a second line">
   <Identifiers />
@@ -100,40 +100,40 @@ the title is what identifies the row; the text is a second line, when there is o
 
 ## behaviour
 
-- the cells are text. none of them takes focus or handles a key; the keys belong to the row they sit in — see the <C slug="data-table" />. `tab` passes them by, unless an identifier's title is a link.
-- the date cell works out "today" when it renders. it doesn't tick: a page left open past midnight says "today" about yesterday until it renders again.
-- the hover texts — a status detail in full, a date's full timestamp — are the browser's own tooltips.
+- The cells are text. None of them takes focus or handles a key; the keys belong to the row they sit in — see the <C slug="data-table" />. `tab` passes them by, unless an identifier's title is a link.
+- The date cell works out "today" when it renders. It doesn't tick: a page left open past midnight says "today" about yesterday until it renders again.
+- The hover texts — a status detail in full, a date's full timestamp — are the browser's own tooltips.
 
-the keyboard map and the attributes the cells set are on their [react page](/design-system/react/?path=/docs/components-data-display-table-cells--docs).
+The keyboard map and the attributes the cells set are on their [React page](/design-system/react/?path=/docs/components-data-display-table-cells--docs).
 
 ## accessibility
 
-- **status cell** — the glyph is hidden from assistive tech: the text carries the state, and warnings and errors are read with their state first ("error: needs attention"). the detail is there in full for a screen reader, so it reads all of it, the lines cut off on screen included.
-- **date cell** — the date is read as written ("12 Oct 2026"; the lowercase is css), then the relative part in words ("5 days ago"); the compact "5d ago" is hidden from screen readers. an empty value is read "no date".
-- **identifier cell** — plain text. as the row header, it names the row for every other cell in it.
+- **Status cell** — the glyph is hidden from assistive tech: the text carries the state, and warnings and errors are read with their state first ("error: needs attention"). The detail is there in full for a screen reader, so it reads all of it, the lines cut off on screen included.
+- **Date cell** — the date is read as written ("12 Oct 2026"; the lowercase is CSS), then the relative part in words ("5 days ago"); the compact "5d ago" is hidden from screen readers. An empty value is read "no date".
+- **Identifier cell** — plain text. As the row header, it names the row for every other cell in it.
 
-today:
+Today:
 
-- a status detail longer than two lines and a date's full timestamp are shown only in a native tooltip: on hover, with a mouse. keyboard and touch users can't open it. screen readers read the whole detail, but the time of day is only in that tooltip, which most of them don't read for plain text.
-- the spoken words are fixed english: "no date", and the relative words ("5 days ago") whatever the language of the dates.
-- an identifier's second line that doesn't fit is cut with an ellipsis and has no tooltip.
+- A status detail longer than two lines and a date's full timestamp are shown only in a native tooltip: on hover, with a mouse. Keyboard and touch users can't open it. Screen readers read the whole detail, but the time of day is only in that tooltip, which most of them don't read for plain text.
+- The spoken words are fixed English: "no date", and the relative words ("5 days ago") whatever the language of the dates.
+- An identifier's second line that doesn't fit is cut with an ellipsis and has no tooltip.
 
 ## content
 
-- **status** — the state in the object's words, one to three words: `missing`, `on its way`, `needs attention`. write the vocabulary once, as the [status vocabulary](/design-system/patterns/status-vocabulary/) says, and use it in every row.
-- **detail** — why, or what happens next, on one short line: `nothing found · again in 6h`, `waiting for the catalog`. a human reason, not a raw error or a code.
-- **dates** — pass the value and let the cell format it; don't pre-format a string. keep `relative` where recency matters (aired, last searched); turn it off where it doesn't, like a fixed release date.
-- **identifier** — the title is the id people use, `S04E07` or `worker-2`; the text is the human name, `the long way round`. never an internal uuid as the title.
+- **Status** — the state in the object's words, one to three words: `missing`, `on its way`, `needs attention`. Write the vocabulary once, as the [status vocabulary](/design-system/patterns/status-vocabulary/) says, and use it in every row.
+- **Detail** — why, or what happens next, on one short line: `nothing found · again in 6h`, `waiting for the catalog`. A human reason, not a raw error or a code.
+- **Dates** — pass the value and let the cell format it; don't pre-format a string. Keep `relative` where recency matters (aired, last searched); turn it off where it doesn't, like a fixed release date.
+- **Identifier** — the title is the ID people use, `S04E07` or `worker-2`; the text is the human name, as it is spelled, `The Long Way Round`. Never an internal UUID as the title.
 
 ## do and don't
 
 <DoDont>
-  <Do column caption="the state in a few words, the reason on the line under it.">
+  <Do column caption="The state in a few words, the reason on the line under it.">
     <div style={{ width: '240px' }}>
       <StatusCell state="error" text="needs attention" detail="no release passed the quality profile" />
     </div>
   </Do>
-  <Dont column caption="the reason crammed into the status: the chip is cut off, and no two rows read alike.">
+  <Dont column caption="The reason crammed into the status: the chip is cut off, and no two rows read alike.">
     <div style={{ width: '240px' }}>
       <StatusCell state="error" text="failed: no release passed the quality profile, every one was below 720p" />
     </div>
@@ -141,25 +141,25 @@ today:
 </DoDont>
 
 <DoDont>
-  <Do caption="the date and how long ago, at a glance.">
+  <Do caption="The date and how long ago, at a glance.">
     <DateCell value="2026-10-12T20:00:00Z" now={STORY_NOW} />
   </Do>
-  <Dont caption="a timestamp to the second and no relative part: people do the arithmetic for every row.">
+  <Dont caption="A timestamp to the second and no relative part: people do the arithmetic for every row.">
     <DateCell value="2026-10-12T20:00:00Z" now={STORY_NOW} relative={false} format={{ year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }} />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="the name people use as the title; what else is known on the quiet line.">
-    <IdentifierCell title="worker-2" text="zone b · 4 cpu" />
+  <Do caption="The name people use as the title; what else is known on the quiet line.">
+    <IdentifierCell title="worker-2" text="Zone B · 4 CPU" />
   </Do>
-  <Dont caption="an internal id as the title: nobody can say it, and the name people know is the quiet line.">
+  <Dont caption="An internal ID as the title: nobody can say it, and the name people know is the quiet line.">
     <IdentifierCell title="3f2a1000-5b7d-4c11-9e02-6a1d0b8f4c21" text="worker-2" />
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="data-table" /> — the table these cells are made for.
-- <C slug="object-status" /> — the status inside a status cell, on its own.
-- [status vocabulary](/design-system/patterns/status-vocabulary/) — how one table of states keeps every status cell honest.
+- <C slug="data-table">Data table</C> — the table these cells are made for.
+- <C slug="object-status">Object status</C> — the status inside a status cell, on its own.
+- [Status vocabulary](/design-system/patterns/status-vocabulary/) — how one table of states keeps every status cell honest.

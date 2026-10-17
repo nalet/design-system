@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: filter bar
-description: what narrows a list — a search field, facets, clear all and the count of what is left — with the facets folded behind one filters toggle when the bar is narrow.
+description: What narrows a list — a search field, facets, clear all and the count of what is left — with the facets folded behind one filters toggle when the bar is narrow.
 component: filter-bar
 ---
 import C from '@site/components/C.astro';
@@ -11,7 +11,7 @@ import { DemoBar } from '@site/demos/components/filter-bar';
 
 # filter bar
 
-what narrows a list: a search field, facets that keep one value (a select) or several (a multi select), `clear all`, and the count of what is left. on a narrow screen the facets fold behind one `filters` toggle.
+What narrows a list: a search field, facets that keep one value (a select) or several (a multi select), `clear all`, and the count of what is left. On a narrow screen the facets fold behind one `filters` toggle.
 
 <Example label="a filter bar with a search and three facets, live">
   <div style={{ width: '100%' }}>
@@ -21,37 +21,37 @@ what narrows a list: a search field, facets that keep one value (a select) or se
 
 ## when to use
 
-- above a list or a table, for the search and the two to four facets that narrow it.
-- with the result count — `312 of 2,500` — so people see the filters work, and screen-reader users hear it.
-- under <C slug="filter-tabs" /> and above the <C slug="toolbar">toolbar</C>, the way the [worklist](/design-system/patterns/worklist/) arranges them.
+- Above a list or a table, for the search and the two to four facets that narrow it.
+- With the result count — `312 of 2,500` — so people see the filters work, and screen-reader users hear it.
+- Under <C slug="filter-tabs" /> and above the <C slug="toolbar">toolbar</C>, the way the [worklist](/design-system/patterns/worklist/) arranges them.
 
 ## when not to use
 
-- **for a few key figures that each pick one subset.** use <C slug="filter-tabs" />.
-- **to sort.** sort with the column headers of the <C slug="data-table" />.
-- **for a form that is submitted** — settings, a new item. use <C slug="field">fields</C> and a save button, as in [forms and settings](/design-system/patterns/forms-and-settings/). the filter bar filters as values change and submits nothing.
-- **for actions on the list.** use a <C slug="toolbar">toolbar</C>.
+- **For a few key figures that each pick one subset.** Use <C slug="filter-tabs" />.
+- **To sort.** Sort with the column headers of the <C slug="data-table" />.
+- **For a form that is submitted** — settings, a new item. Use <C slug="field">fields</C> and a save button, as in [forms and settings](/design-system/patterns/forms-and-settings/). The filter bar filters as values change and submits nothing.
+- **For actions on the list.** Use a <C slug="toolbar">toolbar</C>.
 
 ## anatomy
 
-1. **container** — a search landmark, named "filters" unless you name it: a row that wraps, with 8px × 12px gaps.
-2. **search** (optional) — a search field, 34px tall, with a square search glyph in front. it starts at 240px and grows or shrinks between 180 and 420px.
-3. **facets** — a `select` facet is a visible label (jetbrains mono 12px, `--fg-muted`, lowercase) and a native <C slug="select" />, at least 128px wide; while it filters, its value shows in `--cloud-blue`. a `multiselect` facet is a <C slug="multi-select" /> at `md`.
-4. **your controls** (optional) — after the facets. they fold with them.
-5. **end** — pushed to the right: the result count (jetbrains mono 12px, `--fg-muted`, tabular figures) and `clear all`, a ghost `md` button. on a narrow bar, `clear all` moves to the end of the folded facets.
-6. **filters toggle** (narrow only) — a default `md` button: `filters`, or `filters · 2` while two facets are set.
+1. **Container** — a search landmark, named "filters" unless you name it: a row that wraps, with 8px × 12px gaps.
+2. **Search** (optional) — a search field, 34px tall, with a square search glyph in front. It starts at 240px and grows or shrinks between 180 and 420px.
+3. **Facets** — a `select` facet is a visible label (JetBrains Mono 12px, `--fg-muted`, lowercase) and a native <C slug="select" />, at least 128px wide; while it filters, its value shows in `--cloud-blue`. A `multiselect` facet is a <C slug="multi-select" /> at `md`.
+4. **Your controls** (optional) — after the facets. They fold with them.
+5. **End** — pushed to the right: the result count (JetBrains Mono 12px, `--fg-muted`, tabular figures) and `clear all`, a ghost `md` button. On a narrow bar, `clear all` moves to the end of the folded facets.
+6. **Filters toggle** (narrow only) — a default `md` button: `filters`, or `filters · 2` while two facets are set.
 
 ## variants and states
 
-wide, the bar is one row that wraps when it has to.
+Wide, the bar is one row that wraps when it has to.
 
-narrow — below 640px by default, measured on the bar itself — the facets fold behind the `filters` toggle. the search and the toggle share the first line; the facets open in a column under them, with `clear all` at their end; the count keeps a line of its own, and takes no room while there is no count. the toggle counts the facets that are set, not the search.
+Narrow — below 640px by default, measured on the bar itself — the facets fold behind the `filters` toggle. The search and the toggle share the first line; the facets open in a column under them, with `clear all` at their end; the count keeps a line of its own, and takes no room while there is no count. The toggle counts the facets that are set, not the search.
 
 <Example label="a narrow filter bar, live">
   <Narrow client:visible />
 </Example>
 
-a search on its own, with a count:
+A search on its own, with a count:
 
 <Example label="a search on its own, live">
   <div style={{ width: '100%' }}>
@@ -59,69 +59,69 @@ a search on its own, with a count:
   </div>
 </Example>
 
-a facet is **set** while it filters: a `select` facet whose value isn't its no-filter option, a `multiselect` facet with anything chosen. `clear all` is enabled while any facet is set or the search holds text, and disabled otherwise.
+A facet is **set** while it filters: a `select` facet whose value isn't its no-filter option, a `multiselect` facet with anything chosen. `clear all` is enabled while any facet is set or the search holds text, and disabled otherwise.
 
 ## behaviour
 
-- the list filters as the values change: as people type in the search, keystroke by keystroke, and as they change a facet.
+- The list filters as the values change: as people type in the search, keystroke by keystroke, and as they change a facet.
 - `clear all` clears the search and every facet.
 - `esc` in the search clears it.
-- the `filters` toggle starts closed and keeps its state while the bar is on the page. folded facets are out of the tab order.
+- The `filters` toggle starts closed and keeps its state while the bar is on the page. Folded facets are out of the tab order.
 
-the keyboard map and the attributes it sets are on its [react page](/design-system/react/?path=/docs/components-inputs-filter-bar--docs).
+The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-inputs-filter-bar--docs).
 
 ## accessibility
 
-- the bar is a search landmark, so screen-reader users can jump to it. with two filter bars on one page, give each its own name.
-- the search field has a name of its own, "search" unless you give it one. the placeholder is only a hint: it is gone with the first keystroke.
-- a facet's label is its name: "kind".
-- **the result count is announced**: each change is read whole — "312 of 2,500" — when the screen reader has a pause. it is how someone typing hears that the list changed, also when it is left empty.
+- The bar is a search landmark, so screen-reader users can jump to it. With two filter bars on one page, give each its own name.
+- The search field has a name of its own, "search" unless you give it one. The placeholder is only a hint: it is gone with the first keystroke.
+- A facet's label is its name: "kind".
+- **The result count is announced**: each change is read whole — "312 of 2,500" — when the screen reader has a pause. It is how someone typing hears that the list changed, also when it is left empty.
 - `clear all` disables itself once everything is clear, so it moves focus to the search field first.
 
-today:
+Today:
 
-- narrow, `clear all` folds with the facets, so it can be reached only once `filters` is open.
-- `clear all` and `filters` are fixed english and can't be translated.
-- `clear all` only knows the search and the facets. a control of your own, after the facets, doesn't enable it.
-- narrow, a bar with controls of your own or `clear all` but no facets shows no toggle: the controls and `clear all` stay folded away, with no way to open them.
+- Narrow, `clear all` folds with the facets, so it can be reached only once `filters` is open.
+- `clear all` and `filters` are fixed English and can't be translated.
+- `clear all` only knows the search and the facets. A control of your own, after the facets, doesn't enable it.
+- Narrow, a bar with controls of your own or `clear all` but no facets shows no toggle: the controls and `clear all` stay folded away, with no way to open them.
 
 ## content
 
-- **search** — the placeholder says what can be searched, `search titles`. give the search field's name the same words.
-- **facet labels** — a noun: `kind`, `aired`, `state`.
-- **the no-filter option** — first in every select, in plain words: `all`, `any time`.
-- **result count** — what is left, of what: `312 of 2,500`, with thousands separators. while nothing filters, the total (`2,500`), or nothing.
-- two to four facets. with more, the bar turns into a form.
+- **Search** — the placeholder says what can be searched, `search titles`. Give the search field's name the same words.
+- **Facet labels** — a noun: `kind`, `aired`, `state`.
+- **The no-filter option** — first in every select, in plain words: `all`, `any time`.
+- **Result count** — what is left, of what: `312 of 2,500`, with thousands separators. While nothing filters, the total (`2,500`), or nothing.
+- Two to four facets. With more, the bar turns into a form.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="the count says what is left: people see the filters work, and screen readers hear each change." column>
+  <Do caption="The count says what is left: people see the filters work, and screen readers hear each change." column>
     <DemoBar client:visible label="filter volumes" noun="volumes" total={48} facet="size" options={[{ value: '', label: 'all' }, { value: 'small', label: 'under 100 gb' }, { value: 'large', label: '100 gb and over' }]} />
   </Do>
 </DoDont>
 
 <DoDont>
-  <Dont caption="no count: people can't tell whether the filters did anything, and screen-reader users hear nothing as the list changes." column>
+  <Dont caption="No count: people can't tell whether the filters did anything, and screen-reader users hear nothing as the list changes." column>
     <DemoBar client:visible label="filter snapshots" noun="snapshots" total={120} facet="age" count={false} options={[{ value: '', label: 'any time' }, { value: 'week', label: 'this week' }, { value: 'older', label: 'older' }]} />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="the no-filter option comes first, so every facet has a way back." column>
+  <Do caption="The no-filter option comes first, so every facet has a way back." column>
     <DemoBar client:visible label="filter workers" noun="workers" total={36} facet="pool" options={[{ value: '', label: 'all' }, { value: 'gpu', label: 'gpu' }, { value: 'cpu', label: 'cpu' }]} />
   </Do>
 </DoDont>
 
 <DoDont>
-  <Dont caption="no “all” option: the facet can never stop filtering, and clear all has nothing to go back to." column>
+  <Dont caption="No “all” option: the facet can never stop filtering, and clear all has nothing to go back to." column>
     <DemoBar client:visible label="filter jobs" noun="jobs" total={240} facet="state" initial="running" options={[{ value: 'running', label: 'running' }, { value: 'failed', label: 'failed' }]} />
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="multi-select" /> — the facet that keeps several values.
-- <C slug="filter-tabs" /> — key figures that pick one subset, above the filter bar.
-- <C slug="illustrated-message" /> — what the list shows when the filters leave nothing: `search`, with `clear filters`.
-- [worklist](/design-system/patterns/worklist/) — the tabs, the filter bar, the toolbar and the table in their places.
+- <C slug="multi-select">Multi select</C> — the facet that keeps several values.
+- <C slug="filter-tabs">Filter tabs</C> — key figures that pick one subset, above the filter bar.
+- <C slug="illustrated-message">Illustrated message</C> — what the list shows when the filters leave nothing: `search`, with `clear filters`.
+- [Worklist](/design-system/patterns/worklist/) — the tabs, the filter bar, the toolbar and the table in their places.

@@ -6,25 +6,25 @@ import { Toaster } from '../../src';
 
 # forms and settings
 
-design guidance — instant or saved, the footer and unsaved changes, validation, failed saves, the words: **[forms and settings on the guidelines site →](https://nalet.github.io/design-system/patterns/forms-and-settings/)**
+Design guidance — instant or saved, the footer and unsaved changes, validation, failed saves, the words: **[forms and settings on the guidelines site →](https://nalet.github.io/design-system/patterns/forms-and-settings/)**
 
-the three examples below are the pattern's reference code: open "show code" under each.
+The three examples below are the pattern's reference code: open "show code" under each.
 
 ## a settings page
 
-change a value, save with an error, fix it, save; switch the times to utc and save.
+Change a value, save with an error, fix it, save; switch the times to UTC and save.
 
 <Canvas of={FormsStories.Settings} />
 
 ## after a save with errors
 
-the summary at the top, each error at its field.
+The summary at the top, each error at its field.
 
 <Canvas of={FormsStories.FailedValidation} />
 
 ## when the save fails
 
-the values are kept, and "try again" sends them again.
+The values are kept, and "try again" sends them again.
 
 <Canvas of={FormsStories.SaveFails} />
 
@@ -32,13 +32,13 @@ the values are kept, and "try again" sends them again.
 
 ## implementation notes
 
-- the form is a native `<form noValidate>`, named by its card's heading through `aria-labelledby`. the card's `header` is an `h3` with `margin: 0` and `font: inherit`, so it keeps the card title's look.
-- `Button` defaults to `type="button"`. pass `type="submit"` to `save changes` only: `enter` in a text field presses the form's first submit button.
-- `noValidate` keeps the browser's own error bubbles out of the way. pass `required` to the controls all the same, so assistive tech says "required": `Field`'s `required` only draws an asterisk.
+- The form is a native `<form noValidate>`, named by its card's heading through `aria-labelledby`. The card's `header` is an `h3` with `margin: 0` and `font: inherit`, so it keeps the card title's look.
+- `Button` defaults to `type="button"`. Pass `type="submit"` to `save changes` only: `enter` in a text field presses the form's first submit button.
+- `noValidate` keeps the browser's own error bubbles out of the way. Pass `required` to the controls all the same, so assistive tech says "required": `Field`'s `required` only draws an asterisk.
 - `Field` sets `aria-invalid` and the `--state-error` border on its control when it has an `error`, so `form.querySelector('[aria-invalid="true"]')` finds the first invalid control to focus after a save.
 - `toast('settings saved', { state: 'success', id: 'backup-settings' })`: a fixed `id` makes a second save replace the toast instead of stacking another.
 - `loading` on the save button disables it, and a disabled button can't keep focus: when the save ends, put focus back on save if it fell to the page, as the example does.
-- to keep the footer in view on a long form, wrap it with `position: sticky; bottom: 0`; the card's footer doesn't stick by itself.
-- nothing in the library warns before leaving a page with unsaved changes: use the router's navigation blocker or `beforeunload`.
-- a `Field` `error` around a checkbox or a switch passes `invalid` to it: react warns about an unknown attribute, and the box looks the same. check option groups as a whole.
-- there is no fieldset or radio component: reset a native `<fieldset>` (no border, margin or padding, `min-width: 0`) and give its `<legend>` the field label's look — inter 500, 13px, `--fg-2`.
+- To keep the footer in view on a long form, wrap it with `position: sticky; bottom: 0`; the card's footer doesn't stick by itself.
+- Nothing in the library warns before leaving a page with unsaved changes: use the router's navigation blocker or `beforeunload`.
+- A `Field` `error` around a checkbox or a switch passes `invalid` to it: React warns about an unknown attribute, and the box looks the same. Check option groups as a whole.
+- There is no fieldset or radio component: reset a native `<fieldset>` (no border, margin or padding, `min-width: 0`) and give its `<legend>` the field label's look — Inter 500, 13px, `--fg-2`.

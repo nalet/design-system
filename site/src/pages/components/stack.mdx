@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: stack
-description: a column or a row whose gap comes from the space scale — the workhorse for laying out everything else.
+description: A column or a row whose gap comes from the space scale — the workhorse for laying out everything else.
 component: stack
 ---
 import { Badge, Box, Button, Stack } from '@nalet/design-system';
@@ -11,7 +11,7 @@ import { Playground, Vertical, Horizontal, GapScale, Justified, Wrap } from '@si
 
 # stack
 
-a column or a row whose gap comes from the space scale. the workhorse for laying out everything else.
+A column or a row whose gap comes from the space scale. The workhorse for laying out everything else.
 
 <Example label="three items in a column, 16px apart">
   <Playground />
@@ -19,33 +19,33 @@ a column or a row whose gap comes from the space scale. the workhorse for laying
 
 ## when to use
 
-- to lay out siblings in one direction with even space between them: a form's fields, a row of badges, a header with a title and an action.
-- wherever you would write `display: flex` and a `gap`.
+- To lay out siblings in one direction with even space between them: a form's fields, a row of badges, a header with a title and an action.
+- Wherever you would write `display: flex` and a `gap`.
 
 ## when not to use
 
-- **for a grid of items in rows and columns.** a stack runs in one direction. launchpad tiles go in a <C slug="tile-group" />; for other grids, use css grid (see [layout](/design-system/foundations/layout/#grid-and-layout)).
-- **for a row of actions.** use a <C slug="toolbar">toolbar</C>: it sets the emphasis and moves what doesn't fit into an overflow menu.
-- **for padding or a background.** a stack only spaces its children. padding around them is a <C slug="box" /> or a <C slug="card" />.
+- **For a grid of items in rows and columns.** A stack runs in one direction. Launchpad tiles go in a <C slug="tile-group" />; for other grids, use CSS grid (see [layout](/design-system/foundations/layout/#grid-and-layout)).
+- **For a row of actions.** Use a <C slug="toolbar">toolbar</C>: it sets the emphasis and moves what doesn't fit into an overflow menu.
+- **For padding or a background.** A stack only spaces its children. Padding around them is a <C slug="box" /> or a <C slug="card" />.
 
 ## anatomy
 
-1. **container** — a column or a row. it can shrink inside other layouts.
-2. **gap** — between children only, never around them: a step of the [space scale](/design-system/foundations/layout/#the-scale), 16px by default.
-3. **children** — laid out in source order.
+1. **Container** — a column or a row. It can shrink inside other layouts.
+2. **Gap** — between children only, never around them: a step of the [space scale](/design-system/foundations/layout/#the-scale), 16px by default.
+3. **Children** — laid out in source order.
 
 ## variants and states
 
 | option | values | default |
 | --- | --- | --- |
-| direction | `vertical` (a column), `horizontal` (a row) | `vertical` |
-| gap | a step of the scale, from 0 to 64px | 16px |
-| align | `start`, `center`, `end`, `stretch`, `baseline` — across the stack | not set: children stretch |
-| justify | `start`, `center`, `end`, `between`, `around` — along the stack | not set: children pack at the start |
-| wrap | children flow onto a new line when they run out of room | off |
-| inline | the stack is as wide as its content and sits in the line of text | off |
+| Direction | `vertical` (a column), `horizontal` (a row) | `vertical` |
+| Gap | A step of the scale, from 0 to 64px | 16px |
+| Align | `start`, `center`, `end`, `stretch`, `baseline` — across the stack | Not set: children stretch |
+| Justify | `start`, `center`, `end`, `between`, `around` — along the stack | Not set: children pack at the start |
+| Wrap | Children flow onto a new line when they run out of room | Off |
+| Inline | The stack is as wide as its content and sits in the line of text | Off |
 
-with no alignment set, children stretch across the stack: full width in a vertical stack, full height in a row.
+With no alignment set, children stretch across the stack: full width in a vertical stack, full height in a row.
 
 <Example label="a vertical stack">
   <Vertical />
@@ -65,7 +65,7 @@ with no alignment set, children stretch across the stack: full width in a vertic
   <Justified />
 </Example>
 
-wrapping is for horizontal stacks. a vertical stack only wraps when you give it a fixed height.
+Wrapping is for horizontal stacks. A vertical stack only wraps when you give it a fixed height.
 
 <Example label="badges that wrap onto a second line">
   <Wrap />
@@ -73,30 +73,30 @@ wrapping is for horizontal stacks. a vertical stack only wraps when you give it 
 
 ## behaviour
 
-- a stack takes no focus: `tab` moves through its children in source order.
-- there is no reverse direction, so what people see, what they read and where focus goes stay in the same order. keep it that way: don't reorder children with css `order` or a reversed `flex-direction`.
+- A stack takes no focus: `tab` moves through its children in source order.
+- There is no reverse direction, so what people see, what they read and where focus goes stay in the same order. Keep it that way: don't reorder children with CSS `order` or a reversed `flex-direction`.
 
-the keyboard map and the element it renders are on its [react page](/design-system/react/?path=/docs/components-layout-structure-stack--docs).
+The keyboard map and the element it renders are on its [React page](/design-system/react/?path=/docs/components-layout-structure-stack--docs).
 
 ## accessibility
 
-- a stack adds no structure for assistive tech: it has no role.
-- a stack of similar items is not a list to a screen reader. when the items are a list, mark them up as one.
+- A stack adds no structure for assistive tech: it has no role.
+- A stack of similar items is not a list to a screen reader. When the items are a list, mark them up as one.
 
 ## content
 
-a stack has no text of its own. order its children the way people read and act: what the group is about first, its actions last.
+A stack has no text of its own. Order its children the way people read and act: what the group is about first, its actions last.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="children in the order people read and tab: cancel, then the emphasized action.">
+  <Do caption="Children in the order people read and tab: cancel, then the emphasized action.">
     <Stack direction="horizontal" gap={8}>
       <Button variant="ghost">cancel</Button>
       <Button variant="primary">save changes</Button>
     </Stack>
   </Do>
-  <Dont caption="the same look made with row-reverse. tab now reaches save before cancel, against what people see.">
+  <Dont caption="The same look made with row-reverse. Tab now reaches save before cancel, against what people see.">
     <Stack direction="horizontal" gap={8} style={{ flexDirection: 'row-reverse' }}>
       <Button variant="primary">save changes</Button>
       <Button variant="ghost">cancel</Button>
@@ -105,7 +105,7 @@ a stack has no text of its own. order its children the way people read and act: 
 </DoDont>
 
 <DoDont>
-  <Do column caption="a row of tags in a narrow space wraps onto the next line.">
+  <Do column caption="A row of tags in a narrow space wraps onto the next line.">
     <Box border style={{ width: '200px' }}>
       <Stack direction="horizontal" gap={8} wrap>
         <Badge>gpu</Badge>
@@ -116,7 +116,7 @@ a stack has no text of its own. order its children the way people read and act: 
       </Stack>
     </Box>
   </Do>
-  <Dont column caption="without wrap, the row runs out of its container.">
+  <Dont column caption="Without wrap, the row runs out of its container.">
     <Box border style={{ width: '200px' }}>
       <Stack direction="horizontal" gap={8}>
         <Badge>gpu</Badge>
@@ -131,7 +131,7 @@ a stack has no text of its own. order its children the way people read and act: 
 
 ## related
 
-- <C slug="box" /> — padding and a background around content.
-- <C slug="divider" /> — a rule between groups in a stack.
-- <C slug="toolbar">toolbar</C> — a row of actions with emphasis and overflow.
-- [layout](/design-system/foundations/layout/) — the scale behind the gap.
+- <C slug="box">Box</C> — padding and a background around content.
+- <C slug="divider">Divider</C> — a rule between groups in a stack.
+- <C slug="toolbar">Toolbar</C> — a row of actions with emphasis and overflow.
+- [Layout](/design-system/foundations/layout/) — the scale behind the gap.

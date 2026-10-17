@@ -15,8 +15,8 @@ interface Episode {
 }
 
 const ROWS: Episode[] = [
-  { id: 'a', code: 'S04E07', name: 'the long way round', aired: '2026-10-12T20:00:00Z', state: 'neutral', text: 'missing', detail: 'nothing found · again in 6h' },
-  { id: 'b', code: 'S04E08', name: 'low tide', aired: '2026-10-16T20:00:00Z', state: 'error', text: 'needs attention', detail: 'no release passed the quality profile: every one was below 720p' },
+  { id: 'a', code: 'S04E07', name: 'The Long Way Round', aired: '2026-10-12T20:00:00Z', state: 'neutral', text: 'missing', detail: 'nothing found · again in 6h' },
+  { id: 'b', code: 'S04E08', name: 'Low Tide', aired: '2026-10-16T20:00:00Z', state: 'error', text: 'needs attention', detail: 'no release passed the quality profile: every one was below 720p' },
   { id: 'c', code: 'S04E09', name: null, aired: null, state: 'information', text: 'on its way', detail: 'waiting for the catalog' },
 ];
 

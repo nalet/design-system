@@ -1,30 +1,30 @@
 # @nalet/design-system
 
-the nalet design system. dark canvas, monospace voice, blue chevron, one
-cursor. a single identity for every nalet surface, and the house style of
+The nalet design system. Dark canvas, monospace voice, blue chevron, one
+cursor. A single identity for every nalet surface, and the house style of
 every console built on it.
 
-> if a screen would look at home in a tmux pane, it is on. if it looks like a
-> saas landing page, start over.
+> If a screen would look at home in a tmux pane, it is on. If it looks like a
+> SaaS landing page, start over.
 
-- **guidelines:** https://nalet.github.io/design-system/ — principles, foundations,
+- **Guidelines:** https://nalet.github.io/design-system/ — principles, foundations,
   styles, a design-guidance page per component, and patterns.
-- **react:** https://nalet.github.io/design-system/react/ — the storybook: each
+- **React:** https://nalet.github.io/design-system/react/ — the Storybook: each
   component's playground, examples, implementation notes and props.
-- **source:** https://github.com/nalet/design-system
+- **Source:** https://github.com/nalet/design-system
 
 ## install
 
-install a release tarball (each github release carries one; no registry needed):
+Install a release tarball (each GitHub release carries one; no registry needed):
 
 ```sh
 npm i https://github.com/nalet/design-system/releases/download/v0.3.0/nalet-design-system-0.3.0.tgz
 ```
 
-peer dependencies: `react` and `react-dom` 18 or 19, `lucide-react`.
+Peer dependencies: `react` and `react-dom` 18 or 19, `lucide-react`.
 
-the components are plain react + css (no tailwind dependency inside the library).
-import the two stylesheets once, near your app root, then use components:
+The components are plain React + CSS (no Tailwind dependency inside the library).
+Import the two stylesheets once, near your app root, then use components:
 
 ```tsx
 // tokens: css custom properties, the page base and the type utilities (no fonts).
@@ -44,12 +44,12 @@ export function App() {
 }
 ```
 
-no font files ship with the package. load **inter** (400–700) and **jetbrains mono**
+No font files ship with the package. Load **Inter** (400–700) and **JetBrains Mono**
 (400–800) in the app — self-hosted (e.g. `@fontsource/inter`,
-`@fontsource/jetbrains-mono`) or from google fonts; without them the stacks fall back
+`@fontsource/jetbrains-mono`) or from Google Fonts; without them the stacks fall back
 to `system-ui` and `ui-monospace`.
 
-typed token objects are available too:
+Typed token objects are available too:
 
 ```ts
 import { tokens } from '@nalet/design-system/tokens';
@@ -57,7 +57,7 @@ import { tokens } from '@nalet/design-system/tokens';
 
 ### tailwind consumers
 
-if your app uses tailwind and you want the same colors / fonts / spacing, extend
+If your app uses Tailwind and you want the same colors / fonts / spacing, extend
 your config with the shipped preset:
 
 ```js
@@ -67,42 +67,46 @@ module.exports = {
 };
 ```
 
-the preset only maps tokens into `theme.extend` (colors, fontFamily, spacing). the
-library itself does not depend on tailwind.
+The preset only maps tokens into `theme.extend` (colors, fontFamily, spacing). The
+library itself does not depend on Tailwind.
 
 ## non-negotiables
 
-- **dark canvas only.** `--bg #0B0F19` / `--bg-2 #0D1117` / `--surface #11161F` /
+- **Dark canvas only.** `--bg #0B0F19` / `--bg-2 #0D1117` / `--surface #11161F` /
   `--surface-2 #161B26` / `--border #1F2633` / `--border-2 #2A3142`.
-- **foreground.** `--fg #E6E6E6` / `--fg-2 #C9D1D9` / `--fg-muted #AEB8C2` /
-  `--fg-dim #7B8597`. every text token meets 4.5:1 on every background — a
+- **Foreground.** `--fg #E6E6E6` / `--fg-2 #C9D1D9` / `--fg-muted #AEB8C2` /
+  `--fg-dim #7B8597`. Every text token meets 4.5:1 on every background — a
   test enforces it.
-- **the `>` chevron is the brand glyph** and is **always** `--cloud-blue`
-  (`#58A6FF`) — links and the primary cta too. `--cloud-cyan #00A4DC` is the
+- **The `>` chevron is the brand glyph** and is **always** `--cloud-blue`
+  (`#58A6FF`) — links and the primary CTA too. `--cloud-cyan #00A4DC` is the
   cursor / active stroke. `--signal-green #2EA043` = ok, `--signal-amber #F2B233`
   = warn.
-- **type.** `'JetBrains Mono'` for display / headings / system / code / brand,
-  `'Inter'` for body / prose / ui-labels. exact metrics per role in
+- **Type.** `'JetBrains Mono'` for display / headings / system / code / brand,
+  `'Inter'` for body / prose / UI labels. Exact metrics per role in
   `tokens/tokens.json`.
-- **space.** 4-base only: `4 / 8 / 12 / 16 / 24 / 32 / 48 / 64`.
-- **square frames.** `border-radius: 0` on every card, panel, tile, button,
-  input, and dialog. **no rounded corners.** icons are the only rounded shape and
-  that radius is baked into the icon pngs — never add radius in css.
-- **voice.** lowercase, short copy, no emoji, no exclamation marks.
+- **Space.** 4-base only: `4 / 8 / 12 / 16 / 24 / 32 / 48 / 64`.
+- **Square frames.** `border-radius: 0` on every card, panel, tile, button,
+  input, and dialog. **No rounded corners.** Icons are the only rounded shape and
+  that radius is baked into the icon PNGs — never add radius in CSS.
+- **Voice.** Two voices, one per typeface. Monospace is the system's voice and
+  it is lowercase: titles, buttons, tabs, navigation, statuses, headers, numbers
+  and codes. The body face is the reader's language, in sentence case:
+  descriptions, messages, field labels, hints and errors, and prose. Short copy,
+  no emoji, no exclamation marks.
 
 ## what's in the box
 
-- `@nalet/design-system` — react components + brand glyphs (`Chevron`, `Lockup`,
+- `@nalet/design-system` — React components + brand glyphs (`Chevron`, `Lockup`,
   `Icon`).
-- `@nalet/design-system/tokens.css` — css custom properties, the page base and the type utilities (no font files: see install).
+- `@nalet/design-system/tokens.css` — CSS custom properties, the page base and the type utilities (no font files: see install).
 - `@nalet/design-system/styles.css` — the component styles.
 - `@nalet/design-system/tokens` — typed token objects.
-- `@nalet/design-system/tailwind` — tailwind preset for consumer apps.
+- `@nalet/design-system/tailwind` — Tailwind preset for consumer apps.
 
 ## develop
 
-toolchain: node 20.19+ (ci uses 24), react 19, vite 8, typescript 7 (with
-`@typescript/typescript6` for the declaration build), storybook 10.
+Toolchain: Node 20.19+ (CI uses 24), React 19, Vite 8, TypeScript 7 (with
+`@typescript/typescript6` for the declaration build), Storybook 10.
 
 ```sh
 npm ci
@@ -118,18 +122,18 @@ npm test                 # unit, accessibility (axe), token-contrast and redirec
 npm run lint             # tsc --noEmit (typecheck)
 ```
 
-the docs are two sites in one folder: the guidelines (`site/`, astro) at
-`/design-system/`, and the react subsite (`stories/`, storybook) at
-`/design-system/react/`. examples are written once, as stories, and the
-guidelines render them through storybook's portable stories. see
+The docs are two sites in one folder: the guidelines (`site/`, Astro) at
+`/design-system/`, and the React subsite (`stories/`, Storybook) at
+`/design-system/react/`. Examples are written once, as stories, and the
+guidelines render them through Storybook's portable stories. See
 [contributing](./CONTRIBUTING.md).
 
-tokens are the source of truth: edit `tokens/tokens.json`, run `build-tokens`,
-and the css, the typed tokens, and the tailwind preset regenerate together.
+Tokens are the source of truth: edit `tokens/tokens.json`, run `build-tokens`,
+and the CSS, the typed tokens, and the Tailwind preset regenerate together.
 
 ## release
 
-releases are gated on a version tag. bump `version` in `package.json`, commit,
+Releases are gated on a version tag. Bump `version` in `package.json`, commit,
 then:
 
 ```sh
@@ -137,11 +141,11 @@ git tag vX.Y.Z
 git push origin vX.Y.Z
 ```
 
-the `release` workflow builds the library and attaches the packed tarball to a
-github release — that is what apps install. it also publishes to npmjs once an
+The `release` workflow builds the library and attaches the packed tarball to a
+GitHub release — that is what apps install. It also publishes to npmjs once an
 `NPM_TOKEN` actions secret (an npm automation token for the `@nalet` org) exists;
 without it that step is skipped.
 
 ## license
 
-[mit](./LICENSE).
+[MIT](./LICENSE).

@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: shape
-description: square frames, one-pixel hairlines, rules that mark what is current, flat surfaces — and the one rounded shape.
+description: Square frames, one-pixel hairlines, rules that mark what is current, flat surfaces — and the one rounded shape.
 ---
 import { Server } from 'lucide-react';
 import { Badge, Button, Card, Icon, MessageStrip, ObjectStatus, Stack, Text } from '@nalet/design-system';
@@ -10,14 +10,14 @@ import { DoDont, Do, Dont, Example } from '@site/blocks';
 
 # shape
 
-every frame is square, every line is a pixel wide, and surfaces lie flat on the canvas. the only rounded shapes are the icons.
+Every frame is square, every line is a pixel wide, and surfaces lie flat on the canvas. The only rounded shapes are the icons.
 
 <Example label="square frames: a card, a message strip, a badge and buttons">
   <div style={{ width: '100%', maxWidth: '360px' }}>
     <Card header="storage-01">
       <Fragment slot="header-aside"><ObjectStatus state="success">healthy</ObjectStatus></Fragment>
       <Stack gap={12}>
-        <Text variant="muted">412 gb used, checked today.</Text>
+        <Text variant="muted">412 GB used, checked today.</Text>
         <Stack direction="horizontal" gap={8} wrap>
           <Badge>zone a</Badge>
           <Button size="sm">check now</Button>
@@ -26,77 +26,77 @@ every frame is square, every line is a pixel wide, and surfaces lie flat on the 
     </Card>
   </div>
   <div style={{ width: '100%', maxWidth: '360px' }}>
-    <MessageStrip state="warning" live="off">one disk of storage-02 is slow.</MessageStrip>
+    <MessageStrip state="warning" live="off">One disk of storage-02 is slow.</MessageStrip>
   </div>
 </Example>
 
 ## square frames
 
-`border-radius` is 0 on every card, panel, tile, button, input, menu, toast, tooltip and dialog — the components set it themselves, and the tailwind preset's default radius is 0 too. no rounded corners, no pills, no circles behind an icon or a count. a square frame reads like a terminal pane: it lines up with its neighbours and with the grid of the text.
+`border-radius` is 0 on every card, panel, tile, button, input, menu, toast, tooltip and dialog — the components set it themselves, and the Tailwind preset's default radius is 0 too. No rounded corners, no pills, no circles behind an icon or a count. A square frame reads like a terminal pane: it lines up with its neighbours and with the grid of the text.
 
 ## lines
 
 | line | token | where |
 | --- | --- | --- |
-| hairline, 1px | `--border` | cards, tables, dividers, the edge of a region |
-| heavier hairline, 1px | `--border-2` | the edge of what floats: menus, tooltips, toasts, dialogs; a default button |
-| control boundary, 1px | `--border-control` | inputs, selects, textareas, checkboxes, the switch track: it meets 3:1, so the control is visible |
-| state border, 1px | `--state-*-border` | the frame of a message strip or a status chip, around its tint |
+| Hairline, 1px | `--border` | Cards, tables, dividers, the edge of a region |
+| Heavier hairline, 1px | `--border-2` | The edge of what floats: menus, tooltips, toasts, dialogs; a default button |
+| Control boundary, 1px | `--border-control` | Inputs, selects, textareas, checkboxes, the switch track: it meets 3:1, so the control is visible |
+| State border, 1px | `--state-*-border` | The frame of a message strip or a status chip, around its tint |
 
 `--border` and `--border-2` are decoration and sit outside the contrast policy; a control is never identified by them alone — see [colour](/design-system/styles/colour/#contrast).
 
 ## rules
 
-a thicker line on one edge marks what is current or what something is about:
+A thicker line on one edge marks what is current or what something is about:
 
 - **2px `--cloud-blue` on the leading edge** — a selected table row, the current tile, a focused menu item (in `--focus-ring`).
 - **2px `--cloud-blue` under the label** — the current tab.
 - **3px in a state's colour on the leading edge** — a message strip, a toast, a highlighted table row.
 - **3px `--cloud-blue` on the leading edge** — the selection toolbar, while something is selected.
 
-a rule always comes with words: the row also has its checked box, the strip its message, the tab its label.
+A rule always comes with words: the row also has its checked box, the strip its message, the tab its label.
 
 ## surfaces
 
-- surfaces are flat. a card, a panel or a tile is a fill (`--surface`) and a hairline, never a shadow.
-- what floats over the page is set apart by a heavier hairline. the two menus that float over content — the <C slug="action-menu" /> and the <C slug="multi-select" /> panel — also cast one soft shadow (`0 8px 24px` of black at 45%), so they read as above the rows they cover.
-- a <C slug="modal" /> sits on a backdrop of the canvas at 72%, which dims the page behind it; it casts no shadow.
-- depth comes from the canvas steps — `--bg`, `--bg-2`, `--surface`, `--surface-2` — not from elevation.
+- Surfaces are flat. A card, a panel or a tile is a fill (`--surface`) and a hairline, never a shadow.
+- What floats over the page is set apart by a heavier hairline. The two menus that float over content — the <C slug="action-menu" /> and the <C slug="multi-select" /> panel — also cast one soft shadow (`0 8px 24px` of black at 45%), so they read as above the rows they cover.
+- A <C slug="modal" /> sits on a backdrop of the canvas at 72%, which dims the page behind it; it casts no shadow.
+- Depth comes from the canvas steps — `--bg`, `--bg-2`, `--surface`, `--surface-2` — not from elevation.
 
 ## the one rounded shape
 
-icons are the only rounded shape. lucide draws them with round caps and joins, and the app icon carries its rounded corners in the png. everything around an icon stays square: no `border-radius`, no circle or pill behind it. the tile's 28px icon box is square and unfilled.
+Icons are the only rounded shape. Lucide draws them with round caps and joins, and the app icon carries its rounded corners in the PNG. Everything around an icon stays square: no `border-radius`, no circle or pill behind it. The tile's 28px icon box is square and unfilled.
 
 <Example label="a square, unfilled icon box">
   <span style={{ display: 'inline-grid', placeItems: 'center', width: '28px', height: '28px', color: 'var(--cloud-blue)' }}>
     <Icon icon={Server} size={22} />
   </span>
-  <Text variant="muted">the icon is the only round thing; its box is square</Text>
+  <Text variant="muted">The icon is the only round thing; its box is square</Text>
 </Example>
 
 ## do and don't
 
 <DoDont>
-  <Do caption="a square frame and a hairline.">
-    <div style={{ padding: 'var(--s-4)', background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--fg-2)', fontSize: '13px' }}>412 gb used</div>
+  <Do caption="A square frame and a hairline.">
+    <div style={{ padding: 'var(--s-4)', background: 'var(--surface)', border: '1px solid var(--border)', color: 'var(--fg-2)', fontSize: '13px' }}>412 GB used</div>
   </Do>
-  <Dont caption="rounded corners and a shadow: a saas card, not a terminal pane.">
-    <div style={{ padding: 'var(--s-4)', background: 'var(--surface)', borderRadius: '12px', boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45)', color: 'var(--fg-2)', fontSize: '13px' }}>412 gb used</div>
+  <Dont caption="Rounded corners and a shadow: a SaaS card, not a terminal pane.">
+    <div style={{ padding: 'var(--s-4)', background: 'var(--surface)', borderRadius: '12px', boxShadow: '0 8px 24px rgba(0, 0, 0, 0.45)', color: 'var(--fg-2)', fontSize: '13px' }}>412 GB used</div>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="a count in a square badge.">
+  <Do caption="A count in a square badge.">
     <Badge tone="blue">3</Badge>
   </Do>
-  <Dont caption="a pill or a circle behind a count.">
+  <Dont caption="A pill or a circle behind a count.">
     <span style={{ display: 'inline-grid', placeItems: 'center', minWidth: '20px', height: '20px', padding: '0 6px', borderRadius: '999px', background: 'var(--cloud-blue)', color: 'var(--bg)', fontFamily: 'var(--ff-mono)', fontSize: '11px' }}>3</span>
   </Dont>
 </DoDont>
 
 ## related
 
-- [colour](/design-system/styles/colour/) — the canvas steps and the border tokens.
-- [iconography](/design-system/styles/iconography/) — the icons, the one rounded shape.
-- [layout](/design-system/foundations/layout/) — the space inside and between the frames.
-- [interaction](/design-system/foundations/interaction/) — the rules and outlines of each state.
+- [Colour](/design-system/styles/colour/) — the canvas steps and the border tokens.
+- [Iconography](/design-system/styles/iconography/) — the icons, the one rounded shape.
+- [Layout](/design-system/foundations/layout/) — the space inside and between the frames.
+- [Interaction](/design-system/foundations/interaction/) — the rules and outlines of each state.

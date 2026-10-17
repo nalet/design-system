@@ -6,19 +6,19 @@ import { Toaster } from '../../src';
 
 # selection and bulk actions
 
-design guidance — selection modes, press versus select, select all, the selection toolbar, keeping a selection, the keys: **[selection and bulk actions on the guidelines site →](https://nalet.github.io/design-system/patterns/selection-and-bulk-actions/)**
+Design guidance — selection modes, press versus select, select all, the selection toolbar, keeping a selection, the keys: **[selection and bulk actions on the guidelines site →](https://nalet.github.io/design-system/patterns/selection-and-bulk-actions/)**
 
-the two examples below are the pattern's reference code: open "show code" under each.
+The two examples below are the pattern's reference code: open "show code" under each.
 
 ## select and act
 
-a flat list of 40 made-up episodes, ten at a time. select rows and grab them, use a row's menu; once the first ten are selected, the toolbar offers "select all".
+A flat list of 40 made-up episodes, ten at a time. Select rows and grab them, use a row's menu; once the first ten are selected, the toolbar offers "select all".
 
 <Canvas of={SelectionStories.SelectAndAct} />
 
 ## group actions
 
-the episodes of one made-up series, grouped by season, each season with "grab all n".
+The episodes of one made-up series, grouped by season, each season with "grab all n".
 
 <Canvas of={SelectionStories.GroupActions} />
 
@@ -26,10 +26,10 @@ the episodes of one made-up series, grouped by season, each season with "grab al
 
 ## implementation notes
 
-- the selection is the app's: `DataTable` takes `selectable`, `selected` (a set of row keys) and `onSelectionChange`, and hands the next set to it. it doesn't prune `selected` when `rows` change; keep, drop or clear the selection yourself when a filter, a search or a tab changes the list.
+- The selection is the app's: `DataTable` takes `selectable`, `selected` (a set of row keys) and `onSelectionChange`, and hands the next set to it. It doesn't prune `selected` when `rows` change; keep, drop or clear the selection yourself when a filter, a search or a tab changes the list.
 - `isRowSelectable` gives a row a disabled checkbox and keeps it out of every way of selecting; `rowLabel` names each row's checkbox ("select S04E07").
 - `onRowPress` makes a click outside a row's controls, and `enter`, open the row; without it, a click on the row toggles its checkbox.
-- rows carry `aria-selected`, and the table `aria-multiselectable`.
-- `SelectionToolbar` takes `selectedCount` and `onClearSelection`; `primaryAction(n)` returns the emphasized action for exactly that selection (label and handler), or `null` while nothing is selected; `actions` are never emphasized (`overflow: true` puts one in the "more actions" menu); `selectAll` offers "select all n"; `formatSelected` words the count. it announces each change of the count politely, never its first state.
-- a group's action is `groupAction(group)` on the table, next to `groupBy` and `groupHeader`.
-- the toast comes from `toast()`, shown by the one `<Toaster />` near the app's root.
+- Rows carry `aria-selected`, and the table `aria-multiselectable`.
+- `SelectionToolbar` takes `selectedCount` and `onClearSelection`; `primaryAction(n)` returns the emphasized action for exactly that selection (label and handler), or `null` while nothing is selected; `actions` are never emphasized (`overflow: true` puts one in the "more actions" menu); `selectAll` offers "select all n"; `formatSelected` words the count. It announces each change of the count politely, never its first state.
+- A group's action is `groupAction(group)` on the table, next to `groupBy` and `groupHeader`.
+- The toast comes from `toast()`, shown by the one `<Toaster />` near the app's root.

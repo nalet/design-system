@@ -5,13 +5,13 @@ import * as ObjectStatusStories from './ObjectStatus.stories';
 
 # object status
 
-design guidance — when to use it, its states and appearances, the vocabulary, its words: **[object status on the guidelines site →](https://nalet.github.io/design-system/components/object-status/)**
+Design guidance — when to use it, its states and appearances, the vocabulary, its words: **[object status on the guidelines site →](https://nalet.github.io/design-system/components/object-status/)**
 
 <Canvas of={ObjectStatusStories.Playground} />
 
 ## examples
 
-the five values of `state`, as a `chip` (the default `appearance`).
+The five values of `state`, as a `chip` (the default `appearance`).
 
 <Canvas of={ObjectStatusStories.States} />
 
@@ -23,28 +23,28 @@ the five values of `state`, as a `chip` (the default `appearance`).
 
 <Canvas of={ObjectStatusStories.WithoutGlyph} />
 
-a vocabulary written once with `defineStates`; each row spreads its entry into `ObjectStatus`.
+A vocabulary written once with `defineStates`; each row spreads its entry into `ObjectStatus`.
 
 <Canvas of={ObjectStatusStories.Vocabulary} />
 
-hosts sorted with `STATE_SEVERITY`, most urgent first.
+Hosts sorted with `STATE_SEVERITY`, most urgent first.
 
 <Canvas of={ObjectStatusStories.BySeverity} />
 
 ## implementation notes
 
-- renders an inline-flex `<span>` and sets `data-state` on it. it takes no focus, has no keys of its own and doesn't animate.
-- the glyph sits in an `aria-hidden` span. `icon={false}` hides it, and `icon` takes your own node in its place, hidden the same way.
-- for `warning` and `error`, a visually hidden `warning: ` or `error: ` goes in front of the text. `stateLabel` changes that word: a string replaces it (`stateLabel="fehler"` reads "fehler: failed"), and on a calm state adds one; `false` leaves it out.
-- the text is lowercased with `text-transform`; the dom keeps the text you wrote.
-- it isn't a live region: a status that changes in place is not announced.
+- Renders an inline-flex `<span>` and sets `data-state` on it. It takes no focus, has no keys of its own and doesn't animate.
+- The glyph sits in an `aria-hidden` span. `icon={false}` hides it, and `icon` takes your own node in its place, hidden the same way.
+- For `warning` and `error`, a visually hidden `warning: ` or `error: ` goes in front of the text. `stateLabel` changes that word: a string replaces it (`stateLabel="fehler"` reads "fehler: failed"), and on a calm state adds one; `false` leaves it out.
+- The text is lowercased with `text-transform`; the DOM keeps the text you wrote.
+- It isn't a live region: a status that changes in place is not announced.
 - `text` and `children` fill the same slot (`text` wins when both are given); `text` is what lets a vocabulary entry spread in.
-- every other `<span>` attribute (`id`, `title`, `aria-*`, `data-*`) and the `ref` reach the outer `span`.
+- Every other `<span>` attribute (`id`, `title`, `aria-*`, `data-*`) and the `ref` reach the outer `span`.
 - axe-core finds no violations, colour contrast included, in any state, as a chip or as text.
 
 ### vocabulary: `defineStates`
 
-one table per object: each value, with its state and its words.
+One table per object: each value, with its state and its words.
 
 ```tsx
 import { ObjectStatus, defineStates } from '@nalet/design-system';
@@ -62,7 +62,7 @@ const LINK = defineStates<LinkValue>({
 <ObjectStatus {...LINK[row.link]} />
 ```
 
-`defineStates` returns a frozen copy of the table. pass your value type as the type argument, as above, and typescript makes the table exhaustive: a value without a row, or a row for a value that doesn't exist, is a type error. without the type argument, the keys you write are the type. a reviewer reads in one place that `firewalled` is a warning, not a success.
+`defineStates` returns a frozen copy of the table. Pass your value type as the type argument, as above, and TypeScript makes the table exhaustive: a value without a row, or a row for a value that doesn't exist, is a type error. Without the type argument, the keys you write are the type. A reviewer reads in one place that `firewalled` is a warning, not a success.
 
 ### sorting: `STATE_SEVERITY`
 
@@ -80,7 +80,7 @@ rows.sort((a, b) => STATE_SEVERITY[HOST[b.status].state] - STATE_SEVERITY[HOST[a
 
 | export | what it is |
 | --- | --- |
-| `defineStates(table)` | returns a frozen copy of the table: each domain value to `{ state, text }` (a `StateSpec`). |
-| `STATE_SEVERITY` | the frozen ranking `error` 4, `warning` 3, `information` 2, `neutral` 1, `success` 0. |
-| `OBJECT_STATES` | the five states as an array, `neutral` first. |
-| `ObjectState`, `StateSpec` | the types of a state and of a vocabulary entry. |
+| `defineStates(table)` | Returns a frozen copy of the table: each domain value to `{ state, text }` (a `StateSpec`). |
+| `STATE_SEVERITY` | The frozen ranking `error` 4, `warning` 3, `information` 2, `neutral` 1, `success` 0. |
+| `OBJECT_STATES` | The five states as an array, `neutral` first. |
+| `ObjectState`, `StateSpec` | The types of a state and of a vocabulary entry. |

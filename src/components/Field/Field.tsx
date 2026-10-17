@@ -15,7 +15,7 @@ export interface FieldProps extends Omit<React.HTMLAttributes<HTMLDivElement>, '
   label?: React.ReactNode;
   /** helper text below the control. */
   hint?: React.ReactNode;
-  /** error text. when set, replaces the hint and tints amber. */
+  /** error text. when set, replaces the hint, renders in --state-error and marks the control invalid. */
   error?: React.ReactNode;
   /** mark the field required (adds a subtle marker). */
   required?: boolean;

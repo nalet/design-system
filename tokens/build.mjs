@@ -55,11 +55,13 @@ function resolveValue(value) {
 // Flatten source token groups into ordered, usable shapes
 // ---------------------------------------------------------------------------
 
-// The signal.* group is prefixed (signal-green / signal-amber) so its token
-// keys match the canonical CSS-var names across every artifact. All other
-// groups expose their bare name (bg, cloud-blue, ...).
+// The signal.* and state.* groups are prefixed (signal-green, state-warning,
+// state-warning-bg) so their token keys match the canonical CSS-var names
+// across every artifact. All other groups expose their bare name (bg,
+// cloud-blue, border-control, ...).
+const PREFIXED_GROUPS = new Set(['signal', 'state']);
 function tokenKey(group, name) {
-  return group === 'signal' ? `signal-${name}` : name;
+  return PREFIXED_GROUPS.has(group) ? `${group}-${name}` : name;
 }
 
 // color: keep group structure but produce flat { key: hex } honoring source order.
@@ -111,6 +113,8 @@ const groupLabel = {
   foreground: 'foreground',
   brand: 'brand & signal',
   signal: 'brand & signal',
+  control: 'controls (boundaries + focus)',
+  state: 'semantic state (text/icon, -bg tint, -border)',
 };
 
 // Build the :root color block grouped + aligned like the seed.
@@ -336,6 +340,17 @@ const missing = seedHexes.filter((hex) => !css.toUpperCase().includes(hex));
 if (missing.length) {
   console.error('FAIL: generated tokens.css missing hexes:', missing.join(', '));
   process.exit(1);
+}
+
+// Contrast: the same policy the token test enforces (tokens/contrast.test.ts)
+// and the colour docs render. The build only warns, so a token can be tuned and
+// previewed; the test is the gate that keeps a failing pair out of main.
+const { contrastReport } = await import('./contrast.mjs');
+const failing = contrastReport(colors).filter((r) => !r.pass);
+for (const r of failing) {
+  console.warn(
+    `WARN contrast: --${r.fg} on --${r.bg} is ${r.ratio.toFixed(2)}:1, needs ${r.min}:1 (${r.rule})`,
+  );
 }
 
 console.log('tokens build ok');

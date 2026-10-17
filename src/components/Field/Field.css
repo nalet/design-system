@@ -28,5 +28,5 @@
 }
 
 .nc-field__msg--error {
-  color: var(--signal-amber);
+  color: var(--state-error);
 }

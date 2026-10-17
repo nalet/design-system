@@ -5,7 +5,7 @@ import './Input.css';
 export interface InputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   /** size variant. default md. */
   inputSize?: 'sm' | 'md' | 'lg';
-  /** paint the error (amber) border. */
+  /** paint the error border (--state-error) and set aria-invalid. */
   invalid?: boolean;
   /** node rendered inside the field on the left (e.g. an icon or `>`). */
   leading?: React.ReactNode;

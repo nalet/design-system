@@ -35,6 +35,8 @@
     "build": "node tokens/build.mjs && vite build",
     "dev": "vite build --watch",
     "lint": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -48,17 +50,24 @@
     "@storybook/addon-docs": "^10.6.1",
     "@storybook/react": "^10.6.1",
     "@storybook/react-vite": "^10.6.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
+    "@testing-library/user-event": "^14.6.8",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
     "@typescript/typescript6": "^6.0.2",
     "@vitejs/plugin-react": "^6.1.1",
+    "axe-core": "^4.14.0",
+    "jsdom": "^30.1.3",
     "lucide-react": "^1.50.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
+    "remark-gfm": "^4.0.1",
     "storybook": "^10.6.1",
     "typescript": "^7.0.2",
     "vite": "^8.3.2",
-    "vite-plugin-dts": "^5.1.1"
+    "vite-plugin-dts": "^5.1.1",
+    "vitest": "^5.0.5"
   },
   "publishConfig": {
     "access": "public"

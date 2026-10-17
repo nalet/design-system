@@ -35,6 +35,9 @@ jobs:
       - name: typecheck
         run: npm run lint
 
+      - name: test (unit, axe, token contrast)
+        run: npm test
+
       - name: build lib
         run: npm run build
 

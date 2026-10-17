@@ -4,7 +4,7 @@
   box-sizing: border-box;
   width: 100%;
   background: var(--bg-2);
-  border: 1px solid var(--border-2);
+  border: 1px solid var(--border-control);
   border-radius: 0;
   color: var(--fg);
   transition: border-color 0.12s ease, box-shadow 0.12s ease;
@@ -16,11 +16,11 @@
 }
 
 .nc-input--invalid {
-  border-color: var(--signal-amber);
+  border-color: var(--state-error);
 }
 .nc-input--invalid:focus-within {
-  border-color: var(--signal-amber);
-  box-shadow: inset 0 0 0 1px var(--signal-amber);
+  border-color: var(--state-error);
+  box-shadow: inset 0 0 0 1px var(--state-error);
 }
 
 .nc-input--disabled {

@@ -5,7 +5,7 @@
   box-sizing: border-box;
   width: 100%;
   background: var(--bg-2);
-  border: 1px solid var(--border-2);
+  border: 1px solid var(--border-control);
   border-radius: 0;
   transition: border-color 0.12s ease, box-shadow 0.12s ease;
 }
@@ -16,7 +16,7 @@
 }
 
 .nc-select--invalid {
-  border-color: var(--signal-amber);
+  border-color: var(--state-error);
 }
 
 .nc-select--disabled {

@@ -4,7 +4,7 @@
  * src/styles/tokens.css is built from tokens/tokens.json on top of these
  * values; this seed is the human-readable reference snapshot.
  *
- * Last reviewed: 2026-05-22.
+ * Last reviewed: 2026-10-17 (fg-dim raised to meet 4.5:1; state + control tokens).
  */
 
 :root {
@@ -20,7 +20,7 @@
   --fg:          #E6E6E6;
   --fg-2:        #C9D1D9;
   --fg-muted:    #AEB8C2;
-  --fg-dim:      #6E7787;
+  --fg-dim:      #7B8597;
 
   /* brand & signal */
   --cloud-blue:    #58A6FF;  /* chevron, links, primary cta */
@@ -28,6 +28,18 @@
   --signal-green:  #2EA043;  /* ok / running               */
   --signal-amber:  #F2B233;  /* warn / delayed             */
   --signal-red:    #F85149;  /* error / failed / offline   */
+
+  /* controls */
+  --border-control: #646C7A;  /* input / select / checkbox boundary, 3:1 */
+  --focus-ring:     #00A4DC;  /* keyboard focus outline                 */
+  --surface-selected: #111B2A; /* selected row or item                  */
+
+  /* semantic state: text/icon, tint, border */
+  --state-neutral:     #AEB8C2;  --state-neutral-bg:     #161B26;  --state-neutral-border:     #2A3142;
+  --state-information: #58A6FF;  --state-information-bg: #15202E;  --state-information-border: #3F6697;
+  --state-success:     #2EA043;  --state-success-bg:     #101F1B;  --state-success-border:     #2C6342;
+  --state-warning:     #F2B233;  --state-warning-bg:     #24211A;  --state-warning-border:     #846B3B;
+  --state-error:       #F85149;  --state-error-bg:       #25171C;  --state-error-border:       #873F45;
 
   /* type */
   --ff-ui:   'Inter', system-ui, sans-serif;

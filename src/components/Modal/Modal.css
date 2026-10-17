@@ -70,7 +70,7 @@
 }
 
 .nc-modal__close:focus-visible {
-  outline: 2px solid var(--cloud-cyan);
+  outline: 2px solid var(--focus-ring);
   outline-offset: 1px;
 }
 

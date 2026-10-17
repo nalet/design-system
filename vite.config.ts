@@ -25,7 +25,7 @@ export default defineConfig({
     react(),
     dts({
       include: ['src'],
-      exclude: ['**/*.stories.tsx'],
+      exclude: ['**/*.stories.tsx', '**/*.test.ts', '**/*.test.tsx', 'src/test/**'],
       rollupTypes: false,
     }),
     copyTokensCss(),

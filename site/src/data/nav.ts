@@ -43,6 +43,7 @@ export const SECTIONS: NavSection[] = [
           { title: 'developing with it', href: url('get-started/developing/'), summary: 'The React components, the tokens, and installing a release.' },
           { title: 'versioning & changelog', href: url('get-started/versioning/'), summary: 'What a version number promises, and every change so far.' },
           { title: 'resources', href: url('get-started/resources/'), summary: 'The repository, the brand files and the React subsite.' },
+          { title: 'glossary', href: url('get-started/glossary/'), summary: 'The words these guidelines use, explained in plain language.' },
         ],
       },
     ],

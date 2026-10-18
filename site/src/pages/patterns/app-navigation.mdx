@@ -1,84 +1,98 @@
 ---
 layout: ../../layouts/Doc.astro
 title: app navigation
-description: Side navigation for an app's views — work, find, setup — and when tabs are the better fit.
+description: How people move between the views of an app — a side navigation grouped by what they do there — and when tabs are the better fit.
 draft: true
 ---
 import C from '@site/components/C.astro';
-import { DoDont, Do, Dont, Mock } from '@site/blocks';
-import { AppLayoutMock, NineTabsMock, PhoneNavMock, SideNavMock } from '@site/demos/navigation';
+import Term from '@site/components/Term.astro';
+import { DoDont, Do, Dont } from '@site/blocks';
+import {
+  AppWithSideNav, SideNavSmall, NineTabs, SideNavAnatomy, TabsForOneThing, PhoneMenu, PhoneTabs,
+} from '@site/sketches/navigation';
 
 # app navigation
 
-How a person moves between the views of one app: a side navigation that lists them, grouped by what people do there, with the view where the app opens at the top.
+Most <Term id="app">apps</Term> have more than one screen: a list of things to look at, a way to search, some settings. People need a simple way to move between these <Term id="view">views</Term>, and to always know where they are.
 
-<Mock planned="SideNavigation, an app layout" label="a downloads app: the shell bar, the side navigation and the content">
-  <AppLayoutMock />
-</Mock>
+We list an app's views down the left side, in a <Term id="side-navigation">side navigation</Term>. The views are grouped by what people do there, and the view the app opens on comes first.
 
-The side navigation and the app layout that holds it are **planned** components. The mock-ups on this page are built from the components that exist, to show the proposal.
+<figure class="ds-figure">
+  <AppWithSideNav />
+  <figcaption>A downloads app: its views on the left, grouped into work, find and setup. It opens on the things that need attention.</figcaption>
+</figure>
 
-## when to use side navigation
+The side navigation and the app layout around it are planned components; the drawings on this page show the idea.
 
-- An app with more than four or five views, or with views of different kinds: daily work, finding things, setup.
-- A vertical list scales, can be grouped, shows a count next to each view (`needs attention 3`), and stays visible while the content scrolls.
+## why down the side
 
-## when to use tabs instead
+A row of <Term id="tabs">tabs</Term> works well for a handful of views. But apps grow: a downloads app soon has requests, a missing list, downloads, search, sources, clients and settings. In one row, they no longer fit, and daily work gets mixed up with setup.
 
-- **Two to five facets of one object** — the sections of an object page: overview, episodes, files, history. Use <C slug="tabs" />.
-- **Filters of one list** — <C slug="filter-tabs" /> with counts, in a [worklist](/design-system/patterns/worklist/).
-- Tabs switch what you look at; side navigation switches what you are doing.
-
-## anatomy
-
-<Mock planned="SideNavigation" label="the side navigation of a downloads app">
-  <SideNavMock />
-</Mock>
-
-1. **Groups**, in this order: **work** (the views people use daily, the exceptions view first), **find** (search, discover), **setup** (sources, clients, settings — only for people who may change them, at the bottom).
-2. **Each item** — an icon, a label, and an optional count: a number someone acts on, neutral unless it means attention.
-3. **The current item** — marked by the accent bar on its leading edge and its weight, not by colour alone.
-
-## behaviour
-
-- **The first item is where the app opens**: its exceptions (see [principle 1](/design-system/foundations/principles/#1-the-system-does-the-work-people-handle-the-exceptions)), not its longest list.
-- **Setup is not daily work**: it sits in the setup group at the bottom of the app's navigation, and the shell's settings lists each app's setup state and links to those forms — see [settings and setup](/design-system/patterns/settings-and-setup/).
-- **A view's address changes with the item**, so a tile, a link or the back button can land on it.
-- **At medium widths** the navigation collapses to its icons.
-- **On a phone** it becomes a menu behind the app's title, not a row of tabs that scrolls sideways.
-
-<Mock planned="SideNavigation" label="at phone width: the views behind the app's title">
-  <PhoneNavMock />
-</Mock>
-
-## example: a downloads app
-
-| group | items |
-| --- | --- |
-| Work | `needs attention 3`, `on its way 12`, `requests`, `missing`, `series` |
-| Find | `search`, `discover` |
-| Setup | `search sources`, `clients`, `settings` |
-
-## content
-
-- **Group titles** — `work`, `find`, `setup`: the same three words in every app.
-- **Items** — the view's noun, as people say it: `needs attention`, `on its way`, `search sources`. The same words as the view's title.
-- **Counts** — the number someone acts on, with its thousands separator. Leave a count out when nobody acts on it.
-
-## do and don't
+A list down the side has room to grow. It can be grouped, it can show a number next to a view that needs attention, and it stays in place while the content scrolls.
 
 <DoDont>
-  <Do caption="Views grouped by what people do there: work, find, setup; the exceptions first." column>
-    <SideNavMock />
+  <Do caption="Views grouped by what people do there. The view that needs attention comes first, with its count.">
+    <SideNavSmall />
   </Do>
-  <Dont caption="Nine tabs in one row, mixing work, finding and setup — and on a phone, a tab bar that scrolls sideways." column>
-    <NineTabsMock />
+  <Dont caption="Nine tabs in one row, mixing daily work, finding things and setup. The last ones fall off the edge.">
+    <NineTabs />
   </Dont>
 </DoDont>
 
+## when tabs are the better fit
+
+Tabs are still the right choice in two places. They switch between parts of one thing, like the overview, episodes, files and history of a series. And they filter one list, like the counted tabs at the top of a [worklist](/design-system/patterns/worklist/).
+
+A simple way to tell them apart: tabs change what you are looking at, the side navigation changes what you are doing.
+
+<figure class="ds-figure">
+  <TabsForOneThing />
+  <figcaption>Tabs for the parts of one series: overview, episodes, files and history. They all belong to the same item.</figcaption>
+</figure>
+
+## anatomy
+
+<figure class="ds-figure">
+  <SideNavAnatomy />
+  <figcaption>The side navigation, close up.</figcaption>
+</figure>
+
+1. **Groups.** Every app uses the same three, in the same order: work for the views people use every day, with the exceptions first; find for search and discovery; setup for sources, clients and settings, at the bottom and only for people who may change them.
+2. **Views.** Each has an icon, a name, and, when it helps, a number someone acts on. The number turns to a warning colour only when it means attention.
+3. **The current view.** It is marked by the blue bar on its edge and slightly heavier text, so it doesn't rely on colour alone.
+
+## how it behaves
+
+- **The app opens on its first view**, which shows what needs attention (see [principle 1](/design-system/foundations/principles/#1-the-system-does-the-work-people-handle-the-exceptions)), not on its longest list.
+- **Setup stays separate from daily work.** It sits in the setup group, and the shell's settings list each app's setup and link straight to it. See [settings and setup](/design-system/patterns/settings-and-setup/).
+- **Every view has its own address**, so a tile, a link or the back button can bring people right back to it.
+- **On medium-sized screens** the list shrinks to its icons.
+- **On a phone** the views move into a menu that opens from the app's name, instead of a row of tabs that has to be scrolled sideways.
+
+<DoDont>
+  <Do caption="On a phone, the views open as a menu from the app's name.">
+    <PhoneMenu />
+  </Do>
+  <Dont caption="A row of tabs that runs off the screen and has to be scrolled sideways.">
+    <PhoneTabs />
+  </Dont>
+</DoDont>
+
+## naming
+
+- **Groups** are always called work, find and setup, in every app, so people learn them once.
+- **Views** are named the way people talk about them: “needs attention”, “on its way”, “search sources”. The view's title uses the same words.
+- **Numbers** only appear when someone acts on them, and use a thousands separator (2,500).
+
+For a downloads app, that gives:
+
+- **Work:** needs attention, on its way, requests, missing, series
+- **Find:** search, discover
+- **Setup:** search sources, clients, settings
+
 ## related
 
-- [Shell bar](/design-system/patterns/shell-bar/) — the bar above the app's navigation.
-- [Settings and setup](/design-system/patterns/settings-and-setup/) — where the setup group's forms are listed and linked.
-- <C slug="tabs">Tabs</C> — the facets of one object.
-- [Launchpad & tiles](/design-system/patterns/launchpad-and-tiles/) — one tile per app, opening where the app opens.
+- [Shell bar](/design-system/patterns/shell-bar/): the bar above the app's navigation.
+- [Settings and setup](/design-system/patterns/settings-and-setup/): where the setup views are listed and linked.
+- <C slug="tabs">Tabs</C>: for the parts of one item.
+- [Launchpad & tiles](/design-system/patterns/launchpad-and-tiles/): one tile per app, opening on its first view.

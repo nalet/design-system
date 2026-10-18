@@ -1110,3 +1110,146 @@ a.ds-card:focus-visible {
 .ds-verdict__stage:has(.nc-multiselect, .nc-tooltip) {
   overflow: visible;
 }
+
+/* ---- words a reader may not know: <Term> and its popup ------------------ */
+
+.ds-prose a.ds-term {
+  color: inherit;
+  text-decoration: underline dotted var(--fg-muted);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  cursor: help;
+}
+
+.ds-prose a.ds-term:hover,
+.ds-prose a.ds-term:focus-visible {
+  text-decoration-color: var(--cloud-blue);
+}
+
+.ds-term-pop {
+  position: absolute;
+  z-index: 50;
+  display: grid;
+  gap: var(--s-1);
+  padding: var(--s-3) var(--s-4);
+  border: 1px solid var(--border-2);
+  background: var(--surface-2);
+  box-shadow: 0 8px 24px rgb(0 0 0 / 0.45);
+  color: var(--fg-2);
+  font-family: var(--ff-ui);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.ds-term-pop[hidden] {
+  display: none;
+}
+
+.ds-term-pop__term {
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.ds-term-pop__more {
+  margin-top: var(--s-1);
+  color: var(--cloud-blue);
+  font-size: 13px;
+}
+
+/* the glossary page */
+.ds-glossary {
+  display: grid;
+  gap: var(--s-4);
+  margin: var(--s-5) 0;
+}
+
+.ds-glossary dt {
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-weight: 600;
+  scroll-margin-top: 80px;
+}
+
+.ds-glossary dd {
+  margin: var(--s-1) 0 0;
+  color: var(--fg-2);
+}
+
+.ds-glossary dt:target {
+  color: var(--cloud-blue);
+}
+
+/* ---- storyboard sketches (site/src/sketches) ----------------------------- */
+
+.ds-sketch {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.ds-figure {
+  margin: var(--s-5) 0;
+  padding: var(--s-4);
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+}
+
+.ds-figure > figcaption {
+  margin-top: var(--s-3);
+  color: var(--fg-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.ds-verdict__stage > .ds-sketch {
+  max-width: 100%;
+}
+
+.ds-sketch .sk-screen { fill: var(--surface); stroke: var(--border-2); stroke-width: 1.5; }
+.ds-sketch .sk-bar { fill: var(--surface-2); }
+.ds-sketch .sk-rule { stroke: var(--border-2); stroke-width: 1; }
+.ds-sketch .sk-side { fill: var(--bg-2); stroke: var(--border); stroke-width: 1; }
+.ds-sketch .sk-sheet { fill: var(--surface-2); stroke: var(--border-2); stroke-width: 1; }
+.ds-sketch .sk-card { fill: var(--bg-2); stroke: var(--border-2); stroke-width: 1; }
+.ds-sketch .sk-current { fill: var(--surface-selected, #111b2a); }
+.ds-sketch .sk-text { fill: var(--fg-dim); opacity: 0.55; }
+.ds-sketch .sk-text--strong { fill: var(--fg-muted); opacity: 0.95; }
+.ds-sketch .sk-chevron { fill: none; stroke: var(--cloud-blue); stroke-width: 1.6; }
+.ds-sketch .sk-box { fill: var(--surface-2); stroke: var(--border-2); stroke-width: 1; }
+.ds-sketch .sk-icon { fill: none; stroke: var(--fg-muted); stroke-width: 1.2; }
+.ds-sketch .sk-icon--accent { stroke: var(--cloud-blue); }
+.ds-sketch .sk-avatar { fill: var(--surface); stroke: var(--fg-muted); stroke-width: 1.2; }
+.ds-sketch .sk-button { fill: none; stroke: var(--border-control, var(--fg-dim)); stroke-width: 1.2; }
+.ds-sketch .sk-button--primary { fill: var(--cloud-blue); stroke: var(--cloud-blue); }
+.ds-sketch .sk-dots rect { fill: var(--fg-muted); }
+.ds-sketch .sk-scroll { fill: var(--surface-2); }
+.ds-sketch .sk-scroll-thumb { fill: var(--fg-dim); }
+.ds-sketch .sk-fade { fill: var(--surface); opacity: 0.75; }
+.ds-sketch .sk-fill-ok { fill: var(--state-success); }
+.ds-sketch .sk-fill-warn { fill: var(--state-warning); }
+.ds-sketch .sk-fill-err { fill: var(--state-error); }
+.ds-sketch .sk-fill-info { fill: var(--cloud-blue); }
+.ds-sketch .sk-fill-neutral { fill: var(--state-neutral, var(--fg-muted)); }
+.ds-sketch .sk-word { fill: var(--fg-muted); font-family: var(--ff-mono); font-size: 9px; }
+.ds-sketch .sk-word--body { font-family: var(--ff-ui); }
+.ds-sketch .sk-word--xs { font-size: 8.5px; }
+.ds-sketch .sk-word--sm { font-size: 10px; }
+.ds-sketch .sk-word--md { font-size: 12px; font-weight: 600; }
+.ds-sketch .sk-word--lg { font-size: 22px; font-weight: 700; }
+.ds-sketch .sk-word--strong { fill: var(--fg); }
+.ds-sketch .sk-word--dim { fill: var(--fg-dim); }
+.ds-sketch .sk-word--accent { fill: var(--cloud-blue); }
+.ds-sketch .sk-word--ok { fill: var(--state-success); }
+.ds-sketch .sk-word--warn { fill: var(--state-warning); }
+.ds-sketch .sk-word--err { fill: var(--state-error); }
+.ds-sketch .sk-word--neutral { fill: var(--fg-muted); }
+.ds-sketch .sk-callout rect { fill: var(--cloud-blue); }
+.ds-sketch .sk-callout text { fill: var(--bg); font-family: var(--ff-mono); font-size: 8px; font-weight: 700; }
+.ds-sketch .sk-pointer { stroke: var(--cloud-blue); stroke-width: 1; stroke-dasharray: 2 2; }
+.ds-sketch .sk-broken rect { fill: none; stroke: var(--state-error); stroke-width: 1.4; }
+.ds-sketch .sk-broken path { fill: var(--fg-dim); }
+.ds-sketch .sk-broken line { stroke: var(--state-error); stroke-width: 1.6; }

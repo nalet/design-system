@@ -56,6 +56,32 @@ Examples are written once, as stories in `stories/**/*.stories.tsx`. The React
 subsite shows them with their code; the guidelines site renders the same stories
 through Storybook's portable stories (`site/src/examples/`).
 
+## writing the guidelines
+
+The guidelines are read by people who aren't designers, and by agents. Write
+for the people; give the agents their own compact version.
+
+- **Explain before you advise.** Start with what something is for and why it
+  matters, in a sentence or two, then say how to use it. Write like a colleague
+  who knows the system and is happy to help: "Use tabs when…", "This helps
+  people…", "Try to keep…". Save words like *must* and *never* for the
+  accessibility baseline, where they are true.
+- **Keep the sentences flowing.** Leave component names, prop names and token
+  names out of the prose. Say "the emphasized button" rather than
+  `variant="primary"`; the React pages carry the technical names.
+- **Mark the words a reader may not know** with `<Term id="…">`, defined once in
+  `site/src/data/glossary.ts`. Mark a word the first time it appears on a page,
+  not every time. The explanation shows in a popup and is not part of the text.
+- **Draw the idea, not the component.** Principles and patterns use storyboard
+  sketches (`site/src/sketches/`, built from `kit.tsx`): frames, placeholder
+  lines, one blue accent, state colours only where they mean something, and a
+  word only where it carries the point. Pair a "do" with a "don't" when the
+  contrast is the lesson. Every sketch has a label that describes it. Component
+  pages keep their live examples, because there the real component is the point.
+- **For agents**, `/llms.txt` lists the rules in compact plain text, and
+  `/glossary.json` holds the glossary. Both are built from the same data as the
+  site.
+
 ## how to add a component
 
 1. Create `src/components/<Name>/<Name>.tsx` and `src/components/<Name>/<Name>.css`.

@@ -1,0 +1,20 @@
+---
+layout: ../../layouts/Doc.astro
+title: glossary
+description: The words these guidelines use, explained in plain language.
+toc: false
+---
+import { GLOSSARY_SORTED } from '@site/data/glossary';
+
+# glossary
+
+The words these guidelines use, explained in plain language. On every other page, words with a dotted underline lead here: hover over them, or tap them on a phone, to read the explanation right where you are.
+
+<dl class="ds-glossary">
+  {GLOSSARY_SORTED.map((e) => (
+    <>
+      <dt id={e.id}>{e.term}</dt>
+      <dd>{e.explanation}</dd>
+    </>
+  ))}
+</dl>

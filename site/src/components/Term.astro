@@ -1,0 +1,119 @@
+---
+// a word a reader may not know: <Term id="design-system">design system</Term>.
+// it links to the word's entry on the glossary page (which is all a reader
+// without scripts, or an agent, gets: the explanation is not in the text).
+// with scripts, hovering, focusing or tapping it shows the explanation in a
+// small popup, read from /glossary.json once per page.
+import { GLOSSARY } from '../data/glossary';
+import { url } from '../data/site';
+
+interface Props {
+  id: string;
+}
+const { id } = Astro.props;
+if (!GLOSSARY[id]) throw new Error(`glossary: no entry "${id}" (site/src/data/glossary.ts)`);
+---
+<a class="ds-term" href={url(`get-started/glossary/#${id}`)} data-term={id}><slot>{GLOSSARY[id].term}</slot></a>
+
+<script>
+  import { BASE } from '../data/site';
+
+  type Entry = { term: string; explanation: string };
+  let data: Record<string, Entry> | null = null;
+  let loading: Promise<void> | null = null;
+  const load = () =>
+    (loading ??= fetch(`${BASE}glossary.json`)
+      .then((r) => r.json())
+      .then((d) => {
+        data = d;
+      })
+      .catch(() => undefined));
+
+  const pop = document.createElement('div');
+  pop.id = 'ds-term-pop';
+  pop.className = 'ds-term-pop';
+  pop.setAttribute('role', 'tooltip');
+  pop.hidden = true;
+  document.body.append(pop);
+
+  let current: HTMLAnchorElement | null = null;
+  let hideTimer = 0;
+
+  function place(el: HTMLElement) {
+    const r = el.getBoundingClientRect();
+    const margin = 12;
+    pop.style.maxWidth = `${Math.min(320, window.innerWidth - 2 * margin)}px`;
+    const w = pop.offsetWidth;
+    const h = pop.offsetHeight;
+    let left = r.left + window.scrollX;
+    left = Math.max(window.scrollX + margin, Math.min(left, window.scrollX + window.innerWidth - w - margin));
+    const below = r.bottom + 8;
+    const top = below + h > window.innerHeight && r.top - h - 8 > 0 ? r.top - h - 8 : below;
+    pop.style.left = `${left}px`;
+    pop.style.top = `${top + window.scrollY}px`;
+  }
+
+  async function show(el: HTMLAnchorElement) {
+    window.clearTimeout(hideTimer);
+    await load();
+    const entry = data?.[el.dataset.term ?? ''];
+    if (!entry) return;
+    if (current && current !== el) current.removeAttribute('aria-describedby');
+    current = el;
+    pop.replaceChildren();
+    const name = document.createElement('span');
+    name.className = 'ds-term-pop__term';
+    name.textContent = entry.term;
+    const text = document.createElement('span');
+    text.className = 'ds-term-pop__text';
+    text.textContent = entry.explanation;
+    const more = document.createElement('a');
+    more.className = 'ds-term-pop__more';
+    more.href = el.href;
+    more.textContent = 'All words in the glossary →';
+    pop.append(name, text, more);
+    pop.hidden = false;
+    el.setAttribute('aria-describedby', pop.id);
+    place(el);
+  }
+
+  function hide(soon = false) {
+    window.clearTimeout(hideTimer);
+    const go = () => {
+      pop.hidden = true;
+      current?.removeAttribute('aria-describedby');
+      current = null;
+    };
+    if (soon) hideTimer = window.setTimeout(go, 200);
+    else go();
+  }
+
+  // a touch shows the explanation first; a second tap on the same word follows the link.
+  let touched = false;
+  document.addEventListener('pointerdown', (e) => {
+    touched = e.pointerType === 'touch';
+  });
+
+  for (const el of document.querySelectorAll<HTMLAnchorElement>('a.ds-term')) {
+    el.addEventListener('mouseenter', () => void show(el));
+    el.addEventListener('mouseleave', () => hide(true));
+    el.addEventListener('focus', () => void show(el));
+    el.addEventListener('blur', () => hide(true));
+    el.addEventListener('click', (e) => {
+      if (touched && current !== el) {
+        e.preventDefault();
+        void show(el);
+      }
+    });
+  }
+  pop.addEventListener('mouseenter', () => window.clearTimeout(hideTimer));
+  pop.addEventListener('mouseleave', () => hide(true));
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !pop.hidden) hide();
+  });
+  document.addEventListener('click', (e) => {
+    const t = e.target as Element;
+    if (!pop.hidden && !t.closest('.ds-term-pop') && !t.closest('a.ds-term')) hide();
+  });
+  window.addEventListener('resize', () => current && place(current));
+</script>

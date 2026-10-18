@@ -1,0 +1,131 @@
+---
+layout: ../../layouts/Doc.astro
+title: principles
+description: Five principles that help decide what a screen shows and what it leaves out, the baseline every screen meets, and the identity around them.
+draft: true
+---
+import Term from '@site/components/Term.astro';
+import { DoDont, Do, Dont } from '@site/blocks';
+import {
+  ExceptionsFirst, EverythingAtOnce, OneStatus, StatusPerStep, PeoplesWords, SystemsWords,
+  OneTilePerApp, TilePerTab, OneEmphasis, EverythingShouts,
+} from '@site/sketches/principles';
+
+# principles
+
+These five principles help us decide what a screen should show, and what it can leave out. They are listed in order of importance: when two of them point in different directions, the one higher up usually wins.
+
+Underneath them sits a short baseline: things every screen does, whatever else is going on. And around everything is the identity that makes our products recognisable at a glance.
+
+## 1. the system does the work; people handle the exceptions
+
+Most of the work in our products is routine: searching, retrying, converting, cleaning up. The system should do that on its own, within limits that someone set once. People then only spend their attention where it is really needed, on the <Term id="exception">exceptions</Term>.
+
+That is why a screen starts with what needs a person right now, then shows what is on its way, and only after that offers everything else. If people find themselves working through thousands of items by hand, that is a sign something should be automated, not that the list needs to be better.
+
+<DoDont>
+  <Do caption="The screen opens on the three things that need someone. The full list is still there, one click away.">
+    <ExceptionsFirst />
+  </Do>
+  <Dont caption="All 2,500 items at once, each with its own button. People have to find the important ones themselves.">
+    <EverythingAtOnce />
+  </Dont>
+</DoDont>
+
+In practice, this means:
+
+- An app that keeps things running opens on its exceptions. The complete list is a <Term id="drill-down">drill-down</Term> from there.
+- <Term id="automation">Automation</Term> is switched on by default, within safe limits. It explains what it did, and it can be undone.
+- People are only asked about what the system can't decide for them.
+
+## 2. the outcome is the status
+
+When people look at an item, they usually want to know one thing: can I use it yet? The <Term id="status">status</Term> should answer exactly that question, not tell them which internal step happens to be running.
+
+So each item gets one status, and it means the same thing in every app that shows the item. The steps behind it, like downloading, converting and packaging, are details for when someone wants to look closer.
+
+<DoDont>
+  <Do caption="One status per item, in words that answer the real question: ready to watch, or needs attention, and why.">
+    <OneStatus />
+  </Do>
+  <Dont caption="A status for every internal step. It says “completed” in green, yet the file will never play.">
+    <StatusPerStep />
+  </Dont>
+</DoDont>
+
+In practice, this means:
+
+- Each kind of item has one list of statuses, and each status has one of five meanings: neutral, information, success, warning or error. The [status vocabulary](/design-system/patterns/status-vocabulary/) describes how.
+- Colour follows meaning. A warning doesn't appear in green, and a failure isn't hidden to make a list look healthy.
+- When something can't be known, the screen says so, for example “can't be checked”, instead of looking empty or fine.
+
+## 3. people's words first, the system's detail one click away
+
+We write for the person in front of the screen, not for the program behind it. Technical details such as ids, file names and error codes are still useful, especially when something goes wrong. We keep them close by, under “details” or in a tooltip, but they don't take the place of a clear sentence.
+
+<DoDont>
+  <Do caption="The title and episode people know, what is wrong in plain words, and the technical details one click away.">
+    <PeoplesWords />
+  </Do>
+  <Dont caption="The raw file name and an error code. Only the person who built the system knows what it means.">
+    <SystemsWords />
+  </Dont>
+</DoDont>
+
+In practice, this means:
+
+- A message says what happened, what it means, and what the person can do next. [Content & voice](/design-system/foundations/content-voice/) and [message handling](/design-system/patterns/message-handling/) show how.
+- A button starts with a verb and says what it acts on, like “grab 8 selected” instead of “OK”.
+
+## 4. one platform, many apps
+
+Our <Term id="app">apps</Term> live inside one <Term id="shell">shell</Term>. The shell takes care of everything every app needs in the same way: signing in, finding your way around, search, notifications, settings, and the <Term id="design-system">design system</Term> itself. Each app can then concentrate on its own job.
+
+<DoDont>
+  <Do caption="The same top bar as every app, and one tile per app. A number on a tile shows where attention is needed.">
+    <OneTilePerApp />
+  </Do>
+  <Dont caption="Six tiles that all open the same app, one for each of its tabs, under a top bar that looks different from the apps.">
+    <TilePerTab />
+  </Dont>
+</DoDont>
+
+In practice, this means:
+
+- A <Term id="tile">tile</Term> on the <Term id="launchpad">launchpad</Term> opens an app. Shortcuts straight into one view are the exception.
+- People find an app's setup under settings, and edit it inside the app.
+- Apps link to each other, for example “open in catalog”, instead of rebuilding each other's screens.
+- The <Term id="shell-bar">shell bar</Term> is the same everywhere: the same name, notifications and account menu in the portal, in every app and in every product.
+- Every app uses the version of the design system that the shell provides, so a page never mixes two versions.
+
+## 5. calm and quick
+
+A good screen shows what is true and the one next step, and not much else. Each view, toolbar or dialog gets one <Term id="emphasized-action">emphasized action</Term>; everything else stays quieter. We leave out decoration, motion that isn't feedback, and colour that doesn't mean anything. Screens should be quick to scan, quick to load, and fully usable with a keyboard.
+
+<DoDont>
+  <Do caption="One blue button for the next step, and a small menu on each row for everything else.">
+    <OneEmphasis />
+  </Do>
+  <Dont caption="Blue buttons everywhere. When everything asks for attention, nothing gets it.">
+    <EverythingShouts />
+  </Dont>
+</DoDont>
+
+## the baseline
+
+These aren't weighed against the principles; every screen meets them.
+
+- **Accessible to everyone.** Text has enough <Term id="contrast">contrast</Term> to meet <Term id="wcag">WCAG</Term> 2.2 AA, and a test checks it. Controls have names a <Term id="screen-reader">screen reader</Term> can announce, and the keyboard <Term id="focus">focus</Term> is always visible. See [accessibility](/design-system/foundations/accessibility/).
+- **Usable with a keyboard.** Everything works without a mouse.
+- **Works on any screen.** Long lists stay fast, and every screen works on a phone.
+- **Honest documentation.** When a component doesn't yet live up to these principles, its page says so.
+
+## the identity
+
+A dark canvas, the blue › chevron, square frames, and <Term id="monospace">monospace</Term> type for titles, labels and codes. The identity can change over time without changing the principles. The [brand](/design-system/styles/brand/) page shows it in detail.
+
+## using the principles
+
+- In a review, it helps to name the principle: “This goes against 2: it says completed, but it won't play.”
+- When two principles conflict, the one higher up usually wins. For example, an automation that makes a screen unnecessary (1) beats a better screen for doing the work by hand (5).
+- If a pattern or a component can't be explained by any of the principles, it may not be needed at all.

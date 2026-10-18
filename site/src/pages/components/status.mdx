@@ -1,18 +1,18 @@
 ---
 layout: ../../layouts/Doc.astro
-title: object status
-description: An object status says where one thing stands, in a few words and one of five states. The state decides the colour and the symbol, so the same meaning looks the same on every screen.
-component: object-status
+title: status
+description: A status says where one thing stands, in a few words and one of five states. The state decides the colour and the symbol, so the same meaning looks the same on every screen.
+component: status
 ---
 import { Status } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
-import { States, TextAppearance, WithoutGlyph, Vocabulary, BySeverity } from '@site/examples/object-status';
+import { States, TextAppearance, WithoutGlyph, Vocabulary, BySeverity } from '@site/examples/status';
 
-# object status
+# status
 
-An object status says where one object stands, such as a host, an episode or a title, in a few words of its own. Each status has one of five <Term id="semantic-state">states</Term>, and the state decides its colour, its symbol and what a <Term id="screen-reader">screen reader</Term> hears.
+A status says where one object stands, such as a host, an episode or a title, in a few words of its own. Each status has one of five <Term id="semantic-state">states</Term>, and the state decides its colour, its symbol and what a <Term id="screen-reader">screen reader</Term> hears.
 
 <Example label="the five states">
   <States />
@@ -27,9 +27,9 @@ An object status says where one object stands, such as a host, an episode or a t
 ## when to use something else
 
 - **For a tag, a label or a count that isn't a state**, such as “gpu”, “v2.4.1” or “12 episodes”. Use a <C slug="badge" />. A badge says what something is, or how many there are, not how it is doing.
-- **For a condition of the whole page or list**, such as “105 titles can't be checked”. Use a <C slug="message-strip" /> above the content. It says it once, for everything below it, instead of a status in every row.
+- **For a condition of the whole page or list**, such as “105 titles can't be checked”. Use a <C slug="banner" /> above the content. It says it once, for everything below it, instead of a status in every row.
 - **To confirm an action that just finished**, such as “8 episodes queued”. Use a <C slug="toast" />: a short confirmation of what people just did.
-- **For a list with nothing in it, or one that couldn't load.** Use an <C slug="illustrated-message" /> in place of the list. There is no object there to give a status to.
+- **For a list with nothing in it, or one that couldn't load.** Use an <C slug="empty-state" /> in place of the list. There is no object there to give a status to.
 - **For a status and its reason in a data table.** Use the <C slug="table-cells">status cell</C>. It shows this same status, with a detail line under it.
 
 ## anatomy
@@ -57,7 +57,7 @@ A chip's tint and frame come in the same state's colour. A status is neutral unl
 
 The state is the meaning. The colour, the glyph and the word a screen reader hears all follow from it, so they can't disagree, and the same meaning looks the same on every screen.
 
-A colour setting would let a failure show in green. A <C slug="badge" /> has a tone, and nothing stops a badge from saying “failed” in green; an object status can't.
+A colour setting would let a failure show in green. A <C slug="badge" /> has a tone, and nothing stops a badge from saying “failed” in green; a status can't.
 
 When a status looks wrong, the state it was given is wrong. Change that state in the vocabulary, the one table of states described below, not the colour.
 
@@ -99,9 +99,9 @@ Use the same order when one object has several conditions at once: show the most
 
 ## behaviour
 
-An object status only shows a state. It takes no focus, has no keys of its own and doesn't move. When it changes, it doesn't announce the change.
+A status only shows a state. It takes no focus, has no keys of its own and doesn't move. When it changes, it doesn't announce the change.
 
-The details of how it is built are on the object status's [React page](/design-system/react/?path=/docs/components-feedback-status-status--docs).
+The details of how it is built are on its [React page](/design-system/react/?path=/docs/components-feedback-status-status--docs).
 
 ## accessibility
 
@@ -109,7 +109,7 @@ The details of how it is built are on the object status's [React page](/design-s
 - Warnings and errors are read with their state first, from a word that is hidden on screen: “error: needs attention”. Neutral, information and success statuses read only their text.
 - That first word can be translated, given to a calmer state as well, or left out. Leave it out only where the text would say it twice.
 - The lowercase look is only a style. Write the text exactly as it should be read.
-- It isn't a <Term id="live-region">live region</Term>: a status that changes in place isn't announced. When someone needs to hear the result of what they did, confirm it with a <C slug="toast" />. When the change affects the whole list, use a <C slug="message-strip" />.
+- It isn't a <Term id="live-region">live region</Term>: a status that changes in place isn't announced. When someone needs to hear the result of what they did, confirm it with a <C slug="toast" />. When the change affects the whole list, use a <C slug="banner" />.
 
 Today:
 
@@ -160,7 +160,7 @@ Today:
 - [Status vocabulary](/design-system/patterns/status-vocabulary/): one table per object, and which state each kind of value gets.
 - <C slug="table-cells">Table cells</C>: the status cell, this status with a detail line under it, for data tables.
 - <C slug="badge">Badge</C>: tags, labels and counts that aren't a state.
-- <C slug="message-strip">Message strip</C>: a condition of the whole page or list, with a way forward.
+- <C slug="banner">Banner</C>: a condition of the whole page or list, with a way forward.
 
 ## specs
 

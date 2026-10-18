@@ -1,9 +1,9 @@
 ---
 layout: ../../layouts/Doc.astro
 title: home & tiles
-description: The portal's home page — one page of tiles in a few fixed groups, narrowed by the search in the shell bar — and when something gets a tile.
+description: The portal's home page — one page of tiles in a few fixed groups, narrowed by the search in the top bar — and when something gets a tile.
 draft: true
-draftNote: "When something gets a tile (an app, a number, a task), how tiles are grouped and the search in the shell bar are new and under review; the home page, the tile and the tile group are described as they are."
+draftNote: "When something gets a tile (an app, a number, a task), how tiles are grouped and the search in the top bar are new and under review; the home page, the tile and the tile group are described as they are."
 react:
   - { label: portal, id: patterns-portal }
   - { label: tile, id: components-navigation-tile }
@@ -25,7 +25,7 @@ It does that with <Term id="tile">tiles</Term>, one for each app, sorted into a 
 
 <figure class="ds-figure">
   <LaunchpadOverview />
-  <figcaption>The home page: the search sits in the shell bar at the top, and under the title come three groups in a fixed order. The amber 3 is a number tile: three things that need attention.</figcaption>
+  <figcaption>The home page: the search sits in the top bar, and under the title come three groups in a fixed order. The amber 3 is a number tile: three things that need attention.</figcaption>
 </figure>
 
 The home page, the tile and the tile group are real components. Their React pages show them live, in every variant: the [home page](/design-system/react/?path=/docs/patterns-portal--docs), the [tile](/design-system/react/?path=/docs/components-navigation-tile--docs) and the [tile group](/design-system/react/?path=/docs/components-navigation-tile-group--docs).
@@ -47,17 +47,17 @@ One page works well for up to about 30 tiles. Beyond that, or when different aud
 
 ## search finds the tile
 
-When people know what they want, typing is quicker than looking. That is why the search in the <Term id="shell-bar">shell bar</Term> is also the tile finder. On the home page, the tiles narrow in place as people type there: tiles that don't match step aside, and so does every group left with nothing in it. When nothing matches at all, the page says so, and how to get back.
+When people know what they want, typing is quicker than looking. That is why the search in the <Term id="top-bar">top bar</Term> is also the tile finder. On the home page, the tiles narrow in place as people type there: tiles that don't match step aside, and so does every group left with nothing in it. When nothing matches at all, the page says so, and how to get back.
 
 <figure class="ds-figure">
   <SearchNarrows />
-  <figcaption>Typing “down” in the shell bar narrows the home page to the tiles that match. Groups with nothing left step aside until the search is cleared.</figcaption>
+  <figcaption>Typing “down” in the top bar narrows the home page to the tiles that match. Groups with nothing left step aside until the search is cleared.</figcaption>
 </figure>
 
-There is no second search box on the page. With only one search, always in the same place, people never wonder which one to use, and the search they know from the home page is the one they find on every other screen. Like the rest of the shell bar, it is planned; the [shell bar](/design-system/patterns/shell-bar/#search) page describes it.
+There is no second search box on the page. With only one search, always in the same place, people never wonder which one to use, and the search they know from the home page is the one they find on every other screen. Like the rest of the top bar, it is planned; the [top bar](/design-system/patterns/top-bar/#search) page describes it.
 
 <DoDont>
-  <Do caption="One search, in the shell bar. On the home page, it narrows the tiles.">
+  <Do caption="One search, in the top bar. On the home page, it narrows the tiles.">
     <OneSearch />
   </Do>
   <Dont caption="A second search box on the page, under the one in the bar. People have to stop and wonder which one finds what.">
@@ -65,7 +65,7 @@ There is no second search box on the page. With only one search, always in the s
   </Dont>
 </DoDont>
 
-The component that draws the home page has a search box of its own. Inside the shell, leave it off, because the search in the shell bar narrows the tiles. The component's own box is for a launcher that stands on its own, outside a shell. A launcher that only holds a few number tiles, as a board of key figures, can do without a search at all.
+The component that draws the home page has a search box of its own. Inside the shell, leave it off, because the search in the top bar narrows the tiles. The component's own box is for a launcher that stands on its own, outside a shell. A launcher that only holds a few number tiles, as a board of key figures, can do without a search at all.
 
 A catalogue that lists every app to browse through isn't needed for now. It becomes useful once people can arrange pages of their own, to pick the apps they want on them.
 
@@ -213,7 +213,7 @@ Pressing Tab through every tile on a busy home page would take a long time. So a
 | ↓ and ↑ | The tile below or above on the screen, crossing into the next group. |
 | Home and End | The first or the last tile. |
 | Enter | Opens the tile. Space presses a tile that is a button rather than a link. |
-| / | Jumps to the search in the shell bar. |
+| / | Jumps to the search in the top bar. |
 | Esc, in the search | Clears the search and moves to the first tile. |
 
 Tiles that can't be opened, and the tiles of a group that steps aside, are skipped. An arrow key pressed on something else among the tiles, such as a group's action, jumps to the first tile. A tile group on its own works the same way. A home page can also give each group a Tab stop of its own, and when people get stuck with the arrow keys, every tile can be its own Tab stop instead.
@@ -222,7 +222,7 @@ Tiles that can't be opened, and the tiles of a group that steps aside, are skipp
 
 What makes the home page work for everyone, including people who use a <Term id="screen-reader">screen reader</Term>:
 
-- The home page's title is the page's main heading, and each group's title is a heading under it, so people can jump from group to group. The search in the shell bar is a region of its own that they can jump to as well.
+- The home page's title is the page's main heading, and each group's title is a heading under it, so people can jump from group to group. The search in the top bar is a region of its own that they can jump to as well.
 - While people search, a screen reader says how many apps match. When nothing matches, the message is visible text.
 - A tile is read as one thing: its name, its badge, its status, then its description or its number. Keep each part short, because people hear all of it.
 - The icon, the chevron and the small triangle beside a change are decoration. The status dot is read out, but on screen it is colour only, so the description says the state in words.
@@ -244,7 +244,7 @@ Today:
 ## the words
 
 - **The home page's title.** The name of the place, in one word: “home”. No greeting and no tagline; people skip them on every visit, and they push the tiles down.
-- **The search.** Its placeholder says what it finds, “search apps…”, in the same words as its name, in the shell bar and in a launcher's own search box alike.
+- **The search.** Its placeholder says what it finds, “search apps…”, in the same words as its name, in the top bar and in a launcher's own search box alike.
 - **Group titles.** Who the tiles are for, in one or two words, always the same: apps, manage, settings. Avoid “misc”, “other”, or one group for everything.
 - **Tile names.** The app's name, as a noun rather than a verb: “downloads”, not “open downloads”.
 - **Descriptions.** What the app is for, in a few words, in sentence case: “What is on its way”.
@@ -277,7 +277,7 @@ The exact values, for designers and developers.
 
 ## related
 
-- [Shell bar](/design-system/patterns/shell-bar/): its search finds the tiles, and the product's name in it leads back to the home page.
+- [Top bar](/design-system/patterns/top-bar/): its search finds the tiles, and the product's name in it leads back to the home page.
 - [App navigation](/design-system/patterns/app-navigation/): the views of one app, which don't get tiles of their own.
 - [Settings and setup](/design-system/patterns/settings-and-setup/): the “needs setup” badge on a tile.
 - [Worklist](/design-system/patterns/worklist/): where a number tile usually leads.

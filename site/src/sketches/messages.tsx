@@ -1,16 +1,16 @@
 // storyboard drawings for message handling: each message in the one place
 // that fits what it is about and how long it is true.
 import type { ReactNode } from 'react';
-import { Callout, Chevron, Glyph, Input, LabelButton, Line, Pointer, Screen, Sketch, Status, Strip, Toast, Word } from './kit';
+import { Banner, Callout, Chevron, Glyph, Input, LabelButton, Line, Pointer, Screen, Sketch, Status, Toast, Word } from './kit';
 
 export function FourPlaces() {
   return (
-    <Sketch w={344} h={212} label="A screen with four kinds of message: 1 an amber message strip above the list, about the list as a whole; 2 a red status on one row; 3 a red error under one field in the panel on the right; 4 a short message in the corner: 8 episodes queued.">
+    <Sketch w={344} h={212} label="A screen with four kinds of message: 1 an amber banner above the list, about the list as a whole; 2 a red status on one row; 3 a red error under one field in the panel on the right; 4 a short message in the corner: 8 episodes queued.">
       <Screen x={24} w={296} h={208} />
       <Chevron x={31} y={5} />
       <Line x={43} y={7} w={36} strong />
       <Line x={34} y={30} w={80} strong />
-      <Strip x={34} y={40} w={170} tone="warn" text={0.6} />
+      <Banner x={34} y={40} w={170} tone="warn" text={0.6} />
       {[0, 1, 2, 3, 4, 5].map((i) => (
         <g key={i}>
           <Line x={36} y={70 + i * 18} w={[60, 46, 54, 40, 50, 56][i]} strong />
@@ -44,7 +44,7 @@ export function FourPlaces() {
 
 export function StaleData() {
   return (
-    <Sketch h={128} label="A list whose refresh failed. An amber strip says: Couldn't refresh the list; it shows what was loaded 4 minutes ago, with a try again button. The rows from before are still there.">
+    <Sketch h={128} label="A list whose refresh failed. An amber banner says: Couldn't refresh the list; it shows what was loaded 4 minutes ago, with a try again button. The rows from before are still there.">
       <rect className="sk-screen" x={1} y={1} width={318} height={126} />
       <Line x={12} y={14} w={70} strong />
       <rect className="sk-strip sk-strip--warn" x={12} y={24} width={296} height={30} />
@@ -94,7 +94,7 @@ function Rows({ y, n = 4 }: { y: number; n?: number }) {
 
 export function ErrorStrip() {
   return (
-    <Page label="A red error strip above the list: Couldn't queue the grab, with details one click away.">
+    <Page label="A red error banner above the list: Couldn't queue the grab, with details one click away.">
       <rect className="sk-strip sk-strip--err" x={10} y={22} width={220} height={18} />
       <rect className="sk-fill-err" x={10} y={22} width={2} height={18} />
       <Glyph x={17} y={28} tone="err" />
@@ -129,7 +129,7 @@ export function ResultToast() {
 
 export function StripForever() {
   return (
-    <Page label="A green strip above the list that says: Success! Your grab request was submitted successfully. It stays on the page.">
+    <Page label="A green banner above the list that says: Success! Your grab request was submitted successfully. It stays on the page.">
       <rect className="sk-strip sk-strip--ok" x={10} y={22} width={220} height={18} />
       <rect className="sk-fill-ok" x={10} y={22} width={2} height={18} />
       <Glyph x={17} y={28} tone="ok" />

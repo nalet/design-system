@@ -14,7 +14,7 @@ import { RowMenus, RowButtons } from '@site/sketches/selection';
 
 A <Term id="worklist">worklist</Term> is a page for working through a list of things that need doing: episodes that are missing, jobs that failed, hosts that don't answer. It shows what needs a person first, and offers one next step for each item.
 
-It is a <Term id="floorplan">floorplan</Term>: a whole page, put together from components, so that every list of work looks and works the same, and people only learn it once.
+It is a <Term id="page-layout">page layout</Term>: a whole page, put together from components, so that every list of work looks and works the same, and people only learn it once.
 
 <figure class="ds-figure">
   <WorklistOverview />
@@ -29,7 +29,7 @@ Use a worklist when people work through many items that each need an action or a
 
 For other jobs, other pages fit better:
 
-- **One item in depth.** A page for that item (the object page is planned), or a <C slug="card" /> for a summary.
+- **One item in depth.** A page for that item (the detail page is planned), or a <C slug="card" /> for a summary.
 - **A few numbers to keep an eye on**, with no list to work through. <Term id="number-tile">Number tiles</Term> on the [home page](/design-system/patterns/home-and-tiles/).
 - **Reference information nobody acts on.** A plain <C slug="table" />.
 - **Settings.** A form; see [forms and settings](/design-system/patterns/forms-and-settings/).
@@ -44,13 +44,13 @@ For other jobs, other pages fit better:
 
 1. **Header.** The list's name, like “missing”, a line that says which items belong in it, and a quiet line of facts, such as when the list was last refreshed.
 2. **Counted tabs.** The list's states, each with its count: everything first, then the states people sort by. Choosing a tab filters the list. A count takes a colour only when it means something: blue for what is on its way, red for what needs attention, amber for what can't be checked. Plain counts stay grey. These are the <C slug="filter-tabs" />.
-3. **A <Term id="message-strip">message strip</Term>.** At most one or two, about the list as a whole: what it leaves out, or a load that failed. See the <C slug="message-strip" />.
+3. **A <Term id="banner">banner</Term>.** At most one or two, about the list as a whole: what it leaves out, or a load that failed. See the <C slug="banner" />.
 4. **Search and filters**, with the number of items left and a way to clear them all: the <C slug="filter-bar" />.
 5. **The toolbar.** The count of what is shown; once rows are selected, the selection and its one <Term id="emphasized-action">emphasized action</Term>. See the <C slug="toolbar">selection toolbar</C>.
 6. **The table.** Grouped by the items' parent, like a season of a series, a hundred rows at a time. People can sort it and select rows. See the <C slug="data-table" />.
 7. **A menu on every row**, with that row's actions, instead of buttons: the <C slug="action-menu" />.
 
-Two more parts appear only at times. When there is nothing to list, a message takes the table's place and says which kind of empty it is. And after an action, a short <Term id="toast">toast</Term> says what happened, like “8 episodes queued”; when an action fails, a message strip says so instead.
+Two more parts appear only at times. When there is nothing to list, a message takes the table's place and says which kind of empty it is. And after an action, a short <Term id="toast">toast</Term> says what happened, like “8 episodes queued”; when an action fails, a banner says so instead.
 
 ## how it behaves
 
@@ -59,13 +59,13 @@ Two more parts appear only at times. When there is nothing to list, a message ta
 - **Changing the view starts again at the top.** A new tab or a new filter goes back to the first hundred rows. A refresh of the data keeps people's place.
 - **People act on what they can see.** In the live example, a filter that hides a selected row also unselects it, so “grab 8 selected” never grabs rows that are out of sight. How a selection should behave across filters is [under review](/design-system/patterns/selection-and-bulk-actions/#keeping-a-selection).
 - **The toolbar and the table's header stay in view** while the list scrolls.
-- **After an action**, the toast counts what happened, “8 episodes queued · 2 skipped: held already or under way”, and the rows update when the data reloads. A failed action shows as an error strip, with the technical details behind “details”.
+- **After an action**, the toast counts what happened, “8 episodes queued · 2 skipped: held already or under way”, and the rows update when the data reloads. A failed action shows as an error banner, with the technical details behind “details”.
 
 <DoDont>
-  <Do caption="One strip for the one thing the list leaves out, with a way forward.">
+  <Do caption="One banner for the one thing the list leaves out, with a way forward.">
     <OneStrip />
   </Do>
-  <Dont caption="A stack of strips: none of them reads as important any more, and the list is pushed down.">
+  <Dont caption="A stack of banners: none of them reads as important any more, and the list is pushed down.">
     <StackedStrips />
   </Dont>
 </DoDont>
@@ -81,7 +81,7 @@ Two more parts appear only at times. When there is nothing to list, a message ta
 
 ## when there is nothing to list
 
-When a worklist has nothing to show, the header, the tabs and the strip stay where they are, and the table's place holds a message that says which kind of empty it is: good news, or something nobody can know yet.
+When a worklist has nothing to show, the header, the tabs and the banner stay where they are, and the table's place holds a message that says which kind of empty it is: good news, or something nobody can know yet.
 
 <figure class="ds-figure">
   <WorklistEmpty />
@@ -94,7 +94,7 @@ The React page shows both as whole pages: [nothing missing](/design-system/react
 
 - The worklist is a section named after its title. Inside an app, the app owns the page's main heading, so the worklist's title is a level below it.
 - The tabs are read as tabs, and the list below them as their content.
-- The Tab key stops only a few times: once for the tabs, then the strip's buttons, the filters, once for the toolbar, the sort buttons in the table's header, once for all the table's rows, and “show more”.
+- The Tab key stops only a few times: once for the tabs, then the banner's buttons, the filters, once for the toolbar, the sort buttons in the table's header, once for all the table's rows, and “show more”.
 - Give the table a name and each row a label, so every checkbox and every menu says what it acts on: “select The Quiet Harbour S04E07”, “actions for The Quiet Harbour S04E07”.
 
 ## the words

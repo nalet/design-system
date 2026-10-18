@@ -51,7 +51,7 @@ A dense table has less space around each cell, so more rows fit on the screen: u
 
 ### cells with more than text
 
-A cell can hold more than text. Tags go in as <C slug="badge">badges</C>. The state of the record goes in as an <C slug="object-status" />, never as a coloured badge.
+A cell can hold more than text. Tags go in as <C slug="badge">badges</C>. The state of the record goes in as a <C slug="status" />, never as a coloured badge.
 
 <Example column label="cells with badges and counts">
   <CustomCells />
@@ -94,7 +94,7 @@ The full keyboard map is on the table's [React page](/design-system/react/?path=
 - Underneath, the table is a real table, so a screen reader's own table commands work: people can move by cell, by row and by column, and hear each cell with the label of its column.
 - **Name every table**, with the heading above it or with a label of its own.
 - **Write the column labels as they should be read.** The lowercase look is only a style; a screen reader reads the text as you wrote it.
-- **Say a state in words**, with an <C slug="object-status" />. Colour in a cell is never announced.
+- **Say a state in words**, with a <C slug="status" />. Colour in a cell is never announced.
 - A frame that scrolls gets the same name as its table, and shows the focus outline while it has focus. Where you can, keep a table narrow enough to fit, and put the columns that matter first.
 - A row header, a first cell that names its row, needs the table built from its parts.
 - Changes to the rows are not announced. When rows change because of something the person did, say what happened; [message handling](/design-system/patterns/message-handling/) shows how.
@@ -106,7 +106,7 @@ Today: a row header takes the look of a column label, in small, muted monospace 
 - **Column labels.** A noun of one or two words, lowercase: “workload”, “size”, “last run”. Put the unit in the label, “cpu (cores)”, rather than in every cell.
 - **Numbers.** Align them to the right, and give them the same number of decimals down a column, so the digits line up.
 - **Empty.** Say what is missing, in the table's own words: “no workloads in this project”, not “no data”.
-- **A failed load.** It is not an empty table. Show the error in a <C slug="message-strip" /> above it. When an empty table needs an explanation or a next step, see [empty states](/design-system/patterns/empty-states/).
+- **A failed load.** It is not an empty table. Show the error in a <C slug="banner" /> above it. When an empty table needs an explanation or a next step, see [empty states](/design-system/patterns/empty-states/).
 
 ## do and don't
 
@@ -153,7 +153,7 @@ Today: a row header takes the look of a column label, in small, muted monospace 
       empty="no volumes in this project"
     />
   </Do>
-  <Dont column caption="A failed load is not an empty list. Say the error in a message strip above the table.">
+  <Dont column caption="A failed load is not an empty list. Say the error in a banner above the table.">
     <Table
       aria-label="volumes"
       columns={[
@@ -170,7 +170,7 @@ Today: a row header takes the look of a column label, in small, muted monospace 
 
 - <C slug="data-table">Data table</C>: the table people work through, with sorting, selection, groups, more rows on demand and the keyboard.
 - <C slug="card">Card</C>: the frame a table usually sits in, with no padding inside.
-- <C slug="object-status">Object status</C>: the state of a record, inside a cell.
+- <C slug="status">Status</C>: the state of a record, inside a cell.
 - [Empty states](/design-system/patterns/empty-states/): when one line in an empty row isn't enough.
 
 ## specs

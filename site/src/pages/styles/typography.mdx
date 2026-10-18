@@ -23,7 +23,7 @@ Two typefaces carry everything. JetBrains Mono names things: headings, titles, l
 | typeface | for |
 | --- | --- |
 | JetBrains Mono, a <Term id="monospace">monospace</Term> face | Headings and titles; the labels of buttons, tabs, menus, filters and table headers; badges and statuses; tooltips; what people type into fields; numbers; code |
-| Inter, the <Term id="body-face">body face</Term> | Body text; field labels, hints and errors; checkbox and switch labels; message strips and toasts; second lines |
+| Inter, the <Term id="body-face">body face</Term> | Body text; field labels, hints and errors; checkbox and switch labels; banners and toasts; second lines |
 
 Anything that doesn't choose a typeface of its own is set in Inter.
 
@@ -62,9 +62,9 @@ A <Term id="type-role">type role</Term> is a named text style, with its typeface
 ## lowercase
 
 - The two typefaces are the system's two voices. Monospace is the system's voice, and it is lowercase; Inter is the reader's language, in <Term id="sentence-case">sentence case</Term>. [Content & voice](/design-system/foundations/content-voice/) explains them.
-- The components lowercase their monospace <Term id="chrome">chrome</Term>, and only that: buttons, tabs and filter tabs, menu items, badges and object status, table headers, the labels of the filter bar and the multi select, divider labels, and the titles of cards, dialogs, tiles, toolbars, tile groups, worklists, the portal and illustrated messages. Nothing in Inter is changed.
+- The components lowercase their monospace <Term id="chrome">chrome</Term>, and only that: buttons, tabs and filter tabs, menu items, badges and statuses, table headers, the labels of the filter bar and the multi select, divider labels, and the titles of cards, dialogs, tiles, toolbars, tile groups, worklists, the portal and empty states. Nothing in Inter is changed.
 - Lowercasing changes the look, not the text: the page keeps what you wrote. Browsers differ in which of the two they pass on to <Term id="assistive-technology">assistive technology</Term>, so write monospace chrome the way it should be read, in lowercase, and both say the same.
-- Headings and tooltips are monospace, but they aren't lowercased for you: write them in lowercase. The values in fields are content and keep their case. Body text, field labels, hints and errors, checkbox and switch labels, message strips and toasts are in Inter and aren't changed: write them in sentence case, and any capitals you write will show.
+- Headings and tooltips are monospace, but they aren't lowercased for you: write them in lowercase. The values in fields are content and keep their case. Body text, field labels, hints and errors, checkbox and switch labels, banners and toasts are in Inter and aren't changed: write them in sentence case, and any capitals you write will show.
 - Names that are content keep their case: an identifier cell, the label of a data table group, a title quoted in a sentence. A card, tile or dialog title is lowercased even when it holds a name, so a name that must keep its capitals goes in the body.
 
 ## numbers
@@ -87,7 +87,7 @@ The library doesn't include or load the fonts: it names them, and leaves the loa
 ## accessibility
 
 - The lowercase look of monospace chrome is only a style, and assistive technology may get either the written or the lowercased text. Written in lowercase, the two are the same.
-- Don't let a typeface, a weight or a size carry a meaning on its own. A state is an <C slug="object-status" />, with words and a symbol; a structure is a real heading.
+- Don't let a typeface, a weight or a size carry a meaning on its own. A state is a <C slug="status" />, with words and a symbol; a structure is a real heading.
 - Today: every size is set in pixels. Text grows when people zoom the browser, but not when they choose a larger default text size in the browser's settings.
 - Today: the role styles write out their font lists instead of using the shared font settings, so changing a font in one place doesn't reach them.
 
@@ -161,8 +161,8 @@ From `tokens/tokens.json` (`type.role`); the specimen above is drawn from the sa
 | Code | `code` | Mono | 500 | 13px / 1.50 | 0 | Text `variant="code"` |
 
 - No `h3` role: a sub-section is Text with `as="h3"`.
-- Sizes between the roles, in the components' own CSS (not tokens): 11px (badges, object status, table headers), 12px (`sm` buttons, hints and errors, tooltips, dates, counts), 14px (`lg` buttons and fields, the modal body, tile titles), 15px (modal titles), 20px (filter tab counts), 22px at 700 (the worklist and portal titles) and 28px (a tile's key figure).
-- Letter-spacing: display −0.03em, `h1` −0.015em, the portal title and the filter tab counts −0.01em; 0.04em on table headers, tile group legends and divider labels; 0.02em on badges and object status.
+- Sizes between the roles, in the components' own CSS (not tokens): 11px (badges, statuses, table headers), 12px (`sm` buttons, hints and errors, tooltips, dates, counts), 14px (`lg` buttons and fields, the modal body, tile titles), 15px (modal titles), 20px (filter tab counts), 22px at 700 (the worklist and portal titles) and 28px (a tile's key figure).
+- Letter-spacing: display −0.03em, `h1` −0.015em, the portal title and the filter tab counts −0.01em; 0.04em on table headers, tile group legends and divider labels; 0.02em on badges and statuses.
 
 ### weights and case
 

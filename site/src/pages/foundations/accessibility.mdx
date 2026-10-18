@@ -34,7 +34,7 @@ Some changes happen away from where people are looking. A screen reader announce
 
 | what changes | what people hear |
 | --- | --- |
-| A message strip appears or changes | Its text. An error is read at once; other messages wait until the screen reader is free. A note that never changes isn't announced. |
+| A banner appears or changes | Its text. An error is read at once; other messages wait until the screen reader is free. A note that never changes isn't announced. |
 | A toast appears | Its text, once the screen reader is free. The toasts' area is on the page before the first toast, so the first one isn't missed. |
 | The selection changes | The selection toolbar says “8 selected”, or “selection cleared”. |
 | A filter changes the list | The filter bar's count, such as “312 of 2,500”. |
@@ -89,7 +89,7 @@ The components can't know your content, so a few things are up to you:
 - **Names.** The icon button's and the action menu's `label` is required. A visible label is the accessible name (WCAG 2.5.3, label in name).
 - **States.** The components set `aria-selected`, `aria-expanded`, `aria-sort`, `aria-invalid` and `aria-busy`, and `aria-disabled` on menu items.
 - **Data table.** A `grid`, or a `treegrid` when grouped, with row headers, levels, positions, and `aria-rowcount` for rows not rendered yet.
-- **Live regions.** A message strip's text alone is the region: `role=status` (polite), `role=alert` for errors, `live="off"` for a static note. The toaster's list is a polite region that exists before the first toast. The selection toolbar's count, the filter bar's count (always present) and the data table's growing count are polite. Object status puts a visually hidden “warning: ” or “error: ” before its text.
+- **Live regions.** A banner's text alone is the region: `role=status` (polite), `role=alert` for errors, `live="off"` for a static note. The toaster's list is a polite region that exists before the first toast. The selection toolbar's count, the filter bar's count (always present) and the data table's growing count are polite. A status puts a visually hidden “warning: ” or “error: ” before its text.
 - **Motion.** Components that animate honour `prefers-reduced-motion` where they implement it.
 - **Your part, in code.** An `aria-label` on each table, a `rowLabel` for the checkboxes and row menus, one `h1` per page (the worklist's `headingLevel`).
 - **Known gaps, in code.** Text fields, selects and textareas draw focus with a border colour and an inset shadow, which forced colours remove.

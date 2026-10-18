@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: message handling
-description: Where a message goes — a strip for the page, a status for an item, an error at its field, a toast for what just happened — so each thing is said once.
+description: Where a message goes — a banner for the page, a status for an item, an error at its field, a toast for what just happened — so each thing is said once.
 ---
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
@@ -17,32 +17,32 @@ Our apps have a lot to tell people: that something worked, that something failed
   <figcaption>Four places for a message, each for its own kind of news.</figcaption>
 </figure>
 
-1. **A <Term id="message-strip">message strip</Term>** sits above the content and talks about the page as a whole: “105 titles can't be checked”. It stays until that stops being true.
+1. **A <Term id="banner">banner</Term>** sits above the content and talks about the page as a whole: “105 titles can't be checked”. It stays until that stops being true.
 2. **A <Term id="status">status</Term>** belongs to one item, in its row or on its page: “needs attention”. It stays as long as the item is in that state.
 3. **A field's error** belongs to one value in a form: “Use a number”. It stays until the value is fixed.
 4. **A <Term id="toast">toast</Term>** confirms something people just did: “8 episodes queued”. It disappears after a few seconds.
 
-Each of these is a real component, with its own page where it can be tried live: the <C slug="message-strip" />, the <C slug="object-status" />, the <C slug="field" /> and the <C slug="toast" />.
+Each of these is a real component, with its own page where it can be tried live: the <C slug="banner" />, the <C slug="status" />, the <C slug="field" /> and the <C slug="toast" />.
 
 ## which one
 
 | the message is about | it lasts | use | for example |
 | --- | --- | --- | --- |
-| Something about the content of the page | Until it changes | A message strip: information, warning or error | “105 titles can't be checked: the catalog holds them without an identity.” |
-| A refresh that failed, with older content still on the screen | Until it works again | A warning strip that says how old the content is, with “try again” | “Couldn't refresh the list; it shows what was loaded 4 minutes ago.” |
+| Something about the content of the page | Until it changes | A banner: information, warning or error | “105 titles can't be checked: the catalog holds them without an identity.” |
+| A refresh that failed, with older content still on the screen | Until it works again | A warning banner that says how old the content is, with “try again” | “Couldn't refresh the list; it shows what was loaded 4 minutes ago.” |
 | A load that failed, with nothing to show | Until it works again | An error message in place of the list, with “try again”; see [empty states](/design-system/patterns/empty-states/) | “couldn't load the list” |
 | Something people just did, that worked | A few seconds | A toast, without buttons in it | “8 episodes queued · 2 skipped: held already or under way” |
-| Something people did, that failed | Until it is dismissed or tried again | An error strip that can be dismissed, with the technical error under details | “Couldn't queue the grab.” |
+| Something people did, that failed | Until it is dismissed or tried again | An error banner that can be dismissed, with the technical error under details | “Couldn't queue the grab.” |
 | One item's state | As long as it is true | The item's status | “needs attention” |
 | One value in a form | Until it is fixed | The field's error | “Use a number” |
-| Technical details behind any of these | When asked for | Under “details”, in the strip or in the row | “http 502 bad gateway” |
+| Technical details behind any of these | When asked for | Under “details”, in the banner or in the row | “http 502 bad gateway” |
 | A decision before going on | Until it is answered | A <C slug="modal">dialog</C>, for the decision rather than the message | “delete volume” |
 | Work under way | Until it is done | A loader, or a progress value; see [loading and progress](/design-system/patterns/loading-and-progress/) | “62% · 1.4 of 2.2 gb” |
 
 ## a few rules
 
-- **Say it once.** An error is a strip or a toast, not both, and a row's status isn't repeated in a strip.
-- **One or two strips at most.** A third usually means the screen has a problem to fix, not a message to add.
+- **Say it once.** An error is a banner or a toast, not both, and a row's status isn't repeated in a banner.
+- **One or two banners at most.** A third usually means the screen has a problem to fix, not a message to add.
 - **Toasts are for good news and progress.** Not for an error people have to act on, because it would be gone before they read it, and without a button in it.
 - **Errors say what failed, and how to go on**: “Couldn't load the list.”, with “try again”. The technical error goes under details.
 - **Keep what is known.** When a refresh fails, keep showing the last data, and say how old it is.
@@ -50,11 +50,11 @@ Each of these is a real component, with its own page where it can be tried live:
 
 <figure class="ds-figure">
   <StaleData />
-  <figcaption>A refresh that failed: the rows from before stay, and the strip says how old they are and offers to try again.</figcaption>
+  <figcaption>A refresh that failed: the rows from before stay, and the banner says how old they are and offers to try again.</figcaption>
 </figure>
 
 <DoDont>
-  <Do caption="A failed action: an error strip that stays, with the technical text one click away.">
+  <Do caption="A failed action: an error banner that stays, with the technical text one click away.">
     <ErrorStrip />
   </Do>
   <Dont caption="An error in a toast: gone before it is read, and nothing to act on.">
@@ -66,27 +66,27 @@ Each of these is a real component, with its own page where it can be tried live:
   <Do caption="A toast for the result of an action, in counts. It leaves on its own.">
     <ResultToast />
   </Do>
-  <Dont caption="A strip that stays forever for something that happened once.">
+  <Dont caption="A banner that stays forever for something that happened once.">
     <StripForever />
   </Dont>
 </DoDont>
 
 ## how they behave
 
-- **A strip stays until its condition changes.** The screen remembers when someone dismissed it, and brings it back when the condition changes again, such as a new count or a new failure.
+- **A banner stays until its condition changes.** The screen remembers when someone dismissed it, and brings it back when the condition changes again, such as a new count or a new failure.
 - **A toast leaves after five seconds.** It waits while the pointer rests on it, and no more than three show at once.
-- **Error strips are read out the moment they appear**; other strips are read out when the <Term id="screen-reader">screen reader</Term> has finished what it was saying.
+- **Error banners are read out the moment they appear**; other banners are read out when the <Term id="screen-reader">screen reader</Term> has finished what it was saying.
 - **The <Term id="focus">focus</Term> never jumps to a message.** After a failed save, it moves to the first field that needs a fix instead; see [forms and settings](/design-system/patterns/forms-and-settings/).
 
 ## the words
 
-- **A strip.** One or two sentences, in sentence case: what is true, and what it means for this screen. Its buttons are verbs: “show them”, “ask the catalog again”, “try again”.
+- **A banner.** One or two sentences, in sentence case: what is true, and what it means for this screen. Its buttons are verbs: “show them”, “ask the catalog again”, “try again”.
 - **A toast.** What happened, in counts: “8 episodes queued”. No “successfully”, and no full stop needed.
 - **An error.** “Couldn't …” and the thing, then the way forward. No blame, and no “oops”.
 
 ## related
 
-- <C slug="message-strip">Message strip</C>, <C slug="toast" />, <C slug="field" /> and <C slug="object-status" />: the components, live.
+- <C slug="banner">Banner</C>, <C slug="toast" />, <C slug="field" /> and <C slug="status" />: the components, live.
 - [Content & voice](/design-system/foundations/content-voice/): how messages are written.
 - [Empty states](/design-system/patterns/empty-states/): when the message is that there is nothing.
 - [Loading and progress](/design-system/patterns/loading-and-progress/): while something is under way.

@@ -32,7 +32,7 @@ Text sets a run of words in one of five <Term id="type-role">type roles</Term>: 
 - **For commands, flags or anything people type or copy.** Use <C slug="code" />, which marks the text as code and puts it in a frame.
 - **For a keyboard key.** Use <C slug="kbd" />, which draws the key as a keycap.
 - **For a form label, a hint or an error.** Use a <C slug="field" />. It makes a real label, ties the hint and the error to the control, and marks the control as invalid. Text that only looks like a label is styled text, tied to nothing.
-- **For a state or a message.** The state of an object is an <C slug="object-status" />; a message about the page is a <C slug="message-strip" />.
+- **For a state or a message.** The state of an object is a <C slug="status" />; a message about the page is a <C slug="banner" />.
 
 ## anatomy
 
@@ -107,7 +107,7 @@ Today: a line cut to one line is cut only for the eye. A <Term id="screen-reader
     <Text variant="ui">storage-01</Text>
     <Text variant="muted">412 GB used, updated 3 min ago</Text>
   </Do>
-  <Dont column caption="Dim text is for what people can skip. A warning in dim text is a warning nobody reads; use a message strip.">
+  <Dont column caption="Dim text is for what people can skip. A warning in dim text is a warning nobody reads; use a banner.">
     <Text variant="ui">storage-01</Text>
     <Text variant="dim">This volume will be deleted at midnight</Text>
   </Dont>

@@ -13,7 +13,7 @@ import { DoDont, Do, Dont, Example } from '@site/blocks';
 
 Our screens are built from simple, square shapes, like the panes of a terminal. Every frame has square corners, every line is one pixel wide, and surfaces lie flat on the <Term id="canvas">canvas</Term>. The only rounded shapes are the icons.
 
-<Example label="square frames: a card, a message strip, a badge and buttons">
+<Example label="square frames: a card, a banner, a badge and buttons">
   <div style={{ width: '100%', maxWidth: '360px' }}>
     <Card header="storage-01">
       <Fragment slot="header-aside"><Status state="success">healthy</Status></Fragment>
@@ -46,7 +46,7 @@ Frames and dividers are drawn with <Term id="hairline">hairlines</Term>, in four
 | A hairline | Cards, tables, dividers, the edge of a region |
 | A brighter hairline | The edge of what floats over the page: menus, tooltips, toasts and dialogs; and a standard button |
 | A control's edge | Text fields, selects, text areas, checkboxes and the switch's track. It is strong enough to be seen (3 to 1), so the control is visible |
-| A state's border | The frame of a message strip or a status chip, around its <Term id="tint">tint</Term> |
+| A state's border | The frame of a banner or a status chip, around its <Term id="tint">tint</Term> |
 
 The first two are decoration, so they don't need to meet the contrast rules, and a control is never recognised by them alone; see [colour](/design-system/styles/colour/#contrast).
 
@@ -56,10 +56,10 @@ A thicker line on one edge marks what is current, or what something is about:
 
 - **A blue bar on the <Term id="leading-edge">leading edge</Term>:** a selected table row, the current tile, and a focused menu item, in the focus colour.
 - **A blue line under the label:** the current tab.
-- **A thicker bar in a state's colour on the leading edge:** a message strip, a toast, a highlighted table row.
+- **A thicker bar in a state's colour on the leading edge:** a banner, a toast, a highlighted table row.
 - **A thicker blue bar on the leading edge:** the selection toolbar, while something is selected.
 
-A rule always comes with words: the row also has its ticked checkbox, the strip its message, and the tab its label.
+A rule always comes with words: the row also has its ticked checkbox, the banner its message, and the tab its label.
 
 ## surfaces
 
@@ -115,7 +115,7 @@ Icons are the only rounded shape. The icon set draws them with round line ends a
 | Hairline, 1px | `--border` | Cards, tables, dividers, the edge of a region |
 | Heavier hairline, 1px | `--border-2` | Menus, tooltips, toasts, dialogs; a default button |
 | Control boundary, 1px | `--border-control` | Inputs, selects, textareas, checkboxes, the switch track: 3:1 |
-| State border, 1px | `--state-*-border` | A message strip or a status chip, around its tint |
+| State border, 1px | `--state-*-border` | A banner or a status chip, around its tint |
 
 `--border` and `--border-2` are decoration, outside the contrast policy.
 
@@ -123,7 +123,7 @@ Icons are the only rounded shape. The icon set draws them with round line ends a
 | --- | --- |
 | 2px `--cloud-blue`, leading edge | A selected table row, the current tile; a focused menu item in `--focus-ring` |
 | 2px `--cloud-blue`, under the label | The current tab |
-| 3px in the state's colour, leading edge | A message strip, a toast, a highlighted table row |
+| 3px in the state's colour, leading edge | A banner, a toast, a highlighted table row |
 | 3px `--cloud-blue`, leading edge | The selection toolbar, while something is selected |
 
 - **Surfaces.** A fill (`--surface`) and a hairline. The action menu and the multi select panel cast `0 8px 24px` of black at 45%. A modal's backdrop is the canvas at 72%. Depth: `--bg`, `--bg-2`, `--surface`, `--surface-2`.

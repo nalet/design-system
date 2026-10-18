@@ -64,7 +64,7 @@ export function Example({
   label,
 }: {
   column?: boolean;
-  /** no padding: for a full-width floorplan. */
+  /** no padding: for a full-width page layout. */
   flush?: boolean;
   /** a long list: the frame keeps a height and scrolls, and a sticky header sticks inside it. */
   scroll?: boolean;

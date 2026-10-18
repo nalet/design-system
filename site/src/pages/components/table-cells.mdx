@@ -28,8 +28,8 @@ Table cells are three ready-made cells for the columns of a <C slug="data-table"
 
 ## when to use something else
 
-- **For a status outside a table**, such as beside a heading, in a card or in a sentence. Use an <C slug="object-status" /> on its own. The status cell only adds the detail line, sized for a row.
-- **For a message about the whole list**, such as “105 titles can't be checked”. That is a <C slug="message-strip" /> above the table, not a status in every row.
+- **For a status outside a table**, such as beside a heading, in a card or in a sentence. Use a <C slug="status" /> on its own. The status cell only adds the detail line, sized for a row.
+- **For a message about the whole list**, such as “105 titles can't be checked”. That is a <C slug="banner" /> above the table, not a status in every row.
 - **For tags, kinds and categories.** They aren't states. Use a <C slug="badge" />.
 - **For numbers and sizes.** Use a plain column, aligned to the right, with the unit in its header. The content rules of the <C slug="table" /> show how.
 
@@ -38,7 +38,7 @@ Table cells are three ready-made cells for the columns of a <C slug="data-table"
 ### status cell
 
 1. **Wrapper.** The status, with its detail close under it, at the cell's <Term id="leading-edge">leading edge</Term>. It is never wider than the cell.
-2. **Status.** An <C slug="object-status" />: a small chip in the state's colour, with the state's <Term id="glyph">glyph</Term> and a few words in lowercase <Term id="monospace">monospace</Term>, on one line.
+2. **Status.** A <C slug="status" />: a small chip in the state's colour, with the state's <Term id="glyph">glyph</Term> and a few words in lowercase <Term id="monospace">monospace</Term>, on one line.
 3. **Detail** (optional). A quieter line under the status, in small monospace, at most 44 characters wide. At most two lines show. It can break anywhere, so a long code can't widen the column.
 
 ### date cell
@@ -68,7 +68,7 @@ The state sets the colour, the glyph and what a screen reader hears first; there
 | Warning | Works, but someone should look | “can't be checked” |
 | Error | Failed or blocked; needs action | “needs attention” |
 
-The detail is the line under the status: why it is so, or what happens next. Like any object status, the status can also be shown as text: without the chip, for dense rows, keeping the glyph and slightly larger words.
+The detail is the line under the status: why it is so, or what happens next. Like every status, the one in a cell can also be shown as text: without the chip, for dense rows, keeping the glyph and slightly larger words.
 
 <Example label="status cells, with and without a detail">
   <Statuses />
@@ -163,7 +163,7 @@ Today:
 ## related
 
 - <C slug="data-table">Data table</C>: the table these cells are made for.
-- <C slug="object-status">Object status</C>: the status inside a status cell, on its own.
+- <C slug="status">Status</C>: the status inside a status cell, on its own.
 - [Status vocabulary](/design-system/patterns/status-vocabulary/): how one table of states keeps every status cell honest.
 
 ## specs
@@ -171,7 +171,7 @@ Today:
 | cell | part | spec |
 | --- | --- | --- |
 | Status (`StatusCell`) | Wrapper | A `flex` column with 3px between its lines, its items at the start, `max-width: 100%`, `min-width: 0`. |
-| Status | Status | An object status: a 20px chip with 8px side padding, a 1px `--state-*-border`, a `--state-*-bg` fill and `--state-*` text, the state's 12px glyph, JetBrains Mono 11px, lowercase, on one line. As text (`appearance="text"`): no chip, the glyph and 12px text. |
+| Status | Status | A status: a 20px chip with 8px side padding, a 1px `--state-*-border`, a `--state-*-bg` fill and `--state-*` text, the state's 12px glyph, JetBrains Mono 11px, lowercase, on one line. As text (`appearance="text"`): no chip, the glyph and 12px text. |
 | Status | Detail | `detail`. JetBrains Mono 11px, line-height 1.45, `--fg-dim`, `max-width: 44ch`, clamped to two lines (`-webkit-line-clamp: 2`), `overflow-wrap: anywhere`. In the page in full. A string detail is also its `title`, the native tooltip; a detail that isn't a string gets none. |
 | Date (`DateCell`) | Wrapper | `inline-flex`, wrapping, on one baseline, the parts 8px (`--s-2`) apart. JetBrains Mono 12px, `font-variant-numeric: tabular-nums`. |
 | Date | Date | A `<time>` with the ISO `datetime`, in `--fg-2`, lowercased with `text-transform`. Its `title` holds the full weekday, date and time (`dateStyle: 'full'`, `timeStyle: 'short'`). |
@@ -191,6 +191,6 @@ Today:
 
 - **How long ago, the rule:** whole calendar days in the viewer's time zone. Under 14 days it counts days, under 60 weeks (days ÷ 7), under 730 months (days ÷ 30.44), then years (days ÷ 365.25), each rounded. `relativeDay(then, now)` is the same wording as a function, for a date outside a cell: it returns `{ short: '5d ago', long: '5 days ago' }`.
 - **Fixed words:** `emptyText` changes only the visible dash, and `locale` only the absolute date; “no date” and the words for how long ago stay English.
-- **Status cell props:** every object status prop (`state`, `text` or children, `icon`, `appearance`, `stateLabel`) and `detail`. Spread a vocabulary entry in: `<StatusCell {...STATES[row.state]} detail={why(row)} />`.
+- **Status cell props:** every status prop (`state`, `text` or children, `icon`, `appearance`, `stateLabel`) and `detail`. Spread a vocabulary entry in: `<StatusCell {...BACKLOG_STATES[row.state]} detail={why(row)} />`.
 - **Identifiers:** an internal id, such as a UUID, is never the title.
 - **Focus:** none in any cell, unless an identifier's `title` is a link.

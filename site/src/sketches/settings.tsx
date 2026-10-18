@@ -1,6 +1,6 @@
 // storyboard drawings for settings and setup: an app's setup is found from
 // three places and changed in one, the app itself.
-import { Arrow, Chevron, Field, LabelButton, Line, Screen, Sketch, Status, Strip, Tile, Word } from './kit';
+import { Arrow, Banner, Chevron, Field, LabelButton, Line, Screen, Sketch, Status, Tile, Word } from './kit';
 
 /** the app's own setup form: the one place it is changed. */
 function SetupForm({ x, y, w = 130 }: { x: number; y: number; w?: number }) {
@@ -50,7 +50,7 @@ export function ThreeWaysIn() {
           {i < 2 ? <rect className="sk-fill-warn" x={50} y={187 + i * 14} width={4} height={4} /> : null}
         </g>
       ))}
-      <Strip x={66} y={176} w={82} tone="warn" text={0.7} />
+      <Banner x={66} y={176} w={82} tone="warn" text={0.7} />
       <Line x={66} y={200} w={70} />
       <Line x={66} y={210} w={56} />
       <Arrow x1={158} y1={44} x2={186} y2={88} />

@@ -1,7 +1,7 @@
 // storyboard drawings for forms and settings: switches that apply at once,
 // a form that waits for save, and errors that show when people save.
 import type { ReactNode } from 'react';
-import { Arrow, Callout, Checkbox, Chevron, Field, FocusRing, LabelButton, Line, Pointer, Screen, Sketch, Status, Strip, Toast, Toggle, Word } from './kit';
+import { Arrow, Banner, Callout, Checkbox, Chevron, Field, FocusRing, LabelButton, Line, Pointer, Screen, Sketch, Status, Toast, Toggle, Word } from './kit';
 
 /** the footer of a form: the unsaved-changes signal, cancel, and the one emphasized save. */
 function Footer({ x, y, right, unsaved = true }: { x: number; y: number; right: number; unsaved?: boolean }) {
@@ -93,7 +93,7 @@ export function ValidationStory() {
   const frame = (x: number, after: boolean) => (
     <g>
       <rect className="sk-screen" x={x} y={1} width={150} height={150} />
-      {after ? <Strip x={x + 8} y={9} w={134} tone="err" text={0.6} /> : null}
+      {after ? <Banner x={x + 8} y={9} w={134} tone="err" text={0.6} /> : null}
       <Field x={x + 10} y={after ? 34 : 14} w={130} label={40} value={after ? 20 : 20} invalid={after} />
       {after ? <FocusRing x={x + 10} y={41} w={130} h={11} /> : null}
       <Field x={x + 10} y={after ? 70 : 46} w={130} label={50} value={30} />
@@ -189,8 +189,8 @@ function FormBit({ children, label }: { children?: ReactNode; label: string }) {
 
 export function SaveFailedStrip() {
   return (
-    <FormBit label="At the top of a form, a red strip says the settings couldn't be saved, with a try again button. The fields below keep what people typed.">
-      <Strip x={10} y={10} w={220} tone="err" text={0.5} action />
+    <FormBit label="At the top of a form, a red banner says the settings couldn't be saved, with a try again button. The fields below keep what people typed.">
+      <Banner x={10} y={10} w={220} tone="err" text={0.5} action />
       <Field x={14} y={36} w={100} label={40} value={50} />
       <Field x={126} y={36} w={100} label={50} value={30} />
       <Field x={14} y={66} w={100} label={36} value={40} />
@@ -222,8 +222,8 @@ export function SavedToast() {
 
 export function SavedStrip() {
   return (
-    <FormBit label="A form after a save, with a green strip at the top that says Settings saved and stays there.">
-      <Strip x={10} y={10} w={220} tone="ok" text={0.3} />
+    <FormBit label="A form after a save, with a green banner at the top that says Settings saved and stays there.">
+      <Banner x={10} y={10} w={220} tone="ok" text={0.3} />
       <Field x={14} y={36} w={100} label={40} value={50} />
       <Field x={126} y={36} w={100} label={50} value={30} />
       <Field x={14} y={66} w={100} label={36} value={40} />

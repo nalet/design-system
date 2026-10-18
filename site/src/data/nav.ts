@@ -101,15 +101,15 @@ export const SECTIONS: NavSection[] = [
     summary: 'Proven ways to build whole pages, and to solve the problems that come up in every app.',
     groups: [
       {
-        title: 'floorplans',
+        title: 'page layouts',
         pages: [{ title: 'worklist', href: url('patterns/worklist/'), summary: 'A page for working through what needs doing, with the one next step for each item.' }],
       },
       {
         title: 'navigation',
         pages: [
-          { title: 'shell bar', href: url('patterns/shell-bar/'), summary: 'The bar across the top of every screen: where you are, the one search, what is new for you, and your account.', draft: true },
+          { title: 'top bar', href: url('patterns/top-bar/'), summary: 'The bar across the top of every screen: where you are, the one search, what is new for you, and your account.', draft: true },
           { title: 'app navigation', href: url('patterns/app-navigation/'), summary: "Side navigation for an app's views, and when tabs are the better fit.", draft: true },
-          { title: 'home & tiles', href: url('patterns/home-and-tiles/'), summary: 'The home page: one page of tiles in a few fixed groups, found with the search in the shell bar, and when something gets a tile.', draft: true },
+          { title: 'home & tiles', href: url('patterns/home-and-tiles/'), summary: 'The home page: one page of tiles in a few fixed groups, found with the search in the top bar, and when something gets a tile.', draft: true },
           { title: 'settings and setup', href: url('patterns/settings-and-setup/'), summary: 'Where each kind of setting lives, and the one place it is changed.', draft: true },
         ],
       },
@@ -149,9 +149,9 @@ export const SECTIONS: NavSection[] = [
   },
 ];
 
-/** floorplans that are planned, listed on the patterns index. */
-export const PLANNED_FLOORPLANS = [
-  { title: 'object page', summary: 'One item in depth: its summary at the top, its parts as tabs, and its history.' },
+/** page layouts that are planned, listed on the patterns index. */
+export const PLANNED_PAGE_LAYOUTS = [
+  { title: 'detail page', summary: 'One item in depth: its summary at the top, its parts as tabs, and its history.' },
   { title: 'settings form', summary: 'A whole page of settings with one save button, built from the forms pattern.' },
 ];
 

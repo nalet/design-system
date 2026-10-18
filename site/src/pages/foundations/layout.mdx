@@ -27,12 +27,12 @@ Every gap and padding is one of eight steps: 4, 8, 12, 16, 24, 32, 48 or 64 pixe
 | --- | --- |
 | 4 | The smallest gaps inside a part; above and below the cells of a dense table and the text of a tooltip |
 | 8 | Between the parts of a control (an icon and its label, a field's label, a control and its hint); between buttons in a row; above and below the cells of a table |
-| 12 | Inside a medium field; above and below a card's header and footer; inside a message strip; left and right in table cells |
+| 12 | Inside a medium field; above and below a card's header and footer; inside a banner; left and right in table cells |
 | 16 | Inside a medium button; the body of a card or a dialog; inside a tile; the usual gap of a stack |
 | 24 | Inside a large button; under the portal's title bar; between the toasts and the bottom of the screen |
-| 32 | Between the portal's groups; around an illustrated message |
+| 32 | Between the portal's groups; around an empty state |
 | 48 | The room a dialog leaves: it is never taller than the screen minus 48 |
-| 64 | Above and below a large illustrated message |
+| 64 | Above and below a large empty state |
 
 - The space between components, and around them, is always a step of the scale. Inside small parts, a few components nudge things by a pixel or a few, to centre a symbol or a label; the [specs](#specs) list them. Those nudges belong to the components: keep your own layout on the scale.
 - Space shows structure. Things that belong together sit closer than the groups they form: 8 inside a field, 16 between fields, 24 or more between sections.
@@ -96,7 +96,7 @@ Move the slider: each component measures itself and changes on its own.
 - The width that counts is the room inside the component, so its own padding and border count against it.
 - Until a component has measured itself, and wherever it can't measure, such as on a page rendered on the server or in automated tests, it shows its wide layout.
 - The filter bar's and the toolbar's widths can be changed; the data table's are fixed. There, a column's rank decides what goes first, and the column that names the row never pops in.
-- Everything else adapts by itself. The rows of the filter bar, the toolbar, a worklist's header, the portal's title bar and a message strip wrap when they run out of room. <C slug="filter-tabs" /> scroll sideways, with a fade on the edge where more are hidden. A dialog has a maximum width and keeps a margin from the screen's edges, and the toasts are never wider than the screen.
+- Everything else adapts by itself. The rows of the filter bar, the toolbar, a worklist's header, the portal's title bar and a banner wrap when they run out of room. <C slug="filter-tabs" /> scroll sideways, with a fade on the edge where more are hidden. A dialog has a maximum width and keeps a margin from the screen's edges, and the toasts are never wider than the screen.
 - The components don't look at the screen's width at all, and use no <Term id="breakpoint">breakpoints</Term>. The only setting of the device they follow is <Term id="reduced-motion">reduced motion</Term>.
 
 The exact widths are in the [specs](#specs).
@@ -213,7 +213,7 @@ Eight steps, `--s-1` to `--s-8`, from `tokens/tokens.json`.
 | `--s-7` | 48 |
 | `--s-8` | 64 |
 
-The nudges inside small parts: 2px in the switch track and between a filter tab's count and its label; 3px to sit a glyph on the first line of text; 6px between an object status glyph and its text, around a tooltip, and inside inline code and kbd.
+The nudges inside small parts: 2px in the switch track and between a filter tab's count and its label; 3px to sit a glyph on the first line of text; 6px between a status glyph and its text, around a tooltip, and inside inline code and kbd.
 
 ### control heights
 

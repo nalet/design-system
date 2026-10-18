@@ -2,7 +2,7 @@
 // needs doing, from its counted tabs down to the menu on every row.
 import { EmptyPanel } from './empty';
 import { ListRow } from './selection';
-import { Button, Callout, Checkbox, Chevron, LabelButton, Line, Marker, Pointer, Screen, SearchField, Sketch, Strip, Word } from './kit';
+import { Banner, Button, Callout, Checkbox, Chevron, LabelButton, Line, Marker, Pointer, Screen, SearchField, Sketch, Word } from './kit';
 
 /** the worklist, 300 wide, with its left edge at ox. */
 function Worklist({ ox }: { ox: number }) {
@@ -40,7 +40,7 @@ function Worklist({ ox }: { ox: number }) {
         3
       </Word>
       <line className="sk-rule" x1={ox} x2={ox + 300} y1={72} y2={72} />
-      <Strip x={ox + 12} y={79} w={276} tone="warn" text={0.55} action />
+      <Banner x={ox + 12} y={79} w={276} tone="warn" text={0.55} action />
       <SearchField x={ox + 12} y={101} w={100} />
       <Button x={ox + 118} y={101.5} w={36} />
       <Button x={ox + 158} y={101.5} w={36} />
@@ -67,7 +67,7 @@ function Worklist({ ox }: { ox: number }) {
 
 export function WorklistOverview() {
   return (
-    <Sketch h={240} label="A worklist of missing episodes: the title missing, counted tabs (missing 2,500, on their way 12, needs attention 3 in red), one amber message strip, search and filters, a toolbar with 8 selected and a blue grab 8 selected button, and the table grouped by season, with a status and a menu on every row.">
+    <Sketch h={240} label="A worklist of missing episodes: the title missing, counted tabs (missing 2,500, on their way 12, needs attention 3 in red), one amber banner, search and filters, a toolbar with 8 selected and a blue grab 8 selected button, and the table grouped by season, with a status and a menu on every row.">
       <Worklist ox={10} />
     </Sketch>
   );
@@ -76,7 +76,7 @@ export function WorklistOverview() {
 export function WorklistAnatomy() {
   const ox = 24;
   return (
-    <Sketch w={344} h={240} label="The worklist, close up: 1 the header, 2 the counted tabs, 3 the message strip, 4 search and filters, 5 the toolbar, 6 the table, grouped by season, 7 the menu on every row.">
+    <Sketch w={344} h={240} label="The worklist, close up: 1 the header, 2 the counted tabs, 3 the banner, 4 search and filters, 5 the toolbar, 6 the table, grouped by season, 7 the menu on every row.">
       <Worklist ox={ox} />
       <Callout x={10} y={31} n={1} />
       <Pointer x1={16} y1={31} x2={ox + 10} y2={31} />
@@ -113,10 +113,10 @@ function ListUnder({ y, n }: { y: number; n: number }) {
 
 export function OneStrip() {
   return (
-    <Sketch w={240} h={140} label="A list with one amber message strip above it, with a button that offers a way forward.">
+    <Sketch w={240} h={140} label="A list with one amber banner above it, with a button that offers a way forward.">
       <rect className="sk-screen" x={1} y={1} width={238} height={138} />
       <Line x={12} y={12} w={70} strong />
-      <Strip x={10} y={24} w={220} tone="warn" text={0.5} action />
+      <Banner x={10} y={24} w={220} tone="warn" text={0.5} action />
       <ListUnder y={52} n={6} />
     </Sketch>
   );
@@ -124,12 +124,12 @@ export function OneStrip() {
 
 export function StackedStrips() {
   return (
-    <Sketch w={240} h={140} label="A list with three message strips stacked above it, amber, blue and grey, pushing the list down.">
+    <Sketch w={240} h={140} label="A list with three banners stacked above it, amber, blue and grey, pushing the list down.">
       <rect className="sk-screen" x={1} y={1} width={238} height={138} />
       <Line x={12} y={12} w={70} strong />
-      <Strip x={10} y={24} w={220} tone="warn" text={0.45} />
-      <Strip x={10} y={44} w={220} tone="info" text={0.6} />
-      <Strip x={10} y={64} w={220} tone="neutral" text={0.5} />
+      <Banner x={10} y={24} w={220} tone="warn" text={0.45} />
+      <Banner x={10} y={44} w={220} tone="info" text={0.6} />
+      <Banner x={10} y={64} w={220} tone="neutral" text={0.5} />
       <ListUnder y={92} n={3} />
     </Sketch>
   );

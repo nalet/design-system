@@ -6,7 +6,7 @@ import { Toaster } from '../../src';
 
 # worklist
 
-When to use the worklist floorplan, what its parts are, how it behaves and how to word it is on the guidelines site: **[worklist guidance →](https://nalet.github.io/design-system/patterns/worklist/)**
+When to use the worklist page layout, what its parts are, how it behaves and how to word it is on the guidelines site: **[worklist guidance →](https://nalet.github.io/design-system/patterns/worklist/)**
 
 Here is a whole worklist, and it is live: 2,644 made-up items across 120 invented series and 140 movies.
 
@@ -18,7 +18,7 @@ Its code is in [`stories/patterns/BacklogWorklist.tsx`](https://github.com/nalet
 
 ## the other states
 
-When there is nothing to list, the header, the tabs and the strip stay, and an illustrated message takes the table's place. Here nothing is missing.
+When there is nothing to list, the header, the tabs and the banner stay, and an empty state takes the table's place. Here nothing is missing.
 
 <Canvas of={WorklistStories.NothingMissing} />
 
@@ -28,7 +28,7 @@ Here the holdings are unknown for every title, so nothing is known to be missing
 
 ## implementation notes
 
-- `Worklist` lays the parts out, and the parts are the components: `tabs` are `FilterTab`s, `messages` are message strips, `filterBar` is a `FilterBar`, `toolbar` is a `Toolbar` or a `SelectionToolbar`, and `children` is the `DataTable`, or the `EmptyState` when there is nothing to show.
+- `Worklist` lays the parts out, and the parts are the components: `tabs` are `FilterTab`s, `messages` are banners, `filterBar` is a `FilterBar`, `toolbar` is a `Toolbar` or a `SelectionToolbar`, and `children` is the `DataTable`, or the `EmptyState` when there is nothing to show.
 - It renders a `section` named by its title.
 - `headingLevel` sets the title's level: 1 when the worklist is the page, and 2 inside an app shell that owns the `h1`.
 - With `tabs` and `activeTab`, the tabs are a `tablist`, and the content below them is its `tabpanel`, labelled by the selected tab.

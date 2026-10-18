@@ -1,5 +1,5 @@
 // storyboard drawings for the home page: one page of tiles in a few fixed
-// groups, the search in the shell bar that narrows them in place, when
+// groups, the search in the top bar that narrows them in place, when
 // something gets a tile, and the tile and the tile group close up.
 import type { ComponentProps, ReactNode } from 'react';
 import {
@@ -22,7 +22,7 @@ import {
 
 type TileProps = Partial<ComponentProps<typeof Tile>>;
 
-/** the shell bar across the top: the product's name, the search, the bell and the avatar. */
+/** the top bar: the product's name, the search, the bell and the avatar. */
 function Top() {
   return (
     <g>
@@ -35,7 +35,7 @@ function Top() {
   );
 }
 
-/** the home page's title, led by the chevron. the search isn't here: it is in the shell bar. */
+/** the home page's title, led by the chevron. the search isn't here: it is in the top bar. */
 function Head({ y = 22 }: { y?: number }) {
   return (
     <g>
@@ -75,7 +75,7 @@ function TinyTile({ x, y, w = 30, h = 18, accent }: { x: number; y: number; w?: 
 
 export function LaunchpadOverview() {
   return (
-    <Sketch h={224} label="The home page: the shell bar at the top with the search in it, then the title, home, and three groups of tiles in a fixed order, apps, manage and settings. One tile in apps is a number tile showing 3 in amber.">
+    <Sketch h={224} label="The home page: the top bar with the search in it, then the title, home, and three groups of tiles in a fixed order, apps, manage and settings. One tile in apps is a number tile showing 3 in amber.">
       <Screen h={222} />
       <Top />
       <Head />
@@ -128,7 +128,7 @@ export function ManyPages() {
 
 /* ---- search ----------------------------------------------------------------- */
 
-/** the home page drawn small, with the search in its shell bar; with a query, someone is typing there. */
+/** the home page drawn small, with the search in its top bar; with a query, someone is typing there. */
 function MiniLaunchpad({ x, query }: { x: number; query?: string }) {
   return (
     <g>
@@ -165,7 +165,7 @@ function MiniLaunchpad({ x, query }: { x: number; query?: string }) {
 
 export function SearchNarrows() {
   return (
-    <Sketch h={164} label="Before and after typing down in the search in the shell bar. Before: the home page with every group and tile. After: only the downloads tile, in the apps group.">
+    <Sketch h={164} label="Before and after typing down in the search in the top bar. Before: the home page with every group and tile. After: only the downloads tile, in the apps group.">
       <MiniLaunchpad x={1} />
       <Arrow x1={151} y1={82} x2={169} y2={82} />
       <MiniLaunchpad x={173} query="down" />
@@ -175,7 +175,7 @@ export function SearchNarrows() {
 
 export function OneSearch() {
   return (
-    <Sketch h={112} label="The home page with one search, in the shell bar. Under the title, the apps group and its tiles.">
+    <Sketch h={112} label="The home page with one search, in the top bar. Under the title, the apps group and its tiles.">
       <Screen h={110} />
       <Top />
       <Head />
@@ -187,7 +187,7 @@ export function OneSearch() {
 
 export function TwoSearches() {
   return (
-    <Sketch h={112} label="The home page with two search boxes: one in the shell bar, and a second one on the page, at the end of the title's row. Under them, the apps group and its tiles.">
+    <Sketch h={112} label="The home page with two search boxes: one in the top bar, and a second one on the page, at the end of the title's row. Under them, the apps group and its tiles.">
       <Screen h={110} />
       <Top />
       <Head />

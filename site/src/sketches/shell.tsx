@@ -1,4 +1,4 @@
-// storyboard drawings for the shell bar: one bar across the top of every
+// storyboard drawings for the top bar: one bar across the top of every
 // screen, with the product's name, the app's name, the one search,
 // notifications and one user menu.
 import type { ReactNode } from 'react';
@@ -33,7 +33,7 @@ function Avatar({ x, y }: { x: number; y: number }) {
 }
 
 /**
- * the shell bar, w wide, with its top edge at y. its search is a field on a
+ * the top bar, w wide, with its top edge at y. its search is a field on a
  * wide screen and an icon on a phone; `query` is what someone typed into it.
  */
 function Bar({
@@ -80,9 +80,9 @@ function Bar({
   );
 }
 
-export function ShellBarOverview() {
+export function TopBarOverview() {
   return (
-    <Sketch h={150} label="An app inside the shell. Across the top, the shell bar: the chevron and the product's name, a slash and the app's name, downloads; on the right the search field, a bell with 2 unread, and a square with the initials au.">
+    <Sketch h={150} label="An app inside the shell, under the top bar: the chevron and the product's name, a slash and the app's name, downloads; on the right the search field, a bell with 2 unread, and a square with the initials au.">
       <rect className="sk-screen" x={1} y={1} width={318} height={148} />
       <Bar />
       <rect className="sk-side" x={1} y={24} width={80} height={125} />
@@ -100,9 +100,9 @@ export function ShellBarOverview() {
   );
 }
 
-export function ShellBarAnatomy() {
+export function TopBarAnatomy() {
   return (
-    <Sketch h={84} label="The shell bar, close up: 1 the product's name, led by the chevron; 2 the app's name; 3 the search; 4 notifications, with 2 unread; 5 the user menu.">
+    <Sketch h={84} label="The top bar, close up: 1 the product's name, led by the chevron; 2 the app's name; 3 the search; 4 notifications, with 2 unread; 5 the user menu.">
       <Bar x={8} y={28} w={304} />
       <Callout x={36} y={12} n={1} />
       <Pointer x1={36} y1={18} x2={36} y2={34} />
@@ -147,7 +147,7 @@ export function UserMenuOpen() {
 
 /* ---- search ----------------------------------------------------------------- */
 
-/** a phone with the shell bar at its top: the search folded into an icon, or, once pressed, a field across the bar. */
+/** a phone and its top bar: the search folded into an icon, or, once pressed, a field across the bar. */
 function Phone({ x, open }: { x: number; open?: boolean }) {
   const y = 66;
   const w = 96;
@@ -179,7 +179,7 @@ function Phone({ x, open }: { x: number; open?: boolean }) {
 
 export function SearchInTheBar() {
   return (
-    <Sketch h={152} label="The same search on two kinds of screen. On a wide screen, it is a field in the shell bar, between the app's name and the bell. On a phone, the bar has room for an icon only; pressing it opens a field across the whole bar, here with down typed into it.">
+    <Sketch h={152} label="The same search on two kinds of screen. On a wide screen, it is a field in the top bar, between the app's name and the bell. On a phone, the bar has room for an icon only; pressing it opens a field across the whole bar, here with down typed into it.">
       <Word x={2} y={9} size="xs" tone="dim" mono={false}>
         On a wide screen
       </Word>
@@ -194,7 +194,7 @@ export function SearchInTheBar() {
   );
 }
 
-/** a small screen whose shell bar has down typed into its search. */
+/** a small screen whose top bar has down typed into its search. */
 function Typing({ x, y, children }: { x: number; y: number; children: ReactNode }) {
   const w = 152;
   return (
@@ -262,7 +262,7 @@ export function SearchTwoWays() {
 export function ConsumerBar() {
   const nav = ['home', 'films', 'series'];
   return (
-    <Sketch h={40} label="A shell bar in a product for consumers: the product's name on the left, its own navigation, home, films and series, in the middle, and the same bell and user menu on the right.">
+    <Sketch h={40} label="A top bar in a product for consumers: the product's name on the left, its own navigation, home, films and series, in the middle, and the same bell and user menu on the right.">
       <rect className="sk-bar" x={1} y={9} width={318} height={22} />
       <Chevron x={9} y={16.5} s={7} />
       <Line x={21} y={18} w={34} strong />
@@ -280,17 +280,17 @@ export function ConsumerBar() {
   );
 }
 
-export function ShellBarDo() {
+export function TopBarDo() {
   return (
-    <Sketch w={240} h={40} label="A shell bar with the product's name, the app's name, a bell with 2 unread and a square avatar with initials.">
+    <Sketch w={240} h={40} label="A top bar with the product's name, the app's name, a bell with 2 unread and a square avatar with initials.">
       <Bar x={4} y={9} w={232} search={false} />
     </Sketch>
   );
 }
 
-export function ShellBarDont() {
+export function TopBarDont() {
   return (
-    <Sketch w={240} h={40} label="A shell bar with an email address shown as a badge, a separate sign out button, and a round avatar.">
+    <Sketch w={240} h={40} label="A top bar with an email address shown as a badge, a separate sign out button, and a round avatar.">
       <rect className="sk-bar" x={4} y={9} width={232} height={22} />
       <Chevron x={11} y={16.5} s={7} />
       <Line x={23} y={18} w={34} strong />

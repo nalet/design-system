@@ -131,7 +131,7 @@ export function SystemsWords() {
 
 /* 4 — one platform, many apps */
 
-function ShellBar() {
+function TopBar() {
   return (
     <g>
       <Chevron x={8} y={5} />
@@ -151,7 +151,7 @@ export function OneTilePerApp() {
   return (
     <Sketch label="A home page with the same top bar as every app, and one tile per app; one tile shows 3 things that need attention.">
       <Screen />
-      <ShellBar />
+      <TopBar />
       <Line x={16} y={32} w={80} strong />
       {tiles.map((t) => (
         <g key={t.x}>

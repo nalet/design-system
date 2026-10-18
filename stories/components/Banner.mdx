@@ -3,9 +3,9 @@ import * as BannerStories from './Banner.stories';
 
 <Meta of={BannerStories} />
 
-# message strip
+# banner
 
-When to use a message strip, its states, when to add details or a dismiss button and how to word it is on the guidelines site: **[message strip guidance →](https://nalet.github.io/design-system/components/message-strip/)**
+When to use a banner, its states, when to add details or a dismiss button and how to word it is on the guidelines site: **[banner guidance →](https://nalet.github.io/design-system/components/banner/)**
 
 <Canvas of={BannerStories.Playground} />
 
@@ -19,7 +19,7 @@ When to use a message strip, its states, when to add details or a dismiss button
 
 <Canvas of={BannerStories.WithDetails} />
 
-`onDismiss` adds the dismiss button. The story stops rendering the strip when it is called.
+`onDismiss` adds the dismiss button. The story stops rendering the banner when it is called.
 
 <Canvas of={BannerStories.Dismissible} />
 
@@ -30,7 +30,7 @@ When to use a message strip, its states, when to add details or a dismiss button
 - Only the text is the live region: `role="status"` (polite) by default, and `role="alert"` for `error`.
 - The live region has `aria-atomic="true"`, so an update reads the whole message, and never the actions, the details or dismiss.
 - `live` overrides the role: `"polite"` gives a status, `"assertive"` an alert, and `"off"` no role at all.
-- Use `"off"` for a static note: a strip that is on the page from the start and doesn't change.
+- Use `"off"` for a static note: a banner that is on the page from the start and doesn't change.
 - Every state but `neutral` puts its name, visually hidden, before the text, so a screen reader hears the state as well as the message.
 - A `stateLabel` string replaces that word, and gives `neutral` one. `false` leaves it out.
 - The glyph is `aria-hidden`, so a screen reader skips it.
@@ -38,9 +38,9 @@ When to use a message strip, its states, when to add details or a dismiss button
 - Closed details are `hidden`, so they are neither read nor focusable.
 - The details sit outside the live region.
 - `detailsLabel` names the toggle (“details” by default).
-- The strip keeps the details' open state itself. `defaultDetailsOpen` opens them on the first render, and is read only then.
+- The banner keeps the details' open state itself. `defaultDetailsOpen` opens them on the first render, and is read only then.
 - `onDismiss` adds the dismiss button, named by `dismissLabel` (“dismiss” by default).
-- The strip doesn't hide itself: it calls `onDismiss`, and you stop rendering it.
+- The banner doesn't hide itself: it calls `onDismiss`, and you stop rendering it.
 - The toggle and dismiss show a 2px `--focus-ring` outline on `:focus-visible`.
 - Other `<div>` attributes, all but `title`, and the `ref` reach the container.
 - axe-core finds no violations in any state, with actions, open details and dismiss.
@@ -53,7 +53,7 @@ When to use a message strip, its states, when to add details or a dismiss button
 Today:
 
 - Dismissing removes the button that had focus, so move focus yourself in `onDismiss`.
-- With two strips on a page, set `detailsLabel` and `dismissLabel` so they can be told apart.
+- With two banners on a page, set `detailsLabel` and `dismissLabel` so they can be told apart.
 
 ## props
 

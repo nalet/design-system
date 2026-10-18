@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: badge
-description: A badge is a small label for a tag, a count or a short fact about an item. The state of an object is an object status, not a badge.
+description: A badge is a small label for a tag, a count or a short fact about an item. The state of an object is a status, not a badge.
 component: badge
 ---
 import { Badge, Kbd } from '@nalet/design-system';
@@ -12,7 +12,7 @@ import { Tones, WithDot, InContext, Labels } from '@site/examples/badge';
 
 # badge
 
-A badge tags an item with a short fact, such as “gpu”, “12 episodes” or “v2.4.1”, so people can scan a list and tell items apart. The state of an object, such as “running”, “failed” or “needs attention”, is an <C slug="object-status" /> instead.
+A badge tags an item with a short fact, such as “gpu”, “12 episodes” or “v2.4.1”, so people can scan a list and tell items apart. The state of an object, such as “running”, “failed” or “needs attention”, is a <C slug="status" /> instead.
 
 <Example label="the four tones">
   <Tones />
@@ -26,8 +26,8 @@ A badge tags an item with a short fact, such as “gpu”, “12 episodes” or 
 
 ## when to use something else
 
-- **For the state of an object.** Use an <C slug="object-status" />. It shows each state in the colour of its meaning, with a <Term id="glyph">glyph</Term> of its own, and it announces warnings and errors in words. A badge's tone is only a colour: nothing stops a badge from saying “failed” in green.
-- **For a message about the page or a task**, such as a save that worked or a list that could not load. Use a <C slug="message-strip" />, or a <C slug="toast" /> for something that just finished.
+- **For the state of an object.** Use a <C slug="status" />. It shows each state in the colour of its meaning, with a <Term id="glyph">glyph</Term> of its own, and it announces warnings and errors in words. A badge's tone is only a colour: nothing stops a badge from saying “failed” in green.
+- **For a message about the page or a task**, such as a save that worked or a list that could not load. Use a <C slug="banner" />, or a <C slug="toast" /> for something that just finished.
 - **As a button, or to filter a list.** A badge is static: it can't take <Term id="focus">focus</Term> or be pressed. Use a <C slug="button" />, or <C slug="filter-tabs" /> to filter a list.
 - **For a count on a tile.** A <C slug="tile" /> on the <Term id="home">home page</Term> has a badge of its own.
 
@@ -48,9 +48,9 @@ There are four tones. Neutral is the usual one, and the right choice for most ta
 | Green | Green text on a faint green tint | A positive attribute: “verified”, “included” |
 | Amber | Amber text on a faint amber tint | An attribute that asks for care: “read-only”, “deprecated” |
 
-There is no red tone. An error is a state: an <C slug="object-status" /> for one object, a <C slug="message-strip" /> for the page.
+There is no red tone. An error is a state: a <C slug="status" /> for one object, a <C slug="banner" /> for the page.
 
-A badge can have a dot: a small square in the label's colour, before the text. The dot adds no meaning of its own, because it only repeats the tone, and it makes a badge look like a status light. Use it as a colour key, where the same colour appears nearby, as in a legend. If you reach for it to show a state, you want an object status.
+A badge can have a dot: a small square in the label's colour, before the text. The dot adds no meaning of its own, because it only repeats the tone, and it makes a badge look like a status light. Use it as a colour key, where the same colour appears nearby, as in a legend. If you reach for it to show a state, you want a status.
 
 <Example label="badges with a dot, as a colour key">
   <WithDot />
@@ -98,7 +98,7 @@ The full keyboard map is on the badge's [React page](/design-system/react/?path=
     <Badge>batch</Badge>
     <Badge>stateful</Badge>
   </Do>
-  <Dont caption="A state in a badge. The tone is only a colour, so nothing stops it from saying “failed” in green. Use an object status.">
+  <Dont caption="A state in a badge. The tone is only a colour, so nothing stops it from saying “failed” in green. Use a status.">
     <Badge tone="green">failed</Badge>
     <Badge tone="amber">running</Badge>
   </Dont>
@@ -128,7 +128,7 @@ The full keyboard map is on the badge's [React page](/design-system/react/?path=
 
 ## related
 
-- <C slug="object-status">Object status</C>: the state of an object, in words, a glyph and the colour of its meaning.
+- <C slug="status">Status</C>: the state of an object, in words, a glyph and the colour of its meaning.
 - [Status vocabulary](/design-system/patterns/status-vocabulary/): which states exist, and what to call them.
 - <C slug="table">Table</C>: badges as tags in a cell.
 - <C slug="tile">Tile</C>: the count badge of a tile on the home page.

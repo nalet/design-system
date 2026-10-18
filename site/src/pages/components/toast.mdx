@@ -27,10 +27,10 @@ A toast is a short message at the bottom of the screen that confirms an action s
 
 ## when to use something else
 
-- **For an error that needs acting on.** Use an error <C slug="message-strip" /> with a way forward. An error has to stay until it is resolved, offer “try again”, and be announced at once. A toast does none of that: it leaves after five seconds, can't take focus, holds no button, and is read only when the screen reader has a pause.
-- **For a condition that lasts**, such as “2 sources are over their daily limit”. Use a <C slug="message-strip" />.
+- **For an error that needs acting on.** Use an error <C slug="banner" /> with a way forward. An error has to stay until it is resolved, offer “try again”, and be announced at once. A toast does none of that: it leaves after five seconds, can't take focus, holds no button, and is read only when the screen reader has a pause.
+- **For a condition that lasts**, such as “2 sources are over their daily limit”. Use a <C slug="banner" />.
 - **To ask something, or to offer undo or a link.** A toast has nothing to press. When an action can't be undone, ask first, in a <C slug="modal" />.
-- **For the state of one item.** That is an <C slug="object-status" /> in its row.
+- **For the state of one item.** That is a <C slug="status" /> in its row.
 - **For anything people must not miss.** After five seconds it is gone, and nothing brings it back.
 
 ## anatomy
@@ -52,7 +52,7 @@ The state sets the glyph and the colour of the bar.
 | Success | Done | “8 episodes queued”, “Settings saved” |
 | Warning | Done, with a part that didn't go through | “6 queued · 2 skipped: their source is over its daily limit” |
 
-There is an error state too. Don't use it: an error belongs in a message strip, as [when to use something else](#when-to-use-something-else) explains.
+There is an error state too. Don't use it: an error belongs in a banner, as [when to use something else](#when-to-use-something-else) explains.
 
 <Example label="the four states, live">
   <States client:visible />
@@ -82,7 +82,7 @@ The full keyboard map is on the toast's [React page](/design-system/react/?path=
 
 - The toaster is a region named “notifications”. A screen reader reads each new toast once, after whatever it is saying. A toast that leaves is not announced.
 - Nothing takes focus. A toast never moves the reader, never interrupts typing, and adds no <Term id="tab-stop">tab stop</Term>.
-- The glyph is hidden from assistive technology. A warning or error toast says its state first, such as “warning: …”, like an <C slug="object-status" />. The calmer states read only the message, so put what matters in the words: “6 queued · 2 skipped”.
+- The glyph is hidden from assistive technology. A warning or error toast says its state first, such as “warning: …”, like a <C slug="status" />. The calmer states read only the message, so put what matters in the words: “6 queued · 2 skipped”.
 - With reduced motion, toasts appear without sliding in.
 
 Today:
@@ -96,7 +96,7 @@ Today:
 - **A part that didn't go through** follows a middle dot (·), with the reason: “8 episodes queued · 3 skipped: held already or under way”.
 - **One line.** A toast leaves after five seconds, so it has to be read at a glance.
 - **Text only.** A link or a button in a toast would vanish after five seconds, and the keyboard couldn't reach it.
-- **Never an error that needs doing something about.** That is a <C slug="message-strip" />.
+- **Never an error that needs doing something about.** That is a <C slug="banner" />.
 
 ## do and don't
 
@@ -104,7 +104,7 @@ Today:
   <Do caption="What just happened, with the count: read at a glance, and the rows show the result too.">
     <ToastButton client:visible variant="primary" label="grab 8 selected" message="8 episodes queued" state="success" />
   </Do>
-  <Dont caption="An error that needs acting on leaves after five seconds, can't take focus and offers no way forward. Put it in a message strip with “try again”.">
+  <Dont caption="An error that needs acting on leaves after five seconds, can't take focus and offers no way forward. Put it in a banner with “try again”.">
     <ToastButton client:visible label="save changes" message="Couldn't save: the server didn't answer" state="error" />
   </Dont>
 </DoDont>
@@ -120,10 +120,10 @@ Today:
 
 ## related
 
-- [Message handling](/design-system/patterns/message-handling/): when a message is a toast, a strip, a line of text in place, or details.
-- <C slug="message-strip">Message strip</C>: errors and conditions that last, with a way forward.
+- [Message handling](/design-system/patterns/message-handling/): when a message is a toast, a banner, a line of text in place, or details.
+- <C slug="banner">Banner</C>: errors and conditions that last, with a way forward.
 - [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/): the actions on several items that a toast usually confirms.
-- <C slug="object-status">Object status</C>: where the lasting result shows, row by row.
+- <C slug="status">Status</C>: where the lasting result shows, row by row.
 
 ## specs
 
@@ -139,7 +139,7 @@ Today:
 | setting | in code | what it does |
 | --- | --- | --- |
 | Show a toast | `toast(message, options)` | Shows it and returns its id. With no `Toaster` mounted, it warns in the console and nothing shows. |
-| State | `state`: `'neutral'` (the default), `'information'`, `'success'` or `'warning'`. `'error'` exists, but errors belong in a message strip | The glyph, and the rule in `--state-neutral`, `--state-information`, `--state-success` or `--state-warning`. |
+| State | `state`: `'neutral'` (the default), `'information'`, `'success'` or `'warning'`. `'error'` exists, but errors belong in a banner | The glyph, and the rule in `--state-neutral`, `--state-information`, `--state-success` or `--state-warning`. |
 | Time on screen | `duration`: 5000 (ms) by default | Counted from when the toast shows; hover pauses it. |
 | Replace | `id` | A showing toast with the same id is replaced: the newest place, a fresh timer. |
 | Remove from code | `toast.dismiss(id)`, `toast.clear()` | Removes one toast, or every toast, at once. |

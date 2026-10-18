@@ -17,7 +17,7 @@ The words on a screen do as much work as its layout. They say what is true and w
 The system speaks with two voices, and the typeface tells them apart.
 
 - **<Term id="monospace">Monospace</Term> is the system's voice, and it is lowercase.** Titles and headings; buttons, tabs and navigation; statuses and badges; table and column headers; menu items, toolbar and filter labels; numbers and codes. It is short and easy to scan, and the lowercase is part of the identity, in every language. Names and codes inside it keep their own capitals: a series called “The Quiet Harbour” stays “The Quiet Harbour” in a group label, an episode stays “S04E07”, and an id stays as it is. The components lowercase this <Term id="chrome">chrome</Term>, and only this.
-- **The <Term id="body-face">body face</Term> is the reader's language, and it follows that language's rules.** It carries everything that explains: descriptions and subtitles; the messages in message strips, toasts and dialogs; the descriptions of empty states; field labels, hints and errors; checkbox and switch labels; and the text of these guidelines. It is written in <Term id="sentence-case">sentence case</Term>: a capital at the start of each sentence, for names, for “I”, for abbreviations such as HEVC, GB, WCAG, CSS or URL, and for German nouns. Nothing lowercases it.
+- **The <Term id="body-face">body face</Term> is the reader's language, and it follows that language's rules.** It carries everything that explains: descriptions and subtitles; the messages in banners, toasts and dialogs; the descriptions of empty states; field labels, hints and errors; checkbox and switch labels; and the text of these guidelines. It is written in <Term id="sentence-case">sentence case</Term>: a capital at the start of each sentence, for names, for “I”, for abbreviations such as HEVC, GB, WCAG, CSS or URL, and for German nouns. Nothing lowercases it.
 - **Why two voices.** The brand lives in the monospace layer, where text is short and set apart. Easy reading, and correct spelling in every language, live in the layer people actually read.
 - **Short.** A label is two or three words, a message one or two sentences. Leave out adverbs, “please” and “successfully”.
 - **Plain.** No emoji, no exclamation marks, no marketing words, and no jokes in error messages.
@@ -61,7 +61,7 @@ Most of what a screen says has one of five shapes. Each one says what is true fi
 
 ## primary text stays human
 
-Ids, codes, raw errors and technical status codes help an operator fix things, so we keep them, just not in the sentence. A <C slug="message-strip" /> puts them under its “details”; a table puts them behind a details toggle on each row; a status cell shows a raw search error when the pointer rests on it.
+Ids, codes, raw errors and technical status codes help an operator fix things, so we keep them, just not in the sentence. A <C slug="banner" /> puts them under its “details”; a table puts them behind a details toggle on each row; a status cell shows a raw search error when the pointer rests on it.
 
 The main text is what a person can act on without knowing how the system works inside.
 
@@ -146,4 +146,4 @@ Some words come up on every screen. Each of them means one thing, everywhere.
 - **Lowercase chrome.** The components set `text-transform: lowercase` on their monospace chrome, and only there. The text in the DOM stays as written.
 - **Counts.** `formatCount(2500)` returns “2,500”; it is the formatter the components use.
 - **Dates.** The `DateCell` writes a date both ways.
-- **Details.** A message strip's `details` prop; a native `<details>` per table row; a raw search error kept in a status cell's hover text.
+- **Details.** A banner's `details` prop; a native `<details>` per table row; a raw search error kept in a status cell's hover text.

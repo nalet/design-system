@@ -3,7 +3,7 @@ layout: ../../layouts/Doc.astro
 title: status vocabulary
 description: One status per item, in words people understand, written down once and shown the same way everywhere the item appears.
 react:
-  - { label: object status, id: components-feedback-status-status }
+  - { label: status, id: components-feedback-status-status }
 ---
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
@@ -32,7 +32,7 @@ A <Term id="status-vocabulary">status vocabulary</Term> makes sure they do. It i
 Some things look like statuses but aren't:
 
 - **A label, a tag or a count** that isn't a state is a <C slug="badge" />.
-- **Something about the whole page**, like “105 titles can't be checked”, is a message strip; see [message handling](/design-system/patterns/message-handling/).
+- **Something about the whole page**, like “105 titles can't be checked”, is a banner; see [message handling](/design-system/patterns/message-handling/).
 - **The result of something people just did**, like “8 episodes queued”, is a <Term id="toast">toast</Term>.
 
 ## anatomy
@@ -59,7 +59,7 @@ A <Term id="screen-reader">screen reader</Term> reads warnings and errors with t
 2. **Group them by what people need to know**, not by how the system works: missing (nothing is under way), on its way (something is), needs attention (a person has to act), and held.
 3. **Give each group one meaning.** The words decide it: “on its way” is information, not success, because nothing is done yet.
 4. **Write the detail for each value.** Queued becomes “queued for a search and grab”; waiting becomes “waiting for the catalog”.
-5. **Put it all in one table, and show every status from it.** The object status's [React page](/design-system/react/?path=/docs/components-feedback-status-status--docs) shows how to write that table in code, so a reviewer can see in one place that “connection firewalled” is a warning.
+5. **Put it all in one table, and show every status from it.** The status component's [React page](/design-system/react/?path=/docs/components-feedback-status-status--docs) shows how to write that table in code, so a reviewer can see in one place that “connection firewalled” is a warning.
 
 ## one status, end to end
 
@@ -122,7 +122,7 @@ Statuses are text, not buttons, so the keyboard passes over them. The small shap
 
 ## related
 
-- <C slug="object-status">Object status</C> and <C slug="table-cells" />: the components, live.
+- <C slug="status">Status</C> and <C slug="table-cells" />: the components, live.
 - [Colour](/design-system/styles/colour/): what each meaning stands for.
 - [Worklist](/design-system/patterns/worklist/): tabs and counts built from the vocabulary.
 - [Principles](/design-system/foundations/principles/): 2, the outcome is the status.

@@ -20,7 +20,7 @@ export function GET() {
 1. The system does the work; people handle the exceptions. Automate routine work; a screen opens on what needs a person, then what is on its way; the full list is a drill-down.
 2. The outcome is the status. One status per object, answering "can I use it yet?", the same in every app; internal steps are detail. Colour follows meaning; unknown says so.
 3. People's words first, the system's detail one click away. No ids, file names or error codes as the message; keep them under details.
-4. One platform, many apps. The shell owns sign-in, navigation, search, notifications, settings and the design system; one tile per app; setup found in settings, edited in the app; one shell bar everywhere.
+4. One platform, many apps. The shell owns sign-in, navigation, search, notifications, settings and the design system; one tile per app; setup found in settings, edited in the app; one top bar everywhere.
 5. Calm and quick. One emphasized (primary) action per view, toolbar or dialog; no decoration; keyboard complete.
 Baseline (never traded): WCAG 2.2 AA (text contrast >= 4.5:1, tested), named controls, visible focus, keyboard complete, works at phone width, docs state known gaps.
 

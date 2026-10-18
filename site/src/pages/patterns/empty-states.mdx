@@ -26,7 +26,7 @@ Sometimes a list has nothing to show. That can be good news, because everything 
   <figcaption>Five kinds of empty: nothing yet, all done, no match, couldn't load, and can't tell yet. Each has its own picture, words and way forward.</figcaption>
 </figure>
 
-The <C slug="illustrated-message" /> draws all of them; its page shows it live, in every kind and size.
+The <C slug="empty-state">empty state component</C> draws all of them; its page shows it live, in every kind and size.
 
 ## when to show one
 
@@ -35,7 +35,7 @@ Show an empty state in the place of the content: in a table's body, in a [workli
 Other things look empty for a moment, but need something else:
 
 - **Content that is still loading.** Show the loading state instead; see [loading and progress](/design-system/patterns/loading-and-progress/). An empty state before the content has loaded claims something nobody knows yet.
-- **A problem with content that is still on the screen**, such as a refresh that failed. That is a <Term id="message-strip">message strip</Term> above the content; see [message handling](/design-system/patterns/message-handling/).
+- **A problem with content that is still on the screen**, such as a refresh that failed. That is a <Term id="banner">banner</Term> above the content; see [message handling](/design-system/patterns/message-handling/).
 - **A confirmation**, like “8 episodes queued”. That is a <Term id="toast">toast</Term>.
 - **One empty value in a row.** The cell says it: a date cell shows a dash, read out as “no date”.
 - **A short table nobody acts on.** Its own one-line empty row is enough.
@@ -77,7 +77,7 @@ Pick the kind by what is true, not by what the screen looks like. A list that fa
 | The list couldn't load, and there is nothing older to show | Error | “couldn't load the list” | “try again” |
 | It can't be told yet: a check hasn't run, or what the library holds is unknown | Unknown | “nothing can be checked yet” | The step that finds out, emphasized: “ask the catalog again” |
 | The list is still loading | No empty state | — | The loading state |
-| A refresh or an action failed, and the content is still there | No empty state | — | A message strip above it, with a way forward |
+| A refresh or an action failed, and the content is still there | No empty state | — | A banner above it, with a way forward |
 
 ## where it goes
 
@@ -131,15 +131,15 @@ Pick the kind by what is true, not by what the screen looks like. A list that fa
 
 ## keyboard and screen readers
 
-- The title is a real heading, so people can find the message by its heading. Set its level so that it fits the page.
+- The title is a real heading, so people can find the empty state by its heading. Set its level so that it fits the page.
 - The picture is decoration: the title and the description carry the meaning, never the picture or its colour.
-- The message isn't read out when it appears. Say the change where people are: the filter bar's count is read out, so “0 of 12” is heard as the search empties the list.
-- The action is a button where the message sits, in the usual order of the Tab key.
+- The empty state isn't read out when it appears. Say the change where people are: the filter bar's count is read out, so “0 of 12” is heard as the search empties the list.
+- The action is a button where the empty state sits, in the usual order of the Tab key.
 
 Today:
 
-- Pressing the action usually removes the message, button and all, so nothing has the <Term id="focus">focus</Term> afterwards. After “clear filters”, move the focus yourself, to the search field for instance.
-- The illustrated message doesn't hold you to one emphasized action: it shows whatever buttons it is given.
+- Pressing the action usually removes the empty state, button and all, so nothing has the <Term id="focus">focus</Term> afterwards. After “clear filters”, move the focus yourself, to the search field for instance.
+- The empty state doesn't hold you to one emphasized action: it shows whatever buttons it is given.
 
 ## the words
 
@@ -147,13 +147,13 @@ Today:
 - **Description.** Why, and what to do, in one or two sentences, in sentence case: “Every aired episode is in the library.”, “Nothing in this list fits the search and filters.”
 - **Action.** A verb and what it acts on: “clear filters”, “try again”, “import a list”, “ask the catalog again”.
 - **Counts**, when they help: “132 not yet aired”.
-- **No technical detail** in the title or the description: no codes, ids or raw errors. When people need them, they go under a message strip's details.
+- **No technical detail** in the title or the description: no codes, ids or raw errors. When people need them, they go under a banner's details.
 - **Good news is plain.** “nothing needs attention”: no celebration, and no apology.
 - **No blame.** “nothing tracked yet”, not “you haven't added anything”.
 
 ## related
 
-- <C slug="illustrated-message">Illustrated message</C>: the component, live, in every kind and size.
-- [Message handling](/design-system/patterns/message-handling/): when a problem is a message strip or a toast, not an empty state.
+- <C slug="empty-state">Empty state</C>: the component, live, in every kind and size.
+- [Message handling](/design-system/patterns/message-handling/): when a problem is a banner or a toast, not an empty state.
 - <C slug="data-table">Data table</C>: its empty body and its loading state.
 - [Worklist](/design-system/patterns/worklist/): where most empty states live.

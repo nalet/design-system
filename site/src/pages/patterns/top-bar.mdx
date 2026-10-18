@@ -1,6 +1,6 @@
 ---
 layout: ../../layouts/Doc.astro
-title: shell bar
+title: top bar
 description: The bar across the top of every screen — where you are, the one search, what is new for you, and your account — the same in the portal, in every app and in every product.
 draft: true
 ---
@@ -8,27 +8,27 @@ import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont } from '@site/blocks';
 import {
-  ShellBarOverview, ShellBarAnatomy, UserMenuOpen, SearchInTheBar, SearchTwoWays, ConsumerBar, ShellBarDo, ShellBarDont,
+  TopBarOverview, TopBarAnatomy, UserMenuOpen, SearchInTheBar, SearchTwoWays, ConsumerBar, TopBarDo, TopBarDont,
 } from '@site/sketches/shell';
 
-# shell bar
+# top bar
 
-The <Term id="shell-bar">shell bar</Term> runs across the top of every screen: on the <Term id="portal">portal</Term>'s <Term id="home">home page</Term>, in every <Term id="app">app</Term> inside it, and in every product opened from it. It always answers the same four questions: where am I, where do I find something, is there anything new for me, and where is my account?
+The <Term id="top-bar">top bar</Term> runs across the top of every screen: on the <Term id="portal">portal</Term>'s <Term id="home">home page</Term>, in every <Term id="app">app</Term> inside it, and in every product opened from it. It always answers the same four questions: where am I, where do I find something, is there anything new for me, and where is my account?
 
 Because it looks and works the same everywhere, people learn it once, and always know where to look.
 
 <figure class="ds-figure">
-  <ShellBarOverview />
-  <figcaption>The shell bar with an app open: the product's name and the app's name on the left; the search, notifications and the user menu on the right.</figcaption>
+  <TopBarOverview />
+  <figcaption>The top bar with an app open: the product's name and the app's name on the left; the search, notifications and the user menu on the right.</figcaption>
 </figure>
 
-The shell bar, its search, its user menu and the avatar are planned components; the drawings on this page show the idea.
+The top bar, its search, its user menu and the avatar are planned components; the drawings on this page show the idea.
 
 ## what it holds
 
 <figure class="ds-figure">
-  <ShellBarAnatomy />
-  <figcaption>The shell bar, close up, from left to right.</figcaption>
+  <TopBarAnatomy />
+  <figcaption>The top bar, close up, from left to right.</figcaption>
 </figure>
 
 1. **The product's name**, led by the blue chevron. It takes people home: to the portal's [home page](/design-system/patterns/home-and-tiles/), or to the product's own start page.
@@ -46,7 +46,7 @@ The menu starts with the person's name and email address, so they can see who is
 
 ## search
 
-There is one search, and it is always in the same place: in the shell bar, just before the notifications. It finds apps and, later, the things inside them. Because it never moves, people learn it once and find it on every screen. The search is planned, like the rest of the bar.
+There is one search, and it is always in the same place: in the top bar, just before the notifications. It finds apps and, later, the things inside them. Because it never moves, people learn it once and find it on every screen. The search is planned, like the rest of the bar.
 
 <figure class="ds-figure">
   <SearchInTheBar />
@@ -77,10 +77,10 @@ There is one search, and it is always in the same place: in the shell bar, just 
 
 <DoDont>
   <Do caption="The product's and the app's names, the bell with its count, and one square avatar that opens the one menu.">
-    <ShellBarDo />
+    <TopBarDo />
   </Do>
   <Dont caption="An email address as a badge, a sign-out button of its own, and a round avatar that looks different from everything else.">
-    <ShellBarDont />
+    <TopBarDont />
   </Dont>
 </DoDont>
 
@@ -96,7 +96,7 @@ The bar belongs to the shell, so it only holds what every screen shares.
 
 Proposed, together with the components:
 
-- The bar is the page's banner, which <Term id="screen-reader">screen reader</Term> users can jump to. The product's name is a link named after where it goes, such as the product's name and “home”.
+- The bar is the page's header <Term id="landmark">landmark</Term>, which <Term id="screen-reader">screen reader</Term> users can jump to. The product's name is a link named after where it goes, such as the product's name and “home”.
 - The search is a region of its own that people can jump to as well, and its field is named after what it finds, such as “search apps”. On a phone, the icon is a button named “search”, and pressing it puts the <Term id="focus">focus</Term> in the field it opens.
 - While people type, a screen reader says how many apps match on the home page, and how many results the list holds anywhere else.
 - The bell is a button whose name includes the count: “notifications, 2 unread”.

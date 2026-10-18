@@ -41,8 +41,8 @@ export const PATTERN_TERMS: Record<string, GlossaryEntry> = {
     explanation:
       'The fixed list of statuses one kind of item can have, with the words and the meaning of each. It is written down once and used everywhere the item appears.',
   },
-  'message-strip': {
-    term: 'message strip',
+  banner: {
+    term: 'banner',
     explanation:
       'A bar above a list or a page with a message about all of it, such as a warning that some items can’t be checked. It stays as long as the message is true.',
   },

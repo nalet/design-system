@@ -1,20 +1,20 @@
 ---
 layout: ../../layouts/Doc.astro
-title: illustrated message
+title: empty state
 description: What a list or a panel shows when it has nothing to show. A small drawing and a few words say why, and what people can do next.
-component: illustrated-message
+component: empty-state
 ---
 import { Button, EmptyState } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
-import { Playground, Kinds, Sizes, WithAction } from '@site/examples/illustrated-message';
+import { Playground, Kinds, Sizes, WithAction } from '@site/examples/empty-state';
 
-# illustrated message
+# empty state
 
-An illustrated message takes the place of a list or a panel that has nothing to show, and tells people why. A small line drawing, a title and a sentence say what is true and what they can do next.
+An empty state takes the place of a list or a panel that has nothing to show, and tells people why. A small line drawing, a title and a sentence say what is true and what they can do next.
 
-<Example label="an illustrated message">
+<Example label="an empty state">
   <Playground />
 </Example>
 
@@ -26,8 +26,8 @@ An illustrated message takes the place of a list or a panel that has nothing to 
 ## when to use something else
 
 - **While the list is still loading.** Use the loading state of the <C slug="data-table" />, or a <C slug="spinner" />. Say “nothing here” only once you know it is true.
-- **Above content that still shows.** For the rows from 4 minutes ago with an error on top, use a <C slug="message-strip" />. It sits above the content and leaves it in place.
-- **For the state of one item, in a list that is otherwise there.** Use an <C slug="object-status" /> in its row.
+- **Above content that still shows.** For the rows from 4 minutes ago with an error on top, use a <C slug="banner" />. It sits above the content and leaves it in place.
+- **For the state of one item, in a list that is otherwise there.** Use a <C slug="status" /> in its row.
 - **To confirm an action that just finished.** Use a <C slug="toast" />, which says so and goes away.
 
 ## anatomy
@@ -62,7 +62,7 @@ When the filters hide everything, use the search kind, not the empty one: the da
 
 ### sizes
 
-There are three sizes, to match what the message replaces: small, medium (the default) and large. The drawing, the title and the room around them grow with each size.
+There are three sizes, to match what the empty state replaces: small, medium (the default) and large. The drawing, the title and the room around them grow with each size.
 
 <Example label="three sizes">
   <Sizes />
@@ -82,10 +82,10 @@ The title is a level-2 heading, unless you give it another <Term id="heading-lev
 
 ## behaviour
 
-- An illustrated message is static: people read it, and the only things in it that take <Term id="focus">focus</Term> are its actions.
+- An empty state is static: people read it, and the only things in it that take <Term id="focus">focus</Term> are its actions.
 - It doesn't announce itself when it appears. When it replaces a list because the filters changed, what a <Term id="screen-reader">screen reader</Term> hears is the live count of results in the <C slug="filter-bar" />.
 
-The full keyboard map is on the illustrated message's [React page](/design-system/react/?path=/docs/components-feedback-status-empty-state--docs).
+The full keyboard map is on the empty state's [React page](/design-system/react/?path=/docs/components-feedback-status-empty-state--docs).
 
 ## accessibility
 
@@ -95,8 +95,8 @@ The full keyboard map is on the illustrated message's [React page](/design-syste
 
 Today:
 
-- Pressing the action usually removes the message, and the button with it, so focus falls back to the page: after “clear filters”, nothing has focus. Move focus yourself, to the search field for instance.
-- Nothing holds you to one emphasized action: the message shows whatever actions it is given.
+- Pressing the action usually removes the empty state, and the button with it, so focus falls back to the page: after “clear filters”, nothing has focus. Move focus yourself, to the search field for instance.
+- Nothing holds you to one emphasized action: the empty state shows whatever actions it is given.
 
 ## content
 
@@ -147,8 +147,8 @@ Today:
 
 - [Empty states](/design-system/patterns/empty-states/): which kind applies when, and what each one offers.
 - <C slug="filter-bar">Filter bar</C>: its live count is what a screen reader hears when the filters leave nothing.
-- <C slug="message-strip">Message strip</C>: a message above content that still shows.
-- <C slug="data-table">Data table</C>: the list an illustrated message most often stands in for.
+- <C slug="banner">Banner</C>: a message above content that still shows.
+- <C slug="data-table">Data table</C>: the list an empty state most often stands in for.
 
 ## specs
 

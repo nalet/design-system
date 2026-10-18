@@ -27,10 +27,10 @@ export const CORE: Record<string, GlossaryEntry> = {
     explanation:
       'A named value, such as a colour, a size or a font, stored once and used by every component. Changing the token changes every place that uses it.',
   },
-  floorplan: {
-    term: 'floorplan',
+  'page-layout': {
+    term: 'page layout',
     explanation:
-      'The layout of a whole page for one kind of task, such as working through a list or editing settings. Pages of the same kind then feel familiar.',
+      'A whole page, put together the same way for one kind of task, such as working through a list or editing settings. Pages of the same kind then feel familiar.',
   },
   worklist: {
     term: 'worklist',
@@ -42,8 +42,8 @@ export const CORE: Record<string, GlossaryEntry> = {
     explanation:
       'The frame around every app: sign-in, the bar at the top, notifications and settings. Apps open inside it, so moving between them feels like one product.',
   },
-  'shell-bar': {
-    term: 'shell bar',
+  'top-bar': {
+    term: 'top bar',
     explanation:
       'The bar across the top of every screen, with the product name, the search, notifications and your account menu. It is the same everywhere.',
   },

@@ -40,7 +40,7 @@ Other jobs need something else:
 
 Whether a change applies at once or waits for save is the most important thing to get right on a settings page. People need to know whether they are done.
 
-- **A switch applies the moment it is flipped.** Switches sit outside the form, in a card without a save button. When the change shows somewhere else, or takes a while, a <Term id="toast">toast</Term> confirms it: “Email alerts off”. If it can't be applied, the switch flips back, and an error strip says why.
+- **A switch applies the moment it is flipped.** Switches sit outside the form, in a card without a save button. When the change shows somewhere else, or takes a while, a <Term id="toast">toast</Term> confirms it: “Email alerts off”. If it can't be applied, the switch flips back, and an error banner says why.
 - **A checkbox is part of the form.** It waits for save, like every other field.
 - **Keep the two apart.** A switch above a save button leaves people unsure whether it applied; a checkbox without a save button sends them looking for one.
 
@@ -113,17 +113,17 @@ Checking what people entered is called <Term id="validation">validation</Term>, 
 - **Once a field shows an error, check it again on every change**, so the error goes the moment the value is right.
 - **Save checks every field**, shows the error at each one that is wrong, and sends nothing.
 - **Then the <Term id="focus">focus</Term> moves to the first field that needs a fix.** People hear its name, that it is invalid, and its error, and they start where the problem is.
-- **On a long form, also sum up at the top**: an error strip that counts what needs a fix and names it in the labels' words. It follows the fixes, and goes when nothing is left. A long form is one with more than one group, or one that scrolls; a short form only needs the errors at the fields.
+- **On a long form, also sum up at the top**: an error banner that counts what needs a fix and names it in the labels' words. It follows the fixes, and goes when nothing is left. A long form is one with more than one group, or one that scrolls; a short form only needs the errors at the fields.
 - **The save button doesn't turn off** to signal an error.
 
 ## when the save fails
 
-- The save itself can fail. Say so in an error strip at the top of the form, with a way forward, “try again”; the technical part goes under details.
+- The save itself can fail. Say so in an error banner at the top of the form, with a way forward, “try again”; the technical part goes under details.
 - The fields keep what people typed, and the changes stay unsaved.
 - Not in a toast: it leaves after five seconds, and the work still isn't saved.
 
 <DoDont>
-  <Do caption="A failed save is a strip that stays, with a way forward. The fields keep what people typed.">
+  <Do caption="A failed save is a banner that stays, with a way forward. The fields keep what people typed.">
     <SaveFailedStrip />
   </Do>
   <Dont caption="An error in a toast is gone in five seconds, maybe unread, and the work isn't saved.">
@@ -136,13 +136,13 @@ Checking what people entered is called <Term id="validation">validation</Term>, 
 - **While the save runs**, the save button shows that it is busy, so a second press can't send the form twice.
 - **When it is done**, the fields show the saved values, and “unsaved changes” goes.
 - **A toast confirms it**: “Settings saved”. A second save replaces that toast instead of stacking another.
-- **When the save changes what the page shows**, such as every time on the page now shown in UTC, say so in a success strip above the content that people can dismiss: “Saved. Times on this page now show in UTC.” The change happened where people weren't looking; the strip says why. No toast as well.
+- **When the save changes what the page shows**, such as every time on the page now shown in UTC, say so in a success banner above the content that people can dismiss: “Saved. Times on this page now show in UTC.” The change happened where people weren't looking; the banner says why. No toast as well.
 
 <DoDont>
   <Do caption="A plain save is confirmed by a toast that leaves on its own.">
     <SavedToast />
   </Do>
-  <Dont caption="A strip for a plain confirmation stays on the page long after it was news.">
+  <Dont caption="A banner for a plain confirmation stays on the page long after it was news.">
     <SavedStrip />
   </Dont>
 </DoDont>
@@ -161,11 +161,11 @@ Checking what people entered is called <Term id="validation">validation</Term>, 
 - Only “save changes” sends the form. Enter presses the form's first send button, so a cancel button that sent the form, placed before save, would be the one it pressed.
 - Required fields say “required” to <Term id="screen-reader">screen readers</Term>; the browser's own error bubbles stay out of the way.
 - A field's error isn't read out when it appears; moving the focus to the first field that needs a fix is what gets it read.
-- Error strips are read out as they appear, and again each time their text changes, once per fix. The success strip is read out politely.
+- Error banners are read out as they appear, and again each time their text changes, once per fix. The success banner is read out politely.
 
 Today:
 
-- A success strip that appears with its text already in it may pass in silence on some screen readers. The toast doesn't have that problem.
+- A success banner that appears with its text already in it may pass in silence on some screen readers. The toast doesn't have that problem.
 - The busy save button can't keep the focus while the save runs, so the browser may move the focus to the page. When the save ends, put the focus back on save.
 - A toast stays five seconds, and only a pointer resting on it pauses it, not the keyboard. Keep anything people need later out of it: the saved form is the record.
 - An error for a checkbox or a switch doesn't mark the box itself. Check option groups as a whole, and say what is wrong in the summary.
@@ -181,12 +181,12 @@ Today:
 - **The summary.** “Couldn't save.”, then the count and the labels as they are written: “2 settings need a fix: Backup host and Retention (days).”
 - **A failed save.** What happened, and that nothing is lost: “Couldn't save the settings. Your changes are still here.” The code goes under details.
 - **Toasts.** What happened to what, in sentence case, without a full stop: “Settings saved”, “Email alerts off”, “No changes to save”.
-- **The success strip.** “Saved.”, then what changed on the page: “Saved. Times on this page now show in UTC.”
+- **The success banner.** “Saved.”, then what changed on the page: “Saved. Times on this page now show in UTC.”
 
 ## related
 
 - <C slug="field">Field</C>: the label, hint and error around each control.
-- [Message handling](/design-system/patterns/message-handling/): when a message is a strip, a toast, or at its field.
+- [Message handling](/design-system/patterns/message-handling/): when a message is a banner, a toast, or at its field.
 - <C slug="switch">Switch</C>: the setting that applies at once.
 - <C slug="toast">Toast</C>: the confirmation after a save.
 - [Settings and setup](/design-system/patterns/settings-and-setup/): where each kind of setting is changed.

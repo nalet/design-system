@@ -226,10 +226,10 @@ export function FocusRing({ x, y, w, h }: { x: number; y: number; w: number; h: 
 }
 
 /**
- * a message strip: a frame tinted by its state, with a bar on its leading edge,
+ * a banner: a frame tinted by its state, with a bar on its leading edge,
  * a line of text, and an optional quiet button at its end.
  */
-export function Strip({
+export function Banner({
   x,
   y,
   w,
@@ -337,7 +337,7 @@ export function SearchField({ x, y, w, text, h = 12 }: { x: number; y: number; w
   );
 }
 
-/** the search folded into an icon, as in the shell bar on a phone: the square lens and its handle. */
+/** the search folded into an icon, as in the top bar on a phone: the square lens and its handle. */
 export function SearchIcon({ x, y, s = 6 }: { x: number; y: number; s?: number }) {
   return (
     <g>

@@ -1,9 +1,9 @@
 ---
 layout: ../../layouts/Doc.astro
-title: launchpad & tiles
-description: The portal's start page — one page of tiles in a few fixed groups, with a search that narrows them — and when something gets a tile.
+title: home & tiles
+description: The portal's home page — one page of tiles in a few fixed groups, narrowed by the search in the shell bar — and when something gets a tile.
 draft: true
-draftNote: "When something gets a tile (an app, a number, a task) and how tiles are grouped are new and under review; the launchpad, the tile and the tile group are described as they are."
+draftNote: "When something gets a tile (an app, a number, a task), how tiles are grouped and the search in the shell bar are new and under review; the home page, the tile and the tile group are described as they are."
 react:
   - { label: portal, id: patterns-portal }
   - { label: tile, id: components-navigation-tile }
@@ -12,27 +12,27 @@ react:
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont } from '@site/blocks';
 import {
-  LaunchpadOverview, OnePage, ManyPages, SearchNarrows, MyAppsPlanned, WhatGetsATile, AppAndNumber, TilePerView,
-  GroupsByPeople, GroupsByAddon, AddonJoins, TileAnatomy, TileStates, TileWordsDo, TileWordsDont, SignalsDo, SignalsDont,
-  GroupAnatomy, GridReflows, GridSqueezed, ArrowKeys,
+  LaunchpadOverview, OnePage, ManyPages, SearchNarrows, OneSearch, TwoSearches, MyAppsPlanned, WhatGetsATile, AppAndNumber,
+  TilePerView, GroupsByPeople, GroupsByAddon, AddonJoins, TileAnatomy, TileStates, TileWordsDo, TileWordsDont, SignalsDo,
+  SignalsDont, GroupAnatomy, GridReflows, GridSqueezed, ArrowKeys,
 } from '@site/sketches/launchpad';
 
-# launchpad & tiles
+# home & tiles
 
-The <Term id="launchpad">launchpad</Term> is the first page people see when they sign in to the <Term id="portal">portal</Term>. It has one job: to take people to the right <Term id="app">app</Term> quickly, and to show them where something needs their attention.
+The <Term id="home">home page</Term> is the first page people see when they sign in to the <Term id="portal">portal</Term>. It has one job: to take people to the right <Term id="app">app</Term> quickly, and to show them where something needs their attention.
 
 It does that with <Term id="tile">tiles</Term>, one for each app, sorted into a few <Term id="tile-group">groups</Term> that always appear in the same order.
 
 <figure class="ds-figure">
   <LaunchpadOverview />
-  <figcaption>A launchpad: a search at the top, then three groups in a fixed order. The amber 3 is a number tile: three things that need attention.</figcaption>
+  <figcaption>The home page: the search sits in the shell bar at the top, and under the title come three groups in a fixed order. The amber 3 is a number tile: three things that need attention.</figcaption>
 </figure>
 
-The launchpad, the tile and the tile group are real components. Their React pages show them live, in every variant: the [launchpad](/design-system/react/?path=/docs/patterns-portal--docs), the [tile](/design-system/react/?path=/docs/components-navigation-tile--docs) and the [tile group](/design-system/react/?path=/docs/components-navigation-tile-group--docs).
+The home page, the tile and the tile group are real components. Their React pages show them live, in every variant: the [home page](/design-system/react/?path=/docs/patterns-portal--docs), the [tile](/design-system/react/?path=/docs/components-navigation-tile--docs) and the [tile group](/design-system/react/?path=/docs/components-navigation-tile-group--docs).
 
 ## one page, in a fixed order
 
-People find things by where they were last time. So the launchpad is a single page, and its groups and tiles keep their places from one visit to the next: apps first, then manage, then settings. After a few visits, people reach for a tile without reading.
+People find things by where they were last time. So the home page is a single page, and its groups and tiles keep their places from one visit to the next: apps first, then manage, then settings. After a few visits, people reach for a tile without reading.
 
 <DoDont>
   <Do caption="One page with every group in view, always in the same order.">
@@ -47,22 +47,31 @@ One page works well for up to about 30 tiles. Beyond that, or when different aud
 
 ## search finds the tile
 
-When people know what they want, typing is quicker than looking. Typing on the launchpad narrows the tiles in place: tiles that don't match step aside, and so does every group left with nothing in it. When nothing matches at all, the page says so, and how to get back.
+When people know what they want, typing is quicker than looking. That is why the search in the <Term id="shell-bar">shell bar</Term> is also the tile finder. On the home page, the tiles narrow in place as people type there: tiles that don't match step aside, and so does every group left with nothing in it. When nothing matches at all, the page says so, and how to get back.
 
 <figure class="ds-figure">
   <SearchNarrows />
-  <figcaption>Typing “down” narrows the launchpad to the tiles that match. Groups with nothing left step aside until the search is cleared.</figcaption>
+  <figcaption>Typing “down” in the shell bar narrows the home page to the tiles that match. Groups with nothing left step aside until the search is cleared.</figcaption>
 </figure>
 
-A page that only holds a few number tiles, as a board of key figures, can leave the search out.
+There is no second search box on the page. With only one search, always in the same place, people never wonder which one to use, and the search they know from the home page is the one they find on every other screen. Like the rest of the shell bar, it is planned; the [shell bar](/design-system/patterns/shell-bar/#search) page describes it.
 
-Later, the search in the <Term id="shell-bar">shell bar</Term> will find apps from anywhere, not only from the launchpad. This is planned.
+<DoDont>
+  <Do caption="One search, in the shell bar. On the home page, it narrows the tiles.">
+    <OneSearch />
+  </Do>
+  <Dont caption="A second search box on the page, under the one in the bar. People have to stop and wonder which one finds what.">
+    <TwoSearches />
+  </Dont>
+</DoDont>
+
+The component that draws the home page has a search box of its own. Inside the shell, leave it off, because the search in the shell bar narrows the tiles. The component's own box is for a launcher that stands on its own, outside a shell. A launcher that only holds a few number tiles, as a board of key figures, can do without a search at all.
 
 A catalogue that lists every app to browse through isn't needed for now. It becomes useful once people can arrange pages of their own, to pick the apps they want on them.
 
 ## favourites, later
 
-Most people use the same two or three apps every day. Later, each person will be able to pin those to a “my apps” group at the top of the launchpad, so that they always come first. This is planned.
+Most people use the same two or three apps every day. Later, each person will be able to pin those to a “my apps” group at the top of the home page, so that they always come first. This is planned.
 
 <figure class="ds-figure">
   <MyAppsPlanned />
@@ -71,7 +80,7 @@ Most people use the same two or three apps every day. Later, each person will be
 
 ## when something gets a tile
 
-A tile should lead somewhere worth going on its own. If everything gets a tile, the launchpad turns into a second menu that competes with the apps' own navigation, and it grows every time someone adds a screen. So before adding a tile, ask what it opens.
+A tile should lead somewhere worth going on its own. If everything gets a tile, the home page turns into a second menu that competes with the apps' own navigation, and it grows every time someone adds a screen. So before adding a tile, ask what it opens.
 
 <figure class="ds-figure">
   <WhatGetsATile />
@@ -165,7 +174,7 @@ A tile can also open another site in a new tab; today nothing on the tile shows 
 
 ## tile groups
 
-A tile group gathers tiles under a name that stays put. It is what the launchpad is made of, and it also works on its own: a short set of places to go at the end of a page, or a row of number tiles as key figures. A single tile doesn't need a group around it.
+A tile group gathers tiles under a name that stays put. It is what the home page is made of, and it also works on its own: a short set of places to go at the end of a page, or a row of number tiles as key figures. A single tile doesn't need a group around it.
 
 <figure class="ds-figure">
   <GroupAnatomy />
@@ -186,11 +195,11 @@ A tile group gathers tiles under a name that stays put. It is what the launchpad
   </Dont>
 </DoDont>
 
-When a search hides every tile in a group, the whole group steps aside with them.
+When the search hides every tile in a group, the whole group steps aside with them.
 
 ## using it with a keyboard
 
-Pressing Tab through every tile on a busy launchpad would take a long time. So all the tiles together are one stop for the Tab key, and the arrow keys move between them, across groups.
+Pressing Tab through every tile on a busy home page would take a long time. So all the tiles together are one stop for the Tab key, and the arrow keys move between them, across groups.
 
 <figure class="ds-figure">
   <ArrowKeys />
@@ -204,16 +213,16 @@ Pressing Tab through every tile on a busy launchpad would take a long time. So a
 | ↓ and ↑ | The tile below or above on the screen, crossing into the next group. |
 | Home and End | The first or the last tile. |
 | Enter | Opens the tile. Space presses a tile that is a button rather than a link. |
-| / | From among the tiles, jumps to the search. |
+| / | Jumps to the search in the shell bar. |
 | Esc, in the search | Clears the search and moves to the first tile. |
 
-Tiles that can't be opened, and the tiles of a group that steps aside, are skipped. An arrow key pressed on something else among the tiles, such as a group's action, jumps to the first tile. A tile group on its own works the same way. A launchpad can also give each group a Tab stop of its own, and when people get stuck with the arrow keys, every tile can be its own Tab stop instead.
+Tiles that can't be opened, and the tiles of a group that steps aside, are skipped. An arrow key pressed on something else among the tiles, such as a group's action, jumps to the first tile. A tile group on its own works the same way. A home page can also give each group a Tab stop of its own, and when people get stuck with the arrow keys, every tile can be its own Tab stop instead.
 
 ## accessibility
 
-What makes the launchpad work for everyone, including people who use a <Term id="screen-reader">screen reader</Term>:
+What makes the home page work for everyone, including people who use a <Term id="screen-reader">screen reader</Term>:
 
-- The launchpad's title is the page's main heading, and each group's title is a heading under it, so people can jump from group to group. The search is a region of its own that they can jump to as well.
+- The home page's title is the page's main heading, and each group's title is a heading under it, so people can jump from group to group. The search in the shell bar is a region of its own that they can jump to as well.
 - While people search, a screen reader says how many apps match. When nothing matches, the message is visible text.
 - A tile is read as one thing: its name, its badge, its status, then its description or its number. Keep each part short, because people hear all of it.
 - The icon, the chevron and the small triangle beside a change are decoration. The status dot is read out, but on screen it is colour only, so the description says the state in words.
@@ -222,20 +231,20 @@ What makes the launchpad work for everyone, including people who use a <Term id=
 
 Today:
 
-- The arrow keys don't work inside the search field. Tab from the search reaches the first visible tile, and the arrows work from there.
-- Esc in the search only reaches the first tile when that tile's group was visible during the search; otherwise the <Term id="focus">focus</Term> stays in the search.
+- In the component's own search box, the arrow keys don't work. Tab from the box reaches the first visible tile, and the arrows work from there.
+- Esc in that box only reaches the first tile when that tile's group was visible during the search; otherwise the <Term id="focus">focus</Term> stays in the box.
 - The count a screen reader hears, and the default message when nothing matches, are in English only, and with one match it says “1 app match”.
 - Nothing tells screen-reader users about the arrow keys, and a screen reader's reading mode still reads every tile.
-- The search field's frame is fainter than other text fields' frames, and its focus is a blue frame rather than the usual focus outline.
-- The launchpad listens for / and the arrow keys anywhere among its tiles, so a text field placed in a group's title row can't receive a /. Keep text fields out of that area.
+- The component's search box has a fainter frame than other text fields, and its focus is a blue frame rather than the usual focus outline.
+- The home page listens for the arrow keys anywhere among its tiles, and with its own search box for / as well, so a text field placed in a group's title row can't receive a /. Keep text fields out of that area.
 - The title is always the page's main heading, and a group's title always the level below it, whatever headings are around them.
 - A tile that can't be opened is read as plain text, not as a link that is unavailable. If the reason matters, put it in the description.
 - A badge with a count is read as a bare number. Say what it counts in the description.
 
 ## the words
 
-- **The launchpad's title.** The name of the place, in one word: “launchpad”, “home”. No greeting and no tagline; people skip them on every visit, and they push the tiles down.
-- **The search.** Its placeholder says what it finds, “search apps…”, in the same words as its name.
+- **The home page's title.** The name of the place, in one word: “home”. No greeting and no tagline; people skip them on every visit, and they push the tiles down.
+- **The search.** Its placeholder says what it finds, “search apps…”, in the same words as its name, in the shell bar and in a launcher's own search box alike.
 - **Group titles.** Who the tiles are for, in one or two words, always the same: apps, manage, settings. Avoid “misc”, “other”, or one group for everything.
 - **Tile names.** The app's name, as a noun rather than a verb: “downloads”, not “open downloads”.
 - **Descriptions.** What the app is for, in a few words, in sentence case: “What is on its way”.
@@ -249,9 +258,9 @@ The exact values, for designers and developers.
 
 | part | spec |
 | --- | --- |
-| Launchpad title | The page's `h1`: JetBrains Mono 700, 22px, letter-spacing −0.01em, `--fg`, lowercase; led by an 18px chevron |
-| Title bar | The title and the search in one row, 16px apart, wrapping on narrow screens; without a title, the search sits alone at the right end |
-| Search field | 32px high; mono 13px; `--surface` fill; 1px `--border-2`; placeholder in `--fg-dim`; 16rem wide, growing to 24rem |
+| Page title | The page's `h1`: JetBrains Mono 700, 22px, letter-spacing −0.01em, `--fg`, lowercase; led by an 18px chevron |
+| Title bar | The title, in a row of its own. A launcher outside a shell puts its own search box in the same row, 16px away, wrapping on narrow screens; without a title, the box sits alone at the right end |
+| Own search box | Only outside a shell. 32px high; mono 13px; `--surface` fill; 1px `--border-2`; placeholder in `--fg-dim`; 16rem wide, growing to 24rem |
 | Spacing | 24px under the title bar and 32px between groups; compact: 16px and 24px |
 | No-match message | Inter 13px in `--fg-dim`, centred, in a dashed 1px `--border-2` box with 32px padding |
 | Tile | Square; 1px `--border`; `--surface` fill; 16px padding, 12px between rows; at least 7rem (112px) tall. Small: 5.5rem, 12px padding, 8px rows. Large: 9rem |
@@ -268,7 +277,7 @@ The exact values, for designers and developers.
 
 ## related
 
-- [Shell bar](/design-system/patterns/shell-bar/): the product's name in it takes people home to the launchpad.
+- [Shell bar](/design-system/patterns/shell-bar/): its search finds the tiles, and the product's name in it leads back to the home page.
 - [App navigation](/design-system/patterns/app-navigation/): the views of one app, which don't get tiles of their own.
 - [Settings and setup](/design-system/patterns/settings-and-setup/): the “needs setup” badge on a tile.
 - [Worklist](/design-system/patterns/worklist/): where a number tile usually leads.

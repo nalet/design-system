@@ -52,7 +52,7 @@ People who use the keyboard need to see where they are. Buttons, icon buttons, t
 
 A focused menu item shows a bar on its leading edge and a lighter fill instead. Table rows draw the outline inside their cells, because browsers don't draw outlines on table rows reliably.
 
-Today: two older families look different. Text fields, selects and text areas show focus with a blue border and a soft inner shadow, and launchpad tiles with a blue frame.
+Today: two older families look different. Text fields, selects and text areas show focus with a blue border and a soft inner shadow, and the tiles on the home page with a blue frame.
 
 <Example label="focus on a field and on a button">
   <div style={{ width: '240px' }}>
@@ -93,7 +93,7 @@ This is how the components that take one tab stop use the arrow keys:
 | <C slug="tabs">Tabs</C>, <C slug="filter-tabs" /> | The left and right arrow keys move and select; <Kbd>home</Kbd> and <Kbd>end</Kbd> jump to the first and the last |
 | <C slug="toolbar">Toolbar</C> | The left and right arrow keys move between its controls and wrap around; <Kbd>home</Kbd> and <Kbd>end</Kbd> |
 | <C slug="data-table">Data table</C> | The up and down arrow keys move by row; <Kbd>home</Kbd>, <Kbd>end</Kbd>, <Kbd>page up</Kbd> and <Kbd>page down</Kbd>; the left and right arrow keys close and open groups; <Kbd>tab</Kbd> goes into the focused row's controls |
-| [Launchpad](/design-system/patterns/launchpad-and-tiles/) and <C slug="tile-group">tile groups</C> | A grid: right and left follow the reading order, down and up follow the tiles' places on the screen; <Kbd>home</Kbd> and <Kbd>end</Kbd> |
+| The [home page](/design-system/patterns/home-and-tiles/) and <C slug="tile-group">tile groups</C> | A grid: right and left follow the reading order, down and up follow the tiles' places on the screen; <Kbd>home</Kbd> and <Kbd>end</Kbd> |
 | <C slug="action-menu">Action menu</C> | Opens with <Kbd>enter</Kbd>, <Kbd>space</Kbd> or the down arrow key, or on its last item with the up arrow key; the arrow keys move; <Kbd>esc</Kbd> closes it |
 
 Each component's exact keys are in the keyboard table on its React page. When you mention keys in text, show them as keycaps with the <C slug="kbd" /> component, like <Kbd>ctrl</Kbd> <Kbd>a</Kbd>.
@@ -129,7 +129,7 @@ Opening a row and selecting it are kept apart: a press on the row opens it, and 
 | Invalid | A `--state-error` border, and the error text under the field |
 | Disabled | 40–50% opacity, `cursor: not-allowed`, out of the tab order |
 
-- **Today:** text fields, selects and textareas show focus as a `--cloud-blue` border with an inset shadow; launchpad tiles as a `--cloud-blue` frame.
+- **Today:** text fields, selects and textareas show focus as a `--cloud-blue` border with an inset shadow; the tiles on the home page as a `--cloud-blue` frame.
 - **Native elements** wherever they exist: `<button>`, checkboxes, `<select>`, `<details>`.
 - **Targets:** at least 24px (WCAG 2.5.8). The `sm` controls are 28px high.
 - **Keys** in text: the `Kbd` component.

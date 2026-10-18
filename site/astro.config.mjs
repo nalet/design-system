@@ -13,13 +13,17 @@ import { satteri } from '@astrojs/markdown-satteri';
 import { codeTheme } from './src/lib/code-theme.mjs';
 import { wrapTables } from './src/lib/wrap-tables.mjs';
 import { demoteIncludedHeadings } from './src/lib/included-docs.mjs';
+import { astroRedirects } from './redirects.mjs';
 
 const here = (path) => fileURLToPath(new URL(path, import.meta.url));
+const BASE = '/design-system/';
 
 export default defineConfig({
   site: 'https://nalet.github.io',
-  base: '/design-system/',
+  base: BASE,
   trailingSlash: 'always',
+  // a renamed page keeps its old address: see RENAMED in site/redirects.mjs.
+  redirects: astroRedirects(BASE),
   // the brand files (icons/, splash-plates/, terminal/) keep the urls the
   // storybook served them at: /design-system/icons/nalet_128.png and so on.
   publicDir: '../assets',

@@ -3,11 +3,13 @@ import * as PortalStories from './Portal.stories';
 
 <Meta of={PortalStories} />
 
-# portal (launchpad)
+# portal (home page)
 
-How the launchpad floorplan is laid out, when to use a tile, how to group tiles, how the keyboard moves through them and how to word it all is on the guidelines site: **[launchpad and tiles guidance →](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/)**
+How the home page is laid out, when to use a tile, how to group tiles, how the keyboard moves through them and how to word it all is on the guidelines site: **[home and tiles guidance →](https://nalet.github.io/design-system/patterns/home-and-tiles/)**
 
-Here is a launchpad with favourites and a search you control with `query` and `onQueryChange`.
+Inside the shell, the search in the shell bar narrows the tiles, and the portal's own search box stays off. That box is for a launcher that stands on its own, outside a shell. The implementation notes below show how to pass the bar's search in.
+
+Here is such a launcher, with favourites and a search you control with `query` and `onQueryChange`.
 
 <Canvas of={PortalStories.WithFavorites} />
 
@@ -36,6 +38,7 @@ Here the search matches nothing, and the portal shows the `emptyState` it was gi
 - The search is uncontrolled by default. To control it, pass `query` with `onQueryChange`.
 - `onQueryChange` fires on every keystroke either way.
 - A controlled `query` without `onQueryChange` freezes the search box.
+- Inside a shell, pass `searchable={false}` and the shell bar's text as `query`. The tiles, the groups, the empty state and the match count follow `query` as they do with the portal's own box. `/` and `esc` are then the shell's to handle: the portal only handles them when it has its own box.
 - The search matches against each tile's `data-nc-search`, which `Tile` sets to its title and description, lowercased.
 - Tiles that don't match are hidden with the `hidden` attribute, and so is a group left without a match.
 - A hidden tile never keeps the tab stop, so `tab` always lands on a tile people can see.

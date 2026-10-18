@@ -133,7 +133,7 @@ export type {
 export { StatusCell, DateCell, IdentifierCell, relativeDay } from './components/DataTable/cells';
 export type { StatusCellProps, DateCellProps, IdentifierCellProps } from './components/DataTable/cells';
 
-// patterns — the portal / launchpad
+// patterns — the portal / home page
 export { Tile } from './components/Tile/Tile';
 export type {
   TileProps,

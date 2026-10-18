@@ -337,6 +337,16 @@ export function SearchField({ x, y, w, text, h = 12 }: { x: number; y: number; w
   );
 }
 
+/** the search folded into an icon, as in the shell bar on a phone: the square lens and its handle. */
+export function SearchIcon({ x, y, s = 6 }: { x: number; y: number; s?: number }) {
+  return (
+    <g>
+      <rect className="sk-lens" x={x} y={y} width={s} height={s} />
+      <line className="sk-lens" x1={x + s} y1={y + s} x2={x + s * 1.45} y2={y + s * 1.45} />
+    </g>
+  );
+}
+
 /** an arrow from one step of a storyboard to the next. */
 export function Arrow({ x1, y1, x2, y2, dashed }: { x1: number; y1: number; x2: number; y2: number; dashed?: boolean }) {
   const a = Math.atan2(y2 - y1, x2 - x1);
@@ -448,7 +458,7 @@ export function Tile({
   );
 }
 
-/** a group's title, led by a small chevron, as on the launchpad. */
+/** a group's title, led by a small chevron, as on the home page. */
 export function GroupTitle({ x, y, children }: { x: number; y: number; children: ReactNode }) {
   return (
     <g>

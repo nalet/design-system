@@ -149,7 +149,7 @@ export function OneTilePerApp() {
     { x: 216, badge: false },
   ];
   return (
-    <Sketch label="A start page with the same top bar as every app, and one tile per app; one tile shows 3 things that need attention.">
+    <Sketch label="A home page with the same top bar as every app, and one tile per app; one tile shows 3 things that need attention.">
       <Screen />
       <ShellBar />
       <Line x={16} y={32} w={80} strong />
@@ -172,7 +172,7 @@ export function OneTilePerApp() {
 export function TilePerTab() {
   const labels = ['requests', 'downloads', 'search', 'sources', 'clients', 'profiles'];
   return (
-    <Sketch label="A start page with six tiles that all open the same app, one for each of its tabs, under a top bar that looks different from the apps'.">
+    <Sketch label="A home page with six tiles that all open the same app, one for each of its tabs, under a top bar that looks different from the apps'.">
       <Screen />
       <Line x={8} y={7} w={60} strong />
       <rect className="sk-button" x={230} y={3} width={60} height={10} />

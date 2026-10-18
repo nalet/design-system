@@ -1,26 +1,28 @@
 ---
 layout: ../../layouts/Doc.astro
 title: shell bar
-description: The bar across the top of every screen — where you are, what is new for you, and your account — the same in the portal, in every app and in every product.
+description: The bar across the top of every screen — where you are, the one search, what is new for you, and your account — the same in the portal, in every app and in every product.
 draft: true
 ---
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont } from '@site/blocks';
-import { ShellBarOverview, ShellBarAnatomy, UserMenuOpen, ConsumerBar, ShellBarDo, ShellBarDont } from '@site/sketches/shell';
+import {
+  ShellBarOverview, ShellBarAnatomy, UserMenuOpen, SearchInTheBar, SearchTwoWays, ConsumerBar, ShellBarDo, ShellBarDont,
+} from '@site/sketches/shell';
 
 # shell bar
 
-The <Term id="shell-bar">shell bar</Term> runs across the top of every screen: on the <Term id="portal">portal</Term>'s start page, in every <Term id="app">app</Term> inside it, and in every product opened from it. It always answers the same three questions: where am I, is there anything new for me, and where is my account?
+The <Term id="shell-bar">shell bar</Term> runs across the top of every screen: on the <Term id="portal">portal</Term>'s <Term id="home">home page</Term>, in every <Term id="app">app</Term> inside it, and in every product opened from it. It always answers the same four questions: where am I, where do I find something, is there anything new for me, and where is my account?
 
 Because it looks and works the same everywhere, people learn it once, and always know where to look.
 
 <figure class="ds-figure">
   <ShellBarOverview />
-  <figcaption>The shell bar with an app open: the product's name and the app's name on the left; search, notifications and the user menu on the right.</figcaption>
+  <figcaption>The shell bar with an app open: the product's name and the app's name on the left; the search, notifications and the user menu on the right.</figcaption>
 </figure>
 
-The shell bar, its user menu and the avatar are planned components; the drawings on this page show the idea.
+The shell bar, its search, its user menu and the avatar are planned components; the drawings on this page show the idea.
 
 ## what it holds
 
@@ -29,9 +31,9 @@ The shell bar, its user menu and the avatar are planned components; the drawings
   <figcaption>The shell bar, close up, from left to right.</figcaption>
 </figure>
 
-1. **The product's name**, led by the blue chevron. It takes people home: to the [launchpad](/design-system/patterns/launchpad-and-tiles/), or to the product's start page.
+1. **The product's name**, led by the blue chevron. It takes people home: to the portal's [home page](/design-system/patterns/home-and-tiles/), or to the product's own start page.
 2. **The app's name**, next to it, when an app is open: “/ downloads”. People always know where they are.
-3. **Search**, to find apps and things from anywhere. This is planned.
+3. **Search**: one field for the whole platform, which finds apps and, later, the things inside them. It is planned; [search](#search) below describes how it works.
 4. **Notifications**: a bell with the number of unread notices. It opens one panel with the notices of every app.
 5. **The <Term id="user-menu">user menu</Term>**, behind a small square with the person's picture or initials, their <Term id="avatar">avatar</Term>. It opens one menu for everything about the person.
 
@@ -41,6 +43,25 @@ The shell bar, its user menu and the avatar are planned components; the drawings
 </figure>
 
 The menu starts with the person's name and email address, so they can see who is signed in. Then come account, settings (only for people who may change them), and help. Sign out comes last, set apart, so nobody presses it by accident.
+
+## search
+
+There is one search, and it is always in the same place: in the shell bar, just before the notifications. It finds apps and, later, the things inside them. Because it never moves, people learn it once and find it on every screen. The search is planned, like the rest of the bar.
+
+<figure class="ds-figure">
+  <SearchInTheBar />
+  <figcaption>On a wide screen, the search is a field in the bar. On a phone, it is an icon that opens a field across the whole width.</figcaption>
+</figure>
+
+- **On the home page, it narrows the tiles** as people type, so the search is also the tile finder. The home page has no search box of its own, so there is never a second one to choose from; see [home & tiles](/design-system/patterns/home-and-tiles/#search-finds-the-tile).
+- **Anywhere else, it shows a short list of results** under the field, with the apps first, so people can open another app from wherever they are.
+- **The / key jumps to it** from anywhere on the screen, except while people are typing in a text field.
+- **On a phone, it is an icon** in the bar. Pressing it opens a field across the whole width.
+
+<figure class="ds-figure">
+  <SearchTwoWays />
+  <figcaption>The same search, in the same place. On the home page, typing “down” narrows the tiles to the one that matches. In an app, the same word opens a short list under the field, with the apps first; the things inside the apps follow later.</figcaption>
+</figure>
 
 ## the same everywhere
 
@@ -76,20 +97,23 @@ The bar belongs to the shell, so it only holds what every screen shares.
 Proposed, together with the components:
 
 - The bar is the page's banner, which <Term id="screen-reader">screen reader</Term> users can jump to. The product's name is a link named after where it goes, such as the product's name and “home”.
+- The search is a region of its own that people can jump to as well, and its field is named after what it finds, such as “search apps”. On a phone, the icon is a button named “search”, and pressing it puts the <Term id="focus">focus</Term> in the field it opens.
+- While people type, a screen reader says how many apps match on the home page, and how many results the list holds anywhere else.
 - The bell is a button whose name includes the count: “notifications, 2 unread”.
-- The avatar is a button whose name says what it shows and what it opens: “au, user menu”. Inside the menu, the arrow keys move between the items, and Esc closes it and puts the <Term id="focus">focus</Term> back on the avatar, as in the <C slug="action-menu" />.
+- The avatar is a button whose name says what it shows and what it opens: “au, user menu”. Inside the menu, the arrow keys move between the items, and Esc closes it and puts the focus back on the avatar, as in the <C slug="action-menu" />.
 
 ## the words
 
 - **The product's name.** The product's own name, lowercase, as on its tile.
-- **The app's name.** The same word as the app's tile on the launchpad.
+- **The app's name.** The same word as the app's tile on the home page.
+- **The search.** Its placeholder says what it finds, in the same words as its name: “search apps…”.
 - **The menu's header.** The person's name, then their email address, quieter.
 - **The menu's items.** Account, settings, help and sign out, in that order.
 
 ## related
 
 - [App navigation](/design-system/patterns/app-navigation/): the app's own views, under the bar.
-- [Launchpad & tiles](/design-system/patterns/launchpad-and-tiles/): where the product's name takes people home to.
+- [Home & tiles](/design-system/patterns/home-and-tiles/): where the product's name leads back to, and the tiles the search narrows there.
 - [Settings and setup](/design-system/patterns/settings-and-setup/): what the user menu's settings hold.
 - [Brand](/design-system/styles/brand/): the chevron and the product's name.
 - [Principles](/design-system/foundations/principles/): 4, one platform, many apps.

@@ -36,7 +36,7 @@ export interface ComponentEntry {
   react: string;
   /**
    * where its design guidance lives. most components have a page of their
-   * own; the tile and the tile group share the launchpad pattern's page.
+   * own; the tile and the tile group share the home & tiles pattern's page.
    */
   guidance?: string;
 }
@@ -88,8 +88,8 @@ export const COMPONENTS: ComponentEntry[] = [
   // navigation
   { slug: 'tabs', name: 'tabs', exports: ['Tabs'], role: 'navigation', summary: 'Switch between the parts of one thing.', react: 'components-navigation-tabs' },
   { slug: 'filter-tabs', name: 'filter tabs', exports: ['FilterTabs'], role: 'navigation', summary: 'Counts at the top of a list that also filter it.', react: 'components-navigation-filter-tabs' },
-  { slug: 'tile', name: 'tile', exports: ['Tile'], role: 'navigation', summary: 'A square on the launchpad that opens an app, or shows a key figure.', react: 'components-navigation-tile', guidance: 'patterns/launchpad-and-tiles/#the-tile' },
-  { slug: 'tile-group', name: 'tile group', exports: ['TileGroup'], role: 'navigation', summary: 'A titled grid of tiles.', react: 'components-navigation-tile-group', guidance: 'patterns/launchpad-and-tiles/#tile-groups' },
+  { slug: 'tile', name: 'tile', exports: ['Tile'], role: 'navigation', summary: 'A square on the home page that opens an app, or shows a key figure.', react: 'components-navigation-tile', guidance: 'patterns/home-and-tiles/#the-tile' },
+  { slug: 'tile-group', name: 'tile group', exports: ['TileGroup'], role: 'navigation', summary: 'A titled grid of tiles.', react: 'components-navigation-tile-group', guidance: 'patterns/home-and-tiles/#tile-groups' },
 ];
 
 /**

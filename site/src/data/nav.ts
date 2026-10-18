@@ -107,9 +107,9 @@ export const SECTIONS: NavSection[] = [
       {
         title: 'navigation',
         pages: [
-          { title: 'shell bar', href: url('patterns/shell-bar/'), summary: 'The bar across the top of every screen: where you are, what is new for you, and your account.', draft: true },
+          { title: 'shell bar', href: url('patterns/shell-bar/'), summary: 'The bar across the top of every screen: where you are, the one search, what is new for you, and your account.', draft: true },
           { title: 'app navigation', href: url('patterns/app-navigation/'), summary: "Side navigation for an app's views, and when tabs are the better fit.", draft: true },
-          { title: 'launchpad & tiles', href: url('patterns/launchpad-and-tiles/'), summary: 'The start page: one page of tiles in a few fixed groups, and when something gets a tile.', draft: true },
+          { title: 'home & tiles', href: url('patterns/home-and-tiles/'), summary: 'The home page: one page of tiles in a few fixed groups, found with the search in the shell bar, and when something gets a tile.', draft: true },
           { title: 'settings and setup', href: url('patterns/settings-and-setup/'), summary: 'Where each kind of setting lives, and the one place it is changed.', draft: true },
         ],
       },

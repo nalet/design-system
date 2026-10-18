@@ -24,14 +24,16 @@ const meta: Meta<PortalProps> = {
     docs: {
       description: {
         component:
-          'The launchpad floorplan: grouped square tiles, a favourites slot, a search box and ' +
+          'The home page floorplan: grouped square tiles, a favourites slot, a search box and ' +
           'one roving arrow-key model across every group. Groups stay in a stable order; the ' +
-          'search filters in place (`/` focuses it, `esc` clears it).',
+          'search filters in place (`/` focuses it, `esc` clears it). Inside a shell, the shell ' +
+          "bar's search narrows the tiles instead (`searchable={false}` with `query`); the own " +
+          'search box is for a launcher that stands on its own.',
       },
     },
   },
   args: {
-    title: 'launchpad',
+    title: 'home',
     searchable: true,
     searchPlaceholder: 'search apps…',
     density: 'comfortable',
@@ -82,8 +84,8 @@ export const WithFavorites: Story = {
     const [q, setQ] = useState('');
     return (
       <Portal
-        title="launchpad"
-        searchLabel="search the launchpad"
+        title="home"
+        searchLabel="search the home page"
         query={q}
         onQueryChange={setQ}
         favorites={
@@ -140,7 +142,7 @@ export const NoMatches: Story = {
     const [q, setQ] = useState('backup');
     return (
       <Portal
-        title="launchpad"
+        title="home"
         searchLabel="search apps, with no match"
         query={q}
         onQueryChange={setQ}

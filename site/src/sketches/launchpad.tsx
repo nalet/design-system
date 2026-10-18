@@ -1,6 +1,6 @@
-// storyboard drawings for the launchpad: one page of tiles in a few fixed
-// groups, a search that narrows them in place, when something gets a tile, and
-// the tile and the tile group close up.
+// storyboard drawings for the home page: one page of tiles in a few fixed
+// groups, the search in the shell bar that narrows them in place, when
+// something gets a tile, and the tile and the tile group close up.
 import type { ComponentProps, ReactNode } from 'react';
 import {
   Arrow,
@@ -9,6 +9,7 @@ import {
   Callout,
   Chevron,
   Cross,
+  FocusRing,
   GroupTitle,
   Line,
   Pointer,
@@ -21,27 +22,27 @@ import {
 
 type TileProps = Partial<ComponentProps<typeof Tile>>;
 
-/** the shell bar across the top: the product's name, the bell and the avatar. */
+/** the shell bar across the top: the product's name, the search, the bell and the avatar. */
 function Top() {
   return (
     <g>
       <Chevron x={8} y={5} />
       <Line x={20} y={7} w={36} strong />
+      <SearchField x={176} y={3} w={92} h={11} />
       <Bell x={278} y={3.5} />
       <rect className="sk-avatar" x={296} y={3} width={13} height={11} />
     </g>
   );
 }
 
-/** the launchpad's title, led by the chevron, and its search at the other end. */
-function Head({ y = 22, search = true, query }: { y?: number; search?: boolean; query?: string }) {
+/** the home page's title, led by the chevron. the search isn't here: it is in the shell bar. */
+function Head({ y = 22 }: { y?: number }) {
   return (
     <g>
       <Chevron x={12} y={y + 2} s={7} />
       <Word x={24} y={y + 9} size="md" tone="strong">
-        launchpad
+        home
       </Word>
-      {search ? <SearchField x={206} y={y} w={100} text={query} /> : null}
     </g>
   );
 }
@@ -59,7 +60,7 @@ function Row({ y, n, x = 12, w = 70, h = 38, gap = 4, props = {} }: { y: number;
   );
 }
 
-/** a tile drawn small, for a launchpad seen from afar. */
+/** a tile drawn small, for a home page seen from afar. */
 function TinyTile({ x, y, w = 30, h = 18, accent }: { x: number; y: number; w?: number; h?: number; accent?: boolean }) {
   return (
     <g>
@@ -70,11 +71,11 @@ function TinyTile({ x, y, w = 30, h = 18, accent }: { x: number; y: number; w?: 
   );
 }
 
-/* ---- the launchpad as a whole --------------------------------------------- */
+/* ---- the home page as a whole --------------------------------------------- */
 
 export function LaunchpadOverview() {
   return (
-    <Sketch h={224} label="A launchpad: its title and a search at the top, then three groups of tiles in a fixed order, apps, manage and settings. One tile in apps is a number tile showing 3 in amber.">
+    <Sketch h={224} label="The home page: the shell bar at the top with the search in it, then the title, home, and three groups of tiles in a fixed order, apps, manage and settings. One tile in apps is a number tile showing 3 in amber.">
       <Screen h={222} />
       <Top />
       <Head />
@@ -90,7 +91,7 @@ export function LaunchpadOverview() {
 
 export function OnePage() {
   return (
-    <Sketch label="One launchpad page with every group in view: apps, manage and settings, always in this order.">
+    <Sketch label="One home page with every group in view: apps, manage and settings, always in this order.">
       <Screen />
       <Top />
       <Head />
@@ -105,9 +106,9 @@ export function OnePage() {
 }
 
 export function ManyPages() {
-  const tabs = ['home', 'tools', 'admin'];
+  const tabs = ['work', 'tools', 'admin'];
   return (
-    <Sketch label="A launchpad split into three pages, home, tools and admin. The page that is open shows only three tiles.">
+    <Sketch label="A home page split into three pages, work, tools and admin. The page that is open shows only three tiles.">
       <Screen />
       <Top />
       <Head />
@@ -127,17 +128,21 @@ export function ManyPages() {
 
 /* ---- search ----------------------------------------------------------------- */
 
+/** the home page drawn small, with the search in its shell bar; with a query, someone is typing there. */
 function MiniLaunchpad({ x, query }: { x: number; query?: string }) {
   return (
     <g>
       <Screen x={x} w={146} h={160} />
       <Chevron x={x + 7} y={5} />
       <Line x={x + 19} y={7} w={26} strong />
+      <SearchField x={x + 52} y={4} w={60} h={9} text={query} />
+      {query ? <FocusRing x={x + 52} y={4} w={60} h={9} /> : null}
+      <Bell x={x + 118} y={4} />
+      <rect className="sk-avatar" x={x + 132} y={4} width={9} height={9} />
       <Chevron x={x + 8} y={24} s={5} />
       <Word x={x + 16} y={30} size="sm" tone="strong">
-        launchpad
+        home
       </Word>
-      <SearchField x={x + 78} y={21} w={62} h={12} text={query} />
       <GroupTitle x={x + 7} y={48}>apps</GroupTitle>
       {query ? (
         <Tile x={x + 7} y={53} w={78} h={38} name="downloads" />
@@ -160,7 +165,7 @@ function MiniLaunchpad({ x, query }: { x: number; query?: string }) {
 
 export function SearchNarrows() {
   return (
-    <Sketch h={164} label="Before and after typing down in the launchpad's search. Before: every group and tile. After: only the downloads tile, in the apps group.">
+    <Sketch h={164} label="Before and after typing down in the search in the shell bar. Before: the home page with every group and tile. After: only the downloads tile, in the apps group.">
       <MiniLaunchpad x={1} />
       <Arrow x1={151} y1={82} x2={169} y2={82} />
       <MiniLaunchpad x={173} query="down" />
@@ -168,9 +173,34 @@ export function SearchNarrows() {
   );
 }
 
+export function OneSearch() {
+  return (
+    <Sketch h={112} label="The home page with one search, in the shell bar. Under the title, the apps group and its tiles.">
+      <Screen h={110} />
+      <Top />
+      <Head />
+      <GroupTitle x={12} y={54}>apps</GroupTitle>
+      <Row y={59} n={4} />
+    </Sketch>
+  );
+}
+
+export function TwoSearches() {
+  return (
+    <Sketch h={112} label="The home page with two search boxes: one in the shell bar, and a second one on the page, at the end of the title's row. Under them, the apps group and its tiles.">
+      <Screen h={110} />
+      <Top />
+      <Head />
+      <SearchField x={206} y={22} w={100} />
+      <GroupTitle x={12} y={54}>apps</GroupTitle>
+      <Row y={59} n={4} />
+    </Sketch>
+  );
+}
+
 export function MyAppsPlanned() {
   return (
-    <Sketch h={160} label="Planned: a my apps group at the top of the launchpad, drawn dashed, holding the tiles one person pinned. The apps group follows below it.">
+    <Sketch h={160} label="Planned: a my apps group at the top of the home page, drawn dashed, holding the tiles one person pinned. The apps group follows below it.">
       <Screen h={158} />
       <Top />
       <Head />
@@ -297,7 +327,7 @@ export function GroupsByAddon() {
 
 export function AddonJoins() {
   return (
-    <Sketch h={172} label="A new addon, drawn on the right, brings one app tile and one number tile. An arrow shows both joining the end of the launchpad's apps group; the addon brings no group of its own.">
+    <Sketch h={172} label="A new addon, drawn on the right, brings one app tile and one number tile. An arrow shows both joining the end of the home page's apps group; the addon brings no group of its own.">
       <Screen w={180} h={170} />
       <Chevron x={8} y={5} />
       <Line x={20} y={7} w={30} strong />

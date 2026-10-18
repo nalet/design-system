@@ -45,15 +45,15 @@ export const CORE: Record<string, GlossaryEntry> = {
   'shell-bar': {
     term: 'shell bar',
     explanation:
-      'The bar across the top of every screen, with the product name, notifications and your account menu. It is the same everywhere.',
+      'The bar across the top of every screen, with the product name, the search, notifications and your account menu. It is the same everywhere.',
   },
-  launchpad: {
-    term: 'launchpad',
-    explanation: 'The start page of the shell. It shows a tile for each app you can open.',
+  home: {
+    term: 'home',
+    explanation: 'The first page you see when you sign in, with a tile for each app you can open.',
   },
   tile: {
     term: 'tile',
-    explanation: 'A square on the launchpad that opens an app. It can also show a number that needs attention.',
+    explanation: 'A square on the home page that opens an app. It can also show a number that needs attention.',
   },
   app: {
     term: 'app',
@@ -141,6 +141,6 @@ export const CORE: Record<string, GlossaryEntry> = {
   },
   'portal': {
     term: 'portal',
-    explanation: 'The website you sign in to first. It holds the shell, the launchpad and every app.',
+    explanation: 'The website you sign in to first. It holds the shell, the home page and every app.',
   },
 };

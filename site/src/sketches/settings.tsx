@@ -19,7 +19,7 @@ function SetupForm({ x, y, w = 130 }: { x: number; y: number; w?: number }) {
 
 export function ThreeWaysIn() {
   return (
-    <Sketch h={238} label="Three ways in, one form. In settings, under addons, the downloads row says needs setup and has a configure button. On the launchpad, the downloads tile carries a needs setup badge. In the app, the setup group marks the views that need setup, and a message says so. Arrows lead from all three to the same form inside the app: search sources, with save changes.">
+    <Sketch h={238} label="Three ways in, one form. In settings, under addons, the downloads row says needs setup and has a configure button. On the home page, the downloads tile carries a needs setup badge. In the app, the setup group marks the views that need setup, and a message says so. Arrows lead from all three to the same form inside the app: search sources, with save changes.">
       <Word x={4} y={10} size="xs" tone="dim" mono={false}>
         In settings, under addons
       </Word>
@@ -31,7 +31,7 @@ export function ThreeWaysIn() {
       <Line x={12} y={38} w={86} />
       <LabelButton x={90} y={48} text="configure" />
       <Word x={4} y={84} size="xs" tone="dim" mono={false}>
-        On the launchpad
+        On the home page
       </Word>
       <rect className="sk-screen" x={4} y={89} width={150} height={56} />
       <Tile x={12} y={96} w={132} h={42} name="downloads" icon={false} badge="needs setup" badgeTone="warn" />

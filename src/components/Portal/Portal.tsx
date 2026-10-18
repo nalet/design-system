@@ -9,13 +9,16 @@ export interface PortalProps
   extends Omit<React.HTMLAttributes<HTMLElement>, 'title' | 'onChange'> {
   /** Lowercase mono heading (a leading blue chevron is added). */
   title?: string;
-  /** Show the search box. Default true. */
+  /**
+   * Show the search box. Default true. Inside a shell, pass false and give the
+   * shell bar's search as `query`; the box is for a launcher outside a shell.
+   */
   searchable?: boolean;
   /** Search input placeholder. */
   searchPlaceholder?: string;
   /** Names the search landmark and its field. Default "search apps"; give each launcher on a page its own. */
   searchLabel?: string;
-  /** Controlled search value (pair with onQueryChange). */
+  /** Controlled search value (pair with onQueryChange), or the shell bar's search when `searchable` is false. */
   query?: string;
   /** Per-keystroke search callback (controlled / analytics). */
   onQueryChange?: (query: string) => void;
@@ -35,7 +38,7 @@ export interface PortalProps
 }
 
 /**
- * Portal — the launchpad home. Lays out grouped square Tiles, with a persistent
+ * Portal — the home page of tiles. Lays out grouped square Tiles, with a persistent
  * favourites slot, a search box, and roving-tabindex arrow-key navigation that
  * spans every group. Groups stay in a stable order; search filters tiles in
  * place. The terminal-aesthetic app launcher.

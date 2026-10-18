@@ -12,6 +12,9 @@
 // renders): a title whose content moved goes to its new page; everything
 // else goes to the same entry on the react subsite, query unchanged.
 // site/redirects.test.ts checks every id the 0.3.0 storybook had.
+//
+// a page of this site that was renamed keeps its old address too: RENAMED
+// below, which astro.config.mjs turns into a redirect page at the old path.
 
 /** old storybook title id -> page of this site, relative to the base. */
 export const MOVED = {
@@ -37,7 +40,7 @@ export const MOVED = {
   'patterns-empty-states': 'patterns/empty-states/',
   'patterns-selection-and-bulk-actions': 'patterns/selection-and-bulk-actions/',
   'patterns-forms-and-settings': 'patterns/forms-and-settings/',
-  'patterns-portal': 'patterns/launchpad-and-tiles/',
+  'patterns-portal': 'patterns/home-and-tiles/',
 
   // components: the docs page is the guidance; the stories stay on the react subsite.
   'components-overview': 'components/',
@@ -74,9 +77,28 @@ export const MOVED = {
   'components-overlays-tooltip': 'components/tooltip/',
   'components-navigation-tabs': 'components/tabs/',
   'components-navigation-filter-tabs': 'components/filter-tabs/',
-  'components-navigation-tile': 'patterns/launchpad-and-tiles/#the-tile',
-  'components-navigation-tile-group': 'patterns/launchpad-and-tiles/#tile-groups',
+  'components-navigation-tile': 'patterns/home-and-tiles/#the-tile',
+  'components-navigation-tile-group': 'patterns/home-and-tiles/#tile-groups',
 };
+
+/** renamed pages of this site: old path -> new path, both relative to the base. */
+export const RENAMED = {
+  'patterns/launchpad-and-tiles/': 'patterns/home-and-tiles/',
+};
+
+/**
+ * RENAMED as astro's `redirects`: the old path without the base (astro adds
+ * it), to the new url with it. a static build writes a page at the old path
+ * whose meta refresh leads to the new one.
+ *
+ * @param {string} base  the site's base, "/design-system/"
+ * @returns {Record<string, string>}
+ */
+export function astroRedirects(base) {
+  return Object.fromEntries(
+    Object.entries(RENAMED).map(([from, to]) => ['/' + from.replace(/\/$/, ''), base + to]),
+  );
+}
 
 /**
  * titles whose stories stay on the react subsite: an old /story/ or

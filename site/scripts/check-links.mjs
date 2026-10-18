@@ -12,12 +12,14 @@
 //   - every link in the storybook mdx (stories/**/*.mdx), both its own ?path=
 //     links and its links to the guidelines site;
 //   - every target of the old-url redirect map, and every id the 0.3.0 storybook
-//     had, resolved the way the home page and iframe.html resolve them.
+//     had, resolved the way the home page and iframe.html resolve them;
+//   - the old address of every renamed page: the build must have a redirect
+//     page there that leads to the new one.
 // stdlib only.
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MOVED, STORIES_STAY, resolveOld } from '../redirects.mjs';
+import { MOVED, RENAMED, STORIES_STAY, resolveOld } from '../redirects.mjs';
 
 const ROOT = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const DIST = join(ROOT, 'site/dist');
@@ -165,6 +167,19 @@ for (const [kind, list] of [['docs', old.docs], ['story', old.stories]]) {
       checkUrl(`old url ${pathname}${search} → ${to}`, new URL(to, ORIGIN));
     }
   }
+}
+for (const [from, to] of Object.entries(RENAMED)) {
+  oldCount++;
+  const where = `renamed page ${BASE}${from}`;
+  const file = fileFor(BASE + from);
+  if (!file) {
+    fail(where, 'the build has no redirect page at the old address');
+    continue;
+  }
+  if (!readFileSync(file, 'utf8').includes(`http-equiv="refresh" content="0;url=${BASE}${to}"`)) {
+    fail(where, `the redirect page doesn't lead to ${BASE}${to}`);
+  }
+  checkUrl(`${where} → ${BASE}${to}`, new URL(BASE + to, ORIGIN));
 }
 
 if (errors.length) {

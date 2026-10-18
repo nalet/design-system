@@ -18,11 +18,14 @@ attached to its GitHub release.
   implementation notes, props. Each component's two pages link to each other,
   and examples are written once, as stories, and appear on both.
 - **Old links keep working.** An old Storybook URL sends itself on to its new
-  page, or to the same entry on the React subsite.
+  page, or to the same entry on the React subsite, and a page that was renamed
+  keeps its old address, which leads on to the new one.
 - **Search** over the guidelines, with Pagefind.
 - **Drafts under review:** the principles, and the patterns shell bar, app
-  navigation, launchpad & tiles, settings and setup, loading and progress, and
-  selection and bulk actions.
+  navigation, home & tiles, settings and setup, loading and progress, and
+  selection and bulk actions. The start page is called home, and its tiles are
+  found with the one search, in the shell bar; `Portal`'s own search box is for
+  a launcher outside a shell.
 
 ### changed — visible
 
@@ -149,5 +152,5 @@ like guidelines.
 
 - First release: tokens (DTCG `tokens/tokens.json` → CSS, typed tokens, Tailwind
   preset), 22 React components, the brand glyphs, Storybook.
-- Later in 0.1.x: the portal launchpad (`Portal`, `Tile`, `TileGroup`,
-  `useRovingGrid`) and per-component docs pages.
+- Later in 0.1.x: the portal's home page of tiles (`Portal`, `Tile`,
+  `TileGroup`, `useRovingGrid`) and per-component docs pages.

@@ -5,7 +5,7 @@ export const PATTERN_TERMS: Record<string, GlossaryEntry> = {
   'tile-group': {
     term: 'tile group',
     explanation:
-      'A set of tiles on the launchpad under one title, such as apps or settings. People look for their group first, then for the tile.',
+      'A set of tiles on the home page under one title, such as apps or settings. People look for their group first, then for the tile.',
   },
   'number-tile': {
     term: 'number tile',

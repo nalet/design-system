@@ -2,10 +2,18 @@
 // iframe.html run it. the built site is checked too, by site/scripts/check-links.mjs.
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { MOVED, STORIES_STAY, redirectScript, resolveOld } from './redirects.mjs';
+import { MOVED, RENAMED, STORIES_STAY, astroRedirects, redirectScript, resolveOld } from './redirects.mjs';
 
 const BASE = '/design-system/';
 const go = (search: string, hash = '', pathname = BASE) => resolveOld(pathname, search, hash, BASE, MOVED, STORIES_STAY);
+
+/** whether a path relative to the base, such as "styles/colour/#contrast", is a page of this site. */
+function isPage(target: string) {
+  const path = target.split('#')[0].replace(/\/$/, '');
+  const page = ['index.astro', 'index.mdx', 'index.md'].map((f) => `site/src/pages/${path}/${f}`);
+  const flat = ['.astro', '.mdx', '.md'].map((ext) => `site/src/pages/${path}${ext}`);
+  return [...page, ...flat].some((f) => existsSync(f));
+}
 
 describe('old storybook urls', () => {
   it('leaves the home page alone', () => {
@@ -25,7 +33,11 @@ describe('old storybook urls', () => {
 
   it('sends a pattern to its new page', () => {
     expect(go('?path=/docs/patterns-worklist--docs')).toBe('/design-system/patterns/worklist/');
-    expect(go('?path=/docs/patterns-portal--docs')).toBe('/design-system/patterns/launchpad-and-tiles/');
+    expect(go('?path=/docs/patterns-portal--docs')).toBe('/design-system/patterns/home-and-tiles/');
+  });
+
+  it('sends the portal to home & tiles, with the heading the old link named', () => {
+    expect(go('?path=/docs/patterns-portal--docs', '#groups')).toBe('/design-system/patterns/home-and-tiles/#groups');
   });
 
   it('sends the introduction to get started, develop and the changelog', () => {
@@ -34,12 +46,12 @@ describe('old storybook urls', () => {
     expect(go('?path=/docs/introduction-changelog--docs')).toBe('/design-system/get-started/versioning/');
   });
 
-  it('sends the tile and the tile group to their part of the launchpad page', () => {
+  it('sends the tile and the tile group to their part of the home & tiles page', () => {
     expect(go('?path=/docs/components-navigation-tile--docs', '#anatomy')).toBe(
-      '/design-system/patterns/launchpad-and-tiles/#the-tile',
+      '/design-system/patterns/home-and-tiles/#the-tile',
     );
     expect(go('?path=/docs/components-navigation-tile-group--docs')).toBe(
-      '/design-system/patterns/launchpad-and-tiles/#tile-groups',
+      '/design-system/patterns/home-and-tiles/#tile-groups',
     );
   });
 
@@ -86,12 +98,7 @@ describe('old storybook urls', () => {
 
 describe('the redirect map', () => {
   it('points every moved title at a page of this site', () => {
-    for (const target of Object.values(MOVED)) {
-      const path = target.split('#')[0].replace(/\/$/, '');
-      const page = ['index.astro', 'index.mdx', 'index.md'].map((f) => `site/src/pages/${path}/${f}`);
-      const flat = ['.astro', '.mdx', '.md'].map((ext) => `site/src/pages/${path}${ext}`);
-      expect([...page, ...flat].some((f) => existsSync(f)), `no page for ${target}`).toBe(true);
-    }
+    for (const target of Object.values(MOVED)) expect(isPage(target), `no page for ${target}`).toBe(true);
   });
 
   it('covers every docs page the 0.3.0 storybook had', () => {
@@ -103,5 +110,18 @@ describe('the redirect map', () => {
     const script = redirectScript(BASE);
     expect(() => new Function(script)).not.toThrow();
     expect(script).toContain('"foundations-colour":"styles/colour/"');
+  });
+});
+
+describe('renamed pages', () => {
+  it('send the old address of home & tiles on to the new one', () => {
+    expect(astroRedirects(BASE)).toEqual({ '/patterns/launchpad-and-tiles': '/design-system/patterns/home-and-tiles/' });
+  });
+
+  it('lead to a page of this site, and leave no page behind at the old address', () => {
+    for (const [from, to] of Object.entries(RENAMED)) {
+      expect(isPage(to), `no page for ${to}`).toBe(true);
+      expect(isPage(from), `a page is still at ${from}`).toBe(false);
+    }
   });
 });

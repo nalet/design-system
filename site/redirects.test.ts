@@ -1,11 +1,24 @@
 // the old storybook urls keep working: site/redirects.mjs, as the home page and
-// iframe.html run it. the built site is checked too, by site/scripts/check-links.mjs.
+// iframe.html run it, and as the react subsite runs it for its renamed entries.
+// the built site is checked too, by site/scripts/check-links.mjs.
 import { existsSync, readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { MOVED, RENAMED, STORIES_STAY, astroRedirects, redirectScript, resolveOld } from './redirects.mjs';
+import {
+  MOVED,
+  REACT_RENAMED,
+  RENAMED,
+  STORIES_STAY,
+  astroRedirects,
+  reactRedirectScript,
+  redirectScript,
+  resolveOld,
+  resolveRenamedEntry,
+} from './redirects.mjs';
 
 const BASE = '/design-system/';
+const REACT = BASE + 'react/';
 const go = (search: string, hash = '', pathname = BASE) => resolveOld(pathname, search, hash, BASE, MOVED, STORIES_STAY);
+const land = (search: string, hash = '', pathname = REACT) => resolveRenamedEntry(pathname, search, hash, REACT_RENAMED);
 
 /** whether a path relative to the base, such as "styles/colour/#contrast", is a page of this site. */
 function isPage(target: string) {
@@ -114,8 +127,22 @@ describe('the redirect map', () => {
 });
 
 describe('renamed pages', () => {
-  it('send the old address of home & tiles on to the new one', () => {
-    expect(astroRedirects(BASE)).toEqual({ '/patterns/launchpad-and-tiles': '/design-system/patterns/home-and-tiles/' });
+  it('send each old address on to the new one', () => {
+    expect(astroRedirects(BASE)).toEqual({
+      '/patterns/launchpad-and-tiles': '/design-system/patterns/home-and-tiles/',
+      '/patterns/shell-bar': '/design-system/patterns/top-bar/',
+      '/components/object-status': '/design-system/components/status/',
+      '/components/message-strip': '/design-system/components/banner/',
+      '/components/illustrated-message': '/design-system/components/empty-state/',
+    });
+  });
+
+  it('send the 0.3.0 docs pages of the renamed components to the new pages', () => {
+    expect(go('?path=/docs/components-feedback-status-object-status--docs')).toBe('/design-system/components/status/');
+    expect(go('?path=/docs/components-feedback-status-message-strip--docs')).toBe('/design-system/components/banner/');
+    expect(go('?path=/docs/components-feedback-status-illustrated-message--docs')).toBe(
+      '/design-system/components/empty-state/',
+    );
   });
 
   it('lead to a page of this site, and leave no page behind at the old address', () => {
@@ -123,5 +150,78 @@ describe('renamed pages', () => {
       expect(isPage(to), `no page for ${to}`).toBe(true);
       expect(isPage(from), `a page is still at ${from}`).toBe(false);
     }
+  });
+});
+
+/** every entry of the three renamed components, as the react subsite had it, and the id it has now. */
+const RENAMED_ENTRIES: Record<string, string> = {
+  'components-feedback-status-object-status--docs': 'components-feedback-status-status--docs',
+  'components-feedback-status-object-status--playground': 'components-feedback-status-status--playground',
+  'components-feedback-status-object-status--states': 'components-feedback-status-status--states',
+  'components-feedback-status-object-status--text-appearance': 'components-feedback-status-status--text-appearance',
+  'components-feedback-status-object-status--without-glyph': 'components-feedback-status-status--without-glyph',
+  'components-feedback-status-object-status--vocabulary': 'components-feedback-status-status--vocabulary',
+  'components-feedback-status-object-status--by-severity': 'components-feedback-status-status--by-severity',
+  'components-feedback-status-message-strip--docs': 'components-feedback-status-banner--docs',
+  'components-feedback-status-message-strip--playground': 'components-feedback-status-banner--playground',
+  'components-feedback-status-message-strip--states': 'components-feedback-status-banner--states',
+  'components-feedback-status-message-strip--with-details': 'components-feedback-status-banner--with-details',
+  'components-feedback-status-message-strip--dismissible': 'components-feedback-status-banner--dismissible',
+  'components-feedback-status-illustrated-message--docs': 'components-feedback-status-empty-state--docs',
+  'components-feedback-status-illustrated-message--playground': 'components-feedback-status-empty-state--playground',
+  'components-feedback-status-illustrated-message--kinds': 'components-feedback-status-empty-state--kinds',
+  'components-feedback-status-illustrated-message--sizes': 'components-feedback-status-empty-state--sizes',
+  'components-feedback-status-illustrated-message--with-action': 'components-feedback-status-empty-state--with-action',
+};
+
+describe('renamed entries of the react subsite', () => {
+  it('send every old id to its new one: the docs page, each story and its canvas', () => {
+    for (const [from, to] of Object.entries(RENAMED_ENTRIES)) {
+      const kind = from.endsWith('--docs') ? 'docs' : 'story';
+      expect(land(`?path=/${kind}/${from}`)).toBe(`${REACT}?path=/${kind}/${to}`);
+      expect(land(`?id=${from}&viewMode=${kind}`, '', REACT + 'iframe.html')).toBe(`${REACT}iframe.html?id=${to}&viewMode=${kind}`);
+    }
+  });
+
+  it('list every entry of a renamed component the subsite had', () => {
+    const old = JSON.parse(readFileSync('site/test/react-subsite-2026-10-18.json', 'utf8')) as { docs: string[]; stories: string[] };
+    const renamed = [...old.docs, ...old.stories].filter((id) => Object.hasOwn(REACT_RENAMED, id.split('--')[0]));
+    expect(renamed.sort()).toEqual(Object.keys(RENAMED_ENTRIES).sort());
+  });
+
+  it('keep the rest of the query and the hash', () => {
+    expect(land('?path=/story/components-feedback-status-message-strip--with-details&args=state:error&globals=', '#x')).toBe(
+      '/design-system/react/?path=/story/components-feedback-status-banner--with-details&args=state:error&globals=#x',
+    );
+    expect(land('?viewMode=story&id=components-feedback-status-illustrated-message--kinds', '', REACT + 'iframe.html')).toBe(
+      '/design-system/react/iframe.html?viewMode=story&id=components-feedback-status-empty-state--kinds',
+    );
+    expect(land('?path=%2Fdocs%2Fcomponents-feedback-status-object-status--docs')).toBe(
+      '/design-system/react/?path=/docs/components-feedback-status-status--docs',
+    );
+  });
+
+  it('leave every other entry, and the subsite without an entry, alone', () => {
+    expect(land('')).toBeNull();
+    expect(land('?path=/docs/components-feedback-status-toast--docs')).toBeNull();
+    expect(land('?path=/docs/components-feedback-status-status--docs')).toBeNull();
+    expect(land('?path=/story/components-feedback-status-object-statuses--states')).toBeNull();
+    expect(land('?path=/settings/about')).toBeNull();
+    expect(land('?id=components-actions-button--playground&viewMode=story', '', REACT + 'iframe.html')).toBeNull();
+    expect(land('?path=%E0%A4%A')).toBeNull();
+  });
+
+  it('take a 0.3.0 story link of a renamed component, through the react subsite, to its new id', () => {
+    const old = go('?path=/story/components-feedback-status-object-status--states')!;
+    expect(old).toBe('/design-system/react/?path=/story/components-feedback-status-object-status--states');
+    const { pathname, search, hash } = new URL(old, 'https://nalet.github.io');
+    expect(land(search, hash, pathname)).toBe('/design-system/react/?path=/story/components-feedback-status-status--states');
+  });
+
+  it('inline as a script that runs on its own', () => {
+    const script = reactRedirectScript();
+    expect(() => new Function(script)).not.toThrow();
+    expect(script).toContain('"components-feedback-status-message-strip":"components-feedback-status-banner"');
+    expect(script).toContain('history.replaceState(');
   });
 });

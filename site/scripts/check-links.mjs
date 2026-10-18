@@ -14,12 +14,15 @@
 //   - every target of the old-url redirect map, and every id the 0.3.0 storybook
 //     had, resolved the way the home page and iframe.html resolve them;
 //   - the old address of every renamed page: the build must have a redirect
-//     page there that leads to the new one.
+//     page there that leads to the new one;
+//   - every entry the react subsite had on 2026-10-18, resolved the way its
+//     index.html and iframe.html resolve a renamed one, and the redirect
+//     script in both of them.
 // stdlib only.
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { MOVED, RENAMED, STORIES_STAY, resolveOld } from '../redirects.mjs';
+import { MOVED, REACT_RENAMED, RENAMED, STORIES_STAY, reactRedirectScript, resolveOld, resolveRenamedEntry } from '../redirects.mjs';
 
 const ROOT = resolve(fileURLToPath(new URL('../..', import.meta.url)));
 const DIST = join(ROOT, 'site/dist');
@@ -60,6 +63,13 @@ function checkReactQuery(where, search) {
   const m = /^\/(?:docs|story)\/(.+)$/.exec(path) ?? (/^[a-z0-9-]+--[a-z0-9-]+$/.test(path) ? [path, path] : null);
   if (!m) return fail(where, `unreadable react subsite path "${path}"`);
   if (reactIds && !reactIds.has(m[1])) fail(where, `the react subsite has no entry "${m[1]}"`);
+}
+
+/** where a url lands once the react subsite has run its redirect: a renamed entry's new id. */
+function inReact(url) {
+  if (!url.pathname.startsWith(BASE + 'react/')) return url;
+  const to = resolveRenamedEntry(url.pathname, url.search, url.hash, REACT_RENAMED);
+  return to ? new URL(to, ORIGIN) : url;
 }
 
 // ---- pages and their ids -------------------------------------------------
@@ -164,7 +174,7 @@ for (const [kind, list] of [['docs', old.docs], ['story', old.stories]]) {
         fail(`old url ${pathname}${search}`, 'not redirected');
         continue;
       }
-      checkUrl(`old url ${pathname}${search} → ${to}`, new URL(to, ORIGIN));
+      checkUrl(`old url ${pathname}${search} → ${to}`, inReact(new URL(to, ORIGIN)));
     }
   }
 }
@@ -180,6 +190,29 @@ for (const [from, to] of Object.entries(RENAMED)) {
     fail(where, `the redirect page doesn't lead to ${BASE}${to}`);
   }
   checkUrl(`${where} → ${BASE}${to}`, new URL(BASE + to, ORIGIN));
+}
+
+// the react subsite's own old links: a renamed entry lands on its new id.
+const had = JSON.parse(readFileSync(join(ROOT, 'site/test/react-subsite-2026-10-18.json'), 'utf8'));
+for (const [kind, list] of [['docs', had.docs], ['story', had.stories]]) {
+  for (const id of list) {
+    for (const [pathname, search] of [
+      [BASE + 'react/', `?path=/${kind}/${id}`],
+      [BASE + 'react/iframe.html', `?id=${id}&viewMode=${kind}`],
+    ]) {
+      oldCount++;
+      const url = inReact(new URL(pathname + search, ORIGIN));
+      checkUrl(`old react url ${pathname}${search}${url.search === search ? '' : ` → ${url.pathname}${url.search}`}`, url);
+    }
+  }
+}
+if (reactIds) {
+  const script = reactRedirectScript();
+  for (const file of ['react/index.html', 'react/iframe.html']) {
+    if (!readFileSync(join(DIST, file), 'utf8').includes(script)) {
+      fail(`${BASE}${file}`, 'has no redirect for the renamed entries (managerHead / previewHead in .storybook/main.ts)');
+    }
+  }
 }
 
 if (errors.length) {

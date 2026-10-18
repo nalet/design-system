@@ -15,6 +15,12 @@
 //
 // a page of this site that was renamed keeps its old address too: RENAMED
 // below, which astro.config.mjs turns into a redirect page at the old path.
+//
+// an entry of the react subsite that was renamed keeps its old id: the
+// subsite's index.html and iframe.html run `resolveRenamedEntry` (inlined
+// into their head by .storybook/main.ts, before storybook reads the address),
+// which swaps the old title for the new one and keeps the rest of the link.
+// site/redirects.test.ts and site:check check every entry the subsite had.
 
 /** old storybook title id -> page of this site, relative to the base. */
 export const MOVED = {
@@ -84,6 +90,17 @@ export const MOVED = {
 /** renamed pages of this site: old path -> new path, both relative to the base. */
 export const RENAMED = {
   'patterns/launchpad-and-tiles/': 'patterns/home-and-tiles/',
+  'patterns/shell-bar/': 'patterns/top-bar/',
+  'components/object-status/': 'components/status/',
+  'components/message-strip/': 'components/banner/',
+  'components/illustrated-message/': 'components/empty-state/',
+};
+
+/** renamed entries of the react subsite: old title id -> new title id. */
+export const REACT_RENAMED = {
+  'components-feedback-status-object-status': 'components-feedback-status-status',
+  'components-feedback-status-message-strip': 'components-feedback-status-banner',
+  'components-feedback-status-illustrated-message': 'components-feedback-status-empty-state',
 };
 
 /**
@@ -162,5 +179,51 @@ export function redirectScript(base) {
     ',' +
     JSON.stringify(STORIES_STAY) +
     ');if(t)location.replace(t);})();'
+  );
+}
+
+/**
+ * where a link to a renamed entry of the react subsite lands, or null when
+ * its entry wasn't renamed. the title id in the entry (?path=/docs/…,
+ * ?path=/story/… or iframe.html's ?id=…) becomes the new one; the story, the
+ * rest of the query and the hash stay. self-contained on purpose: the
+ * subsite inlines its source.
+ *
+ * @param {string} pathname  location.pathname
+ * @param {string} search    location.search
+ * @param {string} hash      location.hash
+ * @param {Record<string, string>} renamed
+ * @returns {string | null}
+ */
+export function resolveRenamedEntry(pathname, search, hash, renamed) {
+  var key = /\/iframe\.html$/.test(pathname) ? 'id' : 'path';
+  var parts = search.replace(/^\?/, '').split('&');
+  for (var i = 0; i < parts.length; i++) {
+    var eq = parts[i].indexOf('=');
+    if (eq < 0 || parts[i].slice(0, eq) !== key) continue;
+    var value;
+    try {
+      value = decodeURIComponent(parts[i].slice(eq + 1));
+    } catch (e) {
+      return null;
+    }
+    var m = /^(\/(?:docs|story)\/)?([^/]+)$/.exec(value);
+    if (!m) return null;
+    var title = m[2].split('--')[0];
+    if (!Object.prototype.hasOwnProperty.call(renamed, title)) return null;
+    parts[i] = key + '=' + (m[1] || '') + renamed[title] + m[2].slice(title.length);
+    return pathname + '?' + parts.join('&') + hash;
+  }
+  return null;
+}
+
+/** the inline script for the react subsite's index.html and iframe.html. */
+export function reactRedirectScript() {
+  return (
+    '(function(){var t=(' +
+    resolveRenamedEntry.toString() +
+    ')(location.pathname,location.search,location.hash,' +
+    JSON.stringify(REACT_RENAMED) +
+    ');if(t)history.replaceState(history.state,"",t);})();'
   );
 }

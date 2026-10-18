@@ -1,6 +1,7 @@
 import type { StorybookConfig } from '@storybook/react-vite';
 import { mergeConfig } from 'vite';
 import remarkGfm from 'remark-gfm';
+import { reactRedirectScript } from '../site/redirects.mjs';
 
 const config: StorybookConfig = {
   stories: [
@@ -29,6 +30,12 @@ const config: StorybookConfig = {
   },
 
   staticDirs: ['../assets'],
+
+  // a link to an entry that was renamed lands on its new name: the script
+  // swaps the old id for the new one before storybook reads the address. see
+  // REACT_RENAMED in site/redirects.mjs.
+  managerHead: (head) => `${head}<script>${reactRedirectScript()}</script>`,
+  previewHead: (head) => `${head}<script>${reactRedirectScript()}</script>`,
 
   // the storybook is the react subsite of the guidelines: github pages serves
   // it at /design-system/react/ (the guidelines site is /design-system/). without

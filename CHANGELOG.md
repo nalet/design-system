@@ -21,11 +21,32 @@ attached to its GitHub release.
   page, or to the same entry on the React subsite, and a page that was renamed
   keeps its old address, which leads on to the new one.
 - **Search** over the guidelines, with Pagefind.
-- **Drafts under review:** the principles, and the patterns shell bar, app
+- **Drafts under review:** the principles, and the patterns top bar, app
   navigation, home & tiles, settings and setup, loading and progress, and
   selection and bulk actions. The start page is called home, and its tiles are
-  found with the one search, in the shell bar; `Portal`'s own search box is for
+  found with the one search, in the top bar; `Portal`'s own search box is for
   a launcher outside a shell.
+
+### changed — names
+
+Three components, and a few words of the guidelines, are called by plain
+names. The old component names still work in this release: each is the new
+export under its old name, marked `@deprecated`, so an editor strikes it
+through. They go in 0.5.0. Class names stay as they are.
+
+- `ObjectStatus` is `Status`, and `ObjectStatusProps` is `StatusProps`. Its
+  helpers follow: `ObjectState` is `State`, and `OBJECT_STATES` is `STATES`.
+- `MessageStrip` is `Banner`, and `MessageStripProps` is `BannerProps`.
+- `IllustratedMessage` is `EmptyState`, `IllustratedMessageProps` is
+  `EmptyStateProps`, and `IllustratedMessageSize` is `EmptyStateSize`.
+- In the guidelines, the shell bar is the **top bar**, floorplans are **page
+  layouts**, and the planned object page is the **detail page**.
+- The pages `components/object-status/`, `components/message-strip/`,
+  `components/illustrated-message/` and `patterns/shell-bar/` are now
+  `components/status/`, `components/banner/`, `components/empty-state/` and
+  `patterns/top-bar/`. The old addresses lead on to the new pages, and a link
+  to one of the three components on the React subsite, under its old name,
+  lands on the same page or story under the new one.
 
 ### changed — visible
 
@@ -95,7 +116,7 @@ like guidelines.
   `DataTable` (sorting, selection, grouping, growing, pop-in, row-focus
   keyboard model) and its cells `StatusCell`, `DateCell`, `IdentifierCell`;
   helpers `formatCount`, `relativeDay`, `filterTabId`, `OBJECT_STATES`.
-- **Pattern:** `Worklist`, the floorplan for lists of things that need doing.
+- **Pattern:** `Worklist`, the page layout for lists of things that need doing.
 - **Tests.** Vitest, Testing Library and axe-core; `npm test` runs unit,
   accessibility and token-contrast tests, and CI runs it.
 - **Documentation.** The Storybook is now the guidelines site: introduction,

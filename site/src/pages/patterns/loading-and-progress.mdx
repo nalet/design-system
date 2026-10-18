@@ -1,138 +1,121 @@
 ---
 layout: ../../layouts/Doc.astro
 title: loading and progress
-description: What to show while something loads — nothing for a blink, the value when progress is known, the loader when it isn't, and the shape of the content for a list or a page.
+description: What to show while people wait — nothing for a blink, the loader where the result will appear, a value when progress is known, and the shape of the content for a list.
 draft: true
 ---
-import { Button, Spinner } from '@nalet/design-system';
 import C from '@site/components/C.astro';
-import MotionFrame from '@site/components/MotionFrame.astro';
-import { DoDont, Do, Dont, Example, Mock } from '@site/blocks';
-import { BusyTable } from '@site/specimens/motion';
-import { LoaderSizes, ProgressBarMock, RegionLoader, SkeletonRowsMock } from '@site/demos/loading';
+import Term from '@site/components/Term.astro';
+import { DoDont, Do, Dont } from '@site/blocks';
+import {
+  LoadingOverview, LoaderSizes, WaitFirst, ProgressDo, ProgressDont, SkeletonDo, LoaderInSpaceDont, Refreshing,
+} from '@site/sketches/loading';
 
 # loading and progress
 
-What to show while something loads: nothing for a blink, the value when the progress is known, the loader when it isn't, and the shape of the content for a list or a page.
+Some things take a moment: a list loads, a file copies, a check runs. While people wait, the screen should tell them two things: that something is happening, and, when it can, how far along it is. It should do that quietly, in the place where the result will appear.
+
+<figure class="ds-figure">
+  <LoadingOverview />
+  <figcaption>From small to large: a busy button, a panel that loads, a copy whose progress is known, and a list that loads for the first time.</figcaption>
+</figure>
 
 ## which one
 
-| situation | use |
+| the wait | show |
 | --- | --- |
-| Under about 0.4 s | Nothing: a loader that flashes reads as a glitch |
-| Known progress (a copy, an upload) | A progress bar with the value: `62% · 1.4 of 2.2 gb` |
-| Unknown, inline (a button, a field, a toolbar) | The loader at 16px; the label stays |
-| Unknown, a region or a player | The loader at 32–48px, with one line of text |
-| A list or a page | Skeleton blocks in the shape of the content, not a loader in empty space |
-| Reduced motion | The loader stands still, and the text carries the state |
-| Assistive technology | One status with a label, announced once |
+| Under about 0.4 seconds | Nothing: a loader that flashes looks like a glitch |
+| Progress that is known, like a copy or an upload | A progress bar, with the value in words: “62% · 1.4 of 2.2 gb” |
+| Unknown, in a button, a field or a toolbar | A small loader; the label stays |
+| Unknown, in a panel or a player | A larger loader, with one line of text |
+| A list or a page | Grey blocks in the shape of the content, not a loader in empty space |
+| With <Term id="reduced-motion">reduced motion</Term> | The loader stands still, and the text says what is happening |
+| For <Term id="screen-reader">screen readers</Term> | One status with a label, read out once |
 
 ## the loader
 
-The loader is the <C slug="spinner" />: a faint, still square frame with three quarters of it lit, and the gap running round at a steady pace, one lap in four seconds. The frames of the system are square, and only the moving gap says "working".
+Our loader is a small square: a faint frame with three quarters of it lit in blue, and the gap running round it, one lap in four seconds. Every frame in the system is square; only the moving gap says “working”.
 
-<MotionFrame what="the loaders">
-  <Example label="the loader at 16, 32 and 48px">
-    <LoaderSizes />
-  </Example>
-</MotionFrame>
+<figure class="ds-figure">
+  <LoaderSizes />
+  <figcaption>The loader at three sizes. The unlit side is the gap, which runs round the frame.</figcaption>
+</figure>
 
-- **Inline**, at 16px: in a button, a field or a toolbar, before the label, which stays. Inside a button it takes the label's colour, so it shows on a primary button's blue fill too.
-- **In a region** or a player, at 32–48px, centred, with one line of text under it that says what is loading.
-- **With reduced motion** it stands still — the frame and its three lit quarters — and its label, or the text beside it, says that something is loading.
+- **In a button, a field or a toolbar**, small, before the label, which stays. Inside a button it takes the label's colour, so it also shows on a blue button.
+- **In a panel or a player**, larger, centred, with one line under it that says what is loading.
+- **With reduced motion** it stands still, and its label, or the text beside it, says that something is loading.
+
+The <C slug="spinner" /> page shows the loader live.
+
+## wait a moment first
+
+Most answers come quickly. If the loader appeared at once, it would flash for a split second on almost every click, and that reads as a glitch. So a load that finishes within about 0.4 seconds shows nothing new; the loader appears only after that.
+
+<figure class="ds-figure">
+  <WaitFirst />
+  <figcaption>Nothing for the first moment, then the loader, then the content in its place.</figcaption>
+</figure>
 
 ## known progress
 
-When the work can say how far it has come — a copy, an upload, a scan of a library — show a bar and the value in words: the percentage and the amount, `62% · 1.4 of 2.2 gb`. The words are what people read; the bar is how far, at a glance.
+When the work knows how far it has come, show a bar and the value in words: the percentage and the amount, like “62% · 1.4 of 2.2 gb”. People read the words; the bar shows how far, at a glance. The progress bar is a planned component.
 
-<Mock planned="a progress bar" label="a copy, 62% done">
-  <ProgressBarMock />
-</Mock>
-
-Today: there is no progress bar component. It is **planned**.
-
-## unknown, in a region
-
-A panel, a player or a detail that loads on its own shows the loader at 32–48px with one line of text: what is loading, in the object's words.
-
-<MotionFrame what="the loader">
-  <Example label="a region that loads" column>
-    <RegionLoader />
-  </Example>
-</MotionFrame>
+<DoDont>
+  <Do caption="Known progress: the value in words, and the bar.">
+    <ProgressDo />
+  </Do>
+  <Dont caption="Known progress shown as a loader that runs round and round: people can't tell whether it is nearly done.">
+    <ProgressDont />
+  </Dont>
+</DoDont>
 
 ## a list or a page
 
-A list or a page that loads for the first time shows blocks in the shape of what is coming: rows of the length its rows will have, a title where its title will be. The page doesn't jump when the content arrives, and people can see what kind of thing is on its way.
+A list or a page that loads for the first time shows grey blocks in the shape of what is coming: rows as long as its rows will be, a title where its title will be. These are <Term id="skeleton">skeleton</Term> blocks. The page doesn't jump when the content arrives, and people can already see what kind of thing is on its way.
 
-<Mock planned="skeleton blocks" label="a list that loads for the first time">
-  <SkeletonRowsMock />
-</Mock>
+<DoDont>
+  <Do caption="Grey blocks in the shape of the list: nothing jumps when the rows arrive.">
+    <SkeletonDo />
+  </Do>
+  <Dont caption="A loader in empty space where the list will be: the page jumps when it arrives.">
+    <LoaderInSpaceDont />
+  </Dont>
+</DoDont>
 
-A list that is refreshing keeps the rows it has: the <C slug="data-table" /> keeps them in place, at full contrast, under a running rule along its top edge.
+Skeleton blocks are planned. Until they arrive, a first load shows the table's running line over an empty body.
 
-<MotionFrame what="the rule">
-  <Example label="a table that is refreshing" column>
-    <BusyTable label="volumes, refreshing" />
-  </Example>
-</MotionFrame>
+A list that refreshes keeps the rows it has, at full strength, with a thin line running along its top edge. The <C slug="data-table" /> does this by itself.
 
-Today: there is no skeleton component. It is **planned**; until then, a first load shows the table's running rule over an empty body.
+<figure class="ds-figure">
+  <Refreshing />
+  <figcaption>A list that refreshes keeps its rows, with a thin blue line running along its top edge.</figcaption>
+</figure>
 
-## behaviour
+## how it behaves
 
-- **Wait before showing anything.** A load that finishes within about 0.4 s shows nothing; the loader appears only after that, so a fast answer doesn't flash.
-- **Show it where the content is.** A busy button keeps its place and its label; a busy list keeps its frame and its rows.
-- **One loader per region.** A page that loads three panels shows three loaders, each where its panel is — not one over the whole page.
-- **Stop the moment it is done**, and replace the loader with the content, or with what went wrong — see [empty states](/design-system/patterns/empty-states/) and [message handling](/design-system/patterns/message-handling/).
+- **Show it where the content will be.** A busy button keeps its place and its label; a busy list keeps its frame and its rows.
+- **One loader per region.** A page that loads three panels shows three loaders, one in each panel, rather than one over the whole page.
+- **Stop the moment it is done**, and put the content in the loader's place, or what went wrong; see [empty states](/design-system/patterns/empty-states/) and [message handling](/design-system/patterns/message-handling/).
 
-Today: the components show their busy state the moment it is set — a button's `loading`, a data table's `loading`. Waiting 0.4 s first is the app's part.
+Today the components show their busy state the moment it is set; waiting 0.4 seconds first is up to the app.
 
 ## accessibility
 
-- **One status, with a label, announced once**: "Loading the episode list". Not a stream of updates, and not every few percent of a progress bar.
-- The area that is loading says so too: a busy list or button is marked busy for assistive tech.
-- Motion never says it alone: with reduced motion the loader stands still, and the text carries the state.
+- **One status, with a label, read out once**: “Loading the episode list”. Not a stream of updates, and not every few percent of a progress bar.
+- **The area that is loading says so too.** A busy list or button is marked as busy for screen readers.
+- **Motion never carries the message alone.** With reduced motion the loader stands still, and the text says what is happening.
 
-Today: the spinner is a status named "loading"; a busy button and a busy data table mark themselves busy.
+Today the loader is read out as “loading”, and a busy button and a busy data table mark themselves as busy.
 
-## content
+## the words
 
-- **The line of text** — what is loading, in the object's words, in sentence case: `Loading the episode list`, `Asking the catalog`. No "please wait", no "almost there".
-- **The value** — the percentage, then the amount: `62% · 1.4 of 2.2 gb`, with thousands separators and the unit.
-- **When it takes long** — say what is happening, not that it is slow: `Scanning 2,400 of 9,000 files`.
-
-## do and don't
-
-<MotionFrame what="the examples">
-<DoDont>
-  <Do caption="The button keeps its place and its label while it works.">
-    <Button variant="primary" loading>saving changes</Button>
-  </Do>
-  <Dont caption="A loader in empty space where the list will be: the page jumps when it arrives." column>
-    <div style={{ display: 'grid', placeItems: 'center', width: '100%', minHeight: '120px', border: '1px solid var(--border)' }}>
-      <Spinner size={32} />
-    </div>
-  </Dont>
-</DoDont>
-</MotionFrame>
-
-<MotionFrame what="the examples">
-<DoDont>
-  <Do caption="Known progress: the value in words, beside the bar." column>
-    <ProgressBarMock />
-  </Do>
-  <Dont caption="Known progress shown as an endless loader: people can't tell whether it is nearly done." column>
-    <div style={{ display: 'grid', placeItems: 'center', width: '100%', minHeight: '64px' }}>
-      <Spinner size={32} />
-    </div>
-  </Dont>
-</DoDont>
-</MotionFrame>
+- **The line of text.** What is loading, in the item's own words, in sentence case: “Loading the episode list”, “Asking the catalog”. No “please wait”, and no “almost there”.
+- **The value.** The percentage, then the amount: “62% · 1.4 of 2.2 gb”, with thousands separators and the unit.
+- **When it takes long.** Say what is happening, not that it is slow: “Scanning 2,400 of 9,000 files”.
 
 ## related
 
-- <C slug="spinner">Spinner</C> — the loader.
-- [Motion](/design-system/styles/motion/) — durations, loops and reduced motion.
-- [Empty states](/design-system/patterns/empty-states/) — what comes when the load is done and there is nothing.
-- [Message handling](/design-system/patterns/message-handling/) — what comes when the load fails.
+- <C slug="spinner">Spinner</C>: the loader, live.
+- [Motion](/design-system/styles/motion/): durations, loops and reduced motion.
+- [Empty states](/design-system/patterns/empty-states/): what comes when the load is done and there is nothing.
+- [Message handling](/design-system/patterns/message-handling/): what comes when the load fails.

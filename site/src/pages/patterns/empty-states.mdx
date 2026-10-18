@@ -1,183 +1,159 @@
 ---
 layout: ../../layouts/Doc.astro
 title: empty states
-description: What a list, a panel or a page shows when it has nothing to show — the five kinds of empty, and what each one says.
+description: What a list or a page says when it has nothing to show — five kinds of empty, each with its own reason, words and way forward.
 ---
-import { Button, IllustratedMessage } from '@nalet/design-system';
 import C from '@site/components/C.astro';
-import { DoDont, Do, Dont, Example } from '@site/blocks';
-import { NoMatches } from '@site/demos/NoMatches';
+import Term from '@site/components/Term.astro';
+import { DoDont, Do, Dont } from '@site/blocks';
+import {
+  KindEmpty, KindDone, KindSearch, KindError, KindUnknown, EmptyAnatomy, NoMatchesDo, NoDataDont, LoadFailedDo,
+  FalseGoodNewsDont, UnknownDo, UnknownAsDoneDont, OnePrimaryDo, ThreePrimariesDont,
+} from '@site/sketches/empty';
 
 # empty states
 
-What a list, a panel or a page shows when it has nothing to show: a line illustration, a title that says what is true, a description that says why and what to do, and at most one primary action.
+Sometimes a list has nothing to show. That can be good news, because everything is done. It can be a first visit, before anything was added. Or it can be a problem: the list couldn't load. An <Term id="empty-state">empty state</Term> says which one it is, and what people can do next, so they never have to guess.
 
-<Example column label="a search that matches nothing, live">
-  <NoMatches client:visible />
-</Example>
+<figure class="ds-figure">
+  <div class="ds-sketch-grid ds-sketch-grid--3">
+    <KindEmpty />
+    <KindDone />
+    <KindSearch />
+    <KindError />
+    <KindUnknown />
+  </div>
+  <figcaption>Five kinds of empty: nothing yet, all done, no match, couldn't load, and can't tell yet. Each has its own picture, words and way forward.</figcaption>
+</figure>
 
-## when to use
+The <C slug="illustrated-message" /> draws all of them; its page shows it live, in every kind and size.
 
-- When a list, a table or a page has no items to show, and saying why helps: nothing yet, nothing left to do, nothing matches, it couldn't load, it can't be told yet.
-- In the place of the content: in a data table's body, in a worklist under its filter bar, or as the whole page.
+## when to show one
 
-## when not to use
+Show an empty state in the place of the content: in a table's body, in a [worklist](/design-system/patterns/worklist/) under its filters, or as the whole page, when a list, a table or a page has nothing to show and saying why helps.
 
-- **While the content is loading.** Show the loading state instead — see [loading and progress](/design-system/patterns/loading-and-progress/). An empty state before the load has finished says something that isn't known yet.
-- **For a problem with content that is still on screen** — a refresh failed, an action failed, 105 titles can't be checked. That's a <C slug="message-strip" /> above the content; see [message handling](/design-system/patterns/message-handling/).
-- **To confirm an action** ("8 episodes queued"). That's a <C slug="toast" />.
-- **For one empty value in a row.** The cell says it: a <C slug="table-cells">date cell</C> shows a dash that is read "no date".
-- **For a short read-only table with no rows.** The <C slug="table" />'s own `empty` line is enough.
+Other things look empty for a moment, but need something else:
+
+- **Content that is still loading.** Show the loading state instead; see [loading and progress](/design-system/patterns/loading-and-progress/). An empty state before the content has loaded claims something nobody knows yet.
+- **A problem with content that is still on the screen**, such as a refresh that failed. That is a <Term id="message-strip">message strip</Term> above the content; see [message handling](/design-system/patterns/message-handling/).
+- **A confirmation**, like “8 episodes queued”. That is a <Term id="toast">toast</Term>.
+- **One empty value in a row.** The cell says it: a date cell shows a dash, read out as “no date”.
+- **A short table nobody acts on.** Its own one-line empty row is enough.
 
 ## anatomy
 
-<Example column label="the parts of an empty state">
-  <IllustratedMessage illustration="search" headingLevel={3} title="no matches" description="Nothing in this list fits the search and filters. Clear them to see every episode again.">
-    <Fragment slot="actions"><Button>clear filters</Button></Fragment>
-  </IllustratedMessage>
-</Example>
+<figure class="ds-figure">
+  <EmptyAnatomy />
+  <figcaption>A search that matches nothing, close up.</figcaption>
+</figure>
 
-1. **Region** — where the content would be: the data table's body, a worklist's body in place of the table, or the page. The empty state takes the content's place, not the frame's: the page header, the tabs and the filter bar stay, so people can change what made the list empty.
-2. **Illustration** — one line drawing per kind, on a 160 × 120 grid, 160px wide at `md`, 96px at `sm` and 220px at `lg`, with square-capped lines 1.5px wide at `md`. The frame is in `--border-control`, soft lines in `--border-2`, and an accent by kind: `--cloud-blue` for `empty` and `search`, `--state-success` for `done`, `--state-error` for `error`, `--state-warning` for `unknown`. It is decoration, hidden from assistive tech.
-3. **Title** — a real heading, at the level that fits the page. JetBrains Mono 600, 16px (14px at `sm`, 22px at `lg`), line-height 1.3, `--fg`, lowercase.
-4. **Description** (optional) — Inter 13px, line-height 1.55, `--fg-muted`, at most 46 characters wide, 8px under the title.
-5. **Action** (optional) — at most one primary <C slug="button" />, and an optional secondary one. Centred, 8px apart, 16px under the text.
+1. **The place.** Where the content would be. The empty state takes the content's place, not the page's: the title, the tabs and the filters stay, so people can change what made the list empty.
+2. **The picture.** A simple line drawing for each kind. It is decoration; the words carry the meaning.
+3. **The title.** What is true, in a few words. It is a real heading, so people can find it.
+4. **The description** (optional). Why, and what to do, in a sentence or two.
+5. **The action** (optional). At most one <Term id="emphasized-action">emphasized</Term> button, for the next step, and one quiet one beside it.
 
-All of it is one <C slug="illustrated-message" />, centred, with padding 32px 16px at `md`, 16px 12px at `sm` and 64px 16px at `lg`, and 16px under the picture (12px at `sm`, 24px at `lg`).
+## the five kinds
 
-## behaviour
+| kind | it says | its action |
+| --- | --- | --- |
+| Empty | Nothing is here yet | The step that adds the first item |
+| Done | Nothing is left to do: good news | Usually none |
+| No match | The search or the filters match nothing | “clear filters” |
+| Error | The content couldn't be loaded | “try again” |
+| Unknown | It can't be told yet | The step that finds out |
 
-### the five kinds
+## which kind
 
-| kind | says | the picture | its action |
-| --- | --- | --- | --- |
-| `empty` | Nothing is here yet | A prompt with nothing typed after it | The step that adds the first item |
-| `done` | Nothing is left to do: good news | The prompt, and a check | Usually none |
-| `search` | The search or the filters match nothing | Rows, and a square lens that finds none | `clear filters` |
-| `error` | The content could not be loaded | A line that doesn't connect | `try again` |
-| `unknown` | It can't be told yet | A question that can't be answered yet | The action that resolves it |
-
-<Example label="the five kinds">
-  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 220px), 1fr))', gap: 'var(--s-4)', width: '100%' }}>
-    <IllustratedMessage illustration="empty" size="sm" headingLevel={4} title="nothing tracked yet" description="Import a list of shows to see what is missing.">
-      <Fragment slot="actions"><Button size="sm" variant="primary">import a list</Button></Fragment>
-    </IllustratedMessage>
-    <IllustratedMessage illustration="done" size="sm" headingLevel={4} title="nothing missing" description="Every aired episode is in the library." />
-    <IllustratedMessage illustration="search" size="sm" headingLevel={4} title="no matches" description="Nothing in this list fits the search and filters.">
-      <Fragment slot="actions"><Button size="sm">clear filters</Button></Fragment>
-    </IllustratedMessage>
-    <IllustratedMessage illustration="error" size="sm" headingLevel={4} title="couldn't load the list" description="The list could not be read. Try again, or come back later.">
-      <Fragment slot="actions"><Button size="sm">try again</Button></Fragment>
-    </IllustratedMessage>
-    <IllustratedMessage illustration="unknown" size="sm" headingLevel={4} title="nothing can be checked yet" description="The library's holdings are unknown, so nothing is known to be missing.">
-      <Fragment slot="actions"><Button size="sm" variant="primary">ask the catalog again</Button></Fragment>
-    </IllustratedMessage>
-  </div>
-</Example>
-
-### which kind
-
-Pick the kind by what is true, not by what the screen looks like. A list that failed to load, or can't be checked yet, is not done.
+Pick the kind by what is true, not by what the screen looks like. A list that failed to load, or can't be checked yet, isn't done.
 
 | situation | kind | title | action |
 | --- | --- | --- | --- |
-| Nothing has been added yet: a new list, a first visit | `empty` | `nothing tracked yet` | The step that adds the first item, primary: `import a list` |
-| Items exist, but none is due yet (a "not yet aired" tab) | `empty` | `132 not yet aired` | None |
-| The work is done: nothing is left to act on | `done` | `nothing missing` | None |
-| A tab or a filter of the list, and that slice is done | `done` | `nothing needs attention` | None |
-| The search or the filters match nothing, but the list has items | `search` | `no matches` | `clear filters` |
-| The list could not be loaded, and there is nothing older to show | `error` | `couldn't load the list` | `try again` |
-| It can't be told yet: a check hasn't run, the holdings are unknown | `unknown` | `nothing can be checked yet` | The action that resolves it, primary: `ask the catalog again` |
-| The list is still loading | No empty state | — | The loading state: see [loading and progress](/design-system/patterns/loading-and-progress/) |
-| A refresh or an action failed, and the content is still on screen | No empty state | — | A <C slug="message-strip" /> above it, with a way forward |
+| Nothing has been added yet: a new list, a first visit | Empty | “nothing tracked yet” | The step that adds the first item, emphasized: “import a list” |
+| Items exist, but none is due yet, like a “not yet aired” tab | Empty | “132 not yet aired” | None |
+| The work is done: nothing is left to act on | Done | “nothing missing” | None |
+| One tab or filter of the list is done | Done | “nothing needs attention” | None |
+| The search or the filters match nothing, but the list has items | No match | “no matches” | “clear filters” |
+| The list couldn't load, and there is nothing older to show | Error | “couldn't load the list” | “try again” |
+| It can't be told yet: a check hasn't run, or what the library holds is unknown | Unknown | “nothing can be checked yet” | The step that finds out, emphasized: “ask the catalog again” |
+| The list is still loading | No empty state | — | The loading state |
+| A refresh or an action failed, and the content is still there | No empty state | — | A message strip above it, with a way forward |
 
-### where it goes
+## where it goes
 
-- **In a data table** — in its body, under the header row, in one cell across every column. Use the small size.
-- **In a worklist** — in place of the table, at the default size, under the [worklist](/design-system/patterns/worklist/)'s tabs and filter bar. Leave the selection toolbar out while the list is empty: there is nothing to select or act on.
-- **As the page** — the large size, when the whole page has nothing to show.
-- The title's heading level follows the page around it: an `h2` under the page's `h1`, an `h3` inside a section that has an `h2`.
+- **In a table:** in its body, under the header row, across every column, at the small size.
+- **In a worklist:** in place of the table, at the usual size, under the tabs and the filters. Leave the selection toolbar out while the list is empty: there is nothing to select.
+- **As the page:** at the large size, when the whole page has nothing to show.
+- The title's heading level follows the page around it, so it fits the page's outline.
 
-### what happens next
+## what happens next
 
-- The action works in place. `clear filters` clears them and the list comes back. `try again` loads again and shows the loading state while it runs. The `unknown` action starts what resolves it, and says so in a <C slug="toast" />: "asking the catalog again — the list follows".
-- The empty state goes as soon as there are items to show.
-- The filter bar stays while a search matches nothing, so people can change a word instead of starting over.
-- Never show an empty state before the content is known.
-
-## keyboard and accessibility
-
-- The title is a real heading, so people can find the message by its heading. Set its level so it fits the page's outline.
-- The picture is decoration. The title and the description carry the meaning, never the picture or its colour.
-- The message is not announced when it appears. Say the change where people are: the <C slug="filter-bar" />'s result count is announced, so "0 of 12" is heard as the search empties the list.
-- The action is a button in the tab order where the message sits.
-
-Today:
-
-- Pressing the action usually removes the message, and the button with it, so focus falls to the page body: after "clear filters", nothing has focus. Move focus yourself, to the search field for instance.
-- The illustrated message doesn't hold you to one primary action: it renders whatever actions it is given.
-
-## content
-
-- **Title** — what is true, in the list's own words, in a few words: `nothing missing`, `no matches`, `couldn't load the list`, `nothing can be checked yet`, `nothing tracked yet`. Never `no data`, `empty`, `oops` or `error`.
-- **Description** — why, and what to do, in one or two sentences, in sentence case: `Every aired episode is in the library.`, `Nothing in this list fits the search and filters.`
-- **Action** — a verb and its object: `clear filters`, `try again`, `import a list`, `ask the catalog again`.
-- **Counts** — when they help: `132 not yet aired`.
-- **No technical detail** — no codes, IDs or raw errors in the title or the description. When people need them, they go in a <C slug="message-strip" />'s details.
-- **Good news is plain** — `nothing needs attention`. No celebration, no apology.
-- **No blame** — `nothing tracked yet`, not `you haven't added anything`.
-
-## do and don't
+- **The action works in place.** Pressing “clear filters” clears them, and the list comes back. Pressing “try again” loads the list again, and shows the loading state while it runs. The unknown kind's action starts what finds out, and says so in a toast: “asking the catalog again — the list follows”.
+- **The empty state goes as soon as there is something to show.**
+- **The filters stay while a search matches nothing**, so people can change one word instead of starting over.
+- **An empty state only shows once the content is known.**
 
 <DoDont>
   <Do caption="What is true, and the way back.">
-    <IllustratedMessage illustration="search" size="sm" headingLevel={3} title="no matches" description="Nothing in this list fits the search and filters.">
-      <Fragment slot="actions"><Button size="sm">clear filters</Button></Fragment>
-    </IllustratedMessage>
+    <NoMatchesDo />
   </Do>
   <Dont caption="No data says nothing: is the list empty, filtered, or broken? And there is no way out.">
-    <IllustratedMessage illustration="empty" size="sm" headingLevel={3} title="no data" />
+    <NoDataDont />
   </Dont>
 </DoDont>
 
 <DoDont>
   <Do caption="A failed load says it failed, and offers to try again.">
-    <IllustratedMessage illustration="error" size="sm" headingLevel={3} title="couldn't load the list" description="The list could not be read. Try again, or come back later.">
-      <Fragment slot="actions"><Button size="sm">try again</Button></Fragment>
-    </IllustratedMessage>
+    <LoadFailedDo />
   </Do>
   <Dont caption="Good news after a failed load: people stop looking for the episodes that are still missing.">
-    <IllustratedMessage illustration="done" size="sm" headingLevel={3} title="nothing missing" description="Every aired episode is in the library." />
+    <FalseGoodNewsDont />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="It can't be told yet: say so, and offer what resolves it.">
-    <IllustratedMessage illustration="unknown" size="sm" headingLevel={3} title="nothing can be checked yet" description="The library's holdings are unknown, so nothing is known to be missing.">
-      <Fragment slot="actions"><Button size="sm" variant="primary">ask the catalog again</Button></Fragment>
-    </IllustratedMessage>
+  <Do caption="It can't be told yet: say so, and offer what finds out.">
+    <UnknownDo />
   </Do>
-  <Dont caption="Unknown is not done. Nothing missing here claims what nobody has checked.">
-    <IllustratedMessage illustration="done" size="sm" headingLevel={3} title="nothing missing" />
+  <Dont caption="Unknown isn't done. Nothing missing claims something nobody has checked.">
+    <UnknownAsDoneDont />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="One primary action, the next step; a quiet secondary at most.">
-    <IllustratedMessage illustration="empty" size="sm" headingLevel={3} title="nothing tracked yet" description="Import a list of shows to see what is missing.">
-      <Fragment slot="actions"><Button size="sm" variant="primary">import a list</Button><Button size="sm" variant="ghost">add one show</Button></Fragment>
-    </IllustratedMessage>
+  <Do caption="One emphasized action for the next step, and a quiet one beside it at most.">
+    <OnePrimaryDo />
   </Do>
-  <Dont caption="Three primaries: none of them reads as the next step.">
-    <IllustratedMessage illustration="empty" size="sm" headingLevel={3} title="nothing tracked yet">
-      <Fragment slot="actions"><Button size="sm" variant="primary">import</Button><Button size="sm" variant="primary">add</Button><Button size="sm" variant="primary">settings</Button></Fragment>
-    </IllustratedMessage>
+  <Dont caption="Three emphasized buttons: none of them reads as the next step.">
+    <ThreePrimariesDont />
   </Dont>
 </DoDont>
+
+## keyboard and screen readers
+
+- The title is a real heading, so people can find the message by its heading. Set its level so that it fits the page.
+- The picture is decoration: the title and the description carry the meaning, never the picture or its colour.
+- The message isn't read out when it appears. Say the change where people are: the filter bar's count is read out, so “0 of 12” is heard as the search empties the list.
+- The action is a button where the message sits, in the usual order of the Tab key.
+
+Today:
+
+- Pressing the action usually removes the message, button and all, so nothing has the <Term id="focus">focus</Term> afterwards. After “clear filters”, move the focus yourself, to the search field for instance.
+- The illustrated message doesn't hold you to one emphasized action: it shows whatever buttons it is given.
+
+## the words
+
+- **Title.** What is true, in the list's own words, in a few of them: “nothing missing”, “no matches”, “couldn't load the list”, “nothing can be checked yet”, “nothing tracked yet”. Not “no data”, “empty”, “oops” or “error”.
+- **Description.** Why, and what to do, in one or two sentences, in sentence case: “Every aired episode is in the library.”, “Nothing in this list fits the search and filters.”
+- **Action.** A verb and what it acts on: “clear filters”, “try again”, “import a list”, “ask the catalog again”.
+- **Counts**, when they help: “132 not yet aired”.
+- **No technical detail** in the title or the description: no codes, ids or raw errors. When people need them, they go under a message strip's details.
+- **Good news is plain.** “nothing needs attention”: no celebration, and no apology.
+- **No blame.** “nothing tracked yet”, not “you haven't added anything”.
 
 ## related
 
-- <C slug="illustrated-message">Illustrated message</C> — the component: kinds and sizes.
-- [Message handling](/design-system/patterns/message-handling/) — when a problem is a message strip or a toast, not an empty state.
-- <C slug="data-table">Data table</C> — its empty body and its loading state.
-- [Worklist](/design-system/patterns/worklist/) — where most empty states live.
+- <C slug="illustrated-message">Illustrated message</C>: the component, live, in every kind and size.
+- [Message handling](/design-system/patterns/message-handling/): when a problem is a message strip or a toast, not an empty state.
+- <C slug="data-table">Data table</C>: its empty body and its loading state.
+- [Worklist](/design-system/patterns/worklist/): where most empty states live.

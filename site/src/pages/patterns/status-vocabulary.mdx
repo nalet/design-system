@@ -1,137 +1,128 @@
 ---
 layout: ../../layouts/Doc.astro
 title: status vocabulary
-description: One status per object, said once, in the object's own words, from one table — the same everywhere the object appears.
+description: One status per item, in words people understand, written down once and shown the same way everywhere the item appears.
+react:
+  - { label: object status, id: components-feedback-status-object-status }
 ---
-import { Badge, ObjectStatus, StatusCell, defineStates } from '@nalet/design-system';
 import C from '@site/components/C.astro';
-import { DoDont, Do, Dont, Example } from '@site/blocks';
-
-export const BACKLOG = defineStates({
-  wanted: { state: 'neutral', text: 'missing' },
-  queued: { state: 'information', text: 'on its way' },
-  grabbed: { state: 'information', text: 'on its way' },
-  failed: { state: 'error', text: 'needs attention' },
-  held: { state: 'success', text: 'held' },
-});
+import Term from '@site/components/Term.astro';
+import { DoDont, Do, Dont } from '@site/blocks';
+import {
+  VocabularyMapping, StatusAnatomy, FiveMeanings, EndToEnd, WordsDecide, ColourContradicts, OneStatusPerRow, TwoStatuses,
+  NeutralForFacts, BlueForEverything,
+} from '@site/sketches/status';
 
 # status vocabulary
 
-One status per object, said once, in the object's own words, from one table — the same everywhere the object appears.
+Most items in our apps have a <Term id="status">status</Term>: a download is on its way, an episode is missing, a host can't be reached. People read these statuses all day, so they should mean the same thing every time, in every app.
 
-<Example label="a backlog's vocabulary" column>
-  <StatusCell {...BACKLOG.wanted} detail="nothing found · again in 6h" />
-  <StatusCell {...BACKLOG.queued} detail="queued for a search and grab" />
-  <StatusCell {...BACKLOG.failed} detail="the release was removed by its source before it finished" />
-  <StatusCell {...BACKLOG.held} />
-</Example>
+A <Term id="status-vocabulary">status vocabulary</Term> makes sure they do. It is a short table, written once for each kind of item, that lists the statuses the item can have, in the item's own words, and gives each one a meaning.
 
-## when to use
+<figure class="ds-figure">
+  <VocabularyMapping />
+  <figcaption>A backlog's vocabulary: eight values the system knows become four statuses that people understand.</figcaption>
+</figure>
+
+## where it applies
 
 - Every list, row, card or page that shows the state of things: items in a backlog, hosts, jobs, sources, downloads.
-- Before building the screen: the vocabulary decides the tabs, the counts, the toasts and the empty states.
+- Before the screen is designed. The vocabulary decides the tabs, the counts, the confirmations and the empty states, so it comes first.
 
-## when not to use
+Some things look like statuses but aren't:
 
-- **A label, a tag or a count** that is not a state → <C slug="badge" />.
-- **A condition of the whole page** ("105 titles can't be checked") → a <C slug="message-strip" />.
-- **The result of an action just taken** ("8 episodes queued") → a <C slug="toast" />.
+- **A label, a tag or a count** that isn't a state is a <C slug="badge" />.
+- **Something about the whole page**, like “105 titles can't be checked”, is a message strip; see [message handling](/design-system/patterns/message-handling/).
+- **The result of something people just did**, like “8 episodes queued”, is a <Term id="toast">toast</Term>.
 
 ## anatomy
 
-1. **The state** — one of five: neutral, information, success, warning, error. It carries the meaning and decides colour and glyph; see [colour](/design-system/styles/colour/#semantic-state) for what each means and must never mean.
-2. **The text** — the state in the object's words, two or three words: `missing`, `on its way`, `needs attention`.
-3. **The detail** — optional, one line: why, or what happens next: `nothing found · again in 6h`. Raw errors go behind it (on hover, or in a details disclosure), not in it.
-4. **The glyph** — a shape per state (dash, bar and dot, check, triangle, cross), so the state never rests on colour.
-5. **The announcement** — warnings and errors are read with their state first: "error: needs attention".
+<figure class="ds-figure">
+  <StatusAnatomy />
+  <figcaption>One status, close up.</figcaption>
+</figure>
+
+1. **The meaning.** One of five: neutral, information, success, warning or error. It decides the colour, and the small shape in front of the words, so a status never relies on colour alone. [Colour](/design-system/styles/colour/#semantic-state) explains what each meaning stands for, and what it isn't used for.
+2. **The words.** The status in the item's own words, two or three of them: “missing”, “on its way”, “needs attention”.
+3. **The detail** (optional). One line on why, or on what happens next: “nothing found · again in 6h”. Technical errors go behind it, in a tooltip or under details, not in it.
+
+A <Term id="screen-reader">screen reader</Term> reads warnings and errors with their meaning first: “error: needs attention”.
+
+<figure class="ds-figure">
+  <FiveMeanings />
+  <figcaption>The five meanings, each with its colour, its shape and an example.</figcaption>
+</figure>
 
 ## writing a vocabulary
 
-1. **List every value the system has**: wanted, queued, searching, grabbed, downloaded, waiting, failed, held.
-2. **Group them by what the person needs to know**, not by how the system works: *missing* (nothing under way), *on its way* (something is), *needs attention* (a person must act), *held*.
-3. **Give each group one state.** The words decide it: on its way is information, not success — nothing is done yet.
-4. **Write the detail per raw value**: queued → `queued for a search and grab`; waiting → `waiting for the catalog`.
-5. **Put it in one table** with `defineStates` and render every status from it.
-
-```tsx
-import { defineStates, StatusCell } from '@nalet/design-system';
-
-// the one place a backlog item's state is decided.
-const BACKLOG = defineStates({
-  wanted:  { state: 'neutral',     text: 'missing' },
-  queued:  { state: 'information', text: 'on its way' },
-  grabbed: { state: 'information', text: 'on its way' },
-  failed:  { state: 'error',       text: 'needs attention' },
-  held:    { state: 'success',     text: 'held' },
-});
-
-<StatusCell {...BACKLOG[item.state]} detail={detailOf(item)} />
-```
-
-`defineStates` returns the table frozen, and TypeScript makes it cover every key you list. A reviewer sees in one place that "connection firewalled" is a warning.
+1. **List every value the system has.** For a backlog: wanted, queued, searching, grabbed, downloaded, waiting, failed and held.
+2. **Group them by what people need to know**, not by how the system works: missing (nothing is under way), on its way (something is), needs attention (a person has to act), and held.
+3. **Give each group one meaning.** The words decide it: “on its way” is information, not success, because nothing is done yet.
+4. **Write the detail for each value.** Queued becomes “queued for a search and grab”; waiting becomes “waiting for the catalog”.
+5. **Put it all in one table, and show every status from it.** The object status's [React page](/design-system/react/?path=/docs/components-feedback-status-object-status--docs) shows how to write that table in code, so a reviewer can see in one place that “connection firewalled” is a warning.
 
 ## one status, end to end
 
-An item reads the same wherever it shows up: the row says `on its way`, the tab that keeps it is `on their way`, its group counts it among what is on its way, and the toast after a grab says it was queued — never "success" in one place and "pending" in another. A list whose items can be in several states at once is a list whose vocabulary isn't finished.
+An item reads the same wherever it shows up. The row says “on its way”, the tab that holds it says “on their way”, its group counts it among what is on its way, and the confirmation after a grab says it was queued. It doesn't say “success” in one place and “pending” in another.
+
+<figure class="ds-figure">
+  <EndToEnd />
+  <figcaption>The same words on the tab, in the row, and in the confirmation.</figcaption>
+</figure>
+
+If an item can be in several states at once, its vocabulary isn't finished yet.
 
 ## sorting by status
 
-`STATE_SEVERITY` orders the states by urgency — error 4, warning 3, information 2, neutral 1, success 0 — so a status column can sort "most urgent first" with one comparator:
-
-```tsx
-compare: (a, b) => STATE_SEVERITY[statusOf(b).state] - STATE_SEVERITY[statusOf(a).state]
-```
+Some lists are best sorted by urgency, the most urgent first: errors, then warnings, information, neutral, and successes last. The five meanings come with this order built in, so a status column can sort this way without extra work.
 
 ## examples
 
-| object | raw value | status | detail |
-| --- | --- | --- | --- |
-| Backlog item | `failed` | <ObjectStatus state="error">needs attention</ObjectStatus> | the download finished but the file did not match the episode |
-| Backlog item | `waiting` | <ObjectStatus state="information">on its way</ObjectStatus> | waiting for the catalog |
-| Host | `firewalled` | <ObjectStatus state="warning">connection firewalled</ObjectStatus> | reachable only through the relay |
-| Host | `down` | <ObjectStatus state="error">unreachable</ObjectStatus> | no answer for 4m |
-| Source | `limit` | <ObjectStatus state="warning">over its daily limit</ObjectStatus> | resets at midnight |
-| Title | `holdings unknown` | <ObjectStatus state="warning">can&apos;t be checked</ObjectStatus> | the catalog holds it without an identity |
+| item | the system's value | status | meaning | detail |
+| --- | --- | --- | --- | --- |
+| Backlog item | failed | needs attention | Error | The download finished, but the file didn't match the episode |
+| Backlog item | waiting | on its way | Information | Waiting for the catalog |
+| Host | firewalled | connection firewalled | Warning | Reachable only through the relay |
+| Host | down | unreachable | Error | No answer for 4 minutes |
+| Source | limit | over its daily limit | Warning | Resets at midnight |
+| Title | holdings unknown | can't be checked | Warning | The catalog holds it without an identity |
 
 ## do and don't
 
 <DoDont>
-  <Do caption="The words decide the state: firewalled works, but someone should look.">
-    <ObjectStatus state="warning">connection firewalled</ObjectStatus>
+  <Do caption="The words decide the meaning: firewalled works, but someone should take a look.">
+    <WordsDecide />
   </Do>
-  <Dont caption="A green chip for a degraded connection: the colour contradicts the words.">
-    <Badge tone="green" dot>connection firewalled</Badge>
+  <Dont caption="A green chip for a connection that only half works: the colour contradicts the words.">
+    <ColourContradicts />
   </Dont>
 </DoDont>
 
 <DoDont>
   <Do caption="One status per row, and the detail says why.">
-    <StatusCell state="neutral" text="missing" detail="search failed · again in 2h" />
+    <OneStatusPerRow />
   </Do>
-  <Dont caption="Two states on one row: which one is true?">
-    <ObjectStatus state="neutral">missing</ObjectStatus>
-    <ObjectStatus state="warning">search failed</ObjectStatus>
+  <Dont caption="Two statuses on one row: which one is true?">
+    <TwoStatuses />
   </Dont>
 </DoDont>
 
 <DoDont>
   <Do caption="Neutral for a plain fact.">
-    <ObjectStatus state="neutral">queued</ObjectStatus>
+    <NeutralForFacts />
   </Do>
   <Dont caption="Information blue for everything: it stops meaning anything.">
-    <ObjectStatus state="information">queued</ObjectStatus>
-    <ObjectStatus state="information">missing</ObjectStatus>
-    <ObjectStatus state="information">held</ObjectStatus>
+    <BlueForEverything />
   </Dont>
 </DoDont>
 
-## keyboard and accessibility
+## accessibility
 
-Statuses are text, not controls: they take no focus. The glyph is decoration; the text and, for warnings and errors, the state's name are what a screen reader hears. In a table, the status cell's full detail is there for assistive tech even where the screen clamps it to two lines.
+Statuses are text, not buttons, so the keyboard passes over them. The small shape is decoration: a screen reader reads the words, and for warnings and errors, the meaning first. In a table, the full detail is there for screen readers even where the screen cuts it short after two lines.
 
 ## related
 
-- <C slug="object-status">Object status</C> and <C slug="table-cells" /> — the components.
-- [Colour](/design-system/styles/colour/) — what each state means and must never mean.
-- [Worklist](/design-system/patterns/worklist/) — tabs and counts built from the vocabulary.
-- [Principles](/design-system/foundations/principles/) — 2: the outcome is the status.
+- <C slug="object-status">Object status</C> and <C slug="table-cells" />: the components, live.
+- [Colour](/design-system/styles/colour/): what each meaning stands for.
+- [Worklist](/design-system/patterns/worklist/): tabs and counts built from the vocabulary.
+- [Principles](/design-system/foundations/principles/): 2, the outcome is the status.

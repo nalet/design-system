@@ -28,7 +28,7 @@ Here the holdings are unknown for every title, so nothing is known to be missing
 
 ## implementation notes
 
-- `Worklist` lays the parts out, and the parts are the components: `tabs` are `FilterTab`s, `messages` are message strips, `filterBar` is a `FilterBar`, `toolbar` is a `Toolbar` or a `SelectionToolbar`, and `children` is the `DataTable`, or the `IllustratedMessage` when there is nothing to show.
+- `Worklist` lays the parts out, and the parts are the components: `tabs` are `FilterTab`s, `messages` are message strips, `filterBar` is a `FilterBar`, `toolbar` is a `Toolbar` or a `SelectionToolbar`, and `children` is the `DataTable`, or the `EmptyState` when there is nothing to show.
 - It renders a `section` named by its title.
 - `headingLevel` sets the title's level: 1 when the worklist is the page, and 2 inside an app shell that owns the `h1`.
 - With `tabs` and `activeTab`, the tabs are a `tablist`, and the content below them is its `tabpanel`, labelled by the selected tab.

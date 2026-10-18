@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { Button, IllustratedMessage, type IllustratedMessageProps } from '../../src';
+import { Button, EmptyState, type EmptyStateProps } from '../../src';
 
-const meta: Meta<IllustratedMessageProps> = {
-  title: 'Components/feedback & status/illustrated message',
-  component: IllustratedMessage,
+const meta: Meta<EmptyStateProps> = {
+  title: 'Components/feedback & status/empty state',
+  component: EmptyState,
   args: {
     illustration: 'done',
     title: 'nothing missing',
@@ -24,18 +24,18 @@ const meta: Meta<IllustratedMessageProps> = {
 };
 export default meta;
 
-type Story = StoryObj<IllustratedMessageProps>;
+type Story = StoryObj<EmptyStateProps>;
 
 export const Playground: Story = {};
 
 export const Kinds: Story = {
   render: () => (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))', gap: 'var(--s-4)', width: 'min(100%, 980px)' }}>
-      <IllustratedMessage illustration="empty" title="nothing tracked yet" description="Import a list to start tracking." size="sm" />
-      <IllustratedMessage illustration="done" title="nothing missing" description="Everything aired is in the library." size="sm" />
-      <IllustratedMessage illustration="search" title="no matches" description="Nothing fits these filters." size="sm" actions={<Button size="sm">clear filters</Button>} />
-      <IllustratedMessage illustration="error" title="couldn't load" description="The list could not be read. Try again." size="sm" actions={<Button size="sm">try again</Button>} />
-      <IllustratedMessage illustration="unknown" title="nothing can be checked yet" description="The library's holdings are unknown for every title." size="sm" />
+      <EmptyState illustration="empty" title="nothing tracked yet" description="Import a list to start tracking." size="sm" />
+      <EmptyState illustration="done" title="nothing missing" description="Everything aired is in the library." size="sm" />
+      <EmptyState illustration="search" title="no matches" description="Nothing fits these filters." size="sm" actions={<Button size="sm">clear filters</Button>} />
+      <EmptyState illustration="error" title="couldn't load" description="The list could not be read. Try again." size="sm" actions={<Button size="sm">try again</Button>} />
+      <EmptyState illustration="unknown" title="nothing can be checked yet" description="The library's holdings are unknown for every title." size="sm" />
     </div>
   ),
 };
@@ -43,9 +43,9 @@ export const Kinds: Story = {
 export const Sizes: Story = {
   render: () => (
     <div style={{ display: 'flex', alignItems: 'flex-end', gap: 'var(--s-5)', flexWrap: 'wrap' }}>
-      <IllustratedMessage illustration="search" title="sm" size="sm" />
-      <IllustratedMessage illustration="search" title="md" size="md" />
-      <IllustratedMessage illustration="search" title="lg" size="lg" />
+      <EmptyState illustration="search" title="sm" size="sm" />
+      <EmptyState illustration="search" title="md" size="md" />
+      <EmptyState illustration="search" title="lg" size="lg" />
     </div>
   ),
 };
@@ -53,7 +53,7 @@ export const Sizes: Story = {
 export const WithAction: Story = {
   name: 'with action',
   render: () => (
-    <IllustratedMessage
+    <EmptyState
       illustration="unknown"
       title="nothing can be checked yet"
       description="The library's holdings are unknown for all 105 titles, so nothing is known to be missing."

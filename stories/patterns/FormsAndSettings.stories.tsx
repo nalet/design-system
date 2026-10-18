@@ -1,16 +1,16 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useEffect, useId, useRef, useState, type CSSProperties, type FormEvent } from 'react';
 import {
+  Banner,
   Button,
   Card,
   Checkbox,
   Field,
   Heading,
   Input,
-  MessageStrip,
-  ObjectStatus,
   Select,
   Stack,
+  Status,
   Switch,
   Text,
   Toaster,
@@ -144,7 +144,7 @@ function SettingsPage({
   const [saving, setSaving] = useState(false);
   const [failed, setFailed] = useState(startFailed);
   const [pageChanged, setPageChanged] = useState<Values['times'] | null>(null);
-  // a strip that is there when the example first renders is a frozen state, not
+  // a banner that is there when the example first renders is a frozen state, not
   // news: keep it quiet (as the other docs examples do) until the person acts.
   const [live, setLive] = useState<'off' | undefined>(startWithErrors || startFailed ? 'off' : undefined);
   const formRef = useRef<HTMLFormElement>(null);
@@ -235,9 +235,9 @@ function SettingsPage({
         footer={
           <Stack direction="horizontal" gap={8} align="center" justify="end" wrap>
             {dirty ? (
-              <ObjectStatus appearance="text" state="information">
+              <Status appearance="text" state="information">
                 unsaved changes
-              </ObjectStatus>
+              </Status>
             ) : null}
             <Button variant="ghost" onClick={cancel} disabled={saving}>
               cancel
@@ -250,13 +250,13 @@ function SettingsPage({
       >
         <Stack gap={24}>
           {wrong.length ? (
-            <MessageStrip state="error" live={live}>
+            <Banner state="error" live={live}>
               Couldn&apos;t save. {wrong.length === 1 ? '1 setting needs' : `${wrong.length} settings need`} a fix:{' '}
               {and(wrong.map((field) => LABELS[field]))}.
-            </MessageStrip>
+            </Banner>
           ) : null}
           {failed ? (
-            <MessageStrip
+            <Banner
               state="error"
               live={live}
               actions={
@@ -267,7 +267,7 @@ function SettingsPage({
               details="the settings service answered 503 service unavailable"
             >
               Couldn&apos;t save the settings. Your changes are still here.
-            </MessageStrip>
+            </Banner>
           ) : null}
           <Stack gap={16}>
             <Field label={LABELS.host} hint="A full host name, such as storage-01.example.com" error={errors.host}>
@@ -335,9 +335,9 @@ function SettingsPage({
         <Text variant="muted">Last backup: today at {saved.times === 'utc' ? '00:00 UTC' : '02:00 local time'}</Text>
       </Stack>
       {pageChanged ? (
-        <MessageStrip state="success" onDismiss={() => setPageChanged(null)}>
+        <Banner state="success" onDismiss={() => setPageChanged(null)}>
           Saved. Times on this page now show in {pageChanged === 'utc' ? 'UTC' : 'local time'}.
-        </MessageStrip>
+        </Banner>
       ) : null}
       <Card
         header={

@@ -4,7 +4,7 @@ title: message strip
 description: A message about the content of the page, such as titles that can't be checked or a list that couldn't load. It says what is true in plain words, offers a way forward and keeps the technical part behind details.
 component: message-strip
 ---
-import { Button, Kbd, MessageStrip } from '@nalet/design-system';
+import { Banner, Button, Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
@@ -87,7 +87,7 @@ The strip doesn't remember that it was dismissed: the screen does, and brings th
 - <Kbd>esc</Kbd> does nothing. A strip is part of the page; it doesn't float above it, as a dialog does.
 - The strip announces its text when it appears or changes. [Accessibility](#accessibility), below, says what that means for each state.
 
-The full keyboard map is on the message strip's [React page](/design-system/react/?path=/docs/components-feedback-status-message-strip--docs).
+The full keyboard map is on the message strip's [React page](/design-system/react/?path=/docs/components-feedback-status-banner--docs).
 
 ## accessibility
 
@@ -116,28 +116,28 @@ Today:
 
 <DoDont>
   <Do caption="The plain words first, and the raw part behind “details”." column>
-    <MessageStrip client:visible live="off" state="warning" details="item 3f2a9c1e-5b7d-4c11-9e02-6a1d0b8f4c21 has no identity">105 titles can't be checked: the catalog holds them without an identity.</MessageStrip>
+    <Banner client:visible live="off" state="warning" details="item 3f2a9c1e-5b7d-4c11-9e02-6a1d0b8f4c21 has no identity">105 titles can't be checked: the catalog holds them without an identity.</Banner>
   </Do>
   <Dont caption="The raw part as the message: screen readers read the codes aloud, and nobody learns what it means." column>
-    <MessageStrip live="off" state="warning">105 items: identity_id is null (catalog item 3f2a9c1e-5b7d-4c11-9e02-6a1d0b8f4c21)</MessageStrip>
+    <Banner live="off" state="warning">105 items: identity_id is null (catalog item 3f2a9c1e-5b7d-4c11-9e02-6a1d0b8f4c21)</Banner>
   </Dont>
 </DoDont>
 
 <DoDont>
   <Do caption="A condition that lasts. It stays until it is resolved or dismissed." column>
-    <MessageStrip live="off" state="warning">2 sources are over their daily query limit until midnight. Searches use the other 3.</MessageStrip>
+    <Banner live="off" state="warning">2 sources are over their daily query limit until midnight. Searches use the other 3.</Banner>
   </Do>
   <Dont caption="The confirmation of something just done is a toast. As a strip, it stays and pushes the list down." column>
-    <MessageStrip live="off" state="success">8 episodes queued.</MessageStrip>
+    <Banner live="off" state="success">8 episodes queued.</Banner>
   </Dont>
 </DoDont>
 
 <DoDont>
   <Do caption="A small quiet action: the way forward, without competing with the view's emphasized action." column>
-    <MessageStrip live="off" state="warning"><Fragment slot="actions"><Button size="sm" variant="ghost">show them</Button></Fragment>105 titles can't be checked.</MessageStrip>
+    <Banner live="off" state="warning"><Fragment slot="actions"><Button size="sm" variant="ghost">show them</Button></Fragment>105 titles can't be checked.</Banner>
   </Do>
   <Dont caption="An emphasized button in a strip competes with the one emphasized action of the view." column>
-    <MessageStrip live="off" state="warning"><Fragment slot="actions"><Button size="sm" variant="primary">show them</Button></Fragment>105 titles can't be checked.</MessageStrip>
+    <Banner live="off" state="warning"><Fragment slot="actions"><Button size="sm" variant="primary">show them</Button></Fragment>105 titles can't be checked.</Banner>
   </Dont>
 </DoDont>
 

@@ -3,7 +3,7 @@ layout: ../../layouts/Doc.astro
 title: status vocabulary
 description: One status per item, in words people understand, written down once and shown the same way everywhere the item appears.
 react:
-  - { label: object status, id: components-feedback-status-object-status }
+  - { label: object status, id: components-feedback-status-status }
 ---
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
@@ -59,7 +59,7 @@ A <Term id="screen-reader">screen reader</Term> reads warnings and errors with t
 2. **Group them by what people need to know**, not by how the system works: missing (nothing is under way), on its way (something is), needs attention (a person has to act), and held.
 3. **Give each group one meaning.** The words decide it: “on its way” is information, not success, because nothing is done yet.
 4. **Write the detail for each value.** Queued becomes “queued for a search and grab”; waiting becomes “waiting for the catalog”.
-5. **Put it all in one table, and show every status from it.** The object status's [React page](/design-system/react/?path=/docs/components-feedback-status-object-status--docs) shows how to write that table in code, so a reviewer can see in one place that “connection firewalled” is a warning.
+5. **Put it all in one table, and show every status from it.** The object status's [React page](/design-system/react/?path=/docs/components-feedback-status-status--docs) shows how to write that table in code, so a reviewer can see in one place that “connection firewalled” is a warning.
 
 ## one status, end to end
 

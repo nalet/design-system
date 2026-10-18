@@ -4,7 +4,7 @@ title: motion
 description: Movement that is small, quick and only there to say something. Every motion in the system, how long it takes, and what reduced motion does to it.
 ---
 import { Server } from 'lucide-react';
-import { Button, Checkbox, Lockup, MessageStrip, Spinner, Switch, Text, Tile, Toaster, Tooltip } from '@nalet/design-system';
+import { Banner, Button, Checkbox, Lockup, Spinner, Switch, Text, Tile, Toaster, Tooltip } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import MotionFrame from '@site/components/MotionFrame.astro';
@@ -37,7 +37,7 @@ Movement on our screens is small, quick, and only there to say something: that a
         </Tooltip>
       </Specimen>
       <Specimen name="disclosure caret" note="120ms ease · turns 90°">
-        <MessageStrip client:visible state="neutral" live="off" details="run 2a7f · 41s · 412 gb">The last backup finished at 02:01.</MessageStrip>
+        <Banner client:visible state="neutral" live="off" details="run 2a7f · 41s · 412 gb">The last backup finished at 02:01.</Banner>
       </Specimen>
       <Specimen name="toast" note="160ms ease-out · rises 6px, leaves at once">
         <ToastButton client:visible label="check 8 volumes" message="8 volumes checked" state="success" id="motion-specimen" />

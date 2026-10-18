@@ -3,7 +3,7 @@ layout: ../../layouts/Doc.astro
 title: colour
 description: A dark canvas, four greys for text, one blue for actions and five colours for states. Colour always means something, and never says it alone. With the contrast of every pair.
 ---
-import { Badge, MessageStrip, ObjectStatus, Text } from '@nalet/design-system';
+import { Badge, Banner, Status, Text } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
@@ -37,11 +37,11 @@ Statuses, messages and highlights take their colour from a <Term id="semantic-st
 
 | state | means | for example | never for |
 | --- | --- | --- | --- |
-| <ObjectStatus state="neutral">neutral</ObjectStatus> | A plain fact, with no judgement | “missing”, “queued”, “not searched yet” | Something that needs attention |
-| <ObjectStatus state="information">information</ObjectStatus> | Under way, or worth knowing; nothing to fix | “on its way”, “syncing”, “asking again” | Decoration, or “this is blue” |
-| <ObjectStatus state="success">success</ObjectStatus> | Done, and good | “held”, “saved”, “healthy” | Anything with a problem in it, however small |
-| <ObjectStatus state="warning">warning</ObjectStatus> | It works, but not fully; someone should look | “connection firewalled”, “degraded”, “can't be checked” | A failure (that is an error), or emphasis |
-| <ObjectStatus state="error">error</ObjectStatus> | Failed or blocked; it needs action | “needs attention”, “unreachable”, “couldn't load” | An *action* that destroys something (that is the danger button) |
+| <Status state="neutral">neutral</Status> | A plain fact, with no judgement | “missing”, “queued”, “not searched yet” | Something that needs attention |
+| <Status state="information">information</Status> | Under way, or worth knowing; nothing to fix | “on its way”, “syncing”, “asking again” | Decoration, or “this is blue” |
+| <Status state="success">success</Status> | Done, and good | “held”, “saved”, “healthy” | Anything with a problem in it, however small |
+| <Status state="warning">warning</Status> | It works, but not fully; someone should look | “connection firewalled”, “degraded”, “can't be checked” | A failure (that is an error), or emphasis |
+| <Status state="error">error</Status> | Failed or blocked; it needs action | “needs attention”, “unreachable”, “couldn't load” | An *action* that destroys something (that is the danger button) |
 
 The words decide the state, not the other way round. Write the status in the object's own words first, then ask which of the five meanings it has. A domain's whole vocabulary lives in one table; [status vocabulary](/design-system/patterns/status-vocabulary/) shows how.
 
@@ -75,7 +75,7 @@ The system is dark only, and it tells the browser so, which makes the browser's 
 
 <DoDont>
   <Do caption="The state names the meaning: a firewalled connection works, but someone should look.">
-    <ObjectStatus state="warning">connection firewalled</ObjectStatus>
+    <Status state="warning">connection firewalled</Status>
   </Do>
   <Dont caption="A colour picked for its looks says the opposite of the words.">
     <Badge tone="green">connection firewalled</Badge>
@@ -84,7 +84,7 @@ The system is dark only, and it tells the browser so, which makes the browser's 
 
 <DoDont>
   <Do caption="On a tint, text stays at the muted grey or brighter.">
-    <MessageStrip state="warning" live="off">2 sources are over their daily limit until midnight.</MessageStrip>
+    <Banner state="warning" live="off">2 sources are over their daily limit until midnight.</Banner>
   </Do>
   <Dont caption="The dimmest grey on a tint falls below 4.5 to 1.">
     <div style={{ padding: 'var(--s-3)', background: 'var(--state-warning-bg)', border: '1px solid var(--state-warning-border)', width: '100%' }}>

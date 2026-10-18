@@ -1,14 +1,14 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
-import { StateGlyph, type ObjectState } from '../../lib/StateGlyph';
+import { StateGlyph, type State } from '../../lib/StateGlyph';
 import '../../lib/a11y.css';
-import './ObjectStatus.css';
+import './Status.css';
 
-export type { ObjectState };
+export type { State };
 
 /** A domain value's status: the semantic state and the human text that goes with it. */
 export interface StateSpec {
-  state: ObjectState;
+  state: State;
   /** Lowercase, human: "on its way", "needs attention". */
   text: string;
 }
@@ -17,9 +17,9 @@ export interface StateSpec {
  * defineStates — the one place a domain's values map to semantic states.
  *
  * Write the whole vocabulary of an object once, as a table, and render every
- * status from it: `<ObjectStatus {...STATES[row.state]} />`. TypeScript makes
- * the table exhaustive over the keys you give it, and a reviewer sees in one
- * place that "connection firewalled" is a warning, not a success.
+ * status from it: `<Status {...LINK[row.link]} />`. TypeScript makes the table
+ * exhaustive over the keys you give it, and a reviewer sees in one place that
+ * "connection firewalled" is a warning, not a success.
  *
  * ```ts
  * const LINK = defineStates({
@@ -37,7 +37,7 @@ export function defineStates<K extends string>(map: Record<K, StateSpec>): Reado
  * How urgent each state is, for sorting a list by status (highest first):
  * error 4, warning 3, information 2, neutral 1, success 0.
  */
-export const STATE_SEVERITY: Readonly<Record<ObjectState, number>> = Object.freeze({
+export const STATE_SEVERITY: Readonly<Record<State, number>> = Object.freeze({
   error: 4,
   warning: 3,
   information: 2,
@@ -46,17 +46,17 @@ export const STATE_SEVERITY: Readonly<Record<ObjectState, number>> = Object.free
 });
 
 /** What a screen reader hears before the text, by default, for the states that need acting on. */
-const DEFAULT_STATE_LABEL: Partial<Record<ObjectState, string>> = {
+const DEFAULT_STATE_LABEL: Partial<Record<State, string>> = {
   warning: 'warning',
   error: 'error',
 };
 
-export interface ObjectStatusProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'> {
+export interface StatusProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'> {
   /**
    * The meaning. Colour, glyph and the screen-reader prefix all follow from it;
    * there is no colour prop. Default neutral.
    */
-  state?: ObjectState;
+  state?: State;
   /** The human text. `children` works too; `text` lets a StateSpec spread in. */
   text?: React.ReactNode;
   children?: React.ReactNode;
@@ -73,12 +73,12 @@ export interface ObjectStatusProps extends Omit<React.HTMLAttributes<HTMLSpanEle
 }
 
 /**
- * ObjectStatus — the state of one object, said once and said truthfully: a
- * semantic state (neutral, information, success, warning, error) and short
- * human text. Colours come only from the --state-* tokens, every state has its
- * own glyph shape, and warnings and errors are announced as such.
+ * Status — the state of one object, said once and said truthfully: a semantic
+ * state (neutral, information, success, warning, error) and short human text.
+ * Colours come only from the --state-* tokens, every state has its own glyph
+ * shape, and warnings and errors are announced as such.
  */
-export const ObjectStatus = React.forwardRef<HTMLSpanElement, ObjectStatusProps>(function ObjectStatus(
+export const Status = React.forwardRef<HTMLSpanElement, StatusProps>(function Status(
   { state = 'neutral', text, children, icon = true, appearance = 'chip', stateLabel, className, ...rest },
   ref,
 ) {

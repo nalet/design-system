@@ -1,10 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { Button, MessageStrip, type MessageStripProps } from '../../src';
+import { Banner, Button, type BannerProps } from '../../src';
 
-const meta: Meta<MessageStripProps> = {
-  title: 'Components/feedback & status/message strip',
-  component: MessageStrip,
+const meta: Meta<BannerProps> = {
+  title: 'Components/feedback & status/banner',
+  component: Banner,
   args: {
     state: 'warning',
     children: "105 titles can't be checked: the catalog holds them without an identity.",
@@ -24,11 +24,11 @@ const meta: Meta<MessageStripProps> = {
 };
 export default meta;
 
-type Story = StoryObj<MessageStripProps>;
+type Story = StoryObj<BannerProps>;
 
 export const Playground: Story = {
   render: (args) => (
-    <MessageStrip
+    <Banner
       {...args}
       actions={
         <>
@@ -48,11 +48,11 @@ export const Playground: Story = {
 export const States: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 'var(--s-3)' }}>
-      <MessageStrip state="neutral">The sweep only searches; grabbing on its own is off in settings.</MessageStrip>
-      <MessageStrip state="information">Asking the catalog what the library holds. The list follows.</MessageStrip>
-      <MessageStrip state="success">Every source answered in the last hour.</MessageStrip>
-      <MessageStrip state="warning">2 sources are over their daily query limit until midnight.</MessageStrip>
-      <MessageStrip state="error">Couldn&apos;t queue the grab: the download client didn&apos;t answer. Nothing was changed.</MessageStrip>
+      <Banner state="neutral">The sweep only searches; grabbing on its own is off in settings.</Banner>
+      <Banner state="information">Asking the catalog what the library holds. The list follows.</Banner>
+      <Banner state="success">Every source answered in the last hour.</Banner>
+      <Banner state="warning">2 sources are over their daily query limit until midnight.</Banner>
+      <Banner state="error">Couldn&apos;t queue the grab: the download client didn&apos;t answer. Nothing was changed.</Banner>
     </div>
   ),
 };
@@ -60,7 +60,7 @@ export const States: Story = {
 export const WithDetails: Story = {
   name: 'with details',
   render: () => (
-    <MessageStrip
+    <Banner
       state="error"
       details={'GET /api/missing: http 502 bad gateway\nrequest id 7d1c0e4a'}
       actions={
@@ -70,7 +70,7 @@ export const WithDetails: Story = {
       }
     >
       Couldn&apos;t load the list.
-    </MessageStrip>
+    </Banner>
   ),
 };
 
@@ -78,9 +78,9 @@ export const Dismissible: Story = {
   render: function Dismissible() {
     const [open, setOpen] = useState(true);
     return open ? (
-      <MessageStrip state="success" onDismiss={() => setOpen(false)}>
+      <Banner state="success" onDismiss={() => setOpen(false)}>
         Saved. Times on this page now show in UTC.
-      </MessageStrip>
+      </Banner>
     ) : (
       <Button onClick={() => setOpen(true)}>show the message again</Button>
     );

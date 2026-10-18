@@ -1,15 +1,15 @@
 
 /** The five semantic states. Colour, glyph and announcement all follow from one of these. */
-export type ObjectState = 'neutral' | 'information' | 'success' | 'warning' | 'error';
+export type State = 'neutral' | 'information' | 'success' | 'warning' | 'error';
 
-export const OBJECT_STATES: readonly ObjectState[] = ['neutral', 'information', 'success', 'warning', 'error'];
+export const STATES: readonly State[] = ['neutral', 'information', 'success', 'warning', 'error'];
 
 /**
  * One square-capped line glyph per state, each a different shape so the state
  * never rests on colour alone (WCAG 1.4.1): a dash, a bar with a dot, a check,
  * a triangle with a bar, a cross. 12 × 12 viewbox, drawn in currentColor.
  */
-export function StateGlyph({ state, size = 12 }: { state: ObjectState; size?: number }) {
+export function StateGlyph({ state, size = 12 }: { state: State; size?: number }) {
   const common = {
     viewBox: '0 0 12 12',
     width: size,

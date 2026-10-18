@@ -63,8 +63,8 @@ const preview: Preview = {
       // render the docs pages on the same dark/square chrome as the manager.
       theme: docsTheme,
       // right-rail anchor table-of-contents with scroll-spy.
-      // headings inside live examples (an illustrated message's title, a tile
-      // group's legend) are part of the example, not of the page outline.
+      // headings inside live examples (an empty state's title, a tile group's
+      // legend) are part of the example, not of the page outline.
       toc: {
         headingSelector: 'h2, h3',
         title: 'on this page',
@@ -75,7 +75,7 @@ const preview: Preview = {
     },
     options: {
       // the react subsite's table of contents: getting started and the
-      // changelog, the components by role, then the floorplans' code. the
+      // changelog, the components by role, then the page layouts' code. the
       // design guidance is on the guidelines site, /design-system/.
       storySort: {
         order: [

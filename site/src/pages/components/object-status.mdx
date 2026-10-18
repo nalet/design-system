@@ -4,7 +4,7 @@ title: object status
 description: An object status says where one thing stands, in a few words and one of five states. The state decides the colour and the symbol, so the same meaning looks the same on every screen.
 component: object-status
 ---
-import { ObjectStatus } from '@nalet/design-system';
+import { Status } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
@@ -101,7 +101,7 @@ Use the same order when one object has several conditions at once: show the most
 
 An object status only shows a state. It takes no focus, has no keys of its own and doesn't move. When it changes, it doesn't announce the change.
 
-The details of how it is built are on the object status's [React page](/design-system/react/?path=/docs/components-feedback-status-object-status--docs).
+The details of how it is built are on the object status's [React page](/design-system/react/?path=/docs/components-feedback-status-status--docs).
 
 ## accessibility
 
@@ -127,31 +127,31 @@ Today:
 
 <DoDont>
   <Do caption="A problem shown as a problem: it works, but someone should look.">
-    <ObjectStatus state="warning">connection firewalled</ObjectStatus>
+    <Status state="warning">connection firewalled</Status>
   </Do>
   <Dont caption="A problem dressed as success. People learn to skip the calm ones, and they miss this one.">
-    <ObjectStatus state="success">connection firewalled</ObjectStatus>
+    <Status state="success">connection firewalled</Status>
   </Dont>
 </DoDont>
 
 <DoDont>
   <Do caption="The state says how serious it is; the words say what is wrong, in the object's own terms.">
-    <ObjectStatus state="error">needs attention</ObjectStatus>
+    <Status state="error">needs attention</Status>
   </Do>
   <Dont caption="The state's name as the text. A screen reader hears “error: error”, and nobody learns what to do.">
-    <ObjectStatus state="error">error</ObjectStatus>
+    <Status state="error">error</Status>
   </Dont>
 </DoDont>
 
 <DoDont>
   <Do caption="One status per object: the most severe one.">
     <span style={{ fontFamily: 'var(--ff-mono)', fontSize: '13px', color: 'var(--fg)' }}>worker-2</span>
-    <ObjectStatus state="warning">degraded</ObjectStatus>
+    <Status state="warning">degraded</Status>
   </Do>
   <Dont caption="Two statuses for one object leave people to work out which one is true. Show the most severe, and put the rest in the detail line.">
     <span style={{ fontFamily: 'var(--ff-mono)', fontSize: '13px', color: 'var(--fg)' }}>worker-2</span>
-    <ObjectStatus state="information">syncing</ObjectStatus>
-    <ObjectStatus state="warning">degraded</ObjectStatus>
+    <Status state="information">syncing</Status>
+    <Status state="warning">degraded</Status>
   </Dont>
 </DoDont>
 
@@ -185,6 +185,6 @@ Today:
 - **Glyph:** 12px, drawn in the state's colour (`currentColor`), in an `aria-hidden` span. Each state has its own shape, for WCAG 1.4.1 (use of colour).
 - **Text:** JetBrains Mono 11px (12px as text), line-height 1, letter-spacing 0.02em, lowercased with `text-transform`, in `--state-*`. It ends with `text-overflow: ellipsis` when there is no room.
 - **State word:** a visually hidden `warning: ` or `error: ` in front of the text, by default for those two states only.
-- **Vocabulary:** `defineStates(table)` returns a frozen copy of the table, each value mapped to `{ state, text }`, and every status spreads its entry in: `<ObjectStatus {...LINK[row.link]} />`. With the value type as its type argument (`defineStates<LinkValue>(…)`), TypeScript makes the table cover every value.
-- **Severity:** `STATE_SEVERITY` ranks the states for sorting, most urgent first: `error` 4, `warning` 3, `information` 2, `neutral` 1, `success` 0. `OBJECT_STATES` lists the five states, `neutral` first.
+- **Vocabulary:** `defineStates(table)` returns a frozen copy of the table, each value mapped to `{ state, text }`, and every status spreads its entry in: `<Status {...LINK[row.link]} />`. With the value type as its type argument (`defineStates<LinkValue>(…)`), TypeScript makes the table cover every value.
+- **Severity:** `STATE_SEVERITY` ranks the states for sorting, most urgent first: `error` 4, `warning` 3, `information` 2, `neutral` 1, `success` 0. `STATES` lists the five states, `neutral` first.
 - **Motion and focus:** none. It isn't a live region, so a change in place isn't announced.

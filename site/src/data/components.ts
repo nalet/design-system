@@ -68,10 +68,10 @@ export const COMPONENTS: ComponentEntry[] = [
   { slug: 'kbd', name: 'kbd', exports: ['Kbd'], role: 'data display', summary: 'A key to press.', react: 'components-data-display-kbd' },
 
   // feedback & status
-  { slug: 'object-status', name: 'object status', exports: ['ObjectStatus', 'defineStates', 'STATE_SEVERITY'], role: 'feedback & status', summary: 'The state of one thing, with one of five meanings.', react: 'components-feedback-status-object-status' },
-  { slug: 'message-strip', name: 'message strip', exports: ['MessageStrip'], role: 'feedback & status', summary: 'A message about the page or the list that stays for as long as it is true.', react: 'components-feedback-status-message-strip' },
+  { slug: 'object-status', name: 'object status', exports: ['Status', 'defineStates', 'STATE_SEVERITY'], role: 'feedback & status', summary: 'The state of one thing, with one of five meanings.', react: 'components-feedback-status-status' },
+  { slug: 'message-strip', name: 'message strip', exports: ['Banner'], role: 'feedback & status', summary: 'A message about the page or the list that stays for as long as it is true.', react: 'components-feedback-status-banner' },
   { slug: 'toast', name: 'toast', exports: ['toast', 'Toaster'], role: 'feedback & status', summary: 'A short confirmation of an action just taken.', react: 'components-feedback-status-toast' },
-  { slug: 'illustrated-message', name: 'illustrated message', exports: ['IllustratedMessage'], role: 'feedback & status', summary: "What a list shows when it is empty, done, has no matches, failed or can't be known.", react: 'components-feedback-status-illustrated-message' },
+  { slug: 'illustrated-message', name: 'illustrated message', exports: ['EmptyState'], role: 'feedback & status', summary: "What a list shows when it is empty, done, has no matches, failed or can't be known.", react: 'components-feedback-status-empty-state' },
   { slug: 'spinner', name: 'spinner', exports: ['Spinner'], role: 'feedback & status', summary: 'Something is loading, where nothing better shows it.', react: 'components-feedback-status-spinner' },
 
   // layout & structure

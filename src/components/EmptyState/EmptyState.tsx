@@ -1,11 +1,11 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
-import './IllustratedMessage.css';
+import './EmptyState.css';
 
 export type Illustration = 'empty' | 'done' | 'search' | 'error' | 'unknown';
-export type IllustratedMessageSize = 'sm' | 'md' | 'lg';
+export type EmptyStateSize = 'sm' | 'md' | 'lg';
 
-export interface IllustratedMessageProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface EmptyStateProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   /**
    * Which picture. `empty`: nothing here yet. `done`: nothing left to do. `search`:
    * filters match nothing. `error`: could not load. `unknown`: cannot be told.
@@ -18,7 +18,7 @@ export interface IllustratedMessageProps extends Omit<React.HTMLAttributes<HTMLD
   /** At most one primary action, plus an optional secondary. */
   actions?: React.ReactNode;
   /** `sm` inside a panel or table, `md` for a section (default), `lg` for a whole page. */
-  size?: IllustratedMessageSize;
+  size?: EmptyStateSize;
   /** The title's heading level. Default 2. */
   headingLevel?: 2 | 3 | 4 | 5 | 6;
 }
@@ -83,38 +83,36 @@ const ART: Record<Illustration, React.ReactNode> = {
 };
 
 /**
- * IllustratedMessage — an empty, done, no-match, error or unknown state: a
- * line illustration in the identity's style, a title that says what is true,
- * a description that says what to do, and at most one primary action. The
+ * EmptyState — an empty, done, no-match, error or unknown state: a line
+ * illustration in the identity's style, a title that says what is true, a
+ * description that says what to do, and at most one primary action. The
  * illustration is decoration (aria-hidden); the title is a real heading.
  */
-export const IllustratedMessage = React.forwardRef<HTMLDivElement, IllustratedMessageProps>(
-  function IllustratedMessage(
-    { illustration = 'empty', title, description, actions, size = 'md', headingLevel = 2, className, ...rest },
-    ref,
-  ) {
-    const Heading = `h${headingLevel}` as React.ElementType;
-    return (
-      <div
-        ref={ref}
-        className={cx('nc-illu', `nc-illu--${size}`, `nc-illu--${illustration}`, className)}
-        {...rest}
+export const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(function EmptyState(
+  { illustration = 'empty', title, description, actions, size = 'md', headingLevel = 2, className, ...rest },
+  ref,
+) {
+  const Heading = `h${headingLevel}` as React.ElementType;
+  return (
+    <div
+      ref={ref}
+      className={cx('nc-illu', `nc-illu--${size}`, `nc-illu--${illustration}`, className)}
+      {...rest}
+    >
+      <svg
+        className="nc-illu__art"
+        viewBox="0 0 160 120"
+        fill="none"
+        strokeWidth="1.5"
+        strokeLinecap="square"
+        aria-hidden="true"
+        focusable="false"
       >
-        <svg
-          className="nc-illu__art"
-          viewBox="0 0 160 120"
-          fill="none"
-          strokeWidth="1.5"
-          strokeLinecap="square"
-          aria-hidden="true"
-          focusable="false"
-        >
-          {ART[illustration]}
-        </svg>
-        <Heading className="nc-illu__title">{title}</Heading>
-        {description != null ? <p className="nc-illu__description">{description}</p> : null}
-        {actions != null ? <div className="nc-illu__actions">{actions}</div> : null}
-      </div>
-    );
-  },
-);
+        {ART[illustration]}
+      </svg>
+      <Heading className="nc-illu__title">{title}</Heading>
+      {description != null ? <p className="nc-illu__description">{description}</p> : null}
+      {actions != null ? <div className="nc-illu__actions">{actions}</div> : null}
+    </div>
+  );
+});

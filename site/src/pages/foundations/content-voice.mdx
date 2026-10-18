@@ -3,7 +3,7 @@ layout: ../../layouts/Doc.astro
 title: content & voice
 description: How the words on a screen are written. Two voices, one per typeface, short and true, in the reader's language rather than the system's.
 ---
-import { Button, IllustratedMessage, MessageStrip, ObjectStatus, Text } from '@nalet/design-system';
+import { Banner, Button, EmptyState, Status, Text } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont } from '@site/blocks';
@@ -25,10 +25,10 @@ The system speaks with two voices, and the typeface tells them apart.
 
 <DoDont>
   <Do caption="A lowercase monospace title over a sentence-case description: each voice in its own typeface.">
-    <IllustratedMessage size="sm" illustration="done" title="nothing missing" description="Every aired, monitored episode and movie is in the library." headingLevel={3} />
+    <EmptyState size="sm" illustration="done" title="nothing missing" description="Every aired, monitored episode and movie is in the library." headingLevel={3} />
   </Do>
   <Dont caption="The description lowercased like the title: text in the reader's typeface, spelled as if it were chrome.">
-    <IllustratedMessage size="sm" illustration="done" title="nothing missing" description="every aired, monitored episode and movie is in the library." headingLevel={3} />
+    <EmptyState size="sm" illustration="done" title="nothing missing" description="every aired, monitored episode and movie is in the library." headingLevel={3} />
   </Dont>
 </DoDont>
 
@@ -97,10 +97,10 @@ Some words come up on every screen. Each of them means one thing, everywhere.
 
 <DoDont>
   <Do caption="What is true, in words, with the system's details one click away.">
-    <MessageStrip client:visible state="warning" live="off" details='item 3f2a9c1e-5b7d-4c11-9e02-6a1d0b8f4c21, "The Quiet Harbour"'>105 titles can&apos;t be checked: the catalog holds them without an identity.</MessageStrip>
+    <Banner client:visible state="warning" live="off" details='item 3f2a9c1e-5b7d-4c11-9e02-6a1d0b8f4c21, "The Quiet Harbour"'>105 titles can&apos;t be checked: the catalog holds them without an identity.</Banner>
   </Do>
   <Dont caption="The system's own sentence, with its long id, as the message.">
-    <MessageStrip state="warning" live="off">Holdings unknown for 105 titles — the catalog holds a title of this name without an identity (item 3f2a9c1e-5b7d-4c11-9e02-6a1d0b8f4c21)</MessageStrip>
+    <Banner state="warning" live="off">Holdings unknown for 105 titles — the catalog holds a title of this name without an identity (item 3f2a9c1e-5b7d-4c11-9e02-6a1d0b8f4c21)</Banner>
   </Dont>
 </DoDont>
 
@@ -115,9 +115,9 @@ Some words come up on every screen. Each of them means one thing, everywhere.
 
 <DoDont>
   <Do caption="An empty state that says what is true and offers the way out.">
-    <IllustratedMessage size="sm" illustration="search" title="no matches" description="Nothing in this list fits the search and filters." headingLevel={3}>
+    <EmptyState size="sm" illustration="search" title="no matches" description="Nothing in this list fits the search and filters." headingLevel={3}>
       <Fragment slot="actions"><Button size="sm">clear filters</Button></Fragment>
-    </IllustratedMessage>
+    </EmptyState>
   </Do>
   <Dont caption="A blank that could mean anything: loading, empty or broken.">
     <span style={{ color: 'var(--fg-dim)', fontFamily: 'var(--ff-mono)', fontSize: '12px' }}>no data</span>
@@ -126,10 +126,10 @@ Some words come up on every screen. Each of them means one thing, everywhere.
 
 <DoDont>
   <Do caption="The status in the object's own words, one per object.">
-    <ObjectStatus state="information">on its way</ObjectStatus>
+    <Status state="information">on its way</Status>
   </Do>
   <Dont caption="The system's internal name for the state.">
-    <ObjectStatus state="information">GRABBED_PENDING_IMPORT</ObjectStatus>
+    <Status state="information">GRABBED_PENDING_IMPORT</Status>
   </Dont>
 </DoDont>
 

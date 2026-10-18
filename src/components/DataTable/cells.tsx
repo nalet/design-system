@@ -1,23 +1,23 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
-import { ObjectStatus, type ObjectStatusProps } from '../ObjectStatus/ObjectStatus';
+import { Status, type StatusProps } from '../Status/Status';
 import '../../lib/a11y.css';
 import './cells.css';
 
-export interface StatusCellProps extends ObjectStatusProps {
+export interface StatusCellProps extends StatusProps {
   /** One line under the status: why, or what happens next ("again in 3h"). Up to two lines show; the rest is on hover. */
   detail?: React.ReactNode;
 }
 
 /**
- * StatusCell — a table cell's status: an ObjectStatus and, optionally, the
- * reason under it. The reason is in the DOM in full (screen readers read it);
- * on screen it clamps to two lines with the whole text on hover.
+ * StatusCell — a table cell's status: a Status and, optionally, the reason
+ * under it. The reason is in the DOM in full (screen readers read it); on
+ * screen it clamps to two lines with the whole text on hover.
  */
 export function StatusCell({ detail, className, ...status }: StatusCellProps) {
   return (
     <span className={cx('nc-cell-status', className)}>
-      <ObjectStatus {...status} />
+      <Status {...status} />
       {detail != null && detail !== '' ? (
         <span className="nc-cell-status__detail" title={typeof detail === 'string' ? detail : undefined}>
           {detail}

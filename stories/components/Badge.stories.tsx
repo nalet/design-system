@@ -14,7 +14,7 @@ const meta: Meta<BadgeProps> = {
       control: 'inline-radio',
       options: ['neutral', 'green', 'amber', 'blue'],
       description:
-        'Colour tone: neutral (default), blue, green or amber. Only a colour; the state of an object is object status.',
+        'Colour tone: neutral (default), blue, green or amber. Only a colour; the state of an object is a status.',
     },
     dot: { control: 'boolean' },
     children: { control: 'text' },
@@ -23,7 +23,7 @@ const meta: Meta<BadgeProps> = {
     docs: {
       description: {
         component:
-          'A small square label for tags, counts and short attributes: mono, lowercase, hairline frame, optional dot. The state of an object is object status, not a badge.',
+          'A small square label for tags, counts and short attributes: mono, lowercase, hairline frame, optional dot. The state of an object is a status, not a badge.',
       },
     },
   },

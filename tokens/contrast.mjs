@@ -29,7 +29,7 @@ export const TEXT = [
 /** the five semantic states. each has a text token, a -bg tint and a -border. */
 export const STATES = ['neutral', 'information', 'success', 'warning', 'error'];
 
-/** text that sits on a state tint (a message strip's body, a chip's label). */
+/** text that sits on a state tint (a banner's body, a chip's label). */
 export const TEXT_ON_TINT = ['fg', 'fg-2', 'fg-muted'];
 
 /**

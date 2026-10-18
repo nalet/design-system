@@ -11,14 +11,14 @@ export interface PortalProps
   title?: string;
   /**
    * Show the search box. Default true. Inside a shell, pass false and give the
-   * shell bar's search as `query`; the box is for a launcher outside a shell.
+   * top bar's search as `query`; the box is for a launcher outside a shell.
    */
   searchable?: boolean;
   /** Search input placeholder. */
   searchPlaceholder?: string;
   /** Names the search landmark and its field. Default "search apps"; give each launcher on a page its own. */
   searchLabel?: string;
-  /** Controlled search value (pair with onQueryChange), or the shell bar's search when `searchable` is false. */
+  /** Controlled search value (pair with onQueryChange), or the top bar's search when `searchable` is false. */
   query?: string;
   /** Per-keystroke search callback (controlled / analytics). */
   onQueryChange?: (query: string) => void;

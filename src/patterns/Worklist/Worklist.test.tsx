@@ -3,10 +3,10 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { Worklist } from './Worklist';
-import { MessageStrip } from '../../components/MessageStrip/MessageStrip';
+import { Banner } from '../../components/Banner/Banner';
 import { FilterBar } from '../../components/FilterBar/FilterBar';
 import { SelectionToolbar } from '../../components/Toolbar/Toolbar';
-import { IllustratedMessage } from '../../components/IllustratedMessage/IllustratedMessage';
+import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { Button } from '../../components/Button/Button';
 import { expectNoAxeViolations } from '../../test/axe';
 
@@ -26,14 +26,14 @@ function Harness() {
       onTabChange={setTab}
       tabsLabel="filter missing by state"
       messages={
-        <MessageStrip state="warning" actions={<Button size="sm" variant="ghost">show them</Button>}>
+        <Banner state="warning" actions={<Button size="sm" variant="ghost">show them</Button>}>
           105 titles can&apos;t be checked.
-        </MessageStrip>
+        </Banner>
       }
       filterBar={<FilterBar search={{ value: q, onChange: setQ, label: 'search titles' }} />}
       toolbar={<SelectionToolbar label="missing episodes" selectedCount={0} heading="0 missing" />}
     >
-      <IllustratedMessage illustration="done" title="nothing missing" headingLevel={3} />
+      <EmptyState illustration="done" title="nothing missing" headingLevel={3} />
     </Worklist>
   );
 }

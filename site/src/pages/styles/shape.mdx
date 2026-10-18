@@ -4,7 +4,7 @@ title: shape
 description: Square frames, lines one pixel wide, a thicker rule for what is current, flat surfaces, and the one rounded shape.
 ---
 import { Server } from 'lucide-react';
-import { Badge, Button, Card, Icon, MessageStrip, ObjectStatus, Stack, Text } from '@nalet/design-system';
+import { Badge, Banner, Button, Card, Icon, Stack, Status, Text } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
@@ -16,7 +16,7 @@ Our screens are built from simple, square shapes, like the panes of a terminal. 
 <Example label="square frames: a card, a message strip, a badge and buttons">
   <div style={{ width: '100%', maxWidth: '360px' }}>
     <Card header="storage-01">
-      <Fragment slot="header-aside"><ObjectStatus state="success">healthy</ObjectStatus></Fragment>
+      <Fragment slot="header-aside"><Status state="success">healthy</Status></Fragment>
       <Stack gap={12}>
         <Text variant="muted">412 GB used, checked today.</Text>
         <Stack direction="horizontal" gap={8} wrap>
@@ -27,7 +27,7 @@ Our screens are built from simple, square shapes, like the panes of a terminal. 
     </Card>
   </div>
   <div style={{ width: '100%', maxWidth: '360px' }}>
-    <MessageStrip state="warning" live="off">One disk of storage-02 is slow.</MessageStrip>
+    <Banner state="warning" live="off">One disk of storage-02 is slow.</Banner>
   </div>
 </Example>
 

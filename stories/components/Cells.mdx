@@ -31,7 +31,7 @@ You can see all three at work in every [data table](?path=/docs/components-data-
 ## implementation notes
 
 - There are three cells, `StatusCell`, `DateCell` and `IdentifierCell`, and `relativeDay`, which is the date cell's wording as a function.
-- `StatusCell` renders a `span` wrapper with an `ObjectStatus` and, when there is a `detail`, the detail under it.
+- `StatusCell` renders a `span` wrapper with a `Status` and, when there is a `detail`, the detail under it.
 - The detail is in the DOM in full, so a screen reader reads all of it. CSS clamps it to two lines on screen.
 - A string `detail` is also its `title`, the browser's native tooltip, so the lines that are cut off can still be seen.
 - Write the vocabulary once with `defineStates` and spread it in: `<StatusCell {...STATES[row.state]} detail={why(row)} />`.
@@ -56,7 +56,7 @@ You can see all three at work in every [data table](?path=/docs/components-data-
 
 ### status cell
 
-`StatusCell` takes every [object status](?path=/docs/components-feedback-status-object-status--docs) prop: `state`, `text` (or children), `icon`, `appearance` and `stateLabel`. It also takes the native `<span>` attributes, and all of these go to the status. On top of them, it adds `detail`. `className` goes to the wrapper, and there is no `ref`.
+`StatusCell` takes every [object status](?path=/docs/components-feedback-status-status--docs) prop: `state`, `text` (or children), `icon`, `appearance` and `stateLabel`. It also takes the native `<span>` attributes, and all of these go to the status. On top of them, it adds `detail`. `className` goes to the wrapper, and there is no `ref`.
 
 <ArgTypes of={StatusCell} />
 

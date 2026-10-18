@@ -7,8 +7,8 @@ import {
   ActionMenu,
   Button,
   DataTable,
+  EmptyState,
   IdentifierCell,
-  IllustratedMessage,
   StatusCell,
   type DataTableColumn,
 } from '@nalet/design-system';
@@ -155,7 +155,7 @@ export function NothingMissing() {
       rows={[]}
       rowKey={(b) => b.id}
       empty={
-        <IllustratedMessage
+        <EmptyState
           illustration="done"
           size="sm"
           headingLevel={3}

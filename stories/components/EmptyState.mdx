@@ -1,27 +1,27 @@
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
-import * as IllustratedMessageStories from './IllustratedMessage.stories';
+import * as EmptyStateStories from './EmptyState.stories';
 
-<Meta of={IllustratedMessageStories} />
+<Meta of={EmptyStateStories} />
 
 # illustrated message
 
 When to use an illustrated message, its kinds, sizes and actions and how to word it is on the guidelines site: **[illustrated message guidance →](https://nalet.github.io/design-system/components/illustrated-message/)**
 
-<Canvas of={IllustratedMessageStories.Playground} />
+<Canvas of={EmptyStateStories.Playground} />
 
 ## examples
 
 The five values of `illustration`, at `size="sm"`, two of them with a button in `actions`.
 
-<Canvas of={IllustratedMessageStories.Kinds} />
+<Canvas of={EmptyStateStories.Kinds} />
 
 The three values of `size`: `sm`, `md` (the default) and `lg`.
 
-<Canvas of={IllustratedMessageStories.Sizes} />
+<Canvas of={EmptyStateStories.Sizes} />
 
 `actions` holding one primary button.
 
-<Canvas of={IllustratedMessageStories.WithAction} />
+<Canvas of={EmptyStateStories.WithAction} />
 
 ## implementation notes
 
@@ -44,4 +44,4 @@ The three values of `size`: `sm`, `md` (the default) and `lg`.
 
 ## props
 
-<ArgTypes of={IllustratedMessageStories} />
+<ArgTypes of={EmptyStateStories} />

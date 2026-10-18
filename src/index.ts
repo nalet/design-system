@@ -81,19 +81,15 @@ export { Spinner } from './components/Spinner/Spinner';
 export type { SpinnerProps } from './components/Spinner/Spinner';
 
 // feedback & status — semantic state, page messages, transient feedback, empty states
-export { ObjectStatus, defineStates, STATE_SEVERITY } from './components/ObjectStatus/ObjectStatus';
-export type { ObjectStatusProps, ObjectState, StateSpec } from './components/ObjectStatus/ObjectStatus';
-export { OBJECT_STATES } from './lib/StateGlyph';
-export { MessageStrip } from './components/MessageStrip/MessageStrip';
-export type { MessageStripProps } from './components/MessageStrip/MessageStrip';
+export { Status, defineStates, STATE_SEVERITY } from './components/Status/Status';
+export type { StatusProps, State, StateSpec } from './components/Status/Status';
+export { STATES } from './lib/StateGlyph';
+export { Banner } from './components/Banner/Banner';
+export type { BannerProps } from './components/Banner/Banner';
 export { toast, Toaster } from './components/Toast/Toast';
 export type { ToastOptions, ToasterProps, ToastItem } from './components/Toast/Toast';
-export { IllustratedMessage } from './components/IllustratedMessage/IllustratedMessage';
-export type {
-  IllustratedMessageProps,
-  Illustration,
-  IllustratedMessageSize,
-} from './components/IllustratedMessage/IllustratedMessage';
+export { EmptyState } from './components/EmptyState/EmptyState';
+export type { EmptyStateProps, Illustration, EmptyStateSize } from './components/EmptyState/EmptyState';
 
 // actions on lists
 export { ActionMenu } from './components/ActionMenu/ActionMenu';
@@ -150,6 +146,32 @@ export type { PortalProps } from './components/Portal/Portal';
 export { useRovingGrid } from './lib/useRovingGrid';
 export type { RovingGrid } from './lib/useRovingGrid';
 
-// patterns — the worklist floorplan
+// patterns — the worklist page layout
 export { Worklist } from './patterns/Worklist/Worklist';
 export type { WorklistProps } from './patterns/Worklist/Worklist';
+
+// the old names, for one release: each is the new export under the name it had
+// in 0.3.0, and shows as deprecated in an editor. they go in 0.5.0.
+import { Status, type StatusProps, type State } from './components/Status/Status';
+import { STATES } from './lib/StateGlyph';
+import { Banner, type BannerProps } from './components/Banner/Banner';
+import { EmptyState, type EmptyStateProps, type EmptyStateSize } from './components/EmptyState/EmptyState';
+
+/** @deprecated use `Status`; the old name goes in 0.5.0. */
+export const ObjectStatus = Status;
+/** @deprecated use `StatusProps`; the old name goes in 0.5.0. */
+export type ObjectStatusProps = StatusProps;
+/** @deprecated use `State`; the old name goes in 0.5.0. */
+export type ObjectState = State;
+/** @deprecated use `STATES`; the old name goes in 0.5.0. */
+export const OBJECT_STATES = STATES;
+/** @deprecated use `Banner`; the old name goes in 0.5.0. */
+export const MessageStrip = Banner;
+/** @deprecated use `BannerProps`; the old name goes in 0.5.0. */
+export type MessageStripProps = BannerProps;
+/** @deprecated use `EmptyState`; the old name goes in 0.5.0. */
+export const IllustratedMessage = EmptyState;
+/** @deprecated use `EmptyStateProps`; the old name goes in 0.5.0. */
+export type IllustratedMessageProps = EmptyStateProps;
+/** @deprecated use `EmptyStateSize`; the old name goes in 0.5.0. */
+export type IllustratedMessageSize = EmptyStateSize;

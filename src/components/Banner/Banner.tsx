@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
-import { StateGlyph, type ObjectState } from '../../lib/StateGlyph';
+import { StateGlyph, type State } from '../../lib/StateGlyph';
 import '../../lib/a11y.css';
-import './MessageStrip.css';
+import './Banner.css';
 
-export interface MessageStripProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
+export interface BannerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 'title'> {
   /** The message's meaning. Default information. */
-  state?: ObjectState;
+  state?: State;
   /**
    * The message: one or two human sentences that say what is true and what it
    * means. No IDs, codes or raw errors here — they go in `details`.
@@ -40,12 +40,12 @@ export interface MessageStripProps extends Omit<React.HTMLAttributes<HTMLDivElem
 }
 
 /**
- * MessageStrip — a page-level message about the screen's content: a square
- * strip with a state rule, a glyph, human text, optional actions, an optional
+ * Banner — a page-level message about the screen's content: a square box
+ * with a state rule, a glyph, human text, optional actions, an optional
  * "details" disclosure for the technical part, and an optional dismiss. The
  * text alone is the live region, so an announcement never reads the buttons.
  */
-export const MessageStrip = React.forwardRef<HTMLDivElement, MessageStripProps>(function MessageStrip(
+export const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function Banner(
   {
     state = 'information',
     children,

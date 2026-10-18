@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
 import { formatCount } from '../../lib/format';
-import type { ObjectState } from '../../lib/StateGlyph';
+import type { State } from '../../lib/StateGlyph';
 import './FilterTabs.css';
 
 export interface FilterTab {
@@ -14,7 +14,7 @@ export interface FilterTab {
    * The count's meaning, when it carries one: error for "needs attention",
    * warning for "can't be checked". Neutral (plain) by default.
    */
-  state?: ObjectState;
+  state?: State;
   disabled?: boolean;
 }
 

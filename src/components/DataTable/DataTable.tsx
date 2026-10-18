@@ -2,7 +2,7 @@ import * as React from 'react';
 import { cx } from '../../lib/cx';
 import { formatCount } from '../../lib/format';
 import { useElementWidth } from '../../lib/useElementWidth';
-import type { ObjectState } from '../../lib/StateGlyph';
+import type { State } from '../../lib/StateGlyph';
 import { Checkbox } from '../Checkbox/Checkbox';
 import { Button } from '../Button/Button';
 import '../../lib/a11y.css';
@@ -93,7 +93,7 @@ export interface DataTableProps<Row> {
   /** Enter on a row, or a click outside its controls. Without it a click toggles selection. */
   onRowPress?: (row: Row) => void;
   /** A state rule on the row's leading edge; the row must also say it in words. */
-  rowHighlight?: (row: Row) => ObjectState | undefined;
+  rowHighlight?: (row: Row) => State | undefined;
 
   /** The header row sticks while the page scrolls. Default true. Offset it with --nc-dt-sticky-top. */
   stickyHeader?: boolean;
@@ -282,7 +282,7 @@ interface RowProps<Row> extends CellsProps<Row> {
   canSelect: boolean;
   label: string;
   grouped: boolean;
-  highlight?: ObjectState;
+  highlight?: State;
   onToggle: (key: string, shift: boolean) => void;
 }
 

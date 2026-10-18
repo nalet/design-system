@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { ActionMenu, ObjectStatus, type ActionMenuProps } from '../../src';
+import { ActionMenu, Status, type ActionMenuProps } from '../../src';
 
 const meta: Meta<ActionMenuProps> = {
   title: 'Components/actions/action menu',
@@ -54,7 +54,7 @@ export const InARow: Story = {
           }}
         >
           <span style={{ flex: 1 }}>S04E07</span>
-          <ObjectStatus state="neutral">missing</ObjectStatus>
+          <Status state="neutral">missing</Status>
           <ActionMenu
             label="actions for S04E07"
             items={[

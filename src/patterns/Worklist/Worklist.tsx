@@ -22,7 +22,7 @@ export interface WorklistProps extends Omit<React.HTMLAttributes<HTMLElement>, '
   /** The tablist's accessible name. Default "filter the list". */
   tabsLabel?: string;
 
-  /** At most one or two message strips about the list as a whole. */
+  /** At most one or two banners about the list as a whole. */
   messages?: React.ReactNode;
   /** A FilterBar. */
   filterBar?: React.ReactNode;
@@ -30,16 +30,16 @@ export interface WorklistProps extends Omit<React.HTMLAttributes<HTMLElement>, '
   toolbar?: React.ReactNode;
   /** The toolbar sticks to the top while the list scrolls, and the table header under it. Default true. */
   stickyToolbar?: boolean;
-  /** The DataTable — or the IllustratedMessage when there is nothing to show. */
+  /** The DataTable — or the EmptyState when there is nothing to show. */
   children: React.ReactNode;
 }
 
 /**
- * Worklist — the floorplan for "the things that need doing": a header, key
- * figures as filter tabs, an optional message strip, a filter bar, a toolbar
- * with the one emphasized action, and the table (or its empty state). The tabs
- * and the content are a tablist and its tabpanel; the toolbar and the table
- * header stay in view while the list scrolls.
+ * Worklist — the page layout for "the things that need doing": a header, key
+ * figures as filter tabs, an optional banner, a filter bar, a toolbar with the
+ * one emphasized action, and the table (or its empty state). The tabs and the
+ * content are a tablist and its tabpanel; the toolbar and the table header
+ * stay in view while the list scrolls.
  */
 export const Worklist = React.forwardRef<HTMLElement, WorklistProps>(function Worklist(
   {

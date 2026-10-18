@@ -1,27 +1,27 @@
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
-import * as MessageStripStories from './MessageStrip.stories';
+import * as BannerStories from './Banner.stories';
 
-<Meta of={MessageStripStories} />
+<Meta of={BannerStories} />
 
 # message strip
 
 When to use a message strip, its states, when to add details or a dismiss button and how to word it is on the guidelines site: **[message strip guidance →](https://nalet.github.io/design-system/components/message-strip/)**
 
-<Canvas of={MessageStripStories.Playground} />
+<Canvas of={BannerStories.Playground} />
 
 ## examples
 
 `state` takes five values: `neutral`, `information` (the default), `success`, `warning` and `error`.
 
-<Canvas of={MessageStripStories.States} />
+<Canvas of={BannerStories.States} />
 
 `details` behind a disclosure, and a ghost button in `actions`.
 
-<Canvas of={MessageStripStories.WithDetails} />
+<Canvas of={BannerStories.WithDetails} />
 
 `onDismiss` adds the dismiss button. The story stops rendering the strip when it is called.
 
-<Canvas of={MessageStripStories.Dismissible} />
+<Canvas of={BannerStories.Dismissible} />
 
 ## implementation notes
 
@@ -57,4 +57,4 @@ Today:
 
 ## props
 
-<ArgTypes of={MessageStripStories} />
+<ArgTypes of={BannerStories} />

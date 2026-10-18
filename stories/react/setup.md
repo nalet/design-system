@@ -14,12 +14,12 @@ Your app installs three packages next to it: `react` and `react-dom` 18 or 19, a
 // once, near the app root:
 import '@nalet/design-system/styles.css';
 
-import { Button, ObjectStatus } from '@nalet/design-system';
+import { Button, Status } from '@nalet/design-system';
 
 export function Example() {
   return (
     <>
-      <ObjectStatus state="information">on its way</ObjectStatus>
+      <Status state="information">on its way</Status>
       <Button variant="primary">grab 8 selected</Button>
     </>
   );

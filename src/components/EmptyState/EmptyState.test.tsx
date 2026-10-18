@@ -1,15 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import { IllustratedMessage, type Illustration } from './IllustratedMessage';
+import { EmptyState, type Illustration } from './EmptyState';
 import { Button } from '../Button/Button';
 import { expectNoAxeViolations } from '../../test/axe';
 
 const ALL: Illustration[] = ['empty', 'done', 'search', 'error', 'unknown'];
 
-describe('IllustratedMessage', () => {
+describe('EmptyState', () => {
   it('has a real heading, a description and the action; the picture is decoration', () => {
     const { container } = render(
-      <IllustratedMessage
+      <EmptyState
         illustration="done"
         title="nothing missing"
         description="Every aired episode is in the library."
@@ -26,7 +26,7 @@ describe('IllustratedMessage', () => {
   it('draws a different picture for each kind', () => {
     const drawn = new Set<string>();
     for (const kind of ALL) {
-      const { container, unmount } = render(<IllustratedMessage illustration={kind} title={kind} />);
+      const { container, unmount } = render(<EmptyState illustration={kind} title={kind} />);
       drawn.add(container.querySelector('svg')!.innerHTML);
       unmount();
     }
@@ -35,7 +35,7 @@ describe('IllustratedMessage', () => {
 
   it.each(ALL)('has no axe violations (%s)', async (kind) => {
     const { container } = render(
-      <IllustratedMessage illustration={kind} title="title" description="Description" actions={<Button>act</Button>} />,
+      <EmptyState illustration={kind} title="title" description="Description" actions={<Button>act</Button>} />,
     );
     await expectNoAxeViolations(container);
   });

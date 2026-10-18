@@ -4,7 +4,7 @@ import {
   ActionMenu,
   Button,
   DataTable,
-  IllustratedMessage,
+  EmptyState,
   type DataTableColumn,
   type DataTableProps,
   type DataTableSort,
@@ -202,7 +202,7 @@ export const Empty: Story = {
       columns={BACKLOG_COLUMNS}
       rows={[]}
       rowKey={(b) => b.id}
-      empty={<IllustratedMessage illustration="done" size="sm" title="nothing missing" description="Every aired episode is in the library." headingLevel={3} />}
+      empty={<EmptyState illustration="done" size="sm" title="nothing missing" description="Every aired episode is in the library." headingLevel={3} />}
     />
   ),
 };

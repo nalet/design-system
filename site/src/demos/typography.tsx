@@ -1,7 +1,7 @@
 // live examples of the typography page that compose components (a field wires
 // its control, a card takes elements as props): written in react, rendered
 // as static html.
-import { Button, Card, Field, Input, ObjectStatus, Stack, Text } from '@nalet/design-system';
+import { Button, Card, Field, Input, Stack, Status, Text } from '@nalet/design-system';
 
 /** both families in one panel: mono names, inter reads. */
 export function BothFamilies() {
@@ -9,7 +9,7 @@ export function BothFamilies() {
     <div style={{ width: '100%', maxWidth: 420 }}>
       <Card
         header="storage-01"
-        headerAside={<ObjectStatus state="success">healthy</ObjectStatus>}
+        headerAside={<Status state="success">healthy</Status>}
         footer={
           <Stack direction="horizontal" gap={8} justify="end">
             <Button variant="ghost">cancel</Button>

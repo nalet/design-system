@@ -3,7 +3,7 @@ layout: ../../layouts/Doc.astro
 title: designing with it
 description: How to design a screen with the nalet design system, from what people need to do to the hand-over.
 ---
-import { Button, ObjectStatus } from '@nalet/design-system';
+import { Button, Status } from '@nalet/design-system';
 import Term from '@site/components/Term.astro';
 import { Example } from '@site/blocks';
 
@@ -21,7 +21,7 @@ Start from what the person needs to do, not from a layout. The <Term id="princip
 6. **Check the other states.** Loading, empty, nothing found, failed, can't be known: see [empty states](/design-system/patterns/empty-states/) and [message handling](/design-system/patterns/message-handling/). Then the way through with the keyboard, and the screen at phone width.
 
 <Example label="one status and the one next step">
-  <ObjectStatus state="error">needs attention</ObjectStatus>
+  <Status state="error">needs attention</Status>
   <Button variant="primary">pick a release</Button>
   <Button variant="ghost">skip</Button>
 </Example>
@@ -71,6 +71,6 @@ The same hand-over, in the names the code uses:
 
 | what | for example |
 | --- | --- |
-| Each component | `DataTable`, `SelectionToolbar`, `MessageStrip` |
+| Each component | `DataTable`, `SelectionToolbar`, `Banner` |
 | Kind and size | `variant="primary"`, `size="sm"`, `dense` |
 | Colour, type and space | `--fg-muted`, `h2`, `--s-4` |

@@ -4,7 +4,7 @@ title: illustrated message
 description: What a list or a panel shows when it has nothing to show. A small drawing and a few words say why, and what people can do next.
 component: illustrated-message
 ---
-import { Button, IllustratedMessage } from '@nalet/design-system';
+import { Button, EmptyState } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
@@ -85,7 +85,7 @@ The title is a level-2 heading, unless you give it another <Term id="heading-lev
 - An illustrated message is static: people read it, and the only things in it that take <Term id="focus">focus</Term> are its actions.
 - It doesn't announce itself when it appears. When it replaces a list because the filters changed, what a <Term id="screen-reader">screen reader</Term> hears is the live count of results in the <C slug="filter-bar" />.
 
-The full keyboard map is on the illustrated message's [React page](/design-system/react/?path=/docs/components-feedback-status-illustrated-message--docs).
+The full keyboard map is on the illustrated message's [React page](/design-system/react/?path=/docs/components-feedback-status-empty-state--docs).
 
 ## accessibility
 
@@ -110,36 +110,36 @@ Today:
 
 <DoDont>
   <Do caption="The filters hide everything: say so, and offer the way back." column>
-    <IllustratedMessage illustration="search" size="sm" headingLevel={3} title="no matches" description="Nothing fits these filters.">
+    <EmptyState illustration="search" size="sm" headingLevel={3} title="no matches" description="Nothing fits these filters.">
       <Fragment slot="actions"><Button size="sm">clear filters</Button></Fragment>
-    </IllustratedMessage>
+    </EmptyState>
   </Do>
   <Dont caption="The empty kind, when it is really the filters: people think the data is gone, and have no way back." column>
-    <IllustratedMessage illustration="empty" size="sm" headingLevel={3} title="nothing here" description="There are no items." />
+    <EmptyState illustration="empty" size="sm" headingLevel={3} title="nothing here" description="There are no items." />
   </Dont>
 </DoDont>
 
 <DoDont>
   <Do caption="What failed, and the way forward." column>
-    <IllustratedMessage illustration="error" size="sm" headingLevel={3} title="couldn't load" description="The list could not be read. Try again.">
+    <EmptyState illustration="error" size="sm" headingLevel={3} title="couldn't load" description="The list could not be read. Try again.">
       <Fragment slot="actions"><Button size="sm">try again</Button></Fragment>
-    </IllustratedMessage>
+    </EmptyState>
   </Do>
   <Dont caption="Vague, with nothing to do about it: people reload the page and hope." column>
-    <IllustratedMessage illustration="error" size="sm" headingLevel={3} title="something went wrong" />
+    <EmptyState illustration="error" size="sm" headingLevel={3} title="something went wrong" />
   </Dont>
 </DoDont>
 
 <DoDont>
   <Do caption="One emphasized action: the step that resolves it." column>
-    <IllustratedMessage illustration="unknown" size="sm" headingLevel={3} title="nothing can be checked yet" description="The library's holdings are unknown for all 105 titles.">
+    <EmptyState illustration="unknown" size="sm" headingLevel={3} title="nothing can be checked yet" description="The library's holdings are unknown for all 105 titles.">
       <Fragment slot="actions"><Button size="sm" variant="primary">ask the catalog again</Button></Fragment>
-    </IllustratedMessage>
+    </EmptyState>
   </Do>
   <Dont caption="Three emphasized buttons: none of them reads as the next step." column>
-    <IllustratedMessage illustration="unknown" size="sm" headingLevel={3} title="nothing can be checked yet">
+    <EmptyState illustration="unknown" size="sm" headingLevel={3} title="nothing can be checked yet">
       <Fragment slot="actions"><Button size="sm" variant="primary">ask again</Button><Button size="sm" variant="primary">open settings</Button><Button size="sm" variant="primary">read the docs</Button></Fragment>
-    </IllustratedMessage>
+    </EmptyState>
   </Dont>
 </DoDont>
 

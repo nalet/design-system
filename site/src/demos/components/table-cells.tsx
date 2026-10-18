@@ -1,7 +1,7 @@
 // the three table cells in the data table they are made for. the columns hold
 // render functions, so the table is written here, in react, and rendered as
 // static html.
-import { DataTable, DateCell, IdentifierCell, StatusCell, type DataTableColumn, type ObjectState } from '@nalet/design-system';
+import { DataTable, DateCell, IdentifierCell, StatusCell, type DataTableColumn, type State } from '@nalet/design-system';
 import { STORY_NOW } from '@stories/_data/backlog';
 
 interface Episode {
@@ -9,7 +9,7 @@ interface Episode {
   code: string;
   name: string | null;
   aired: string | null;
-  state: ObjectState;
+  state: State;
   text: string;
   detail: string;
 }

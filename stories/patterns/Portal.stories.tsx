@@ -24,9 +24,9 @@ const meta: Meta<PortalProps> = {
     docs: {
       description: {
         component:
-          'The home page floorplan: grouped square tiles, a favourites slot, a search box and ' +
+          'The home page layout: grouped square tiles, a favourites slot, a search box and ' +
           'one roving arrow-key model across every group. Groups stay in a stable order; the ' +
-          'search filters in place (`/` focuses it, `esc` clears it). Inside a shell, the shell ' +
+          'search filters in place (`/` focuses it, `esc` clears it). Inside a shell, the top ' +
           "bar's search narrows the tiles instead (`searchable={false}` with `query`); the own " +
           'search box is for a launcher that stands on its own.',
       },

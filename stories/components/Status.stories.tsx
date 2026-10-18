@@ -1,9 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { ObjectStatus, STATE_SEVERITY, defineStates, type ObjectStatusProps } from '../../src';
+import { STATE_SEVERITY, Status, defineStates, type StatusProps } from '../../src';
 
-const meta: Meta<ObjectStatusProps> = {
-  title: 'Components/feedback & status/object status',
-  component: ObjectStatus,
+const meta: Meta<StatusProps> = {
+  title: 'Components/feedback & status/status',
+  component: Status,
   args: { state: 'information', text: 'on its way', appearance: 'chip', icon: true },
   argTypes: {
     state: { control: 'inline-radio', options: ['neutral', 'information', 'success', 'warning', 'error'] },
@@ -23,18 +23,18 @@ const meta: Meta<ObjectStatusProps> = {
 };
 export default meta;
 
-type Story = StoryObj<ObjectStatusProps>;
+type Story = StoryObj<StatusProps>;
 
 export const Playground: Story = {};
 
 export const States: Story = {
   render: () => (
     <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
-      <ObjectStatus state="neutral">missing</ObjectStatus>
-      <ObjectStatus state="information">on its way</ObjectStatus>
-      <ObjectStatus state="success">held</ObjectStatus>
-      <ObjectStatus state="warning">connection firewalled</ObjectStatus>
-      <ObjectStatus state="error">needs attention</ObjectStatus>
+      <Status state="neutral">missing</Status>
+      <Status state="information">on its way</Status>
+      <Status state="success">held</Status>
+      <Status state="warning">connection firewalled</Status>
+      <Status state="error">needs attention</Status>
     </div>
   ),
 };
@@ -44,13 +44,13 @@ export const TextAppearance: Story = {
   render: () => (
     <div style={{ display: 'grid', gap: 'var(--s-2)', fontFamily: 'var(--ff-ui)', fontSize: 13, color: 'var(--fg-2)' }}>
       <span>
-        storage-01 is <ObjectStatus state="success" appearance="text">healthy</ObjectStatus>
+        storage-01 is <Status state="success" appearance="text">healthy</Status>
       </span>
       <span>
-        worker-2 is <ObjectStatus state="warning" appearance="text">degraded</ObjectStatus>
+        worker-2 is <Status state="warning" appearance="text">degraded</Status>
       </span>
       <span>
-        api-7f9c is <ObjectStatus state="error" appearance="text">unreachable</ObjectStatus>
+        api-7f9c is <Status state="error" appearance="text">unreachable</Status>
       </span>
     </div>
   ),
@@ -60,12 +60,12 @@ export const WithoutGlyph: Story = {
   name: 'without glyph',
   render: () => (
     <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
-      <ObjectStatus state="information" icon={false}>
+      <Status state="information" icon={false}>
         syncing
-      </ObjectStatus>
-      <ObjectStatus state="success" icon={false}>
+      </Status>
+      <Status state="success" icon={false}>
         saved
-      </ObjectStatus>
+      </Status>
     </div>
   ),
 };
@@ -93,7 +93,7 @@ export const Vocabulary: Story = {
           <tr key={k}>
             <td style={{ padding: 'var(--s-2)', borderTop: '1px solid var(--border)' }}>{k}</td>
             <td style={{ padding: 'var(--s-2)', borderTop: '1px solid var(--border)' }}>
-              <ObjectStatus {...LINK[k]} />
+              <Status {...LINK[k]} />
             </td>
           </tr>
         ))}
@@ -138,7 +138,7 @@ export const BySeverity: Story = {
             <tr key={h.name}>
               <td style={{ padding: 'var(--s-2)', borderTop: '1px solid var(--border)' }}>{h.name}</td>
               <td style={{ padding: 'var(--s-2)', borderTop: '1px solid var(--border)' }}>
-                <ObjectStatus {...HOST[h.status]} />
+                <Status {...HOST[h.status]} />
               </td>
             </tr>
           ))}

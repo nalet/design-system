@@ -1,16 +1,16 @@
-// the worklist floorplan, assembled end to end on made-up data: what the
+// the worklist page layout, assembled end to end on made-up data: what the
 // pattern page shows live. every piece is the real library; only the data and
 // the "server" (local state) are pretend.
 import { useMemo, useState, type ReactNode } from 'react';
 import { Download, RefreshCw } from 'lucide-react';
 import {
   ActionMenu,
+  Banner,
   Button,
   DataTable,
+  EmptyState,
   FilterBar,
   Icon,
-  IllustratedMessage,
-  MessageStrip,
   Modal,
   SelectionToolbar,
   Table,
@@ -57,7 +57,7 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
   const [aired, setAired] = useState('');
   const [selected, setSelected] = useState<Set<string>>(new Set());
   const [sort, setSort] = useState<DataTableSort | null>({ columnId: 'aired', direction: 'descending' });
-  const [stripOpen, setStripOpen] = useState(true);
+  const [bannerOpen, setBannerOpen] = useState(true);
   const [picking, setPicking] = useState<BacklogItem | null>(null);
   const unknownCount = variant === 'empty' ? 0 : UNKNOWN_TITLES.length;
 
@@ -142,10 +142,10 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
   ];
 
   const message =
-    unknownCount && stripOpen && tab !== 'unknown' ? (
-      <MessageStrip
+    unknownCount && bannerOpen && tab !== 'unknown' ? (
+      <Banner
         state="warning"
-        onDismiss={() => setStripOpen(false)}
+        onDismiss={() => setBannerOpen(false)}
         actions={
           <>
             <Button size="sm" variant="ghost" onClick={() => setTab('unknown')}>
@@ -159,13 +159,13 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
         details={`the catalog holds a title of this name without an identity (item ${UNKNOWN_TITLES[0].item}, "${UNKNOWN_TITLES[0].title}"): what it holds of it cannot be known until that item carries one`}
       >
         {formatCount(unknownCount)} titles can&apos;t be checked: the catalog holds them without an identity.
-      </MessageStrip>
+      </Banner>
     ) : null;
 
   let body: ReactNode;
   if (variant === 'unknown' && tab !== 'unknown') {
     body = (
-      <IllustratedMessage
+      <EmptyState
         illustration="unknown"
         title="nothing can be checked yet"
         description={`The library's holdings are unknown for all ${formatCount(unknownCount)} titles, so nothing is known to be missing.`}
@@ -188,7 +188,7 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
     );
   } else if (tab === 'unaired') {
     body = (
-      <IllustratedMessage
+      <EmptyState
         illustration="empty"
         title={`${formatCount(variant === 'backlog' ? UNAIRED : 0)} not yet aired`}
         description="Episodes that have not aired are not missing yet. Each joins this list on the day it airs."
@@ -196,18 +196,18 @@ export function BacklogWorklist({ variant = 'backlog' }: BacklogWorklistProps) {
     );
   } else if (items.length === 0) {
     body = (
-      <IllustratedMessage illustration="done" title="nothing missing" description="Every aired, monitored episode and movie is in the library." />
+      <EmptyState illustration="done" title="nothing missing" description="Every aired, monitored episode and movie is in the library." />
     );
   } else if (filtered.length === 0) {
     body = filtersActive ? (
-      <IllustratedMessage
+      <EmptyState
         illustration="search"
         title="no matches"
         description="Nothing in this list fits the search and filters."
         actions={<Button onClick={clearFilters}>clear filters</Button>}
       />
     ) : (
-      <IllustratedMessage illustration="done" title={tab === 'attention' ? 'nothing needs attention' : 'nothing on its way'} />
+      <EmptyState illustration="done" title={tab === 'attention' ? 'nothing needs attention' : 'nothing on its way'} />
     );
   } else {
     body = (

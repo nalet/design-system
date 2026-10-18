@@ -1,35 +1,35 @@
 import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
-import * as ObjectStatusStories from './ObjectStatus.stories';
+import * as StatusStories from './Status.stories';
 
-<Meta of={ObjectStatusStories} />
+<Meta of={StatusStories} />
 
 # object status
 
 When to use an object status, which state and appearance to pick, and how to write its vocabulary and its words is on the guidelines site: **[object status guidance →](https://nalet.github.io/design-system/components/object-status/)**
 
-<Canvas of={ObjectStatusStories.Playground} />
+<Canvas of={StatusStories.Playground} />
 
 ## examples
 
 Here are the five values of `state`, each as a `chip`, which is the default `appearance`.
 
-<Canvas of={ObjectStatusStories.States} />
+<Canvas of={StatusStories.States} />
 
 With `appearance="text"` there is no frame and no fill, so the status fits into a dense row or a sentence.
 
-<Canvas of={ObjectStatusStories.TextAppearance} />
+<Canvas of={StatusStories.TextAppearance} />
 
 Setting `icon={false}` hides the glyph.
 
-<Canvas of={ObjectStatusStories.WithoutGlyph} />
+<Canvas of={StatusStories.WithoutGlyph} />
 
-This vocabulary is written once with `defineStates`, and each row spreads its entry into `ObjectStatus`.
+This vocabulary is written once with `defineStates`, and each row spreads its entry into `Status`.
 
-<Canvas of={ObjectStatusStories.Vocabulary} />
+<Canvas of={StatusStories.Vocabulary} />
 
 These hosts are sorted with `STATE_SEVERITY`, so the most urgent one comes first.
 
-<Canvas of={ObjectStatusStories.BySeverity} />
+<Canvas of={StatusStories.BySeverity} />
 
 ## implementation notes
 
@@ -50,7 +50,7 @@ These hosts are sorted with `STATE_SEVERITY`, so the most urgent one comes first
 Write one table for each object, with every value, its state and its words.
 
 ```tsx
-import { ObjectStatus, defineStates } from '@nalet/design-system';
+import { Status, defineStates } from '@nalet/design-system';
 
 type LinkValue = 'open' | 'firewalled' | 'checking' | 'down' | 'unknown';
 
@@ -62,7 +62,7 @@ const LINK = defineStates<LinkValue>({
   unknown: { state: 'neutral', text: 'not checked yet' },
 });
 
-<ObjectStatus {...LINK[row.link]} />
+<Status {...LINK[row.link]} />
 ```
 
 `defineStates` returns a frozen copy of the table. When you pass your value type as the type argument, as above, TypeScript makes the table exhaustive: a value without a row, or a row for a value that doesn't exist, is a type error. Without the type argument, the keys you write are the type. Writing the table once also means a reviewer reads in one place that `firewalled` is a warning, not a success.
@@ -75,15 +75,15 @@ const LINK = defineStates<LinkValue>({
 rows.sort((a, b) => STATE_SEVERITY[HOST[b.status].state] - STATE_SEVERITY[HOST[a.status].state]);
 ```
 
-`OBJECT_STATES` lists the five states from `neutral` to `error`. Use it for a legend or a filter.
+`STATES` lists the five states from `neutral` to `error`. Use it for a legend or a filter.
 
 ## props
 
-<ArgTypes of={ObjectStatusStories} />
+<ArgTypes of={StatusStories} />
 
 | export | what it is |
 | --- | --- |
 | `defineStates(table)` | Returns a frozen copy of the table, which maps each domain value to `{ state, text }` (a `StateSpec`). |
 | `STATE_SEVERITY` | The frozen ranking: `error` 4, `warning` 3, `information` 2, `neutral` 1, `success` 0. |
-| `OBJECT_STATES` | The five states as an array, with `neutral` first. |
-| `ObjectState`, `StateSpec` | The types of a state and of a vocabulary entry. |
+| `STATES` | The five states as an array, with `neutral` first. |
+| `State`, `StateSpec` | The types of a state and of a vocabulary entry. |

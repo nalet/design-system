@@ -1,7 +1,7 @@
 ---
 // "draft — under review": a proposal the owner hasn't accepted yet. remove the
 // page's `draft` frontmatter and the note goes.
-import { MessageStrip } from '../../../src';
+import { Banner } from '../../../src';
 
 interface Props {
   note?: string;
@@ -9,7 +9,7 @@ interface Props {
 const { note } = Astro.props;
 ---
 <div class="ds-note" data-pagefind-ignore>
-  <MessageStrip state="information" live="off" stateLabel={false}>
+  <Banner state="information" live="off" stateLabel={false}>
     <strong>Draft — under review.</strong> {note ?? 'This page is a proposal; it may change before it is accepted.'}
-  </MessageStrip>
+  </Banner>
 </div>

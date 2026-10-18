@@ -1,12 +1,12 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
-import { StateGlyph, type ObjectState } from '../../lib/StateGlyph';
+import { StateGlyph, type State } from '../../lib/StateGlyph';
 import '../../lib/a11y.css';
 import './Toast.css';
 
 export interface ToastOptions {
-  /** The meaning, for the glyph. Default neutral. Errors belong in a message strip, not a toast. */
-  state?: ObjectState;
+  /** The meaning, for the glyph. Default neutral. Errors belong in a banner, not a toast. */
+  state?: State;
   /** Milliseconds on screen. Default 5000; hovering the toast pauses it. */
   duration?: number;
   /** Replace the toast with this ID instead of adding one (e.g. a repeated action). */
@@ -16,7 +16,7 @@ export interface ToastOptions {
 export interface ToastItem {
   id: string;
   message: React.ReactNode;
-  state: ObjectState;
+  state: State;
   duration: number;
 }
 

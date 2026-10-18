@@ -98,35 +98,35 @@ export const SECTIONS: NavSection[] = [
     key: 'patterns',
     title: 'patterns',
     href: url('patterns/'),
-    summary: 'Whole floorplans and the problems that recur across them.',
+    summary: 'Proven ways to build whole pages, and to solve the problems that come up in every app.',
     groups: [
       {
         title: 'floorplans',
-        pages: [{ title: 'worklist', href: url('patterns/worklist/'), summary: 'A list of things that need doing, and the one next step for each.' }],
+        pages: [{ title: 'worklist', href: url('patterns/worklist/'), summary: 'A page for working through what needs doing, with the one next step for each item.' }],
       },
       {
         title: 'navigation',
         pages: [
-          { title: 'shell bar', href: url('patterns/shell-bar/'), summary: 'One header for every surface: the lockup, notifications and the user menu.', draft: true },
+          { title: 'shell bar', href: url('patterns/shell-bar/'), summary: 'The bar across the top of every screen: where you are, what is new for you, and your account.', draft: true },
           { title: 'app navigation', href: url('patterns/app-navigation/'), summary: "Side navigation for an app's views, and when tabs are the better fit.", draft: true },
-          { title: 'launchpad & tiles', href: url('patterns/launchpad-and-tiles/'), summary: 'The portal home page, and when a tile is the right way in.', draft: true },
-          { title: 'settings and setup', href: url('patterns/settings-and-setup/'), summary: 'Where each kind of configuration lives, and where it is edited.', draft: true },
+          { title: 'launchpad & tiles', href: url('patterns/launchpad-and-tiles/'), summary: 'The start page: one page of tiles in a few fixed groups, and when something gets a tile.', draft: true },
+          { title: 'settings and setup', href: url('patterns/settings-and-setup/'), summary: 'Where each kind of setting lives, and the one place it is changed.', draft: true },
         ],
       },
       {
         title: 'feedback & status',
         pages: [
-          { title: 'status vocabulary', href: url('patterns/status-vocabulary/'), summary: "One status per object, in the object's own words, from one table." },
-          { title: 'message handling', href: url('patterns/message-handling/'), summary: 'Say each thing once, in the one place that fits it.' },
-          { title: 'empty states', href: url('patterns/empty-states/'), summary: 'The five kinds of empty, and what each says.' },
-          { title: 'loading and progress', href: url('patterns/loading-and-progress/'), summary: 'Nothing for a blink, a value when it is known, the shape of the content for a page.', draft: true },
+          { title: 'status vocabulary', href: url('patterns/status-vocabulary/'), summary: 'One status per item, in words people understand, the same everywhere.' },
+          { title: 'message handling', href: url('patterns/message-handling/'), summary: 'Where each message goes, so that every thing is said once, in the place that fits it.' },
+          { title: 'empty states', href: url('patterns/empty-states/'), summary: 'What a list says when it has nothing to show: five kinds of empty, and the way forward from each.' },
+          { title: 'loading and progress', href: url('patterns/loading-and-progress/'), summary: 'What to show while people wait: nothing for a blink, then the loader, a value, or the shape of the content.', draft: true },
         ],
       },
       {
         title: 'lists & forms',
         pages: [
-          { title: 'selection and bulk actions', href: url('patterns/selection-and-bulk-actions/'), summary: 'Choosing rows to act on, and acting on all of them at once.', draft: true },
-          { title: 'forms and settings', href: url('patterns/forms-and-settings/'), summary: 'Switches that apply at once, a form that waits for save, errors on save.' },
+          { title: 'selection and bulk actions', href: url('patterns/selection-and-bulk-actions/'), summary: 'Ticking the rows to act on, and acting on all of them at once.', draft: true },
+          { title: 'forms and settings', href: url('patterns/forms-and-settings/'), summary: 'Switches that apply at once, forms that wait for save, and errors that say how to fix them.' },
         ],
       },
     ],
@@ -151,8 +151,8 @@ export const SECTIONS: NavSection[] = [
 
 /** floorplans that are planned, listed on the patterns index. */
 export const PLANNED_FLOORPLANS = [
-  { title: 'object page', summary: 'One object in depth: its header, its facets as tabs, its history.' },
-  { title: 'settings form', summary: 'A whole page of settings with one save, built from the forms pattern.' },
+  { title: 'object page', summary: 'One item in depth: its summary at the top, its parts as tabs, and its history.' },
+  { title: 'settings form', summary: 'A whole page of settings with one save button, built from the forms pattern.' },
 ];
 
 const strip = (href: string) => href.split('#')[0];

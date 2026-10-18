@@ -1,10 +1,12 @@
 ---
 import Section from '../../layouts/Section.astro';
+import Term from '../../components/Term.astro';
 import { PLANNED_FLOORPLANS } from '../../data/nav';
 ---
 <Section section="patterns">
+  <p slot="intro">Each <Term id="pattern">pattern</Term> tells the story of one problem that comes up in many apps: what people need, how we solve it, and why. Its drawings show the idea; the component pages show the real thing, live. <Term id="floorplan">Floorplans</Term> are whole pages; the other patterns solve one problem inside a page.</p>
   <h2 id="planned">planned</h2>
-  <p>Floorplans that are not here yet. Until they are, compose them from the components and the patterns above.</p>
+  <p>Floorplans that aren't here yet. Until they are, put them together from the components and the patterns above.</p>
   <ul class="ds-cards" data-pagefind-ignore>
     {PLANNED_FLOORPLANS.map((p) => (
       <li>

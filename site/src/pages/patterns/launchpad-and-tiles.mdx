@@ -1,419 +1,276 @@
 ---
 layout: ../../layouts/Doc.astro
 title: launchpad & tiles
-description: The portal's home page — one tile per app, in titled groups, with favourites and a search — and when a tile is the right way in.
+description: The portal's start page — one page of tiles in a few fixed groups, with a search that narrows them — and when something gets a tile.
 draft: true
-draftNote: "When to use a tile — one per app, a key figure, a task — and how tiles are grouped are new and under review; the launchpad, the tile and the tile group are described as they are."
+draftNote: "When something gets a tile (an app, a number, a task) and how tiles are grouped are new and under review; the launchpad, the tile and the tile group are described as they are."
 react:
   - { label: portal, id: patterns-portal }
   - { label: tile, id: components-navigation-tile }
   - { label: tile group, id: components-navigation-tile-group }
 ---
-import { Activity, Archive, Database, GitBranch, ScrollText, Server } from 'lucide-react';
-import { Button, Tile, TileGroup } from '@nalet/design-system';
-import C from '@site/components/C.astro';
-import { DoDont, Do, Dont, Example } from '@site/blocks';
-import { Floorplan, FavouritesFirst, OneGroupForEverything, TitleNamesThePlace, Launcher, OneTilePerApp, TilesPerView } from '@site/demos/launchpad';
-import { WithFavorites, Playground as PortalPlayground, KpiDashboard, Compact, NoMatches } from '@site/examples/portal';
-import { App, Kpi, Sizes, States, Badges, Status } from '@site/examples/tile';
-import { FixedColumns, WithAction, WithDescription, TabOrder } from '@site/examples/tile-group';
+import Term from '@site/components/Term.astro';
+import { DoDont, Do, Dont } from '@site/blocks';
+import {
+  LaunchpadOverview, OnePage, ManyPages, SearchNarrows, MyAppsPlanned, WhatGetsATile, AppAndNumber, TilePerView,
+  GroupsByPeople, GroupsByAddon, AddonJoins, TileAnatomy, TileStates, TileWordsDo, TileWordsDont, SignalsDo, SignalsDont,
+  GroupAnatomy, GridReflows, GridSqueezed, ArrowKeys,
+} from '@site/sketches/launchpad';
 
 # launchpad & tiles
 
-The launchpad is the portal's home page: apps in titled groups of tiles, favourites on top, a search that filters in place, and one keyboard model across every group. A tile is the way into an app from it — or a number someone acts on.
+The <Term id="launchpad">launchpad</Term> is the first page people see when they sign in to the <Term id="portal">portal</Term>. It has one job: to take people to the right <Term id="app">app</Term> quickly, and to show them where something needs their attention.
 
-<Example flush label="a launchpad with favourites and a search, live">
-  <div style={{ width: '100%' }}>
-    <WithFavorites client:visible />
-  </div>
-</Example>
+It does that with <Term id="tile">tiles</Term>, one for each app, sorted into a few <Term id="tile-group">groups</Term> that always appear in the same order.
 
-## when to use a tile
+<figure class="ds-figure">
+  <LaunchpadOverview />
+  <figcaption>A launchpad: a search at the top, then three groups in a fixed order. The amber 3 is a number tile: three things that need attention.</figcaption>
+</figure>
 
-- **One tile per app.** It opens the app where the app opens: its exceptions.
-- **A number tile (KPI)** when a person acts on a number: `needs attention 3` opens the app filtered to those three. Neutral when the number is fine, a state colour only when it means attention.
-- **A task tile** only for a frequent task with its own entry point (`request a title`), and rarely.
+The launchpad, the tile and the tile group are real components. Their React pages show them live, in every variant: the [launchpad](/design-system/react/?path=/docs/patterns-portal--docs), the [tile](/design-system/react/?path=/docs/components-navigation-tile--docs) and the [tile group](/design-system/react/?path=/docs/components-navigation-tile-group--docs).
+
+## one page, in a fixed order
+
+People find things by where they were last time. So the launchpad is a single page, and its groups and tiles keep their places from one visit to the next: apps first, then manage, then settings. After a few visits, people reach for a tile without reading.
 
 <DoDont>
-  <Do caption="One tile for the app, and one number someone acts on." column>
-    <OneTilePerApp />
+  <Do caption="One page with every group in view, always in the same order.">
+    <OnePage />
   </Do>
-  <Dont caption="Six tiles that mirror one app's views: a second navigation that competes with the app's own." column>
-    <TilesPerView />
+  <Dont caption="Three pages with a few tiles each. People have to remember which page an app is on before they can find it.">
+    <ManyPages />
   </Dont>
 </DoDont>
 
-Today: a KPI tile's figure has no state colour of its own; its badge (`badgeTone`) or its status dot can carry one, with words beside them.
+One page works well for up to about 30 tiles. Beyond that, or when different audiences need a different start, such as the people who run the platform and the people who only use it, separate home pages for each audience become worth it. That is the way to grow; until then, one page is simpler for everyone.
 
-## when not to use a tile
+## search finds the tile
 
-- **Never one tile per view of an app.** Six tiles that mirror an app's views are a second navigation that competes with the app's own — and the launchpad grows with every view anyone adds. The views belong in the app's [navigation](/design-system/patterns/app-navigation/).
-- **Not for setup.** Setup lives in settings — see [settings and setup](/design-system/patterns/settings-and-setup/).
-- **Not for links to outside places.** Those are links in an app, or a tile that says it opens elsewhere.
-- **Not for records people work through.** Use a <C slug="data-table" /> — see the [worklist](/design-system/patterns/worklist/).
-- **Not for an action on the current screen.** A tile goes somewhere; to do something here, use a <C slug="button" />.
-- **Not to switch between views of one object.** Use <C slug="tabs" />.
-- **Not for a state with its own words in a row or a form.** Use <C slug="object-status" />.
-- **Not for a panel of text and controls.** Use a <C slug="card" />.
+When people know what they want, typing is quicker than looking. Typing on the launchpad narrows the tiles in place: tiles that don't match step aside, and so does every group left with nothing in it. When nothing matches at all, the page says so, and how to get back.
 
-## the launchpad
+<figure class="ds-figure">
+  <SearchNarrows />
+  <figcaption>Typing “down” narrows the launchpad to the tiles that match. Groups with nothing left step aside until the search is cleared.</figcaption>
+</figure>
 
-### when to use
+A page that only holds a few number tiles, as a board of key figures, can leave the search out.
 
-- As the start page of a product made of many apps or tools, where people come to pick where to go.
-- As a hub of a few key figures: KPI tiles, without the search.
+Later, the search in the <Term id="shell-bar">shell bar</Term> will find apps from anywhere, not only from the launchpad. This is planned.
 
-### when not to use
+A catalogue that lists every app to browse through isn't needed for now. It becomes useful once people can arrange pages of their own, to pick the apps they want on them.
 
-- **For the views of one object.** Use <C slug="tabs" />.
-- **For work people go through item by item.** Use the [worklist](/design-system/patterns/worklist/) floorplan.
-- **For a handful of links at the end of a page.** A tile group on its own is enough.
-- **As a menu inside an app.** A launchpad is a page. An app's own commands go in a <C slug="toolbar">toolbar</C> or an <C slug="action-menu" />.
+## favourites, later
 
-### anatomy
+Most people use the same two or three apps every day. Later, each person will be able to pin those to a “my apps” group at the top of the launchpad, so that they always come first. This is planned.
 
-<Example label="the launchpad floorplan as a schematic">
-  <Floorplan />
-</Example>
+<figure class="ds-figure">
+  <MyAppsPlanned />
+  <figcaption>Planned: a “my apps” group at the top, holding the tiles each person pinned.</figcaption>
+</figure>
 
-1. **Title bar** — shown when there is a title or a search: a row with 16px gaps that wraps on narrow screens. Without a title, the search sits alone at the right end.
-2. **Title** — the page's `h1`, led by an 18px brand chevron: JetBrains Mono 700, 22px, letter-spacing −0.01em, `--fg`, shown lowercase.
-3. **Search** — a search landmark around a text field: 32px high, mono 13px, `--surface` fill, 1px `--border-2`, placeholder in `--fg-dim`. It starts from 16rem and grows to at most 24rem.
-4. **Favourites slot** — pinned above the groups; usually a tile group with the legend `favourites`. The launchpad doesn't store favourites: the app renders them.
-5. **Groups** — the tile groups, in the order they are given, 32px apart (24px when compact).
-6. **Empty state** — while a search matches nothing: your own text, or `No apps match “…”.`, in a dashed `--border-2` box with 32px padding, Inter 13px in `--fg-dim`, centred: a sentence for the reader, in the body face.
-7. **Live region** — not visible; announces how many apps match.
+## when something gets a tile
 
-The parts stack on `--bg`, with 24px between the title bar and the body (16px when compact).
+A tile should lead somewhere worth going on its own. If everything gets a tile, the launchpad turns into a second menu that competes with the apps' own navigation, and it grows every time someone adds a screen. So before adding a tile, ask what it opens.
 
-### groups
+<figure class="ds-figure">
+  <WhatGetsATile />
+  <figcaption>What gets a tile, and what doesn't.</figcaption>
+</figure>
 
-- **Group by who uses the tiles and why**: `apps` for everyone, `manage` for the people who run the library, `settings` for the people who may change the platform.
-- **A person sees only the groups and tiles they may open**, and a group left empty is not shown.
-- **A fixed order.** Groups and the tiles in them keep their places; people find a tile by where it was.
+- **An app with its own job gets one tile**, in the group of the people who use it. The tile opens the app where the app opens: on what needs attention.
+- **A number someone must act on may get a <Term id="number-tile">number tile</Term>**, one per app at most. A number tile that says “needs attention 3” opens the app, showing just those three. The number turns amber or red only when it means attention; otherwise it stays neutral.
+- **A frequent task with its own way in may get a <Term id="task-tile">task tile</Term>**, but rarely. Requesting a title is one: people do it often, and it has its own entry point.
+- **An app's <Term id="view">views</Term>, its setup screens and links to other places get no tile.** Views belong in the app's own [navigation](/design-system/patterns/app-navigation/), setup belongs in [settings](/design-system/patterns/settings-and-setup/), and a link to somewhere else belongs inside an app.
 
-### variants and states
+<DoDont>
+  <Do caption="One tile for the downloads app, and one number tile for the three things that need attention.">
+    <AppAndNumber />
+  </Do>
+  <Dont caption="Six tiles that copy the app's own views: a second menu that competes with the app's navigation, and grows with every view.">
+    <TilePerView />
+  </Dont>
+</DoDont>
 
-| variant | does |
-| --- | --- |
-| Density | Comfortable (the default) or compact: 24px → 16px under the title bar, 32px → 24px between groups |
-| Search | Shown by default; a hub of key figures leaves it out, and `/` then does nothing |
-| Favourites | A slot above the groups |
-| Empty state | Replaces the default no-match text |
-| Keyboard model | One roving model across the whole launchpad (the default), or one per group — see [behaviour](#behaviour-and-keyboard) |
-| Title | Optional; with neither a title nor a search there is no title bar |
+## groups
 
-The default: a title, the search and groups.
+Groups help people scan: they look for their group first, then for the tile in it. That only works when there are few groups, always in the same place, named after the people who use them.
 
-<Example flush label="the launchpad: a title, the search and groups">
-  <div style={{ width: '100%' }}>
-    <PortalPlayground />
-  </div>
-</Example>
+- **Group by who uses the tiles, and why.** The apps group is for everyone's daily work, manage for the people who look after the library, and settings for the people who may change the platform. Not by addon or by vendor: people don't know, and shouldn't need to know, where an app came from.
+- **About four groups at most, always in the same order.** Today that is apps, manage and settings; once favourites arrive, “my apps” goes on top.
+- **An addon joins an existing group.** It doesn't bring a group of its own.
+- **A group with nothing a person may open is hidden.** People only see the groups and tiles they can use.
+- **The same group names in every installation**, so people who use more than one feel at home, and guides and screenshots stay true.
 
-A hub of key figures, without the search:
+<DoDont>
+  <Do caption="Groups named after the people who use them, in a fixed order.">
+    <GroupsByPeople />
+  </Do>
+  <Dont caption="A group for every addon. People need to know where an app came from to find it, and each new addon adds another group.">
+    <GroupsByAddon />
+  </Dont>
+</DoDont>
 
-<Example flush label="a hub of key figures">
-  <div style={{ width: '100%' }}>
-    <KpiDashboard />
-  </div>
-</Example>
+## what an addon brings
 
-Compact, here with small tiles:
+An <Term id="addon">addon</Term> is an app that is installed into the platform on its own. It brings one app tile and, if it helps, one number tile, and both join a group that already exists, usually the one for the people who will use the app.
 
-<Example flush label="a compact launchpad">
-  <div style={{ width: '100%' }}>
-    <Compact />
-  </div>
-</Example>
-
-A search that matches nothing, with its own empty state:
-
-<Example flush label="a search that matches nothing, live">
-  <div style={{ width: '100%' }}>
-    <NoMatches client:visible />
-  </div>
-</Example>
+<figure class="ds-figure">
+  <AddonJoins />
+  <figcaption>A new addon's two tiles join the end of the apps group. The addon brings no group of its own.</figcaption>
+</figure>
 
 ## the tile
 
-A square launch tile. As an app tile it is one link or button into an app — icon, name, one line on what is there; as a KPI tile it shows a key figure and its trend.
+A tile is a square that opens an app. Pressing anywhere on it opens the app, so it is one large, easy target. There are two kinds: an app tile, with the app's icon, its name and a few words about it, and a number tile, with a number and how it has changed.
 
-<Example label="app tiles">
-  <div style={{ width: '100%' }}>
-    <App />
-  </div>
-</Example>
+<figure class="ds-figure">
+  <TileAnatomy />
+  <figcaption>An app tile and a number tile, close up.</figcaption>
+</figure>
 
-### anatomy
+1. **Icon.** The app's line icon, in blue. It is decoration: the name says what the tile is.
+2. **Name.** The app's name, one or two words, without a verb. Long names are cut to one line, so keep it short.
+3. **Description.** One line on what the app is for, in sentence case. It stops after two lines.
+4. **Badge** (optional). A small label at the top right: how many things wait, like 3, or one word for a state, like “new”, “failed” or “needs setup”.
+5. **Status dot** (optional). A small square that shows how the app is doing: green, amber or red. Use it only when it changes what people do, and put the state into words in the description too, because on screen the dot is colour only.
+6. **The number** (number tiles). The figure, sometimes with its unit, and how it changed since last time, with its sign: +2, −11.
 
-1. **Container** — a link, a button, or a plain panel when it is display only. Square, 1px `--border`, `--surface` fill, 16px padding and 12px between rows; at least 7rem tall (112px at the default 16px root).
-2. **Icon** (optional) — the app's line icon, 22px with a 1.75 stroke in `--cloud-blue`, in a 28px square box. Decoration only.
-3. **Title** — JetBrains Mono 600, 14px, `--fg`, shown lowercase. One line, cut with an ellipsis.
-4. **Chevron** — the brand chevron, 14px, after the title on link and button tiles. It shows on hover and focus.
-5. **Badge** (optional) — top right, 18px high, mono 11px. A number becomes a count chip with tabular figures, a word a status pill.
-6. **Status** (optional) — an 8px square dot coloured by health, only when it changes what a person does.
-7. **Description** (app tiles) — Inter 13px / 1.45 in `--fg-muted`: one line of what the app is for, at most two lines.
-8. **Figure** (KPI tiles) — the value in mono 700, 28px; the unit in 14px `--fg-muted`; the delta in mono 12px with a small triangle. Pinned to the bottom of the tile.
+Tiles come in three sizes, small, medium and large; medium is the usual one.
 
-### variants and states
+<figure class="ds-figure">
+  <TileStates />
+  <figcaption>When people point at a tile or reach it with the keyboard, it lights up and a small chevron appears after its name. The current app's tile has a blue bar on its left edge. A tile that can't be opened is faded.</figcaption>
+</figure>
 
-Two variants: app (the default: icon, title, description) and KPI (title, value, unit, delta).
+A tile can also open another site in a new tab; today nothing on the tile shows that, so say it in the description. And a tile that only shows a figure, with nowhere to go, doesn't react to pointing and can't be reached with the Tab key.
 
-<Example label="kpi tiles">
-  <div style={{ width: '100%' }}>
-    <Kpi />
-  </div>
-</Example>
+<DoDont>
+  <Do caption="The app's name, and a few words on what is there.">
+    <TileWordsDo />
+  </Do>
+  <Dont caption="A verb in the name and a sentence for a description: the name is cut to one line, and the description stops after two.">
+    <TileWordsDont />
+  </Dont>
+</DoDont>
 
-The delta's direction (up, down, flat) draws the triangle; its tone picks the colour — positive `--signal-green`, negative `--signal-red`, neutral (the default) `--fg-muted`. The two are separate, so a latency that goes down can be good news.
-
-Three sizes: small (at least 5.5rem tall, 12px padding, 8px between rows), medium (7rem, the default) and large (9rem).
-
-<Example label="tile sizes">
-  <div style={{ width: '100%' }}>
-    <Sizes />
-  </div>
-</Example>
-
-| state | looks |
-| --- | --- |
-| Interactive: a link or a button | Hover: `--surface-2` fill and `--border-2`. Focus: a 2px `--cloud-blue` frame. The chevron shows on both |
-| Selected: the current app | A 2px `--cloud-blue` rule on the left edge |
-| Disabled | 45% opacity; no link, no press, no focus |
-| External | Opens in a new tab. Today nothing on the tile says so |
-| Display only | No hover, no chevron, not focusable |
-
-<Example label="tile states">
-  <div style={{ width: '100%' }}>
-    <States />
-  </div>
-</Example>
-
-The badge's tone colours its text and border on a tinted fill: info (the default, `--cloud-blue`), success (`--signal-green`), warning (`--signal-amber`), danger (`--signal-red`) and neutral (`--fg-muted` on `--surface-2`).
-
-<Example label="tile badges">
-  <div style={{ width: '100%' }}>
-    <Badges />
-  </div>
-</Example>
-
-The status draws the dot: online `--signal-green`, degraded `--signal-amber`, offline `--signal-red`, unknown `--fg-dim`.
-
-<Example label="tile status dots">
-  <div style={{ width: '100%' }}>
-    <Status />
-  </div>
-</Example>
+<DoDont>
+  <Do caption="The badge counts, the dot has words beside it, and the description says what they mean.">
+    <SignalsDo />
+  </Do>
+  <Dont caption="An exclamation mark and a lonely dot: something is wrong, but people can't tell what.">
+    <SignalsDont />
+  </Dont>
+</DoDont>
 
 ## tile groups
 
-A titled section of tiles in a square grid. The group is one tab stop; the arrow keys move between its tiles.
+A tile group gathers tiles under a name that stays put. It is what the launchpad is made of, and it also works on its own: a short set of places to go at the end of a page, or a row of number tiles as key figures. A single tile doesn't need a group around it.
 
-- **Use it** to gather tiles under a stable name on a launchpad; on its own, for a short set of destinations on a hub page; or to line up a few KPI tiles as a row of key figures.
-- **Don't use it** for a single tile: a lone tile needs no section around it. For panels of text and controls, use <C slug="card">cards</C> in a <C slug="stack" />.
+<figure class="ds-figure">
+  <GroupAnatomy />
+  <figcaption>A tile group, close up.</figcaption>
+</figure>
 
-### anatomy
+1. **Title.** The group's name, led by a small blue chevron: apps, manage, settings. It is a heading, so people can jump to it.
+2. **Action** (optional). One quiet button for the group as a whole, at the end of the title row. Leave out the loud, blue kind: it would compete with the tiles.
+3. **Description** (optional). One short line under the title, only when the name needs it.
+4. **Tiles.** In a grid with as many columns as there is room for, so the grid reflows when the screen gets narrower.
 
-1. **Section** — a region named by its legend.
-2. **Legend** — an `h2` led by a 14px brand chevron: JetBrains Mono 600, 13px, letter-spacing 0.04em, `--fg-muted`, shown lowercase.
-3. **Action** (optional) — one low-weight control at the right end of the legend row, 12px from the legend.
-4. **Description** (optional) — a line under the legend: Inter 13px in `--fg-dim`.
-5. **Grid** — the tiles, 12px below the legend row or the description.
+<DoDont>
+  <Do caption="On a phone, the grid fits fewer, wider columns, and every name stays readable.">
+    <GridReflows />
+  </Do>
+  <Dont caption="Four fixed columns at any width: on a phone the tiles get so narrow that their names are cut.">
+    <GridSqueezed />
+  </Dont>
+</DoDont>
 
-### variants
+When a search hides every tile in a group, the whole group steps aside with them.
 
-- **Columns** — by default as many columns as there is room for at a minimum tile width (14rem, 224px at a 16px root), stretched evenly, so the grid reflows with the width. A fixed count keeps that many columns at every width.
-- **Gap** — 4, 8, 16 (the default) or 24px between tiles.
-- **Action and description** — one low-weight control for the group as a whole, and a line under the legend.
-- **Keyboard model** — one tab stop and the arrow keys (the default), or every tile its own tab stop.
+## using it with a keyboard
 
-<Example label="a tile group with fixed columns">
-  <div style={{ width: '100%' }}>
-    <FixedColumns />
-  </div>
-</Example>
+Pressing Tab through every tile on a busy launchpad would take a long time. So all the tiles together are one stop for the Tab key, and the arrow keys move between them, across groups.
 
-<Example label="a tile group with an action">
-  <div style={{ width: '100%' }}>
-    <WithAction />
-  </div>
-</Example>
+<figure class="ds-figure">
+  <ArrowKeys />
+  <figcaption>Tab reaches the tiles once; the arrow keys then move from tile to tile, and down into the next group.</figcaption>
+</figure>
 
-<Example label="a tile group with a description">
-  <div style={{ width: '100%' }}>
-    <WithDescription />
-  </div>
-</Example>
-
-<Example label="a tile group where every tile is a tab stop">
-  <div style={{ width: '100%' }}>
-    <TabOrder />
-  </div>
-</Example>
-
-A hidden group disappears; the launchpad's search hides groups that way when none of their tiles match.
-
-## behaviour and keyboard
-
-### search
-
-- The search filters as people type. A tile stays when its title or its description contains the query, ignoring case and the spaces around it. Tiles that don't match are hidden, and so is every group left without a match; the empty state shows when nothing matches.
-- The live region announces the number of matching apps.
-
-| key | does |
+| key | what it does |
 | --- | --- |
-| `/` | With focus anywhere in the launchpad's body (a tile, a group's action), moves focus to the search. It isn't a page-wide shortcut: with focus elsewhere, `/` does nothing. |
-| `esc` (in the search) | Clears the query and moves focus to the first tile of the launchpad — the first favourite, if there are any. Today it only gets there when that tile's group was visible under the query; otherwise focus stays in the search. |
+| Tab | Moves onto the tiles, landing on the tile people were last on, or on the first one. The next Tab moves on past the tiles. |
+| → and ← | The next or the previous tile, in reading order, across groups. It stops at the first and the last tile. |
+| ↓ and ↑ | The tile below or above on the screen, crossing into the next group. |
+| Home and End | The first or the last tile. |
+| Enter | Opens the tile. Space presses a tile that is a button rather than a link. |
+| / | From among the tiles, jumps to the search. |
+| Esc, in the search | Clears the search and moves to the first tile. |
 
-### the roving-grid model
-
-By default the launchpad runs one model across every tile in its body, favourites included; a tile group on its own runs the same model for its tiles.
-
-| key | does |
-| --- | --- |
-| `tab` / `shift+tab` | Reaches one tile for the whole launchpad and leaves on the next press. That tile is the one last moved to with the arrow keys, otherwise the first enabled tile — usually the first favourite. |
-| `→` / `←` | The next / previous tile in reading order, across group boundaries. Stops at the first and the last tile. |
-| `↓` / `↑` | The nearest tile below / above by position on screen, preferring the same column. It works at any grid width and crosses into the next group. |
-| `home` / `end` | The first / last tile. |
-| `enter` / `space` | `enter` follows a link tile; `enter` and `space` press a button tile. |
-
-- Skipped: disabled and display-only tiles, and the tiles of hidden groups.
-- An arrow key or `home` pressed on something else in the body — a group's action, say — jumps to the first tile; `end` jumps to the last.
-- With the per-group model, each tile group is one tab stop of its own; with every tile its own tab stop, the arrow keys do nothing.
+Tiles that can't be opened, and the tiles of a group that steps aside, are skipped. An arrow key pressed on something else among the tiles, such as a group's action, jumps to the first tile. A tile group on its own works the same way. A launchpad can also give each group a Tab stop of its own, and when people get stuck with the arrow keys, every tile can be its own Tab stop instead.
 
 ## accessibility
 
-- The title is the page's `h1`, each group an `h2` and a region landmark, and the search a search landmark: people can jump between them.
-- The search landmark and its field share one name ("search apps" by default); a page with several launchers names each one.
-- A polite live region says how many apps match while a query is active, and nothing otherwise. The empty state is visible text; "0 apps match" is what a screen reader hears.
-- A link or button tile is one target. Its name is all of its text, in order: title, badge, status (`status: online`), then the description, or the value, unit and delta. Keep every part short; people hear all of it.
-- The icon, the chevron and the delta's triangle are decoration. The status dot is named (`status: online`), but on screen it is colour only, so put the state into words too, in the description, when it matters.
-- The delta's direction is drawn, not written: write the sign into the value (`+4`, `−11`) so that it is read.
-- The current app's tile is marked for assistive tech as the current page, not by its rule alone.
+What makes the launchpad work for everyone, including people who use a <Term id="screen-reader">screen reader</Term>:
+
+- The launchpad's title is the page's main heading, and each group's title is a heading under it, so people can jump from group to group. The search is a region of its own that they can jump to as well.
+- While people search, a screen reader says how many apps match. When nothing matches, the message is visible text.
+- A tile is read as one thing: its name, its badge, its status, then its description or its number. Keep each part short, because people hear all of it.
+- The icon, the chevron and the small triangle beside a change are decoration. The status dot is read out, but on screen it is colour only, so the description says the state in words.
+- Write the sign into a change, like +2 or −11, so it is read out, not only drawn.
+- The current app's tile is marked as the current page for screen readers too, not only by its blue bar.
 
 Today:
 
-- The arrow keys don't work from the search box: it sits outside the launchpad's body, which owns them. `tab` from the search reaches the first visible tile, and the arrows work from there.
-- The live region's words ("3 apps match") and the default empty text are fixed English; with one match it says "1 app match".
-- Nothing announces the arrow-key model: neither the launchpad's body nor a tile group's grid has a role that tells screen-reader users about it. With roving on, `tab` reaches one tile per group, while a screen reader's browse mode still reads every tile. If people get stuck, give every tile its own tab stop.
-- The search box's border is `--border-2`, not the 3:1 `--border-control` that inputs use now, and its focus, like a tile's, is a `--cloud-blue` frame rather than the `--focus-ring` outline.
-- The launchpad takes `/` and the arrow keys from anything in its body, so a text field in a group's action slot can't type `/`. Keep text fields out of the body.
-- The title is always an `h1`, and a group's legend always an `h2`, whatever the headings around them.
-- A disabled tile is read as text, not as an unavailable link. If the reason matters, put it in the description.
-- A tile that opens elsewhere doesn't say so; say it in the description. A count badge is read as a bare number (`metrics 3 …`); say what it counts in the description.
+- The arrow keys don't work inside the search field. Tab from the search reaches the first visible tile, and the arrows work from there.
+- Esc in the search only reaches the first tile when that tile's group was visible during the search; otherwise the <Term id="focus">focus</Term> stays in the search.
+- The count a screen reader hears, and the default message when nothing matches, are in English only, and with one match it says “1 app match”.
+- Nothing tells screen-reader users about the arrow keys, and a screen reader's reading mode still reads every tile.
+- The search field's frame is fainter than other text fields' frames, and its focus is a blue frame rather than the usual focus outline.
+- The launchpad listens for / and the arrow keys anywhere among its tiles, so a text field placed in a group's title row can't receive a /. Keep text fields out of that area.
+- The title is always the page's main heading, and a group's title always the level below it, whatever headings are around them.
+- A tile that can't be opened is read as plain text, not as a link that is unavailable. If the reason matters, put it in the description.
+- A badge with a count is read as a bare number. Say what it counts in the description.
 
-## content
+## the words
 
-- **Launchpad title** — the name of the place, one word: `launchpad`, `home`, `tools`. No greeting, no tagline.
-- **Search placeholder** — `search apps…` or close to it, in the same words as the search's name.
-- **Favourites** — the few apps people open every day. The launchpad doesn't keep them; store them with the person's settings.
-- **Group legends** — nouns for who uses the tiles and why, one or two words, in a fixed order: `apps`, `manage`, `settings`. Not `misc`, `other` or a group of everything.
-- **Group description** — only when the legend needs it, as one short sentence.
-- **Group action** — one action about the group as a whole (`manage`), as a ghost button.
-- **Tile title** — the app's name: one or two words, a noun, no verb. `pipelines`, not `open pipelines`. The lowercase look is CSS, so write it as it should be read.
-- **Tile description** — one line of what the app is for, in a few words, in sentence case: `Builds and releases`. It stops after two lines.
-- **Badge** — how many things wait (`3`), or one word for a state (`new`, `failed`).
-- **KPI** — the figure and its unit (`142`, `ms`); the delta with its sign (`−11`). Round to what people can act on.
-- **Empty state** — what didn't match and what to do next: `No apps match “backup”. Try another word, or press Esc in the search box to clear it.`
+- **The launchpad's title.** The name of the place, in one word: “launchpad”, “home”. No greeting and no tagline; people skip them on every visit, and they push the tiles down.
+- **The search.** Its placeholder says what it finds, “search apps…”, in the same words as its name.
+- **Group titles.** Who the tiles are for, in one or two words, always the same: apps, manage, settings. Avoid “misc”, “other”, or one group for everything.
+- **Tile names.** The app's name, as a noun rather than a verb: “downloads”, not “open downloads”.
+- **Descriptions.** What the app is for, in a few words, in sentence case: “What is on its way”.
+- **Badges.** A count, like 3, or one word: “new”, “failed”, “needs setup”. Not “!”, which says that something is wrong but not what.
+- **Numbers.** The figure and its unit, rounded to what people can act on, and a change with its sign.
+- **When nothing matches.** What didn't match, and what to do, for example: *No apps match “backup”. Try another word, or press Esc in the search box to clear it.*
 
-## do and don't
+## specs
 
-<DoDont>
-  <Do caption="Pinned favourites first, then a few groups named by domain, in a fixed order." column>
-    <FavouritesFirst />
-  </Do>
-  <Dont caption="One group called apps, holding everything: people read every tile to find one." column>
-    <OneGroupForEverything />
-  </Dont>
-</DoDont>
+The exact values, for designers and developers.
 
-<DoDont>
-  <Do caption="The title names the place." column>
-    <TitleNamesThePlace />
-  </Do>
-  <Dont caption="A greeting is a line people skip on every visit, and it pushes the tiles down." column>
-    <TitleNamesThePlace greeting />
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="The empty state says what didn't match and what to try next." column>
-    <Launcher client:visible helpful />
-  </Do>
-  <Dont caption="A bare no results leaves people guessing what went wrong and what to do." column>
-    <Launcher client:visible helpful={false} />
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="The app's name and a few words on what is there." column>
-    <Tile icon={GitBranch} title="pipelines" description="Builds and releases" href="#" />
-  </Do>
-  <Dont caption="A verb in the title and a sentence for a description: long titles are cut to one line, and the description stops after two." column>
-    <Tile icon={GitBranch} title="open the pipelines app" description="Click here to see every build and every release that ran on any of the workers this week" href="#" />
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="The dot and words: the description says what the colour means." column>
-    <Tile icon={Server} title="queue" description="2 of 3 workers down" href="#" status="degraded" />
-  </Do>
-  <Dont caption="The dot alone: on screen, colour is the only cue." column>
-    <Tile icon={Server} title="queue" href="#" status="degraded" />
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="A count says how many things wait; the description says what they are." column>
-    <Tile icon={Activity} title="metrics" description="3 alerts open" href="#" badge={3} badgeTone="warning" />
-  </Do>
-  <Dont caption="An exclamation mark says that something is wrong, not what. Name it: failed." column>
-    <Tile icon={Archive} title="backups" description="Nightly copies" href="#" badge="!" badgeTone="danger" />
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="Columns that fit the width: a narrow column holds fewer, readable tiles." column>
-    <TileGroup legend="build" columns="auto" minTileWidth="9rem" gap="sm">
-      <Tile icon={GitBranch} title="pipelines" href="#" size="sm" />
-      <Tile icon={Server} title="cluster" href="#" size="sm" />
-      <Tile icon={Database} title="database" href="#" size="sm" />
-      <Tile icon={ScrollText} title="logs" href="#" size="sm" />
-    </TileGroup>
-  </Do>
-  <Dont caption="A fixed column count keeps four columns at any width and squeezes the titles." column>
-    <TileGroup legend="run" columns={4} gap="sm">
-      <Tile icon={GitBranch} title="pipelines" href="#" size="sm" />
-      <Tile icon={Server} title="cluster" href="#" size="sm" />
-      <Tile icon={Database} title="database" href="#" size="sm" />
-      <Tile icon={ScrollText} title="logs" href="#" size="sm" />
-    </TileGroup>
-  </Dont>
-</DoDont>
-
-<DoDont>
-  <Do caption="One low-weight action for the whole group." column>
-    <TileGroup legend="logs and metrics" minTileWidth="9rem" gap="sm">
-      <Fragment slot="action"><Button variant="ghost" size="sm">manage</Button></Fragment>
-      <Tile icon={ScrollText} title="logs" href="#" size="sm" />
-      <Tile icon={Activity} title="metrics" href="#" size="sm" />
-    </TileGroup>
-  </Do>
-  <Dont caption="A row of primary buttons on the legend competes with the tiles themselves." column>
-    <TileGroup legend="signals" minTileWidth="9rem" gap="sm">
-      <Fragment slot="action"><Button variant="primary" size="sm">add</Button><Button variant="primary" size="sm">sort</Button><Button variant="primary" size="sm">export</Button></Fragment>
-      <Tile icon={ScrollText} title="logs" href="#" size="sm" />
-      <Tile icon={Activity} title="metrics" href="#" size="sm" />
-    </TileGroup>
-  </Dont>
-</DoDont>
+| part | spec |
+| --- | --- |
+| Launchpad title | The page's `h1`: JetBrains Mono 700, 22px, letter-spacing −0.01em, `--fg`, lowercase; led by an 18px chevron |
+| Title bar | The title and the search in one row, 16px apart, wrapping on narrow screens; without a title, the search sits alone at the right end |
+| Search field | 32px high; mono 13px; `--surface` fill; 1px `--border-2`; placeholder in `--fg-dim`; 16rem wide, growing to 24rem |
+| Spacing | 24px under the title bar and 32px between groups; compact: 16px and 24px |
+| No-match message | Inter 13px in `--fg-dim`, centred, in a dashed 1px `--border-2` box with 32px padding |
+| Tile | Square; 1px `--border`; `--surface` fill; 16px padding, 12px between rows; at least 7rem (112px) tall. Small: 5.5rem, 12px padding, 8px rows. Large: 9rem |
+| Tile icon | A 22px line icon with a 1.75 stroke, `--cloud-blue`, in a 28px box |
+| Tile name | JetBrains Mono 600, 14px, `--fg`, lowercase, one line with an ellipsis; a 14px chevron after it on hover and focus |
+| Tile description | Inter 13px, line-height 1.45, `--fg-muted`, at most two lines |
+| Badge | 18px high, mono 11px, top right; a number gets tabular figures. Tones: info `--cloud-blue`, success `--signal-green`, warning `--signal-amber`, danger `--signal-red`, neutral `--fg-muted` on `--surface-2` |
+| Status dot | An 8px square: online `--signal-green`, degraded `--signal-amber`, offline `--signal-red`, unknown `--fg-dim` |
+| Number | The value in mono 700, 28px; the unit 14px in `--fg-muted`; the change in mono 12px with a small triangle: positive `--signal-green`, negative `--signal-red`, neutral `--fg-muted`; pinned to the bottom of the tile |
+| Tile states | Hover: `--surface-2` fill and `--border-2`. Focus: a 2px `--cloud-blue` frame. Current app: a 2px `--cloud-blue` rule on the left edge. Disabled: 45% opacity |
+| Group title | An `h2` led by a 14px chevron: JetBrains Mono 600, 13px, letter-spacing 0.04em, `--fg-muted`, lowercase |
+| Group action and description | The action 12px from the title, at the end of its row; the description Inter 13px in `--fg-dim` |
+| Group grid | 12px under the title row; as many columns as fit at a minimum tile width of 14rem (224px), stretched evenly, or a fixed count; gaps of 4, 8, 16 (the default) or 24px |
 
 ## related
 
-- [Shell bar](/design-system/patterns/shell-bar/) — its lockup goes home to the launchpad.
-- [App navigation](/design-system/patterns/app-navigation/) — the views of one app, which a tile never mirrors.
-- [Settings and setup](/design-system/patterns/settings-and-setup/) — the "needs setup" badge on a tile.
-- [Worklist](/design-system/patterns/worklist/) — the floorplan for working through items, not for launching apps.
-- [Empty states](/design-system/patterns/empty-states/) — how to write the no-match state.
-- [Iconography](/design-system/styles/iconography/) — which icons a tile takes.
+- [Shell bar](/design-system/patterns/shell-bar/): the product's name in it takes people home to the launchpad.
+- [App navigation](/design-system/patterns/app-navigation/): the views of one app, which don't get tiles of their own.
+- [Settings and setup](/design-system/patterns/settings-and-setup/): the “needs setup” badge on a tile.
+- [Worklist](/design-system/patterns/worklist/): where a number tile usually leads.
+- [Empty states](/design-system/patterns/empty-states/): how to write the message when nothing matches.
+- [Iconography](/design-system/styles/iconography/): which icons a tile takes.

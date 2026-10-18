@@ -1,17 +1,18 @@
 ---
 layout: ../../layouts/Doc.astro
 title: checkbox
-description: A square box that turns one option on or off in a form that is saved later, with a mixed state for "some of these".
+description: A checkbox turns one option on or off in a form that people save later. It can also show a mixed state, when only some of a set of options are on.
 component: checkbox
 ---
-import { Checkbox, Switch } from '@nalet/design-system';
+import { Checkbox, Kbd, Switch } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Playground, States, Group, Interactive, WithoutLabel } from '@site/examples/checkbox';
 
 # checkbox
 
-A square box that turns one option on or off in a form that is saved later. It can also show a mixed state, for "some of these".
+A checkbox turns one option on or off in a form that people save later. It can also show a <Term id="mixed-state">mixed state</Term>, for “some of these”.
 
 <Example label="a checkbox">
   <Playground />
@@ -19,54 +20,54 @@ A square box that turns one option on or off in a form that is saved later. It c
 
 ## when to use
 
-- For an option that is part of a form people save or submit: `Include archived items`, `Notify the owner`.
-- For a list of independent options where any number can be on.
-- To select rows in a list or table, with a mixed box above them for "some selected" — see [selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/).
-- For one confirmation before a destructive step: `Also delete the snapshots`.
+- For an option that is part of a form people save or send: “Include archived items”, “Notify the owner”.
+- For a list of independent options, where any number of them can be on.
+- To select rows in a list or a table, with a mixed box above them for “some selected”. [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) shows how.
+- For one confirmation before a step that destroys something: “Also delete the snapshots”.
 
-## when not to use
+## when to use something else
 
-- **For a setting that applies the moment it changes.** Use a <C slug="switch" />. A checkbox reads as part of a form and sends people looking for a save button.
-- **For one choice out of several that exclude each other.** Use a <C slug="select" />, or a native radio group for two or three — see [forms and settings](/design-system/patterns/forms-and-settings/).
+- **For a setting that applies the moment it changes.** Use a <C slug="switch" />. A checkbox reads as part of a form, and it sends people looking for a save button.
+- **For one choice out of several that exclude each other.** Use a <C slug="select" />, or the browser's own radio buttons for two or three choices. [Forms and settings](/design-system/patterns/forms-and-settings/) has more.
 - **To filter a list.** Use the <C slug="filter-bar" /> or <C slug="filter-tabs" />.
-- **To start an action.** Use a <C slug="button" />; a checkbox only records a choice.
+- **To start an action.** Use a <C slug="button" />. A checkbox only records a choice.
 
 ## anatomy
 
-1. **Hit area** — the box, an 8px gap and the label text. A click anywhere on it toggles the box.
-2. **Box** — 16 × 16px, square, 1px `--border-control` border on `--bg-2`. On or mixed: `--cloud-blue` fill and border.
-3. **Mark** — a 12px check, or a dash when mixed, in `--bg`. It is hidden from assistive tech; the native state carries the meaning.
-4. **Label** (optional) — Inter 13px in `--fg-2`.
+1. **Clickable area.** The box, a small gap and the label text. A click anywhere on it turns the box on or off.
+2. **Box.** A small square with a thin grey border, on a dark background. When it is on or mixed, it fills with blue.
+3. **Mark.** A check, or a dash when the box is mixed, in the dark colour of the page. It is hidden from <Term id="assistive-technology">assistive technology</Term>: the checkbox's own state carries the meaning.
+4. **Label** (optional). The option, in the <Term id="body-face">body face</Term>.
 
 ## variants and states
 
 | state | looks |
 | --- | --- |
-| Off | Empty box, `--border-control` border |
-| On | `--cloud-blue` fill with a check |
-| Mixed | `--cloud-blue` fill with a dash |
-| Focused | 2px `--focus-ring` outline, 1px around the box; keyboard focus only |
-| Disabled | Box and label at 50% opacity; cannot be focused, changed or submitted |
+| Off | An empty box with a grey border |
+| On | Filled with blue, with a check |
+| Mixed | Filled with blue, with a dash |
+| Focused | An outline just around the box, for keyboard <Term id="focus">focus</Term> only |
+| Disabled | Box and label dimmed. It can't take focus, be changed or be sent with the form |
 
-There is no hover style and no invalid look.
+A checkbox doesn't change under the pointer, and it has no look for an error.
 
 <Example label="off, on, mixed and disabled, live">
   <States client:visible />
 </Example>
 
-Group related options under one question. A <C slug="field" /> labels a single control, so wrap a group in a native `<fieldset>` whose `<legend>` asks the question.
+Group related options under one question. A <C slug="field" /> labels a single control, so a group goes in a frame of its own: the browser's own frame for a set of options, with a caption that asks the question.
 
 <Example label="a group under its question">
   <Group />
 </Example>
 
-Mixed marks a parent whose children are partly on: the parent is on when all of them are, and mixed when only some are.
+The mixed state marks a parent whose children are partly on. The parent is on when all of its children are on, and mixed when only some of them are.
 
 <Example label="a parent and its children, live">
   <Interactive client:visible />
 </Example>
 
-A box can go without a visible label — selecting a table row — as long as it has a name.
+A box can go without a visible label, as when it selects a table row, as long as it has a name.
 
 <Example label="boxes without a visible label, live">
   <WithoutLabel client:visible />
@@ -74,26 +75,31 @@ A box can go without a visible label — selecting a table row — as long as it
 
 ## behaviour
 
-- A click on the label text toggles it too. A checkbox is one tab stop, and `space` toggles it.
-- A mixed parent turns all its children on when it is pressed; the next press turns them all off.
+- A click on the label text turns the box on or off too.
+- A checkbox is one <Term id="tab-stop">tab stop</Term>, and <Kbd>space</Kbd> turns it on or off. <Kbd>enter</Kbd> doesn't change it.
+- Pressing a mixed parent turns all its children on; the next press turns them all off.
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-inputs-checkbox--docs).
+The full keyboard map is on the checkbox's [React page](/design-system/react/?path=/docs/components-inputs-checkbox--docs).
 
 ## accessibility
 
-- The real checkbox is on the page, so screen readers, the keyboard and form submission all use it. It reports on, off and mixed.
-- Its label names the checkbox and makes its text part of the target.
-- Without a visible label, give it an `aria-label` or `aria-labelledby` — nothing enforces it today, and an unnamed box is announced only as "checkbox". Name what it selects: `select api-7f9c`.
-- The box is 16px. With a label the target is the whole label; unlabelled boxes in a list need at least 24px from one to the next, so each target stays separate.
-- Today: there is no invalid state. Inside a <C slug="field" /> with an error, the error text shows, but the box does not change.
-- Today: there are no forced-colours (Windows high contrast) styles.
+- It is the browser's own checkbox, so <Term id="screen-reader">screen readers</Term> and the keyboard work with it, and it is sent with the form like any other field. It reports on, off and mixed.
+- Its label names the checkbox, and makes the label's text part of what people can click.
+- A box without a visible label needs a name written for it: its <Term id="accessible-name">accessible name</Term>. Nothing checks for one today, and a box without a name is announced only as “checkbox”. Name what it selects: “select api-7f9c”.
+- The box itself is small. With a label, the whole label is the <Term id="target-size">target</Term>. Boxes without a label in a list need enough room from one to the next, so that each target stays separate.
+
+Today:
+
+- There is no error state. Inside a <C slug="field" /> with an error, the error text shows, but the box doesn't change.
+- There are no styles for <Term id="forced-colours">forced colours</Term>, the high-contrast setting some operating systems offer.
 
 ## content
 
-- Write the label as what is true when the box is on, and keep it positive: `Send a weekly summary`, not `Don't send a weekly summary`.
-- Sentence case, short, no full stop: a checkbox label is in the body face, the reader's language. In a group, start the options the same way, so they read as answers to the legend.
-- A mixed parent names the whole set: `All volumes`, `Back up all volumes`.
-- The `aria-label` of a row's box names the row: `select worker-2`.
+- Write the label as what is true when the box is on, and keep it positive: “Send a weekly summary”, not “Don't send a weekly summary”.
+- Keep it short, in <Term id="sentence-case">sentence case</Term>, with no full stop. A checkbox label is in the body face: the reader's language.
+- In a group, start the options the same way, so they read as answers to the group's question.
+- A mixed parent names the whole set: “All volumes”, “Back up all volumes”.
+- A row's box has no visible label, so its name says which row it selects: “select worker-2”.
 
 ## do and don't
 
@@ -110,13 +116,13 @@ The keyboard map and the attributes it sets are on its [React page](/design-syst
   <Do caption="A setting that applies at once is a switch.">
     <Switch label="Maintenance mode" />
   </Do>
-  <Dont caption="A checkbox reads as part of a form: people wait for a save button that is not there.">
+  <Dont caption="A checkbox reads as part of a form: people wait for a save button that isn't there.">
     <Checkbox label="Maintenance mode" />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="The legend asks the question; the options answer it." column>
+  <Do caption="The group's caption asks the question; the options answer it." column>
     <fieldset style={{ border: 0, margin: 0, padding: 0, minWidth: 0 }}>
       <legend style={{ padding: 0, marginBottom: 'var(--s-2)', fontFamily: 'var(--ff-ui)', fontWeight: 500, fontSize: '13px', color: 'var(--fg-2)' }}>Notify me about</legend>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--s-2)' }}>
@@ -125,7 +131,7 @@ The keyboard map and the attributes it sets are on its [React page](/design-syst
       </div>
     </fieldset>
   </Do>
-  <Dont caption="Options without a question: notify, hide, or archive? Screen readers have no group name either." column>
+  <Dont caption="Options without a question: notify, hide, or archive? Screen readers have no name for the group either." column>
     <Checkbox label="Failed releases" defaultChecked />
     <Checkbox label="New comments" />
   </Dont>
@@ -133,7 +139,29 @@ The keyboard map and the attributes it sets are on its [React page](/design-syst
 
 ## related
 
-- <C slug="switch">Switch</C> — on/off that applies at once.
-- <C slug="field">Field</C> — adds a hint or an error under a checkbox.
-- [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) — checkboxes that select rows, with a mixed parent.
-- [Forms and settings](/design-system/patterns/forms-and-settings/) — where checkboxes sit in a form.
+- <C slug="switch">Switch</C>: on and off, applied at once.
+- <C slug="field">Field</C>: adds a hint or an error under a checkbox.
+- [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/): checkboxes that select rows, with a mixed parent.
+- [Forms and settings](/design-system/patterns/forms-and-settings/): where checkboxes sit in a form.
+
+## specs
+
+| part | spec |
+| --- | --- |
+| Clickable area | A `<label>` element around the box and the label text, 8px apart; a click anywhere on it toggles the box. The native checkbox lies over the box, transparent, and takes the focus, the clicks and the form value. |
+| Box | 16 × 16px, `border-radius: 0`, a 1px `--border-control` border on `--bg-2`. On or mixed: a `--cloud-blue` fill and border. |
+| Mark | A 12px check, or a dash when mixed, in `--bg`; hidden from assistive technology (`aria-hidden`). The native state carries the meaning. |
+| Label | `label`. Inter 13px, line height 1.4, `--fg-2`. |
+
+| state | in code | looks |
+| --- | --- | --- |
+| Off | The default | An empty box, `--border-control` border |
+| On | `checked`, or `defaultChecked` | `--cloud-blue` fill, with a check |
+| Mixed | `indeterminate` | `--cloud-blue` fill, with a dash |
+| Focused | `:focus-visible` | A 2px `--focus-ring` outline, 1px around the box, on keyboard focus only |
+| Disabled | `disabled` | Box and label at 50% opacity, a not-allowed cursor. It can't be focused, changed or submitted. |
+
+- **No visible label:** name the box with `aria-label` or `aria-labelledby`, such as `aria-label="select api-7f9c"`. Nothing enforces it today.
+- **Target:** with a label, the whole label. Boxes without a label in a list need at least 24px from one to the next.
+- **Group:** a native `<fieldset>` whose `<legend>` asks the question; a `Field` labels a single control.
+- **Motion:** the fill, border and mark colours change in 120ms `ease`.

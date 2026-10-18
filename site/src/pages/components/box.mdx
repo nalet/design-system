@@ -1,17 +1,18 @@
 ---
 layout: ../../layouts/Doc.astro
 title: box
-description: The base layout primitive — a square container with padding from the space scale, an optional canvas background and an optional hairline border.
+description: A box is the simplest building block of a layout. It puts space from the space scale around its content, and it can add a background and a thin border.
 component: box
 ---
-import { Box, Card, Stack, Text } from '@nalet/design-system';
+import { Box, Card, Kbd, Stack, Text } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Playground, Padding, AsymmetricPadding, Backgrounds, Panel } from '@site/examples/box';
 
 # box
 
-The base layout primitive: a square container with padding from the space scale, an optional canvas background and an optional hairline border.
+A box is the simplest building block of a layout: a square frame that puts space around its content. It can also give that content a background and a thin border.
 
 <Example label="a box with padding, a background and a border">
   <Playground />
@@ -19,27 +20,27 @@ The base layout primitive: a square container with padding from the space scale,
 
 ## when to use
 
-- To pad a region with the space scale instead of hand-written CSS.
-- To set a region on another canvas, such as a sunken `bg-2` area inside a surface.
-- To frame something with a hairline when a card's header and footer would be too much.
+- To put space around a part of the page in the fixed steps of the space scale, instead of writing your own <Term id="css">CSS</Term>.
+- To set a part of the page on another shade of the <Term id="canvas">canvas</Term>, such as a darker, sunken area inside a panel.
+- To frame something with a <Term id="hairline">hairline</Term>, when the header and footer of a card would be too much.
 
-## when not to use
+## when to use something else
 
-- **For a titled group of content.** Use a <C slug="card" />: the header, its rule, the footer and the standard padding come with it.
-- **For the space between siblings.** Use a <C slug="stack" /> and its gap. Padding or margins on each child drift off the scale.
+- **For a group of content with a title.** Use a <C slug="card" />: the header, the line below it, the footer and the usual padding come with it.
+- **For the space between things that sit side by side or one above another.** Use a <C slug="stack" /> and its gap. Padding or margins on each of them drift off the scale.
 - **For a line between sections.** Use a <C slug="divider" />.
-- **For something people click.** A box is not a control: no focus, no keyboard. An action is a <C slug="button" />; an entry on the launchpad is a <C slug="tile" />.
+- **For something people click.** A box isn't a control: it can't take <Term id="focus">focus</Term>, and the keyboard can't use it. An action is a <C slug="button" />; an entry on the <Term id="launchpad">launchpad</Term> is a <C slug="tile" />.
 
 ## anatomy
 
-1. **Container** — square, never rounded, like every frame (see [shape](/design-system/styles/shape/#square-frames)). No padding, background or border unless you ask.
-2. **Padding** (optional) — on every side, on the left and right, or on the top and bottom, each a step of the [space scale](/design-system/foundations/layout/#the-scale).
-3. **Background** (optional) — one of the four canvas colours: `--bg`, `--bg-2`, `--surface` or `--surface-2`.
-4. **Border** (optional) — a 1px `--border` hairline on every side.
+1. **Frame.** Square and never rounded, like every frame (see [shape](/design-system/styles/shape/#square-frames)). It has no padding, background or border unless you ask for them.
+2. **Padding** (optional). Space inside the frame: on every side, on the left and right, or on the top and bottom. Each is a step of the [space scale](/design-system/foundations/layout/#the-scale).
+3. **Background** (optional). One of the four shades of the canvas.
+4. **Border** (optional). A hairline on every side.
 
 ## variants and states
 
-Padding comes in the steps of the scale; there is no default.
+Padding comes in the steps of the scale, and there is no default: a box has no padding until you give it some.
 
 <Example label="padding of 8, 16, 24 and 32px">
   <Padding />
@@ -51,46 +52,46 @@ The left and right can take a different step from the top and bottom.
   <AsymmetricPadding />
 </Example>
 
-The background is one of the four canvas colours; without one, the box is transparent.
+The background is one of the four shades of the canvas. Without one, the box is transparent, and whatever is behind it shows through.
 
 <Example label="the four canvas backgrounds">
   <Backgrounds />
 </Example>
 
-Boxes nest: a sunken `bg-2` region inside a `surface` panel.
+Boxes nest: a darker, sunken area can sit inside a lighter panel.
 
-<Example label="a sunken region inside a surface panel">
+<Example label="a sunken area inside a panel">
   <Panel />
 </Example>
 
 ## behaviour
 
-- A box takes no focus and has no action. `tab` skips it and moves through what's inside it, in order.
+- A box takes no focus and has no action. <Kbd>tab</Kbd> passes over it, and moves through what is inside it, in order.
 
-The keyboard map and the element it renders are on its [React page](/design-system/react/?path=/docs/components-layout-structure-box--docs).
+The full keyboard map is on the box's [React page](/design-system/react/?path=/docs/components-layout-structure-box--docs).
 
 ## accessibility
 
-- A box adds no structure for assistive tech: it has no role and no name.
-- Landmarks and regions are yours: a region that people should find by its name needs a role and that name.
-- The border is a decorative hairline, below 3:1 by design (see [shape](/design-system/styles/shape/#lines)). A box's border must never be the only thing that marks a control or a selected item.
-- A background changes nothing else: text inside keeps its own colour, and every text colour meets 4.5:1 on all four backgrounds.
+- A box adds no structure for <Term id="assistive-technology">assistive technology</Term>: it has no role and no name.
+- <Term id="landmark">Landmarks</Term> and other named regions are up to you. A region that people should be able to find by its name needs a role, and that name.
+- The border is a decorative hairline, faint on purpose: it has less <Term id="contrast">contrast</Term> than the edge of a control needs (see [shape](/design-system/styles/shape/#lines)). So a box's border must never be the only thing that marks a control or a selected item.
+- A background changes nothing else. The text inside keeps its own colour, and every text colour has enough contrast on all four backgrounds.
 
 ## content
 
-A box has no text of its own. Keep what's inside it about one thing; if it needs a title, it is a <C slug="card" />.
+A box has no text of its own. Keep what is inside it about one thing. If it needs a title, it is a <C slug="card" />.
 
 ## do and don't
 
 <DoDont>
-  <Do column caption="Space between boxes from the stack's gap: one value, on the scale.">
+  <Do column caption="The space between the boxes comes from the stack's gap: one value, on the scale.">
     <Stack gap={12}>
       <Box p={12} bg="surface-2" border><Text variant="ui">storage-01</Text></Box>
       <Box p={12} bg="surface-2" border><Text variant="ui">storage-02</Text></Box>
       <Box p={12} bg="surface-2" border><Text variant="ui">storage-03</Text></Box>
     </Stack>
   </Do>
-  <Dont column caption="Margins on each box drift off the scale and never quite match.">
+  <Dont column caption="Margins on each box drift off the scale, and never quite match.">
     <div>
       <Box p={12} bg="surface-2" border style={{ marginBottom: '10px' }}><Text variant="ui">storage-01</Text></Box>
       <Box p={12} bg="surface-2" border style={{ marginBottom: '5px' }}><Text variant="ui">storage-02</Text></Box>
@@ -100,10 +101,10 @@ A box has no text of its own. Keep what's inside it about one thing; if it needs
 </DoDont>
 
 <DoDont>
-  <Do column caption="A titled group is a card: header, rule and padding come with it.">
+  <Do column caption="A group with a title is a card: the header, the line below it and the padding come with it.">
     <Card header="backups">Every night at 02:00, kept 14 days.</Card>
   </Do>
-  <Dont column caption="A box with a hand-made title is a card that drifts: other padding, no header rule, the title in the wrong type.">
+  <Dont column caption="A box with a hand-made title is a card that drifts: different padding, no line below the header, and the title in the wrong type.">
     <Box p={12} bg="surface" border>
       <Stack gap={4}>
         <Text variant="ui">backups</Text>
@@ -115,7 +116,22 @@ A box has no text of its own. Keep what's inside it about one thing; if it needs
 
 ## related
 
-- <C slug="stack">Stack</C> — the gap between children.
-- <C slug="card">Card</C> — a box with a header, a footer and standard padding.
-- [Layout](/design-system/foundations/layout/) — the scale behind the padding.
-- [Shape](/design-system/styles/shape/) — square frames and hairlines.
+- <C slug="stack">Stack</C>: the space between the things inside it.
+- <C slug="card">Card</C>: a box with a header, a footer and the usual padding.
+- [Layout](/design-system/foundations/layout/): the space scale behind the padding.
+- [Shape](/design-system/styles/shape/): square frames and hairlines.
+
+## specs
+
+| setting | in code | what it does |
+| --- | --- | --- |
+| Padding on every side | `p` | 0, 4, 8, 12, 16, 24, 32, 48 or 64; the steps from 4 to 64 resolve to `--s-1` … `--s-8`. No default. |
+| Padding on the left and right | `px` | The same steps, applied after `p`. |
+| Padding on the top and bottom | `py` | The same steps, applied after `p`: `p={16} px={24}` gives 16px on the top and bottom and 24px on the left and right. |
+| Background | `bg="bg"`, `bg="bg-2"`, `bg="surface"` or `bg="surface-2"` | `--bg`, `--bg-2`, `--surface` or `--surface-2`. Without `bg`, the box is transparent. A sunken area is a `bg="bg-2"` box inside a `bg="surface"` one. |
+| Border | `border` | A 1px `--border` hairline on every side. |
+
+- **Frame:** a `div` with `box-sizing: border-box` and `border-radius: 0`, never rounded. No padding, background or border unless they are set.
+- **Contrast:** the `--border` hairline sits below 3:1 by design. Every text colour meets 4.5:1 on all four backgrounds.
+- **Role and name:** none. For a landmark or a named region, pass a `role` with an `aria-label` or `aria-labelledby`.
+- **Focus:** none. `tab` skips the box and moves through what is inside it, in order.

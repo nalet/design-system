@@ -1,62 +1,63 @@
 ---
 layout: ../../layouts/Doc.astro
 title: icon button
-description: A square action that shows only an icon, with the variants and sizes of button and a required label that becomes its name.
+description: An icon button is an action shown as an icon alone, with the kinds and sizes of a button. Its label isn't shown, but it is required, because screen readers announce it as the button's name.
 component: icon-button
 ---
 import { Play, Rocket, RotateCw, Square, Terminal } from 'lucide-react';
-import { Button, Code, Icon, IconButton } from '@nalet/design-system';
+import { Button, Code, Icon, IconButton, Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import MotionFrame from '@site/components/MotionFrame.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Variants, Sizes, States, Toolbar } from '@site/examples/icon-button';
 
 # icon button
 
-A square action that shows only an icon. It has the variants and sizes of <C slug="button" />; `label` is required and becomes its accessible name.
+An icon button is a <C slug="button" /> that shows only an icon, in the same kinds and sizes. Its label is required: it isn't drawn, but it becomes the button's <Term id="accessible-name">accessible name</Term>.
 
-<Example label="the four variants">
+<Example label="the four kinds of icon button">
   <Variants />
 </Example>
 
 ## when to use
 
-- In dense places where a text label does not fit: a toolbar, a card or panel header, a table row (one or two actions there; more go into an <C slug="action-menu" />).
+- In tight places where a text label doesn't fit: a toolbar, the header of a card or a panel, a table row. In a table row, keep it to one or two; more go into an <C slug="action-menu" />.
 - For actions people recognise from the icon alone: copy, refresh, close, delete.
-- Next to a field or a title, for a small action on it: copy a value, open a log.
+- Next to a field or a title, for a small action on it, such as copying a value or opening a log.
 
-## when not to use
+## when to use something else
 
-- **When there is room for a label, or it is the main action of the screen.** Use a <C slug="button" /> with a label, and the icon before it if it helps. A word is read faster than an icon is decoded.
-- **For an on/off setting.** Use a <C slug="switch" />. The icon button has no pressed look.
-- **For more than three or four actions side by side.** Put them in a <C slug="toolbar">toolbar</C> and let the rest overflow into an <C slug="action-menu" />.
-- **For several actions on every row of a table.** Use one action menu per row and a selection toolbar for bulk actions — see [selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/).
-- **To go somewhere.** Navigation is a link, not a button. A button that changes the address breaks open-in-new-tab and the browser's back.
+- **When there is room for a label, or for the main action of the screen.** Use a <C slug="button" /> with a label, and the icon before it if it helps. A word is read faster than an icon is worked out.
+- **For a setting that is on or off.** Use a <C slug="switch" />. The icon button has no pressed look.
+- **For more than three or four actions side by side.** Put them in a <C slug="toolbar">toolbar</C>, and let the rest go into an action menu.
+- **For several actions on every row of a table.** Give each row one action menu, and put the actions for several rows in a selection toolbar. [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) shows how.
+- **To go somewhere.** Use a link. A button that changes the page breaks “open in new tab” and the browser's back button.
 
 ## anatomy
 
-1. **Container** — square, a 1px border, 28, 34 or 42px on each side by size. The icon sits in the centre.
-2. **Icon** — 16px at `md`, 12px at `sm` and 20px at `lg`, as in the sizes example. While the button is busy, a spinner takes its place: 12px at `sm`, 14px otherwise.
-3. **Label** — not drawn. It is the button's accessible name, and the browser shows it as its own tooltip.
+1. **Frame.** A square with a thin border, in one of three sizes. The icon sits in its centre.
+2. **Icon.** The picture of the action, sized to match the button. While the button is busy, a <C slug="spinner" /> takes its place.
+3. **Label.** Not drawn. It is the button's name, and the browser shows it in a small box of its own while the pointer rests on the button.
 
 ## variants and states
 
-The four variants of button. Only `primary` is filled.
+An icon button comes in the same four kinds as a button. Only the emphasized one is filled with colour, because it marks the next step.
 
-| variant | looks | use for |
+| kind | looks | use it for |
 | --- | --- | --- |
-| `primary` | `--cloud-blue` fill, dark icon, lighter blue on hover | The one emphasized action of a toolbar or panel |
-| `default` | `--surface` fill, `--border-2` hairline; `--surface-2` and a `--cloud-blue` border on hover | A standalone icon action |
-| `ghost` | No fill or border until hover; icon in `--fg-2`, `--fg` on hover | Rows of actions in a toolbar or a table row |
-| `danger` | `--signal-amber` outline and icon, amber fill on hover | An action that deletes or cannot be undone |
+| Emphasized | Filled with blue, with a dark icon; a lighter blue under the pointer | The one <Term id="emphasized-action">emphasized action</Term> of a toolbar or a panel |
+| Standard | A dark fill and a thin border, which turns blue under the pointer | An icon action that stands on its own |
+| Quiet | No fill, no border and a slightly dimmer icon, until the pointer rests on it | Rows of actions, in a toolbar or a table row |
+| Danger | An amber outline and icon, which fill with amber under the pointer | An action that deletes something or can't be undone |
 
-Three sizes: `sm` (28px) for table rows and dense toolbars, `md` (34px, the default), `lg` (42px) beside a large input or button. Match the height of the controls next to it.
+Icon buttons come in three sizes, the same three as every other control. The small one suits table rows and dense toolbars, the medium one is the usual choice, and the large one sits beside a large input or button. Match the height of the controls next to it.
 
 <Example label="three sizes">
   <Sizes />
 </Example>
 
-Busy, the icon gives way to a spinner and the button ignores presses; its size doesn't change. Disabled, it is dimmed to 45% and can't be focused.
+While its action runs, an icon button is busy: a spinner takes the icon's place, and further presses are ignored. Its size stays the same. A disabled icon button is dimmed, and the keyboard passes over it.
 
 <MotionFrame what="the spinner">
   <Example label="rest, busy and disabled">
@@ -64,7 +65,7 @@ Busy, the icon gives way to a spinner and the button ignores presses; its size d
   </Example>
 </MotionFrame>
 
-In a toolbar, keep the actions `ghost`, with at most one `primary`.
+In a toolbar, keep the actions quiet, with one emphasized action at most.
 
 <Example label="icon buttons in a toolbar">
   <Toolbar />
@@ -72,28 +73,31 @@ In a toolbar, keep the actions `ghost`, with at most one `primary`.
 
 ## behaviour
 
-- An icon button acts on the current screen when it is pressed, with a pointer, `enter` or `space`.
+- An icon button acts on the current screen when it is pressed: with a click or a tap, or with <Kbd>enter</Kbd> or <Kbd>space</Kbd> on the keyboard.
 - A busy or disabled icon button ignores presses.
-- On mouse hover the browser shows the label as its own tooltip, after a delay. It never shows on keyboard focus or touch.
+- While the mouse pointer rests on it, the browser shows the label in a small box of its own, after a short delay. It never shows on keyboard focus or on touch.
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-actions-icon-button--docs).
+The full keyboard map is on the icon button's [React page](/design-system/react/?path=/docs/components-actions-icon-button--docs).
 
 ## accessibility
 
-- `label` is required, and it is the whole accessible name. Write it as you want it read.
-- The same words are the browser's own tooltip. Assistive tech may read them a second time, as the description, and the tooltip is unstyled and appears only on mouse hover.
-- Sighted keyboard and touch users never see the label. Use icons whose meaning is not in doubt, or a <C slug="button" /> with a visible label.
-- The icon is decoration, hidden from assistive tech: the label names the action.
-- A screen reader may not announce that the button is busy. When the outcome matters, announce it elsewhere, with a <C slug="toast" /> for instance.
-- The focus ring is the 2px `--focus-ring` outline every control shares — see [interaction](/design-system/foundations/interaction/#focus).
-- Today: a busy icon button is disabled, and a focused button that becomes disabled can lose focus. Keyboard and screen-reader users who pressed it can be moved off it while it loads.
-- Today: there is no pressed state. Use a <C slug="switch" /> for on/off.
-- Today: don't wrap it in a <C slug="tooltip" />. The tooltip's wrapper is a tab stop of its own, so the pair takes two tab stops, the description lands on the wrapper instead of the button, and the browser's own tooltip still appears.
+- The label is required, and it is the button's whole name. Write it exactly as it should be read.
+- The browser shows the same words as its own tooltip. <Term id="assistive-technology">Assistive technology</Term> may read them a second time, as a description. That tooltip has none of our styling, and it appears only on mouse <Term id="hover">hover</Term>.
+- People who see the screen but use a keyboard or a touch screen never see the label. Use icons whose meaning is not in doubt, or a <C slug="button" /> with a visible label.
+- The icon is decoration, hidden from assistive technology: the label names the action.
+- A <Term id="screen-reader">screen reader</Term> may not announce that the button is busy. When the outcome matters, announce it elsewhere, in a <C slug="toast" /> for instance.
+- Keyboard <Term id="focus">focus</Term> shows as the same outline that every control uses. [Interaction](/design-system/foundations/interaction/#focus) explains it.
+
+Today:
+
+- A busy icon button is disabled, and a focused button that becomes disabled can lose focus. People who pressed it with a keyboard or a screen reader can be moved off it while it loads.
+- There is no pressed state. For on and off, use a <C slug="switch" />.
+- Don't wrap an icon button in a <C slug="tooltip" />. The tooltip's wrapper is a <Term id="tab-stop">tab stop</Term> of its own, so the pair takes two tab stops. The description lands on the wrapper instead of the button, and the browser's own tooltip still appears.
 
 ## content
 
-- `label` is an action, verb first, lowercase: `restart worker`, `copy link`, `delete volume`. Never the icon's name (`arrow`, `trash`).
-- When the button repeats on every row or card, name the object: `delete api-7f9c`, not `delete`. Otherwise a screen reader's list of buttons is a column of identical names.
+- The label is an action, verb first, in lowercase: “restart worker”, “copy link”, “delete volume”. Name the action, not the icon, so not “arrow” or “trash”.
+- When the button repeats on every row or card, name the object too: “delete api-7f9c”, not “delete”. Otherwise a screen reader's list of buttons is a column of identical names.
 - One icon, one meaning, everywhere. An icon that stands for two actions can no longer be read as either.
 
 ## do and don't
@@ -105,7 +109,7 @@ The keyboard map and the attributes it sets are on its [React page](/design-syst
     </IconButton>
     <Code>label="restart api-7f9c"</Code>
   </Do>
-  <Dont caption="A label that describes the icon tells a screen-reader user nothing about the action.">
+  <Dont caption="A label that describes the icon tells people who use a screen reader nothing about the action.">
     <IconButton label="circular arrow">
       <Icon icon={RotateCw} />
     </IconButton>
@@ -117,7 +121,7 @@ The keyboard map and the attributes it sets are on its [React page](/design-syst
   <Do caption="The main action of a view keeps its words.">
     <Button variant="primary"><Fragment slot="leading"><Icon icon={Rocket} /></Fragment>deploy release</Button>
   </Do>
-  <Dont caption="An icon alone for the main action makes people guess, or hover to find out.">
+  <Dont caption="An icon alone for the main action makes people guess, or rest the pointer on it to find out.">
     <IconButton variant="primary" label="deploy release">
       <Icon icon={Rocket} />
     </IconButton>
@@ -125,7 +129,7 @@ The keyboard map and the attributes it sets are on its [React page](/design-syst
 </DoDont>
 
 <DoDont>
-  <Do caption="Quiet ghost actions around at most one primary.">
+  <Do caption="Quiet actions around one emphasized action at most.">
     <IconButton variant="primary" label="start worker-2">
       <Icon icon={Play} />
     </IconButton>
@@ -151,7 +155,31 @@ The keyboard map and the attributes it sets are on its [React page](/design-syst
 
 ## related
 
-- <C slug="button">Button</C> — the same action with a visible label.
-- <C slug="toolbar">Toolbar</C> — where icon buttons usually live, with an overflow for the rest.
-- <C slug="action-menu">Action menu</C> — several actions behind one trigger, such as one menu per table row.
-- [Iconography](/design-system/styles/iconography/) — which icons to use, at what size.
+- <C slug="button">Button</C>: the same action, with a visible label.
+- <C slug="toolbar">Toolbar</C>: where icon buttons usually live, with a menu for the rest.
+- <C slug="action-menu">Action menu</C>: several actions behind one button, such as one menu per table row.
+- [Iconography](/design-system/styles/iconography/): which icons to use, and at what size.
+
+## specs
+
+| kind | in code | at rest | under the pointer |
+| --- | --- | --- | --- |
+| Emphasized | `variant="primary"` | `--cloud-blue` fill and border, `--bg` icon | A lighter blue (`#6cb2ff`) fill and border |
+| Standard | `variant="default"` (the default) | `--surface` fill, `--border-2` border, `--fg` icon | `--surface-2` fill and a `--cloud-blue` border |
+| Quiet | `variant="ghost"` | No fill or border, `--fg-2` icon | `--surface-2` fill and a `--fg` icon |
+| Danger | `variant="danger"` | `--signal-amber` border and icon, no fill | `--signal-amber` fill and a `--bg` icon |
+
+| size | in code | square | icon | spinner |
+| --- | --- | --- | --- | --- |
+| Small | `size="sm"` | 28px | 12px | 12px |
+| Medium | `size="md"` (the default) | 34px | 16px | 14px |
+| Large | `size="lg"` | 42px | 20px | 14px |
+
+- **Frame:** square (`border-radius: 0`), a 1px border, the icon centred.
+- **Icon:** the child you pass, such as `<Icon icon={RotateCw} />`. The button doesn't size it: `Icon` is 16px by default, which suits `md`, and the sizes example passes `size={12}` at `sm` and `size={20}` at `lg` (see [iconography](/design-system/styles/iconography/)). It is hidden from assistive tech.
+- **Label:** `label`, required. It becomes `aria-label`, and the native `title` that the browser shows as its own tooltip.
+- **Busy:** `loading`. A spinner in place of the icon, the size unchanged, `aria-busy="true"`. The button is disabled while busy, so it ignores presses and leaves the tab order.
+- **Disabled:** `disabled`. 45% opacity, a not-allowed cursor, out of the tab order.
+- **Focus:** the 2px `--focus-ring` outline, 1px outside the frame, on keyboard focus only.
+- **Motion:** background, border and icon colours change in 120ms `ease`.
+- **Pressed:** no pressed look today.

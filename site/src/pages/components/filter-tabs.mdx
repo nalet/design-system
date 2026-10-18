@@ -1,17 +1,19 @@
 ---
 layout: ../../layouts/Doc.astro
 title: filter tabs
-description: Key figures that filter one list — each tab a count over a label — in a tab list with one tab stop, where the arrow keys select as they move.
+description: Filter tabs show the key figures of one list, each a count over a label. Choosing a tab filters the list, and the arrow keys choose as they move.
 component: filter-tabs
 ---
+import { Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Playground, WithoutState } from '@site/examples/filter-tabs';
 import { DemoTabs } from '@site/demos/components/filter-tabs';
 
 # filter tabs
 
-Key figures that filter one list: each tab is a count over a label — `3` over `needs attention` — and choosing a tab filters the list below it. A tab list with one tab stop, where the arrow keys select as they move.
+Filter tabs show the key figures of one list as a row of tabs, each a count over a label, such as “3” over “needs attention”. Choosing a tab filters the list below it.
 
 <Example label="filter tabs over the list they filter, live">
   <div style={{ width: '100%' }}>
@@ -21,39 +23,41 @@ Key figures that filter one list: each tab is a count over a label — `3` over 
 
 ## when to use
 
-- At the top of one list, to show the few subsets people act on and let them pick one: `missing`, `on their way`, `needs attention`.
-- When each subset's count is worth seeing before choosing it.
-- For one subset at a time, from two to about six. The [worklist](/design-system/patterns/worklist/) puts them over its table.
+- At the top of one list, to show the few parts of it that people act on, and to let them pick one: “missing”, “on their way”, “needs attention”.
+- When each part's count is worth seeing before people choose it.
+- For one part at a time, out of two to about six. The [worklist](/design-system/patterns/worklist/) puts them above its table.
 
-## when not to use
+## when to use something else
 
-- **To switch between views of one object** — overview, logs, metrics. Use <C slug="tabs" />.
-- **For filters people combine** — a kind, and a time, and a state. Use the facets of a <C slug="filter-bar" />, which combine.
+- **To switch between views of one thing**, such as its overview, logs and metrics. Use <C slug="tabs" />.
+- **For filters people combine**, such as a kind, and a time, and a state. Use the facets of a <C slug="filter-bar" />, which combine.
 - **For a figure that filters nothing.** Show the number as text, or as a <C slug="badge" /> beside what it counts.
 - **To go to another page.** Use a link.
 
 ## anatomy
 
-1. **Tab list** — a row with a 1px `--border` rule under it. When the tabs don't fit, the row scrolls sideways, and the edge where more tabs are cut off fades out over 48px.
-2. **Tab** — at least 96px wide, 8px 16px 12px padding, JetBrains Mono, left-aligned. The count sits on top, but the label is read first: "needs attention 3".
-3. **Count** (optional) — 20px, weight 600, tabular figures, with thousands separators (`2,500`), in `--fg` or in the colour of the tab's state.
-4. **Label** — 12px, weight 500, lowercase, one line, in `--fg-muted`; `--fg` on hover and when selected.
-5. **Selection** — a 2px `--cloud-blue` underline, laid over the row's rule.
-6. **Panel** — yours: the list the tabs filter. It isn't part of the component; how it is named is under [accessibility](#accessibility).
+1. **Row of tabs.** The tabs side by side, with a thin line under the row. When they don't all fit, the row scrolls sideways, and the edge where more tabs are cut off fades out.
+2. **Tab.** A block of <Term id="monospace">monospace</Term> text, aligned to the left, with a minimum width. The count sits on top, but the label is read first: “needs attention 3”.
+3. **Count** (optional). A large number with <Term id="thousands-separator">thousands separators</Term>, such as “2,500”, in bright text or in the colour of the tab's <Term id="semantic-state">state</Term>.
+4. **Label.** Small, lowercase and on one line, in a muted colour that brightens under the pointer and when the tab is selected.
+5. **Selection.** A blue underline under the selected tab, drawn over the row's line.
+6. **Panel.** Yours: the list the tabs filter. It isn't part of the component; [accessibility](#accessibility) says how it is named.
 
 ## variants and states
 
 | state | looks |
 | --- | --- |
-| Rest | Label in `--fg-muted`; count in `--fg` or in its state's colour |
-| Hover | `--surface` fill, label in `--fg` |
-| Selected | Label in `--fg`, 2px `--cloud-blue` underline |
-| Focus | A 2px `--focus-ring` outline inside the tab |
-| Disabled | 45% opacity. It can't be focused, chosen or reached with the arrow keys |
+| At rest | A muted label; the count in bright text, or in its state's colour |
+| Under the pointer | A slightly lighter fill, and a bright label |
+| Selected | A bright label, and a blue underline |
+| Keyboard focus | An outline inside the tab |
+| Disabled | Dimmed. It can't be focused or chosen, and the arrow keys pass over it |
 
 ### states on counts
 
-A state colours the count, and only the count, when the number carries a meaning: `error` for `needs attention`, `warning` for `can't be checked`, `information` for `on their way` (the colours of the [status vocabulary](/design-system/patterns/status-vocabulary/)). Leave it off for counts that only say how many, `missing` or `not yet aired`: they stay plain `--fg`. A tab without a count shows no state at all. The example at the top uses both.
+A state colours the count, and only the count, when the number carries a meaning: error for “needs attention”, warning for “can't be checked”, information for “on their way”. These are the colours of the [status vocabulary](/design-system/patterns/status-vocabulary/).
+
+Leave the state off for counts that only say how many, such as “missing” or “not yet aired”: they stay plain. A tab without a count shows no state at all. The example at the top of this page uses both kinds.
 
 Plain counts, with no state anywhere:
 
@@ -61,33 +65,33 @@ Plain counts, with no state anywhere:
   <WithoutState client:visible />
 </Example>
 
-Leave the count out when the number isn't known; the tab then shows its label alone.
+Leave the count out when the number isn't known. The tab then shows its label alone.
 
 ## behaviour
 
-- A click selects a tab.
-- Automatic activation: the selection follows focus, so every arrow press filters the list. Keep the filtering quick — it is usually local — or let a slow list settle before it loads.
+- A click on a tab selects it.
+- The row is one <Term id="tab-stop">tab stop</Term>: <Kbd>tab</Kbd> goes to the selected tab, and the next <Kbd>tab</Kbd> leaves the row.
+- The selection follows <Term id="focus">focus</Term>. The left and right arrow keys move to the previous or the next tab and select it, so every press filters the list. <Kbd>home</Kbd> and <Kbd>end</Kbd> go to the first and the last tab.
+- Because every press filters, keep the filtering quick. Usually it is, as the list is filtered on the page itself. For a list that is slow to load, let the selection settle before the list loads.
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-navigation-filter-tabs--docs).
+The full keyboard map is on the filter tabs' [React page](/design-system/react/?path=/docs/components-navigation-filter-tabs--docs).
 
 ## accessibility
 
-- The tab list has a name, and it is required: what it filters, and by what — `filter missing by state`. Only the selected tab is in the tab order.
-- A tab's name is its label, then its count: "needs attention 3".
-- The list below is the tabs' panel, named after the selected tab: "needs attention 3".
-- The state colour on a count is a second signal: the label says what the count means. A count has no glyph, unlike an <C slug="object-status" />, so never let the colour say what the label doesn't.
-- A count that changes is not announced.
+- The row of tabs must have a name: what it filters, and by what, such as “filter missing by state”. Only the selected tab is in the tab order.
+- A tab's name is its label, then its count: “needs attention 3”.
+- The list below is the tabs' panel, and it is named after the selected tab: “needs attention 3”.
+- The colour of a count is a second signal; the label says what the count means. A count has no <Term id="glyph">glyph</Term>, unlike an <C slug="object-status" />, so never let the colour say what the label doesn't.
+- When a count changes, it isn't announced.
 
-Today:
-
-- Disabled tabs can't be focused, so screen-reader users don't learn that they exist.
+Today: <Term id="disabled">disabled</Term> tabs can't take focus, so people who use a <Term id="screen-reader">screen reader</Term> don't learn that they exist.
 
 ## content
 
-- **Label** — what the tab keeps, in the list's words: `needs attention`, `on their way`, `can't be checked`. A few words, lowercase.
-- **Count** — exact, never rounded. Leave it out when it isn't known, rather than showing `0`.
-- **First tab** — the whole list, `missing` or `all`, so there is always a way back.
-- **The tab list's name** — what it filters, and by what: `filter missing by state`.
+- **Label.** What the tab keeps, in the list's own words: “needs attention”, “on their way”, “can't be checked”. A few words, in lowercase.
+- **Count.** Exact, not rounded. Leave it out when it isn't known, rather than showing “0”.
+- **First tab.** The whole list, such as “missing” or “all”, so there is always a way back.
+- **The row's name.** What it filters, and by what: “filter missing by state”.
 
 ## do and don't
 
@@ -101,10 +105,10 @@ Today:
 </DoDont>
 
 <DoDont>
-  <Do caption="Labels in the list's words: what each tab keeps." column>
+  <Do caption="Labels in the list's own words: what each tab keeps." column>
     <DemoTabs client:visible label="filter missing by state" tabs={[{ id: 'missing', label: 'missing', count: 2500 }, { id: 'way', label: 'on their way', count: 182, state: 'information' }, { id: 'attention', label: 'needs attention', count: 3, state: 'error' }]} />
   </Do>
-  <Dont caption="State names as labels say how a tab looks, not what is in it." column>
+  <Dont caption="The names of states as labels say how a tab looks, not what is in it." column>
     <DemoTabs client:visible label="filter missing by state" tabs={[{ id: 'missing', label: 'all', count: 2500 }, { id: 'way', label: 'info', count: 182, state: 'information' }, { id: 'attention', label: 'errors', count: 3, state: 'error' }]} />
   </Dont>
 </DoDont>
@@ -113,14 +117,37 @@ Today:
   <Do caption="The number isn't known yet, so the tab shows its label alone." column>
     <DemoTabs client:visible label="filter titles by state" tabs={[{ id: 'missing', label: 'missing', count: 2500 }, { id: 'unchecked', label: 'not checked yet' }]} />
   </Do>
-  <Dont caption="0 says there are none. When the number isn't known, leave it out." column>
+  <Dont caption="“0” says there are none. When the number isn't known, leave it out." column>
     <DemoTabs client:visible label="filter titles by state" tabs={[{ id: 'missing', label: 'missing', count: 2500 }, { id: 'unchecked', label: 'not checked yet', count: 0 }]} />
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="tabs">Tabs</C> — views of one object, not filters of one list.
-- [Worklist](/design-system/patterns/worklist/) — puts the tabs over the list and wires the panel.
-- <C slug="filter-bar">Filter bar</C> — filters that combine: a search and facets.
-- [Status vocabulary](/design-system/patterns/status-vocabulary/) — the states the counts take their colours from.
+- <C slug="tabs">Tabs</C>: views of one thing, not filters of one list.
+- [Worklist](/design-system/patterns/worklist/): puts the tabs above the list, and connects the panel.
+- <C slug="filter-bar">Filter bar</C>: filters that combine, a search and facets.
+- [Status vocabulary](/design-system/patterns/status-vocabulary/): the states the counts take their colours from.
+
+## specs
+
+| part | in code | spec |
+| --- | --- | --- |
+| Row | `FilterTabs`, named by `label` (required) | `role="tablist"`, a 1px `--border` rule below. Scrolls sideways when the tabs don't fit; a cut-off edge fades out over 48px. |
+| Tab | `tabs`: `{ id, label, count, state, disabled }` | A `button` with `role="tab"`. At least 96px wide, padding 8px 16px 12px, JetBrains Mono, left-aligned. The label comes first, so it is read first; the count is drawn on top of it, 2px above. |
+| Count | `count` (leave it out when unknown) | 20px, weight 600, line height 1.1, letter-spacing -0.01em, tabular figures, with thousands separators. `--fg`, or the colour of its state. |
+| Label | `label` | 12px, weight 500, line height 1.3, lowercased with `text-transform`, one line, `--fg-muted`; `--fg` on hover and when selected. |
+| Selection | `value` and `onChange` | A 2px `--cloud-blue` underline, laid over the row's rule. |
+| Panel | `panelId` and `idPrefix` | Yours: `role="tabpanel"`, named by the selected tab with `aria-labelledby={filterTabId(idPrefix, value)}`. Every tab points at it with `aria-controls`. |
+
+| state | spec |
+| --- | --- |
+| Rest | Label in `--fg-muted`; count in `--fg` or in its state's colour |
+| Hover | `--surface` fill, label in `--fg` |
+| Selected | Label in `--fg`, a 2px `--cloud-blue` underline |
+| Focus | A 2px `--focus-ring` outline inside the tab |
+| Disabled | `disabled` on the tab: 45% opacity, a not-allowed cursor. Not focusable, not chosen, skipped by the arrow keys |
+
+- **States on counts:** `state` on a tab. `'information'`, `'success'`, `'warning'` and `'error'` colour the count in `--state-information`, `--state-success`, `--state-warning` and `--state-error`; `'neutral'`, or no state, leaves it `--fg`.
+- **Keys:** automatic activation, so the selection follows focus. Only the selected tab has `tabindex="0"`. The left and right arrow keys select the previous or the next enabled tab, wrapping at the ends; <Kbd>home</Kbd> and <Kbd>end</Kbd> select the first and the last.
+- **Motion:** colour, underline and fill change in 120ms `ease`.

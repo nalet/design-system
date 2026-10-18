@@ -1,17 +1,19 @@
 ---
 layout: ../../layouts/Doc.astro
 title: multi select
-description: A facet that keeps several values — a trigger that says what is chosen, and a panel of checkboxes that opens under it.
+description: A filter that keeps several values of one property at once. A button says what is chosen, and a panel of checkboxes opens under it.
 component: multi-select
 ---
+import { Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { DemoMulti, SERIES, STATES } from '@site/demos/components/multi-select';
 import { Playground, Chosen, Small } from '@site/examples/multi-select';
 
 # multi select
 
-A facet that keeps several values: a trigger that shows the facet's name and what is chosen — `state`, `2 chosen` — and a panel of checkboxes. It is a disclosure, not a menu: `tab` moves through the checkboxes, and `esc` or a press outside closes it.
+A multi select lets people filter a list by several values of one <Term id="facet">facet</Term> at once, such as the states “missing” and “on its way”. A button shows what is chosen, and a panel of checkboxes opens under it.
 
 <Example label="a multi select, live">
   <Playground client:visible />
@@ -19,41 +21,41 @@ A facet that keeps several values: a trigger that shows the facet's name and wha
 
 ## when to use
 
-- In a <C slug="filter-bar" />, for a facet that can keep several values at once: `state` — `missing` and `on its way`.
-- For a handful of options that fit a small panel, each with a count of what it would keep, when you know it.
+- In a <C slug="filter-bar" />, for a facet that can keep several values at once, such as a state facet that keeps “missing” and “on its way”.
+- For a handful of options that fit in a small panel, each with a count of what it would keep, when you know it.
 
-## when not to use
+## when to use something else
 
-- **For one value at a time** — a kind, a time range. Use a <C slug="select" />; the filter bar takes those as `select` facets.
-- **For a setting, or a form that submits.** Use <C slug="checkbox">checkboxes</C> in a <C slug="field" />. A form sends none of the multi select's choices.
-- **For many options.** The panel has no search and no maximum height. Let people type in the <C slug="filter-bar">filter bar</C>'s search instead.
+- **For one value at a time, such as a kind or a time range.** Use a <C slug="select" />; the filter bar takes those as select facets.
+- **For a setting, or a form that is sent.** Use <C slug="checkbox">checkboxes</C> in a <C slug="field" />. A form sends none of the multi select's choices.
+- **For many options.** The panel has no search and no maximum height. Let people type in the <C slug="filter-bar" />'s search instead.
 - **To run commands.** Use an <C slug="action-menu" />.
 
 ## anatomy
 
-1. **Trigger** — a button 34px tall (`md`, the default) or 28px (`sm`), with 0 × 12px padding (8px at `sm`), a 1px `--border-control` frame on `--bg-2`, square corners, JetBrains Mono 13px (12px at `sm`). It holds:
-   - The facet's **label**, in `--fg-muted`, lowercase;
-   - The **summary**: the empty text (`any`) while nothing is chosen, the option's label when one is, `2 chosen` when several are. It turns `--cloud-blue` once something is chosen, and ends in an ellipsis when it is long;
-   - A 12px **chevron** in `--cloud-blue`, which turns over while the panel is open.
-2. **Panel** — 4px under the trigger, lined up with its left edge: `--surface` fill, a 1px `--border-2` frame, a shadow, 8px of padding above and below. At least as wide as the trigger, at most 320px (or the viewport minus 16px).
-3. **Options** — a group named by the facet's label, with one <C slug="checkbox" /> per option, 8px × 12px padding each, `--surface-2` on hover. An option's label is a filter value, in JetBrains Mono 13px, as the trigger shows it. An option's count, when you give one, follows its label in `--fg-dim`, mono 12px, tabular figures.
-4. **Clear** — `clear` and the facet's label (`clear state`), at the bottom under a 1px `--border` rule, only while something is chosen.
+1. **<Term id="trigger">Trigger</Term>.** A button with a thin border, in one of two heights. It holds:
+   - The facet's **label**, in a muted colour and in lowercase.
+   - The **summary** of what is chosen: “any” while nothing is, the option's label when one is, and “2 chosen” when several are. It turns blue once something is chosen, and ends in an <Term id="ellipsis">ellipsis</Term> when it is too long.
+   - A small blue **arrow**, which turns over while the panel is open.
+2. **Panel.** A box with a thin border and a shadow, just under the trigger and lined up with its left edge. It is at least as wide as the trigger, and never wider than a set maximum, or than the screen.
+3. **Options.** One <C slug="checkbox" /> per option, in a group named after the facet. Each option's label is a filter value, in <Term id="monospace">monospace</Term>, as the trigger shows it. When you give a count, it follows the label, in a dimmer colour.
+4. **Clear.** A button at the bottom, below a thin rule, that clears every choice: “clear” and the facet's label, such as “clear state”. It is there only while something is chosen.
 
 ## variants and states
 
 | state | the trigger shows |
 | --- | --- |
-| Nothing chosen | The label, then the empty text, `any` |
-| One chosen | The label, then that option's label in `--cloud-blue` |
-| Several chosen | The label, then `2 chosen` in `--cloud-blue` |
-| Open | The chevron turned over, and the panel under it |
-| Disabled | 50% opacity. It can't be focused or opened |
+| Nothing chosen | The label, then the empty text, “any” |
+| One chosen | The label, then that option's label, in blue |
+| Several chosen | The label, then a count such as “2 chosen”, in blue |
+| Open | The arrow turned over, and the panel under it |
+| Disabled | The whole trigger dimmed. It can't take <Term id="focus">focus</Term> or open |
 
 <Example label="with values chosen, live">
   <Chosen client:visible />
 </Example>
 
-Two sizes: `md` (34px, the default) and `sm` (28px), next to other `sm` controls.
+There are two sizes: medium, the default, and small, to sit next to other small controls.
 
 <Example label="the small size, live">
   <Small client:visible />
@@ -61,33 +63,34 @@ Two sizes: `md` (34px, the default) and `sm` (28px), next to other `sm` controls
 
 ## behaviour
 
-- A disclosure: the trigger shows and hides a panel of checkboxes. Opening it doesn't move focus.
-- A click on the trigger opens or closes the panel; a press anywhere outside closes it, and so does focus leaving the multi select.
+- The multi select is a <Term id="disclosure">disclosure</Term>, not a menu: the trigger shows and hides a panel of checkboxes. Opening it doesn't move focus.
+- A click on the trigger, or <Kbd>enter</Kbd> or <Kbd>space</Kbd> on it, opens or closes the panel. A press anywhere outside closes it, and so does focus leaving the multi select.
+- <Kbd>esc</Kbd> closes the panel and puts focus back on the trigger. The key goes no further, so a <C slug="modal" /> around the multi select stays open.
+- The arrow keys do nothing special: each checkbox is its own <Term id="tab-stop">tab stop</Term>. <Kbd>tab</Kbd> moves from the trigger through the checkboxes, then to the clear button, and out. <Kbd>space</Kbd> ticks or clears the checkbox that has focus.
 - Every change applies at once. There is no apply button.
-- The arrow keys do nothing special: each checkbox is its own tab stop.
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-inputs-multi-select--docs).
+The full keyboard map is on the multi select's [React page](/design-system/react/?path=/docs/components-inputs-multi-select--docs).
 
 ## accessibility
 
-- The trigger's name is its text: the facet's label, then the summary — "state 2 chosen". Write the label so the two read as a phrase.
-- The checkboxes are announced as one group, named by the facet's label. Each is named by its option's label and count.
-- A closed panel is not read and not focusable.
-- Focus is never moved for you, except back to the trigger on `esc`.
-- The trigger and `clear` show a 2px `--focus-ring` outline; each checkbox shows its own.
+- **The trigger's name is its text:** the facet's label, then the summary, as in “state 2 chosen”. Write the label so that the two read as a phrase.
+- A <Term id="screen-reader">screen reader</Term> announces the checkboxes as one group, named after the facet. Each checkbox is named by its option's label and its count.
+- A closed panel isn't read out, and the keyboard can't reach it.
+- Focus is never moved for you, except back to the trigger when people press <Kbd>esc</Kbd>.
+- The trigger and the clear button show the focus outline that every control shares; each checkbox shows its own.
 
 Today:
 
-- `clear` closes the panel and moves focus back to the trigger: the button itself goes once nothing is chosen.
-- `clear` is fixed English — "clear" and the label — and can't be translated.
-- The panel always opens below, from the trigger's left edge, with no flip near the viewport's edges, and it has no maximum height.
+- The clear button closes the panel and moves focus back to the trigger, because the button itself goes once nothing is chosen.
+- The clear button's words are fixed, in English: “clear” and the label. They can't be translated.
+- The panel always opens below the trigger, from its left edge. It doesn't flip near the edges of the screen, and it has no maximum height.
 
 ## content
 
-- **Label** — the facet's name, a noun: `state`, `aired`, `kind`.
-- **Options** — the values in the list's words, in an order that means something (the states in their usual order, not sorted by count): `missing`, `on its way`, `needs attention`.
-- **Counts** — how many items each option would keep, when you know it.
-- **Empty text** — what no choice means: `any`, the default, or `all states`.
+- **Label.** The facet's name, a noun: “state”, “aired”, “kind”.
+- **Options.** The values in the list's own words, in an order that means something, such as the states in their usual order rather than sorted by count: “missing”, “on its way”, “needs attention”.
+- **Counts.** How many items each option would keep, when you know it.
+- **Empty text.** What no choice means: “any”, the default, or “all states”.
 
 ## do and don't
 
@@ -120,7 +123,29 @@ Today:
 
 ## related
 
-- <C slug="filter-bar">Filter bar</C> — where multi selects live, next to the search and the select facets.
-- <C slug="select">Select</C> — one value at a time.
-- <C slug="checkbox">Checkbox</C> — the native box each option is.
-- <C slug="action-menu">Action menu</C> — a menu of commands: the pattern this is not.
+- <C slug="filter-bar">Filter bar</C>: where multi selects live, next to the search and the select facets.
+- <C slug="select">Select</C>: one value at a time.
+- <C slug="checkbox">Checkbox</C>: each option is one, the browser's own checkbox.
+- <C slug="action-menu">Action menu</C>: a menu of commands, which a multi select is not.
+
+## specs
+
+| size | in code | height | side padding | text |
+| --- | --- | --- | --- | --- |
+| Medium | `size="md"` (the default) | 34px | 12px | 13px |
+| Small | `size="sm"` | 28px | 8px | 12px |
+
+| part | spec |
+| --- | --- |
+| Trigger | A `<button type="button">` with `aria-expanded` and `aria-controls`, and no `aria-haspopup`: it opens a group of checkboxes, not a menu. A 1px `--border-control` border on `--bg-2`, square, JetBrains Mono, `--fg`; the label, the summary and the chevron 8px apart. Hover: a `--cloud-blue` border, in 120ms `ease`. Keyboard focus: the 2px `--focus-ring` outline, 1px outside. |
+| Label | `label`, in `--fg-muted`, lowercased with `text-transform`. It also names the group of checkboxes. |
+| Summary | `emptyText` (default “any”) while nothing is chosen, the option's `label` when one is, “n chosen” (with a thousands separator) when several are. `--cloud-blue` once something is chosen. One line, ending in an ellipsis when it is long. |
+| Chevron | 12px, `--cloud-blue`. It turns over (180°) while the panel is open, in 120ms `ease`, with no movement under reduced motion. |
+| Panel | 4px under the trigger, from its left edge, at `z-index: 120`. `--surface` fill, a 1px `--border-2` border, the shadow `0 8px 24px rgba(0, 0, 0, 0.45)`, padding 8px 0. At least as wide as the trigger, at most 320px or the viewport minus 16px. No maximum height, and no flip near the viewport's edges. `hidden` while closed. It isn't rendered into the page's `<body>`, so an ancestor with `overflow: hidden` cuts it off. |
+| Options | `options`: `{ value, label, count? }`. A `fieldset` named by a visually hidden `legend` (the `label`), with one native `Checkbox` (a 16px box) per option, padding 8px 12px, `--surface-2` on hover. The option's label in JetBrains Mono 13px, `--fg-2`, at least 10ch wide. Its count 12px after it: mono 12px, `--fg-dim`, tabular figures, with a thousands separator. |
+| Clear | “clear” and the `label`, only while something is chosen. Full width, 4px under the options, padding 8px 12px, a 1px `--border` rule above. JetBrains Mono 12px, `--fg-muted` (`--fg` on hover), left-aligned, lowercase. Keyboard focus: the 2px `--focus-ring` outline, drawn inside. |
+| Disabled | `disabled`: 50% opacity and a not-allowed cursor. It can't be focused or opened. |
+
+- **Value:** controlled. `value` holds the chosen values, and an empty list means no filter. `onChange` gets the new list at once, on every change; “clear” calls it with `[]`.
+- **Forms:** the checkboxes have no `name`, so a form sends none of them.
+- **Closing:** a `pointerdown` anywhere outside, focus leaving the multi select, or <Kbd>esc</Kbd> while it is open, which also focuses the trigger and stops the key there.

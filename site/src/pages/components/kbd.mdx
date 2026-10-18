@@ -1,17 +1,18 @@
 ---
 layout: ../../layouts/Doc.astro
 title: kbd
-description: A single keycap that names a key — square, a hairline frame with a heavier bottom edge, a mono label; a shortcut is several of them side by side.
+description: A keycap is a small picture of one key that tells people which key to press. A shortcut is several keycaps side by side.
 component: kbd
 ---
 import { Code, Kbd, Text } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Keys, Combo, InShortcutList } from '@site/examples/kbd';
 
 # kbd
 
-A single keycap: square, a hairline frame with a heavier bottom edge, a mono label. It names a key; a shortcut is several of them side by side.
+A kbd is a keycap: a small picture of one key, such as <Kbd>esc</Kbd>, that tells people which key to press. A shortcut is several keycaps side by side.
 
 <Example label="keycaps">
   <Keys />
@@ -19,29 +20,31 @@ A single keycap: square, a hairline frame with a heavier bottom edge, a mono lab
 
 ## when to use
 
-- To name a key or a shortcut in help text, a tooltip, a menu or a list of shortcuts: `esc` closes the dialog, `ctrl` + `k` opens search.
+- To name a key in help text, a tooltip or a menu: <Kbd>esc</Kbd> closes the dialog.
+- To show a shortcut, there or in a list of shortcuts: <Kbd>ctrl</Kbd> + <Kbd>k</Kbd> opens search.
 
-## when not to use
+## when to use something else
 
-- **For text people type.** "Type `storage-01` to confirm" is typed input, not a key: use <C slug="code" />.
-- **As a control.** A keycap is a picture of a key; pressing it does nothing. The action itself is a <C slug="button" />.
+- **For text people type.** In “Type storage-01 to confirm”, the name is text that people type, not a key. Show it as <C slug="code" />.
+- **As a control.** A keycap is only a picture of a key: pressing it does nothing. The action itself is a <C slug="button" />.
 
 ## anatomy
 
-1. **Keycap** — inline, at least 20px wide, 20px tall, padding 0 6px. 1px `--border-2` frame with a 2px bottom edge, `--surface-2` fill, square.
-2. **Label** — JetBrains Mono 12px, `--fg-2`, centered, never wraps. Shown as written: no case change.
+1. **Keycap.** A small square key with a thin frame and a heavier bottom edge, so it looks like a key you could press. It sits in the line of text, and grows wider for a longer name.
+2. **Label.** The key's name, in <Term id="monospace">monospace</Term>, centred and on one line. It is shown exactly as written: nothing changes its case.
 
 ## variants and states
 
-One look. A combination is several keycaps you place yourself, with a joiner between them.
+A keycap has one look. A shortcut with several keys is several keycaps, which you place yourself, with a joiner between them:
 
-`+` joins keys pressed together; `then` joins keys pressed one after another.
+- A plus, “+”, joins keys that are pressed together: <Kbd>ctrl</Kbd> + <Kbd>k</Kbd>.
+- The word “then” joins keys that are pressed one after another: <Kbd>g</Kbd> then <Kbd>i</Kbd>.
 
 <Example label="keys pressed together, and one after another">
   <Combo />
 </Example>
 
-A list of shortcuts is a description list: the action as the term, the keys as its description.
+A list of shortcuts is a list of pairs: each action, followed by the keys that do it.
 
 <Example label="a list of shortcuts">
   <InShortcutList />
@@ -49,28 +52,28 @@ A list of shortcuts is a description list: the action as the term, the keys as i
 
 ## behaviour
 
-- A keycap only shows a key. It doesn't listen for it: the shortcut is yours to implement.
-- It takes no focus: `tab` skips it.
+- A keycap only shows a key. It doesn't listen for it: making the shortcut work is up to you.
+- It takes no <Term id="focus">focus</Term>: <Kbd>tab</Kbd> skips it.
 
-The element it renders and what it passes through are on its [React page](/design-system/react/?path=/docs/components-data-display-kbd--docs).
+The kbd's [React page](/design-system/react/?path=/docs/components-data-display-kbd--docs) shows what the keycap is built from, and which settings it passes on.
 
 ## accessibility
 
-- Screen readers read a keycap's label as text; most don't say "key".
-- Write keys as words — `ctrl`, `shift`, `cmd`, `esc` — not symbols like `⌘` or `⇧`, which screen readers name inconsistently and not everyone recognises.
-- Keep a visible joiner between keys. Most screen readers read it aloud ("ctrl plus k"), and it tells keys pressed together from a sequence.
-- A shortcut is never the only way to do something: the same action needs a visible control.
+- A <Term id="screen-reader">screen reader</Term> reads a keycap's label as plain text. Most don't say “key”.
+- **Write keys as words,** such as <Kbd>ctrl</Kbd>, <Kbd>shift</Kbd>, <Kbd>cmd</Kbd> and <Kbd>esc</Kbd>, not as symbols like ⌘ or ⇧. Screen readers name symbols inconsistently, and not everyone recognises them.
+- **Keep a visible joiner between keys.** Most screen readers read it aloud, as in “ctrl plus k”, and it tells keys pressed together apart from a sequence.
+- **A shortcut is never the only way to do something.** The same action needs a visible control too.
 
 ## content
 
-- Lowercase key names as printed on most keyboards: `esc`, `tab`, `enter`, `shift`, `ctrl`, `alt`, `cmd`, `space`.
-- One key per keycap. A letter is the letter: `k`, not `K`, and not `ctrl+k` in one cap.
-- When a shortcut differs by platform, show the one the reader is on, or both: `ctrl` on Windows and Linux, `cmd` on Mac.
+- Write key names in lowercase, as most keyboards print them: <Kbd>esc</Kbd>, <Kbd>tab</Kbd>, <Kbd>enter</Kbd>, <Kbd>shift</Kbd>, <Kbd>ctrl</Kbd>, <Kbd>alt</Kbd>, <Kbd>cmd</Kbd>, <Kbd>space</Kbd>.
+- One key per keycap. A letter is just the letter: <Kbd>k</Kbd>, not “K”, and not the whole “ctrl+k” in one cap.
+- When a shortcut differs by platform, show the one the reader is on, or both: <Kbd>ctrl</Kbd> on most computers, <Kbd>cmd</Kbd> on those whose keyboard has a command key.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="One key per cap, joined by a plus: pressed together.">
+  <Do caption="One key per cap, joined by a plus: the keys are pressed together.">
     <Text variant="muted"><Kbd>ctrl</Kbd> + <Kbd>k</Kbd></Text>
   </Do>
   <Dont caption="The whole shortcut in one cap. It reads as one key with a strange name.">
@@ -79,16 +82,16 @@ The element it renders and what it passes through are on its [React page](/desig
 </DoDont>
 
 <DoDont>
-  <Do caption="Key names as words: read the same by everyone.">
+  <Do caption="Key names written as words read the same for everyone.">
     <Text variant="muted"><Kbd>cmd</Kbd> + <Kbd>shift</Kbd> + <Kbd>p</Kbd></Text>
   </Do>
-  <Dont caption="Symbols are named inconsistently by screen readers, and not everyone knows them.">
+  <Dont caption="Screen readers name symbols inconsistently, and not everyone knows them.">
     <Text variant="muted"><Kbd>⌘</Kbd> + <Kbd>⇧</Kbd> + <Kbd>p</Kbd></Text>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="Typed text is code.">
+  <Do caption="Text that people type is shown as code.">
     <Text as="p" variant="body">Type <Code>storage-01</Code> to confirm.</Text>
   </Do>
   <Dont caption="A keycap is one key. Text in a keycap looks like a key nobody can find.">
@@ -98,6 +101,18 @@ The element it renders and what it passes through are on its [React page](/desig
 
 ## related
 
-- <C slug="code">Code</C> — commands and text people type.
-- <C slug="tooltip">Tooltip</C> — where a control's shortcut is usually shown.
-- [Content & voice](/design-system/foundations/content-voice/) — how labels and key names are written.
+- <C slug="code">Code</C>: commands and text that people type.
+- <C slug="tooltip">Tooltip</C>: where a control's shortcut is usually shown.
+- [Content & voice](/design-system/foundations/content-voice/): how labels and key names are written.
+
+## specs
+
+| part | spec |
+| --- | --- |
+| Keycap | A native `<kbd>`, `inline-flex`, its label centred. At least 20px wide, 20px tall, padding 0 6px. A 1px `--border-2` frame with a 2px bottom edge, `--surface-2` fill, square (`border-radius: 0`). |
+| Label | The children. JetBrains Mono 12px, line-height 1, `--fg-2`, on one line (`white-space: nowrap`). No `text-transform`, so it shows as written. |
+| Joiner | Not part of the keycap: a `+` for keys pressed together, or `then` for a sequence, that you place between keycaps, in muted text (`<Text variant="muted">`). |
+| List of shortcuts | A description list (`<dl>`): each action in a `<Text as="dt">`, its keys in a `<Text as="dd">`. |
+
+- **Focus and keys:** none. A keycap takes no focus and listens for no key; <Kbd>tab</Kbd> skips it.
+- **Attributes:** every native `<kbd>` attribute passes through, and the `ref` reaches the `<kbd>`.

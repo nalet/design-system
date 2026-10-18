@@ -1,10 +1,12 @@
 ---
 layout: ../../layouts/Doc.astro
 title: data table
-description: The interactive table for a list people work through — sort it, select rows, group them, load more, and move between rows from the keyboard.
+description: The table for a list people work through. They can sort it, select rows, open and close groups, load more rows and move between rows with the keyboard.
 component: data-table
 ---
+import { Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import MotionFrame from '@site/components/MotionFrame.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Playground, Sorting, Selection, Grouped, Growing, PopIn, Loading, Empty } from '@site/examples/data-table';
@@ -12,7 +14,7 @@ import { RowPress, DenseTable, MenuPerRow, ButtonsPerRow, StatesInWords, ColourO
 
 # data table
 
-The interactive table: sorting, row selection, collapsible groups, growing, pop-in on narrow widths, and one tab stop with arrow-key row focus.
+A data table holds a list that people work through: they scan it, sort it, select rows and act on them, often with the keyboard alone.
 
 <Example column scroll label="a data table, live: sort it, select rows, open a row's menu">
   <Playground client:visible />
@@ -20,40 +22,42 @@ The interactive table: sorting, row selection, collapsible groups, growing, pop-
 
 ## when to use
 
-- For a list people work through: scan it, sort it, select rows and act on them. It is the body of a [worklist](/design-system/patterns/worklist/).
-- When rows need any of: sorting by a column, selecting one or many, grouping under header rows, loading in pages ("show 100 more"), moving between rows from the keyboard.
-- For long lists. With `growing` it stays fast at thousands of rows — see performance on its [React page](/design-system/react/?path=/docs/components-data-display-data-table--docs).
+- For a list people work through: they scan it, sort it, select rows and act on them. It is the heart of a <Term id="worklist">worklist</Term>.
+- When rows need any of these: sorting by a column, selecting one row or many, grouping under a heading row, loading more rows a page at a time, or moving from row to row with the keyboard.
+- For long lists. Shown a page at a time, it stays quick with thousands of rows; the [React page](/design-system/react/?path=/docs/components-data-display-data-table--docs) has the details.
 
-## when not to use
+## when to use something else
 
-- **For a short, read-only set of records.** Use the <C slug="table" />: native markup, no focus model, no row state. It costs less and announces less.
-- **For the fields of one record.** One row with many columns reads badly. List label and value pairs in a <C slug="card" />.
-- **For destinations.** A set of apps or areas to open is a <C slug="tile-group" />, or the [launchpad](/design-system/patterns/launchpad-and-tiles/).
-- **To pick values in a form.** Use <C slug="checkbox">checkboxes</C> or a <C slug="multi-select" />. Row selection is for acting on rows, not a form value.
-- **When every column must stay a column at any width.** The data table never scrolls sideways; it pops columns in. The <C slug="table" /> keeps its columns and scrolls inside its frame.
+- **For a short list of records that people only read.** Use the plain <C slug="table" />. It is simpler, and a screen reader has less to announce.
+- **For the details of one record.** A single row with many columns is hard to read. List the labels and values in a <C slug="card" /> instead.
+- **For places to go.** A set of apps or areas to open is a <C slug="tile-group" />, or the [launchpad](/design-system/patterns/launchpad-and-tiles/).
+- **To pick values in a form.** Use <C slug="checkbox">checkboxes</C> or a <C slug="multi-select" />. Selecting rows is for acting on them, not for filling in a form.
+- **When every column has to stay a column, however narrow the screen.** The data table never scrolls sideways; it moves less important columns under each row instead. The plain <C slug="table" /> keeps all its columns and scrolls inside its frame.
 
 ## anatomy
 
-1. **Frame** — 1px `--border` on every side, `--surface`, full width. It never scrolls, so the header can stick to the page; a narrow table pops columns in instead.
-2. **Header row** — a header per column on `--bg-2`: JetBrains Mono 600, 11px, letter-spacing 0.04em, `--fg-muted`, lowercase, one line. Padding 8px 12px, a 1px `--border-2` rule below. It sticks while the page scrolls.
-3. **Sort button** (sortable columns) — the label and a 10 × 12px glyph of two chevrons: the sorted direction drawn full, the other at 35%. On hover, and on the sorted column, the label turns `--fg`. Keyboard focus draws a 2px `--focus-ring` outline.
-4. **Select column** (`selectable`) — 32px wide, holding the 16px <C slug="checkbox" />: "select every visible row" in the header, "select …" in each row.
-5. **Group row** (grouped) — one cell across every column on `--bg-2`, padding 6px 12px, at least 28px tall, laid out as three tracks with 8px between them: a 12px caret in `--fg-muted` (pointing down while open, right while collapsed), the label, and the group action at the end. The label is mono 600 12px in `--fg`, written as it is (not lowercased), on one line cut with an ellipsis; on a table 480px wide or less it wraps instead. Its track can shrink, so a long name never makes the table wider.
-6. **Data row** — cells with padding 8px 12px and a 1px `--border` rule below, 13px in `--fg-2`, vertically centred. The cells take the page's font; the <C slug="table-cells" /> set their own. Hover tints a row `--surface-2`; a selected row is `--surface-selected` with a 2px `--cloud-blue` rule on its leading edge.
-7. **Row header** — the first column, or the one marked as the row header, in `--fg`: what names the row. Popped-in values sit under its content.
-8. **Highlight** (highlighted rows) — a 3px rule in the state's colour (`--state-error`, `--state-warning`, …) on the leading edge. On a selected row it takes the place of the blue selection rule.
-9. **Pop-ins** (narrow) — label and value pairs under the row header's content, 4px below it and 2px apart: the label mono 11px in `--fg-dim`, the value 12px in `--fg-muted`, 8px after it. A pair that doesn't fit wraps.
-10. **Empty cell** (no rows) — one cell across every column, with no padding of its own; its content brings it.
-11. **Growing footer** (`growing`) — the count (mono 12px, `--fg-muted`, tabular figures) and a small "show n more" <C slug="button" />, centred, padding 12px, on `--bg-2` with a 1px `--border` rule above.
-12. **Progress rule** (`loading`) — a 2px `--cloud-blue` bar, 30% wide, moving along the frame's top edge.
+1. **Frame.** A thin border around the whole table, as wide as its container. The table never scrolls sideways, so its header can stick to the top of the page.
+2. **Header row.** A short label for each column, on one line. It stays at the top while the rows scroll underneath, as a <Term id="sticky-header">sticky header</Term>.
+3. **Sort button.** In a column that can be sorted, the label is a button with a small double arrow beside it. The direction the column is sorted in is drawn in full, the other one faded.
+4. **Selection column.** A narrow column of checkboxes: one in the header for every visible row, and one in each row.
+5. **Group row.** A heading row across the whole table for the rows of one group. It holds an arrow that shows whether the group is open, the group's name, and an action for the group at its end.
+6. **Data row.** The cells of one item, with a thin rule below. A row lightens under the pointer; a selected row is tinted blue and has a blue bar on its <Term id="leading-edge">leading edge</Term>.
+7. **<Term id="row-header">Row header</Term>.** The cell that names the row, usually the first one, in brighter text.
+8. **Highlight.** A bar in a state's colour on the leading edge of a row, for the few rows that need acting on. On a selected row it takes the place of the blue bar.
+9. **Pop-ins.** On a narrow table, the labels and values of the columns that made room, under the row's name.
+10. **Empty cell.** When there are no rows, one cell across the whole table holds the empty state.
+11. **Show more.** Under a long list: how many rows are shown out of how many, and a small button to show the next page.
+12. **Progress line.** While the table loads, a thin blue line moves along its top edge.
 
 ## variants and states
 
 ### sorting
 
-- A click on the sorted column's header flips its direction. A click on another header sorts that column in its first direction: ascending, unless the column starts descending — dates usually do. There is no third click back to unsorted.
-- The sort is stable: rows that compare equal keep their order. Text compares naturally ("E2" before "E10") and ignores case and accents, dates compare by time, and empty values go last in either direction.
-- Grouped rows keep their groups: groups appear in the order their first row has after sorting.
+People sort the table by clicking a column's label. Clicking the sorted column again turns the order around. Clicking another column sorts by that one, in its first direction: ascending, unless the column starts with the newest or largest first, as date columns usually do. There is no third click back to the unsorted order.
+
+The sort is predictable. Rows that are equal keep the order they had. Text is compared the way people read it, so “E2” comes before “E10”, and capitals and accents make no difference. Dates are compared by time, and empty values always go last, whichever the direction.
+
+In a grouped table, the rows stay in their groups, and the groups follow the order of their first row after sorting.
 
 <Example column label="sorting, live">
   <Sorting client:visible />
@@ -61,11 +65,11 @@ The interactive table: sorting, row selection, collapsible groups, growing, pop-
 
 ### selection
 
-A selectable table has a checkbox column. What selecting is for — when to offer it, press versus select, select all, keeping a selection — is the [selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) pattern. What the table does today:
+When rows can be selected, the table gets a column of checkboxes. When to offer selection, and how a selection meets the actions above it, is described in [selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/). This is what the table itself does:
 
-- People select with a row's checkbox, a click on the row (when a press doesn't open the row), `space` on a focused row, ranges with `shift`, and `ctrl+a` / `cmd+a` — see behaviour, below.
-- The header checkbox means **every visible row**: the rows on screen, not those in collapsed groups or past the growing limit. It is checked while every visible row that can be selected is selected, and mixed (indeterminate) while anything else is selected. Pressed while checked, it clears the whole selection, hidden rows included. It is disabled while no visible row can be selected. Offering "select all 2,500" is the <C slug="toolbar">selection toolbar</C>'s job.
-- A row that can't be selected has a disabled checkbox, and is kept out of clicks, `space`, ranges, select-all and `ctrl+a`. Its status says why — see [rows that can't be selected](/design-system/patterns/selection-and-bulk-actions/#rows-that-cant-be-selected).
+- People select a row with its checkbox, by clicking the row (unless clicking opens it), or with <Kbd>space</Kbd> on the row that has <Term id="focus">focus</Term>. <Kbd>shift</Kbd> selects a range, and <Kbd>ctrl</Kbd> + <Kbd>a</Kbd> (or <Kbd>cmd</Kbd> + <Kbd>a</Kbd>) selects every visible row. [Behaviour](#behaviour), below, has the details.
+- The checkbox in the header stands for every visible row: the rows on the screen, not those inside closed groups or beyond “show more”. It is ticked when every visible row that can be selected is selected, and shows the <Term id="mixed-state">mixed state</Term> when only some of them are. Pressing it while it is ticked clears the whole selection, hidden rows included. It is <Term id="disabled">disabled</Term> when no visible row can be selected. Offering “select all 2,500” is the job of the selection toolbar, not of this checkbox.
+- A row that can't be selected has a disabled checkbox, and clicks, ranges, select-all and the keyboard all leave it out. Its status says why; see [rows that can't be selected](/design-system/patterns/selection-and-bulk-actions/#rows-that-cant-be-selected).
 
 <Example column label="selection, live">
   <Selection client:visible />
@@ -73,66 +77,80 @@ A selectable table has a checkbox column. What selecting is for — when to offe
 
 ### grouping
 
-- Rows that share a group go under one group row, whose label says what the group is and how many it holds: "The Example Show · S04 · 8 missing". The label keeps its case.
-- A group row can carry one action at its end: a small ghost <C slug="button" /> that acts on the group ("grab all 8"). Pressing it does not toggle the group.
-- A group collapses and expands with a click on its row, `enter` or `space`, `←` and `→`.
+Rows that belong together can sit under a group row. Its label says what the group is and how many rows it holds, such as “The Quiet Harbour · S04 · 8 missing”, and keeps the name's own capitals.
+
+A group row can carry one action at its end, a small quiet button that acts on the whole group, such as “grab all 8”. Pressing that button doesn't open or close the group.
+
+A group opens and closes with a click on its row, with <Kbd>enter</Kbd> or <Kbd>space</Kbd>, or with the left and right arrow keys.
 
 <Example column scroll label="grouped rows, live">
   <Grouped client:visible />
 </Example>
 
-### growing
+### showing more
 
-- A growing table shows a page of rows, 100 for instance. A "show 100 more" button under the table adds as many again ("show 37 more" for the last ones) and goes once everything is shown.
-- The count beside it reads "100 of 2,500": the data rows shown, of every row. Each step is announced.
-- What counts as shown: data rows on screen. Group rows don't count. Rows in a collapsed group count in the total but never as shown, so with groups collapsed the count can stop below the total ("2,380 of 2,500") with no button left.
-- The limit only grows, until the view changes: a new filter or another tab can start it over at one page.
+A long list doesn't have to arrive all at once. The table can show one page of rows, say 100, with a “show 100 more” button underneath that adds as many again. For the last few rows it says how many are left, such as “show 37 more”, and once everything is shown, the button goes.
+
+Beside the button, a count such as “100 of 2,500” says how many rows are shown, out of how many there are. A screen reader announces each new count.
+
+Only data rows on the screen count as shown; group rows don't count at all. Rows inside a closed group count in the total but never as shown, so with groups closed the count can stop below the total, such as “2,380 of 2,500”, with no button left.
+
+The number of rows shown only grows, until the view changes: a new filter or another tab can start it again at one page.
 
 <Example column scroll label="growing, live">
   <Growing client:visible />
 </Example>
 
-### pop-in
+### narrow tables
 
-- Pop-in goes by the table's own width, not the screen's: a table in a narrow panel pops in on a wide screen too. Columns of `low` importance pop in when the table is 720px wide or less, `medium` at 480px or less. `high` columns, and columns with no importance given, always show, and the row header never pops in.
-- A popped-in column is not shown as a column at all: no header, no cells. Its values move under the row header's content, each with its label.
-- The table never scrolls sideways. Keep the `high` columns few enough to fit the narrowest width you support.
-- Today: when the sorted column pops in, its header goes with it. The order holds, but nothing on screen or in the accessibility tree says what the rows are sorted by.
+When a table gets narrow, there isn't room for every column. Instead of scrolling sideways, the table makes room: its less important columns leave, and their values <Term id="pop-in">pop in</Term> under each row's name, each with its label.
+
+- The table goes by its own width, not the screen's. A table in a narrow side panel pops in on a wide screen too.
+- Each column can be ranked as low, medium or high importance. Low columns pop in first, when the table gets narrow; medium columns follow when it gets narrower still. High columns, and columns without a rank, always stay, and the row header never pops in. The exact widths are in the [specs](#specs).
+- A column that pops in disappears as a column: no label in the header, no cells. Its values move under the row's name.
+- Because the table never scrolls sideways, keep the high columns few enough to fit the narrowest screen you support.
+
+Today: when the column the rows are sorted by pops in, its sort button goes with it. The rows stay in order, but nothing on the screen, and nothing a screen reader can find, says what they are sorted by.
 
 <Example column label="pop-in in a frame 380px wide, live">
   <PopIn client:visible />
 </Example>
 
-### row press
+### rows that open
 
-- A row can itself be an action, usually opening its details: a click outside the row's controls, or `enter` on the focused row, presses it. The checkbox, `space`, `shift+space` and `shift+↑` / `shift+↓` still select.
-- Without a row press, a click on a selectable row toggles its selection, and `enter` does nothing.
-- How a press and a selection share a row is [press versus select](/design-system/patterns/selection-and-bulk-actions/#press-versus-select).
-- Today: a pressable row looks like any other — no pointer cursor, no chevron — and nothing tells assistive tech that `enter` opens it. Put a link in the row header as well, so where the row leads is a real link people can find.
+A whole row can be an action, usually opening the item's details. A click anywhere outside the row's own controls opens it, and so does <Kbd>enter</Kbd> on the row that has focus. The checkbox still selects, and so do <Kbd>space</Kbd>, and <Kbd>shift</Kbd> with <Kbd>space</Kbd> or the up and down arrow keys.
+
+When rows don't open, a click on a row that can be selected selects it, and <Kbd>enter</Kbd> does nothing. How opening and selecting share one row is explained in [press versus select](/design-system/patterns/selection-and-bulk-actions/#press-versus-select).
+
+Today: a row that opens looks just like any other, with no pointer cursor and no arrow, and nothing tells <Term id="assistive-technology">assistive technology</Term> that <Kbd>enter</Kbd> opens it. Put a link in the row header as well, so where the row leads is a real link people can find.
 
 <Example column label="rows that open on press, live">
   <RowPress client:visible />
 </Example>
 
-### highlight
+### highlighted rows
 
-- A row can carry a state — `error`, `warning`, `information`, `success` or `neutral` — as a 3px rule in that state's colour on its leading edge. The example at the top highlights the rows that failed.
-- The rule is decoration: it tells assistive tech nothing, and colour alone never carries a state. The row says the state in words, in a <C slug="table-cells">status cell</C>.
-- Use it for the few rows that need acting on (`error` for what failed), not to colour every row by its state.
+A row can carry a state (error, warning, information, success or neutral) as a bar in that state's colour on its leading edge. The example at the top of this page highlights the rows that failed.
 
-### sticky header
+The bar is only decoration. It tells assistive technology nothing, and colour on its own never carries a state, so the row also says its state in words, in a <C slug="table-cells">status cell</C>.
 
-- The header sticks by default: while the rows scroll under it, it stays at the top of the page — or, inside a panel with its own scroll, at the top of that panel.
-- Under something else that sticks — an app bar, a sticky toolbar — the header is offset to stick below it. The [worklist](/design-system/patterns/worklist/)'s header sticks below its toolbar.
+Use highlights for the few rows that need acting on, such as an error for what failed, rather than colouring every row by its state.
+
+### the sticky header
+
+The header row sticks by default. While the rows scroll underneath, it stays at the top of the page, or at the top of a panel that scrolls on its own.
+
+Below something else that sticks, such as an app bar or a toolbar, the header sticks just under it. In a [worklist](/design-system/patterns/worklist/), the header sticks below the toolbar.
 
 ### loading
 
-- While it loads, a 2px `--cloud-blue` rule runs along the table's top edge (a still, full-width rule with reduced motion). The rows stay at full contrast, and stay interactive.
-- Keep the old rows while new ones load; don't empty the table first.
-- Show the empty state only once you know the list is empty, not while it loads.
-- The rule sits on the frame's top edge and doesn't stick with the header: in a long list it can be scrolled out of view.
+While new rows load, a thin blue line runs along the table's top edge; with <Term id="reduced-motion">reduced motion</Term> it is a still line across the full width. The rows stay as they are, at full strength, and people can keep working with them.
 
-<MotionFrame what="the rule">
+- Keep the old rows while the new ones load. Don't empty the table first.
+- Show the empty state only once you know the list is empty, not while it is still loading.
+- The line sits on the frame's top edge and doesn't stick with the header, so in a long list it can scroll out of view.
+
+<MotionFrame what="the line">
   <Example column label="a table that is loading">
     <Loading />
   </Example>
@@ -140,8 +158,9 @@ A selectable table has a checkbox column. What selecting is for — when to offe
 
 ### empty
 
-- With no rows, the table shows its empty state in its body, across every column. Which kind, and what it says, is [empty states](/design-system/patterns/empty-states/).
-- Without one, an empty table is a header row with nothing under it.
+With no rows, the table shows its empty state across the whole table. Which kind of empty state, and what it says, is described in [empty states](/design-system/patterns/empty-states/).
+
+Without one, an empty table is a header row with nothing under it.
 
 <Example column label="an empty table">
   <Empty />
@@ -149,7 +168,7 @@ A selectable table has a checkbox column. What selecting is for — when to offe
 
 ### density
 
-`dense` cuts the padding of header and body cells to 4px 8px, for side panels and long lists. A table 480px wide or less cuts the side padding to 8px on its own.
+A dense table has less space around each cell, so more rows fit on the screen: useful for side panels and long lists. A table that gets very narrow tightens its side spacing on its own. More on <Term id="density">density</Term> is in [layout](/design-system/foundations/layout/).
 
 <Example column label="a dense data table">
   <DenseTable />
@@ -157,81 +176,109 @@ A selectable table has a checkbox column. What selecting is for — when to offe
 
 ## behaviour
 
-- **One tab stop.** The table keeps one row in the tab order: the last one focused, or the first row to begin with. The controls inside every other row are out of the tab order, so `tab` crosses the table in one step instead of stopping at each checkbox and menu.
-- `tab` from the focused row goes into that row's own controls (its checkbox, its action menu), then out of the table to the "show n more" button or beyond. The header's controls — select-all and the sort buttons — stay in the tab order before the rows; `shift+tab` reaches them.
-- The arrow keys move from row to row, group rows included; `space` toggles the focused row's selection and `enter` presses it; on a group row, `←` and `→` collapse and expand it.
-- A click on a row focuses it, so it becomes the tab stop.
-- The focused row draws a 2px `--focus-ring` frame inside its cells, for keyboard focus only.
-- When the row that has focus leaves the list (an action removed it, a filter hid it), or the last "show n more" press removes its button, focus moves to the table's tab stop — the row last focused, or the first row — instead of falling to the page.
+### with the keyboard
 
-With a pointer:
+- **The table is one <Term id="tab-stop">tab stop</Term>.** One row at a time is in the tab order: the row that last had focus, or the first row to begin with. The controls inside the other rows are left out, so <Kbd>tab</Kbd> crosses the table in one step instead of stopping at every checkbox and menu.
+- <Kbd>tab</Kbd> from the focused row goes into that row's own controls, its checkbox and its action menu, and then out of the table to the “show more” button or beyond. The controls in the header, the select-all checkbox and the sort buttons, come before the rows; <Kbd>shift</Kbd> + <Kbd>tab</Kbd> reaches them.
+- The up and down arrow keys move from row to row, group rows included. <Kbd>space</Kbd> selects or clears the focused row, and <Kbd>enter</Kbd> opens it, when rows open. On a group row, the left and right arrow keys close and open the group.
+- A click on a row moves focus to it, so it becomes the table's tab stop.
+- The focused row is outlined, for keyboard focus only.
+- When the row that has focus leaves the list (an action removed it, a filter hid it), or the last “show more” press removes the button, focus goes back to the table's tab stop: the row that last had focus, or the first row. It doesn't drop back to the top of the page.
 
-- A click on a row toggles its selection, or presses the row when a press opens it. `shift+click` on a checkbox — or on the row, when a press doesn't open it — toggles that row and sets every row from the last one toggled the same way.
-- A click on a group row toggles the group.
-- Clicks on a row's own controls — checkbox, buttons, links, menus — are theirs. They never toggle or press the row.
-- A click while text is selected on the page does nothing, so people can copy from a row. A `shift+click` is the exception: it selects the range of rows, and the table keeps the browser from selecting text on it.
+### with a pointer
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-data-display-data-table--docs).
+- A click on a row selects it or clears it, or opens the row when rows open.
+- <Kbd>shift</Kbd> + click on a checkbox, or on a row when rows don't open, selects or clears that row, and every row back to the last one changed, in the same way.
+- A click on a group row opens or closes the group.
+- Clicks on a row's own controls, such as its checkbox, buttons, links and menus, belong to those controls. They never select or open the row.
+- A click while text is selected on the page does nothing, so people can copy from a row. <Kbd>shift</Kbd> + click is the exception: it selects the range of rows, and the table stops the browser from selecting text.
+
+The full keyboard map is on the data table's [React page](/design-system/react/?path=/docs/components-data-display-data-table--docs).
 
 ## accessibility
 
-- A screen reader names each cell by its column and its row: the headers are real column headers, and the row header names the row.
-- **Name the table**, by the heading above it or with a label of its own. Nothing enforces it.
-- **Name the rows.** Each checkbox is named by its row, "select S04E07"; name the row's <C slug="action-menu" /> the same way, "actions for S04E07".
-- An actions column needs a header too: a visually hidden one, "actions".
-- **States in words.** A highlight rule tells assistive tech nothing; a <C slug="table-cells">status cell</C> says the state.
-- Announcements: each growing step is announced by its count. A sort is told on its header, not announced. The table doesn't announce selection changes; a <C slug="toolbar">selection toolbar</C> above it does ("8 selected").
+- A <Term id="screen-reader">screen reader</Term> names each cell by its column and its row, because the column labels are real column headers and the row header names the row.
+- **Name the table**, with the heading above it or a label of its own. Nothing checks that it has one.
+- **Name the rows.** Each checkbox is named after its row, such as “select S04E07”. Name the row's <C slug="action-menu" /> the same way, such as “actions for S04E07”.
+- **Label the actions column too**, with a label that is hidden on screen but read out: “actions”.
+- **Say states in words.** A highlight bar tells assistive technology nothing; a <C slug="table-cells">status cell</C> says the state.
+- Each new “show more” count is announced. A sort is not announced, but the sorted column's header says it. The table doesn't announce changes to the selection; a <C slug="toolbar">selection toolbar</C> above it does, with words like “8 selected”.
 
 Today:
 
-- The arrow keys move by row only. A cell can't take focus, so `←` and `→` don't move across a row's cells, and the header row is outside the arrow keys (reach it with `shift+tab`).
-- The built-in words are fixed English: "select every visible row", the "select" before each row's label, and "show n more".
-- A load starting or finishing is not announced. When it takes long, say so in words near the table.
-- `ctrl+a` / `cmd+a` on a group row selects the page's text: the table takes it on data rows only.
+- The arrow keys move by row only. A single cell can't take focus, so the left and right arrow keys don't move across a row's cells, and the header row is outside the arrow keys; <Kbd>shift</Kbd> + <Kbd>tab</Kbd> reaches it.
+- The table's own words are fixed, in English: “select every visible row”, the “select” in front of each row's name, and “show n more”.
+- The table doesn't announce when loading starts or ends. When it takes long, say so in words near the table.
+- <Kbd>ctrl</Kbd> + <Kbd>a</Kbd> (or <Kbd>cmd</Kbd> + <Kbd>a</Kbd>) on a group row selects the page's text; the table only takes it over on data rows.
 
 ## content
 
-- **Headers** — a lowercase noun, one or two words: `episode`, `aired`, `state`. Put a unit in the header, `size (gb)`, not in every cell.
-- **The row header** — what people call the row, `S04E07` or `worker-2`, in an <C slug="table-cells">identifier cell</C>. Name the row's checkbox and its action menu with the same words, so the checkbox, the action menu and the row agree.
-- **Status** — one status cell per row, from one table of the object's states (see [status vocabulary](/design-system/patterns/status-vocabulary/)): the state in the object's words, and a detail line for why or what happens next.
-- **Dates** — a <C slug="table-cells">date cell</C>: absolute and relative.
-- **Group headers** — what the group is and how many it holds: `The Example Show · S04 · 8 missing`. A group's name is content: the label shows it as written, so write it the way the name is spelled.
-- **Group actions** — a verb and the count it acts on: `grab all 8`.
-- **Growing** — keep the "100 of 2,500" form. Change its words for another language, not for other words.
-- **Empty** — what is true, in the list's own words: see [empty states](/design-system/patterns/empty-states/).
+- **Column labels.** A noun of one or two words, lowercase: “episode”, “aired”, “state”. Put a unit in the label, “size (gb)”, rather than in every cell.
+- **The row header.** What people call the row, such as “S04E07” or “worker-2”, in an <C slug="table-cells">identifier cell</C>. Use the same words to name the row's checkbox and its action menu, so all three agree.
+- **Status.** One status cell per row, taken from one table of the object's states (see [status vocabulary](/design-system/patterns/status-vocabulary/)): the state in the object's own words, and a second line for why, or what happens next.
+- **Dates.** A <C slug="table-cells">date cell</C>, which gives the date and how long ago it was.
+- **Group labels.** What the group is and how many rows it holds: “The Quiet Harbour · S04 · 8 missing”. A group's name is content, shown as it is written, so spell it the way the name is spelled.
+- **Group actions.** A verb and the number it acts on: “grab all 8”.
+- **Showing more.** Keep the “100 of 2,500” form. Translate it for another language, but don't reword it.
+- **Empty.** What is true, in the list's own words; see [empty states](/design-system/patterns/empty-states/).
 
 ## do and don't
 
 <DoDont>
-  <Do column caption="Per-row actions in one action menu, named by the row. The row stays quiet and has one tab stop for its actions.">
+  <Do column caption="The actions for each row in one action menu, named after the row. The row stays calm and has one tab stop for its actions.">
     <MenuPerRow client:visible />
   </Do>
-  <Dont column caption="A row of buttons on every row: the same labels again and again, nothing reads as the next step, and the table runs out of width.">
+  <Dont column caption="A row of buttons in every row: the same labels again and again, nothing reads as the next step, and the table runs out of width.">
     <ButtonsPerRow />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do column caption="The state in words in every row; the highlight only marks the rows that need acting on.">
+  <Do column caption="Every row says its state in words; the highlight only marks the rows that need acting on.">
     <StatesInWords />
   </Do>
-  <Dont column caption="A rule with no words: screen readers hear nothing, and nobody can tell what the rule means.">
+  <Dont column caption="A coloured bar with no words: screen readers hear nothing, and nobody can tell what the colour means.">
     <ColourOnly />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do column caption="An empty list says what is true, in the list's words.">
+  <Do column caption="An empty list says what is true, in the list's own words.">
     <NothingMissing />
   </Do>
-  <Dont column caption="A header with nothing under it: people can't tell an empty list from one that is still loading or failed to load.">
+  <Dont column caption="A header with nothing under it: people can't tell an empty list from one that is still loading, or one that failed to load.">
     <NoEmptyState />
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="table">Table</C> — the static table, for short read-only records.
-- <C slug="table-cells">Table cells</C> — status with a reason, dates both ways, identifiers.
-- [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) — selecting rows and acting on them from a toolbar.
-- [Worklist](/design-system/patterns/worklist/) — the floorplan a data table usually sits in.
+- <C slug="table">Table</C>: the plain table, for short lists people only read.
+- <C slug="table-cells">Table cells</C>: a status with its reason, a date said two ways, and an identifier.
+- [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/): selecting rows, and acting on them from a toolbar.
+- [Worklist](/design-system/patterns/worklist/): the page a data table usually sits in.
+
+## specs
+
+| part | spec |
+| --- | --- |
+| Frame | A 1px `--border` on every side, `--surface` fill, full width. It never scrolls, so the header can stick to the page. |
+| Header row | On `--bg-2`. JetBrains Mono 600, 11px, letter-spacing 0.04em, `--fg-muted`, lowercase, one line. Padding 8px 12px, a 1px `--border-2` rule below. Sticky by default (`stickyHeader`). |
+| Sort button | The label and a 10 × 12px glyph of two chevrons: the sorted direction drawn full, the other at 35% opacity. On hover, and on the sorted column, the label turns `--fg`. Keyboard focus: a 2px `--focus-ring` outline. |
+| Selection column | `selectable`. 32px wide, holding the 16px checkbox. |
+| Group row | One cell across every column on `--bg-2`, padding 6px 12px, at least 28px tall. Three tracks 8px apart: a 12px caret in `--fg-muted` (down while open, right while closed), the label, the group action. The label is mono 600 12px in `--fg`, as written (not lowercased), on one line with an ellipsis; on a table 480px wide or less it wraps. Its track can shrink, so a long name never widens the table. The action is a small ghost button. |
+| Data row | Cells padded 8px 12px, a 1px `--border` rule below, 13px in `--fg-2`, vertically centred. Cells take the page's font; the table cells set their own. Hover: `--surface-2`. Selected: `--surface-selected` and a 2px `--cloud-blue` rule on the leading edge. |
+| Row header | The first column, or the one marked `rowHeader`, in `--fg`. Pop-ins sit under its content. |
+| Highlight | `rowHighlight`: a 3px rule in the state's colour (`--state-error`, `--state-warning`, …) on the leading edge, in place of the blue selection rule on a selected row. |
+| Pop-ins | 4px below the row header's content, 2px apart. Label: mono 11px, `--fg-dim`. Value: 12px, `--fg-muted`, 8px after the label. A pair that doesn't fit wraps. |
+| Empty cell | One cell across every column, with no padding of its own. |
+| Show more | `growing`. The count in mono 12px, `--fg-muted`, tabular figures, and a small “show n more” button; centred, padding 12px, on `--bg-2`, with a 1px `--border` rule above. |
+| Progress line | `loading`: a 2px `--cloud-blue` bar, 30% wide, running along the top edge, 1.1s `ease-in-out` a run; a still, full-width 2px rule with reduced motion. |
+| Focused row | A 2px `--focus-ring` frame drawn inside its cells, on keyboard focus only. |
+
+| setting | in code | what it does |
+| --- | --- | --- |
+| Importance | `importance` on a column: `'low'`, `'medium'` or `'high'` | Low columns pop in at a table width of 720px or less, medium at 480px or less. High columns, and columns without one, always show. The row header never pops in. |
+| Density | `dense` | Header and body cells padded 4px 8px. At 480px or less, every table's side padding drops to 8px. |
+| Rows that open | `onRowPress` | A click outside the row's controls, or <Kbd>enter</Kbd> on the focused row, presses it. |
+| Sticky offset | `--nc-dt-sticky-top` | How far below the top the header sticks, under another sticky bar. |

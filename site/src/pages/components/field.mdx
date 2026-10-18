@@ -1,17 +1,19 @@
 ---
 layout: ../../layouts/Doc.astro
 title: field
-description: The label, hint and error around one control, in a vertical stack, wired to it so the parts stay connected for assistive tech.
+description: A field puts a label, a hint and an error around one control in a form, and connects them to it, so they are read out together.
 component: field
 ---
+import { Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Playground, States, Controls, Required } from '@site/examples/field';
 import { InputField, CheckboxField } from '@site/demos/components/field';
 
 # field
 
-The label, hint and error around one control, in a vertical stack, wired to the control so the parts stay connected for assistive tech.
+A field puts a label, a hint and an error around one control, one under the other. It connects them to the control, so <Term id="assistive-technology">assistive technology</Term> reads them together.
 
 <Example label="a field with a label and a hint">
   <Playground />
@@ -19,39 +21,39 @@ The label, hint and error around one control, in a vertical stack, wired to the 
 
 ## when to use
 
-- Around every <C slug="input" />, <C slug="select" /> and <C slug="textarea" /> in a form. They have no label of their own.
-- Around a <C slug="checkbox" /> or a <C slug="switch" /> only to add a hint or an error; their own label already names them.
-- Whenever a value can be wrong: the field shows the error in place of the hint and marks the control invalid.
+- Around every <C slug="input" />, <C slug="select" /> and <C slug="textarea" /> in a form. They have no label of their own, so the field gives them one.
+- Around a <C slug="checkbox" /> or a <C slug="switch" />, only to add a hint or an error. Their own label already names them.
+- Whenever a value can be wrong. The field shows the error in place of the hint, and marks the control as invalid.
 
-## when not to use
+## when to use something else
 
-- **To label a group** of checkboxes, switches or radios. A field labels one control; use a native fieldset with a legend — see [forms and settings](/design-system/patterns/forms-and-settings/).
-- **Where a visible label does not fit**, such as a search box in a toolbar. Use an <C slug="input" /> with an `aria-label` and a leading search icon, or the <C slug="filter-bar" />.
-- **For a message about the whole form**, such as "Could not save". Use a <C slug="message-strip" /> above the form — see [message handling](/design-system/patterns/message-handling/).
+- **To label a group** of checkboxes, switches or radio buttons. A field labels one control. Put the group in the browser's own group frame, with a title for the whole group; [forms and settings](/design-system/patterns/forms-and-settings/) shows how.
+- **Where a visible label doesn't fit**, such as a search box in a toolbar. Use an <C slug="input" /> with a search icon in front and a name that is read out but not shown, or use the <C slug="filter-bar" />.
+- **For a message about the whole form**, such as “Could not save”. Use a <C slug="message-strip" /> above the form, as [message handling](/design-system/patterns/message-handling/) explains.
 
 ## anatomy
 
-1. **Container** — a vertical stack with 8px between the parts.
-2. **Label** (optional) — Inter 500, 13px, in `--fg-2`, shown as written: the body face, in sentence case.
-3. **Required marker** (optional) — ` *` after the label, in `--cloud-blue`, hidden from assistive tech.
-4. **Control** — the one control the field labels: an input, a select, a textarea, a checkbox or a switch.
-5. **Message** (optional) — the hint in `--fg-dim`, or the error in `--state-error`; Inter 12px. The error replaces the hint.
+1. **Column.** The parts, one under the other, with a little space between them.
+2. **Label** (optional). What the value is, in the <Term id="body-face">body face</Term>. It is shown just as it is written, in <Term id="sentence-case">sentence case</Term>.
+3. **Required marker** (optional). A blue asterisk after the label. Assistive technology doesn't see it.
+4. **Control.** The one control the field labels: an input, a select, a textarea, a checkbox or a switch.
+5. **Message** (optional). The hint, in a dim colour, or the error, in red, both in small body text. The error takes the hint's place.
 
 ## variants and states
 
-A label with a hint, a required field, and an error. The error replaces the hint and turns the border of an input, select or textarea `--state-error`.
+A field can carry a hint, be marked as required, or show an error. The error takes the hint's place, and it turns the border of an input, a select or a textarea red.
 
 <Example label="a hint, a required field and an error">
   <States />
 </Example>
 
-The same parts work for each control. Around a checkbox, leave the field's label out and keep the hint: the checkbox names itself.
+The same parts work around every control. Around a checkbox, leave the field's label out and keep the hint: the checkbox already names itself.
 
 <Example label="a field around a select, a textarea and a checkbox">
   <Controls />
 </Example>
 
-`required` only draws the marker. The control has to be required as well, as this select is, so the browser and assistive tech know.
+Marking a field as required only draws the asterisk. Make the control itself required as well, as this select is, so that the browser and assistive technology know.
 
 <Example label="a required select">
   <Required />
@@ -59,30 +61,30 @@ The same parts work for each control. Around a checkbox, leave the field's label
 
 ## behaviour
 
-- The field adds no keys and no tab stop of its own: `tab` reaches the control, and the control keeps its own keys.
-- A click on the label focuses the control, or toggles a checkbox or a switch.
+- The field adds no keys and no <Term id="tab-stop">tab stop</Term> of its own. <Kbd>tab</Kbd> goes straight to the control, and the control keeps its own keys.
+- A click on the label puts <Term id="focus">focus</Term> in the control, or turns a checkbox or a switch on or off.
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-inputs-field--docs).
+The full keyboard map is on the field's [React page](/design-system/react/?path=/docs/components-inputs-field--docs).
 
 ## accessibility
 
-- The label's text is the control's name. Nothing transforms it: write the label as you want it read, in sentence case.
-- The hint or the error is read after the name and the value.
-- With an error, the control is marked invalid for assistive tech too, not only by its border.
-- Around a checkbox or a switch, leave the field's label out. Two labels name the control twice.
+- The label's text is the control's <Term id="accessible-name">accessible name</Term>. Nothing changes its letters, so write the label exactly as it should be read, in sentence case.
+- A <Term id="screen-reader">screen reader</Term> reads the hint or the error after the control's name and its value.
+- With an error, the control is marked as invalid for assistive technology too, not only by its red border.
+- Around a checkbox or a switch, leave the field's label out. Two labels would name the control twice.
 
 Today:
 
-- The marker is only drawn, and it is hidden from assistive tech; the field doesn't make the control required. Make the control required itself, and say once per form what the asterisk means.
-- An error is not announced when it appears. After a failed submit, move focus to the first invalid control so its error is read — see [message handling](/design-system/patterns/message-handling/).
-- An error around a checkbox or a switch doesn't mark the box: it keeps its normal look, and the error text is the only cue.
+- The asterisk is only drawn, and assistive technology doesn't see it: the field doesn't make the control required. Make the control required itself, and say once per form what the asterisk means.
+- An error isn't announced when it appears. When people send a form that has errors, move focus to the first invalid control, so its error is read out; see [message handling](/design-system/patterns/message-handling/).
+- An error around a checkbox or a switch doesn't mark the box. It keeps its normal look, and the error text is the only sign.
 
 ## content
 
-- **Label** — a noun phrase for the value, in sentence case, no colon: `Release name`, `Region`, `Timeout (ms)`.
-- **Hint** — what is accepted and why, in one line: `Lowercase letters, digits and hyphens`. Don't repeat the label.
-- **Error** — what is wrong and how to fix it: `Use 63 characters or fewer`. No blame, no codes, no `Invalid input`. The error replaces the hint, so repeat the rule when people still need it.
-- **Required** — mark the required fields and explain the asterisk once at the top of the form. When most fields are required, mark the optional ones in their label instead: `Description (optional)`.
+- **Label.** A noun phrase for the value, in sentence case, with no colon: “Release name”, “Region”, “Timeout (ms)”.
+- **Hint.** What is accepted and why, in one line: “Lowercase letters, digits and hyphens”. Don't repeat the label.
+- **Error.** What is wrong and how to fix it: “Use 63 characters or fewer”. No blame, no codes, and no “Invalid input”. The error takes the hint's place, so repeat the rule when people still need it.
+- **Required.** Mark the required fields, and explain the asterisk once, at the top of the form. When most fields are required, mark the optional ones in their label instead: “Description (optional)”.
 
 ## do and don't
 
@@ -90,16 +92,16 @@ Today:
   <Do caption="The error says how to fix it." column>
     <InputField label="Host" value="api" error="Use a full host name, such as api.example.com" />
   </Do>
-  <Dont caption="A verdict without a way out." column>
+  <Dont caption="A verdict, with no way out." column>
     <InputField label="Host" value="api" error="Invalid value" />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="The hint adds what the label cannot: the format." column>
+  <Do caption="The hint adds what the label can't: the format." column>
     <InputField label="Release name" hint="Lowercase letters, digits and hyphens" placeholder="the-lantern-2024" />
   </Do>
-  <Dont caption="A hint that repeats the label is noise, read out on every visit." column>
+  <Dont caption="A hint that repeats the label is noise, and a screen reader reads it out on every visit." column>
     <InputField label="Release name" hint="The name of the release" placeholder="the-lantern-2024" />
   </Dont>
 </DoDont>
@@ -115,7 +117,24 @@ Today:
 
 ## related
 
-- <C slug="input">Input</C> — the control a field most often wraps.
-- <C slug="select">Select</C> — a value from a known list, labelled by a field.
-- [Forms and settings](/design-system/patterns/forms-and-settings/) — how fields stack into a form, with groups and a save action.
-- [Message handling](/design-system/patterns/message-handling/) — field errors next to the form-level messages.
+- <C slug="input">Input</C>: the control a field wraps most often.
+- <C slug="select">Select</C>: a value from a known list, labelled by a field.
+- [Forms and settings](/design-system/patterns/forms-and-settings/): how fields stack into a form, with groups and a save button.
+- [Message handling](/design-system/patterns/message-handling/): errors on fields, next to the messages about the whole form.
+
+## specs
+
+| part | in code | spec |
+| --- | --- | --- |
+| Column | `Field` | A vertical stack, 8px (`--s-2`) between the parts. |
+| Label | `label` | Inter 500, 13px, line height 1.4, `--fg-2`, no `text-transform`. A native `<label>` whose `for` points at the control. |
+| Required marker | `required` | ` *` after the label, in `--cloud-blue`, `aria-hidden="true"`. It doesn't make the control required: pass `required` to the control as well. |
+| Control | the one child element | An `Input`, `Select`, `Textarea`, `Checkbox` or `Switch`. |
+| Hint | `hint` | Inter 12px, line height 1.4, `--fg-dim`. |
+| Error | `error` | Inter 12px, line height 1.4, `--state-error`, in place of the hint. It sets `aria-invalid` and `invalid` on the control, so an input, a select or a textarea draws a `--state-error` border. |
+
+- **Wiring:** the control's `id` is `htmlFor` when you pass it, else the child's own `id`, else a generated one. The label points at it, and the hint or the error joins the control's `aria-describedby`, so it is read after the name and the value.
+- **Announcing:** the message is not a live region, so an error that appears isn't announced.
+- **Groups:** a group of checkboxes, switches or radios is a native `<fieldset>` with a `<legend>`, not a field.
+- **No room for a label:** an `Input` with an `aria-label` and a leading search icon.
+- **Keyboard:** no keys and no tab stop of its own.

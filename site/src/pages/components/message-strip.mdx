@@ -1,17 +1,18 @@
 ---
 layout: ../../layouts/Doc.astro
 title: message strip
-description: A message about the content of the page — a square strip with a state rule, a glyph, one or two human sentences, a way forward, and the technical part behind details.
+description: A message about the content of the page, such as titles that can't be checked or a list that couldn't load. It says what is true in plain words, offers a way forward and keeps the technical part behind details.
 component: message-strip
 ---
-import { Button, MessageStrip } from '@nalet/design-system';
+import { Button, Kbd, MessageStrip } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Playground, States, WithDetails, Dismissible } from '@site/examples/message-strip';
 
 # message strip
 
-A message about the content of the page: a square strip with a state rule, a glyph, one or two human sentences, a way forward, and the technical part behind a details disclosure.
+A message strip tells people something about the content of the page, such as titles that can't be checked, in one or two plain sentences and with a way forward. The technical part waits behind “details”.
 
 <Example label="a message strip with actions and details, live" column>
   <Playground client:visible />
@@ -19,39 +20,41 @@ A message about the content of the page: a square strip with a state rule, a gly
 
 ## when to use
 
-- For a condition of the page's content that lasts until it is resolved or dismissed: `105 titles can't be checked: the catalog holds them without an identity.`
-- For an error from loading or from an action, with a way forward: `Couldn't load the list.` and `try again`.
-- Above the content it is about. At most one or two at a time: more than that, and none of them reads as important.
+- For a condition of the page's content that lasts until it is resolved or dismissed: “105 titles can't be checked: the catalog holds them without an identity.”
+- For an error from loading or from an action, with a way forward: “Couldn't load the list.” and “try again”.
+- Above the content it is about. Show one or two at a time at most: with more, none of them reads as important.
 
-## when not to use
+## when to use something else
 
-- **To confirm an action someone just took** — `8 episodes queued`. Use a <C slug="toast" />: it says so and leaves.
-- **For one item** — a field's error, a row's state. Use the <C slug="field" /> error text, or an <C slug="object-status" /> in the row.
-- **In place of a list that has nothing to show** — it is empty, or it couldn't load and there is nothing older to show. That is an <C slug="illustrated-message" /> where the list would be. Keep the strip for content that is still on screen.
+- **To confirm an action someone just took.** For “8 episodes queued”, use a <C slug="toast" />: it says so and leaves.
+- **For one item.** A field's error goes in the error text of its <C slug="field" />, and a row's state in an <C slug="object-status" /> in the row.
+- **In place of a list that has nothing to show.** When the list is empty, or couldn't load and there is nothing older to show, use an <C slug="illustrated-message" /> where the list would be. Keep the strip for content that is still on the screen.
 - **To stop everything for a decision.** Use a <C slug="modal" />.
-- **For help that is always true about one control.** That is a <C slug="field" /> hint.
+- **For help that is always true about one control.** Put it in the hint of the control's <C slug="field" />.
 
 ## anatomy
 
-1. **Container** — a row with 12px padding (16px on the left), a 3px rule on the left in the state's colour (`--state-*`), a 1px `--state-*-border` frame, a `--state-*-bg` fill and square corners. Inter 13px / 1.5 in `--fg`.
-2. **Glyph** — the state's 14px glyph in its colour, set 3px down so it sits on the first line. Hidden from assistive tech.
-3. **Text** — one or two sentences. It takes the free width, at least 24ch before the actions wrap under it.
-4. **Actions** (optional) — after the text, 8px apart. They wrap under the text when there is no room.
-5. **Details toggle** (with details) — a quiet text button: JetBrains Mono 12px in `--fg-muted`, lowercase, 28px tall, with a 10px caret that turns down while the details are open.
-6. **Details** (optional) — 8px under the text: JetBrains Mono 12px / 1.55 in `--fg-muted`, 8px × 12px padding and a 1px `--state-*-border` rule on the left. Line breaks are kept, and long IDs break anywhere.
-7. **Dismiss** (optional) — a 28px square button at the right edge, with a 12px × in `--fg-muted`.
+1. **Strip.** A square box, tinted and framed in shades of the state's colour, with a thicker bar in the colour itself down its left edge.
+2. **<Term id="glyph">Glyph</Term>.** The state's small symbol, in its colour, beside the first line of text. <Term id="assistive-technology">Assistive technology</Term> skips it.
+3. **Text.** One or two sentences, in the <Term id="body-face">body face</Term>. It takes the free width.
+4. **Actions** (optional). Small buttons after the text. When there isn't room beside it, they move under it.
+5. **Details toggle** (when there are details). A quiet text button, “details”, with a small arrow that turns down while the details are open.
+6. **Details** (optional). The technical part, under the text, in <Term id="monospace">monospace</Term>, set off by a thin line on its left. Line breaks are kept, and long ids break anywhere.
+7. **Dismiss** (optional). A small square button with a cross, at the right edge.
 
 ## variants and states
 
-Five states; `information` is the default.
+There are five states: neutral, information, success, warning and error. Information is the default. Each has its own colour and its own glyph.
 
-| state | announced | use for |
+A <Term id="screen-reader">screen reader</Term> announces each state in its own way: politely, at its next pause, or at once, interrupting what it is reading.
+
+| state | what a screen reader says | use it for |
 | --- | --- | --- |
-| `neutral` | Politely, the text alone | A plain fact about the content: what runs on its own, what is switched off |
-| `information` | Politely, "information:" and the text | Under way, or worth knowing: the list is being refreshed, an index is rebuilding |
-| `success` | Politely, "success:" and the text | A good condition that lasts — every source answered in the last hour — or what a save changed on this page: `Saved. Times on this page now show in UTC.` A plain confirmation is a toast |
-| `warning` | Politely, "warning:" and the text | Works, but someone should look: titles that can't be checked, sources over their limit, a refresh that failed while the last data still shows |
-| `error` | At once, "error:" and the text | Failed or blocked, needs action: an action that failed, a list that couldn't load. Always give a way forward |
+| Neutral | The text alone, politely | A plain fact about the content: what runs on its own, what is switched off |
+| Information | “information:” and the text, politely | Under way, or worth knowing: the list is being refreshed, an index is rebuilding |
+| Success | “success:” and the text, politely | A good condition that lasts, such as every source answered in the last hour. Or what a save changed on this page: “Saved. Times on this page now show in UTC.” A plain confirmation is a toast |
+| Warning | “warning:” and the text, politely | It works, but someone should look: titles that can't be checked, sources over their limit, a refresh that failed while the last data still shows |
+| Error | “error:” and the text, at once | Failed or blocked, and needs action: an action that failed, a list that couldn't load. Give it a way forward |
 
 <Example label="the five states" column>
   <States />
@@ -59,7 +62,7 @@ Five states; `information` is the default.
 
 ### details
 
-The details put the technical part — IDs, raw errors, HTTP codes — behind a disclosure, in mono. They are closed until someone opens them, and an announcement never reads them out.
+The details keep the technical part, such as ids, raw errors and HTTP codes, behind a <Term id="disclosure">disclosure</Term>, in monospace. They stay closed until someone opens them, and an announcement never reads them out.
 
 <Example label="an error with its details, live" column>
   <WithDetails client:visible />
@@ -67,7 +70,9 @@ The details put the technical part — IDs, raw errors, HTTP codes — behind a 
 
 ### dismiss
 
-A strip can carry a dismiss button. Offer it for a message people can read and move on from — what a save changed, an action that failed — and leave it off a condition that is still true, like a list that can't load. The strip doesn't remember a dismissal: the screen does, and brings the strip back when its condition changes again.
+A strip can carry a dismiss button. Offer it for a message people can read and move on from, such as what a save changed, or an action that failed. Leave it off a condition that is still true, like a list that can't load.
+
+The strip doesn't remember that it was dismissed: the screen does, and brings the strip back when its condition changes again.
 
 <Example label="a strip that can be dismissed, live">
   <div style={{ width: '100%' }}>
@@ -77,39 +82,40 @@ A strip can carry a dismiss button. Offer it for a message people can read and m
 
 ## behaviour
 
-- The strip's controls take focus in this order: its actions, the details toggle, dismiss. The text takes no focus.
-- `esc` does nothing. A strip is part of the page, not an overlay.
-- The strip announces its text when it appears or changes; what that means for each state is under accessibility.
+- The strip's controls take <Term id="focus">focus</Term> in this order: its actions, then the details toggle, then dismiss. The text takes no focus.
+- <Kbd>enter</Kbd> or <Kbd>space</Kbd> on the details toggle shows or hides the details.
+- <Kbd>esc</Kbd> does nothing. A strip is part of the page; it doesn't float above it, as a dialog does.
+- The strip announces its text when it appears or changes. [Accessibility](#accessibility), below, says what that means for each state.
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-feedback-status-message-strip--docs).
+The full keyboard map is on the message strip's [React page](/design-system/react/?path=/docs/components-feedback-status-message-strip--docs).
 
 ## accessibility
 
-- **Only the text is live.** An update reads the whole message, and never the actions, the details or dismiss.
-- **Errors interrupt.** An `error` is announced at once; every other state politely, when the screen reader has a pause. A strip that is on the page from the start and doesn't change can be a static note, not announced at all: it is then read with the page, like any text.
-- **The state word.** Every state but `neutral` reads its name before the text, from visually hidden text: "warning: 105 titles can't be checked". The word can be translated, given to `neutral` as well, or left out. An <C slug="object-status" /> names only `warning` and `error`.
-- The glyph is hidden from assistive tech. Each state has its own glyph shape, so the state never rests on colour alone.
-- Closed details are neither read nor focusable.
-- Dismiss is named "dismiss" and is 28px square, above the 24px minimum target size. The toggle and dismiss show the 2px `--focus-ring` outline every control shares — see [interaction](/design-system/foundations/interaction/#focus).
+- **Only the text is read out.** The text is a <Term id="live-region">live region</Term>. An update reads the whole message, and never the actions, the details or dismiss.
+- **Errors interrupt.** An error is announced at once; every other state politely, when the screen reader has a pause. A strip that is on the page from the start and doesn't change can be a still note instead, which isn't announced at all: it is then read with the page, like any other text.
+- **The state word.** Every state but neutral reads its name before the text, from words that are hidden on screen: “warning: 105 titles can't be checked”. The word can be translated, given to neutral as well, or left out. An <C slug="object-status" /> names only warning and error.
+- **Not by colour alone.** The glyph is hidden from assistive technology, and each state has a glyph of its own shape, so the state never rests on colour alone.
+- **Closed details** are neither read out nor reachable with the keyboard.
+- **Dismiss** is named “dismiss”, and it is larger than the minimum <Term id="target-size">target size</Term>. The details toggle and dismiss show the same focus outline as every control; [interaction](/design-system/foundations/interaction/#focus) explains it.
 
 Today:
 
-- A live region announces changes to content it already holds. A polite strip that appears together with its text may go unannounced in some screen readers; an alert is announced as it appears.
-- Dismissing removes the button that had focus, and focus falls back to the page. Move it yourself, to the content's heading or the next control.
-- The toggle and dismiss carry the same names on every strip. With two strips on a page, name them so they can be told apart.
+- A live region announces changes to text it already holds. So a strip that is announced politely, and appears together with its text, may go unannounced in some screen readers. A strip that interrupts, as an error does, is announced as it appears.
+- Dismissing removes the button that had focus, and focus falls back to the page. Move it yourself, to the content's heading or to the next control.
+- The details toggle and dismiss have the same names on every strip. With two strips on a page, name them so that people can tell them apart.
 
 ## content
 
-- **The text** — one or two human sentences: what is true, then what it means or what happens next. `105 titles can't be checked: the catalog holds them without an identity.` It is in the body face, the reader's language, so it is written in sentence case. No IDs, codes or raw errors.
-- **Numbers** — exact, with thousands separators: `2,500`, not `2.5k`.
-- **An error** says what failed and offers the way forward: `Couldn't load the list.` and `try again`. When the last data still shows, keep it, and make the strip a `warning` that says how old it is: `Couldn't refresh the list; it shows what was loaded 4m ago.`
-- **Actions** — one or two small ghost buttons (`sm`, `ghost`), each a verb, in the lowercase monospace voice: `show them`, `try again`, `ask the catalog again`. Never `primary`: the view's one emphasized action is elsewhere.
-- **Details** — the raw part as it came: `GET /api/missing: http 502 bad gateway`, `request id 7d1c0e4a`. Line breaks are kept.
+- **The text.** One or two plain sentences: what is true, then what it means or what happens next. “105 titles can't be checked: the catalog holds them without an identity.” It is in the body face, the reader's language, so it is written in <Term id="sentence-case">sentence case</Term>. No ids, codes or raw errors.
+- **Numbers.** Exact, with a thousands separator: “2,500”, not “2.5k”.
+- **An error** says what failed, and offers the way forward: “Couldn't load the list.” and “try again”. When the last data still shows, keep it, and make the strip a warning that says how old it is: “Couldn't refresh the list; it shows what was loaded 4m ago.”
+- **Actions.** One or two small quiet buttons, each a verb, in the lowercase monospace voice: “show them”, “try again”, “ask the catalog again”. Not the emphasized button: the view's one emphasized action is elsewhere.
+- **Details.** The raw part, as it came: “GET /api/missing: http 502 bad gateway”, “request id 7d1c0e4a”. Line breaks are kept.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="The human part first, the raw part behind details." column>
+  <Do caption="The plain words first, and the raw part behind “details”." column>
     <MessageStrip client:visible live="off" state="warning" details="item 3f2a9c1e-5b7d-4c11-9e02-6a1d0b8f4c21 has no identity">105 titles can't be checked: the catalog holds them without an identity.</MessageStrip>
   </Do>
   <Dont caption="The raw part as the message: screen readers read the codes aloud, and nobody learns what it means." column>
@@ -121,23 +127,51 @@ Today:
   <Do caption="A condition that lasts. It stays until it is resolved or dismissed." column>
     <MessageStrip live="off" state="warning">2 sources are over their daily query limit until midnight. Searches use the other 3.</MessageStrip>
   </Do>
-  <Dont caption="The confirmation of something just done is a toast. As a strip it stays, and pushes the list down." column>
+  <Dont caption="The confirmation of something just done is a toast. As a strip, it stays and pushes the list down." column>
     <MessageStrip live="off" state="success">8 episodes queued.</MessageStrip>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="A small ghost action: the way forward, without competing with the view's emphasized action." column>
+  <Do caption="A small quiet action: the way forward, without competing with the view's emphasized action." column>
     <MessageStrip live="off" state="warning"><Fragment slot="actions"><Button size="sm" variant="ghost">show them</Button></Fragment>105 titles can't be checked.</MessageStrip>
   </Do>
-  <Dont caption="A primary button in a strip competes with the one emphasized action of the view." column>
+  <Dont caption="An emphasized button in a strip competes with the one emphasized action of the view." column>
     <MessageStrip live="off" state="warning"><Fragment slot="actions"><Button size="sm" variant="primary">show them</Button></Fragment>105 titles can't be checked.</MessageStrip>
   </Dont>
 </DoDont>
 
 ## related
 
-- [Message handling](/design-system/patterns/message-handling/) — which message goes where: strip, toast, inline, details or modal.
-- <C slug="toast">Toast</C> — the confirmation of an action that just finished.
-- <C slug="illustrated-message">Illustrated message</C> — in place of a list that is empty or couldn't load.
-- <C slug="object-status">Object status</C> — the state of one item, in its row.
+- [Message handling](/design-system/patterns/message-handling/): which kind of message goes where, from a strip or a toast to inline text, details or a modal.
+- <C slug="toast">Toast</C>: the confirmation of an action that just finished.
+- <C slug="illustrated-message">Illustrated message</C>: in place of a list that is empty or couldn't load.
+- <C slug="object-status">Object status</C>: the state of one item, in its row.
+
+## specs
+
+| state | in code | announced |
+| --- | --- | --- |
+| Neutral | `state="neutral"` | Politely (`role="status"`), with no state word |
+| Information | `state="information"` (the default) | Politely, after “information:” |
+| Success | `state="success"` | Politely, after “success:” |
+| Warning | `state="warning"` | Politely, after “warning:” |
+| Error | `state="error"` | At once (`role="alert"`), after “error:” |
+
+Each state sets three colours: `--state-<state>` for the bar on the left and the glyph, `--state-<state>-border` for the frame, the details rule and the dismiss button's frame on hover, and `--state-<state>-bg` for the fill. The strip carries `data-state`.
+
+| part | spec |
+| --- | --- |
+| Strip | A row: the glyph, then the text with its actions and details, then dismiss. Padding 12px, 16px on the left. A 3px rule on the left in `--state-*`, a 1px `--state-*-border` frame, a `--state-*-bg` fill, square corners. Inter 13px, line-height 1.5, `--fg`. The glyph and the text 12px apart. |
+| Glyph | The state's 14px glyph in `--state-*`, set 3px down so it sits on the first line. `aria-hidden`. `icon`: `true` (the default), `false` to hide it, or an element of your own. |
+| Text | `children`. It takes the free width, at least 24ch before the actions wrap under it; 16px from the actions beside it, 4px above them once they wrap. |
+| Actions | `actions`. 8px apart, wrapping under the text when there is no room. One or two buttons, `size="sm"` and `variant="ghost"`, never `variant="primary"`. |
+| Details toggle | Shown when `details` is set, named by `detailsLabel` (default “details”). A quiet text button: JetBrains Mono 12px, `--fg-muted` (`--fg` on hover), lowercase, 28px tall, padding 0 8px. A 10px caret that turns 90° to point down while the details are open, in 120ms `ease`, with no movement under reduced motion. `aria-expanded` and `aria-controls`. |
+| Details | `details`; `defaultDetailsOpen` opens them on the first render. 8px under the text. JetBrains Mono 12px, line-height 1.55, `--fg-muted`, padding 8px 12px, a 1px `--state-*-border` rule on the left. Line breaks kept (`white-space: pre-wrap`), long IDs broken anywhere (`overflow-wrap: anywhere`). `hidden` while closed, and outside the live region. |
+| Dismiss | Shown when `onDismiss` is set, named by `dismissLabel` (default “dismiss”). A 28px square at the right edge (above the 24px minimum target size), with a 12px × in `--fg-muted`; on hover, `--fg` and a `--state-*-border` frame. The strip doesn't hide itself: `onDismiss` is called, and you stop rendering it. |
+| Focus | The details toggle and dismiss: the 2px `--focus-ring` outline, 1px outside, on keyboard focus only. |
+
+| setting | in code | what it does |
+| --- | --- | --- |
+| Announcing | `live`: `'polite'`, `'assertive'` or `'off'` | Polite gives the text `role="status"`, assertive `role="alert"`, off no role at all: a still note, read with the page. The default is assertive for `error` and polite for the rest. The text is `aria-atomic`, so an update reads the whole message. |
+| State word | `stateLabel` | Visually hidden text before the message: the state's name, for every state but `neutral`. A string replaces the word (and gives `neutral` one); `false` leaves it out. |

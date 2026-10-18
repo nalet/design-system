@@ -1,17 +1,18 @@
 ---
 layout: ../../layouts/Doc.astro
 title: illustrated message
-description: What a list or a panel shows when it has nothing to show — a line illustration, a title that says what is true, a description that says what to do, and at most one primary action.
+description: What a list or a panel shows when it has nothing to show. A small drawing and a few words say why, and what people can do next.
 component: illustrated-message
 ---
 import { Button, IllustratedMessage } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Playground, Kinds, Sizes, WithAction } from '@site/examples/illustrated-message';
 
 # illustrated message
 
-What a list or a panel shows when it has nothing to show: a line illustration, a title that says what is true, a description that says what to do, and at most one primary action. Five kinds — `empty`, `done`, `search`, `error`, `unknown` — one for each reason there is nothing.
+An illustrated message takes the place of a list or a panel that has nothing to show, and tells people why. A small line drawing, a title and a sentence say what is true and what they can do next.
 
 <Example label="an illustrated message">
   <Playground />
@@ -19,47 +20,49 @@ What a list or a panel shows when it has nothing to show: a line illustration, a
 
 ## when to use
 
-- In place of a list, a table or a panel that has nothing to show, once you know why: nothing is there yet, nothing is left to do, the filters match nothing, it couldn't load, or it can't be told yet.
-- At the size of what it replaces: `sm` inside a panel or a table (a <C slug="data-table" /> shows it in its empty body), `md` for a section, `lg` for a whole page.
+- In place of a list, a table or a panel that has nothing to show, once you know why. There are five reasons, each with its own kind of message: nothing is there yet, nothing is left to do, the filters match nothing, the list couldn't load, or it can't be told yet.
+- At the size of what it replaces: the small one inside a panel or a table (a <C slug="data-table" /> shows it in its empty body), the medium one for a section, and the large one for a whole page.
 
-## when not to use
+## when to use something else
 
-- **While the list is still loading.** Use the <C slug="data-table" />'s loading state, or a <C slug="spinner" />. Say "nothing here" only once you know.
-- **Above content that still shows** — the rows from 4 minutes ago, with an error on top. Use a <C slug="message-strip" />.
-- **For one item's state** in a list that is otherwise there. Use an <C slug="object-status" /> in its row.
-- **To confirm an action that just finished.** Use a <C slug="toast" />.
+- **While the list is still loading.** Use the loading state of the <C slug="data-table" />, or a <C slug="spinner" />. Say “nothing here” only once you know it is true.
+- **Above content that still shows.** For the rows from 4 minutes ago with an error on top, use a <C slug="message-strip" />. It sits above the content and leaves it in place.
+- **For the state of one item, in a list that is otherwise there.** Use an <C slug="object-status" /> in its row.
+- **To confirm an action that just finished.** Use a <C slug="toast" />, which says so and goes away.
 
 ## anatomy
 
-1. **Container** — a centred column. 32px × 16px padding at `md`, 16px × 12px at `sm`, 64px × 16px at `lg`.
-2. **Illustration** — a 160 × 120 line drawing of a square terminal window: the frame in `--border-control`, quiet lines in `--border-2`, one accent in the kind's colour. 96px wide at `sm`, 160px at `md`, 220px at `lg`, with 12, 16 or 24px under it. Hidden from assistive tech.
-3. **Title** — a real heading, at the level that fits the page: JetBrains Mono 600, 14, 16 or 22px by size, line-height 1.3, `--fg`, shown lowercase.
-4. **Description** (optional) — Inter 13px / 1.55 in `--fg-muted`, at most 46ch wide, 8px under the title.
-5. **Actions** (optional) — centred, 8px apart, 16px under the text.
+1. **Container.** A centred column that holds the rest, with room around it that grows with the size.
+2. **Illustration.** A small line drawing of a square terminal window, in quiet lines, with one accent in the colour of the kind. It is decoration, so <Term id="assistive-technology">assistive technology</Term> skips it.
+3. **Title.** What is true, in a few words, in <Term id="monospace">monospace</Term> and shown in lowercase. It is a real heading, at the level that fits the page.
+4. **Description** (optional). One or two sentences under the title, in the <Term id="body-face">body face</Term>: why, and what people can do.
+5. **Actions** (optional). Buttons under the text, centred.
 
 ## variants and states
 
 ### kinds
 
-Pick the kind by what is true, not by the picture.
+There are five kinds, one for each reason there is nothing to show. Pick the kind by what is true, not by the picture.
 
-| kind | picture | accent | when | what it offers |
-| --- | --- | --- | --- | --- |
-| `empty` (default) | A prompt with nothing typed after it | `--cloud-blue` | Nothing here yet: a new list, nothing tracked | The action that adds the first item, if there is one |
-| `done` | The prompt, and a check | `--state-success` | Nothing left to do: the good end of a worklist | Usually nothing |
-| `search` | Rows under a square lens that finds none | `--cloud-blue` | The search or the filters match nothing | `clear filters` |
-| `error` | A line that doesn't connect | `--state-error` | It couldn't load | `try again` |
-| `unknown` | A question that can't be answered yet | `--state-warning` | It can't be told yet, for example because the holdings are unknown | The step that makes it known: `ask the catalog again` |
+| kind | the drawing | when | what it offers |
+| --- | --- | --- | --- |
+| Empty (the default) | A prompt with nothing typed after it, in blue | Nothing here yet: a new list, nothing tracked | The action that adds the first item, if there is one |
+| Done | The prompt, and a check in green | Nothing left to do: the good end of a <Term id="worklist">worklist</Term> | Usually nothing |
+| Search | Rows under a square lens that finds none, in blue | The search or the filters match nothing | “clear filters” |
+| Error | A line that doesn't connect, in red | It couldn't load | “try again” |
+| Unknown | A question that can't be answered yet, in amber | It can't be told yet, for example because the holdings are unknown | The step that makes it known, such as “ask the catalog again” |
 
 <Example label="the five kinds">
   <Kinds />
 </Example>
 
-`empty` and `done` both mean "nothing here", for opposite reasons: `empty` before anything has happened, `done` after everything has. `search` is never `empty`: the data is there, and the filters hide it. Which kind fits which situation, case by case, is on [empty states](/design-system/patterns/empty-states/#which-kind).
+The empty kind and the done kind both mean “nothing here”, for opposite reasons: empty before anything has happened, done after everything has.
+
+When the filters hide everything, use the search kind, not the empty one: the data is there, and the filters hide it. [Empty states](/design-system/patterns/empty-states/#which-kind) goes through which kind fits which situation, case by case.
 
 ### sizes
 
-`sm` (96px illustration, 14px title), `md` (160px, 16px, the default) and `lg` (220px, 22px).
+There are three sizes, to match what the message replaces: small, medium (the default) and large. The drawing, the title and the room around them grow with each size.
 
 <Example label="three sizes">
   <Sizes />
@@ -67,7 +70,7 @@ Pick the kind by what is true, not by the picture.
 
 ### actions
 
-The actions are buttons: at most one `primary`, and an optional second, `default` or `ghost`.
+The actions are buttons: at most one for the <Term id="emphasized-action">emphasized action</Term>, and an optional second one, standard or quiet.
 
 <Example label="with an action">
   <WithAction />
@@ -75,33 +78,33 @@ The actions are buttons: at most one `primary`, and an optional second, `default
 
 ### heading level
 
-The title is an `h2` unless it is given another level, from 2 to 6. Match the page's outline: inside a section whose heading is an `h2`, make it an `h3`.
+The title is a level-2 heading, unless you give it another <Term id="heading-level">heading level</Term>, from 2 to 6. Match the page's outline: inside a section whose heading is level 2, make the title level 3.
 
 ## behaviour
 
-- An illustrated message is static. The only things in it that take focus are its actions.
-- It doesn't announce itself when it appears. When it replaces a list because the filters changed, the <C slug="filter-bar" />'s live result count is what a screen reader hears.
+- An illustrated message is static: people read it, and the only things in it that take <Term id="focus">focus</Term> are its actions.
+- It doesn't announce itself when it appears. When it replaces a list because the filters changed, what a <Term id="screen-reader">screen reader</Term> hears is the live count of results in the <C slug="filter-bar" />.
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-feedback-status-illustrated-message--docs).
+The full keyboard map is on the illustrated message's [React page](/design-system/react/?path=/docs/components-feedback-status-illustrated-message--docs).
 
 ## accessibility
 
-- The illustration is decoration, hidden from assistive tech. The title says what is true.
-- The title is a real heading, so people who move through a page by its headings find it. Keep the outline in order with its heading level.
-- The accent colour repeats the kind; the words carry it.
+- The illustration is decoration, hidden from assistive technology. The title says what is true.
+- The title is a real heading, so people who move through a page by its headings find it. Give it the level that keeps the page's outline in order.
+- The accent colour only repeats the kind. The words carry the meaning.
 
 Today:
 
-- Pressing the action usually removes the message, and the button with it, so focus falls back to the page: after `clear filters`, nothing has focus. Move it yourself, to the search field for instance.
-- Nothing holds you to one primary action: the message shows whatever actions it is given.
+- Pressing the action usually removes the message, and the button with it, so focus falls back to the page: after “clear filters”, nothing has focus. Move focus yourself, to the search field for instance.
+- Nothing holds you to one emphasized action: the message shows whatever actions it is given.
 
 ## content
 
-- **Title** — what is true, in a few words: `nothing missing`, `no matches`, `couldn't load`, `nothing tracked yet`, `nothing can be checked yet`. Lowercase, no full stop.
-- **Description** — one or two sentences, in sentence case: why, and what the person can do. `Nothing fits these filters.` `Import a list to start tracking.`
-- **Actions** — one primary at most. When the view already has its one emphasized action (in a toolbar, say), make this one `default`.
-- Calm: say what is true. No apology, no joke, no `oops`.
-- Name the way out for each kind: `clear filters` for `search`, `try again` for `error`, the step that makes it known for `unknown`.
+- **Title.** What is true, in a few words: “nothing missing”, “no matches”, “couldn't load”, “nothing tracked yet”, “nothing can be checked yet”. Lowercase, with no full stop.
+- **Description.** One or two sentences, in <Term id="sentence-case">sentence case</Term>: why, and what the person can do. “Nothing fits these filters.” “Import a list to start tracking.”
+- **Actions.** One emphasized action at most. When the view already has its one emphasized action, in a toolbar for example, make this one a standard button.
+- **Tone.** Calm: say what is true. No apology, no joke, no “oops”.
+- **The way out.** Name it for each kind: “clear filters” for search, “try again” for error, and for unknown, the step that makes it known.
 
 ## do and don't
 
@@ -111,7 +114,7 @@ Today:
       <Fragment slot="actions"><Button size="sm">clear filters</Button></Fragment>
     </IllustratedMessage>
   </Do>
-  <Dont caption="The empty kind when it is the filters: people think the data is gone, and have no way back." column>
+  <Dont caption="The empty kind, when it is really the filters: people think the data is gone, and have no way back." column>
     <IllustratedMessage illustration="empty" size="sm" headingLevel={3} title="nothing here" description="There are no items." />
   </Dont>
 </DoDont>
@@ -122,18 +125,18 @@ Today:
       <Fragment slot="actions"><Button size="sm">try again</Button></Fragment>
     </IllustratedMessage>
   </Do>
-  <Dont caption="Vague, and nothing to do about it: people reload the page and hope." column>
+  <Dont caption="Vague, with nothing to do about it: people reload the page and hope." column>
     <IllustratedMessage illustration="error" size="sm" headingLevel={3} title="something went wrong" />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="One primary action: the step that resolves it." column>
+  <Do caption="One emphasized action: the step that resolves it." column>
     <IllustratedMessage illustration="unknown" size="sm" headingLevel={3} title="nothing can be checked yet" description="The library's holdings are unknown for all 105 titles.">
       <Fragment slot="actions"><Button size="sm" variant="primary">ask the catalog again</Button></Fragment>
     </IllustratedMessage>
   </Do>
-  <Dont caption="Three primaries: nothing reads as the next step." column>
+  <Dont caption="Three emphasized buttons: none of them reads as the next step." column>
     <IllustratedMessage illustration="unknown" size="sm" headingLevel={3} title="nothing can be checked yet">
       <Fragment slot="actions"><Button size="sm" variant="primary">ask again</Button><Button size="sm" variant="primary">open settings</Button><Button size="sm" variant="primary">read the docs</Button></Fragment>
     </IllustratedMessage>
@@ -142,7 +145,31 @@ Today:
 
 ## related
 
-- [Empty states](/design-system/patterns/empty-states/) — which kind applies when, and what each one offers.
-- <C slug="filter-bar">Filter bar</C> — its live count is what a screen reader hears when the filters leave nothing.
-- <C slug="message-strip">Message strip</C> — a condition above content that still shows.
-- <C slug="data-table">Data table</C> — the list an illustrated message most often stands in for.
+- [Empty states](/design-system/patterns/empty-states/): which kind applies when, and what each one offers.
+- <C slug="filter-bar">Filter bar</C>: its live count is what a screen reader hears when the filters leave nothing.
+- <C slug="message-strip">Message strip</C>: a message above content that still shows.
+- <C slug="data-table">Data table</C>: the list an illustrated message most often stands in for.
+
+## specs
+
+| kind | in code | accent |
+| --- | --- | --- |
+| Empty | `illustration="empty"` (the default) | `--cloud-blue` |
+| Done | `illustration="done"` | `--state-success` |
+| Search | `illustration="search"` | `--cloud-blue` |
+| Error | `illustration="error"` | `--state-error` |
+| Unknown | `illustration="unknown"` | `--state-warning` |
+
+| size | in code | padding | illustration | space under it | title |
+| --- | --- | --- | --- | --- | --- |
+| Small | `size="sm"` | 16px 12px | 96px wide | 12px | 14px |
+| Medium | `size="md"` (the default) | 32px 16px | 160px wide | 16px | 16px |
+| Large | `size="lg"` | 64px 16px | 220px wide | 24px | 22px |
+
+- **Container:** a centred column, with its text centred.
+- **Illustration:** an SVG line drawing on a 160 × 120 grid, scaled to the size's width: the window frame in `--border-control`, quiet lines in `--border-2`, one accent in the kind's colour. `aria-hidden="true"` and `focusable="false"`.
+- **Title:** `title`. A real heading, an `h2` unless `headingLevel` sets another level, from 2 to 6. JetBrains Mono 600, line-height 1.3, `--fg`, lowercased with `text-transform`.
+- **Description:** `description`, a paragraph. Inter 13px, line-height 1.55, `--fg-muted`, at most 46ch wide, 8px under the title.
+- **Actions:** `actions`. Centred, 8px apart, wrapping, 16px under the text. Buttons: at most one `variant="primary"`, and an optional second, `variant="default"` or `variant="ghost"`. Nothing enforces a single primary.
+- **Announcing:** none. It is not a live region.
+- **In a data table:** the data table's `empty` prop takes it, and shows it in the table's empty body.

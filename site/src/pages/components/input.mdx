@@ -1,18 +1,19 @@
 ---
 layout: ../../layouts/Doc.astro
 title: input
-description: A square, single-line text field in mono type, with its label, hint and error from a field around it.
+description: A box for one line of text that people type, such as a name, a host or a search term. Put it in a field to give it a label, a hint and an error message.
 component: input
 ---
-import { Input } from '@nalet/design-system';
+import { Input, Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { InputField } from '@site/demos/components/input';
 import { Playground, Sizes, WithAffixes, States } from '@site/examples/input';
 
 # input
 
-A square, single-line text field in mono type. Put it in a <C slug="field" /> for its label, hint and error.
+An input is a box for one line of text that people type, such as a name, a host or a search term. Put it in a <C slug="field" /> to give it a label, a hint and an error message.
 
 <Example label="an input">
   <Playground />
@@ -21,45 +22,51 @@ A square, single-line text field in mono type. Put it in a <C slug="field" /> fo
 ## when to use
 
 - For one line of text that people type: a name, a host, an ID, a number, a search term.
-- Inside a <C slug="field" />, which gives it a visible label and wires its hint and error to it.
-- With a `leading` icon or prompt when it says what kind of value goes in (a search icon, a `>` prompt), or a `trailing` unit such as `ms` or `GiB`.
+- Inside a <C slug="field" />, which gives it a visible label and ties its hint and its error to it.
+- With an icon or a prompt at its start, when that says what kind of value goes in, such as a search icon or a “>” prompt. Or with a unit at its end, such as “ms” or “GiB”.
 
-## when not to use
+## when to use something else
 
-- **For more than one line.** Use a <C slug="textarea" />. An input cannot wrap, and hides whatever scrolls out of view.
-- **To pick from a known list.** Use a <C slug="select" />, so people cannot type a value that does not exist.
-- **For on/off.** Use a <C slug="checkbox" /> in a form that is saved, or a <C slug="switch" /> when the change applies at once.
-- **To filter a list or table.** Use the <C slug="filter-bar" />, which lays out the search, the filters and their reset.
-- **To lay out a whole form or settings page.** Start from [forms and settings](/design-system/patterns/forms-and-settings/).
+- **For more than one line.** Use a <C slug="textarea" />. An input can't wrap, and it hides whatever scrolls out of view.
+- **To pick from a known list.** Use a <C slug="select" />, so people can't type a value that doesn't exist.
+- **For on or off.** Use a <C slug="checkbox" /> in a form that is saved, or a <C slug="switch" /> when the change applies at once.
+- **To filter a list or a table.** Use the <C slug="filter-bar" />, which lays out the search, the filters and their reset.
+- **To lay out a whole form or a settings page.** Start from [forms and settings](/design-system/patterns/forms-and-settings/).
 
 ## anatomy
 
-1. **Box** — square, 1px `--border-control` border on `--bg-2`; height 28 / 34 / 42px and side padding 8 / 12 / 16px by size. It fills the width of its container.
-2. **Leading affix** (optional) — an icon or prompt before the text, in `--fg-dim`, 8px from the text (12px in `lg`).
-3. **Text** — JetBrains Mono 13px (14px in `lg`) in `--fg`. The placeholder is `--fg-dim`.
-4. **Trailing affix** (optional) — a unit or icon after the text, with the same colour and spacing.
+1. **Box.** A square with a thin border, in one of three heights. It fills the width of its container.
+2. **Leading icon or prompt** (optional). An icon or a prompt before the text, in a dim colour.
+3. **Text.** What people type, in <Term id="monospace">monospace</Term>. While the box is empty, a <Term id="placeholder">placeholder</Term> can show in the same dim colour.
+4. **Trailing unit or icon** (optional). A unit or an icon after the text, in the same dim colour and with the same spacing.
 
 ## variants and states
 
-Three sizes: `sm` (28px) for toolbars, filter rows and table cells, `md` (34px, the default) for forms, `lg` (42px) for a lone search or command prompt. Match the height of the buttons beside it.
+### sizes
+
+Inputs come in three heights, the same three as buttons. Give an input the height of the buttons beside it, so the row lines up. The small one suits toolbars, rows of filters and table cells, the medium one (the default) is for forms, and the large one is for a search or a command prompt that stands on its own.
 
 <Example label="three sizes">
   <Sizes />
 </Example>
 
-`leading` and `trailing` put an icon, a prompt or a unit inside the box.
+### icons, prompts and units
 
-<Example label="inputs with affixes">
+An icon, a prompt or a unit can sit inside the box, before or after the text.
+
+<Example label="inputs with an icon, a prompt and a unit">
   <WithAffixes />
 </Example>
 
+### states
+
 | state | looks |
 | --- | --- |
-| Default | `--border-control` border |
-| Focused | `--cloud-blue` border, 2px thick (an inset shadow), on any focus, by mouse or keyboard |
-| Invalid | `--state-error` border, also while focused |
-| Disabled | The whole box at 50% opacity; cannot be focused, edited or submitted |
-| Read-only | Looks like default; can be focused, selected and submitted, not edited |
+| Default | A thin grey border |
+| Focused | A thicker blue border, whenever it has <Term id="focus">focus</Term>: after a click or from the keyboard |
+| Invalid | A red border, which stays red while the box has focus |
+| Disabled | The whole box dimmed. People can't focus it or change it, and its value isn't sent with the form |
+| Read-only | Just like the default. People can focus it, select its text and send it with the form, but they can't change it |
 
 <Example label="default, invalid, disabled and read-only">
   <States />
@@ -67,36 +74,41 @@ Three sizes: `sm` (28px) for toolbars, filter rows and table cells, `md` (34px, 
 
 ## behaviour
 
-- The input is one tab stop. People type, move the caret and select as in any text field, and `enter` can submit the form it is in.
-- Today: only the text area takes clicks. A click on the box's padding or on an affix does not focus the field.
+- The input is one <Term id="tab-stop">tab stop</Term>. People type, move the text cursor and select text as in any text field, and <Kbd>enter</Kbd> can send the form the input is in.
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-inputs-input--docs).
+Today: only the part of the box that holds the text takes clicks. A click on the space at its sides, or on an icon or a unit, doesn't put focus in the field.
+
+The full keyboard map is on the input's [React page](/design-system/react/?path=/docs/components-inputs-input--docs).
 
 ## accessibility
 
-- Give it a visible label: a <C slug="field" /> renders one, and links the hint or the error to the input so they are read with it. A placeholder is not a label: it disappears with the first keystroke.
-- Where a visible label does not fit (a search box in a toolbar), give it an `aria-label`, and add a leading search icon so sighted people see what the box is for.
-- An invalid input turns its border `--state-error`. The colour alone is a weak cue — about 1.6:1 against the normal border — so always say in words what is wrong. A field's error does that.
-- Affixes are not part of the input's name. An icon hides itself, and text such as `ms` is not announced when the field is focused, so put the unit in the label too: `timeout (ms)`.
-- Focus shows in the border (`--cloud-blue`, 2px), not with the `--focus-ring` outline of buttons and checkboxes — see [interaction](/design-system/foundations/interaction/#focus).
-- A disabled field cannot be focused, so screen-reader users may never find it. When people need to read or copy the value, make it read-only instead — today it looks the same as an editable field, so say why it cannot change.
-- Today: there are no forced-colours (Windows high contrast) styles. Forced colours replace border colours and remove the inset shadow, so a focused field can look unfocused there.
+- **Give it a visible label.** A <C slug="field" /> shows one, and ties the hint or the error to the input, so a <Term id="screen-reader">screen reader</Term> reads them with it. A placeholder is not a label: it disappears with the first keystroke.
+- **Where a visible label doesn't fit,** such as a search box in a toolbar, give the input an <Term id="accessible-name">accessible name</Term>: a label that is hidden on screen but read out. Add a search icon at its start as well, so that sighted people see what the box is for.
+- **Say what is wrong, in words.** An invalid input turns its border red. The colour alone is a weak cue: its <Term id="contrast">contrast</Term> with the normal border is only about 1.6 to 1. So always say in words what is wrong: a field's error message does that.
+- **Put the unit in the label too.** Icons and units inside the box are not part of the input's name. An icon hides itself from screen readers, and a unit such as “ms” isn't read out when the field gets focus. So write it into the label as well: “Timeout (ms)”.
+- **Focus shows in the border,** which turns blue and thicker. Buttons and checkboxes show an outline instead. [Interaction](/design-system/foundations/interaction/#focus) explains focus.
+- **Disabled or read-only.** A disabled field can't take focus, so people who use a screen reader may never find it. When people need to read or copy the value, make the field read-only instead.
+
+Today:
+
+- A read-only field looks just like one people can edit, so say near it why it can't change.
+- There are no styles for <Term id="forced-colours">forced colours</Term>, the high-contrast setting some operating systems offer. Forced colours replace the border colours and remove the inner shadow that makes the focused border thicker, so a field that has focus can look as if it hasn't.
 
 ## content
 
-- **Label** — a noun for the value, in sentence case, no colon: `Host`, `Release name`, `Timeout (ms)`.
-- **Placeholder** — an example of a valid value, or nothing: `api.example.com`. Never the label, never an instruction: both vanish on the first keystroke.
-- **Hint** — the format or the limit, in one short line: `Lowercase letters, digits and hyphens`.
-- **Error** — what is wrong and how to fix it: `Use 63 characters or fewer`. Not `Invalid input`.
-- **Unit** — in the label, and as a `trailing` affix when people need to see it while they type.
+- **Label.** A noun for the value, in <Term id="sentence-case">sentence case</Term>, with no colon: “Host”, “Release name”, “Timeout (ms)”.
+- **Placeholder.** An example of a valid value, or nothing: “api.example.com”. Don't use it for the label or for an instruction: both vanish with the first keystroke.
+- **Hint.** The format or the limit, in one short line: “Lowercase letters, digits and hyphens”.
+- **Error.** What is wrong and how to fix it: “Use 63 characters or fewer”, not “Invalid input”.
+- **Unit.** In the label, and also at the end of the box when people need to see it while they type.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="A visible label above, an example in the placeholder." column>
+  <Do caption="A visible label above, and an example in the placeholder." column>
     <InputField label="Host" hint="The name the service answers on" placeholder="api.example.com" />
   </Do>
-  <Dont caption="The placeholder as the label: once people type, nothing says what the field is for." column>
+  <Dont caption="The placeholder used as the label: once people type, nothing says what the field is for." column>
     <Input aria-label="host" placeholder="host" />
   </Dont>
 </DoDont>
@@ -114,14 +126,38 @@ The keyboard map and the attributes it sets are on its [React page](/design-syst
   <Do caption="The unit in the label and beside the value." column>
     <InputField label="Timeout (ms)" defaultValue="250" trailing="ms" />
   </Do>
-  <Dont caption="The unit only in the affix: a screen reader announces the field as just “Timeout, 250”." column>
+  <Dont caption="The unit only inside the box: a screen reader announces the field as just “Timeout, 250”." column>
     <InputField label="Timeout" defaultValue="250" trailing="ms" />
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="field">Field</C> — the label, hint and error around the input.
-- <C slug="textarea">Textarea</C> — the same field for several lines.
-- <C slug="select">Select</C> — a value from a known list.
-- <C slug="filter-bar">Filter bar</C> — search and filters above a list or table.
+- <C slug="field">Field</C>: the label, hint and error around the input.
+- <C slug="textarea">Textarea</C>: the same field, for several lines.
+- <C slug="select">Select</C>: one value from a known list.
+- <C slug="filter-bar">Filter bar</C>: search and filters above a list or a table.
+
+## specs
+
+| size | in code | height | side padding | text | icon or unit to text |
+| --- | --- | --- | --- | --- | --- |
+| Small | `inputSize="sm"` | 28px | 8px | 13px | 8px |
+| Medium | `inputSize="md"` (the default) | 34px | 12px | 13px | 8px |
+| Large | `inputSize="lg"` | 42px | 16px | 14px | 12px |
+
+| state | in code | looks |
+| --- | --- | --- |
+| Default | (none) | A 1px `--border-control` border on `--bg-2` |
+| Focused | Any focus inside the box (`:focus-within`), by mouse or keyboard | A `--cloud-blue` border and a 1px inset shadow in the same colour: 2px in all |
+| Invalid | `invalid`, which also sets `aria-invalid="true"`; a field's `error` sets it for you | A `--state-error` border; while focused, the inset shadow is `--state-error` too |
+| Disabled | `disabled` | The whole box at 50% opacity, a not-allowed cursor over the text. Can't be focused, edited or submitted |
+| Read-only | `readOnly` | Like the default. Can be focused, selected and submitted, not edited |
+
+- **Box:** square (`border-radius: 0`), always the full width of its container, so set the width on the container. `className` lands on the box.
+- **Text:** a native `<input>`, of the browser's default type, `text`, unless you pass another `type`. JetBrains Mono, `--fg`, line-height 1.4. The placeholder is `--fg-dim`. Every other attribute (`value`, `onChange`, `type`, `name`, `placeholder`, `aria-*` …) and the `ref` land on the native input.
+- **Affixes:** `leading` and `trailing` take any element: an `Icon` such as the search icon, a `>` prompt, or a unit such as `ms`. They sit inside the box but outside the input, in `--fg-dim`, and are not part of its name.
+- **No visible label:** name the input with `aria-label`.
+- **Focus:** shown by the border, not by the `--focus-ring` outline that buttons and checkboxes use.
+- **Contrast:** the `--state-error` border against the normal `--border-control` border is about 1.6:1.
+- **Motion:** the border and the shadow change in 120ms `ease`.

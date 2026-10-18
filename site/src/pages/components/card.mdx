@@ -1,17 +1,18 @@
 ---
 layout: ../../layouts/Doc.astro
 title: card
-description: A square surface panel with a 1px frame, an optional mono header with an aside for actions and an optional footer — the default container for grouped content.
+description: A card groups content about one thing in a framed panel, often under a short title, with room for its own actions and a footer. It is the usual container for grouped content.
 component: card
 ---
-import { Badge, Card } from '@nalet/design-system';
+import { Badge, Card, Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Playground, Plain, WithHeaderAndFooter, HeaderAside, Sunken, Flush, AsSection } from '@site/examples/card';
 
 # card
 
-A square surface panel with a 1px frame, an optional mono header row (with an aside for actions) and an optional footer row. The default container for grouped content.
+A card groups content about one thing in a framed panel, often under a short title. It is the usual container for grouped content.
 
 <Example label="a card with a title">
   <Playground />
@@ -20,58 +21,58 @@ A square surface panel with a 1px frame, an optional mono header row (with an as
 ## when to use
 
 - To group content about one thing under a short title: a volume's details, a run's summary, a section of settings.
-- To give a table or a list a frame and a title: a `flush` card.
-- A `sunken` card, for a panel nested inside another surface.
+- To give a table or a list a frame and a title, with a flush card.
+- As a sunken card, for a panel inside another panel.
 
-## when not to use
+## when to use something else
 
-- **For something people open or launch.** A card is not clickable. An entry on the launchpad is a <C slug="tile" />; an action is a <C slug="button" />.
+- **For something people open or launch.** A card isn't clickable. An entry on the <Term id="launchpad">launchpad</Term> is a <C slug="tile" />; an action is a <C slug="button" />.
 - **For padding or a background without a title.** Use a <C slug="box" />.
-- **For a message** — saved, could not load, needs attention. Use a <C slug="message-strip" />.
-- **For content that must interrupt.** Use a <C slug="modal" />.
+- **For a message**, such as a save that worked, a list that could not load, or something that needs attention. Use a <C slug="message-strip" />.
+- **For content that has to interrupt people.** Use a <C slug="modal" />.
 
 ## anatomy
 
-1. **Container** — `--surface` (`--bg-2` when `sunken`), a 1px `--border` frame, square, text in `--fg-2`.
-2. **Header** (when there is a title or an aside) — a row with padding 12px 16px and a 1px `--border` rule below; the title on the left, the aside on the right, at least 12px apart.
-3. **Title** — JetBrains Mono 600, 13px, letter-spacing 0.01em, `--fg`, shown lowercase. It can shrink and wraps when long.
-4. **Aside** (optional) — right-aligned, never shrinks, its items 8px apart: actions, a count.
-5. **Body** — padding 16px; `flush` removes it.
-6. **Footer** (optional) — padding 12px 16px, with a 1px `--border` rule above.
+1. **Frame.** A square panel with a thin border.
+2. **Header** (when there is a title or an aside). A row across the top, with a thin line below it: the title on the left, the aside on the right, and a gap between them.
+3. **Title.** A short name for what's inside, in <Term id="monospace">monospace</Term> and lowercase. It can shrink, and it wraps onto a second line when it is long.
+4. **Aside** (optional). The card's own actions, or a count, at the right end of the header. It never shrinks.
+5. **Body.** The content, with space around it. A flush card leaves that space out.
+6. **Footer** (optional). A row across the bottom, with a thin line above it.
 
 ## variants and states
 
-With no title, aside or footer, a card is a framed, padded surface.
+With no title, aside or footer, a card is a framed panel with space inside.
 
 <Example label="a plain card">
   <Plain />
 </Example>
 
-A title above the body, and a footer below it.
+A title goes above the body, and a footer below it.
 
 <Example label="a card with a title and a footer">
   <WithHeaderAndFooter />
 </Example>
 
-The aside holds the card's own actions and a count; the title gives way to it.
+The aside holds the card's own actions and a count. When the header gets crowded, the title gives way to it.
 
 <Example label="a count and an action in the aside">
   <HeaderAside />
 </Example>
 
-`sunken` moves the card to `--bg-2`, for a panel inside another surface.
+A sunken card sits on a darker shade of the <Term id="canvas">canvas</Term>. Use it for a panel inside another panel, so the two read apart.
 
-<Example label="a sunken card inside a default one">
+<Example label="a sunken card inside a standard one">
   <Sunken />
 </Example>
 
-`flush` removes the body padding, so a table meets the frame. The card's frame is the only one: the table inside draws none of its own.
+A flush card leaves out the space around its body, so a table meets the frame. The card's frame is then the only one: the table inside draws none of its own.
 
 <Example label="a flush card holding a table">
   <Flush />
 </Example>
 
-A card people should find by heading gets a real heading as its title and a name as a region (see [accessibility](#accessibility)).
+When people should be able to find a card by its heading, give it a real heading as its title, and name the card as a <Term id="landmark">region</Term> by that heading (see [accessibility](#accessibility)).
 
 <Example label="a card as a named section">
   <AsSection />
@@ -79,43 +80,44 @@ A card people should find by heading gets a real heading as its title and a name
 
 ## behaviour
 
-- A card has no click, hover, selected or disabled state. It takes no focus; the controls inside it do.
-- The header comes first, so keyboard users reach the header actions before the body.
+- A card has no click, no look under the pointer, and no selected or disabled state. It takes no <Term id="focus">focus</Term>; the controls inside it do.
+- The header comes first. So <Kbd>tab</Kbd> reaches the actions in the header before the body, and the footer last.
 
-The keyboard map and the attributes it passes through are on its [React page](/design-system/react/?path=/docs/components-layout-structure-card--docs).
+The full keyboard map is on the card's [React page](/design-system/react/?path=/docs/components-layout-structure-card--docs).
 
 ## accessibility
 
 - A card has no role and no name of its own.
-- Today: the title is not a heading and doesn't name the card. When people should find the card by heading, make its title a real heading — it can keep the title's look — and name the card as a region by that heading, as the last example above does.
-- Icon-only actions in the aside need a name: use an <C slug="icon-button" />, whose label is required.
-- The title is lowercased by CSS only; screen readers read it as you wrote it.
+- An action in the aside that is only an icon needs a name. Use an <C slug="icon-button" />, which requires one.
+- The title is lowercase only in its look. A <Term id="screen-reader">screen reader</Term> reads it as you wrote it.
+
+Today: the title isn't a heading, and it doesn't name the card. When people should find the card by its heading, make its title a real heading; it can keep the title's look. Then make the card a region named by that heading, as the last example above does.
 
 ## content
 
-- The title is a lowercase noun phrase naming what's inside: `volumes`, `last backup`, `storage-01`. No verbs, no full stop.
-- The body is the reader's text: write it in sentence case.
-- The aside holds one or two actions or a count. More goes into an <C slug="action-menu" />.
-- The footer holds a summary (`3 of 12 shown`) or the card's closing actions.
+- **The title.** A short noun phrase in lowercase that names what's inside: “volumes”, “last backup”, “storage-01”. No verbs, and no full stop.
+- **The body.** The reader's text, written in <Term id="sentence-case">sentence case</Term>.
+- **The aside.** One or two actions, or a count. Anything more goes into an <C slug="action-menu" />.
+- **The footer.** A summary, such as “3 of 12 shown”, or the card's closing actions.
 
 ## do and don't
 
 <DoDont>
-  <Do column caption="A short noun title, a count in the aside.">
+  <Do column caption="A short noun as the title, and a count in the aside.">
     <Card header="volumes"><Fragment slot="header-aside"><Badge>12</Badge></Fragment>1.2 TB used across 12 volumes.</Card>
   </Do>
-  <Dont column caption="A sentence as a title. It wraps, pushes the aside and says what the body should say.">
+  <Dont column caption="A sentence as the title. It wraps, pushes the aside, and says what the body should say.">
     <Card header="here are all of the volumes in this project"><Fragment slot="header-aside"><Badge>12</Badge></Fragment>1.2 TB used across 12 volumes.</Card>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do column caption="A nested panel is sunken, so the two surfaces read apart.">
+  <Do column caption="A panel inside a card is sunken, so the two surfaces read apart.">
     <Card header="storage-01">
       <Card sunken header="last backup">Tonight at 02:00, kept 14 days.</Card>
     </Card>
   </Do>
-  <Dont column caption="A default card inside a default card: the same surface, two frames, no depth.">
+  <Dont column caption="A standard card inside a standard card: the same surface, two frames, and no depth.">
     <Card header="storage-01">
       <Card header="last backup">Tonight at 02:00, kept 14 days.</Card>
     </Card>
@@ -124,7 +126,27 @@ The keyboard map and the attributes it passes through are on its [React page](/d
 
 ## related
 
-- <C slug="box">Box</C> — padding and a background without a header.
-- <C slug="table">Table</C> — the usual body of a flush card.
-- <C slug="tile">Tile</C> — a clickable entry on the launchpad.
-- <C slug="heading">Heading</C> — page and section titles above the cards.
+- <C slug="box">Box</C>: padding and a background, without a header.
+- <C slug="table">Table</C>: the usual body of a flush card.
+- <C slug="tile">Tile</C>: an entry on the launchpad that people click.
+- <C slug="heading">Heading</C>: the titles of pages and sections, above the cards.
+
+## specs
+
+| part | spec |
+| --- | --- |
+| Frame | A `--surface` fill (`--bg-2` when `sunken`), a 1px `--border` frame, `border-radius: 0`; text in `--fg-2`. |
+| Header | Shown when `header` or `headerAside` is set. Padding 12px 16px and a 1px `--border` rule below; the title on the left and the aside on the right, at least 12px apart. |
+| Title | `header`. JetBrains Mono 600, 13px, letter-spacing 0.01em, `--fg`, lowercased with `text-transform`. It can shrink (`min-width: 0`) and wraps when long. |
+| Aside | `headerAside`. Right-aligned and never shrinks; its items 8px apart. |
+| Body | The card's children. Padding 16px; `flush` removes it. |
+| Footer | `footer`. Padding 12px 16px and a 1px `--border` rule above. |
+
+| setting | in code | what it does |
+| --- | --- | --- |
+| Sunken | `sunken` | The card on `--bg-2` instead of `--surface`, for a panel inside another surface. |
+| Flush | `flush` | No body padding, so a table meets the frame. |
+| A named section | A heading element as `header`, and `role="region"` with `aria-labelledby` on the card | The title is a real heading that keeps the title's look (`margin: 0`, `font: inherit`), and the card is a region named by it. |
+
+- **Order:** the header, then the body, then the footer, so `tab` reaches the aside's controls first.
+- **Role and name:** none of its own. The title renders in a `div`, not a heading.

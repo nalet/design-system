@@ -1,17 +1,19 @@
 ---
 layout: ../../layouts/Doc.astro
 title: modal
-description: A square dialog over a dim backdrop for one task that needs an answer before the page can go on.
+description: A dialog over the dimmed page, for one task that needs an answer before the page can go on, such as confirming a delete.
 component: modal
 ---
+import { Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { DemoModal } from '@site/demos/components/modal';
 import { Confirm, Form, NoTitle, Persistent, LongContent } from '@site/examples/modal';
 
 # modal
 
-A square dialog over a dim backdrop for one task that needs an answer before the page can go on. It keeps `tab` inside, closes on `esc` and on a backdrop click, locks page scroll and gives focus back to the element that opened it.
+A modal is a dialog that opens over the page for one task that needs an answer before the page can go on, such as confirming a delete. Until people answer or close it, the page behind it is dimmed and waits.
 
 <Example label="confirm a delete, live">
   <Confirm client:visible />
@@ -19,52 +21,66 @@ A square dialog over a dim backdrop for one task that needs an answer before the
 
 ## when to use
 
-- To confirm an action that deletes something or can't be undone: `delete volume`, `revoke token`.
-- To collect two or three inputs for one task without leaving the page: `add server`.
+- To confirm an action that deletes something or can't be undone, such as “delete volume” or “revoke token”.
+- To collect two or three values for one task without leaving the page, such as “add server”.
 - When the next step depends on the answer, and nothing else on the page should happen until it is given.
 
-## when not to use
+## when to use something else
 
-- **To report that something happened.** Use a <C slug="toast" /> for a passing confirmation, or a <C slug="message-strip" /> for a message that stays on the page. A dialog that only says `saved` interrupts and asks nothing.
-- **In front of an action that can be undone.** Do it, and confirm it with a <C slug="toast" />; the way back is the opposite action on the page (toasts carry no actions).
-- **For a long form or several steps.** Give it a page; see [forms and settings](/design-system/patterns/forms-and-settings/).
-- **For a short explanation.** An optional detail fits a <C slug="tooltip" />; help for an input is the <C slug="field" /> hint.
+- **To report that something happened.** Use a <C slug="toast" /> for a passing confirmation, or a <C slug="message-strip" /> for a message that stays on the page. A dialog that only says “saved” interrupts people and asks them nothing.
+- **In front of an action that can be undone.** Do it, and confirm it with a toast. The way back is the opposite action on the page, because toasts carry no actions.
+- **For a long form, or several steps.** Give it a page of its own; see [forms and settings](/design-system/patterns/forms-and-settings/).
+- **For a short explanation.** An optional detail fits a <C slug="tooltip" />, and help for an input is the hint in its <C slug="field" />.
 - **To offer a list of actions.** Use an <C slug="action-menu" />.
 
 ## anatomy
 
-1. **Backdrop** — covers the viewport in the canvas colour (`--bg`) at 72% opacity.
-2. **Dialog** — `--surface` fill, 1px `--border-2`, square corners, centred. 480px wide at most by default; it is never taller than the viewport minus 48px and keeps 16px from the viewport's edges.
-3. **Header** (with a title only) — 12px × 16px padding and a 1px `--border` rule below. It holds:
-   - **Title** — an `h2` in JetBrains Mono 600, 15px, `--fg`, shown lowercase.
-   - **Close button** — 26px square, an `×` in `--fg-muted`, named "close".
-4. **Body** — 16px padding, Inter 14px / 1.55 in `--fg-2`. It scrolls when the content is taller than the dialog; the header and the footer stay in place.
-5. **Footer** (optional) — the actions, right-aligned with 8px between them, 12px × 16px padding and a 1px `--border` rule above.
+1. **Backdrop.** A dark veil over the whole page, in the colour of the <Term id="canvas">canvas</Term>, through which the page shows faintly.
+2. **Dialog.** A square panel with a thin border, in the middle of the screen. It has a set maximum width, is never taller than the screen, and keeps a small margin from the screen's edges.
+3. **Header** (only with a title). A thin rule runs below it. It holds:
+   - **Title.** A heading in <Term id="monospace">monospace</Term>, shown in lowercase.
+   - **Close button.** A small square with a cross, named “close”.
+4. **Body.** The content, in the <Term id="body-face">body face</Term>. When it is taller than the dialog, it scrolls, and the header and the footer stay in place.
+5. **Footer** (optional). The actions, lined up on the right, with a thin rule above them.
 
 ## variants and states
 
-| setup | how | use for |
-| --- | --- | --- |
-| Confirm | A title, one or two sentences, a footer with `cancel` and the action | An action that deletes or can't be undone |
-| Form | A title, fields in the body, a footer | A few inputs for one task |
-| No title | A name for assistive tech instead of a title | A short readout. There is no header, so no close button: put one in the footer |
-| Persistent | `esc` and the backdrop don't close it | Work that a stray key must not hide. The header's close button and the footer still close it |
+A modal can be set up in four ways. The example at the top of this page is a confirm.
 
-A form in the body can be submitted from the footer, and `enter` in a field submits it.
+| setup | how | use it for |
+| --- | --- | --- |
+| Confirm | A title, one or two sentences, and a footer with “cancel” and the action | An action that deletes something or can't be undone |
+| Form | A title, fields in the body, and a footer | A few values for one task |
+| No title | A name for <Term id="assistive-technology">assistive technology</Term> instead of a title | A short readout. With no header there is no close button, so put one in the footer |
+| Persistent | <Kbd>esc</Kbd> and the backdrop don't close it | Work that a stray key shouldn't hide. The close button in the header and the buttons in the footer still close it |
+
+### form
+
+A form in the body can be sent from a button in the footer, and <Kbd>enter</Kbd> in a field sends it too.
 
 <Example label="a form, live">
   <Form client:visible />
 </Example>
 
+### no title
+
+Without a title, the modal has no header and no close button. It needs a name of its own instead, and a way out in its footer.
+
 <Example label="no title, live">
   <NoTitle client:visible />
 </Example>
+
+### persistent
+
+A persistent modal stays open when people press <Kbd>esc</Kbd> or click the backdrop, so a stray key can't hide work that is under way.
 
 <Example label="persistent, live">
   <Persistent client:visible />
 </Example>
 
-Long content scrolls inside the body; the title and the actions stay in view. There is no open or close animation.
+### long content
+
+Long content scrolls inside the body, while the title and the actions stay in view. The modal has no animation when it opens or closes.
 
 <Example label="long content, live">
   <LongContent client:visible />
@@ -72,38 +88,38 @@ Long content scrolls inside the body; the title and the actions stay in view. Th
 
 ## behaviour
 
-- **On open**, focus moves to the first control in the dialog: with a title, that is the header's close button; without one, the first control in the body or the footer, or the dialog itself when there is none.
-- **While it is open**, `tab` and `shift+tab` stay in the dialog: from its last control, focus wraps to the first, and back. The page behind doesn't scroll.
-- **Closing** — `esc`, a click on the backdrop and the close button close it; a persistent dialog ignores `esc` and the backdrop. An open <C slug="action-menu" /> in the dialog takes the first `esc`, and the dialog closes on the next.
-- **On close**, focus returns to the element that had it when the modal opened.
+- **When it opens,** <Term id="focus">focus</Term> moves to the first control in the dialog. With a title, that is the close button in the header. Without one, it is the first control in the body or the footer, or the dialog itself when there is none.
+- **While it is open,** <Kbd>tab</Kbd> and <Kbd>shift</Kbd> + <Kbd>tab</Kbd> stay inside the dialog: from its last control, focus wraps round to the first, and back. The page behind doesn't scroll.
+- **Closing.** <Kbd>esc</Kbd>, a click on the backdrop and the close button all close it; a persistent modal ignores <Kbd>esc</Kbd> and the backdrop. When an <C slug="action-menu" /> in the dialog is open, the first <Kbd>esc</Kbd> closes the menu, and the next one closes the dialog.
+- **When it closes,** focus goes back to whatever had it when the modal opened, usually the button that opened it.
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-overlays-modal--docs).
+The full keyboard map is on the modal's [React page](/design-system/react/?path=/docs/components-overlays-modal--docs).
 
 ## accessibility
 
-- The title names the dialog. Without a title, give it a name for assistive tech instead: with neither, the dialog has no name.
-- The title is always an `h2`.
-- The close button is named "close" and is 26px square, above the 24px minimum target size.
-- A click on plain text puts focus on the dialog itself; `tab` and `shift+tab` from there stay inside.
+- **The title names the dialog.** Without a title, give the dialog an <Term id="accessible-name">accessible name</Term> instead. With neither, the dialog has no name.
+- The title is always a level-2 heading.
+- The close button is named “close”, and it is larger than the minimum <Term id="target-size">target size</Term>.
+- A click on plain text in the dialog puts focus on the dialog itself; <Kbd>tab</Kbd> and <Kbd>shift</Kbd> + <Kbd>tab</Kbd> from there stay inside.
 
 Today:
 
-- You can't choose where focus starts. With a title it is always the close button.
-- Screen readers announce the title, not the consequence, so make the title say what happens (`delete volume`, not `are you sure?`).
-- One modal at a time: every open modal listens for `esc`, so one press closes them all.
-- The scroll lock doesn't make up for the scrollbar's width, so the page behind can shift sideways when the modal opens.
-- If the opener is gone when the modal closes (you deleted its row), focus has nowhere to return to. Move it yourself, to the next sensible element.
+- You can't choose where focus starts. With a title, it always starts on the close button.
+- A <Term id="screen-reader">screen reader</Term> announces the title, not what will happen, so make the title say what happens: “delete volume”, not “are you sure?”.
+- Open one modal at a time. Every open modal listens for <Kbd>esc</Kbd>, so one press closes them all.
+- The page's scrolling is locked, but nothing makes up for the width of its scrollbar, so the page behind can shift sideways when the modal opens.
+- If the control that opened the modal is gone when it closes, because you deleted its row for example, focus has nowhere to go back to. Move it yourself, to the next sensible place.
 
 ## content
 
-- **Title** — a verb and its object, in the same words as the control that opened it: `delete volume`, `add server`. Not a question, no full stop. The lowercase look is CSS, so write it as it should be read.
-- **Body** — one or two sentences, in sentence case: what happens, to what, and whether it can be undone. Name the object: `This permanently deletes storage-01 and its 3 snapshots.`
-- **Actions** — the confirming button repeats the title's verb (`delete volume`); the way out is `cancel`, as a ghost button. The confirming action goes last, on the right. `danger` only for an action that deletes or can't be undone.
+- **Title.** A verb and its object, in the same words as the control that opened it: “delete volume”, “add server”. Not a question, and no full stop. The lowercase look is only a style, so write the title exactly as it should be read.
+- **Body.** One or two sentences, in <Term id="sentence-case">sentence case</Term>: what happens, to what, and whether it can be undone. Name the object: “This permanently deletes storage-01 and its 3 snapshots.”
+- **Actions.** The button that confirms repeats the title's verb, as in “delete volume”, and the way out is “cancel”, as a quiet button. The confirming action goes last, on the right. Use the danger button only for an action that deletes something or can't be undone.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="The title and the confirming button use the same words; the body says what is lost.">
+  <Do caption="The title and the confirming button use the same words, and the body says what is lost.">
     <DemoModal client:visible opener="delete volume" openerVariant="danger" title="delete volume" body="This permanently deletes storage-01 and its 3 snapshots. It can't be undone." actions={[{ label: 'cancel', variant: 'ghost' }, { label: 'delete volume', variant: 'danger' }]} />
   </Do>
   <Dont caption="A question with yes and no makes people reread the dialog to find out what yes does.">
@@ -112,26 +128,53 @@ Today:
 </DoDont>
 
 <DoDont>
-  <Do caption="Two fields for one task fit a dialog.">
+  <Do caption="Two fields for one task fit in a dialog.">
     <DemoModal client:visible opener="add server" title="add server" fields={['Base URL', 'Name']} actions={[{ label: 'cancel', variant: 'ghost' }, { label: 'add server', variant: 'primary' }]} />
   </Do>
-  <Dont caption="A long form scrolls inside the dialog, hides its own fields and is lost with one esc. Give it a page.">
+  <Dont caption="A long form scrolls inside the dialog, hides its own fields, and is lost with one press of the escape key. Give it a page.">
     <DemoModal client:visible opener="edit settings" title="edit settings" fields={['Name', 'Base URL', 'Region', 'Owner', 'Retention', 'Backup window', 'Alert contact', 'Notes']} actions={[{ label: 'cancel', variant: 'ghost' }, { label: 'save changes', variant: 'primary' }]} />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="Keep esc and the backdrop on (the default) when closing loses nothing.">
+  <Do caption="When closing loses nothing, let the escape key and the backdrop close it, as they do by default.">
     <DemoModal client:visible opener="revoke token" openerVariant="danger" title="revoke token" body="worker-2 loses access at once and has to sign in again." actions={[{ label: 'cancel', variant: 'ghost' }, { label: 'revoke token', variant: 'danger' }]} />
   </Do>
-  <Dont caption="Esc is how people back out. Turned off for a plain confirmation, it leaves them pressing it with nothing happening.">
+  <Dont caption="The escape key is how people back out. Turned off for a plain confirmation, it leaves them pressing it while nothing happens.">
     <DemoModal client:visible opener="revoke token" openerVariant="danger" title="revoke token" body="worker-2 loses access at once and has to sign in again." closeOnEsc={false} closeOnBackdrop={false} actions={[{ label: 'cancel', variant: 'ghost' }, { label: 'revoke token', variant: 'danger' }]} />
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="button">Button</C> — the opener and the footer actions.
-- <C slug="toast">Toast</C> — confirms what happened without blocking.
-- <C slug="message-strip">Message strip</C> — a message that stays on the page.
-- [Forms and settings](/design-system/patterns/forms-and-settings/) — where longer forms go.
+- <C slug="button">Button</C>: the button that opens the modal, and the actions in its footer.
+- <C slug="toast">Toast</C>: confirms what happened, without blocking the page.
+- <C slug="message-strip">Message strip</C>: a message that stays on the page.
+- [Forms and settings](/design-system/patterns/forms-and-settings/): where longer forms go.
+
+## specs
+
+| part | spec |
+| --- | --- |
+| Layer | Nothing renders while `open` is `false`. Open, the modal renders into the page's `<body>` (a React portal): a fixed wrapper over the whole viewport, `role="presentation"`, `z-index: 100`, with 16px of padding, so the dialog keeps 16px from the viewport's edges. |
+| Backdrop | `--bg`, the canvas colour, at 72% opacity, over the whole viewport. `aria-hidden="true"`. |
+| Dialog | `role="dialog"`, `aria-modal="true"`, `tabindex="-1"`. `--surface` fill, a 1px `--border-2` border, square, centred, text in `--fg-2`. As wide as there is room for, up to `width` (480px by default); at most the viewport's height minus 48px. `className` lands here. |
+| Header | Only with `title`. Padding 12px 16px, 12px between the title and the close button, a 1px `--border` rule below. |
+| Title | `title`: an `h2` that names the dialog (`aria-labelledby`). JetBrains Mono 600, 15px, `--fg`, lowercased with `text-transform`. |
+| Close button | 26px square, above the 24px minimum target size, with a 14px × in `--fg-muted`; named “close” (`aria-label`). Hover: a `--surface-2` fill and `--fg`, in 120ms `ease`. Keyboard focus: the 2px `--focus-ring` outline, 1px outside. |
+| Body | `children`. Padding 16px, Inter 14px, line-height 1.55. It scrolls (`overflow-y: auto`) when the content is taller than the dialog. |
+| Footer | `footer`. The actions right-aligned, 8px apart; padding 12px 16px, a 1px `--border` rule above. |
+
+| setting | in code | what it does |
+| --- | --- | --- |
+| Open and close | `open`, `onClose` | <Kbd>esc</Kbd>, a click on the backdrop and the close button call `onClose`. The modal never closes itself: you set `open` to `false`. |
+| No title | `ariaLabel` | Names the dialog (`aria-label`) when there is no `title`. |
+| Persistent | `closeOnEsc={false}` and `closeOnBackdrop={false}` | Both are `true` by default. |
+| Width | `width` | The largest width, in px. Default 480. |
+| A form in the body | An `id` on the `<form>`, and `type="submit"` with `form={id}` on the footer button | The footer button sends the form, and so does <Kbd>enter</Kbd> in a field. |
+
+- **Focus on open:** the first `button`, `[href]`, `input`, `select`, `textarea` or `[tabindex]` (other than `-1`) in the dialog, or else the dialog itself. On close, focus returns to the element that had it when the modal opened.
+- **Focus trap:** <Kbd>tab</Kbd> and <Kbd>shift</Kbd> + <Kbd>tab</Kbd> wrap between the first and the last enabled controls; with none, <Kbd>tab</Kbd> does nothing.
+- **Esc:** heard on the whole document, after the dialog's own controls, and only when none of them has called `preventDefault()` on it. That is how an open action menu takes the first press.
+- **Scroll lock:** `overflow: hidden` on the page's `<body>` while open, with no room made for the scrollbar.
+- **Motion:** none when it opens or closes.

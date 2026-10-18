@@ -43,41 +43,41 @@ export interface ComponentEntry {
 
 export const COMPONENTS: ComponentEntry[] = [
   // actions
-  { slug: 'button', name: 'button', exports: ['Button'], role: 'actions', summary: 'An action on this screen; primary is the one emphasized action.', react: 'components-actions-button' },
-  { slug: 'icon-button', name: 'icon button', exports: ['IconButton'], role: 'actions', summary: 'The same action with an icon only, and a required name.', react: 'components-actions-icon-button' },
-  { slug: 'action-menu', name: 'action menu', exports: ['ActionMenu'], role: 'actions', summary: 'Several actions behind one trigger, such as one menu per table row.', react: 'components-actions-action-menu' },
-  { slug: 'toolbar', name: 'toolbar and selection toolbar', exports: ['Toolbar', 'SelectionToolbar'], role: 'actions', summary: 'Actions above the content they act on; the selection toolbar follows the selection.', react: 'components-actions-toolbar' },
+  { slug: 'button', name: 'button', exports: ['Button'], role: 'actions', summary: 'Starts an action on this screen; one emphasized button marks the next step.', react: 'components-actions-button' },
+  { slug: 'icon-button', name: 'icon button', exports: ['IconButton'], role: 'actions', summary: 'An action shown as an icon only, with a name for screen readers.', react: 'components-actions-icon-button' },
+  { slug: 'action-menu', name: 'action menu', exports: ['ActionMenu'], role: 'actions', summary: 'Several actions behind one button, such as one menu per table row.', react: 'components-actions-action-menu' },
+  { slug: 'toolbar', name: 'toolbar and selection toolbar', exports: ['Toolbar', 'SelectionToolbar'], role: 'actions', summary: 'Actions above the content they act on; the selection toolbar acts on the selected rows.', react: 'components-actions-toolbar' },
 
   // inputs
   { slug: 'input', name: 'input', exports: ['Input'], role: 'inputs', summary: 'One line of text.', react: 'components-inputs-input' },
   { slug: 'textarea', name: 'textarea', exports: ['Textarea'], role: 'inputs', summary: 'Several lines of text.', react: 'components-inputs-textarea' },
-  { slug: 'select', name: 'select', exports: ['Select'], role: 'inputs', summary: 'One value from a list, native.', react: 'components-inputs-select' },
-  { slug: 'multi-select', name: 'multi select', exports: ['MultiSelect'], role: 'inputs', summary: 'Several values of a facet, as checkboxes in a disclosure.', react: 'components-inputs-multi-select' },
-  { slug: 'checkbox', name: 'checkbox', exports: ['Checkbox'], role: 'inputs', summary: 'An option that is saved with a form; indeterminate for a partial group.', react: 'components-inputs-checkbox' },
+  { slug: 'select', name: 'select', exports: ['Select'], role: 'inputs', summary: 'One value picked from a short list.', react: 'components-inputs-select' },
+  { slug: 'multi-select', name: 'multi select', exports: ['MultiSelect'], role: 'inputs', summary: 'Several values of one filter, as checkboxes in a panel that opens.', react: 'components-inputs-multi-select' },
+  { slug: 'checkbox', name: 'checkbox', exports: ['Checkbox'], role: 'inputs', summary: 'An option that is saved with a form, with a mixed state for “some of these”.', react: 'components-inputs-checkbox' },
   { slug: 'switch', name: 'switch', exports: ['Switch'], role: 'inputs', summary: 'A setting that takes effect at once.', react: 'components-inputs-switch' },
-  { slug: 'field', name: 'field', exports: ['Field'], role: 'inputs', summary: 'A label, a hint and an error wired to one control.', react: 'components-inputs-field' },
-  { slug: 'filter-bar', name: 'filter bar', exports: ['FilterBar'], role: 'inputs', summary: 'Search, facets, clear all and the count of what is left.', react: 'components-inputs-filter-bar' },
+  { slug: 'field', name: 'field', exports: ['Field'], role: 'inputs', summary: 'A label, a hint and an error, joined to one control.', react: 'components-inputs-field' },
+  { slug: 'filter-bar', name: 'filter bar', exports: ['FilterBar'], role: 'inputs', summary: 'Search, filters, “clear all”, and the count of what is left.', react: 'components-inputs-filter-bar' },
 
   // data display
-  { slug: 'data-table', name: 'data table', exports: ['DataTable'], role: 'data display', summary: 'An interactive list: sort, select, group, grow, keyboard rows.', react: 'components-data-display-data-table' },
+  { slug: 'data-table', name: 'data table', exports: ['DataTable'], role: 'data display', summary: 'A list people work through: they sort it, select rows, open groups and load more.', react: 'components-data-display-data-table' },
   { slug: 'table-cells', name: 'table cells', exports: ['StatusCell', 'DateCell', 'IdentifierCell'], role: 'data display', summary: 'A status with its reason, a date said both ways, an identifier.', react: 'components-data-display-table-cells' },
-  { slug: 'table', name: 'table', exports: ['Table'], role: 'data display', summary: 'A static, presentational table.', react: 'components-data-display-table' },
+  { slug: 'table', name: 'table', exports: ['Table'], role: 'data display', summary: 'A simple table for a short list that people only read.', react: 'components-data-display-table' },
   { slug: 'badge', name: 'badge', exports: ['Badge'], role: 'data display', summary: 'A label, a count, a tag: not a status.', react: 'components-data-display-badge' },
-  { slug: 'text', name: 'text', exports: ['Text'], role: 'data display', summary: 'Copy at one of the type roles.', react: 'components-data-display-text' },
-  { slug: 'code', name: 'code', exports: ['Code'], role: 'data display', summary: 'Inline code or a code block.', react: 'components-data-display-code' },
+  { slug: 'text', name: 'text', exports: ['Text'], role: 'data display', summary: 'Text in one of the text styles.', react: 'components-data-display-text' },
+  { slug: 'code', name: 'code', exports: ['Code'], role: 'data display', summary: 'Code and commands, inside a sentence or as a block.', react: 'components-data-display-code' },
   { slug: 'kbd', name: 'kbd', exports: ['Kbd'], role: 'data display', summary: 'A key to press.', react: 'components-data-display-kbd' },
 
   // feedback & status
-  { slug: 'object-status', name: 'object status', exports: ['ObjectStatus', 'defineStates', 'STATE_SEVERITY'], role: 'feedback & status', summary: 'The state of one object, in one of five semantic states.', react: 'components-feedback-status-object-status' },
-  { slug: 'message-strip', name: 'message strip', exports: ['MessageStrip'], role: 'feedback & status', summary: "A lasting condition of the page's content, with actions and details.", react: 'components-feedback-status-message-strip' },
+  { slug: 'object-status', name: 'object status', exports: ['ObjectStatus', 'defineStates', 'STATE_SEVERITY'], role: 'feedback & status', summary: 'The state of one thing, with one of five meanings.', react: 'components-feedback-status-object-status' },
+  { slug: 'message-strip', name: 'message strip', exports: ['MessageStrip'], role: 'feedback & status', summary: 'A message about the page or the list that stays for as long as it is true.', react: 'components-feedback-status-message-strip' },
   { slug: 'toast', name: 'toast', exports: ['toast', 'Toaster'], role: 'feedback & status', summary: 'A short confirmation of an action just taken.', react: 'components-feedback-status-toast' },
-  { slug: 'illustrated-message', name: 'illustrated message', exports: ['IllustratedMessage'], role: 'feedback & status', summary: 'Empty, done, no-match, error and unknown states.', react: 'components-feedback-status-illustrated-message' },
+  { slug: 'illustrated-message', name: 'illustrated message', exports: ['IllustratedMessage'], role: 'feedback & status', summary: "What a list shows when it is empty, done, has no matches, failed or can't be known.", react: 'components-feedback-status-illustrated-message' },
   { slug: 'spinner', name: 'spinner', exports: ['Spinner'], role: 'feedback & status', summary: 'Something is loading, where nothing better shows it.', react: 'components-feedback-status-spinner' },
 
   // layout & structure
   { slug: 'box', name: 'box', exports: ['Box'], role: 'layout & structure', summary: 'Padding and a canvas background.', react: 'components-layout-structure-box' },
   { slug: 'stack', name: 'stack', exports: ['Stack'], role: 'layout & structure', summary: 'A row or a column with a gap from the space scale.', react: 'components-layout-structure-stack' },
-  { slug: 'divider', name: 'divider', exports: ['Divider'], role: 'layout & structure', summary: 'A hairline between regions.', react: 'components-layout-structure-divider' },
+  { slug: 'divider', name: 'divider', exports: ['Divider'], role: 'layout & structure', summary: 'A thin line between two parts of a page.', react: 'components-layout-structure-divider' },
   { slug: 'card', name: 'card', exports: ['Card'], role: 'layout & structure', summary: 'A framed panel with an optional header and footer.', react: 'components-layout-structure-card' },
   { slug: 'heading', name: 'heading', exports: ['Heading'], role: 'layout & structure', summary: 'A page or a section title.', react: 'components-layout-structure-heading' },
 
@@ -86,9 +86,9 @@ export const COMPONENTS: ComponentEntry[] = [
   { slug: 'tooltip', name: 'tooltip', exports: ['Tooltip'], role: 'overlays', summary: 'A short label for something that has no room for one.', react: 'components-overlays-tooltip' },
 
   // navigation
-  { slug: 'tabs', name: 'tabs', exports: ['Tabs'], role: 'navigation', summary: 'Switching between views of one thing.', react: 'components-navigation-tabs' },
-  { slug: 'filter-tabs', name: 'filter tabs', exports: ['FilterTabs'], role: 'navigation', summary: 'Key figures that filter one list.', react: 'components-navigation-filter-tabs' },
-  { slug: 'tile', name: 'tile', exports: ['Tile'], role: 'navigation', summary: 'A launch tile: an app, or a key figure.', react: 'components-navigation-tile', guidance: 'patterns/launchpad-and-tiles/#the-tile' },
+  { slug: 'tabs', name: 'tabs', exports: ['Tabs'], role: 'navigation', summary: 'Switch between the parts of one thing.', react: 'components-navigation-tabs' },
+  { slug: 'filter-tabs', name: 'filter tabs', exports: ['FilterTabs'], role: 'navigation', summary: 'Counts at the top of a list that also filter it.', react: 'components-navigation-filter-tabs' },
+  { slug: 'tile', name: 'tile', exports: ['Tile'], role: 'navigation', summary: 'A square on the launchpad that opens an app, or shows a key figure.', react: 'components-navigation-tile', guidance: 'patterns/launchpad-and-tiles/#the-tile' },
   { slug: 'tile-group', name: 'tile group', exports: ['TileGroup'], role: 'navigation', summary: 'A titled grid of tiles.', react: 'components-navigation-tile-group', guidance: 'patterns/launchpad-and-tiles/#tile-groups' },
 ];
 

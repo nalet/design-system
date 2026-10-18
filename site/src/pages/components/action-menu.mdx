@@ -1,11 +1,12 @@
 ---
 layout: ../../layouts/Doc.astro
 title: action menu
-description: Actions behind one trigger — a menu button and a menu of verbs — one per table row, and as the overflow of a toolbar.
+description: An action menu keeps several actions behind one small button, such as the actions for one row of a table, or the ones that don't fit in a toolbar.
 component: action-menu
 ---
-import { Select } from '@nalet/design-system';
+import { Kbd, Select } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import MotionFrame from '@site/components/MotionFrame.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { DemoMenu } from '@site/demos/components/action-menu';
@@ -13,49 +14,51 @@ import { Playground, InARow, TextTrigger, DisabledAndDanger, Busy, Alignment } f
 
 # action menu
 
-Actions behind one trigger: a menu button and a menu of verbs, drawn above the page so no table cell or panel cuts it off. Use one per table row, and as the overflow of a toolbar.
+An action menu keeps several actions behind one small button, so a table row or a toolbar stays calm until someone needs one of them. The menu opens above the page, so nothing around it can cut it off.
 
-<Example label="a menu in a row, live">
+<Example label="an action menu on a row, live: open it and pick an action">
   <InARow client:visible />
 </Example>
 
 ## when to use
 
-- For the actions on one object, behind one trigger per row: `pick a release`, `grab now`. One menu per row keeps a table calm.
-- For the overflow of a toolbar. The <C slug="toolbar">toolbar</C> puts what doesn't fit behind `more actions` itself.
-- For a few related commands behind a text trigger: `export`, then `as csv` or `as json`.
+- For the actions on one thing, such as one row of a table: “pick a release”, “grab now”. One menu per row keeps a table calm.
+- As the <Term id="overflow-menu">overflow menu</Term> of a toolbar, for the actions that don't fit. The <C slug="toolbar">toolbar</C> does this on its own, behind “more actions”.
+- For a few related commands behind a button with words on it: “export”, then “as csv” or “as json”.
 
-## when not to use
+## when to use something else
 
-- **For the one emphasized action of a view.** Show it as a <C slug="button" />; in a menu, nothing reads as the next step.
-- **For actions on several selected rows.** Use a <C slug="toolbar">selection toolbar</C>, which says how many it acts on.
-- **To choose a value** — a sort order, a filter. A menu runs commands and doesn't show the current choice. Use a <C slug="select" />, or a <C slug="multi-select" /> for several values.
-- **To go to another page.** Use a link. A menu item is a button, and can't be opened in a new tab.
+- **For the one <Term id="emphasized-action">emphasized action</Term> of a view.** Show it as a <C slug="button" />. Hidden in a menu, nothing reads as the next step.
+- **For actions on several selected rows.** Use a <C slug="toolbar">selection toolbar</C>, which says how many rows it acts on.
+- **To choose a value, such as a sort order or a filter.** A menu runs commands, and it doesn't show the current choice. Use a <C slug="select" />, or a <C slug="multi-select" /> for several values.
+- **To go to another page.** Use a link. A menu item is a button, so it can't be opened in a new tab.
 - **To ask for a decision.** Use a <C slug="modal" />.
 
 ## anatomy
 
-1. **Trigger** — by default a ghost <C slug="icon-button" /> with three 2.5px squares: 28px square at `sm` (the default), 34px at `md`. As a text trigger, a default <C slug="button" /> with your text and a trailing chevron.
-2. **Menu** — above everything else on the page: `--surface` fill, a 1px `--border-2` frame, square corners, 4px of padding above and below, and a shadow. At least 160px wide, or as wide as the trigger if that is wider; never wider than the viewport minus 16px.
-3. **Item** — at least 32px tall, 4px × 12px padding, JetBrains Mono 13px in `--fg-2`, lowercase, on one line. Hover and focus give it `--surface-2` and `--fg`; keyboard focus adds a 2px `--focus-ring` bar on its left edge.
-4. **Item icon** (optional) — decoration before the label, in `--fg-muted`.
+1. **<Term id="trigger">Trigger</Term>.** The button that opens the menu. Usually it is a small, quiet <C slug="icon-button" /> with three little squares in a row. With words on it instead, it is a standard <C slug="button" /> with your text and a small downward arrow after it.
+2. **Menu.** A panel that floats above everything else on the page, with a thin frame, square corners and a soft shadow. It is never narrower than its trigger, and never wider than the window.
+3. **Item.** One action per line, in <Term id="monospace">monospace</Term> and lowercase. The item under the pointer, or the one with <Term id="focus">focus</Term>, turns lighter. With keyboard focus, it also gets a bar in the focus colour on its left edge.
+4. **Item icon** (optional). A small icon before the label, as decoration.
 
 ## variants and states
 
-The trigger is the icon (the default) or a text label. Use the icon in a row, where the row already names the object; use text where the trigger stands on its own.
+The trigger is an icon, or words. Use the icon on a row, where the row already says what the menu acts on. Use words where the trigger stands on its own, such as “export”.
 
-<Example label="the icon trigger and a text trigger, live">
+<Example label="a trigger with an icon, and one with words, live">
   <Playground client:visible />
   <TextTrigger client:visible />
 </Example>
 
-An item can be disabled — 45% opacity, it can't be run and the arrow keys skip it — or `danger`, for an action that deletes or can't be undone: its label stays `--signal-amber` at rest, on hover and on focus. Put danger items last.
+The trigger comes in two of the heights every control shares. The small one is the usual choice, for table rows and toolbars; the medium one goes next to other medium controls.
 
-<Example label="a disabled and a danger item, live">
+An item can be disabled: it is dimmed, it can't be run, and the arrow keys skip it. An item can also be a danger item, for an action that deletes something or can't be undone. Its label is amber, and it stays amber under the pointer and with focus. Put danger items last.
+
+<Example label="a disabled item and a danger item, live">
   <DisabledAndDanger client:visible />
 </Example>
 
-Busy, the trigger shows a spinner and the menu can't open. Disabled, the whole menu is off. Either way the trigger can't be focused.
+A busy menu shows a <C slug="spinner" /> in its trigger, and it can't open. A disabled menu is off as a whole. Either way, the trigger can't take focus, so the keyboard passes over it.
 
 <MotionFrame what="the spinner">
   <Example label="a busy menu">
@@ -63,9 +66,7 @@ Busy, the trigger shows a spinner and the menu can't open. Disabled, the whole m
   </Example>
 </MotionFrame>
 
-Two sizes, for the trigger: `sm` (28px, the default) for table rows and toolbars, `md` (34px) next to other `md` controls.
-
-The menu lines up its end edge with the trigger's (the default), or its start edge.
+Usually the menu lines up with the right edge of its trigger. It can line up with the left edge instead.
 
 <Example label="menus lined up with the start and the end of their triggers, live">
   <Alignment client:visible />
@@ -73,39 +74,49 @@ The menu lines up its end edge with the trigger's (the default), or its start ed
 
 ## behaviour
 
-- The trigger opens a menu, which holds the focus until it closes. A click on the trigger opens or closes it.
-- On the keyboard, the menu opens on its first item (on its last with `↑`), the arrow keys move between the items, and `esc` closes it with focus back on the trigger.
-- Choosing an item closes the menu and puts focus back on the trigger before the action runs, so a <C slug="modal" /> opened by the item returns focus there when it closes.
-- A click on a disabled item does nothing, and the menu stays open.
-- A press anywhere outside the menu and its trigger closes it; focus stays where that press put it.
-- In a <C slug="modal" />, `esc` closes the menu and the dialog stays open.
-- The menu opens 4px under the trigger. When it wouldn't fit below (it would come within 8px of the viewport's bottom edge) and there is room above, it opens above. It always keeps 8px from the viewport's left and right edges.
-- No table cell, scroll container or panel that hides its overflow cuts the menu off. While it is open it follows the trigger when anything scrolls or the window resizes, and it never flashes in the wrong place.
+### opening and choosing
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-actions-action-menu--docs).
+- A click on the trigger opens the menu, and another click closes it. While the menu is open, it keeps the focus.
+- From the keyboard, <Kbd>enter</Kbd>, <Kbd>space</Kbd> or the down arrow key opens the menu on its first item. The up arrow key opens it on its last item.
+- In the menu, the up and down arrow keys move from item to item, and go round at the ends. <Kbd>home</Kbd> and <Kbd>end</Kbd> jump to the first and the last item.
+- A click, <Kbd>enter</Kbd> or <Kbd>space</Kbd> chooses an item. The menu closes and focus goes back to the trigger before the action runs. So when the item opens a <C slug="modal" />, focus comes back to the trigger once the dialog closes.
+- A click on a disabled item does nothing, and the menu stays open.
+
+### closing
+
+- <Kbd>esc</Kbd> closes the menu and puts focus back on the trigger. In a modal, it closes only the menu; the dialog stays open.
+- <Kbd>tab</Kbd> closes the menu too, and focus moves on from the trigger, as if the menu had not been there.
+- A press anywhere outside the menu and its trigger closes the menu. Focus stays where that press put it.
+
+### where it opens
+
+- The menu opens just below its trigger. When it wouldn't fit below and there is room above, it opens above instead. It always keeps a small margin from the left and right edges of the window.
+- No table cell, scrolling area or panel cuts the menu off. While it is open, it follows its trigger when anything scrolls or the window changes size, and it never flashes up in the wrong place first.
+
+The full keyboard map is on the action menu's [React page](/design-system/react/?path=/docs/components-actions-action-menu--docs).
 
 ## accessibility
 
-- **Name the object, not the action.** The icon trigger's name is `label`, which is also the browser's own tooltip: `actions for S04E07`, `actions for worker-2`. A table whose fifty triggers are all called "more" gives a screen-reader user fifty buttons they can't tell apart.
+- **Name the thing, not the action.** An icon trigger has no words on it, so it needs a name written for it: its <Term id="accessible-name">accessible name</Term>. The browser also shows that name as a small tooltip under the pointer. Name the object the menu acts on: “actions for S04E07”, “actions for worker-2”. A table whose fifty triggers are all called “more” gives a <Term id="screen-reader">screen reader</Term> user fifty buttons they can't tell apart.
 - The menu takes its name from its trigger.
-- **With a text trigger, the visible text is the name**: what people see is what speech-input users say (WCAG 2.5.3, label in name).
-- Danger is a colour only. The label has to say what happens (`delete worker`); for what can't be undone, ask in a <C slug="modal" /> once the item is chosen.
-- Item icons are hidden from assistive tech.
+- **With words on the trigger, those words are its name.** What people see is what <Term id="speech-input">speech input</Term> users say to press it.
+- Danger is shown by colour only. So the label has to say what happens, such as “delete worker”. For what can't be undone, ask in a <C slug="modal" /> once the item is chosen.
+- Item icons are hidden from <Term id="assistive-technology">assistive technology</Term>.
 
 Today:
 
-- The arrow keys skip disabled items, so a keyboard user never lands on one and may not learn that it exists, or why it is off. Say the reason on the page, in the row's status.
-- No type-ahead: typing a letter doesn't move to the item that starts with it.
-- No separators or groups inside the menu.
-- There are no forced-colours (Windows high contrast) styles. A focused item shows only a fill and an inset bar, and forced colours remove both.
+- The arrow keys skip disabled items, so people who use a keyboard never land on one. They may not learn that it exists, or why it is off. Say the reason on the page, in the row's status.
+- Typing a letter doesn't move to the item that starts with it.
+- A menu has no separators and no groups.
+- There are no styles for <Term id="forced-colours">forced colours</Term>, the high-contrast setting some operating systems offer. A focused item shows only a fill and a bar, and forced colours remove both.
 
 ## content
 
-- **Items** — a verb and its object, lowercase: `pick a release`, `grab now`, `open logs`, `delete worker`.
-- **Order** — the most used first; danger last.
-- **The same shape on every row** — in a list, disable an item that doesn't apply to a row rather than leaving it out, and let the row's status say why.
-- **The icon trigger's `label`** — `actions for` and the object's name as the row shows it: `actions for S04E07`.
-- **A text trigger** — one or two words for what is behind it: `export`.
+- **Items.** A verb and its object, in lowercase: “pick a release”, “grab now”, “open logs”, “delete worker”.
+- **Order.** The most used first, and danger last.
+- **The same menu on every row.** In a list, disable an item that doesn't apply to a row rather than leaving it out, and let the row's status say why.
+- **The icon trigger's name.** “actions for” and the object's name as the row shows it: “actions for S04E07”.
+- **Words on a trigger.** One or two words for what is behind it: “export”.
 
 ## do and don't
 
@@ -113,16 +124,16 @@ Today:
   <Do caption="The trigger names its object, so each row's menu can be told apart.">
     <DemoMenu client:visible label="actions for worker-2" items={[{ id: 'logs', label: 'open logs' }, { id: 'restart', label: 'restart' }]} />
   </Do>
-  <Dont caption="A trigger called “more” in every row: fifty buttons with one name.">
+  <Dont caption="A trigger called “more” on every row: fifty buttons with one name.">
     <DemoMenu client:visible label="more" items={[{ id: 'logs', label: 'open logs' }, { id: 'restart', label: 'restart' }]} />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="Verbs with their objects, the most used first, danger last.">
+  <Do caption="Each item a verb and its object, the most used first, danger last.">
     <DemoMenu client:visible label="actions for storage-01" items={[{ id: 'snap', label: 'take a snapshot' }, { id: 'resize', label: 'resize volume' }, { id: 'delete', label: 'delete volume', danger: true }]} />
   </Do>
-  <Dont caption="Danger first and vague labels: people read “delete” before they learn what it deletes.">
+  <Dont caption="Danger first, and vague labels: people read “delete” before they learn what it deletes.">
     <DemoMenu client:visible label="actions for storage-01" items={[{ id: 'delete', label: 'delete', danger: true }, { id: 'snap', label: 'snapshot' }, { id: 'misc', label: 'other' }]} />
   </Dont>
 </DoDont>
@@ -131,14 +142,35 @@ Today:
   <Do caption="A value is chosen in a select, which shows the current choice.">
     <Select selectSize="sm" aria-label="sort by" defaultValue="aired" options={[{ value: 'aired', label: 'newest aired' }, { value: 'title', label: 'title' }]} />
   </Do>
-  <Dont caption="A menu runs commands. It can't show which order is on.">
+  <Dont caption="A menu runs commands. It can't show which sort order is on.">
     <DemoMenu client:visible buttonLabel="sort" label="sort" items={[{ id: 'aired', label: 'sort by newest aired' }, { id: 'title', label: 'sort by title' }]} />
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="toolbar">Toolbar</C> — its overflow is an action menu, and its selection toolbar holds the bulk actions.
-- [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) — one menu per row, bulk actions for the selection.
-- <C slug="icon-button">Icon button</C> — the trigger, and why an icon-only control needs a name.
-- <C slug="modal">Modal</C> — to confirm a danger item before it runs.
+- <C slug="toolbar">Toolbar</C>: its overflow is an action menu, and its selection toolbar holds the actions for several rows.
+- [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/): one menu per row, and the actions for a selection.
+- <C slug="icon-button">Icon button</C>: the trigger, and why a button with only an icon needs a name.
+- <C slug="modal">Modal</C>: to confirm a danger item before it runs.
+
+## specs
+
+| part | spec |
+| --- | --- |
+| Trigger | By default a ghost `IconButton` with three 2.5px squares (`icon` replaces them): 28px square at `size="sm"`, 34px at `size="md"`. With `buttonLabel`, a default `Button` with your text and a trailing 12px chevron. |
+| Menu | Rendered into `document.body` (a React portal) only while open, `position: fixed`, `z-index: 150`, so no table cell, scroll container or panel that hides its overflow clips it. `--surface` fill, a 1px `--border-2` frame, `border-radius: 0`, padding 4px 0, a shadow of `0 8px 24px` black at 45%. At least 160px wide, or as wide as the trigger if that is wider; at most the viewport's width minus 16px. |
+| Item | At least 32px tall, padding 4px 12px, JetBrains Mono 13px in `--fg-2`, lowercased with `text-transform`, on one line. Under the pointer and on focus: a `--surface-2` fill and a `--fg` label. Keyboard focus adds a 2px `--focus-ring` bar inside the left edge. |
+| Item icon | `icon` on an item: decoration 8px before the label, in `--fg-muted`, hidden from assistive technology. |
+| Disabled item | `disabled` on an item: 45% opacity and a not-allowed cursor. It stays in the menu, can't be run, and the arrow keys skip it. |
+| Danger item | `danger` on an item: the label in `--signal-amber` at rest, on hover and on focus. |
+| Placement | 4px under the trigger. It opens above instead when it would come within 8px of the viewport's bottom edge and there is room above. It keeps 8px from the viewport's left and right edges, is measured before it shows, and follows the trigger on any scroll and on resize. |
+
+| setting | in code | what it does |
+| --- | --- | --- |
+| Name | `label` | The icon trigger's accessible name, also its tooltip: “actions for S04E07”. The menu is named by its trigger. |
+| Words on the trigger | `buttonLabel` | A text trigger. Its visible text is its name (WCAG 2.5.3, label in name), and `label` isn't used. |
+| Size | `size="sm"` (the default), `size="md"` | The trigger's height: 28px or 34px. |
+| Alignment | `align="end"` (the default), `align="start"` | The menu lines up its end edge with the trigger's, or its start edge. |
+| Busy | `loading` | A spinner in the trigger, and the menu can't open. The trigger is disabled, so it can't be focused. |
+| Disabled | `disabled` | The whole menu is off. The trigger is disabled, so it can't be focused. |

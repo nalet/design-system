@@ -1,17 +1,18 @@
 ---
 layout: ../../layouts/Doc.astro
 title: badge
-description: A small square label for tags, counts and short attributes — mono, lowercase, a hairline frame; the state of an object is object status, not a badge.
+description: A badge is a small label for a tag, a count or a short fact about an item. The state of an object is an object status, not a badge.
 component: badge
 ---
-import { Badge } from '@nalet/design-system';
+import { Badge, Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Tones, WithDot, InContext, Labels } from '@site/examples/badge';
 
 # badge
 
-A small square label: mono, lowercase, hairline frame, 20px tall. Badge is for labels, counts and tags. The state of an object — running, failed, needs attention — is <C slug="object-status" />, not a badge.
+A badge tags an item with a short fact, such as “gpu”, “12 episodes” or “v2.4.1”, so people can scan a list and tell items apart. The state of an object, such as “running”, “failed” or “needs attention”, is an <C slug="object-status" /> instead.
 
 <Example label="the four tones">
   <Tones />
@@ -19,37 +20,37 @@ A small square label: mono, lowercase, hairline frame, 20px tall. Badge is for l
 
 ## when to use
 
-- To tag an item with a short attribute that helps people scan and tell items apart: `gpu`, `read-only`, `4k`, `hdr`.
-- For a count beside the thing it counts: `12 episodes`, `3 new`.
-- For a short label that stays true for as long as the item exists: a version (`v2.4.1`), a `default` marker.
+- To tag an item with a short attribute that helps people scan a list and tell items apart: “gpu”, “read-only”, “4k”, “hdr”.
+- For a count beside the thing it counts: “12 episodes”, “3 new”.
+- For a short label that stays true for as long as the item exists: a version, such as “v2.4.1”, or a “default” marker.
 
-## when not to use
+## when to use something else
 
-- **For the state of an object.** Use <C slug="object-status" />. It maps each state to a semantic colour and its own glyph, and announces warnings and errors in words. A badge's tone is only a colour: nothing stops a badge from saying `failed` in green.
-- **For a message about the page or a task** — saved, could not load. Use a <C slug="message-strip" />, or a <C slug="toast" /> for something that just finished.
-- **As a button or a filter chip.** A badge is static: it can't take focus or be pressed. Use a <C slug="button" />, or <C slug="filter-tabs" /> to filter a list.
-- **For a count on a launchpad tile.** The <C slug="tile" /> has its own badge.
+- **For the state of an object.** Use an <C slug="object-status" />. It shows each state in the colour of its meaning, with a <Term id="glyph">glyph</Term> of its own, and it announces warnings and errors in words. A badge's tone is only a colour: nothing stops a badge from saying “failed” in green.
+- **For a message about the page or a task**, such as a save that worked or a list that could not load. Use a <C slug="message-strip" />, or a <C slug="toast" /> for something that just finished.
+- **As a button, or to filter a list.** A badge is static: it can't take <Term id="focus">focus</Term> or be pressed. Use a <C slug="button" />, or <C slug="filter-tabs" /> to filter a list.
+- **For a count on a <Term id="launchpad">launchpad</Term> tile.** The <C slug="tile" /> has a badge of its own.
 
 ## anatomy
 
-1. **Container** — inline, 20px tall, padding 0 8px, 1px border, square. `neutral` sits on `--surface-2` with a `--border-2` frame; a tone sits on a 12% tint of its colour over `--bg-2`, framed in a 45% mix of its colour and `--border-2`.
-2. **Dot** (optional) — a 6px square in the label's colour, 8px before the text. Hidden from assistive tech.
-3. **Label** — JetBrains Mono 11px, letter-spacing 0.02em, shown lowercase, never wraps.
+1. **Frame.** A small square frame with a thin border, a little taller than its text. A neutral badge sits on a slightly lighter panel. A badge with a tone sits on a faint <Term id="tint">tint</Term> of its colour, and its border mixes that colour with the usual border colour.
+2. **Dot** (optional). A small square in the label's colour, just before the text. It is hidden from <Term id="assistive-technology">assistive technology</Term>.
+3. **Label.** One or two words in small <Term id="monospace">monospace</Term>, slightly spaced out and in lowercase. It never wraps.
 
 ## variants and states
 
-Four tones. `neutral` is the default and the right choice for most tags; a tone is only a colour, so use one where it helps people find a label, and keep its meaning the same everywhere.
+There are four tones. Neutral is the usual one, and the right choice for most tags. A tone is only a colour, so use one where it helps people find a label, and keep what it means the same everywhere.
 
-| tone | text | use for |
+| tone | looks | use it for |
 | --- | --- | --- |
-| `neutral` | `--fg-muted` | Tags, counts, versions: the default |
-| `blue` | `--cloud-blue` | Information worth spotting: `new`, `default` |
-| `green` | `--signal-green` | A positive attribute: `verified`, `included` |
-| `amber` | `--signal-amber` | An attribute that asks for care: `read-only`, `deprecated` |
+| Neutral | Grey text on a slightly lighter panel | Tags, counts and versions: the usual choice |
+| Blue | Blue text on a faint blue tint | Information worth spotting: “new”, “default” |
+| Green | Green text on a faint green tint | A positive attribute: “verified”, “included” |
+| Amber | Amber text on a faint amber tint | An attribute that asks for care: “read-only”, “deprecated” |
 
-There is no red tone. An error is a state: <C slug="object-status" /> for one object, a <C slug="message-strip" /> for the page.
+There is no red tone. An error is a state: an <C slug="object-status" /> for one object, a <C slug="message-strip" /> for the page.
 
-The `dot` puts a 6px square in the label's colour before the text. It adds no meaning of its own — it repeats the tone — and it makes a badge look like a status light. Use it as a colour key, where the same colour appears nearby (a legend); if you reach for it to show state, you want object status.
+A badge can have a dot: a small square in the label's colour, before the text. The dot adds no meaning of its own, because it only repeats the tone, and it makes a badge look like a status light. Use it as a colour key, where the same colour appears nearby, as in a legend. If you reach for it to show a state, you want an object status.
 
 <Example label="badges with a dot, as a colour key">
   <WithDot />
@@ -61,53 +62,55 @@ Next to the item it describes, a badge carries a tag or a count:
   <InContext />
 </Example>
 
+Badges also carry versions, markers such as “default”, and counts:
+
 <Example label="a version, a marker and counts">
   <Labels />
 </Example>
 
 ## behaviour
 
-- A badge is static: it has no focus, no keys and no action of its own.
-- It never wraps and has no maximum width: a long label runs past its container rather than breaking.
+- A badge is static: it has no focus, no keys and no action of its own. <Kbd>tab</Kbd> passes over it.
+- It never wraps, and it has no maximum width: a long label runs out of its container rather than breaking onto a second line.
 
-The keyboard map, the element it renders and what passes through are on its [React page](/design-system/react/?path=/docs/components-data-display-badge--docs).
+The full keyboard map is on the badge's [React page](/design-system/react/?path=/docs/components-data-display-badge--docs).
 
 ## accessibility
 
-- Screen readers read its text inline with what's around it.
-- The tone is never announced, and neither is the dot. The words carry the meaning: `read-only` is read, the amber is not.
-- The lowercase look is CSS, so screen readers read the text as you wrote it.
-- A bare number is read without its subject ("12"). Keep a count right next to what it counts, or say it: `12 files`.
-- Every tone's text meets 4.5:1 on its own tint; `green` is the closest, at about 4.9:1. The frame is decorative.
+- A <Term id="screen-reader">screen reader</Term> reads a badge's text along with the words around it.
+- The tone is never announced, and neither is the dot. The words carry the meaning: “read-only” is read out, the amber is not.
+- The lowercase look is only a style, so screen readers read the text as you wrote it.
+- A bare number is read without its subject: just “12”. Keep a count right next to what it counts, or say what it counts: “12 files”.
+- The text of every tone has enough <Term id="contrast">contrast</Term> on its own tint to be read easily. The frame is only decoration.
 
 ## content
 
-- One or two words, lowercase, no full stop: `gpu`, `read-only`, `3 new`.
-- Describe what the item is, not what it is doing right now. "running" is a state; "gpu" is a tag.
-- Digits for counts: `12`, not `twelve`.
-- Don't repeat the column or field name in every badge: `gpu`, not `label: gpu`.
+- One or two words, in lowercase, with no full stop: “gpu”, “read-only”, “3 new”.
+- Say what the item is, not what it is doing right now. “running” is a state; “gpu” is a tag.
+- Use digits for counts: “12”, not “twelve”.
+- Don't repeat the column or field name in every badge: “gpu”, not “label: gpu”.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="Badges as tags: what the item is. Neutral unless a colour helps.">
+  <Do caption="Badges as tags: they say what the item is. Neutral, unless a colour helps.">
     <Badge>gpu</Badge>
     <Badge>batch</Badge>
     <Badge>stateful</Badge>
   </Do>
-  <Dont caption="A state in a badge. The tone is only a colour, so nothing stops it saying failed in green. Use object status.">
+  <Dont caption="A state in a badge. The tone is only a colour, so nothing stops it from saying “failed” in green. Use an object status.">
     <Badge tone="green">failed</Badge>
     <Badge tone="amber">running</Badge>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="Neutral by default, one tone where it helps people find a label.">
+  <Do caption="Neutral by default, and one tone where it helps people find a label.">
     <Badge>v2.4.1</Badge>
     <Badge>12 files</Badge>
     <Badge tone="blue">new</Badge>
   </Do>
-  <Dont caption="A colour on every tag means nothing; people look for a pattern that isn't there.">
+  <Dont caption="A colour on every tag means nothing, and people look for a pattern that isn't there.">
     <Badge tone="blue">gpu</Badge>
     <Badge tone="green">batch</Badge>
     <Badge tone="amber">http</Badge>
@@ -115,17 +118,35 @@ The keyboard map, the element it renders and what passes through are on its [Rea
 </DoDont>
 
 <DoDont>
-  <Do caption="A word or two. The explanation goes in text beside it.">
+  <Do caption="A word or two. The explanation goes in the text beside it.">
     <Badge tone="amber">read-only</Badge>
   </Do>
-  <Dont caption="A sentence in a badge never wraps; it runs out of its container.">
+  <Dont caption="A sentence in a badge doesn't wrap: it runs out of its container.">
     <Badge tone="amber">read-only until the nightly backup has finished</Badge>
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="object-status">Object status</C> — the state of an object, in words, glyph and semantic colour.
-- [Status vocabulary](/design-system/patterns/status-vocabulary/) — which states exist and what to call them.
-- <C slug="table">Table</C> — badges as tags in a cell.
-- <C slug="tile">Tile</C> — the launchpad tile's own count badge.
+- <C slug="object-status">Object status</C>: the state of an object, in words, a glyph and the colour of its meaning.
+- [Status vocabulary](/design-system/patterns/status-vocabulary/): which states exist, and what to call them.
+- <C slug="table">Table</C>: badges as tags in a cell.
+- <C slug="tile">Tile</C>: the launchpad tile's own count badge.
+
+## specs
+
+| part | spec |
+| --- | --- |
+| Frame | Inline, 20px tall, padding 0 8px, a 1px border, `border-radius: 0`. Neutral: a `--surface-2` fill and a `--border-2` frame. A tone: a 12% mix of its colour over `--bg-2`, framed in a 45% mix of its colour and `--border-2`. |
+| Dot | `dot`: a 6px square in the label's colour, 8px before the text, hidden from assistive technology (`aria-hidden`). |
+| Label | JetBrains Mono 11px, line height 1, letter-spacing 0.02em, lowercased with `text-transform`. It never wraps (`white-space: nowrap`) and has no maximum width. |
+
+| tone | in code | text |
+| --- | --- | --- |
+| Neutral | `tone="neutral"` (the default) | `--fg-muted` |
+| Blue | `tone="blue"` | `--cloud-blue` |
+| Green | `tone="green"` | `--signal-green` |
+| Amber | `tone="amber"` | `--signal-amber` |
+
+- **Contrast:** every tone's text meets 4.5:1 on its own tint; `green` is the closest, at about 4.9:1. The frame is decorative.
+- **Element:** a plain `span` with no role. It takes no focus and has no keys, so `tab` skips it.

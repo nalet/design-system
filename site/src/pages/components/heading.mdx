@@ -1,17 +1,18 @@
 ---
 layout: ../../layouts/Doc.astro
 title: heading
-description: Mono display type for the page title and its sections — an h1 and an h2, optionally led by the blue chevron.
+description: A heading names a page or one of its sections, in large monospace type. The page's title can start with the blue chevron.
 component: heading
 ---
-import { Heading, Stack } from '@nalet/design-system';
+import { Heading, Kbd, Stack } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { SectionHeader, Levels, WithChevron } from '@site/examples/heading';
 
 # heading
 
-Mono display type for the page title (`h1`, 32px) and its sections (`h2`, 22px), optionally led by the blue `>` chevron.
+A heading names a page, or a section of it, in large <Term id="monospace">monospace</Term> type. The page's title can start with the blue <Term id="chevron">chevron</Term>.
 
 <Example label="a page title with its first section">
   <SectionHeader />
@@ -19,30 +20,30 @@ Mono display type for the page title (`h1`, 32px) and its sections (`h2`, 22px),
 
 ## when to use
 
-- Once per page, for its title (level 1), with the chevron on product screens.
-- For the sections of a page (level 2).
+- Once per page, for its title: the first <Term id="heading-level">level</Term>. On product screens, the title starts with the chevron.
+- For the sections of a page: the second level.
 
-## when not to use
+## when to use something else
 
-- **For the title of a card or panel.** Use the <C slug="card" />'s title.
-- **For a third level or below.** Today heading stops at `h2`. A sub-section gets a native `h3` through <C slug="text" />: `as="h3"`.
-- **For emphasis or a big number.** Headings are structure: screen-reader users jump between them. Emphasis is <C slug="text" /> in its `ui` variant.
-- **For the product name or logo.** Use the lockup — see [brand](/design-system/styles/brand/).
+- **For the title of a card or a panel.** Use the <C slug="card" />'s own title.
+- **For a third level, or deeper.** Today the heading stops at the second level. A sub-section gets its third-level heading from the <C slug="text" /> component instead.
+- **For emphasis, or a big number.** Headings are the structure of a page: people who use a <Term id="screen-reader">screen reader</Term> jump from one heading to the next. For emphasis, use the text component in its interface style.
+- **For the product's name or logo.** Use the <Term id="lockup">lockup</Term>; [brand](/design-system/styles/brand/) shows it.
 
 ## anatomy
 
-1. **Heading** — a real `h1` or `h2` with no margin, in the `h1` or `h2` [type role](/design-system/styles/typography/#the-roles): JetBrains Mono in `--fg`, 32px or 22px.
-2. **Chevron** (optional) — a bold `>` in `--cloud-blue`, 0.4em before the text, hidden from assistive tech.
+1. **Heading.** A real heading, of the first or the second level, with no space of its own around it. It is set in the page title's or the section title's <Term id="type-role">type role</Term> (see [typography](/design-system/styles/typography/#the-roles)): bright monospace, large for a page and a step smaller for a section.
+2. **Chevron** (optional). The brand's mark, bold and blue, a short space before the text. <Term id="assistive-technology">Assistive technology</Term> doesn't see it.
 
 ## variants and states
 
-The level sets both the element and the size: an `h2` always looks like an `h2`.
+The level sets both what the heading is and how big it looks, so a second-level heading always looks like one.
 
 <Example label="level 1 and level 2">
   <Levels />
 </Example>
 
-The chevron leads the heading with the brand glyph, always in `--cloud-blue`.
+The chevron leads the heading with the brand's mark, always in blue.
 
 <Example label="a page title with the chevron">
   <WithChevron />
@@ -50,24 +51,25 @@ The chevron leads the heading with the brand glyph, always in `--cloud-blue`.
 
 ## behaviour
 
-- A heading is static: it takes no focus and isn't in the tab order.
-- Screen readers have their own keys for moving from heading to heading (e.g. `h` in browse mode). That is why the levels must follow the page's outline.
+- A heading doesn't do anything, and the keyboard passes over it: it takes no focus and isn't in the tab order.
+- Screen readers have their own keys for jumping from heading to heading, such as <Kbd>h</Kbd> while they read a page in browse mode. That is why the levels must follow the page's outline.
 
-The keyboard map and the element it renders are on its [React page](/design-system/react/?path=/docs/components-layout-structure-heading--docs).
+The keyboard map is on the heading's [React page](/design-system/react/?path=/docs/components-layout-structure-heading--docs).
 
 ## accessibility
 
-- It is a real `h1` or `h2`, so it is in the document outline and screen readers can jump to it.
-- One `h1` per page; its sections are `h2`. Pick the level for the outline, never for the size.
-- The chevron is hidden from assistive tech: the heading's name is your text alone. Don't type a `>` into the text — it would be read as "greater than".
-- No case is changed: the text is shown and read exactly as written. Write it lowercase, as the [voice](/design-system/foundations/content-voice/) asks.
-- Today: only two levels.
+- A heading is a real heading, so it is part of the page's outline, and screen readers can jump to it.
+- One first-level heading per page, for its title; its sections are second-level headings. Pick the level for the outline, never for the size.
+- The chevron is hidden from assistive technology, so the heading's name is your text alone. Don't type a chevron into the text yourself: a typed “>” is read out as “greater than”.
+- The heading changes no letters to capitals or to lowercase: the text is shown and read exactly as you write it. Write it in lowercase, as [content & voice](/design-system/foundations/content-voice/) asks.
+
+Today: there are only two levels.
 
 ## content
 
-- A lowercase noun phrase, no full stop: `volumes`, `recent runs`, `storage settings`.
-- Short. A heading that wraps at 32px mono is too long.
-- The chevron once, on the page's `h1`. On every heading it stops meaning anything.
+- A lowercase noun phrase, with no full stop: “volumes”, “recent runs”, “storage settings”.
+- Keep it short. A heading that wraps onto a second line at the page title's size is too long.
+- The chevron once, on the page's title. On every heading, it stops meaning anything.
 
 ## do and don't
 
@@ -78,7 +80,7 @@ The keyboard map and the element it renders are on its [React page](/design-syst
       <Heading level={2}>recent runs</Heading>
     </Stack>
   </Do>
-  <Dont column caption="A chevron on every heading is decoration; it no longer marks the page.">
+  <Dont column caption="A chevron on every heading is decoration: it no longer marks the page.">
     <Stack gap={8}>
       <Heading level={2} chevron>recent runs</Heading>
       <Heading level={2} chevron>snapshots</Heading>
@@ -87,10 +89,10 @@ The keyboard map and the element it renders are on its [React page](/design-syst
 </DoDont>
 
 <DoDont>
-  <Do column caption="Use chevron: the glyph is blue and stays out of the heading's name.">
+  <Do column caption="The heading's own chevron: it is blue, and it stays out of the heading's name.">
     <Heading level={1} chevron>volumes</Heading>
   </Do>
-  <Dont column caption="A typed chevron is the wrong colour and is read aloud as 'greater than'.">
+  <Dont column caption="A typed chevron is the wrong colour, and it is read aloud as “greater than”.">
     <Heading level={1}>{'> volumes'}</Heading>
   </Dont>
 </DoDont>
@@ -99,14 +101,28 @@ The keyboard map and the element it renders are on its [React page](/design-syst
   <Do column caption="A short noun phrase that names the section.">
     <Heading level={2}>recent runs</Heading>
   </Do>
-  <Dont column caption="A sentence as a heading wraps and buries the word people scan for.">
+  <Dont column caption="A sentence as a heading wraps, and buries the word people scan for.">
     <Heading level={2}>here you can see all of the runs from the last week</Heading>
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="text">Text</C> — body copy, and an `h3` with `as="h3"`.
-- <C slug="card">Card</C> — titles for panels.
-- [Brand](/design-system/styles/brand/) — the chevron and the lockup.
-- [Typography](/design-system/styles/typography/) — the `h1` and `h2` type roles.
+- <C slug="text">Text</C>: text for reading, and a third-level heading when a page needs one.
+- <C slug="card">Card</C>: titles for panels.
+- [Brand](/design-system/styles/brand/): the chevron and the lockup.
+- [Typography](/design-system/styles/typography/): the type roles of the page title and the section title.
+
+## specs
+
+| level | in code | renders | type role and spec |
+| --- | --- | --- | --- |
+| Page title | `level={1}` (the default) | a native `h1` | `h1`: JetBrains Mono 700, 32px, line height 1.15, letter-spacing -0.015em, `--fg` |
+| Section | `level={2}` | a native `h2` | `h2`: JetBrains Mono 600, 22px, line height 1.2, letter-spacing 0, `--fg` |
+
+- **Chevron:** `chevron`. A bold (700) `>` in `--cloud-blue`, 0.4em before the text, in a `span` with `aria-hidden="true"`.
+- **Spacing:** `margin: 0`.
+- **Case:** no `text-transform`: the text is shown and read as written.
+- **Third level:** none today. `Text` with `as="h3"` renders a native `h3`.
+- **Emphasis:** `Text` with `variant="ui"`, not a heading.
+- **Keyboard:** not focusable, not in the tab order.

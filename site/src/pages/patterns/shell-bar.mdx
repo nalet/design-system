@@ -1,86 +1,95 @@
 ---
 layout: ../../layouts/Doc.astro
 title: shell bar
-description: One header for every surface — the lockup, the app's title, search, notifications and one user menu, the same in the portal, every app and every product.
+description: The bar across the top of every screen — where you are, what is new for you, and your account — the same in the portal, in every app and in every product.
 draft: true
 ---
 import C from '@site/components/C.astro';
-import { DoDont, Do, Dont, Mock } from '@site/blocks';
-import { ShellBarMock, ShellBarDontMock, UserMenuMock } from '@site/demos/navigation';
+import Term from '@site/components/Term.astro';
+import { DoDont, Do, Dont } from '@site/blocks';
+import { ShellBarOverview, ShellBarAnatomy, UserMenuOpen, ConsumerBar, ShellBarDo, ShellBarDont } from '@site/sketches/shell';
 
 # shell bar
 
-The bar across the top of every surface: the portal, every app inside it, and every product opened from it, consumer apps included. The same person sees the same header everywhere.
+The <Term id="shell-bar">shell bar</Term> runs across the top of every screen: on the <Term id="portal">portal</Term>'s start page, in every <Term id="app">app</Term> inside it, and in every product opened from it. It always answers the same three questions: where am I, is there anything new for me, and where is my account?
 
-<Mock planned="ShellBar, UserMenu, Avatar" label="the shell bar with an app open">
-  <ShellBarMock />
-</Mock>
+Because it looks and works the same everywhere, people learn it once, and always know where to look.
 
-The shell bar, its user menu and its avatar are **planned** components. The mock-ups on this page are built from the components that exist — the chevron, icon buttons, a badge — to show the proposal; they are pictures, not the components.
+<figure class="ds-figure">
+  <ShellBarOverview />
+  <figcaption>The shell bar with an app open: the product's name and the app's name on the left; search, notifications and the user menu on the right.</figcaption>
+</figure>
 
-## when to use
+The shell bar, its user menu and the avatar are planned components; the drawings on this page show the idea.
 
-- On every surface: the portal's launchpad, each app inside the shell, each product opened from it.
-- Once per page, at the top, above everything the app draws.
+## what it holds
 
-## when not to use
+<figure class="ds-figure">
+  <ShellBarAnatomy />
+  <figcaption>The shell bar, close up, from left to right.</figcaption>
+</figure>
 
-- **For an app's own actions.** Those belong in the app's header or <C slug="toolbar">toolbar</C>; the bar never carries them.
-- **For moving between an app's views.** That is the app's own navigation — see [app navigation](/design-system/patterns/app-navigation/).
-- **For an app's settings.** The user menu opens the shell's settings, where each app's setup is listed and linked — see [settings and setup](/design-system/patterns/settings-and-setup/).
+1. **The product's name**, led by the blue chevron. It takes people home: to the [launchpad](/design-system/patterns/launchpad-and-tiles/), or to the product's start page.
+2. **The app's name**, next to it, when an app is open: “/ downloads”. People always know where they are.
+3. **Search**, to find apps and things from anywhere. This is planned.
+4. **Notifications**: a bell with the number of unread notices. It opens one panel with the notices of every app.
+5. **The <Term id="user-menu">user menu</Term>**, behind a small square with the person's picture or initials, their <Term id="avatar">avatar</Term>. It opens one menu for everything about the person.
 
-## anatomy
+<figure class="ds-figure">
+  <UserMenuOpen />
+  <figcaption>The user menu: who is signed in, then account, settings and help, and sign out last.</figcaption>
+</figure>
 
-Left to right:
+The menu starts with the person's name and email address, so they can see who is signed in. Then come account, settings (only for people who may change them), and help. Sign out comes last, set apart, so nobody presses it by accident.
 
-1. **Product lockup** — the `>` chevron and the product's name. It goes home: to the launchpad, or to the product's home.
-2. **App title** — when an app is open inside the shell, its name sits next to the lockup (`> nalet / backlog`), so a person always knows where they are.
-3. **Search** — the shell's search. **Planned.**
-4. **Notifications** — the bell with an unread count; one panel for every app's notices.
-5. **User menu** — a square avatar, a picture or the initials in mono, that opens one menu: the person's name and email address as its header, then `account`, `settings` (for people who may change them), `help`, and `sign out` last.
+## the same everywhere
 
-<Mock planned="UserMenu" label="the user menu, open">
-  <UserMenuMock />
-</Mock>
+- **One user menu, in every product.** No email address shown in the bar, and no sign-out button of its own.
+- **The avatar is square**, like every frame in the system. A photo is cropped to a square.
+- **A product for consumers can keep its own main navigation in the bar**, such as home, films and series. The product's name, the notifications and the user menu stay where the <Term id="shell">shell</Term> puts them, and look the way the shell draws them.
+- **The product's name holds still.** The bar is always in view, so its chevron doesn't blink; see [brand](/design-system/styles/brand/#accessibility).
 
-## behaviour
-
-- **One user menu, the same in every surface.** No email address as a badge in the bar, and no separate sign-out button.
-- **The avatar is square**, like every frame in the system; a picture is cropped square.
-- **A consumer product keeps its own primary navigation in the bar** (home, films, series …), but the lockup, the notifications and the user menu stay where and how the shell has them.
-- **The bar never carries an app's own actions**; those belong in the app's header or toolbar.
-- **The lockup holds still.** The bar stays in view, so its lockup has no blinking cursor — see [brand](/design-system/styles/brand/#accessibility).
-
-## accessibility
-
-Proposed, with the components:
-
-- The bar is the page's banner landmark; the lockup is a link named for where it goes ("nalet, home").
-- The bell is an icon button whose name carries the count: "notifications, 2 unread".
-- The avatar is a menu button whose name starts with what it shows — the initials — and says what it opens: "au, user menu". The menu behaves as the <C slug="action-menu" /> does: arrow keys inside, `esc` closes it and gives focus back.
-
-## content
-
-- **Product name** — the product's own name, lowercase, as on its tile.
-- **App title** — the app's name, the same word as its tile on the launchpad.
-- **Menu header** — the person's name, then their email address in the muted weight.
-- **Menu items** — `account`, `settings`, `help`, `sign out`, in that order.
-
-## do and don't
+<figure class="ds-figure">
+  <ConsumerBar />
+  <figcaption>A product for consumers keeps its own navigation in the middle; the name, the bell and the user menu stay as the shell has them.</figcaption>
+</figure>
 
 <DoDont>
-  <Do caption="The lockup and the app's title, the bell with its count, one square avatar that opens the one menu." column>
-    <ShellBarMock />
+  <Do caption="The product's and the app's names, the bell with its count, and one square avatar that opens the one menu.">
+    <ShellBarDo />
   </Do>
-  <Dont caption="An email address as a badge and a separate sign-out button — or a circle avatar in one product and an email badge in another." column>
-    <ShellBarDontMock />
+  <Dont caption="An email address as a badge, a sign-out button of its own, and a round avatar that looks different from everything else.">
+    <ShellBarDont />
   </Dont>
 </DoDont>
 
+## what doesn't go in it
+
+The bar belongs to the shell, so it only holds what every screen shares.
+
+- **An app's own actions** belong in the app's header or its <C slug="toolbar">toolbar</C>.
+- **Moving between an app's views** is the app's own [navigation](/design-system/patterns/app-navigation/).
+- **An app's settings** are reached through the user menu: its settings list each app's setup and link straight to it. See [settings and setup](/design-system/patterns/settings-and-setup/).
+
+## accessibility
+
+Proposed, together with the components:
+
+- The bar is the page's banner, which <Term id="screen-reader">screen reader</Term> users can jump to. The product's name is a link named after where it goes, such as the product's name and “home”.
+- The bell is a button whose name includes the count: “notifications, 2 unread”.
+- The avatar is a button whose name says what it shows and what it opens: “au, user menu”. Inside the menu, the arrow keys move between the items, and Esc closes it and puts the <Term id="focus">focus</Term> back on the avatar, as in the <C slug="action-menu" />.
+
+## the words
+
+- **The product's name.** The product's own name, lowercase, as on its tile.
+- **The app's name.** The same word as the app's tile on the launchpad.
+- **The menu's header.** The person's name, then their email address, quieter.
+- **The menu's items.** Account, settings, help and sign out, in that order.
+
 ## related
 
-- [App navigation](/design-system/patterns/app-navigation/) — the app's own views, under the bar.
-- [Launchpad & tiles](/design-system/patterns/launchpad-and-tiles/) — where the lockup goes home to.
-- [Settings and setup](/design-system/patterns/settings-and-setup/) — what the user menu's settings hold.
-- [Brand](/design-system/styles/brand/) — the chevron and the lockup.
-- [Principles](/design-system/foundations/principles/) — 4: one platform, many apps.
+- [App navigation](/design-system/patterns/app-navigation/): the app's own views, under the bar.
+- [Launchpad & tiles](/design-system/patterns/launchpad-and-tiles/): where the product's name takes people home to.
+- [Settings and setup](/design-system/patterns/settings-and-setup/): what the user menu's settings hold.
+- [Brand](/design-system/styles/brand/): the chevron and the product's name.
+- [Principles](/design-system/foundations/principles/): 4, one platform, many apps.

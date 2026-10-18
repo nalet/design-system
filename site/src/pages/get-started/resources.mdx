@@ -1,45 +1,46 @@
 ---
 layout: ../../layouts/Doc.astro
 title: resources
-description: The repository, the React subsite, the brand files and the app icons of the nalet design system.
+description: Where everything lives. The repository, the React subsite, the releases, the brand files and the app icons of the nalet design system.
 ---
+import Term from '@site/components/Term.astro';
 
 # resources
 
-Where everything lives: the code, the implementation, the brand files.
+Where to find everything: the code, the implementation and the brand's files.
 
 ## code and implementation
 
 | what | where |
 | --- | --- |
-| The repository | [github.com/nalet/design-system](https://github.com/nalet/design-system) — MIT licensed; issues and pull requests go there |
-| The React subsite | [/design-system/react/](/design-system/react/) — every component's playground, examples, implementation notes and props |
-| Releases | [GitHub releases](https://github.com/nalet/design-system/releases) — each carries the packed package to install by URL |
-| The changelog | [Versioning & changelog](/design-system/get-started/versioning/), from `CHANGELOG.md` |
-| The tokens | [`tokens/tokens.json`](https://github.com/nalet/design-system/blob/main/tokens/tokens.json) — the source of every value; see [tokens](/design-system/develop/tokens/) |
+| The <Term id="repository">repository</Term> | [github.com/nalet/design-system](https://github.com/nalet/design-system), MIT licensed. Questions and suggestions go there, as issues and pull requests |
+| The React subsite | [/design-system/react/](/design-system/react/): every component's playground, examples, notes and settings |
+| Releases | [GitHub releases](https://github.com/nalet/design-system/releases): each one carries the packed package, to install from its address |
+| The <Term id="changelog">changelog</Term> | [Versioning & changelog](/design-system/get-started/versioning/), from the changelog file in the repository |
+| The tokens | [tokens.json](https://github.com/nalet/design-system/blob/main/tokens/tokens.json): the source of every value; see [tokens](/design-system/develop/tokens/) |
 
 ## brand files
 
 | file | what it is |
 | --- | --- |
-| [`brand/brand.md`](https://github.com/nalet/design-system/blob/main/brand/brand.md) | The brand's rules for people: canvas, foreground and signal colours, the two type families, the space scale, square frames and the voice |
-| [`brand/llm.txt`](https://github.com/nalet/design-system/blob/main/brand/llm.txt) | The same rules, condensed for language-model agents, with a one-line test of whether a screen is on brand |
-| [`nalet-lockup.svg`](/design-system/terminal/nalet-lockup.svg) | The lockup as an SVG file, on the canvas colour: chevron, wordmark and the blinking cursor |
-| [App icons](#app-icons) | The app icon — the blue chevron and the n on the canvas — as PNG, 16 to 512px, with its rounded corners baked in |
-| Splash plates: [grid](/design-system/splash-plates/01-grid.png), [mountain](/design-system/splash-plates/02-mountain.png) | Two 1536 × 1024 backgrounds for a splash or a sign-in screen |
+| [brand.md](https://github.com/nalet/design-system/blob/main/brand/brand.md) | The brand's rules for people: the canvas, text and signal colours, the two typefaces, the space scale, square frames and the voice |
+| [llm.txt](https://github.com/nalet/design-system/blob/main/brand/llm.txt) | The same rules, shortened for AI agents, with a one-line test of whether a screen is on brand |
+| [nalet-lockup.svg](/design-system/terminal/nalet-lockup.svg) | The lockup as an image file, on the canvas colour: the chevron, the wordmark and the blinking cursor |
+| [App icons](#app-icons) | The app icon, the blue chevron and the n on the canvas, as images from 16 to 512 pixels, with its rounded corners in the image |
+| Splash plates: [grid](/design-system/splash-plates/01-grid.png), [mountain](/design-system/splash-plates/02-mountain.png) | Two background images, 1536 × 1024 pixels, for a splash or a sign-in screen |
 
-Where a hex value in a brand file and `tokens/tokens.json` disagree, the tokens win; see [brand](/design-system/styles/brand/).
+Where a colour in a brand file and the tokens disagree, the tokens win; see [brand](/design-system/styles/brand/).
 
 ## app icons
 
 | size | file |
 | --- | --- |
-| 16px | [`nalet_16.png`](/design-system/icons/nalet_16.png) |
-| 32px | [`nalet_32.png`](/design-system/icons/nalet_32.png) |
-| 48px | [`nalet_48.png`](/design-system/icons/nalet_48.png) |
-| 64px | [`nalet_64.png`](/design-system/icons/nalet_64.png) |
-| 128px | [`nalet_128.png`](/design-system/icons/nalet_128.png) |
-| 256px | [`nalet_256.png`](/design-system/icons/nalet_256.png) |
-| 512px | [`nalet_512.png`](/design-system/icons/nalet_512.png) |
+| 16px | [nalet_16.png](/design-system/icons/nalet_16.png) |
+| 32px | [nalet_32.png](/design-system/icons/nalet_32.png) |
+| 48px | [nalet_48.png](/design-system/icons/nalet_48.png) |
+| 64px | [nalet_64.png](/design-system/icons/nalet_64.png) |
+| 128px | [nalet_128.png](/design-system/icons/nalet_128.png) |
+| 256px | [nalet_256.png](/design-system/icons/nalet_256.png) |
+| 512px | [nalet_512.png](/design-system/icons/nalet_512.png) |
 
-The files keep the addresses they had when the Storybook served them, so existing links keep working.
+The files keep the addresses they had before this site existed, so older links to them keep working.

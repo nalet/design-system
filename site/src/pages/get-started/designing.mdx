@@ -1,23 +1,24 @@
 ---
 layout: ../../layouts/Doc.astro
 title: designing with it
-description: How to design a screen with the nalet design system, from the principles to the hand-over.
+description: How to design a screen with the nalet design system, from what people need to do to the hand-over.
 ---
 import { Button, ObjectStatus } from '@nalet/design-system';
+import Term from '@site/components/Term.astro';
 import { Example } from '@site/blocks';
 
 # designing with it
 
-Start from what the person needs to do, not from a layout. The principles decide what the screen does and leaves out; the patterns give it a floorplan; the components fill it.
+Start from what the person needs to do, not from a layout. The <Term id="principle">principles</Term> decide what the screen does and what it leaves out; the <Term id="pattern">patterns</Term> give it a page layout; the <Term id="component">components</Term> fill it in.
 
 ## from a need to a screen
 
 1. **Name the principle.** Read the [principles](/design-system/foundations/principles/) first. Most screens are decided by the first two: what can the system do on its own, and what is the one status a person needs to see?
-2. **Write the vocabulary.** Before anything is drawn, list the states of the objects on the screen and map each to one of the five semantic states — see [status vocabulary](/design-system/patterns/status-vocabulary/). The tabs, the counts, the toasts and the empty states all follow from it.
-3. **Pick a floorplan.** A list of things that need doing is a [worklist](/design-system/patterns/worklist/); a start page of apps is the [launchpad](/design-system/patterns/launchpad-and-tiles/); settings are [forms and settings](/design-system/patterns/forms-and-settings/). Every surface sits under the same [shell bar](/design-system/patterns/shell-bar/).
-4. **Compose from components.** Each [component page](/design-system/components/) says when to use it and when not, with the alternative. If no component fits, say so in review instead of drawing a new one.
-5. **Write the words.** Two voices: the monospace chrome lowercase, the text people read in sentence case; short, true, in the person's words — see [content & voice](/design-system/foundations/content-voice/). A button starts with a verb and names its object.
-6. **Check the rest of the states.** Loading, empty, no match, failed, can't be known — see [empty states](/design-system/patterns/empty-states/) and [message handling](/design-system/patterns/message-handling/). Then the keyboard path, and the screen at phone width.
+2. **Write down the words for each state.** Before you draw anything, list the states the objects on the screen can be in, and give each one of the five meanings; see [status vocabulary](/design-system/patterns/status-vocabulary/). The tabs, the counts, the toasts and the empty states all follow from that list.
+3. **Pick a page layout.** A list of things that need doing is a [worklist](/design-system/patterns/worklist/); a start page of apps is the [launchpad](/design-system/patterns/launchpad-and-tiles/); settings follow [forms and settings](/design-system/patterns/forms-and-settings/). Every screen sits under the same [shell bar](/design-system/patterns/shell-bar/).
+4. **Build it from components.** Each [component page](/design-system/components/) says when to use the component and when to use something else, and what that is. If no component fits, say so in the review rather than drawing a new one.
+5. **Write the words.** Two voices: the monospace <Term id="chrome">chrome</Term> in lowercase, the text people read in sentence case; short, true and in the person's words. See [content & voice](/design-system/foundations/content-voice/). A button starts with a verb and names what it acts on.
+6. **Check the other states.** Loading, empty, nothing found, failed, can't be known: see [empty states](/design-system/patterns/empty-states/) and [message handling](/design-system/patterns/message-handling/). Then the way through with the keyboard, and the screen at phone width.
 
 <Example label="one status and the one next step">
   <ObjectStatus state="error">needs attention</ObjectStatus>
@@ -27,35 +28,49 @@ Start from what the person needs to do, not from a layout. The principles decide
 
 ## the tools
 
-There is no kit for a design tool today. The components are the reference: every variant and state is live on the [React subsite](/design-system/react/), where each component has a playground to try its props, and the examples on this site are the same components, rendered from the same code. The colours, type roles and spacing steps are named the way the [tokens](/design-system/develop/tokens/) name them, so a design and its code say the same thing.
+There is no kit for a design tool yet. The components themselves are the reference: every kind and state is live on the [React subsite](/design-system/react/), where each component has a <Term id="playground">playground</Term> for trying its settings. The examples on this site are the same components, drawn from the same code.
+
+The colours, text styles and spacing steps are named the way the [tokens](/design-system/develop/tokens/) name them, so a design and its code can say the same thing.
 
 ## the test
 
-If a screen would look at home in a tmux pane, it is on. If it looks like a SaaS landing page, start over. In practice:
+If a screen would look at home in a tmux pane, it is on. If it looks like a SaaS landing page, start over. Put plainly: a screen should feel like a well-kept terminal window, not like a website that is selling something. In practice:
 
-- One emphasized action per view, toolbar or dialog; everything else default, ghost or in a menu.
-- Colour only where it means something: a state, a link, the one primary action. Never for decoration.
-- Square frames; no rounded corners, no pills, no shadows on panels.
-- Mono for names and values, Inter for sentences.
-- No hero images, no marketing copy, no illustrations except the empty-state drawings.
+- One emphasized action per view, toolbar or dialog. Everything else is a standard or quiet button, or sits in a menu.
+- Colour only where it means something: a state, a link, the one emphasized action. Never for decoration.
+- Square frames: no rounded corners, no pill shapes, no shadows on panels.
+- Monospace for names and values, Inter for sentences.
+- No big header images, no marketing words, and no illustrations except the drawings in empty states.
 
 ## handing over
 
 A design is ready to build when it says, in the system's own names:
 
-| what | how it is named | for example |
+| what | how to name it | for example |
 | --- | --- | --- |
-| Each component | The component's name | `DataTable`, `SelectionToolbar`, `MessageStrip` |
-| Variant and size | The prop and its value | `variant="primary"`, `size="sm"`, `dense` |
-| Each object's status | The vocabulary table: raw value → state → words | `failed` → error → `needs attention` |
-| Colour, type and space | The token, never a hex value or a pixel size off the scale | `--fg-muted`, `h2`, `--s-4` |
-| Copy | The exact words as they should be read: lowercase in mono, sentence case in the body face | `grab 8 selected`, `nothing missing`, `Every aired episode is in the library.` |
-| The empty, loading and error states | Which kind, and its words | `search` · `no matches` · `clear filters` |
-| Keyboard and focus | Anything beyond the components' own model | Where focus goes after a dialog closes |
+| Each component | The component's name, as on its page | Data table, selection toolbar, message strip |
+| Its kind and size | The kind and size, as in the component's specs | The emphasized button, small; a dense table |
+| Each object's status | A row of the status vocabulary: the system's value, its meaning, its words | failed → error → “needs attention” |
+| Colour, type and space | The token's name, never a colour code or a size off the scale | The muted text grey, the section title style, the 16 step |
+| The words | The exact words, as they should be read: lowercase in monospace, sentence case in the body face | “grab 8 selected”, “nothing missing”, “Every aired episode is in the library.” |
+| Empty, loading and error states | Which kind, and its words | The search kind · “no matches” · “clear filters” |
+| Keyboard and focus | Anything beyond the components' own behaviour | Where the focus goes after a dialog closes |
+
+The specs at the end of each component page give the names that the code uses, so a developer can find each one.
 
 ## in a review
 
-- Name the principle a screen breaks: *"This breaks 2 — it says completed, but it won't play."*
-- Check the components' "when not to use": most review findings are a component used for the job of another.
-- Check every page's "Today:" notes for the components you use; the limitation may need a word on the screen.
-- Read the screen aloud: a message that only makes sense next to its icon or its colour needs more words.
+- Name the principle a screen breaks: *“This goes against 2: it says completed, but it won't play.”*
+- Check each component's “when to use something else”: most findings in a review are a component doing another one's job.
+- Check the “Today:” notes on the pages of the components you use. A limitation may need a word on the screen.
+- Read the screen aloud. A message that only makes sense next to its icon or its colour needs more words.
+
+## specs
+
+The same hand-over, in the names the code uses:
+
+| what | for example |
+| --- | --- |
+| Each component | `DataTable`, `SelectionToolbar`, `MessageStrip` |
+| Kind and size | `variant="primary"`, `size="sm"`, `dense` |
+| Colour, type and space | `--fg-muted`, `h2`, `--s-4` |

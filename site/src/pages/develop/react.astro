@@ -3,6 +3,7 @@
 // itself is one file, stories/react/setup.md, which the react subsite's
 // "getting started" renders too.
 import Doc from '../../layouts/Doc.astro';
+import Term from '../../components/Term.astro';
 import { Content as Setup, getHeadings } from '../../../../stories/react/setup.md';
 import { url, REACT, reactDocs } from '../../data/site';
 
@@ -11,56 +12,72 @@ const headings = [
   ...getHeadings(),
   { depth: 2, slug: 'typescript', text: 'typescript' },
   { depth: 2, slug: 'in-a-portal-shell', text: 'in a portal shell' },
+  { depth: 2, slug: 'specs', text: 'specs' },
 ];
 ---
 <Doc
   frontmatter={{
     title: 'react',
-    description: 'The React implementation of the nalet design system: what the React subsite holds, install, peer dependencies, the CSS and the fonts.',
+    description: 'The React implementation of the nalet design system: what the React subsite holds, how to install it, what goes next to it, the stylesheet and the fonts.',
     react: 'react-getting-started',
   }}
   headings={headings}
 >
   <h1>react</h1>
   <p>
-    The components are plain React with co-located CSS, for React 18 and 19. This site is the design guidance;
-    the <a href={REACT}>React subsite</a> is the implementation.
+    The components are written in <Term id="react">React</Term>, each with its own styles next to it, and they work with
+    React 18 and 19. This site is the design guidance; the <a href={REACT}>React subsite</a> is the implementation.
   </p>
 
   <h2 id="the-react-subsite">the react subsite</h2>
-  <p>The React subsite is the Storybook, at <a href={REACT}>/design-system/react/</a>. It holds:</p>
+  <p>The React subsite is built with Storybook, and lives at <a href={REACT}>/design-system/react/</a>. It holds:</p>
   <ul>
     <li>
-      <strong>A page per component</strong>, with a link back to its design guidance here: the playground, where every
-      prop can be tried live; the examples, each with its source; the implementation notes — the native element it
-      renders, the attributes it sets, its keyboard map; and the props table.
+      <strong>A page per component</strong>, with a link back to its guidance here. It has the
+      <Term id="playground">playground</Term>, where every setting can be tried live; the examples, each with its code;
+      notes on how the component is built, such as the browser element it uses, the attributes it sets and its keyboard
+      map; and the table of its settings, its <Term id="prop">props</Term>.
     </li>
-    <li><strong>The brand glyphs</strong> — <code>Chevron</code>, <code>Lockup</code> and <code>Icon</code> — with their props.</li>
+    <li><strong>The brand's marks</strong>: the chevron, the lockup and the icon component, with their props.</li>
     <li>
-      <strong>The patterns' code</strong>: the <code>Worklist</code> and <code>Portal</code> floorplans with their props, and the
-      full examples of <a href={reactDocs('patterns-selection-and-bulk-actions')}>selection and bulk actions</a> and{' '}
+      <strong>The patterns' code</strong>: the worklist and the portal page layouts with their props, and the full
+      examples of <a href={reactDocs('patterns-selection-and-bulk-actions')}>selection and bulk actions</a> and{' '}
       <a href={reactDocs('patterns-forms-and-settings')}>forms and settings</a>.
     </li>
-    <li><strong>Getting started</strong> (the setup below) and the changelog.</li>
+    <li><strong>Getting started</strong>, which is the setup below, and the changelog.</li>
   </ul>
   <p>
-    The examples on this site and on the React subsite are the same stories, written once in{' '}
-    <code>stories/**/*.stories.tsx</code>: the React subsite shows them with their code, this site renders them through
-    Storybook's portable stories.
+    The examples on this site and on the React subsite are written once, as stories in the repository. The React subsite
+    shows them with their code; this site renders the same stories in its own pages.
   </p>
 
   <Setup />
 
   <h2 id="typescript">typescript</h2>
   <p>
-    The package carries its type declarations. Every component exports its props type next to it (<code>ButtonProps</code>,{' '}
-    <code>DataTableColumn</code>, <code>ObjectState</code> …), and <code>defineStates</code> checks a status table against the
-    keys you list. The typed tokens are on <a href={url('develop/tokens/')}>tokens</a>.
+    The package comes with its type definitions, so your editor knows every component's props. Each component exports the
+    type of its props next to it, and a helper checks a status table against the values you list, so none is forgotten.
+    The typed tokens are on <a href={url('develop/tokens/')}>tokens</a>.
   </p>
 
   <h2 id="in-a-portal-shell">in a portal shell</h2>
   <p>
-    An app that runs as a federated module inside the portal shell takes the design system from the shell, so a page
-    never carries two versions of it. See <a href={url('develop/apps-in-a-shell/')}>apps in a shell</a>.
+    An app that runs inside the portal shell, as a <Term id="federated-module">federated module</Term>, takes the design
+    system from the shell, so a page never carries two versions of it. See
+    <a href={url('develop/apps-in-a-shell/')}>apps in a shell</a>.
   </p>
+
+  <h2 id="specs">specs</h2>
+  <ul>
+    <li><strong>The brand's marks:</strong> <code>Chevron</code>, <code>Lockup</code> and <code>Icon</code>.</li>
+    <li><strong>The page layouts:</strong> <code>Worklist</code> and <code>Portal</code>.</li>
+    <li>
+      <strong>The examples:</strong> written once in <code>stories/**/*.stories.tsx</code>; this site renders them through
+      Storybook's portable stories.
+    </li>
+    <li>
+      <strong>Types:</strong> each component's props type next to it (<code>ButtonProps</code>, <code>DataTableColumn</code>,
+      <code>ObjectState</code> …); <code>defineStates</code> checks a status table against the keys you list.
+    </li>
+  </ul>
 </Doc>

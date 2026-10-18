@@ -6,20 +6,21 @@ import { Lockup } from '@nalet/design-system';
 import { SECTIONS } from '../data/nav';
 import { url, REACT, REPO, VERSION } from '../data/site';
 ---
-<Bare title="" description="The nalet design system: principles, foundations, styles, components and patterns for calm, honest admin consoles, and the React components that build them." redirect>
+<Bare title="" description="The nalet design system: the principles, components and patterns for calm, honest admin consoles, explained in plain words, and the React components that build them." redirect>
   <section class="ds-hero" aria-labelledby="home-title" data-pagefind-body>
     <Lockup height={88} showCursor={false} aria-hidden="true" />
     <h1 id="home-title">the nalet design system</h1>
     <p>
-      A single identity for every nalet surface — dark canvas, a monospace voice beside the reader's own, blue
-      chevron, square frames — and the principles, components and patterns for building calm, honest admin consoles
-      with it.
+      One look and one way of working for every nalet screen: a dark canvas, a blue chevron, square frames, and a
+      monospace voice next to the reader's own. Here you find the principles, components and patterns for building calm,
+      honest admin consoles, explained in plain words.
     </p>
     <blockquote>if a screen would look at home in a tmux pane, it is on. if it looks like a saas landing page, start over.</blockquote>
     <div class="ds-hero__actions">
       <a class="ds-button-link ds-button-link--primary" href={url('get-started/')}>get started</a>
       <a class="ds-button-link" href={url('foundations/principles/')}>the principles</a>
       <a class="ds-button-link" href={REACT}>react components</a>
+      <a class="ds-button-link" href={url('get-started/glossary/')}>glossary</a>
     </div>
   </section>
 
@@ -40,13 +41,13 @@ import { url, REACT, REPO, VERSION } from '../data/site';
     <li>
       <a class="ds-card" href={REACT}>
         <span class="ds-card__title">react</span>
-        <span class="ds-card__summary">The React components with their playgrounds, examples and props: the implementation of these guidelines.</span>
+        <span class="ds-card__summary">The components in code, each with a live playground, examples and every setting: the implementation of these guidelines.</span>
       </a>
     </li>
     <li>
       <a class="ds-card" href={url('develop/tokens/')}>
         <span class="ds-card__title">tokens</span>
-        <span class="ds-card__summary">CSS custom properties, typed token objects and a Tailwind preset, from one JSON file.</span>
+        <span class="ds-card__summary">The colours, type and spacing, ready for CSS, JavaScript and Tailwind, all from one file.</span>
       </a>
     </li>
     <li>
@@ -58,7 +59,7 @@ import { url, REACT, REPO, VERSION } from '../data/site';
     <li>
       <a class="ds-card" href={REPO}>
         <span class="ds-card__title">source</span>
-        <span class="ds-card__summary">The repository on GitHub, MIT licensed.</span>
+        <span class="ds-card__summary">The code on GitHub, free to use under the MIT licence.</span>
       </a>
     </li>
   </ul>

@@ -1,18 +1,23 @@
 ---
 layout: ../../layouts/Doc.astro
 title: apps in a shell
-description: Apps that run inside the portal shell take the nalet design system from the shell, so a page never carries two versions of it.
+description: Apps that run inside the portal shell use the shell's copy of the nalet design system, so a page never carries two versions of it.
 ---
+import Term from '@site/components/Term.astro';
 
 # apps in a shell
 
-The portal is a shell: it owns sign-in, navigation, search, notifications and settings, and the apps run inside it as federated modules, in the shell's React tree. The shell also owns the design system. It loads one copy, and every app uses that copy, so a page never carries two versions of it.
+The portal is a <Term id="shell">shell</Term>. It takes care of signing in, navigation, search, notifications and settings, and the <Term id="app">apps</Term> run inside it as <Term id="federated-module">federated modules</Term>, as part of the shell's own page.
+
+The shell also owns the design system. It loads one copy, and every app uses that copy, so a page never carries two versions of it.
 
 ## one copy, from the shell
 
-- **The shell loads the design system once**: the package and its `styles.css`, near its root, and one `<Toaster />`.
-- **An app shares it, and doesn't bundle it.** The app lists `@nalet/design-system` as a peer dependency, with `react` and `react-dom`, and its federation config shares all three as singletons. At run time the app gets the shell's copy.
-- **An app doesn't import `styles.css` in the module the shell loads.** It imports the stylesheet only in its own standalone entry, the one used to run the app on its own.
+- **The shell loads the design system once:** the package and its stylesheet, near its root, and one toaster, the place where toasts appear.
+- **An app shares it instead of bundling it.** The app lists the design system as a <Term id="peer-dependency">peer dependency</Term>, together with React, and its federation settings share all three packages as single copies. When it runs, the app gets the shell's copy.
+- **An app doesn't import the stylesheet in the module the shell loads.** It imports it only in its own standalone entry, the one used to run the app on its own.
+
+The federation settings look like this, in the shell and in every app:
 
 ```js
 // in the shell's federation config and in every app's
@@ -27,30 +32,40 @@ shared: {
 
 Two copies of the design system on one page:
 
-- **Look different.** Two stylesheets define the same class names; whichever loads last wins, for every app on the page, and a component from the older copy is drawn with the newer one's CSS.
-- **Lose toasts.** The toast store belongs to one copy of the library. A `toast()` from an app's own copy shows only in a `<Toaster />` of that same copy, not in the shell's.
-- **Cost twice.** Each copy is downloaded, parsed and kept in memory.
+- **Look different.** Both stylesheets define the same class names, so whichever loads last wins, for every app on the page, and a component from the older copy is drawn with the newer one's styles.
+- **Lose toasts.** The toasts belong to one copy of the library. A toast sent from an app's own copy only shows up in a toaster of that same copy, not in the shell's.
+- **Cost twice.** Each copy is downloaded, read and kept in memory.
 
 ## inside the shell
 
-The components are made to live in another app's tree:
+The components are made to live inside another app's page:
 
-- React is a peer dependency, so the shell's single copy of React is used.
-- The modal and the action menu render into `document.body` through a portal, so no panel or table of the shell can clip them; toasts are fixed to the viewport.
-- Nothing is global beyond the tokens and the page base, and there is no provider to set up.
-- Give a worklist or a form `headingLevel={2}` when the shell owns the page's `h1`.
+- React is a peer dependency, so the shell's single copy of React is the one used.
+- The modal and the action menu are drawn at the top level of the page, so no panel or table of the shell can cut them off. Toasts are fixed to the window.
+- Nothing is global beyond the tokens and the page's base styles, and there is no provider to set up.
+- When the shell owns the page's main heading, give a worklist or a form a second-level heading.
 
 ## versions
 
 - The shell pins one version of the design system, and every app runs on it.
-- An app declares the range it was built and tested against (`requiredVersion`, and its peer dependency). While the system is 0.x, a minor version may change how components look: when the shell moves to a new minor, apps check its [changelog](/design-system/get-started/versioning/).
+- An app says which versions it was built and tested with, in its federation settings and in its peer dependency. While the system is below 1.0, a new middle number may change how components look, so when the shell moves to one, apps check its [changelog](/design-system/get-started/versioning/).
 - An app that needs a newer version waits for the shell to move, rather than bundling the version it wants.
 
 ## on its own
 
-Outside the shell — running the app on its own, in tests — the app loads the design system itself: the install, the stylesheet and the fonts, as on [React](/design-system/develop/react/).
+Outside the shell, when the app runs on its own or in tests, it loads the design system itself: the install, the stylesheet and the fonts, as described on [React](/design-system/develop/react/).
 
 Today:
 
-- The package ships no federation config; the shell and the apps declare the shared modules in their own builds.
-- Nothing warns when two copies end up on one page. Check the network panel for a second `styles.css`, or a second copy of the package in the app's bundle.
+- The package ships no federation settings; the shell and the apps declare the shared modules in their own builds.
+- Nothing warns when two copies end up on one page. Look in the browser's network panel for a second stylesheet, or for a second copy of the package in the app's <Term id="bundle">bundle</Term>.
+
+## specs
+
+- **The shell:** imports `@nalet/design-system` and its `styles.css` near its root, and renders one `<Toaster />`.
+- **An app:** lists `@nalet/design-system`, `react` and `react-dom` as peer dependencies, and shares all three as singletons, with the version range it was tested with in `requiredVersion` (`'^0.3.0'` above).
+- **The stylesheet:** `styles.css` is imported only in the app's standalone entry, never in the module the shell loads.
+- **Toasts:** `toast()` reaches only a `<Toaster />` of the same copy of the library.
+- **Overlays:** the modal and the action menu render into `document.body` through a React portal; toasts are `position: fixed` to the viewport.
+- **Headings:** `headingLevel={2}` on a worklist or a form when the shell owns the `h1`.
+- **Two copies:** look for a second `styles.css` in the network panel, or a second copy of the package in the app's bundle.

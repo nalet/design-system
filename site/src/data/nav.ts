@@ -38,8 +38,8 @@ export const SECTIONS: NavSection[] = [
     groups: [
       {
         pages: [
-          { title: 'overview', href: url('get-started/'), summary: 'The system, its identity in one paragraph, who it is for and how this site is organised.' },
-          { title: 'designing with it', href: url('get-started/designing/'), summary: 'How to work from the principles to a screen, and what to hand over.' },
+          { title: 'overview', href: url('get-started/'), summary: 'What the system is, its look in a few lines, who it is for, and how this site is organised.' },
+          { title: 'designing with it', href: url('get-started/designing/'), summary: 'How to go from what people need to a finished screen, and what to hand over.' },
           { title: 'developing with it', href: url('get-started/developing/'), summary: 'The React components, the tokens, and installing a release.' },
           { title: 'versioning & changelog', href: url('get-started/versioning/'), summary: 'What a version number promises, and every change so far.' },
           { title: 'resources', href: url('get-started/resources/'), summary: 'The repository, the brand files and the React subsite.' },
@@ -57,10 +57,10 @@ export const SECTIONS: NavSection[] = [
       {
         pages: [
           { title: 'principles', href: url('foundations/principles/'), summary: 'Five principles that decide what a screen does and what it leaves out.', draft: true },
-          { title: 'accessibility', href: url('foundations/accessibility/'), summary: 'The WCAG 2.2 AA baseline, how it is checked, and the known gaps.' },
-          { title: 'content & voice', href: url('foundations/content-voice/'), summary: 'Two voices, one per typeface, short and true: how the words on a screen are written.' },
-          { title: 'interaction', href: url('foundations/interaction/'), summary: 'States, focus, the keyboard model and selection, the same in every component.' },
-          { title: 'layout', href: url('foundations/layout/'), summary: 'The space scale, control heights, density and phone width.' },
+          { title: 'accessibility', href: url('foundations/accessibility/'), summary: 'Screens everyone can use: the standard we meet, how it is checked, and what is still missing.' },
+          { title: 'content & voice', href: url('foundations/content-voice/'), summary: 'How the words on a screen are written: two voices, one per typeface, short and true.' },
+          { title: 'interaction', href: url('foundations/interaction/'), summary: 'States, focus, the keys and selecting rows: the same in every component.' },
+          { title: 'layout', href: url('foundations/layout/'), summary: 'One scale for space, three control heights, density, and screens that work on a phone.' },
         ],
       },
     ],
@@ -73,10 +73,10 @@ export const SECTIONS: NavSection[] = [
     groups: [
       {
         pages: [
-          { title: 'colour', href: url('styles/colour/'), summary: 'A dark canvas, four greys of text, one blue and five semantic states, with the contrast table.' },
-          { title: 'typography', href: url('styles/typography/'), summary: 'Two families and six roles: mono names things, Inter carries what people read.' },
-          { title: 'iconography', href: url('styles/iconography/'), summary: 'Line icons at 16px with a 1.75 stroke, decoration unless named.' },
-          { title: 'shape', href: url('styles/shape/'), summary: 'Square frames, hairlines and the one rounded shape.' },
+          { title: 'colour', href: url('styles/colour/'), summary: 'A dark canvas, four greys for text, one blue for actions and five colours for states, with the contrast of every pair.' },
+          { title: 'typography', href: url('styles/typography/'), summary: 'Two typefaces and six text styles: monospace names things, Inter carries what people read.' },
+          { title: 'iconography', href: url('styles/iconography/'), summary: 'Small line icons in the colour of the text, and when an icon needs a name.' },
+          { title: 'shape', href: url('styles/shape/'), summary: 'Square frames, thin lines, and the one rounded shape.' },
           { title: 'motion', href: url('styles/motion/'), summary: 'Small, quick and only to say something.' },
           { title: 'brand', href: url('styles/brand/'), summary: 'The chevron, the lockup and the app icons.' },
         ],
@@ -87,7 +87,7 @@ export const SECTIONS: NavSection[] = [
     key: 'components',
     title: 'components',
     href: url('components/'),
-    summary: 'Every component as design guidance: when to use it, its parts, states, behaviour and content.',
+    summary: 'Every component: when to use it, its parts and states, how it behaves, and how to write its words.',
     groups: ROLES.map(({ role, summary }) => ({
       title: role,
       summary,
@@ -139,9 +139,9 @@ export const SECTIONS: NavSection[] = [
     groups: [
       {
         pages: [
-          { title: 'react', href: url('develop/react/'), summary: 'What the React subsite holds, install, peer dependencies, the CSS and the fonts.' },
-          { title: 'tokens', href: url('develop/tokens/'), summary: 'CSS custom properties, typed tokens and the Tailwind preset.' },
-          { title: 'apps in a shell', href: url('develop/apps-in-a-shell/'), summary: 'Federated apps take the design system from the shell, so a page carries one version.' },
+          { title: 'react', href: url('develop/react/'), summary: 'What the React subsite holds, and how to install the package, its styles and the fonts.' },
+          { title: 'tokens', href: url('develop/tokens/'), summary: 'The colours, type and spacing for CSS, JavaScript and Tailwind, all from one file.' },
+          { title: 'apps in a shell', href: url('develop/apps-in-a-shell/'), summary: "Apps inside the shell use the shell's copy of the design system, so a page carries one version." },
           { title: 'contributing', href: url('develop/contributing/'), summary: 'The rules of the repository, and how to add a component.' },
         ],
       },

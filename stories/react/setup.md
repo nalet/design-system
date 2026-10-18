@@ -1,12 +1,12 @@
 ## install
 
-Each GitHub release carries the packed package; apps install it by URL — no registry needed.
+Each release on GitHub carries the packed package, and apps install it straight from its address, with no registry in between:
 
 ```sh
 npm i https://github.com/nalet/design-system/releases/download/v0.3.0/nalet-design-system-0.3.0.tgz
 ```
 
-Peer dependencies: `react` and `react-dom` 18 or 19, and `lucide-react` 0.300 or newer (the library imports its types; your app passes icons in). An app that must not fetch at install time can vendor the tarball and depend on it with `file:`.
+Your app installs three packages next to it: `react` and `react-dom` 18 or 19, and `lucide-react` 0.300 or newer. The library only uses the icon set's types; your app passes the icons in. An app that must not download anything while it installs can keep the tarball in its own repository and depend on it with `file:`.
 
 ## load the styles
 
@@ -26,13 +26,13 @@ export function Example() {
 }
 ```
 
-- `styles.css` holds the component styles **and** the tokens (the `:root` custom properties, the page base and the type utilities).
-- `tokens.css` holds only the tokens — for an app that uses the identity without the components.
-- Nothing else is global. The components are plain React with co-located CSS; no provider is needed. One exception: render one `<Toaster />` near the root if you call `toast()`.
+- `styles.css` holds the component styles **and** the tokens: the `:root` custom properties, the page's base styles and the type classes.
+- `tokens.css` holds only the tokens, for an app that uses the identity without the components.
+- Nothing else is global. The components are plain React, each with its own CSS, and need no provider around them. The one exception: if you call `toast()`, render one `<Toaster />` near the root.
 
 ## fonts
 
-The package ships no font files. Load **Inter** (400, 500, 600, 700) and **JetBrains Mono** (400–800) yourself — self-hosted, for example with `@fontsource/inter` and `@fontsource/jetbrains-mono`:
+The package doesn't include the font files, so your app loads **Inter** (400, 500, 600 and 700) and **JetBrains Mono** (400 to 800) itself. You can host them yourself, for example with `@fontsource/inter` and `@fontsource/jetbrains-mono`:
 
 ```ts
 import '@fontsource/inter/400.css';
@@ -46,10 +46,10 @@ import '@fontsource/jetbrains-mono/700.css';
 import '@fontsource/jetbrains-mono/800.css';
 ```
 
-Or from Google Fonts:
+Or load them from a font service:
 
 ```html
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap" />
 ```
 
-Without them the stacks fall back to `system-ui` and `ui-monospace`. Load JetBrains Mono 400: most mono values are drawn at 400, and without it they render at the next weight. Shipping the fonts in the package is **planned**.
+Without them, the text falls back to the system's own fonts, `system-ui` and `ui-monospace`. Make sure to load JetBrains Mono 400: most monospace values are drawn at 400, and without it they show at the next weight up. Including the fonts in the package is **planned**.

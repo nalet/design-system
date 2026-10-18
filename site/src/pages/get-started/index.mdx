@@ -1,37 +1,54 @@
 ---
 layout: ../../layouts/Doc.astro
 title: overview
-description: The nalet design system — what it is, the identity in one paragraph, who it is for, and how this site is organised.
+description: What the nalet design system is, its identity in a few lines, who it is for, and how this site is organised.
 ---
+import Term from '@site/components/Term.astro';
+
 # overview
 
-A single identity for every nalet surface — dark canvas, a monospace voice beside the reader's own, blue chevron, square frames — and the components, patterns and rules for building calm, honest admin consoles with it.
+The nalet design system is a <Term id="design-system">design system</Term>: a shared set of rules, building blocks and examples for our admin consoles, the screens people use to keep things running. It gives all of them the same identity, and the same calm, honest way of working.
 
 > if a screen would look at home in a tmux pane, it is on. if it looks like a saas landing page, start over.
 
+In other words: a screen should feel like a well-kept terminal window, quiet and to the point, and not like a website that is trying to sell something.
+
 ## the identity
 
-The canvas is dark, and only dark: `--bg`, `--bg-2`, `--surface` and `--surface-2`, with four greys of text on top. The `>` chevron is the brand glyph and is always `--cloud-blue`, the same blue as links and the one primary action. JetBrains Mono names things — headings, labels, numbers, codes, the brand — and Inter carries what people read. Every gap comes from one 4-base scale (4, 8, 12, 16, 24, 32, 48, 64), every frame is square, and the words come in two voices: the monospace chrome — titles, buttons, navigation, statuses — is lowercase, and the text people read is in sentence case, in their own language. Both are short, with no emoji and no exclamation marks. There is no light theme today; light and high-contrast themes are **planned**. The details are in [styles](/design-system/styles/) and [content & voice](/design-system/foundations/content-voice/).
+The look is easy to recognise:
+
+- **A dark canvas, and only dark.** Panels sit on a few slightly lighter steps of it, with four greys for text on top.
+- **The blue chevron.** The › is the brand's mark, always in one blue: the same blue as links and the one emphasized action.
+- **Two typefaces.** JetBrains Mono, a <Term id="monospace">monospace</Term> face, names things: headings, labels, numbers, codes and the brand. Inter carries what people read.
+- **One scale for space.** Every gap is a step of one scale: 4, 8, 12, 16, 24, 32, 48 or 64 pixels.
+- **Square frames.** No rounded corners anywhere.
+- **Two voices.** The monospace <Term id="chrome">chrome</Term>, such as titles, buttons, navigation and statuses, is lowercase. The text people read is in sentence case, in their own language. Both are short, with no emoji and no exclamation marks.
+
+There is no light theme yet; light and high-contrast themes are planned. [Styles](/design-system/styles/) and [content & voice](/design-system/foundations/content-voice/) have the details.
 
 ## who it is for
 
-- **Admin consoles inside a portal shell.** The main audience: operator tools — lists of things that need doing, settings, status — rendered as federated modules inside one shell's React tree. The library is plain React and CSS: no global styles beyond the tokens and the page base, no provider required, React 18 or 19. See [apps in a shell](/design-system/develop/apps-in-a-shell/).
-- **Apps that only need the identity.** A consumer app can take just the tokens — CSS custom properties, typed token objects, or the Tailwind preset — and keep its own components. See [tokens](/design-system/develop/tokens/).
+- **Admin consoles inside a portal shell.** This is the main audience: tools for operators, such as lists of things that need doing, settings and status, that run as <Term id="federated-module">federated modules</Term> inside one <Term id="shell">shell</Term>. The components are plain React and CSS. They add nothing global beyond the tokens and the page's base styles, need nothing set up around them, and work with React 18 or 19. See [apps in a shell](/design-system/develop/apps-in-a-shell/).
+- **Apps that only need the identity.** An app can take just the <Term id="token">design tokens</Term>, the colours, fonts and spacing, and keep its own components. See [tokens](/design-system/develop/tokens/).
 - **The people who design and build them.** Designers start at [designing with it](/design-system/get-started/designing/), developers at [developing with it](/design-system/get-started/developing/).
 
 ## how this site is organised
 
-The guidelines live here; the code lives on the [React subsite](/design-system/react/). The six sections in the top bar:
+The guidelines live here; the code lives on the <Term id="react-subsite">React subsite</Term>. The six sections in the top bar are:
 
-- **Get started** — this page, [designing with it](/design-system/get-started/designing/), [developing with it](/design-system/get-started/developing/), [versioning & changelog](/design-system/get-started/versioning/) and [resources](/design-system/get-started/resources/).
-- **Foundations** — the [principles](/design-system/foundations/principles/) every screen follows, and the rules underneath every component: [accessibility](/design-system/foundations/accessibility/), [content & voice](/design-system/foundations/content-voice/), [interaction](/design-system/foundations/interaction/) and [layout](/design-system/foundations/layout/).
-- **Styles** — the visual language: [colour](/design-system/styles/colour/) (with the contrast table generated from the tokens), [typography](/design-system/styles/typography/), [iconography](/design-system/styles/iconography/), [shape](/design-system/styles/shape/), [motion](/design-system/styles/motion/) and the [brand](/design-system/styles/brand/).
-- **Components** — every component as design guidance, grouped by role. Each page has the same anatomy: when to use it and when not, its parts, variants and states, behaviour, accessibility, content, do and don't, and related pages, with a link to its React implementation. Start at the [components index](/design-system/components/).
-- **Patterns** — whole floorplans and the problems that recur across them: the [worklist](/design-system/patterns/worklist/), navigation from the [shell bar](/design-system/patterns/shell-bar/) to the [launchpad](/design-system/patterns/launchpad-and-tiles/), [status vocabulary](/design-system/patterns/status-vocabulary/), [message handling](/design-system/patterns/message-handling/), [empty states](/design-system/patterns/empty-states/), [selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) and [forms and settings](/design-system/patterns/forms-and-settings/).
-- **Develop** — the [React](/design-system/develop/react/) implementation, the [tokens](/design-system/develop/tokens/), [apps in a shell](/design-system/develop/apps-in-a-shell/) and [contributing](/design-system/develop/contributing/).
+- **Get started:** this page, [designing with it](/design-system/get-started/designing/), [developing with it](/design-system/get-started/developing/), [versioning & changelog](/design-system/get-started/versioning/), [resources](/design-system/get-started/resources/) and the [glossary](/design-system/get-started/glossary/).
+- **Foundations:** the [principles](/design-system/foundations/principles/) every screen follows, and the rules underneath every component: [accessibility](/design-system/foundations/accessibility/), [content & voice](/design-system/foundations/content-voice/), [interaction](/design-system/foundations/interaction/) and [layout](/design-system/foundations/layout/).
+- **Styles:** the visual language. [Colour](/design-system/styles/colour/), with the contrast of every pair worked out from the tokens, [typography](/design-system/styles/typography/), [iconography](/design-system/styles/iconography/), [shape](/design-system/styles/shape/), [motion](/design-system/styles/motion/) and the [brand](/design-system/styles/brand/).
+- **Components:** every component as design guidance, grouped by what it is for. Each page follows the same order: what it is for, with a live example; when to use it, and when to use something else; its parts; its kinds and states; how it behaves; accessibility; how to write its words; do and don't; related pages; and, at the end, its exact specs. A link at the top of each page leads to its React implementation. Start at the [components index](/design-system/components/).
+- **Patterns:** whole page layouts, and the problems that come up again and again across them: the [worklist](/design-system/patterns/worklist/), navigation from the [shell bar](/design-system/patterns/shell-bar/) to the [launchpad](/design-system/patterns/launchpad-and-tiles/), the [status vocabulary](/design-system/patterns/status-vocabulary/), [message handling](/design-system/patterns/message-handling/), [empty states](/design-system/patterns/empty-states/), [selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) and [forms and settings](/design-system/patterns/forms-and-settings/).
+- **Develop:** the [React](/design-system/develop/react/) implementation, the [tokens](/design-system/develop/tokens/), [apps in a shell](/design-system/develop/apps-in-a-shell/) and [contributing](/design-system/develop/contributing/).
 
-The [React subsite](/design-system/react/) is the Storybook: every component's playground, its examples, its props and the notes on how it is built. Each guidance page links to its React page, and each React page links back.
+The [React subsite](/design-system/react/) holds every component's <Term id="playground">playground</Term>, its examples, its settings and the notes on how it is built. Each guidance page links to its React page, and each React page links back.
+
+Words with a dotted underline are explained in the [glossary](/design-system/get-started/glossary/). Hover over one, or tap it on a phone, to read the explanation right where you are.
 
 ## what this site promises
 
-It documents what the code does. Where a component falls short of the principles today, its page says so under "Today:" — a known limitation, not a feature. Where something is coming, it is marked **planned**. A page marked **draft — under review** is a proposal that may still change. The source is [github.com/nalet/design-system](https://github.com/nalet/design-system), MIT licensed.
+This site describes what the code really does. Where a component falls short of the principles today, its page says so after “Today:”: a known limitation, not a feature. Anything still to come is marked as planned, and a page marked “draft — under review” is a proposal that may still change.
+
+The source is public on [GitHub](https://github.com/nalet/design-system), under the MIT licence.

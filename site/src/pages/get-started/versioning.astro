@@ -1,6 +1,7 @@
 ---
 // versioning, and CHANGELOG.md from the repository root, rendered as it is.
 import Doc from '../../layouts/Doc.astro';
+import Term from '../../components/Term.astro';
 import { Content as Changelog, getHeadings } from '../../../../CHANGELOG.md';
 import { url } from '../../data/site';
 
@@ -12,27 +13,28 @@ const headings = [
 <Doc
   frontmatter={{
     title: 'versioning & changelog',
-    description: 'What a version of the nalet design system promises, and every change so far.',
+    description: 'What a version number of the nalet design system promises, and what changed in every release.',
   }}
   headings={headings}
 >
   <h1>versioning & changelog</h1>
-  <p>What a version number promises, and the changelog of every release.</p>
+  <p>What a version number promises, and the list of what changed in every release so far.</p>
   <h2 id="versioning">versioning</h2>
   <ul>
     <li>
-      <strong>Semantic versions.</strong> While the system is 0.x, a minor version (0.3.0) may change how existing
-      components look — the changelog lists every visible change; a patch (0.3.1) only fixes.
+      <strong>Version numbers have three parts</strong>, following <Term id="semantic-versioning">semantic versioning</Term>.
+      While the system is below 1.0, a new middle number, such as 0.3.0, may change how existing components look, and the
+      changelog lists every change you can see. A new last number, such as 0.3.1, only fixes things.
     </li>
     <li>
-      <strong>One release per version tag.</strong> A tag <code>vX.Y.Z</code> builds the library and attaches the
-      packed tarball to a GitHub release; apps install that URL (see <a href={url('develop/react/')}>React</a>).
+      <strong>One release per version.</strong> Tagging a version, such as v0.3.1, builds the library and attaches the
+      packed package to a release on GitHub. Apps install it from that address; see <a href={url('develop/react/')}>React</a>.
     </li>
     <li>
-      <strong>This site follows main.</strong> It is built from the main branch on every push, so it can describe
-      changes that are not in a release yet. The version in its code samples is the latest release.
+      <strong>This site follows the latest code.</strong> It is rebuilt from the main branch after every change, so it can
+      describe changes that aren't in a release yet. The version in its code samples is the latest release.
     </li>
   </ul>
-  <p>The file <code>CHANGELOG.md</code> in the repository, rendered here as it is:</p>
+  <p>Below is the <Term id="changelog">changelog</Term> file from the repository, shown as it is.</p>
   <Changelog />
 </Doc>

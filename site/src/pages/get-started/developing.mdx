@@ -4,29 +4,32 @@ title: developing with it
 description: The React components, the tokens, and how to install a release of the nalet design system.
 ---
 import Snippet from '@site/components/Snippet.astro';
+import Term from '@site/components/Term.astro';
 import { INSTALL } from '@site/data/site';
 
 # developing with it
 
-The design system ships as one package, `@nalet/design-system`: React components with their CSS, the brand glyphs, and the tokens in three forms. This site says when and why to use each part; the [React subsite](/design-system/react/) says how.
+The design system comes as one package for <Term id="react">React</Term> apps. It holds the components with their styles, the brand's marks, and the <Term id="token">design tokens</Term> in three forms. This site says when and why to use each part; the [React subsite](/design-system/react/) shows how, with code.
 
 ## install a release
 
-Each release on GitHub carries the packed package, and apps install it by URL — no registry needed:
+Each release on GitHub carries the packed package, a <Term id="tarball">tarball</Term>, and apps install it straight from its address, with no package registry in between:
 
 <Snippet code={INSTALL} />
 
-The release tags, the tarballs and what changed in each are on [versioning & changelog](/design-system/get-started/versioning/). [React](/design-system/develop/react/) has the rest of the setup: peer dependencies, the stylesheet and the fonts.
+The releases and what changed in each are on [versioning & changelog](/design-system/get-started/versioning/). [React](/design-system/develop/react/) has the rest of the setup: the packages that go next to it, the stylesheet and the fonts.
 
 ## the parts
 
 | you need | use | read |
 | --- | --- | --- |
-| The components in a React app | `@nalet/design-system` and its `styles.css` | [React](/design-system/develop/react/), then each component on the [React subsite](/design-system/react/) |
-| The identity without the components | `tokens.css`, the typed tokens or the Tailwind preset | [Tokens](/design-system/develop/tokens/) |
+| The components, in a React app | The package and its stylesheet | [React](/design-system/develop/react/), then each component on the [React subsite](/design-system/react/) |
+| The identity, without the components | The tokens: as CSS custom properties, as typed values, or as a Tailwind preset | [Tokens](/design-system/develop/tokens/) |
 | An app inside the portal shell | The shell's copy of the design system | [Apps in a shell](/design-system/develop/apps-in-a-shell/) |
-| A change to the system itself | The repository | [Contributing](/design-system/develop/contributing/) |
+| A change to the system itself | The <Term id="repository">repository</Term> | [Contributing](/design-system/develop/contributing/) |
 
 ## from guidance to code
 
-Every [component page](/design-system/components/) on this site has a **React implementation** link at its top. The React page has the playground (every prop, live), the examples with their source, the props table, and the implementation notes: the native element it renders, the ARIA attributes it sets, and its keyboard map. The examples on both sites are the same stories, written once.
+Every [component page](/design-system/components/) on this site has a link to its React implementation at the top. The React page has the <Term id="playground">playground</Term>, where every setting can be tried live; the examples, each with its code; the table of settings; and notes on how the component is built: the browser element it uses, the <Term id="aria">ARIA</Term> attributes it sets, and its keyboard map.
+
+The examples on both sites are written once and shared, so what you see here is what the code does.

@@ -3,6 +3,7 @@
   align-items: stretch;
   gap: 0;
   border-bottom: 1px solid var(--border);
+  position: relative; /* anchors hidden text inside, so it cannot widen the page */
   overflow-x: auto;
   scrollbar-width: thin;
 }

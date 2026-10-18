@@ -59,6 +59,17 @@ attached to its GitHub release.
 - A loading `Button` or `IconButton` shows its spinner in the label's colour;
   on a primary button the spinner's blue vanished into the fill.
 
+### fixed — on phones
+
+- Text hidden for screen readers inside a box that scrolls sideways (a wide
+  table, a code block, a dialog body, filter tabs) no longer widens the page:
+  every scroll box is positioned, so the hidden text stays inside it. Before,
+  a page with such a table scrolled sideways in Safari and zoomed out in
+  Chrome. A test now fails on any scroll box that is not positioned.
+- A date cell no longer breaks hydration when the server and the browser
+  format the same date differently ("Sept" in one engine, "Sep" in another,
+  or a later "today"): React keeps the server's text.
+
 ## 0.3.0 — 2026-10-17
 
 The foundation for enterprise worklists, and a documentation site that reads

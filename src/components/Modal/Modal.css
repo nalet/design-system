@@ -76,6 +76,7 @@
 
 .nc-modal__body {
   padding: var(--s-4);
+  position: relative; /* anchors hidden text inside, so it cannot widen the page */
   overflow-y: auto;
   font-family: var(--ff-ui);
   font-size: 14px;

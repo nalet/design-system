@@ -1,4 +1,5 @@
 .nc-table__scroll {
+  position: relative; /* anchors hidden text inside, so it cannot widen the page */
   width: 100%;
   overflow-x: auto;
   border: 1px solid var(--border);

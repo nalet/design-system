@@ -570,6 +570,7 @@ body {
   font-family: var(--ff-mono);
   font-size: 13px;
   line-height: 1.6;
+  position: relative; /* anchors hidden text inside, so it cannot widen the page */
   overflow-x: auto;
 }
 
@@ -599,6 +600,7 @@ body {
 /* markdown tables, in a frame that scrolls sideways when it must */
 .ds-table-frame {
   margin: 0 0 var(--s-5);
+  position: relative; /* anchors hidden text inside, so it cannot widen the page */
   overflow-x: auto;
 }
 
@@ -646,6 +648,7 @@ body {
   padding: var(--s-5);
   border: 1px solid var(--border);
   background: var(--bg-2);
+  position: relative; /* anchors hidden text inside, so it cannot widen the page */
   overflow-x: auto;
 }
 
@@ -660,6 +663,7 @@ body {
 
 .ds-example--scroll {
   max-height: min(36rem, 75vh);
+  position: relative; /* anchors hidden text inside, so it cannot widen the page */
   overflow: auto;
 }
 
@@ -722,6 +726,7 @@ body {
   background: var(--bg-2);
   border-top: 1px solid var(--border);
   border-bottom: 1px solid var(--border);
+  position: relative; /* anchors hidden text inside, so it cannot widen the page */
   overflow-x: auto;
 }
 
@@ -759,6 +764,7 @@ body {
 
 .ds-mock__stage {
   padding: var(--s-4);
+  position: relative; /* anchors hidden text inside, so it cannot widen the page */
   overflow-x: auto;
 }
 
@@ -923,6 +929,16 @@ a.ds-card:focus-visible {
   flex-wrap: wrap;
   gap: var(--s-3);
   margin-top: var(--s-5);
+}
+
+/* on a phone the header already carries the lockup: the hero starts close under it */
+@media (max-width: 640px) {
+  .ds-hero {
+    padding-top: var(--s-3);
+  }
+  .ds-hero h1 {
+    margin-top: var(--s-4);
+  }
 }
 
 .ds-button-link {

@@ -108,15 +108,19 @@ export function DateCell({
   const abs = formatter(locale, format).format(date);
   const full = formatter(locale, FULL_FORMAT).format(date);
   const rel = relative ? relativeDay(date, now ?? new Date()) : null;
+  // A date's text may differ between the server that pre-rendered the page and
+  // the browser that hydrates it: each engine carries its own locale data
+  // ("Sept" or "Sep"), and "today" depends on when it is read. That is
+  // expected, so React keeps the server's text instead of failing hydration.
   return (
     <span className={cx('nc-cell-date', className)}>
-      <time className="nc-cell-date__abs" dateTime={date.toISOString()} title={full}>
+      <time className="nc-cell-date__abs" dateTime={date.toISOString()} title={full} suppressHydrationWarning>
         {abs}
       </time>
       {rel ? (
         <span className="nc-cell-date__rel">
-          <span aria-hidden="true">{rel.short}</span>
-          <span className="nc-sr-only">, {rel.long}</span>
+          <span aria-hidden="true" suppressHydrationWarning>{rel.short}</span>
+          <span className="nc-sr-only" suppressHydrationWarning>, {rel.long}</span>
         </span>
       ) : null}
     </span>

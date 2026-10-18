@@ -1253,3 +1253,78 @@ a.ds-card:focus-visible {
 .ds-sketch .sk-broken rect { fill: none; stroke: var(--state-error); stroke-width: 1.4; }
 .ds-sketch .sk-broken path { fill: var(--fg-dim); }
 .ds-sketch .sk-broken line { stroke: var(--state-error); stroke-width: 1.6; }
+
+/* the pattern pages' sketches: controls, messages, loading and tiles */
+.ds-sketch .sk-card--hover { fill: var(--surface-2); }
+.ds-sketch .sk-card--new { stroke: var(--cloud-blue); }
+.ds-sketch .sk-glyph { fill: none; stroke-width: 1.4; stroke-linecap: square; }
+.ds-sketch .sk-glyph--ok { stroke: var(--state-success); }
+.ds-sketch .sk-glyph--warn { stroke: var(--state-warning); stroke-linejoin: miter; }
+.ds-sketch .sk-glyph--err { stroke: var(--state-error); }
+.ds-sketch .sk-glyph-fill--info { fill: var(--cloud-blue); }
+.ds-sketch .sk-glyph-fill--neutral { fill: var(--state-neutral, var(--fg-muted)); }
+.ds-sketch .sk-check { fill: var(--bg); stroke: var(--border-control, var(--fg-dim)); stroke-width: 1.2; }
+.ds-sketch .sk-check--on { fill: var(--cloud-blue); stroke: var(--cloud-blue); }
+.ds-sketch .sk-check--disabled { fill: none; stroke: var(--fg-dim); stroke-dasharray: 1.5 1.5; }
+.ds-sketch .sk-tick { fill: none; stroke: var(--bg); stroke-width: 1.4; }
+.ds-sketch .sk-toggle { fill: var(--bg); stroke: var(--border-control, var(--fg-dim)); stroke-width: 1.2; }
+.ds-sketch .sk-toggle--on { fill: var(--cloud-blue); stroke: var(--cloud-blue); }
+.ds-sketch .sk-knob { fill: var(--fg-muted); }
+.ds-sketch .sk-knob--on { fill: var(--bg); }
+.ds-sketch .sk-input { fill: var(--bg); stroke: var(--border-control, var(--fg-dim)); stroke-width: 1.2; }
+.ds-sketch .sk-input--err { stroke: var(--state-error); }
+.ds-sketch .sk-lens { fill: none; stroke: var(--fg-muted); stroke-width: 1.1; }
+.ds-sketch .sk-focus { fill: none; stroke: var(--cloud-blue); stroke-width: 1.5; }
+.ds-sketch .sk-strip { stroke-width: 1; }
+.ds-sketch .sk-strip--ok { fill: var(--state-success-bg); stroke: var(--state-success-border); }
+.ds-sketch .sk-strip--warn { fill: var(--state-warning-bg); stroke: var(--state-warning-border); }
+.ds-sketch .sk-strip--err { fill: var(--state-error-bg); stroke: var(--state-error-border); }
+.ds-sketch .sk-strip--info { fill: var(--state-information-bg); stroke: var(--state-information-border); }
+.ds-sketch .sk-strip--neutral { fill: var(--state-neutral-bg); stroke: var(--state-neutral-border); }
+.ds-sketch .sk-toast { fill: var(--surface-2); stroke: var(--border-2); stroke-width: 1; }
+.ds-sketch .sk-track { fill: var(--surface-2); }
+.ds-sketch .sk-loader-frame { fill: none; stroke: var(--cloud-blue); stroke-opacity: 0.25; stroke-width: 1.5; }
+.ds-sketch .sk-loader { fill: none; stroke: var(--cloud-blue); stroke-width: 1.5; stroke-linejoin: miter; }
+.ds-sketch .sk-skeleton { fill: var(--border-2); opacity: 0.7; }
+.ds-sketch .sk-on-accent .sk-loader,
+.ds-sketch .sk-on-accent .sk-loader-frame { stroke: var(--bg); }
+.ds-sketch .sk-arrow { fill: none; stroke: var(--fg-dim); stroke-width: 1.2; }
+.ds-sketch .sk-arrow--dashed { stroke-dasharray: 3 2; }
+.ds-sketch .sk-arrow-head { fill: var(--fg-dim); }
+.ds-sketch .sk-chip { fill: var(--surface-2); stroke: var(--border-2); stroke-width: 1; }
+.ds-sketch .sk-chip--ok { fill: var(--state-success-bg); stroke: var(--state-success-border); }
+.ds-sketch .sk-chip--warn { fill: var(--state-warning-bg); stroke: var(--state-warning-border); }
+.ds-sketch .sk-chip--err { fill: var(--state-error-bg); stroke: var(--state-error-border); }
+.ds-sketch .sk-chip--info { fill: var(--state-information-bg); stroke: var(--state-information-border); }
+.ds-sketch .sk-chip--neutral { fill: var(--state-neutral-bg); stroke: var(--state-neutral-border); }
+.ds-sketch .sk-planned { fill: none; stroke: var(--fg-dim); stroke-width: 1; stroke-dasharray: 3 2; }
+.ds-sketch .sk-faded { opacity: 0.4; }
+.ds-sketch .sk-bell path { fill: none; stroke: var(--fg-muted); stroke-width: 1.1; }
+.ds-sketch .sk-bell line { stroke: var(--fg-muted); stroke-width: 1.1; }
+.ds-sketch .sk-cursor { fill: var(--fg); stroke: var(--bg); stroke-width: 0.8; }
+.ds-sketch .sk-cross { fill: none; stroke: var(--state-error); stroke-width: 1.4; }
+.ds-sketch .sk-illus { fill: none; stroke: var(--border-control, var(--fg-dim)); stroke-width: 1.4; stroke-linecap: square; }
+.ds-sketch .sk-illus--soft { stroke: var(--border-2); }
+.ds-sketch .sk-illus--accent { stroke: var(--cloud-blue); }
+.ds-sketch .sk-illus--ok { stroke: var(--state-success); }
+.ds-sketch .sk-illus--warn { stroke: var(--state-warning); }
+.ds-sketch .sk-illus--err { stroke: var(--state-error); }
+.ds-sketch .sk-word--inverse { fill: var(--bg); font-weight: 600; }
+.ds-sketch .sk-word--info { fill: var(--state-information); }
+
+/* several small sketches side by side in one figure; they wrap on a phone */
+.ds-sketch-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: var(--s-3);
+}
+
+.ds-sketch-grid > .ds-sketch {
+  max-width: 100%;
+}
+
+@media (min-width: 720px) {
+  .ds-sketch-grid--3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

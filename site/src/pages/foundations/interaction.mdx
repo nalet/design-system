@@ -1,30 +1,36 @@
 ---
 layout: ../../layouts/Doc.astro
 title: interaction
-description: The states, focus, keyboard model and selection that every nalet component shares.
+description: How every component answers people in the same way, with the same states, a visible focus, one keyboard model and one way of selecting.
 ---
 import { Button, Checkbox, IconButton, Icon, Input, Kbd } from '@nalet/design-system';
 import { RotateCw } from 'lucide-react';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import MotionFrame from '@site/components/MotionFrame.astro';
-import { Example } from '@site/blocks';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { OneTabStopEach, TabStopEverywhere } from '@site/sketches/general-interaction';
 
 # interaction
 
-Every component answers a person the same way: the same states look the same, focus is always visible and goes where it is expected, and the keyboard works the same everywhere. The component pages say what is particular to each; this page is what they share.
+Every component answers people in the same way. The same state looks the same everywhere, the keyboard <Term id="focus">focus</Term> is always visible and lands where people expect it, and the keys do the same thing in every component. Once people have learned one component, they already know how the others behave.
+
+This page describes what all components share. Each component's own page adds what is particular to it.
 
 ## states
 
+A control changes its look to show what is happening to it. These states look the same in every component:
+
 | state | how it shows | where |
 | --- | --- | --- |
-| Hover | A step brighter: `--surface-2`, and a `--cloud-blue` border on a default button | Buttons, icon buttons, table rows, tiles, menu items |
-| Pressed | A step deeper: `--bg-2`, a darker blue on a primary button | Buttons and icon buttons |
-| Keyboard focus | A 2px `--focus-ring` outline | Every control: see [focus](#focus) |
-| Selected or current | `--surface-selected` with a 2px `--cloud-blue` rule on the leading edge; a blue underline on the current tab; a filled box | Table rows, tabs, filter tabs, tiles, checkboxes |
-| Open | The caret turns; `aria-expanded` is set | Message strip details, multi select, table groups, menus |
-| Busy | A spinner in the control, or a running rule over a list; `aria-busy` is set | Buttons, menu triggers, the data table |
-| Invalid | A `--state-error` border, and the error in words under the field | Inputs, selects, textareas |
-| Disabled | Dimmed to 40–50%, a not-allowed cursor, out of the tab order | Every control |
+| <Term id="hover">Hover</Term> | A step brighter. A standard button's border turns blue | Buttons, icon buttons, table rows, tiles, menu items |
+| Pressed | A step darker. The emphasized button turns a deeper blue | Buttons and icon buttons |
+| Keyboard focus | An outline around the control | Every control; see [focus](#focus) |
+| Selected or current | A blue tint and a blue bar on the <Term id="leading-edge">leading edge</Term>; a blue line under the current tab; a filled box | Table rows, tabs, filter tabs, tiles, checkboxes |
+| Open | The small arrow turns | Message strip details, multi select, table groups, menus |
+| Busy | A spinner in the control, or a line running along the top of a list | Buttons, menu buttons, the data table |
+| Invalid | A red border, and the error in words under the field | Text fields, selects, text areas |
+| <Term id="disabled">Disabled</Term> | Dimmed, a “not allowed” pointer, and skipped by the keyboard | Every control |
 
 <MotionFrame what="the spinner">
 <Example label="rest, focus-ready, busy and disabled, side by side">
@@ -36,15 +42,17 @@ Every component answers a person the same way: the same states look the same, fo
 </Example>
 </MotionFrame>
 
-- **Never colour alone.** A selected row also has a checked box; an invalid field also has its error text; the current tab also has its underline.
-- **A disabled control can't explain itself.** It can't be focused, so a keyboard or screen-reader user may never find it. When the reason matters ("nothing selected"), say it next to the control, or keep it enabled and explain on press — see [forms and settings](/design-system/patterns/forms-and-settings/).
-- **Busy keeps its size.** A button that is loading keeps its width; a list that is refreshing keeps its rows in place under the running rule.
+- **Never colour alone.** A selected row also has a ticked checkbox, a field with an error also shows the error in words, and the current tab also has its underline. People who don't see the colour still get the message.
+- **A disabled control can't explain itself.** The keyboard skips it, so someone who uses a keyboard or a <Term id="screen-reader">screen reader</Term> may never find it. When the reason matters, such as “nothing selected”, say it next to the control, or keep the control enabled and explain when it is pressed; [forms and settings](/design-system/patterns/forms-and-settings/) shows how.
+- **Busy keeps its size.** A busy button keeps its width, and a list that refreshes keeps its rows in place under the running line, so nothing on the page jumps.
 
 ## focus
 
-Buttons, icon buttons, tabs, filter tabs, checkboxes, switches, sort headers and disclosures show a 2px `--focus-ring` outline on keyboard focus (`:focus-visible`) — at least 6:1 against every background; a focused menu item shows a 2px `--focus-ring` bar on its leading edge and a fill. Table rows draw the same ring on their cells, because outlines on table rows are unreliable.
+People who use the keyboard need to see where they are. Buttons, icon buttons, tabs, filter tabs, checkboxes, switches, sort buttons and <Term id="disclosure">disclosures</Term> show a clear outline when the keyboard brings focus to them. It stands out strongly against every background. A click with the mouse doesn't show it, because the pointer already shows where people are.
 
-Today: two older families differ. Text fields, selects and textareas show focus as a `--cloud-blue` border with an inset shadow, and launchpad tiles as a `--cloud-blue` frame.
+A focused menu item shows a bar on its leading edge and a lighter fill instead. Table rows draw the outline inside their cells, because browsers don't draw outlines on table rows reliably.
+
+Today: two older families look different. Text fields, selects and text areas show focus with a blue border and a soft inner shadow, and launchpad tiles with a blue frame.
 
 <Example label="focus on a field and on a button">
   <div style={{ width: '240px' }}>
@@ -55,41 +63,73 @@ Today: two older families differ. Text fields, selects and textareas show focus 
 
 ### where focus goes
 
-- **It is never moved without a reason.** Toasts never take it, live updates never steal it.
-- **It comes back.** A menu or a dialog gives focus back to what opened it.
-- **It stays put** when the control that had it goes away: after "clear" or a bulk action, the selection toolbar holds focus; when a focused row leaves the list, the table's tab stop takes it.
-- **It goes to the problem.** After a save that found errors, to the first invalid field — see [forms and settings](/design-system/patterns/forms-and-settings/).
+- **It never moves without a reason.** Toasts never take it, and updates to the page never pull it away.
+- **It comes back.** A menu or a dialog gives focus back to whatever opened it.
+- **It stays put** when the control that had it disappears. After “clear”, or an action on a selection, the selection toolbar keeps focus; when the focused row leaves a list, the table's <Term id="tab-stop">tab stop</Term> takes it.
+- **It goes to the problem.** After a save that found errors, it moves to the first field that needs fixing; see [forms and settings](/design-system/patterns/forms-and-settings/).
 
 ## the keyboard model
 
-- **Everything is reachable and operable without a pointer.** Native elements are used where they exist: buttons, checkboxes, selects, `<details>`.
-- **`tab` moves between components; the arrow keys move inside one.** A composite widget takes one tab stop, and the arrows move within it.
-- **`enter` and `space` act**, as the browser does for its own controls.
-- **`esc` closes the innermost open thing** and gives focus back to its trigger: an open menu in a dialog takes the first `esc`, the dialog the next.
-- **Dialogs keep `tab` inside** until they close.
+Everything can be reached and used without a mouse. Wherever the browser has a control of its own, such as a button, a checkbox, a select or a disclosure, the components use it, so it behaves the way people already know.
 
-| widget | one tab stop, then |
+- **<Kbd>tab</Kbd> moves between components, and the arrow keys move inside one.** A component made of several parts, such as a row of tabs, a toolbar or a table, is a single tab stop. That keeps the way through a page short.
+- **<Kbd>enter</Kbd> and <Kbd>space</Kbd> act**, just as they do on the browser's own controls.
+- **<Kbd>esc</Kbd> closes the innermost thing that is open** and gives focus back to what opened it. In a dialog with an open menu, the first press closes the menu, and the next one the dialog.
+- **Dialogs keep <Kbd>tab</Kbd> inside them** until they close.
+
+<DoDont>
+  <Do caption="One tab stop per component: four presses of Tab cross the page, and the arrow keys move inside the toolbar and the table.">
+    <OneTabStopEach />
+  </Do>
+  <Dont caption="A tab stop on every control: thirteen presses for a short page, and many more for a long table.">
+    <TabStopEverywhere />
+  </Dont>
+</DoDont>
+
+This is how the components that take one tab stop use the arrow keys:
+
+| component | one tab stop, then |
 | --- | --- |
-| <C slug="tabs">Tabs</C>, <C slug="filter-tabs" /> | `←` / `→` move and select, `home` / `end` |
-| <C slug="toolbar">Toolbar</C> | `←` / `→` between its controls, wrapping around; `home` / `end` |
-| <C slug="data-table">Data table</C> | `↑` / `↓` by row, `home` / `end`, `page up` / `page down`; `←` / `→` collapse and expand groups; `tab` goes into the focused row's controls |
-| [Launchpad](/design-system/patterns/launchpad-and-tiles/) and <C slug="tile-group">tile groups</C> | A 2-D grid: `→` / `←` in reading order, `↓` / `↑` by position on screen; `home` / `end` |
-| <C slug="action-menu">Action menu</C> | Opens on `enter`, `space` or `↓` (`↑` opens it on its last item); the arrows move; `esc` closes |
+| <C slug="tabs">Tabs</C>, <C slug="filter-tabs" /> | The left and right arrow keys move and select; <Kbd>home</Kbd> and <Kbd>end</Kbd> jump to the first and the last |
+| <C slug="toolbar">Toolbar</C> | The left and right arrow keys move between its controls and wrap around; <Kbd>home</Kbd> and <Kbd>end</Kbd> |
+| <C slug="data-table">Data table</C> | The up and down arrow keys move by row; <Kbd>home</Kbd>, <Kbd>end</Kbd>, <Kbd>page up</Kbd> and <Kbd>page down</Kbd>; the left and right arrow keys close and open groups; <Kbd>tab</Kbd> goes into the focused row's controls |
+| [Launchpad](/design-system/patterns/launchpad-and-tiles/) and <C slug="tile-group">tile groups</C> | A grid: right and left follow the reading order, down and up follow the tiles' places on the screen; <Kbd>home</Kbd> and <Kbd>end</Kbd> |
+| <C slug="action-menu">Action menu</C> | Opens with <Kbd>enter</Kbd>, <Kbd>space</Kbd> or the down arrow key, or on its last item with the up arrow key; the arrow keys move; <Kbd>esc</Kbd> closes it |
 
-Each component's exact keys are in the keyboard table on its React page. For text, keys are shown with <C slug="kbd" />: <Kbd>ctrl</Kbd> <Kbd>a</Kbd>.
+Each component's exact keys are in the keyboard table on its React page. When you mention keys in text, show them as keycaps with the <C slug="kbd" /> component, like <Kbd>ctrl</Kbd> <Kbd>a</Kbd>.
 
 ## selection
 
-Selection works the same wherever rows can be selected: a checkbox per row, `space` to toggle the focused row, `shift` for a range, `ctrl` / `cmd` + `a` for every visible row, and one emphasized action for the whole selection in the toolbar above. A row press opens the row; the checkbox selects it — one click target never does both. The whole model is [selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/).
+Wherever rows can be selected, it works the same way: a checkbox on every row, <Kbd>space</Kbd> to select the focused row, <Kbd>shift</Kbd> for a range, <Kbd>ctrl</Kbd> + <Kbd>a</Kbd> (or <Kbd>cmd</Kbd> + <Kbd>a</Kbd>) for every visible row, and one emphasized action for the whole selection, in the toolbar above.
+
+Opening a row and selecting it are kept apart: a press on the row opens it, and its checkbox selects it. One click never does both. The whole model is in [selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/).
 
 ## pointer and touch
 
-- **Targets are at least 24px** (WCAG 2.5.8). The smallest controls, `sm`, are 28px high; a checkbox's or a switch's whole label is its target, and so is a whole tile.
-- **Hover is never the only way in.** What a pointer finds on hover, the keyboard finds on focus: tooltips, a tile's chevron.
+- **Targets are big enough to hit**, at least 24 pixels square (WCAG 2.5.8). Even the smallest controls are taller than that, the whole label of a checkbox or a switch counts as its <Term id="target-size">target</Term>, and so does a whole tile.
+- **Hover is never the only way in.** What the pointer finds on hover, the keyboard finds on focus: tooltips, and the arrow on a tile.
 - **Nothing depends on a gesture.** No swipe, drag or long press is the only way to do something.
 
 ## related
 
-- [Accessibility](/design-system/foundations/accessibility/) — names, roles, announcements, and the known gaps.
-- [Motion](/design-system/styles/motion/) — how long a change of state takes.
-- [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) — selecting rows and acting on them.
+- [Accessibility](/design-system/foundations/accessibility/): names, roles, announcements and the known gaps.
+- [Motion](/design-system/styles/motion/): how long a change of state takes.
+- [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/): selecting rows and acting on them.
+
+## specs
+
+| state | tokens and values |
+| --- | --- |
+| Hover | `--surface-2`; a `--cloud-blue` border on a default button |
+| Pressed | `--bg-2`; a darker blue on a primary button |
+| Keyboard focus | A 2px `--focus-ring` outline on `:focus-visible`, at least 6:1 against every background. A focused menu item: a 2px `--focus-ring` bar on its leading edge and a fill. Table rows: the same ring drawn on their cells |
+| Selected or current | `--surface-selected` with a 2px `--cloud-blue` rule on the leading edge; a blue underline on the current tab; a filled box |
+| Open | The caret turns; `aria-expanded` is set |
+| Busy | A spinner in the control, or a running rule over a list; `aria-busy` is set |
+| Invalid | A `--state-error` border, and the error text under the field |
+| Disabled | 40–50% opacity, `cursor: not-allowed`, out of the tab order |
+
+- **Today:** text fields, selects and textareas show focus as a `--cloud-blue` border with an inset shadow; launchpad tiles as a `--cloud-blue` frame.
+- **Native elements** wherever they exist: `<button>`, checkboxes, `<select>`, `<details>`.
+- **Targets:** at least 24px (WCAG 2.5.8). The `sm` controls are 28px high.
+- **Keys** in text: the `Kbd` component.

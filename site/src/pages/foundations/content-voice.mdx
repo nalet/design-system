@@ -1,44 +1,45 @@
 ---
 layout: ../../layouts/Doc.astro
 title: content & voice
-description: Two voices, one per typeface, short and true — how the words on a nalet screen are written.
+description: How the words on a screen are written. Two voices, one per typeface, short and true, in the reader's language rather than the system's.
 ---
 import { Button, IllustratedMessage, MessageStrip, ObjectStatus, Text } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont } from '@site/blocks';
 
 # content & voice
 
-Two voices, one per typeface; short, and true. The words on a screen say what is so and what the person can do — in their language, not the system's.
+The words on a screen do as much work as its layout. They say what is true and what people can do about it, in the person's language, not the system's. So we keep them short, plain and true.
 
 ## the voice
 
 The system speaks with two voices, and the typeface tells them apart.
 
-- **Monospace is the system's voice, and it is lowercase.** Titles and headings; buttons, tabs and navigation; status chips and badges, table and column headers; menu items, toolbar and filter labels; numbers and codes. It is short and scannable, and the lowercase is part of the identity, in every language. Names and codes inside it keep their own case: a series called *The Quiet Harbour* stays *The Quiet Harbour* in a group label, an episode stays `S04E07`, an ID stays as it is. The components set `text-transform: lowercase` on this chrome, and only on it.
-- **The body face is the reader's language, and it follows that language's own rules.** Everything that explains: descriptions and subtitles; messages in message strips, toasts and dialog bodies; empty-state descriptions; field labels, hints and errors; checkbox and switch labels; and the prose of these guidelines. It is written in sentence case: a capital at the start of each sentence, for names, for "I", for acronyms (TMDB, HEVC, GB, WCAG, CSS, URL), and for German nouns. Nothing lowercases it.
-- **Why two.** The brand lives in the monospace layer, where text is short and set apart. Readability and correct spelling in every language live in the layer people actually read.
-- **Short.** A label is two or three words; a message one or two sentences. Cut adverbs, cut "please", cut "successfully".
-- **Plain.** No emoji, no exclamation marks, no marketing words, no jokes in error messages.
-- **Direct.** Address the reader ("pick a release"), name the actor when it matters ("the catalog holds them without an identity"), and use the active voice.
+- **<Term id="monospace">Monospace</Term> is the system's voice, and it is lowercase.** Titles and headings; buttons, tabs and navigation; statuses and badges; table and column headers; menu items, toolbar and filter labels; numbers and codes. It is short and easy to scan, and the lowercase is part of the identity, in every language. Names and codes inside it keep their own capitals: a series called “The Quiet Harbour” stays “The Quiet Harbour” in a group label, an episode stays “S04E07”, and an id stays as it is. The components lowercase this <Term id="chrome">chrome</Term>, and only this.
+- **The <Term id="body-face">body face</Term> is the reader's language, and it follows that language's rules.** It carries everything that explains: descriptions and subtitles; the messages in message strips, toasts and dialogs; the descriptions of empty states; field labels, hints and errors; checkbox and switch labels; and the text of these guidelines. It is written in <Term id="sentence-case">sentence case</Term>: a capital at the start of each sentence, for names, for “I”, for abbreviations such as HEVC, GB, WCAG, CSS or URL, and for German nouns. Nothing lowercases it.
+- **Why two voices.** The brand lives in the monospace layer, where text is short and set apart. Easy reading, and correct spelling in every language, live in the layer people actually read.
+- **Short.** A label is two or three words, a message one or two sentences. Leave out adverbs, “please” and “successfully”.
+- **Plain.** No emoji, no exclamation marks, no marketing words, and no jokes in error messages.
+- **Direct.** Speak to the reader (“pick a release”), say who does what when it matters (“the catalog holds them without an identity”), and use the active voice.
 
 <DoDont>
-  <Do caption="A lowercase monospace title over a sentence-case description: each voice in its own face.">
+  <Do caption="A lowercase monospace title over a sentence-case description: each voice in its own typeface.">
     <IllustratedMessage size="sm" illustration="done" title="nothing missing" description="Every aired, monitored episode and movie is in the library." headingLevel={3} />
   </Do>
-  <Dont caption="The description lowercased like the title: prose in the reader's face, spelled as if it were chrome.">
+  <Dont caption="The description lowercased like the title: text in the reader's typeface, spelled as if it were chrome.">
     <IllustratedMessage size="sm" illustration="done" title="nothing missing" description="every aired, monitored episode and movie is in the library." headingLevel={3} />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do column caption="German in both voices: the body face keeps Einstellungen and every other noun capitalised; the monospace button reads einstellungen speichern.">
+  <Do column caption="German in both voices: the sentence keeps Einstellungen and every other noun capitalised; the monospace button reads “einstellungen speichern”.">
     <div lang="de" style={{ display: 'grid', gap: 'var(--s-3)', justifyItems: 'start' }}>
       <Text as="p" variant="body" style={{ margin: 0 }}>Die Einstellungen gelten ab der nächsten Sicherung.</Text>
       <Button variant="primary">einstellungen speichern</Button>
     </div>
   </Do>
-  <Dont column caption="The sentence lowercased as well: in German that misspells every noun — Einstellungen, Sicherung — and slows the reader down.">
+  <Dont column caption="The sentence lowercased as well: in German that misspells every noun, Einstellungen and Sicherung among them, and slows the reader down.">
     <div lang="de" style={{ display: 'grid', gap: 'var(--s-3)', justifyItems: 'start' }}>
       <Text as="p" variant="body" style={{ margin: 0 }}>die einstellungen gelten ab der nächsten sicherung.</Text>
       <Button variant="primary">einstellungen speichern</Button>
@@ -48,60 +49,66 @@ The system speaks with two voices, and the typeface tells them apart.
 
 ## write what is true, then what to do
 
-| part | says | example |
+Most of what a screen says has one of five shapes. Each one says what is true first, and then what people can do.
+
+| part | says | for example |
 | --- | --- | --- |
-| A status | The state in the object's words | `on its way`, `needs attention`, `connection firewalled` |
-| Its detail | Why, or what happens next | `nothing found · again in 6h`, `the release was removed by its source` |
-| A message | What is true and what it means | `105 titles can't be checked: the catalog holds them without an identity.` |
-| An action | A verb and its object | `ask the catalog again`, `grab 8 selected`, `clear filters` |
-| An empty state | What is true, why, and the way forward | `no matches` · `Nothing in this list fits the search and filters.` · `clear filters` |
+| A <Term id="status">status</Term> | The state, in the object's own words | “on its way”, “needs attention”, “connection firewalled” |
+| Its detail | Why, or what happens next | “nothing found · again in 6h”, “the release was removed by its source” |
+| A message | What is true, and what it means | “105 titles can't be checked: the catalog holds them without an identity.” |
+| An action | A verb and its object | “ask the catalog again”, “grab 8 selected”, “clear filters” |
+| An empty state | What is true, why, and the way forward | “no matches” · “Nothing in this list fits the search and filters.” · “clear filters” |
 
 ## primary text stays human
 
-IDs, codes, raw errors and HTTP statuses help an operator fix things — so they are kept, but out of the sentence. A <C slug="message-strip" /> puts them under its **details** disclosure; a table puts them behind a per-row `<details>`; a status cell keeps a raw search error on hover. The primary text is what a person can act on without reading the system's internals.
+Ids, codes, raw errors and technical status codes help an operator fix things, so we keep them, just not in the sentence. A <C slug="message-strip" /> puts them under its “details”; a table puts them behind a details toggle on each row; a status cell shows a raw search error when the pointer rests on it.
+
+The main text is what a person can act on without knowing how the system works inside.
 
 ## buttons start with a verb
 
-- `save changes`, `grab 8 selected`, `ask the catalog again`, `pick a release`.
-- Name the object when the screen holds more than one kind; put the count in a bulk action.
-- Never `ok`, `submit`, `yes`, `click here`, `learn more`.
-- The confirming button of a dialog repeats the title's verb (`delete volume` → `delete volume`); the way out is `cancel`.
+- “save changes”, “grab 8 selected”, “ask the catalog again”, “pick a release”.
+- Name the object when the screen holds more than one kind of thing, and put the count in an action for several items.
+- Avoid “ok”, “submit”, “yes”, “click here” and “learn more”: say what will happen.
+- In a dialog, the confirming button repeats the verb of the title (“delete volume” confirms with “delete volume”), and the way out is “cancel”.
 
 ## numbers and dates
 
-- Counts use thousands separators: `2,500`, not `2500` (`formatCount`).
-- A date is said both ways: absolute and relative — `12 oct 2026 · 5d ago` (<C slug="table-cells">date cell</C>).
-- `n of m` reads shown-of-total: `100 of 2,500`.
-- Plurals agree: `1 title`, `105 titles`; `8 episodes queued`, `1 movie queued`.
+- Counts use a <Term id="thousands-separator">thousands separator</Term>: “2,500”, not “2500”. The components format their counts this way for you.
+- A date is said both ways, as a date and as how long ago: “12 oct 2026 · 5d ago”, as the <C slug="table-cells">date cell</C> does.
+- “n of m” reads as shown of total: “100 of 2,500”.
+- Plurals agree with their number: “1 title”, “105 titles”; “8 episodes queued”, “1 movie queued”.
 
 ## words that mean one thing
 
+Some words come up on every screen. Each of them means one thing, everywhere.
+
 | use | for | not |
 | --- | --- | --- |
-| `missing` | Wanted and not held | "absent", "lacking" |
-| `on its way` | Queued, grabbed, downloading, waiting to be listed | "in progress" for things that are not |
-| `needs attention` | Failed or blocked, a person must act | "error" on its own, "problem" |
-| `can't be checked` | The system cannot know | "unknown" with no reason |
-| `held` | In the library | "done" |
+| “missing” | Wanted and not held | “absent”, “lacking” |
+| “on its way” | Queued, grabbed, downloading, or waiting to be listed | “in progress” for things that aren't |
+| “needs attention” | Failed or blocked: a person has to act | “error” on its own, “problem” |
+| “can't be checked” | The system can't know | “unknown” with no reason |
+| “held” | In the library | “done” |
 
-See [status vocabulary](/design-system/patterns/status-vocabulary/) for how a domain writes its own.
+[Status vocabulary](/design-system/patterns/status-vocabulary/) shows how a domain writes its own words.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="What is true, in words; the internals one click away.">
+  <Do caption="What is true, in words, with the system's details one click away.">
     <MessageStrip client:visible state="warning" live="off" details='item 3f2a9c1e-5b7d-4c11-9e02-6a1d0b8f4c21, "The Quiet Harbour"'>105 titles can&apos;t be checked: the catalog holds them without an identity.</MessageStrip>
   </Do>
-  <Dont caption="The system's sentence, with its UUID, as the message.">
+  <Dont caption="The system's own sentence, with its long id, as the message.">
     <MessageStrip state="warning" live="off">Holdings unknown for 105 titles — the catalog holds a title of this name without an identity (item 3f2a9c1e-5b7d-4c11-9e02-6a1d0b8f4c21)</MessageStrip>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="A verb, its object, its count.">
+  <Do caption="A verb, its object and its count.">
     <Button variant="primary">grab 8 selected</Button>
   </Do>
-  <Dont caption="A label that hides what happens.">
+  <Dont caption="A label that hides what will happen.">
     <Button variant="primary">submit</Button>
   </Dont>
 </DoDont>
@@ -112,24 +119,31 @@ See [status vocabulary](/design-system/patterns/status-vocabulary/) for how a do
       <Fragment slot="actions"><Button size="sm">clear filters</Button></Fragment>
     </IllustratedMessage>
   </Do>
-  <Dont caption="A blank that could mean anything: loading, empty, broken.">
+  <Dont caption="A blank that could mean anything: loading, empty or broken.">
     <span style={{ color: 'var(--fg-dim)', fontFamily: 'var(--ff-mono)', fontSize: '12px' }}>no data</span>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="The status in the object's words, one per object.">
+  <Do caption="The status in the object's own words, one per object.">
     <ObjectStatus state="information">on its way</ObjectStatus>
   </Do>
-  <Dont caption="The system's internal state names.">
+  <Dont caption="The system's internal name for the state.">
     <ObjectStatus state="information">GRABBED_PENDING_IMPORT</ObjectStatus>
   </Dont>
 </DoDont>
 
 ## related
 
-- [Message handling](/design-system/patterns/message-handling/) — which component says it.
-- [Empty states](/design-system/patterns/empty-states/) — the five kinds and their words.
-- <C slug="button">Button</C> — labels on actions.
-- [Principles](/design-system/foundations/principles/) — 3: people's words first, the system's detail one click away.
-- [Typography](/design-system/styles/typography/) — the two families the voices are set in.
+- [Message handling](/design-system/patterns/message-handling/): which component says what.
+- [Empty states](/design-system/patterns/empty-states/): the five kinds of empty, and their words.
+- <C slug="button">Button</C>: the labels on actions.
+- [Principles](/design-system/foundations/principles/): 3, people's words first, the system's detail one click away.
+- [Typography](/design-system/styles/typography/): the two typefaces the voices are set in.
+
+## specs
+
+- **Lowercase chrome.** The components set `text-transform: lowercase` on their monospace chrome, and only there. The text in the DOM stays as written.
+- **Counts.** `formatCount(2500)` returns “2,500”; it is the formatter the components use.
+- **Dates.** The `DateCell` writes a date both ways.
+- **Details.** A message strip's `details` prop; a native `<details>` per table row; a raw search error kept in a status cell's hover text.

@@ -1,18 +1,19 @@
 ---
 layout: ../../layouts/Doc.astro
 title: iconography
-description: Line icons from Lucide at 16px with a 1.75 stroke, in the colour of the text around them, and hidden from assistive tech unless named.
+description: Simple line icons, small and thin, in the colour of the text around them, and silent for screen readers unless they are named.
 react: components-brand-icons-icon
 ---
 import { CircleCheck, Rocket, RotateCw } from 'lucide-react';
 import { Button, Icon, IconButton } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Gallery, Sizes } from '@site/examples/icon';
 
 # iconography
 
-Line icons from [Lucide](https://lucide.dev), drawn through `Icon`: 16px, a 1.75 stroke, the colour of the text around them, and hidden from assistive tech unless you name them.
+Icons are simple line drawings that sit next to words and help people find their way. Ours are small and drawn with a thin line, they take the colour of the text around them, and a <Term id="screen-reader">screen reader</Term> skips them unless you give them a name.
 
 <Example label="a few icons at the default size">
   <Gallery />
@@ -20,67 +21,68 @@ Line icons from [Lucide](https://lucide.dev), drawn through `Icon`: 16px, a 1.75
 
 ## the icon component
 
-- `Icon` takes the Lucide component in `icon` — the component, not an element: `<Icon icon={Terminal} />`.
-- `size` is the edge length in px: 16 by default, to match the `ui` text. `strokeWidth` is 1.75 by default; Lucide's own default is 2.
-- The stroke is `currentColor`, so an icon takes the colour of its parent. Tint the parent, not the icon.
-- It is hidden from assistive tech unless you pass an `aria-label`.
+The icon component draws any icon from the set at the system's size and line weight, so icons look the same wherever they appear.
 
-How it is built — the element it renders, the props it passes through — is on its [React page](/design-system/react/?path=/docs/components-brand-icons-icon--docs).
+- It is 16 pixels by default, to match the interface text, with a line 1.75 wide. That is a little lighter than the icon set's own default.
+- An icon takes the colour of the text around it. To tint an icon, tint the text it sits in.
+- It is hidden from <Term id="assistive-technology">assistive technology</Term> unless you give it a name.
 
-## lucide is a peer dependency
+How it is built is on its [React page](/design-system/react/?path=/docs/components-brand-icons-icon--docs).
 
-- Install `lucide-react` (0.300.0 or later) next to the library; `react` and `react-dom` 18 or later are peers too.
-- The library imports Lucide for its types only and bundles no icons. Import each icon you use by name — `import { Terminal } from 'lucide-react'` — and your bundle carries only those.
-- Where a component takes an icon, it wants the component: `Icon`'s `icon`, `Tile`'s `icon`. Slots take an element: a <C slug="button" />'s `leading={<Icon icon={Rocket} />}`, or the icon as an <C slug="icon-button" />'s child.
+## where the icons come from
+
+The icons come from an open-source set of line icons, which an app installs next to the design system as a <Term id="peer-dependency">peer dependency</Term>. The design system includes no icons of its own, so an app only carries the icons it actually uses.
+
+Some components draw an icon themselves, such as the icon component and the <C slug="tile" />: you tell them which icon. Others have a place for a finished icon, such as the start of a <C slug="button" /> or the inside of an <C slug="icon-button" />: you give them one drawn by the icon component. The [specs](#specs) show both in code.
 
 ## sizes
 
 | size | where |
 | --- | --- |
-| 12px | Inside `sm` (28px) buttons and icon buttons, the size of their spinner |
-| 16px | The default: next to `ui` text, inside `md` (34px) buttons and icon buttons |
-| 20px | Inside `lg` (42px) icon buttons |
-| 22px | A tile's app icon. `Tile` sets the size and the stroke; you pass only the component |
+| 12 | Inside small buttons and icon buttons; the size of their spinner |
+| 16 | The usual size: next to interface text, inside medium buttons and icon buttons |
+| 20 | Inside large icon buttons |
+| 22 | A tile's app icon. The tile sets the size and the line itself; you only choose the icon |
 
 <Example label="icon sizes">
   <Sizes />
 </Example>
 
-The stroke stays 1.75 at every size. Lucide measures it on its 24-unit grid, so the line thins as the icon shrinks: about 1.2px at 16px, 1.6px at 22px. Don't mix stroke widths on one screen.
+The line stays 1.75 at every size. It is measured on the icon's own grid, so it gets thinner as the icon gets smaller: about 1.2 pixels at 16, and 1.6 at 22. Don't mix line weights on one screen.
 
 ## colour
 
-- Icons are `currentColor`: next to body text they are `--fg-2`, in a quiet label `--fg-muted`.
-- `--cloud-blue` marks a destination: it is the colour of a tile's app icon.
-- The signal colours belong to states, and a state needs words: see <C slug="object-status" />. An icon alone in green or red tells many people nothing.
+- Icons take the colour of the text around them: the body text's grey next to body text, the muted grey in a quiet label.
+- Blue marks a destination: it is the colour of a tile's app icon.
+- The signal colours belong to states, and a state needs words; see <C slug="object-status" />. An icon on its own in green or red tells many people nothing.
 
 ## decoration and meaning
 
-- **Next to words, an icon is decoration.** `Icon` hides it from assistive tech, and the words carry the meaning — in a button's slots, in a tile.
-- **An icon that is a control's only content** belongs in an <C slug="icon-button" />. Its required `label` becomes the button's accessible name and its native tooltip; leave the icon inside unlabelled.
-- **An icon that informs on its own** is rare. Give it a name — `aria-label` with `role="img"` — and `Icon` stops hiding it. Words next to it are still better.
-- **Never make a bare icon clickable.** An `<svg>` takes no focus and has no role, so keyboard and screen-reader users can't use it.
+- **Next to words, an icon is decoration.** The icon component hides it from assistive technology, and the words carry the meaning, in a button or in a tile.
+- **An icon that is a control's only content** belongs in an <C slug="icon-button" />. The label it asks for becomes the button's name and its tooltip; leave the icon inside without a name.
+- **An icon that informs on its own** is rare. Give it a name, and the icon component stops hiding it. Words next to it are still better.
+- **Never make a bare icon clickable.** On its own, an icon can't take <Term id="focus">focus</Term> and doesn't say what it is, so people who use a keyboard or a screen reader can't use it.
 
 ## shape
 
-Icons are the only rounded shape in the system: Lucide draws them with round caps and joins, and the app icons carry their rounded corners in the PNG. Everything around an icon stays square — see [shape](/design-system/styles/shape/).
+Icons are the only rounded shape in the system. The set draws them with round line ends and corners, and the app icons carry their rounded corners in the image itself. Everything around an icon stays square; see [shape](/design-system/styles/shape/).
 
 ## do and don't
 
 <DoDont>
-  <Do caption="The defaults, 16px and a 1.75 stroke, next to the label.">
+  <Do caption="The usual size and line weight, next to the label.">
     <Button><Fragment slot="leading"><Icon icon={Rocket} /></Fragment>deploy release</Button>
   </Do>
-  <Dont caption="A raw Lucide icon at its defaults (24px, stroke 2) is heavier than everything around it and crowds the button.">
+  <Dont caption="An icon straight from the set, at its own larger size and heavier line, outweighs everything around it and crowds the button.">
     <Button><Fragment slot="leading"><Rocket /></Fragment>deploy release</Button>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="An icon-only action is an icon button with a label.">
+  <Do caption="An action that is only an icon is an icon button, with a label.">
     <IconButton label="restart worker-2"><Icon icon={RotateCw} /></IconButton>
   </Do>
-  <Dont caption="A clickable bare icon has no focus and no name; the keyboard can't reach it.">
+  <Dont caption="A bare icon made clickable has no focus and no name, so the keyboard can't reach it.">
     <span style={{ cursor: 'pointer', color: 'var(--fg-2)' }}><Icon icon={RotateCw} /></span>
   </Dont>
 </DoDont>
@@ -89,14 +91,31 @@ Icons are the only rounded shape in the system: Lucide draws them with round cap
   <Do caption="A state in words, with the icon beside them as decoration.">
     <span style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--s-2)', color: 'var(--state-success)', fontFamily: 'var(--ff-mono)', fontSize: '13px' }}><Icon icon={CircleCheck} />healthy</span>
   </Do>
-  <Dont caption="The icon alone is hidden from screen readers and told apart only by its colour.">
+  <Dont caption="The icon alone is hidden from screen readers, and told apart only by its colour.">
     <span style={{ color: 'var(--state-success)' }}><Icon icon={CircleCheck} /></span>
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="icon-button">Icon button</C> — an action that is only an icon, with its required label.
-- <C slug="button">Button</C> — icons in the leading and trailing slots.
-- <C slug="tile">Tile</C> — the app icon at 22px.
-- [Brand](/design-system/styles/brand/) — the chevron and the lockup, which the library draws itself.
+- <C slug="icon-button">Icon button</C>: an action that is only an icon, with the label it needs.
+- <C slug="button">Button</C>: icons at the start and the end of a label.
+- <C slug="tile">Tile</C>: the app icon.
+- [Brand](/design-system/styles/brand/): the chevron and the lockup, which the library draws itself.
+
+## specs
+
+| size | where |
+| --- | --- |
+| 12px | Inside `sm` (28px) buttons and icon buttons, the size of their spinner |
+| 16px | The default: next to `ui` text, inside `md` (34px) buttons and icon buttons |
+| 20px | Inside `lg` (42px) icon buttons |
+| 22px | A tile's app icon, size and stroke set by `Tile` |
+
+- **The set.** Line icons from [Lucide](https://lucide.dev). Install `lucide-react` 0.300.0 or later next to the library; `react` and `react-dom` 18 or later are peers too. The library imports Lucide for its types only and bundles no icons: import each icon you use by name, `import { Terminal } from 'lucide-react'`, and your bundle carries only those.
+- **`Icon`.** Takes the Lucide component in `icon` (the component, not an element): `<Icon icon={Terminal} />`. `size` is the edge in px, 16 by default; `strokeWidth` is 1.75 by default (Lucide's own default is 2, at 24px). The stroke is `currentColor`. It is hidden from assistive tech unless you pass an `aria-label`, with `role="img"`.
+- **Component or element.** `Icon`'s `icon` and `Tile`'s `icon` take the component. Slots take an element: a button's `leading={<Icon icon={Rocket} />}`, or the icon as an icon button's child.
+- **Stroke.** 1.75 on Lucide's 24-unit grid: about 1.2px at 16px, 1.6px at 22px.
+- **Colour.** `currentColor`: `--fg-2` next to body text, `--fg-muted` in a quiet label; `--cloud-blue` for a tile's app icon.
+- **Icon button.** Its required `label` is the accessible name and the native tooltip.
+- **Clickable.** A bare `<svg>` takes no focus and has no role.

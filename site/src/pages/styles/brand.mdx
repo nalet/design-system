@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: brand
-description: The chevron, the lockup and the app icon — the marks that carry the nalet identity.
+description: The chevron, the lockup and the app icon, the marks that make the identity recognisable, and how to use them.
 react:
   - { label: chevron, id: components-brand-icons-chevron }
   - { label: lockup, id: components-brand-icons-lockup }
@@ -9,6 +9,7 @@ react:
 import { ArrowRight } from 'lucide-react';
 import { Button, Chevron, Icon, Lockup } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import MotionFrame from '@site/components/MotionFrame.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Sizes as ChevronSizes, InUse as ChevronInUse } from '@site/examples/chevron';
@@ -16,20 +17,22 @@ import { Variants as LockupVariants } from '@site/examples/lockup';
 
 # brand
 
-Two marks carry the identity: the chevron and the lockup. Both are inline SVG components, drawn in the brand blue, `--cloud-blue`, on the dark canvas. The app icon carries them outside the browser.
+Two marks carry our identity: the <Term id="chevron">chevron</Term> and the <Term id="lockup">lockup</Term>. The library draws both itself, in the brand blue on the dark canvas, so they stay sharp at any size. Outside the browser, the app icon carries them.
 
 ## the chevron
 
-The `>` is the brand glyph. It reads as a terminal prompt: this is where something starts, and the way in. The library draws it in three places — before the [portal](/design-system/patterns/launchpad-and-tiles/) title (18px), before each <C slug="tile-group" /> legend (14px), and after the title of a link or button <C slug="tile" /> on hover and focus (14px) — and it opens the lockup. `Heading`'s `chevron` prop draws the same mark as a text `>` in the heading's font, also in `--cloud-blue`.
+The › is the brand's mark. It reads like the prompt of a terminal: this is where something starts, and the way in.
 
-- **One colour.** Always `--cloud-blue`, on the dark canvas. `Chevron` takes the colour from its own class; its `color` prop can override it, and the brand says don't.
-- **Sizes.** 16px by default, and any size works. The stroke is 14% of the size, never under 1.5px (`strokeWidth` sets it in px), with rounded ends and corner, so the mark keeps its weight from 14px to 128px.
+The library draws it in three places: before the [portal](/design-system/patterns/launchpad-and-tiles/)'s title, before the title of each <C slug="tile-group" />, and after the title of a <C slug="tile" /> that is a link or a button, when the pointer rests on it or it has focus. It also opens the lockup. A heading can start with the same mark, drawn as a › in the heading's own typeface and in the same blue.
+
+- **One colour.** Always the brand blue, on the dark canvas. Code can give it another colour, but the brand says don't.
+- **Any size.** Its line grows in proportion, with rounded ends and a rounded corner, so the mark keeps its weight from very small to very large.
 
 <Example label="the chevron at six sizes">
   <ChevronSizes />
 </Example>
 
-As a section mark, as the way into a tile, and as the prompt in an input's leading slot:
+As a section mark, as the way into a tile, and as the prompt at the start of a field:
 
 <Example label="the chevron in use">
   <ChevronInUse />
@@ -37,11 +40,11 @@ As a section mark, as the way into a tile, and as the prompt in an input's leadi
 
 ## the lockup
 
-The chevron, the wordmark in JetBrains Mono 700 and a cursor block, in a 300 × 160 box. `height` sets the size (40px by default, which makes it 75px wide); the width follows the ratio. It mirrors the SVG file in `assets/terminal/`.
+The chevron, the name written as a <Term id="wordmark">wordmark</Term>, and a cursor block, in one fixed arrangement. You choose its height, and its width follows.
 
-- **With cursor** (the default) — a `--cloud-blue` block after the wordmark blinks: on for half of a 1.05s cycle, off for the other half.
-- **Without cursor** — `showCursor={false}`: the chevron and the wordmark alone.
-- **Filled** — `filled` paints a `--bg` rectangle behind the mark, like the SVG file. It only shows off the canvas, where it puts the canvas colour behind the mark.
+- **With cursor**, the usual one: a blue block after the name blinks, on for half of each beat and off for the other half.
+- **Without cursor:** the chevron and the name alone.
+- **Filled:** a rectangle in the canvas colour behind the mark, like the image file. It only makes a difference away from the canvas, where it puts the canvas colour behind the mark.
 
 <MotionFrame what="the cursor">
   <Example label="the lockup with and without its cursor, and filled">
@@ -51,48 +54,48 @@ The chevron, the wordmark in JetBrains Mono 700 and a cursor block, in a 300 × 
 
 ## when to use
 
-- **The lockup** — once on a surface, where people need to know whose it is: the top of a start page, a sign-in screen, a splash, the [shell bar](/design-system/patterns/shell-bar/).
-- **The chevron** — to lead a title or a section, as the portal and the tile groups do; as the prompt at the start of a command-style input; as the way into a destination.
+- **The lockup**, once on a surface, where people need to know whose it is: the top of a start page, a sign-in screen, a splash screen, the [shell bar](/design-system/patterns/shell-bar/).
+- **The chevron**, to lead a title or a section, as the portal and the tile groups do; as the prompt at the start of a field where people type commands; and as the way into a destination.
 
-## when not to use
+## when to use something else
 
-- **The chevron as an arrow in a control** — next, expand, sort, a submenu. Use a Lucide arrow or chevron through `Icon` (see [iconography](/design-system/styles/iconography/)): the brand mark isn't a UI arrow.
-- **In another colour, or on a light surface.** The chevron says brand, not state; for a state, use <C slug="object-status" />.
-- **More than one cursor on a screen.** The brand has one cursor. Show any further lockup with `showCursor={false}`.
-- **A blinking cursor that stays in view.** In a header or a sidebar, turn it off with `showCursor={false}` — see [accessibility](#accessibility).
+- **As an arrow in a control**, for next, expand, sort or a submenu. Use an arrow or a chevron from the icon set instead (see [iconography](/design-system/styles/iconography/)): the brand mark isn't an arrow for the interface.
+- **In another colour, or on a light background.** The chevron says brand, not state. For a state, use <C slug="object-status" />.
+- **More than one cursor on a screen.** The brand has one cursor, so show any further lockup without it.
+- **A blinking cursor that stays in view.** In a header or a sidebar, turn the cursor off; see [accessibility](#accessibility).
 
 ## anatomy
 
 The chevron:
 
-1. **Mark** — one path, `M5 3 L11 8 L5 13`, in a 16-unit square, drawn in `currentColor`.
-2. **Stroke** — `strokeWidth` px, or 14% of `size` with a 1.5px floor; rounded caps and join.
+1. **Mark.** One line bent into a ›, in a square.
+2. **Line.** Its thickness grows with the size, with rounded ends and a rounded corner.
 
-The lockup, in its 300 × 160 box:
+The lockup:
 
-1. **Chevron** — a 9-unit `--cloud-blue` stroke from (46, 50) to (76, 80) to (46, 110), rounded.
-2. **Wordmark** — 44-unit JetBrains Mono 700 in `--fg-2`, starting at x 100 on a baseline at y 100.
-3. **Cursor** (optional) — a 14 × 48 `--cloud-blue` block at x 240.
-4. **Fill** (optional) — a `--bg` rectangle behind everything.
+1. **Chevron.** In the brand blue, rounded.
+2. **Name.** The wordmark, in JetBrains Mono, bold, in the grey of body text.
+3. **Cursor** (optional). A tall blue block after the name.
+4. **Fill** (optional). A rectangle in the canvas colour behind everything.
 
 ## the app icon
 
-The chevron and the n, on the canvas, in a square with rounded corners — with the line icons, the only rounded shape in the system. It comes as PNG files from 16 to 512px, with the corners baked in; never round anything else to match it. The files are on [resources](/design-system/get-started/resources/#app-icons).
+The chevron and the letter n on the canvas, in a square with rounded corners: with the line icons, the only rounded shape in the system. The <Term id="app-icon">app icon</Term> comes as image files from 16 to 512 pixels, with the corners already in the image. Don't round anything else to match it. The files are on [resources](/design-system/get-started/resources/#app-icons).
 
 ## accessibility
 
-- `Chevron` is an image named "chevron". Next to a title it is decoration: hide it from assistive tech (`aria-hidden`), as every use inside the library does.
-- `Lockup` is an image named by its wordmark. Inside a link, it names the link with the wordmark; give the link its own name when it needs other words.
-- Neither mark takes focus or handles keys.
+- The chevron is a picture named “chevron”. Next to a title it is decoration, so hide it from <Term id="assistive-technology">assistive technology</Term>, as every use inside the library does.
+- The lockup is a picture named by its wordmark. Inside a link, it gives the link that name; give the link a name of its own when it needs other words.
+- Neither mark takes focus or listens to keys.
 
 Today:
 
-- The cursor blinks without end. Under `prefers-reduced-motion`, the stylesheet hides the cursor's `<animate>` element to hold it still, but CSS `display` isn't one of the properties that apply to SVG animation elements, so a browser can keep it blinking. Pass `showCursor={false}` wherever the lockup stays in view: blinking that lasts more than five seconds next to other content needs a way to stop it (WCAG 2.2.2). On this site, the examples with a cursor have a pause control.
+- The cursor blinks without end. When people turn on <Term id="reduced-motion">reduced motion</Term>, the style meant to hold it still doesn't reach this kind of animation, so a browser can keep it blinking. Turn the cursor off wherever the lockup stays in view: blinking that lasts more than five seconds next to other content needs a way to stop it (WCAG 2.2.2). On this site, the examples with a cursor have a pause button.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="One colour: cloud blue.">
+  <Do caption="One colour: the brand blue.">
     <Chevron size={32} aria-hidden />
   </Do>
   <Dont caption="A green or an amber chevron reads as a state, not as the brand.">
@@ -102,10 +105,10 @@ Today:
 </DoDont>
 
 <DoDont>
-  <Do caption="Direction in a control is a Lucide arrow.">
+  <Do caption="A direction in a control is an arrow icon from the icon set.">
     <Button><Fragment slot="trailing"><Icon icon={ArrowRight} /></Fragment>next</Button>
   </Do>
-  <Dont caption="The brand chevron as a next arrow turns the mark into UI furniture.">
+  <Dont caption="The brand chevron as a “next” arrow turns the mark into part of the furniture.">
     <Button><Fragment slot="trailing"><Chevron size={14} aria-hidden /></Fragment>next</Button>
   </Dont>
 </DoDont>
@@ -124,16 +127,44 @@ Today:
 
 ## brand files
 
-- **`brand/brand.md`** — the brand's rules for people: the canvas, foreground and signal colours, the two type families, the 4-based space scale, square frames and the voice. It names the token file as the source of truth.
-- **`brand/llm.txt`** — the same rules, condensed for language-model agents: what the system is, which files to read first, the non-negotiables, and a one-line test of whether a screen is on brand.
-- **`tokens/tokens.json`** — the source of truth for every value. When a hex in a brand file disagrees with it, the tokens win: `--fg-dim`, for one, changed in 0.3.0.
-- **`assets/terminal/`** holds the lockup as an SVG file; **`assets/icons/`** the app icon as PNG, 16 to 512px.
+- **The brand guide**: the brand's rules for people. The canvas, text and signal colours, the two typefaces, the space scale, square frames and the voice. It names the token file as the source of truth.
+- **The brand for agents**: the same rules, shortened for AI agents. What the system is, which files to read first, the rules that can't be broken, and a one-line test of whether a screen is on brand.
+- **The tokens**: the source of every value. When a colour in a brand file disagrees with them, the tokens win; the dim text grey, for one, changed in version 0.3.0.
+- **The lockup** as an image file, and **the app icon** as images from 16 to 512 pixels.
 
-These pages and the files say the same thing. Where they differ, trust the tokens and the components. Links to every file are on [resources](/design-system/get-started/resources/).
+These pages and the files say the same thing. Where they differ, trust the tokens and the components. [Resources](/design-system/get-started/resources/) links to every file.
 
 ## related
 
-- [Iconography](/design-system/styles/iconography/) — the Lucide icons next to the marks, and the one rounded shape.
-- [Launchpad & tiles](/design-system/patterns/launchpad-and-tiles/) — the chevron before the title and every group legend.
-- [Shell bar](/design-system/patterns/shell-bar/) — the lockup at the top of every surface.
-- [Content & voice](/design-system/foundations/content-voice/) — the words around the marks.
+- [Iconography](/design-system/styles/iconography/): the line icons next to the marks, and the one rounded shape.
+- [Launchpad & tiles](/design-system/patterns/launchpad-and-tiles/): the chevron before the portal's title and every group's title.
+- [Shell bar](/design-system/patterns/shell-bar/): the lockup at the top of every surface.
+- [Content & voice](/design-system/foundations/content-voice/): the words around the marks.
+
+## specs
+
+### chevron
+
+- **Where the library draws it.** Before the portal title (18px), before each tile group legend (14px), and after the title of a link or button tile on hover and focus (14px). `Heading`'s `chevron` prop draws the same mark as a text `>` in the heading's font, also in `--cloud-blue`.
+- **Colour.** Always `--cloud-blue`. `Chevron` takes it from its own class; its `color` prop can override it, and the brand says don't.
+- **Size.** 16px by default, any size works. The stroke is 14% of the size, never under 1.5px (`strokeWidth` sets it in px), with rounded ends and corner, so the mark keeps its weight from 14px to 128px.
+- **Mark.** One path, `M5 3 L11 8 L5 13`, in a 16-unit square, drawn in `currentColor`; rounded caps and join.
+
+### lockup
+
+- **Box.** The chevron, the wordmark in JetBrains Mono 700 and a cursor block, in a 300 × 160 box. `height` sets the size (40px by default, which makes it 75px wide); the width follows the ratio. It mirrors the SVG file in `assets/terminal/`.
+- **Chevron.** A 9-unit `--cloud-blue` stroke from (46, 50) to (76, 80) to (46, 110), rounded.
+- **Wordmark.** 44-unit JetBrains Mono 700 in `--fg-2`, starting at x 100 on a baseline at y 100.
+- **Cursor.** A 14 × 48 `--cloud-blue` block at x 240, on for half of a 1.05s cycle (the default); `showCursor={false}` turns it off.
+- **Fill.** `filled` paints a `--bg` rectangle behind everything.
+
+### app icon and files
+
+- **App icon.** PNG files from 16 to 512px, with the rounded corners baked in.
+- **`brand/brand.md`**: the brand guide. **`brand/llm.txt`**: the same rules, condensed for language-model agents. **`tokens/tokens.json`**: the source of truth (`--fg-dim` changed in 0.3.0). **`assets/terminal/`**: the lockup as SVG. **`assets/icons/`**: the app icon as PNG, 16 to 512px.
+
+### accessibility
+
+- `Chevron` is an image named “chevron”; next to a title, pass `aria-hidden`.
+- `Lockup` is an image named by its wordmark.
+- Under `prefers-reduced-motion`, the stylesheet hides the cursor's `<animate>` element, but CSS `display` doesn't apply to SVG animation elements, so the blink can carry on. Pass `showCursor={false}` wherever the lockup stays in view.

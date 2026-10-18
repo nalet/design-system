@@ -1,61 +1,95 @@
 ---
 layout: ../../layouts/Doc.astro
 title: accessibility
-description: The WCAG 2.2 AA baseline of the nalet design system, how it is checked, what the components do for you, and the known gaps.
+description: Our screens work for everyone, with a mouse, a keyboard, a screen reader or a magnifier. The standard we meet, what the components do for you, how it is checked, and what is still missing.
 ---
+import { Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 
 # accessibility
 
-The baseline is **WCAG 2.2 level AA**. Components carry their roles, names, focus handling and announcements, so the obvious way to use one is the accessible way — and what a component can't do for you, its page says.
+Our screens are for everyone: people who use a mouse, people who only use a keyboard, people who listen to the screen with a <Term id="screen-reader">screen reader</Term>, and people who zoom in or turn animation off. <Term id="accessibility">Accessibility</Term> is part of the baseline every screen meets, not a feature for later.
 
-## what is checked, and how
-
-| check | where | what it covers |
-| --- | --- | --- |
-| Token contrast | `tokens/contrast.test.ts` (in `npm test` and CI) | Every text token on every background and state tint at 4.5:1; control boundaries, the focus ring and checked fills at 3:1 — see [colour](/design-system/styles/colour/#contrast) |
-| Axe in unit tests | `src/**/*.test.tsx` (jsdom) | Every new component in each state its tests render: roles, names, ARIA use, structure. jsdom can't compute colour, so contrast is the token test's job there |
-| Axe in a browser | The React subsite's a11y panel, and a headless Chromium run over every story | The rendered stories, colour contrast included |
-| Behaviour | The unit tests | Keyboard maps, focus movement and live-region text, asserted with Testing Library |
-
-Passing these is the floor, not proof. Screen-reader testing with real assistive technology is not automated here.
+The standard we meet is <Term id="wcag">WCAG</Term> 2.2 at level AA. Most of the work happens inside the components: each one knows what it is, what it is called, where the keyboard goes and what to announce. So the obvious way to use a component is also the accessible way. Where a component can't do something for you yet, its page says so.
 
 ## keyboard and focus
 
-Everything is reachable and operable without a pointer, focus is always visible, and it always returns where it came from. Composite widgets take one tab stop and move with the arrow keys. The whole model — tab stops, the arrow keys, menus and dialogs, the focus ring and where focus goes — is on [interaction](/design-system/foundations/interaction/).
+Everything can be reached and used without a mouse. The keyboard <Term id="focus">focus</Term> is always visible, and when something closes, focus goes back to where it came from.
 
-## names, roles and states
+Controls that belong together, such as a row of tabs or the rows of a table, are one <Term id="tab-stop">tab stop</Term>: <Kbd>tab</Kbd> moves into the group, and the arrow keys move inside it. The whole model, with menus, dialogs and the focus outline, is on [interaction](/design-system/foundations/interaction/).
 
-- Icon-only controls require a name (<C slug="icon-button" /> `label`, <C slug="action-menu" /> `label`) — name the object: "actions for S04E07".
-- A visible label is the accessible name (WCAG 2.5.3): a text trigger is named by its text.
-- States are set, not drawn: `aria-selected`, `aria-expanded`, `aria-sort`, `aria-invalid`, `aria-busy`, `aria-disabled` on menu items.
-- The <C slug="data-table" /> is a `grid` (a `treegrid` when grouped), with row headers, levels, positions and `aria-rowcount` for rows not rendered yet.
+## names and states
+
+Every control has a name that a screen reader announces, its <Term id="accessible-name">accessible name</Term>. Usually it is the label people see. That also helps people who use <Term id="speech-input">speech input</Term>: they say the words they see, and the control answers to them.
+
+- A control that is only an icon has no visible words, so it needs a name written for it. The <C slug="icon-button" /> and the <C slug="action-menu" /> ask for one. Name the thing it acts on, not only the action: “actions for S04E07”, not “more”.
+- A button or a menu with words is named by those words.
+- States are told, not only drawn. When a tab is selected, a section is open, a column is sorted, a field has an error or something is busy, the component also tells <Term id="assistive-technology">assistive technology</Term>, so a screen reader can say it.
+- The <C slug="data-table" /> tells a screen reader how it is built: which cell names each row, how the groups nest, and how many rows there are in all, including the ones not shown yet.
 
 ## announcements
 
-| what changes | how it is announced |
+Some changes happen away from where people are looking. A screen reader announces them through a <Term id="live-region">live region</Term>, so nobody has to go and look for them.
+
+| what changes | what people hear |
 | --- | --- |
-| A message strip appears or changes | Its text alone is a live region: `role=status` (polite), `role=alert` for errors, `live="off"` for a static note |
-| A toast | The toaster's list is a polite live region that exists before the first toast |
-| The selection | The selection toolbar announces "8 selected", "selection cleared" |
-| A filter's result | The filter bar's count ("312 of 2,500") is a polite live region that always exists |
-| A table grows | "200 of 2,500" is polite |
-| Warnings and errors in a status | Read with their state first: "warning: connection firewalled" |
+| A message strip appears or changes | Its text. An error is read at once; other messages wait until the screen reader is free. A note that never changes isn't announced. |
+| A toast appears | Its text, once the screen reader is free. The toasts' area is on the page before the first toast, so the first one isn't missed. |
+| The selection changes | The selection toolbar says “8 selected”, or “selection cleared”. |
+| A filter changes the list | The filter bar's count, such as “312 of 2,500”. |
+| A table shows more rows | The new count, such as “200 of 2,500”. |
+| A status is a warning or an error | Its state first, then its words: “warning: connection firewalled”. |
 
 ## colour and motion
 
-Colour never carries meaning alone: every state has a glyph of its own shape and words; a selected row has a checked box. Motion is short and functional, and honours `prefers-reduced-motion` where the component implements it — see [motion](/design-system/styles/motion/) for exactly what each does.
+Colour never carries a meaning on its own. Every state also has a symbol of its own shape and words, and a selected row also has a ticked checkbox. People who can't tell the colours apart, and people who can't see them at all, get the same message.
+
+Motion is short, and only there to say something. The components that move stop moving when people turn on <Term id="reduced-motion">reduced motion</Term>, where they support it; [motion](/design-system/styles/motion/) lists exactly what each one does.
+
+## how it is checked
+
+Automatic tests check what can be checked automatically, every time the code changes:
+
+- **Contrast.** Every text colour is tested on every background and every state's <Term id="tint">tint</Term>, and has to reach a <Term id="contrast">contrast ratio</Term> of at least 4.5 to 1. The edges of controls, the focus outline and ticked checkboxes need at least 3 to 1. A colour change that falls short fails the build. [Colour](/design-system/styles/colour/#contrast) shows every pair.
+- **Structure.** An accessibility checker runs over every component, in each state its tests show: what each part is, what it is called, and how the page is built.
+- **In a browser.** The same checker runs over every example on the React subsite, where it can check the colours on screen too.
+- **Behaviour.** Tests press keys and check where the focus goes and what is announced.
+
+Passing these tests is the floor, not proof. Nothing here tests with a real screen reader automatically, so trying a new screen with one is still worth the time.
 
 ## known gaps
 
-The pages say what each component can't do yet, under "Today:". The ones that matter most across the system:
+These are the gaps that matter most across the system. Each component's page lists its own, under “Today:”.
 
-- **No light, high-contrast or forced-colours styling.** Under Windows high contrast, focus that is drawn with a border colour and an inset shadow (inputs, selects, textareas) can look unfocused. Planned with the themes.
-- **Tooltip** shows on hover and on focus of its own wrapper, adds a tab stop, and can't be dismissed with Esc (WCAG 1.4.13) — see <C slug="tooltip">its page</C>.
-- **Modal**: several open modals all close on one Esc; the page behind is not made inert.
-- **No radio group and no searchable combobox** component yet; use native radios and the patterns on the input pages.
-- **Fonts are not bundled**, so the type renders in fallbacks until the app loads them.
+- **No light, high-contrast or <Term id="forced-colours">forced-colours</Term> look yet.** With forced colours on, text fields, selects and text areas, which show focus with a coloured border and a soft inner shadow, can look as if nothing has focus. These looks are planned, together with the themes.
+- **The <C slug="tooltip" />** appears on hover and when its own wrapper takes focus, adds an extra tab stop, and can't be closed with <Kbd>esc</Kbd> (WCAG 1.4.13). Its page has the details.
+- **The <C slug="modal" />**: when several are open, one press of <Kbd>esc</Kbd> closes them all, and the page behind can still be reached.
+- **No radio group and no searchable list** yet. Use the browser's own radio buttons, and the patterns on the input pages.
+- **The fonts aren't included in the package**, so text shows in a <Term id="fallback-font">fallback font</Term> until the app loads them.
 
 ## your part
 
-The components can't know your content. Give tables an `aria-label`, give checkboxes a `rowLabel`, keep one `h1` per page (the [worklist](/design-system/patterns/worklist/) takes a `headingLevel`), write messages that make sense read aloud on their own, and keep raw IDs out of primary text.
+The components can't know your content, so a few things are up to you:
+
+- Give every table a name, and give each row's checkbox the row's name.
+- Keep one main heading per page. A [worklist](/design-system/patterns/worklist/) inside an app takes a lower <Term id="heading-level">heading level</Term> when the shell owns the main one.
+- Write messages that make sense when they are read aloud on their own, without their colour or their icon.
+- Keep raw ids and codes out of the main text; put them behind a “details” link.
+
+## specs
+
+| check | where | what it covers |
+| --- | --- | --- |
+| Token contrast | `tokens/contrast.test.ts`, in `npm test` and CI | Every text token on every background and state tint at 4.5:1; control boundaries, the focus ring and checked fills at 3:1 |
+| Axe in unit tests | `src/**/*.test.tsx`, in jsdom | Every component in each state its tests render: roles, names, ARIA use, structure. jsdom can't compute colour, so contrast is the token test's job there |
+| Axe in a browser | The React subsite's accessibility panel, and a run in a headless browser over every story | The rendered stories, colour contrast included |
+| Behaviour | The unit tests, with Testing Library | Keyboard maps, focus movement and live-region text |
+
+- **Names.** The icon button's and the action menu's `label` is required. A visible label is the accessible name (WCAG 2.5.3, label in name).
+- **States.** The components set `aria-selected`, `aria-expanded`, `aria-sort`, `aria-invalid` and `aria-busy`, and `aria-disabled` on menu items.
+- **Data table.** A `grid`, or a `treegrid` when grouped, with row headers, levels, positions, and `aria-rowcount` for rows not rendered yet.
+- **Live regions.** A message strip's text alone is the region: `role=status` (polite), `role=alert` for errors, `live="off"` for a static note. The toaster's list is a polite region that exists before the first toast. The selection toolbar's count, the filter bar's count (always present) and the data table's growing count are polite. Object status puts a visually hidden “warning: ” or “error: ” before its text.
+- **Motion.** Components that animate honour `prefers-reduced-motion` where they implement it.
+- **Your part, in code.** An `aria-label` on each table, a `rowLabel` for the checkboxes and row menus, one `h1` per page (the worklist's `headingLevel`).
+- **Known gaps, in code.** Text fields, selects and textareas draw focus with a border colour and an inset shadow, which forced colours remove.

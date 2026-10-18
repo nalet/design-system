@@ -1,17 +1,18 @@
 ---
 layout: ../../layouts/Doc.astro
 title: object status
-description: The state of one object, said once and said truthfully — a semantic state and a few words in the object's own terms.
+description: An object status says where one thing stands, in a few words and one of five states. The state decides the colour and the symbol, so the same meaning looks the same on every screen.
 component: object-status
 ---
 import { ObjectStatus } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { States, TextAppearance, WithoutGlyph, Vocabulary, BySeverity } from '@site/examples/object-status';
 
 # object status
 
-The state of one object, said once and said truthfully: a semantic state and a few words in the object's own terms. The state decides the colour, the glyph and what a screen reader hears, so there is no colour prop.
+An object status says where one object stands, such as a host, an episode or a title, in a few words of its own. Each status has one of five <Term id="semantic-state">states</Term>, and the state decides its colour, its symbol and what a <Term id="screen-reader">screen reader</Term> hears.
 
 <Example label="the five states">
   <States />
@@ -19,118 +20,122 @@ The state of one object, said once and said truthfully: a semantic state and a f
 
 ## when to use
 
-- To show where one object stands: a host is `unreachable`, an episode is `on its way`, a title is `held`.
-- Once per object, in a list row or a table cell.
-- Inside a sentence, in the `text` appearance: storage-01 is `healthy`.
+- To show where one object stands: a host is “unreachable”, an episode is “on its way”, a title is “held”.
+- Once per object, in a row of a list or in a cell of a table.
+- Inside a sentence, shown as text: storage-01 is “healthy”.
 
-## when not to use
+## when to use something else
 
-- **For a tag, a label or a count that is not a state** — `gpu`, `v2.4.1`, `12 episodes`. Use a <C slug="badge" />.
-- **For a condition of the whole page or list** — `105 titles can't be checked`. Use a <C slug="message-strip" /> above the content.
-- **To confirm an action that just finished** — `8 episodes queued`. Use a <C slug="toast" />.
-- **For a list with nothing in it, or one that couldn't load.** Use an <C slug="illustrated-message" /> in place of the list.
-- **For a status and its reason in a data table.** Use the status cell from <C slug="table-cells" />: it shows this status with a detail line under it.
+- **For a tag, a label or a count that isn't a state**, such as “gpu”, “v2.4.1” or “12 episodes”. Use a <C slug="badge" />. A badge says what something is, or how many there are, not how it is doing.
+- **For a condition of the whole page or list**, such as “105 titles can't be checked”. Use a <C slug="message-strip" /> above the content. It says it once, for everything below it, instead of a status in every row.
+- **To confirm an action that just finished**, such as “8 episodes queued”. Use a <C slug="toast" />: a short confirmation of what people just did.
+- **For a list with nothing in it, or one that couldn't load.** Use an <C slug="illustrated-message" /> in place of the list. There is no object there to give a status to.
+- **For a status and its reason in a data table.** Use the <C slug="table-cells">status cell</C>. It shows this same status, with a detail line under it.
 
 ## anatomy
 
-1. **Container** — glyph and text sit 6px apart, never wrap and never grow wider than the parent. As a `chip` (the default): 20px tall, 0 × 8px padding, a 1px frame in `--state-*-border` on a `--state-*-bg` fill, square corners. As `text`: no frame and no fill.
-2. **Glyph** — 12px, a different shape for each state, drawn in the state's colour. Hidden from assistive tech.
-3. **State word** — by default for `warning` and `error` only: a visually hidden `warning: ` or `error: ` in front of the text.
-4. **Text** — JetBrains Mono 11px (12px as `text`), letter-spacing 0.02em, shown lowercase, in the state's colour `--state-*`. When there is no room it ends in an ellipsis.
+1. **Chip.** A small, square frame with a thin border in the state's colour, on a faint <Term id="tint">tint</Term> of it. It stays on one line, and never grows wider than the space it sits in. Shown as text, it has no frame and no fill.
+2. **<Term id="glyph">Glyph</Term>.** A small symbol before the words, a different shape for each state, drawn in the state's colour. Screen readers skip it.
+3. **State word.** By default for warnings and errors only: a word that screen readers hear before the text, such as “error:”. It isn't shown on screen.
+4. **Text.** The few words of the status, in <Term id="monospace">monospace</Term> and lowercase, in the state's colour. When there is no room, it ends in an <Term id="ellipsis">ellipsis</Term>.
 
 ## variants and states
 
-Five states. Pick the state by what the value means for the person, not by the colour you want to see.
+There are five states. Pick the state by what the status means for the person, not by the colour you would like to see.
 
-| state | glyph | colour | a screen reader hears | use for |
+| state | glyph | colour | a screen reader hears | use it for |
 | --- | --- | --- | --- | --- |
-| `neutral` (default) | A dash | `--state-neutral` | The text | A plain fact: missing, queued, not checked yet |
-| `information` | A bar with a dot | `--state-information` | The text | Under way, or worth knowing: on its way, syncing |
-| `success` | A check | `--state-success` | The text | Done and good: held, saved, healthy. Never for a problem |
-| `warning` | A triangle with a bar | `--state-warning` | `warning:` and the text | Works, but someone should look: connection firewalled, degraded, can't be checked |
-| `error` | A cross | `--state-error` | `error:` and the text | Failed or blocked, needs action: needs attention, unreachable |
+| Neutral | A dash | Grey | The text | A plain fact: “missing”, “queued”, “not checked yet” |
+| Information | A bar with a dot | Blue | The text | Under way, or worth knowing: “on its way”, “syncing” |
+| Success | A check | Green | The text | Done and good: “held”, “saved”, “healthy”. Not for a problem |
+| Warning | A triangle with a bar | Amber | “warning:” and the text | Works, but someone should look: “connection firewalled”, “degraded”, “can't be checked” |
+| Error | A cross | Red | “error:” and the text | Failed or blocked, and needs action: “needs attention”, “unreachable” |
 
-A chip's fill and frame come from the same state's `-bg` and `-border` tokens. `neutral` is the default, so a value you forgot to map never looks like it means something.
+A chip's tint and frame come in the same state's colour. A status is neutral unless it is given another state, so a status whose state was forgotten never looks as if it means something.
 
-### why there is no colour prop
+### why there is no colour setting
 
-The state is the meaning. Colour, glyph and the word a screen reader hears all follow from it, so they can't disagree, and the same meaning looks the same on every screen. A colour prop would let a failure render in green. A <C slug="badge" /> has a tone, and nothing stops a badge from saying `failed` in green; object status can't. When a status looks wrong, its mapping is wrong: change the value's state in the vocabulary, not its colour.
+The state is the meaning. The colour, the glyph and the word a screen reader hears all follow from it, so they can't disagree, and the same meaning looks the same on every screen.
 
-### appearance
+A colour setting would let a failure show in green. A <C slug="badge" /> has a tone, and nothing stops a badge from saying “failed” in green; an object status can't.
 
-`text` drops the frame and the fill, for dense rows and running text. The glyph stays, so the state never rests on colour alone.
+When a status looks wrong, the state it was given is wrong. Change that state in the vocabulary, the one table of states described below, not the colour.
 
-<Example label="the text appearance, in sentences">
+### as a chip or as text
+
+A status can drop its frame and its fill and be shown as text, for dense rows and for running text. The glyph stays, so the state never rests on colour alone.
+
+<Example label="shown as text, in sentences">
   <TextAppearance />
 </Example>
 
-### glyph
+### without the glyph
 
-The glyph can be hidden, or replaced by one of your own, which is hidden from assistive tech the same way. Without the glyph, the words and the colour are left to carry the state; keep it unless the words say the state on their own.
+The glyph can be left out, or replaced by one of your own, which screen readers skip in the same way. Without the glyph, only the words and the colour carry the state, so keep it unless the words say the state on their own.
 
 <Example label="without the glyph">
   <WithoutGlyph />
 </Example>
 
-### vocabulary
+### the vocabulary
 
-Write every value an object can take, with its state and its words, once, in one table, and render every status from it. How to write one is [status vocabulary](/design-system/patterns/status-vocabulary/).
+Write down every value an object can take, with its state and its words, once, in one table, and take every status from that table. [Status vocabulary](/design-system/patterns/status-vocabulary/) shows how to write one.
 
-Several values can share a state and a text. The sample backlog maps `queued`, `grabbed`, `downloaded` and `waiting` all to `information` · `on its way`: say what the person needs to know, and keep the specifics for the detail line of a <C slug="table-cells">status cell</C>.
+Several values can share a state and its words. In the sample backlog, four steps (queued, grabbed, downloaded and waiting) all show as information, with the words “on its way”. Say what the person needs to know, and keep the specifics for the detail line of a <C slug="table-cells">status cell</C>.
 
-<Example label="one object's vocabulary: each value and the status it renders">
+<Example label="one object's vocabulary: each value and the status it shows">
   <Vocabulary />
 </Example>
 
-### sorting
+### sorting by status
 
-A list sorted by status puts the most urgent first: `error`, then `warning`, `information`, `neutral` and `success`. The hosts below are sorted that way.
+A list sorted by status puts the most urgent first: error, then warning, information, neutral and success. The hosts below are sorted that way.
 
-<Example label="hosts sorted by severity">
+<Example label="hosts sorted with the most urgent first">
   <BySeverity />
 </Example>
 
-Use the same ranking when one object has several conditions at once: show the most severe, and say the rest in the detail line.
+Use the same order when one object has several conditions at once: show the most severe one, and say the rest in the detail line.
 
 ## behaviour
 
-Object status is static: it takes no focus and has no keys of its own. It doesn't animate, and it doesn't announce a change.
+An object status only shows a state. It takes no focus, has no keys of its own and doesn't move. When it changes, it doesn't announce the change.
 
-The elements and attributes it renders are on its [React page](/design-system/react/?path=/docs/components-feedback-status-object-status--docs).
+The details of how it is built are on the object status's [React page](/design-system/react/?path=/docs/components-feedback-status-object-status--docs).
 
 ## accessibility
 
-- Each state has its own glyph shape, so the state never rests on colour alone (WCAG 1.4.1). The glyph is hidden from assistive tech; the words carry the meaning.
-- `warning` and `error` read their state first, from visually hidden text: "error: needs attention". `neutral`, `information` and `success` read only their text.
-- That word can be translated, given to a calm state as well, or left out. Leave it out only where the text would say it twice.
-- The lowercase look is CSS. Write the text as it should be read.
-- It isn't a live region: a status that changes in place is not announced. When someone needs to hear the result of what they did, confirm it with a <C slug="toast" />; when the change affects the whole list, a <C slug="message-strip" />.
+- Each state has a glyph of its own shape, so the state never rests on colour alone, as <Term id="wcag">WCAG</Term> 1.4.1 asks. Screen readers skip the glyph; the words carry the meaning.
+- Warnings and errors are read with their state first, from a word that is hidden on screen: “error: needs attention”. Neutral, information and success statuses read only their text.
+- That first word can be translated, given to a calmer state as well, or left out. Leave it out only where the text would say it twice.
+- The lowercase look is only a style. Write the text exactly as it should be read.
+- It isn't a <Term id="live-region">live region</Term>: a status that changes in place isn't announced. When someone needs to hear the result of what they did, confirm it with a <C slug="toast" />. When the change affects the whole list, use a <C slug="message-strip" />.
 
 Today:
 
-- Text that runs out of room ends in an ellipsis, and nothing shows the rest. Keep the words short; where they can be cut, pass the full text as `title` too.
+- Text that runs out of room ends in an ellipsis, and nothing shows the rest. Keep the words short. Where they can still be cut, give the status the full text as its tooltip too.
 
 ## content
 
-- Name the state in the object's words: `held`, `on its way`, `needs attention`, `connection firewalled`. One to three words, lowercase, no full stop.
+- Name the state in the object's own words: “held”, “on its way”, “needs attention”, “connection firewalled”. One to three words, lowercase, with no full stop.
 - Say it once: one status per object, from one table. The same value reads the same words on every screen.
-- No colour words (`red`, `green`) in code or copy. The state names belong in the vocabulary table, not in the text.
-- Why it is so, or what happens next, goes in a detail line under the status — `needs attention` · `every source that answered timed out` — in a <C slug="table-cells">status cell</C>, not in the status itself.
-- Honest status: `success` never covers a problem. `connected, but firewalled` works and needs a look, so it is a `warning`.
+- Leave colour words, such as “red” and “green”, out of the words and out of the code. The names of the states belong in the vocabulary table, not in the text.
+- Why it is so, or what happens next, goes in a detail line under the status, in a <C slug="table-cells">status cell</C>, not in the status itself: “needs attention”, with “every source that answered timed out” under it.
+- Keep it honest: success is for what is done and good, not for a problem. “connected, but firewalled” works but needs a look, so it is a warning.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="A problem said as one: it works, but someone should look.">
+  <Do caption="A problem shown as a problem: it works, but someone should look.">
     <ObjectStatus state="warning">connection firewalled</ObjectStatus>
   </Do>
-  <Dont caption="A problem dressed as success. People learn to skip the calm ones and miss this one.">
+  <Dont caption="A problem dressed as success. People learn to skip the calm ones, and they miss this one.">
     <ObjectStatus state="success">connection firewalled</ObjectStatus>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="The state carries the severity; the words say what is wrong, in the object's terms.">
+  <Do caption="The state says how serious it is; the words say what is wrong, in the object's own terms.">
     <ObjectStatus state="error">needs attention</ObjectStatus>
   </Do>
   <Dont caption="The state's name as the text. A screen reader hears “error: error”, and nobody learns what to do.">
@@ -143,7 +148,7 @@ Today:
     <span style={{ fontFamily: 'var(--ff-mono)', fontSize: '13px', color: 'var(--fg)' }}>worker-2</span>
     <ObjectStatus state="warning">degraded</ObjectStatus>
   </Do>
-  <Dont caption="Two statuses for one object leave people to work out which is true. Show the most severe and put the rest in the detail line.">
+  <Dont caption="Two statuses for one object leave people to work out which one is true. Show the most severe, and put the rest in the detail line.">
     <span style={{ fontFamily: 'var(--ff-mono)', fontSize: '13px', color: 'var(--fg)' }}>worker-2</span>
     <ObjectStatus state="information">syncing</ObjectStatus>
     <ObjectStatus state="warning">degraded</ObjectStatus>
@@ -152,7 +157,34 @@ Today:
 
 ## related
 
-- [Status vocabulary](/design-system/patterns/status-vocabulary/) — one table per object, and which state each kind of value gets.
-- <C slug="table-cells">Table cells</C> — the status cell: this status with a detail line under it, for data tables.
-- <C slug="badge">Badge</C> — tags, labels and counts that aren't a state.
-- <C slug="message-strip">Message strip</C> — a condition of the whole page or list, with a way forward.
+- [Status vocabulary](/design-system/patterns/status-vocabulary/): one table per object, and which state each kind of value gets.
+- <C slug="table-cells">Table cells</C>: the status cell, this status with a detail line under it, for data tables.
+- <C slug="badge">Badge</C>: tags, labels and counts that aren't a state.
+- <C slug="message-strip">Message strip</C>: a condition of the whole page or list, with a way forward.
+
+## specs
+
+| state | in code | text and glyph | chip | read before the text |
+| --- | --- | --- | --- | --- |
+| Neutral | `state="neutral"` (the default) | `--state-neutral` | `--state-neutral-bg` fill, `--state-neutral-border` frame | Nothing |
+| Information | `state="information"` | `--state-information` | `--state-information-bg` fill, `--state-information-border` frame | Nothing |
+| Success | `state="success"` | `--state-success` | `--state-success-bg` fill, `--state-success-border` frame | Nothing |
+| Warning | `state="warning"` | `--state-warning` | `--state-warning-bg` fill, `--state-warning-border` frame | `warning: ` |
+| Error | `state="error"` | `--state-error` | `--state-error-bg` fill, `--state-error-border` frame | `error: ` |
+
+| setting | in code | what it does |
+| --- | --- | --- |
+| Chip or text | `appearance="chip"` (the default) or `appearance="text"` | As text: no frame, no fill, no padding, and the text at 12px. |
+| Glyph | `icon`: `true` (the default), `false`, or a node of your own | `false` hides the glyph. Your own node takes its place and is `aria-hidden` the same way. |
+| State word | `stateLabel`: a string, or `false` | A string replaces the word read first (`stateLabel="fehler"` reads “fehler: failed”) and, on a calm state, adds one. `false` leaves it out. |
+| Text | `text`, or children | The words. `text` wins when both are given; it is what lets a vocabulary entry spread in. |
+| Full text on hover | `title` | The browser's own tooltip, for words that can be cut. |
+
+- **Chip:** `inline-flex`, 20px tall, padding 0 8px (`--s-2` at the sides), a 1px frame, square (`border-radius: 0`).
+- **Layout:** glyph and text 6px apart, `white-space: nowrap`, `max-width: 100%` (never wider than its parent).
+- **Glyph:** 12px, drawn in the state's colour (`currentColor`), in an `aria-hidden` span. Each state has its own shape, for WCAG 1.4.1 (use of colour).
+- **Text:** JetBrains Mono 11px (12px as text), line-height 1, letter-spacing 0.02em, lowercased with `text-transform`, in `--state-*`. It ends with `text-overflow: ellipsis` when there is no room.
+- **State word:** a visually hidden `warning: ` or `error: ` in front of the text, by default for those two states only.
+- **Vocabulary:** `defineStates(table)` returns a frozen copy of the table, each value mapped to `{ state, text }`, and every status spreads its entry in: `<ObjectStatus {...LINK[row.link]} />`. With the value type as its type argument (`defineStates<LinkValue>(…)`), TypeScript makes the table cover every value.
+- **Severity:** `STATE_SEVERITY` ranks the states for sorting, most urgent first: `error` 4, `warning` 3, `information` 2, `neutral` 1, `success` 0. `OBJECT_STATES` lists the five states, `neutral` first.
+- **Motion and focus:** none. It isn't a live region, so a change in place isn't announced.

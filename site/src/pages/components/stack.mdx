@@ -1,71 +1,72 @@
 ---
 layout: ../../layouts/Doc.astro
 title: stack
-description: A column or a row whose gap comes from the space scale — the workhorse for laying out everything else.
+description: A stack lines things up in a column or a row, with even space between them. It is the workhorse for laying out everything else.
 component: stack
 ---
-import { Badge, Box, Button, Stack } from '@nalet/design-system';
+import { Badge, Box, Button, Kbd, Stack } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Playground, Vertical, Horizontal, GapScale, Justified, Wrap } from '@site/examples/stack';
 
 # stack
 
-A column or a row whose gap comes from the space scale. The workhorse for laying out everything else.
+A stack lines things up in a column or a row, with even space between them. It is the workhorse for laying out everything else.
 
-<Example label="three items in a column, 16px apart">
+<Example label="three items in a column, the usual gap apart">
   <Playground />
 </Example>
 
 ## when to use
 
-- To lay out siblings in one direction with even space between them: a form's fields, a row of badges, a header with a title and an action.
-- Wherever you would write `display: flex` and a `gap`.
+- To line things up in one direction, with even space between them: the fields of a form, a row of badges, a header with a title and an action.
+- Wherever you would otherwise build a row or a column with a gap in <Term id="css">CSS</Term>.
 
-## when not to use
+## when to use something else
 
-- **For a grid of items in rows and columns.** A stack runs in one direction. Launchpad tiles go in a <C slug="tile-group" />; for other grids, use CSS grid (see [layout](/design-system/foundations/layout/#grid-and-layout)).
-- **For a row of actions.** Use a <C slug="toolbar">toolbar</C>: it sets the emphasis and moves what doesn't fit into an overflow menu.
-- **For padding or a background.** A stack only spaces its children. Padding around them is a <C slug="box" /> or a <C slug="card" />.
+- **For a grid of items in rows and columns.** A stack runs in one direction only. Tiles on the <Term id="launchpad">launchpad</Term> go in a <C slug="tile-group" />; for other grids, use a grid in CSS, as [layout](/design-system/foundations/layout/#grid-and-layout) describes.
+- **For a row of actions.** Use a <C slug="toolbar">toolbar</C>. It gives one action the emphasis, and moves what doesn't fit into an <Term id="overflow-menu">overflow menu</Term>.
+- **For space around things, or a background.** A stack only spaces its children apart. Space around them comes from a <C slug="box" /> or a <C slug="card" />.
 
 ## anatomy
 
-1. **Container** — a column or a row. It can shrink inside other layouts.
-2. **Gap** — between children only, never around them: a step of the [space scale](/design-system/foundations/layout/#the-scale), 16px by default.
-3. **Children** — laid out in source order.
+1. **Container.** A column or a row. It can shrink to fit inside other layouts.
+2. **Gap.** The space between the children, never around them: a step of the [space scale](/design-system/foundations/layout/#the-scale), the usual one unless you choose another.
+3. **Children.** The things in the stack, laid out in the order they come in the page's code.
 
 ## variants and states
 
-| option | values | default |
+| setting | choices | unless you choose |
 | --- | --- | --- |
-| Direction | `vertical` (a column), `horizontal` (a row) | `vertical` |
-| Gap | A step of the scale, from 0 to 64px | 16px |
-| Align | `start`, `center`, `end`, `stretch`, `baseline` — across the stack | Not set: children stretch |
-| Justify | `start`, `center`, `end`, `between`, `around` — along the stack | Not set: children pack at the start |
-| Wrap | Children flow onto a new line when they run out of room | Off |
-| Inline | The stack is as wide as its content and sits in the line of text | Off |
+| Direction | A column, or a row | A column |
+| Gap | A step of the space scale, from none to the largest | The usual step |
+| Alignment, across the stack | The start, the centre, the end, stretched, or lined up on the line their text sits on | Stretched |
+| Spread, along the stack | Packed at the start, in the centre or at the end, pushed apart to both ends, or with even space around each child | Packed at the start |
+| Wrapping | Children flow onto a new line when they run out of room | Off |
+| Inline | The stack is only as wide as its content, and sits in the line of text | Off |
 
-With no alignment set, children stretch across the stack: full width in a vertical stack, full height in a row.
+With no alignment chosen, children stretch across the stack: to the full width in a column, and to the full height in a row.
 
-<Example label="a vertical stack">
+<Example label="a stack as a column">
   <Vertical />
 </Example>
 
-<Example label="a horizontal stack">
+<Example label="a stack as a row">
   <Horizontal />
 </Example>
 
-<Example label="gaps of 4, 16 and 32px">
+<Example label="three gaps from the scale, from small to large">
   <GapScale />
 </Example>
 
-`between` pushes the first and last child to the ends, e.g. a title and its action.
+Pushed apart to both ends, the first and the last child sit at the two ends, such as a title and its action.
 
 <Example label="a title and its action at the ends">
   <Justified />
 </Example>
 
-Wrapping is for horizontal stacks. A vertical stack only wraps when you give it a fixed height.
+Wrapping is for rows. A column only wraps when it is given a fixed height.
 
 <Example label="badges that wrap onto a second line">
   <Wrap />
@@ -73,30 +74,30 @@ Wrapping is for horizontal stacks. A vertical stack only wraps when you give it 
 
 ## behaviour
 
-- A stack takes no focus: `tab` moves through its children in source order.
-- There is no reverse direction, so what people see, what they read and where focus goes stay in the same order. Keep it that way: don't reorder children with CSS `order` or a reversed `flex-direction`.
+- A stack takes no <Term id="focus">focus</Term>. <Kbd>tab</Kbd> moves through its children in the order they come in the page's code.
+- There is no reverse direction, so what people see, the order they read in and where focus goes all stay the same. Keep it that way: don't reorder the children with CSS.
 
-The keyboard map and the element it renders are on its [React page](/design-system/react/?path=/docs/components-layout-structure-stack--docs).
+The full keyboard map is on the stack's [React page](/design-system/react/?path=/docs/components-layout-structure-stack--docs).
 
 ## accessibility
 
-- A stack adds no structure for assistive tech: it has no role.
-- A stack of similar items is not a list to a screen reader. When the items are a list, mark them up as one.
+- A stack adds no structure for <Term id="assistive-technology">assistive technology</Term>. To a <Term id="screen-reader">screen reader</Term>, it isn't there at all.
+- A stack of similar items isn't a list to a screen reader. When the items are a list, mark them up as one.
 
 ## content
 
-A stack has no text of its own. Order its children the way people read and act: what the group is about first, its actions last.
+A stack has no text of its own. Order its children the way people read and act: what the group is about first, and its actions last.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="Children in the order people read and tab: cancel, then the emphasized action.">
+  <Do caption="Children in the order people read and tab through: “cancel”, then the emphasized action.">
     <Stack direction="horizontal" gap={8}>
       <Button variant="ghost">cancel</Button>
       <Button variant="primary">save changes</Button>
     </Stack>
   </Do>
-  <Dont caption="The same look made with row-reverse. Tab now reaches save before cancel, against what people see.">
+  <Dont caption="The same look, made by turning the row round in CSS. The Tab key now reaches “save changes” before “cancel”, against what people see.">
     <Stack direction="horizontal" gap={8} style={{ flexDirection: 'row-reverse' }}>
       <Button variant="primary">save changes</Button>
       <Button variant="ghost">cancel</Button>
@@ -116,7 +117,7 @@ A stack has no text of its own. Order its children the way people read and act: 
       </Stack>
     </Box>
   </Do>
-  <Dont column caption="Without wrap, the row runs out of its container.">
+  <Dont column caption="Without wrapping, the row runs out of its container.">
     <Box border style={{ width: '200px' }}>
       <Stack direction="horizontal" gap={8}>
         <Badge>gpu</Badge>
@@ -131,7 +132,25 @@ A stack has no text of its own. Order its children the way people read and act: 
 
 ## related
 
-- <C slug="box">Box</C> — padding and a background around content.
-- <C slug="divider">Divider</C> — a rule between groups in a stack.
-- <C slug="toolbar">Toolbar</C> — a row of actions with emphasis and overflow.
-- [Layout](/design-system/foundations/layout/) — the scale behind the gap.
+- <C slug="box">Box</C>: space and a background around content.
+- <C slug="divider">Divider</C>: a thin line between the groups in a stack.
+- <C slug="toolbar">Toolbar</C>: a row of actions, with one emphasized and the rest in an overflow menu.
+- [Layout](/design-system/foundations/layout/): the space scale behind the gap.
+
+## specs
+
+| setting | in code | values | default |
+| --- | --- | --- | --- |
+| Direction | `direction` | `'vertical'` (a column), `'horizontal'` (a row) | `'vertical'` |
+| Gap | `gap` | `0`, `4`, `8`, `12`, `16`, `24`, `32`, `48` or `64` (px), from 0 to 64px | `16` |
+| Alignment, across | `align` (`align-items`) | `'start'`, `'center'`, `'end'`, `'stretch'`, `'baseline'` | Not set: children stretch |
+| Spread, along | `justify` (`justify-content`) | `'start'`, `'center'`, `'end'`, `'between'` (`space-between`), `'around'` (`space-around`) | Not set: children pack at the start |
+| Wrapping | `wrap` (`flex-wrap: wrap`) | On or off; meant for horizontal stacks | Off |
+| Inline | `inline` (`display: inline-flex`) | On or off | Off |
+
+- **Element:** a `div` with `display: flex`, `flex-direction: column` or `row`, `box-sizing: border-box` and `min-width: 0`, so it can shrink inside other flex and grid layouts. It has no role.
+- **Gap:** between children only, from the space tokens: 4 `--s-1`, 8 `--s-2`, 12 `--s-3`, 16 `--s-4`, 24 `--s-5`, 32 `--s-6`, 48 `--s-7`, 64 `--s-8`. The first example is 16px apart; the gap example shows 4, 16 and 32px.
+- **In CSS terms:** use it wherever you would write `display: flex` and a `gap`.
+- **Order:** there is no reverse direction. Don't reorder children with CSS `order` or a reversed `flex-direction` (`row-reverse`).
+- **Wrapping a column:** only with a fixed height.
+- **A real list:** render `ul` and `li`, or pass `role="list"` to the stack and `role="listitem"` to each child.

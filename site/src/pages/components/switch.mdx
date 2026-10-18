@@ -1,17 +1,18 @@
 ---
 layout: ../../layouts/Doc.astro
 title: switch
-description: A square on/off toggle for a setting that applies the moment it is flipped, with no save button.
+description: A switch turns one setting on or off. The change applies the moment it is flipped, with no save button.
 component: switch
 ---
-import { Button, Switch } from '@nalet/design-system';
+import { Button, Kbd, Switch } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Playground, Sizes, States, Controlled, SettingsPanel } from '@site/examples/switch';
 
 # switch
 
-A square on/off toggle for a setting that applies the moment it is flipped.
+A switch turns one setting on or off, and the change applies the moment it is flipped.
 
 <Example label="a switch">
   <Playground />
@@ -19,25 +20,25 @@ A square on/off toggle for a setting that applies the moment it is flipped.
 
 ## when to use
 
-- For one setting that takes effect at once, with no save button: `email alerts`, `maintenance mode`.
-- In a settings list or panel: one switch per setting, each with its own label.
+- For one setting that takes effect at once, with no save button: “Email alerts”, “Maintenance mode”.
+- In a list or a panel of settings: one switch per setting, each with its own label.
 
-## when not to use
+## when to use something else
 
-- **Inside a form that is saved with a button.** Use a <C slug="checkbox" />. A switch promises an immediate effect that the form does not have.
-- **For a choice between two things that are not on and off** (`daily` or `weekly`). Use a <C slug="select" />, or <C slug="tabs" /> to change the view.
-- **To start an action** such as `deploy release`. Use a <C slug="button" />: an action happens once, a switch holds a state.
+- **Inside a form that is saved with a button.** Use a <C slug="checkbox" />. A switch promises an effect at once, which the form doesn't have.
+- **For a choice between two things that aren't on and off**, such as “daily” or “weekly”. Use a <C slug="select" />, or <C slug="tabs" /> to change the view. A switch can only say on or off.
+- **To start an action**, such as “deploy release”. Use a <C slug="button" />: an action happens once, while a switch holds a state.
 
 ## anatomy
 
-1. **Hit area** — the track, an 8px gap and the label text.
-2. **Track** — square, 36 × 20px (`md`) or 30 × 16px (`sm`), 2px inner padding. Off: 1px `--border-control` border on `--bg-2`. On: `--cloud-blue` fill and border.
-3. **Thumb** — square, 14px (`md`) or 10px (`sm`). Off: `--fg-dim`, at the left. On: `--bg`, slid to the right in 0.14s.
-4. **Label** (optional) — Inter 13px in `--fg-2`.
+1. **Hit area.** The track, a small gap and the label: the whole <Term id="target-size">target</Term> people can click or tap.
+2. **Track.** A small, wide, square frame. Off, it has a thin grey border on a dark fill; on, it is filled with blue.
+3. **Thumb.** A small square inside the track. Off, it is grey and sits at the left; on, it turns dark and slides to the right.
+4. **Label** (optional). The name of the setting, in the <Term id="body-face">body face</Term>.
 
 ## variants and states
 
-Two sizes: `md` (default) for settings lists and panels, `sm` for dense rows and tables.
+A switch comes in two sizes: medium, the usual one, for lists and panels of settings, and small for dense rows and tables.
 
 <Example label="two sizes">
   <Sizes />
@@ -45,24 +46,24 @@ Two sizes: `md` (default) for settings lists and panels, `sm` for dense rows and
 
 | state | looks |
 | --- | --- |
-| Off | Dark track, `--fg-dim` thumb at the left |
-| On | `--cloud-blue` track, dark thumb at the right |
-| Focused | 2px `--focus-ring` outline, 2px around the thumb; keyboard focus only |
-| Disabled | Track and label at 50% opacity; cannot be focused, changed or submitted |
+| Off | A dark track, with a grey thumb at the left |
+| On | A blue track, with a dark thumb at the right |
+| Focused | An outline around the thumb, for keyboard <Term id="focus">focus</Term> only |
+| Disabled | The track and the label dimmed. It can't take focus, be changed or be sent with a form |
 
-There is no hover style and no invalid look.
+Nothing changes under the pointer, and there is no look for an invalid value.
 
 <Example label="off, on and disabled">
   <States />
 </Example>
 
-The change applies at once. Keep the label the same in both states, and when the effect is out of view, show it — here a status line says what changed.
+The change applies at once. Keep the label the same in both states, and when the effect is out of view, show it. Here, a line under the switch says what changed.
 
 <Example label="a switch and the line that says what changed, live">
   <Controlled client:visible />
 </Example>
 
-In a settings panel, stack one switch per setting, each with its own label.
+In a settings panel, put the switches one under the other, one per setting, each with its own label.
 
 <Example label="a settings panel">
   <SettingsPanel />
@@ -70,27 +71,31 @@ In a settings panel, stack one switch per setting, each with its own label.
 
 ## behaviour
 
-- A click on the label text toggles it too. A switch is one tab stop, and `space` flips it.
-- If applying can fail, set the switch back and say why.
+- A click on the label flips the switch too.
+- A switch is one <Term id="tab-stop">tab stop</Term>. <Kbd>space</Kbd> flips it; <Kbd>enter</Kbd> doesn't, as with any checkbox.
+- If applying the setting can fail, set the switch back, and say why.
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-inputs-switch--docs).
+The full keyboard map is on the switch's [React page](/design-system/react/?path=/docs/components-inputs-switch--docs).
 
 ## accessibility
 
-- Screen readers announce it as a switch that is on or off.
-- Its label names it. Without a visible label, give it an `aria-label`; nothing enforces it today.
-- The label must not change with the state — the announced on or off already says it.
+- <Term id="screen-reader">Screen readers</Term> announce it as a switch that is on or off.
+- **Its label is its name.** Without a visible label, give it a name that is read out but not shown. Nothing checks for one today.
+- The label must not change with the state: the “on” or “off” that is announced already says it.
 - If the change takes time, or shows somewhere else, confirm it with a <C slug="toast" /> or a <C slug="message-strip" />. The switch only announces its own state.
-- Today: the focus ring is drawn around the thumb. On an on switch it falls mostly on the `--cloud-blue` track, where `--focus-ring` contrasts about 1.1:1, and only a 1px edge shows against the page — keyboard focus on an on switch is hard to see.
-- Today: there is no invalid state. Inside a <C slug="field" /> with an error, the switch does not change.
-- Today: there are no forced-colours (Windows high contrast) styles.
+
+Today:
+
+- The focus outline is drawn around the thumb. On a switch that is on, the outline falls mostly on the blue track, against which its colour has a <Term id="contrast">contrast</Term> of only about 1.1 to 1. Only a thin edge of it shows against the page, so keyboard focus on a switch that is on is hard to see.
+- There is no invalid state. Inside a <C slug="field" /> with an error, the switch doesn't change.
+- There are no styles for <Term id="forced-colours">forced colours</Term>, the high-contrast setting some operating systems offer.
 
 ## content
 
-- Name the setting, not the action, in sentence case: `Email alerts`, `Maintenance mode` — not `Turn on email alerts`.
-- Keep the label the same in both states. No `on`, `off`, `enabled` or `disabled` in it.
-- Phrase it so that on means the feature runs: `Email alerts`, not `Mute email alerts`.
-- When the effect is not obvious, say it in a <C slug="field" /> hint: `Visitors see a maintenance notice`.
+- Name the setting, not the action, in <Term id="sentence-case">sentence case</Term>: “Email alerts”, “Maintenance mode”, not “Turn on email alerts”.
+- Keep the label the same in both states, with no “on”, “off”, “enabled” or “disabled” in it.
+- Phrase it so that on means the feature runs: “Email alerts”, not “Mute email alerts”.
+- When the effect isn't obvious, say it in a hint, which a <C slug="field" /> adds: “Visitors see a maintenance notice”.
 
 ## do and don't
 
@@ -98,7 +103,7 @@ The keyboard map and the attributes it sets are on its [React page](/design-syst
   <Do caption="The label names the setting; the switch shows the state.">
     <Switch label="Email alerts" defaultChecked />
   </Do>
-  <Dont caption="A label that carries the state is announced twice and goes stale the moment it flips.">
+  <Dont caption="A label that carries the state is announced twice, and goes stale the moment the switch flips.">
     <Switch label="Email alerts: on" defaultChecked />
   </Dont>
 </DoDont>
@@ -128,7 +133,30 @@ The keyboard map and the attributes it sets are on its [React page](/design-syst
 
 ## related
 
-- <C slug="checkbox">Checkbox</C> — on/off inside a form that is saved.
-- <C slug="field">Field</C> — adds a hint that explains the effect.
-- <C slug="toast">Toast</C> — confirms a change that happens out of view.
-- [Forms and settings](/design-system/patterns/forms-and-settings/) — settings pages built from switches.
+- <C slug="checkbox">Checkbox</C>: on and off, inside a form that is saved.
+- <C slug="field">Field</C>: adds a hint that explains the effect.
+- <C slug="toast">Toast</C>: confirms a change that happens out of view.
+- [Forms and settings](/design-system/patterns/forms-and-settings/): settings pages built from switches.
+
+## specs
+
+| size | in code | track | thumb | the thumb slides |
+| --- | --- | --- | --- | --- |
+| Medium | `size="md"` (the default) | 36 × 20px | 14px | 16px |
+| Small | `size="sm"` | 30 × 16px | 10px | 14px |
+
+| state | in code | looks |
+| --- | --- | --- |
+| Off | The default | Track: a 1px `--border-control` border on `--bg-2`. Thumb: `--fg-dim`, at the left |
+| On | `checked`, or `defaultChecked` | Track: `--cloud-blue` fill and border. Thumb: `--bg`, slid to the right |
+| Focused | `:focus-visible`, keyboard focus only | A 2px `--focus-ring` outline, 2px outside the thumb |
+| Disabled | `disabled` | The whole switch, track and label, at 50% opacity, with a not-allowed cursor; it can't be focused, changed or submitted |
+
+- **Hit area:** a `<label>` around the track and the label text, 8px (`--s-2`) apart.
+- **Track:** square (`border-radius: 0`), with 2px inner padding. Its fill and border change in 120ms `ease`.
+- **Thumb:** square. It slides in 140ms (0.14s) `ease`, and its colour changes in 120ms. Under `prefers-reduced-motion: reduce` it moves without sliding.
+- **Label:** `label`, Inter 13px, line-height 1.4, in `--fg-2`.
+- **Element:** a native `<input type="checkbox" role="switch">`, transparent over the track. It takes the focus, the clicks and the form value; its state is the native `checked`, so don't add `aria-checked`.
+- **Name without a visible label:** `aria-label`. Nothing enforces it today.
+- **Focus on a switch that is on:** `--focus-ring` against `--cloud-blue` contrasts about 1.1:1, and only a 1px edge of the outline shows against the page.
+- **Not there:** no hover style, no invalid look, and no `forced-colors` styles.

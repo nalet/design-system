@@ -1,11 +1,12 @@
 ---
 layout: ../../layouts/Doc.astro
 title: textarea
-description: A square, multi-line text field in mono type that people can drag taller, with its label, hint and error from a field around it.
+description: A text field for several lines, such as a description or release notes, that people can drag taller. A field around it gives it a label, a hint and an error.
 component: textarea
 ---
-import { Textarea } from '@nalet/design-system';
+import { Textarea, Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { InputField } from '@site/demos/components/input';
 import { TextareaField } from '@site/demos/components/textarea';
@@ -13,7 +14,7 @@ import { Default, Sizes, Invalid, Disabled, Controlled } from '@site/examples/te
 
 # textarea
 
-A square, multi-line text field in mono type that people can drag taller. Put it in a <C slug="field" /> for its label, hint and error.
+A textarea lets people write text that runs over several lines, in a square box they can drag taller. Put it in a <C slug="field" /> for its label, hint and error.
 
 <Example label="a textarea">
   <Default />
@@ -22,36 +23,36 @@ A square, multi-line text field in mono type that people can drag taller. Put it
 ## when to use
 
 - For text that runs past one line: a description, release notes, a comment, a config someone pastes in.
-- Inside a <C slug="field" />, which labels it and wires its hint and error.
+- Inside a <C slug="field" />, which gives it a label and connects its hint and its error to it.
 
-## when not to use
+## when to use something else
 
-- **For one line.** Use an <C slug="input" />. A name, a host or a number does not need the room, and `enter` in a textarea adds a line instead of submitting.
-- **To show text that people only read or copy**, such as a log or a generated config. Use <C slug="code" /> as a block; an editable box suggests the text can be changed.
+- **For one line.** Use an <C slug="input" />. A name, a host or a number doesn't need the room, and <Kbd>enter</Kbd> in a textarea adds a line instead of sending the form.
+- **To show text that people only read or copy**, such as a log or a generated config. Use <C slug="code" /> as a block. A box people can type in suggests that the text can be changed.
 - **To pick from known values.** Use a <C slug="select" />.
 - **To lay out a whole form.** Start from [forms and settings](/design-system/patterns/forms-and-settings/).
 
 ## anatomy
 
-1. **Box** — square, 1px `--border-control` border on `--bg-2`, 12px padding, the full width of its container.
-2. **Text** — JetBrains Mono 13px, line height 1.5, in `--fg`. The placeholder is `--fg-dim`.
-3. **Resize handle** — the browser's own, in the bottom-right corner. It drags vertically only.
+1. **Box.** A square with a thin grey border on a dark background, with room inside, as wide as its container.
+2. **Text.** What people type, in <Term id="monospace">monospace</Term>. The <Term id="placeholder">placeholder</Term>, when there is one, is dimmer.
+3. **Resize handle.** The browser's own, in the bottom-right corner. It drags up and down only.
 
 ## variants and states
 
-One size. The height comes from `rows` — 4 by default — and people can drag it taller. Set `rows` to the length you expect: 2 for a short note, 8 for a pasted config.
+There is one size. The height comes from the number of lines the box shows, four by default, and people can drag it taller. Set the number of lines to the length you expect: two for a short note, eight for a pasted config.
 
-<Example label="2, 4 and 8 rows">
+<Example label="2, 4 and 8 lines">
   <Sizes />
 </Example>
 
 | state | looks |
 | --- | --- |
-| Default | `--border-control` border |
-| Focused | `--cloud-blue` border, 2px thick (an inset shadow), on any focus, by mouse or keyboard |
-| Invalid | `--state-error` border, also while focused |
-| Disabled | 50% opacity; cannot be focused, edited or submitted |
-| Read-only | Looks like default; can be focused, selected and submitted, not edited |
+| At rest | A grey border |
+| Focused | A thicker blue border, whenever it has <Term id="focus">focus</Term>, from a click or from the keyboard |
+| Invalid | A red border, in the error colour, also while it is focused |
+| <Term id="disabled">Disabled</Term> | Faded. It can't be focused or edited, and it isn't sent with the form |
+| Read-only | Looks as it does at rest. It can be focused, selected and sent with the form, but not edited |
 
 <Example label="invalid, in a field with its error">
   <Invalid />
@@ -63,34 +64,35 @@ One size. The height comes from `rows` — 4 by default — and people can drag 
 
 ## behaviour
 
-- The textarea is one tab stop. `enter` starts a new line and never submits the form; `tab` moves on rather than typing a tab character.
-- No character count is built in. A length limit stops typing at the limit and cuts pasted text without a word. State the limit in the hint, and show a count when people are likely to reach it.
+- The textarea is one <Term id="tab-stop">tab stop</Term>. <Kbd>enter</Kbd> starts a new line and never sends the form; <Kbd>tab</Kbd> moves on, rather than typing a tab character.
+- No character count is built in. A length limit stops typing at the limit, and cuts pasted text short without a word. State the limit in the hint, and show a count when people are likely to reach it.
 
 <Example label="a limit, with a count that follows the text, live">
   <Controlled client:visible />
 </Example>
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-inputs-textarea--docs).
+The full keyboard map is on the textarea's [React page](/design-system/react/?path=/docs/components-inputs-textarea--docs).
 
 ## accessibility
 
-- Give it a visible label: a <C slug="field" /> renders one, and links the hint or the error to the textarea so they are read with it. A placeholder is not a label.
-- An invalid textarea turns its border `--state-error`. Say in words what is wrong; for structured text, name the line: `line 2: name is empty`.
-- A length limit is not announced. Put the limit in the hint, so it is read with the field.
-- Focus shows in the border (`--cloud-blue`, 2px), not with the `--focus-ring` outline — see [interaction](/design-system/foundations/interaction/#focus).
-- Today: there are no forced-colours (Windows high contrast) styles. The textarea removes the browser's focus outline and shows focus with a border colour and an inset shadow, which forced colours override, so a focused textarea can look unfocused there.
+- **Give it a visible label.** A <C slug="field" /> shows one, and connects the hint or the error to the textarea, so a <Term id="screen-reader">screen reader</Term> reads them with it. A placeholder is not a label.
+- **Say in words what is wrong.** An invalid textarea turns its border red, but the colour doesn't say what is wrong. For structured text, name the line: “Line 2: name is empty”.
+- **Put a length limit in the hint**, so it is read with the field. The limit itself is not announced.
+- Focus shows in the border, which turns blue and thicker, not with the outline that other controls show. [Interaction](/design-system/foundations/interaction/#focus) explains it.
+
+Today: there are no styles for <Term id="forced-colours">forced colours</Term>, the high-contrast setting some operating systems offer. The textarea removes the browser's focus outline and shows focus with a border colour and an inner shadow, which forced colours replace, so a focused textarea can look unfocused there.
 
 ## content
 
-- **Label** — a noun for what goes in, in sentence case: `Release notes`, `Description`, `Manifest`.
-- **Placeholder** — an example of a first line, or nothing. Instructions go in the hint, where they stay visible while people type.
-- **Hint** — what the text is for and its limit: `Shown on the release page. Up to 500 characters.`
-- **Error** — what is wrong and where: `Line 3: replicas must be a number`.
+- **Label.** A noun for what goes in, in sentence case: “Release notes”, “Description”, “Manifest”.
+- **Placeholder.** An example of a first line, or nothing. Instructions go in the hint, where they stay in view while people type.
+- **Hint.** What the text is for, and its limit: “Shown on the release page. Up to 500 characters.”
+- **Error.** What is wrong, and where: “Line 3: replicas must be a number”.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="The limit in the hint is read with the field and stays while people type." column>
+  <Do caption="The limit in the hint is read with the field, and stays in view while people type." column>
     <TextareaField label="Release notes" hint="Shown on the release page. Up to 500 characters." rows={3} maxLength={500} />
   </Do>
   <Dont caption="An instruction in the placeholder vanishes on the first keystroke." column>
@@ -106,14 +108,31 @@ The keyboard map and the attributes it sets are on its [React page](/design-syst
   <Do caption="One line of text is an input." column>
     <InputField label="Host" placeholder="api.example.com" />
   </Do>
-  <Dont caption="A textarea for one value invites line breaks the value cannot hold." column>
+  <Dont caption="A textarea for one value invites line breaks that the value can't hold." column>
     <TextareaField label="Host" rows={2} placeholder="api.example.com" />
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="input">Input</C> — the same field for one line.
-- <C slug="field">Field</C> — the label, hint and error around the textarea.
-- <C slug="code">Code</C> — text to read or copy, not to edit.
-- [Forms and settings](/design-system/patterns/forms-and-settings/) — where text fields sit in a form.
+- <C slug="input">Input</C>: the same field, for one line.
+- <C slug="field">Field</C>: the label, hint and error around the textarea.
+- <C slug="code">Code</C>: text to read or copy, not to edit.
+- [Forms and settings](/design-system/patterns/forms-and-settings/): where text fields sit in a form.
+
+## specs
+
+| state | spec |
+| --- | --- |
+| At rest | A 1px `--border-control` border |
+| Focused | On `:focus`, from the mouse or the keyboard: a `--cloud-blue` border and a 1px inset `--cloud-blue` shadow, 2px in all. The browser's outline is removed (`outline: none`); it doesn't use the `--focus-ring` outline |
+| Invalid | `invalid`, which a field's `error` sets, and which sets `aria-invalid="true"`: a `--state-error` border; while focused, a 1px inset `--state-error` shadow as well |
+| Disabled | `disabled`: 50% opacity, a not-allowed cursor |
+| Read-only | The native `readOnly`: looks as at rest |
+
+- **Box:** a native `textarea`, square (`border-radius: 0`), `width: 100%`, a 1px border on `--bg-2`, padding 12px.
+- **Text:** JetBrains Mono 13px, line height 1.5, in `--fg`. The placeholder is `--fg-dim`.
+- **Height:** `rows`, 4 by default. `resize: vertical`, so the handle drags vertically only.
+- **Limit:** the native `maxLength`. Link a count to the textarea with `aria-describedby`, as the live example with a limit does.
+- **Label:** a field renders a `label` for the textarea and links its hint or error with `aria-describedby`.
+- **Motion:** the border and the shadow change in 120ms `ease`.

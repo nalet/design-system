@@ -1,18 +1,19 @@
 ---
 layout: ../../layouts/Doc.astro
 title: spinner
-description: A faint, still square frame with three quarters lit and the gap running round it — it says working on it when you can't say how long, for a short wait in a small region.
+description: A spinner says “working on it” when you can't say how long a wait will take. It is for a short wait in a small part of the screen.
 component: spinner
 ---
 import { Button, Spinner, Stack, Text } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import MotionFrame from '@site/components/MotionFrame.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Playground, Sizes, Colors, InheritsColor, InlineWithLabel } from '@site/examples/spinner';
 
 # spinner
 
-A faint, still square frame with three quarters of it lit, and the gap running round it, one lap in four seconds: the one moving thing in an otherwise still interface. It says "working on it" when you can't say how long.
+A spinner says “working on it” when you can't say how long the wait will be. It is a faint square with a gap running round it: the one moving thing on an otherwise still screen.
 
 <MotionFrame what="the spinner">
   <Example label="a spinner">
@@ -22,28 +23,28 @@ A faint, still square frame with three quarters of it lit, and the gap running r
 
 ## when to use
 
-- For a short wait of unknown length in a small region: one value, a count, a panel's content.
-- In place of a value while it loads, with a label that names the value.
+- For a short wait of unknown length in a small part of the screen: one value, a count, the content of a panel.
+- In place of a value while it loads, with a name, read out by <Term id="screen-reader">screen readers</Term>, that says which value is loading.
 - Beside a short line of text that says what is loading.
 
-## when not to use
+## when to use something else
 
-- **For an action the user started.** Use the busy state of the <C slug="button" /> (or <C slug="icon-button" />). The spinner sits inside the control that was pressed, and the button ignores a second press.
-- **While a table's rows load.** Use the <C slug="data-table" />'s loading state: it marks the table busy and runs a progress rule along its top edge, so the wait shows where the rows will be.
-- **For the result.** When the work ends, replace the spinner with what happened: the content, a <C slug="toast" /> for a background job that finished, a <C slug="message-strip" /> for a failure.
-- **For long work with known progress.** Today there is no progress bar. Say the progress in <C slug="text" /> next to the spinner: `12 of 40 copied`.
+- **For an action someone started.** Use the busy state of the <C slug="button" />, or of the <C slug="icon-button" />. The spinner then sits inside the control that was pressed, and the button ignores a second press.
+- **While a table's rows load.** Use the loading state of the <C slug="data-table" />. It marks the table as busy and runs a thin line along its top edge, so the wait shows where the rows will be.
+- **For the result.** When the work ends, replace the spinner with what happened: the content itself, a <C slug="toast" /> for a background job that finished, or a <C slug="message-strip" /> for a failure.
+- **For long work whose progress is known.** Today there is no progress bar. Say the progress in a line of <C slug="text">text</C> next to the spinner: “12 of 40 copied”.
 
 ## anatomy
 
-1. **Frame** — a square the spinner's size, 16px by default, with square corners, in `--cloud-blue` unless it is given another colour. Drawn at 20% opacity, it is always there and never moves.
-2. **Lit part** — three quarters of the frame in full colour, with square ends. It starts in the middle of the top edge, so no corner ever shows a notch.
-3. **Gap** — the quarter that isn't lit. It runs round the frame; nothing else moves.
+1. **Frame.** A small square outline with square corners, in blue unless it is given another colour. It is drawn faintly, it is always there, and it never moves.
+2. **Lit part.** Three quarters of the frame, in full colour, with square ends. It starts in the middle of the top edge, so no corner ever shows a notch.
+3. **Gap.** The quarter that isn't lit. It runs round the frame; nothing else moves.
 
-The stroke is 2px up to 24px, then a pixel more for every 16px: 3px at 40px.
+The line gets a little thicker as the spinner gets bigger.
 
 ## variants and states
 
-The size is any number of pixels, and the stroke scales with it. Buttons use 12px (small) and 14px (medium, large); 14px also sits well beside 13px text; 16px on its own; 24 to 40px for a panel.
+A spinner can be any size, and its line grows with it. Buttons hold small ones, and the same small size sits well beside a line of small text. On its own, a spinner is a little bigger, and a spinner for a whole panel bigger still. The exact sizes are in the [specs](#specs).
 
 <MotionFrame what="the spinners">
   <Example label="four sizes">
@@ -51,7 +52,7 @@ The size is any number of pixels, and the stroke scales with it. Buttons use 12p
   </Example>
 </MotionFrame>
 
-The frame is `--cloud-blue` by default — on its own it does not pick up the colour of the text around it. Inside a button it takes the label's colour, so it shows on a primary button's blue fill too. Anywhere else it can take any colour: a token such as `--fg-muted`, or the colour of the text around it.
+A spinner is blue by default, and on its own it doesn't take on the colour of the text around it. Inside a button, it takes the colour of the button's label, so it still shows on the emphasized button's blue fill. Anywhere else it can take any colour: one of the system's colour <Term id="token">tokens</Term>, such as the muted text colour, or the colour of the text around it.
 
 <MotionFrame what="the spinners">
   <Example label="three colours">
@@ -62,7 +63,7 @@ The frame is `--cloud-blue` by default — on its own it does not pick up the co
   </Example>
 </MotionFrame>
 
-In place of a value, the spinner's label names what is loading.
+In place of a value, the spinner's name says what is loading.
 
 <MotionFrame what="the spinner">
   <Example label="a spinner in place of a value">
@@ -72,31 +73,31 @@ In place of a value, the spinner's label names what is loading.
 
 ## behaviour
 
-- The frame stays still while the gap runs round it at a steady pace, one lap in four seconds, without end. It takes no focus.
-- Under reduced motion it stands still, three quarters lit, and its label carries the state.
-- It never stops by itself. Remove it when the work ends.
+- The frame stays still while the gap runs round it at a slow, steady pace, without end. The spinner takes no focus.
+- With <Term id="reduced-motion">reduced motion</Term> on, it stands still, three quarters lit, and its name carries the state.
+- It never stops on its own. Remove it when the work ends.
 
-What to show while something loads, and when, is [loading and progress](/design-system/patterns/loading-and-progress/).
+What to show while something loads, and when, is described in [loading and progress](/design-system/patterns/loading-and-progress/).
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-feedback-status-spinner--docs).
+The full keyboard map is on the spinner's [React page](/design-system/react/?path=/docs/components-feedback-status-spinner--docs).
 
 ## accessibility
 
-- A spinner is a status, named "loading" unless it is given a label.
-- Give the label the specific thing: `loading volumes`, not the default.
-- Beside visible text that says the same thing, the label is read twice. Hide the spinner from assistive tech and let the text speak.
-- Under reduced motion nothing moves, so the words carry the state: the label, or the text beside the spinner.
-- The lit part meets 3:1 against every background (`--cloud-blue` is at least 6.8:1); the faint frame is decoration. A custom colour must keep 3:1.
+- A screen reader knows a spinner as a status message, named “loading” unless it is given a name of its own.
+- **Name the thing that loads**, such as “loading volumes”, rather than keeping the general “loading”.
+- Beside visible text that says the same thing, the name is read twice. Hide the spinner from <Term id="assistive-technology">assistive technology</Term>, and let the text speak.
+- With reduced motion on, nothing moves, so the words carry the state: the spinner's name, or the text beside it.
+- The lit part stands out from every background with a <Term id="contrast">contrast</Term> of at least 3 to 1, and the default blue with at least 6.8 to 1; the faint frame is only decoration. A colour of your own must keep 3 to 1.
 
 Today:
 
-- The label is a name, not text content, and a live region announces changes to its text. A spinner added to the page carries no text, so most screen readers won't announce it appearing. When the wait matters, put a short message in a live region that is already on the page and update its text.
+- The spinner's name isn't text on the page, and a <Term id="live-region">live region</Term> announces changes to its text. A spinner that is added to the page carries no text, so most screen readers won't announce it appearing. When the wait matters, put a short message in a live region that is already on the page, and change its text.
 
 ## content
 
-- The label says what is loading, without an ellipsis: `loading volumes`, `checking storage-01`. It is read, not shown.
-- Text beside it says the same words, in sentence case: `Loading volumes`. No "please wait".
-- When a wait runs past a few seconds, say more: what is happening, and whether people can leave the page meanwhile.
+- The name says what is loading, with no <Term id="ellipsis">ellipsis</Term>: “loading volumes”, “checking storage-01”. It is read out, not shown.
+- Text beside it says the same words, in sentence case: “Loading volumes”. No “please wait”.
+- When a wait runs past a few seconds, say more: what is happening, and whether people can leave the page in the meantime.
 
 ## do and don't
 
@@ -116,7 +117,7 @@ Today:
 
 <MotionFrame what="the examples">
 <DoDont>
-  <Do column caption="One wait, one spinner, with words that say what is loading.">
+  <Do column caption="One wait, one spinner, and words that say what is loading.">
     <Stack direction="horizontal" gap={8} align="center">
       <Spinner size={14} aria-hidden="true" />
       <Text variant="muted">Loading volumes</Text>
@@ -134,7 +135,32 @@ Today:
 
 ## related
 
-- <C slug="button">Button</C> — the busy state for an action in progress.
-- <C slug="data-table">Data table</C> — its loading state while rows load.
-- [Loading and progress](/design-system/patterns/loading-and-progress/) — what to show while something loads, and where the spinner fits.
-- [Message handling](/design-system/patterns/message-handling/) — what to show once the wait is over.
+- <C slug="button">Button</C>: the busy state, for an action in progress.
+- <C slug="data-table">Data table</C>: its loading state, while the rows load.
+- [Loading and progress](/design-system/patterns/loading-and-progress/): what to show while something loads, and where the spinner fits.
+- [Message handling](/design-system/patterns/message-handling/): what to show once the wait is over.
+
+## specs
+
+| size | where | line |
+| --- | --- | --- |
+| 12px | In a small button | 2px |
+| 14px | In a medium or a large button, and beside 13px text | 2px |
+| 16px (the default) | On its own | 2px |
+| 24 to 40px | For a panel | 2px up to 24px, 3px at 40px |
+
+| setting | in code | default |
+| --- | --- | --- |
+| Size | `size`, in px; the frame is `size` × `size` | `16` |
+| Colour | `color`, any CSS colour: a token such as `var(--fg-muted)`, or `currentColor` to follow the text around it | `--cloud-blue`, set by the spinner's own CSS |
+| Name | `label`, which becomes the `aria-label` of the `role="status"` element | `loading` |
+| Hidden beside text | `aria-hidden="true"` | Not hidden |
+
+- **Frame:** one square path the spinner's size, at 20% opacity (`stroke-opacity: 0.2`). It never moves.
+- **Lit part:** the same path drawn again, as a dash three quarters (75%) of the frame long, with square ends (`stroke-linecap: butt`) and sharp corners (`miter`). The path starts in the middle of the top edge.
+- **Gap:** the other quarter (25%) of the dash pattern, which travels round the frame.
+- **Line:** `max(2, round(size / 16))` px: 2px up to 24px, then a pixel more for every 16px, so 3px at 40px.
+- **Motion:** the dash's offset moves by the frame's length, one lap in 4s, `linear`, without end. Under `prefers-reduced-motion: reduce` there is no animation.
+- **In a button:** a 12px spinner in a small button and 14px in a medium or large one, with `color: inherit`, so it takes the label's colour. In an icon button it takes the button's colour.
+- **Contrast:** the lit part at least 3:1 against every background, and `--cloud-blue` at least 6.8:1. The faint frame is decoration. A custom colour must keep 3:1.
+- **Focus:** none.

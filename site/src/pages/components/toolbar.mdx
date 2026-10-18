@@ -1,18 +1,19 @@
 ---
 layout: ../../layouts/Doc.astro
 title: toolbar and selection toolbar
-description: A row of actions above the content they act on — one emphasized, the rest default or in a more actions menu — and the selection toolbar for a list whose rows can be selected.
+description: A row of actions above the content they act on, with one emphasized and the rest standard or in a menu. The selection toolbar is the same row for a list whose rows can be selected.
 component: toolbar
 ---
-import { SelectionToolbar, Toolbar } from '@nalet/design-system';
+import { SelectionToolbar, Toolbar, Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { DemoToolbar } from '@site/demos/components/toolbar';
 import { Playground, Narrow, Selection } from '@site/examples/toolbar';
 
 # toolbar and selection toolbar
 
-A row of actions above the content they act on: a heading that says what they act on, at most one emphasized action, default buttons for the rest, and a `more actions` menu for what doesn't fit. The selection toolbar is the same row for a list whose rows can be selected. Both are one tab stop, with the arrow keys inside.
+A toolbar holds the actions for the content below it: a heading that says what they act on, at most one emphasized action, and a menu for what doesn't fit. The selection toolbar is the same row for a list whose rows can be selected.
 
 <Example column label="a toolbar, live">
   <Playground client:visible />
@@ -20,14 +21,14 @@ A row of actions above the content they act on: a heading that says what they ac
 
 ## when to use
 
-- Above a list, a table or a panel, for the actions on it, under a heading that says what they act on: `2,500 missing`.
-- With one emphasized action — the next step for most people — a few default ones, and the rarely used ones in the overflow menu.
-- The selection toolbar, for a list with selectable rows: while nothing is selected it shows the heading; once rows are selected, the count, `clear`, and the action for exactly that selection: `grab 8 selected`.
+- Above a list, a table or a panel, for the actions on it, under a heading that says what they act on: “2,500 missing”.
+- With one <Term id="emphasized-action">emphasized action</Term>, the step most people take next. A few standard actions sit beside it, and the rarely used ones wait in the <Term id="overflow-menu">overflow menu</Term>.
+- The selection toolbar, for a list whose rows can be selected. While nothing is selected, it shows the heading. Once rows are selected, it shows the count, “clear”, and the action for exactly that selection: “grab 8 selected”.
 
-## when not to use
+## when to use something else
 
 - **For the buttons at the end of a form or a dialog.** Use <C slug="button">buttons</C> in a footer; a <C slug="modal" /> has its own.
-- **For the actions of one row.** Use one <C slug="action-menu" /> per row.
+- **For the actions of one row.** Give each row one <C slug="action-menu" />.
 - **For search and filters.** Use a <C slug="filter-bar" />, above the toolbar.
 - **To move between views.** Use <C slug="tabs" />, or <C slug="filter-tabs" /> to filter one list.
 
@@ -35,31 +36,31 @@ A row of actions above the content they act on: a heading that says what they ac
 
 The toolbar:
 
-1. **Container** — a row that wraps, at least 45px tall, 8px × 12px padding and gaps, a 1px `--border` frame, `--surface` fill, square corners.
-2. **Heading** (optional) — on the left, taking the free width: JetBrains Mono 600, 13px, `--fg`, shown lowercase.
-3. **Extra content** (optional) — your content, between the heading and the actions.
-4. **Actions** — on the right, 8px apart, all `sm` buttons (28px): the emphasized one first (`primary`, or `danger`), then `default` buttons (or `danger`).
-5. **Overflow** — an <C slug="action-menu" /> named `more actions`, last: the actions kept in the overflow and, when the toolbar is narrow, every action but the emphasized one.
+1. **Frame.** A row with a thin border and square corners. When its content doesn't fit on one line, it wraps onto the next.
+2. **Heading** (optional). On the left, taking the free width: what the actions act on, in <Term id="monospace">monospace</Term> and lowercase.
+3. **Extra content** (optional). Content of your own, between the heading and the actions.
+4. **Actions.** On the right, a small gap apart, and all of them small buttons: the emphasized one first (or the danger button, when it is also a danger action), then standard buttons (or danger buttons).
+5. **Overflow.** An <C slug="action-menu" /> named “more actions”, last. It holds the actions kept in the menu and, when the toolbar is narrow, every action but the emphasized one.
 
-A selection toolbar adds, while rows are selected:
+While rows are selected, a selection toolbar adds:
 
-1. **Selection rule** — the frame turns `--state-information-border`, with a 3px `--cloud-blue` rule on the left.
-2. **Count** — `8 selected` in `--cloud-blue`, in place of the heading.
-3. **Clear** and **select all** (optional) — small ghost buttons after the count.
-4. **Emphasized action** — the one action for this selection.
-5. **Announcement** — not shown: each change of the count is said, politely, to screen-reader users.
+1. **Selection bar.** The frame turns blue, with a thicker, brighter blue bar on its left edge.
+2. **Count.** “8 selected”, in blue, in place of the heading.
+3. **Clear** and **select all** (optional). Small quiet buttons after the count.
+4. **Emphasized action.** The one action for this selection.
+5. **Announcement.** Not shown on the screen: each change of the count is read out to people who use a <Term id="screen-reader">screen reader</Term>, when it has a pause.
 
 ## variants and states
 
 ### one emphasized action
 
-Mark at most one action emphasized. It comes first, as `primary`, or as `danger` when it is also a danger action. A second emphasized action shows as a default button.
+Mark at most one action as emphasized. It comes first, as the emphasized button, or as the danger button when it is also a danger action. A second emphasized action shows as a standard button.
 
-The other actions are `default` buttons, or `danger` ones for an action that deletes or can't be undone. Disabled and busy actions look and behave as they do on a <C slug="button" />.
+The other actions are standard buttons, or danger buttons for an action that deletes something or can't be undone. Disabled and busy actions look and behave as they do on a <C slug="button" />.
 
 ### overflow
 
-An action can be kept in the `more actions` menu at every width. And when the toolbar is narrower than 560px (the default), measured inside its padding, every action but the emphasized one moves into the menu. In the menu, a disabled or busy action is a disabled item, and a danger action a danger item.
+An action can stay in the “more actions” menu at every width. And when the toolbar gets narrow, every action but the emphasized one moves into the menu; the exact width is in the [specs](#specs). In the menu, a disabled or busy action is a disabled item, and a danger action is a danger item.
 
 <Example column label="a narrow toolbar, live">
   <Narrow client:visible />
@@ -67,7 +68,14 @@ An action can be kept in the `more actions` menu at every width. And when the to
 
 ### selection toolbar
 
-With nothing selected, a selection toolbar shows its heading — what the list holds — and no emphasized action. Once rows are selected, it shows the count (`8 selected`, with thousands separators), `clear`, `select all 2,500` when it is offered while only the visible rows are selected, and the emphasized action for exactly that selection. Its other actions are never emphasized.
+With nothing selected, a selection toolbar shows its heading, which says what the list holds, and no emphasized action. Once rows are selected, it shows:
+
+- The count, such as “8 selected”, with a <Term id="thousands-separator">thousands separator</Term> in larger numbers.
+- A “clear” button.
+- A “select all 2,500” button, when that is offered while only the visible rows are selected.
+- The emphasized action for exactly that selection.
+
+Its other actions are never emphasized.
 
 <Example column label="a selection toolbar, live">
   <Selection client:visible />
@@ -75,32 +83,33 @@ With nothing selected, a selection toolbar shows its heading — what the list h
 
 ## behaviour
 
-- A toolbar is one tab stop, and the arrow keys move between its controls, wrapping at the ends.
-- The arrows reach every control in the toolbar, in order, the heading's and the extra content's too. In a selection toolbar with rows selected, `clear` comes first. Disabled buttons are skipped, and so is a busy one.
+- A toolbar is one <Term id="tab-stop">tab stop</Term>, and the left and right arrow keys move between its controls, wrapping around at the ends. <Kbd>home</Kbd> and <Kbd>end</Kbd> jump to the first and the last control.
+- The arrow keys reach every control in the toolbar, in order, including those in the heading and in your extra content. In a selection toolbar with rows selected, “clear” comes first. Disabled buttons are skipped, and so is a busy one.
 - When actions come and go, the toolbar is still one tab stop.
-- `more actions` opens the overflow menu, which works as every <C slug="action-menu" /> does.
-- When the control that has focus goes away — `clear`, `select all n`, or the emphasized action once the selection is empty — the toolbar itself takes focus, so focus stays where the person was, and the change is announced.
-- How rows are selected, what select all covers, when a selection is kept and what happens after a bulk action is the [selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) pattern.
+- “more actions” opens the overflow menu, which works as every <C slug="action-menu" /> does.
+- When the control that has <Term id="focus">focus</Term> goes away, such as “clear”, “select all 2,500”, or the emphasized action once the selection is empty, the toolbar itself takes focus. Focus stays where the person was, and the change is announced.
+- How rows are selected, what select all covers, when a selection is kept and what happens after an action on a selection: all of that is in [selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/).
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-actions-toolbar--docs).
+The full keyboard map is on the toolbar's [React page](/design-system/react/?path=/docs/components-actions-toolbar--docs).
 
 ## accessibility
 
-- The toolbar is named by its `label`, which is required. Name what the actions act on: `missing episodes`. The heading is not the name.
-- Keyboard first: one tab stop and arrow keys, so a page with a filter bar, a toolbar and a table takes a few presses of `tab` to cross, not dozens.
-- The overflow trigger is an <C slug="action-menu" />, named `more actions` unless you name it otherwise.
-- A selection toolbar's count is on the screen and said once per change, politely: `8 selected`, or `selection cleared` at 0. Nothing is said when the toolbar first shows.
-- The selection rule and the blue count repeat what the count's words say.
-- Today: `selection cleared` is fixed English. The count and `clear` can be translated; the cleared announcement can't.
+- **Name the toolbar.** A name is required: the <Term id="accessible-name">accessible name</Term> a screen reader announces. Name what the actions act on, such as “missing episodes”. The heading is not the name.
+- **Keyboard first.** One tab stop and the arrow keys mean that a page with a filter bar, a toolbar and a table takes a few presses of <Kbd>tab</Kbd> to cross, not dozens.
+- The overflow menu is an <C slug="action-menu" />, and its button is named “more actions” unless you name it otherwise.
+- A selection toolbar's count is on the screen, and a screen reader reads it once per change, when it has a pause: “8 selected”, or “selection cleared” at zero. Nothing is read when the toolbar first shows.
+- The blue frame and the blue count repeat what the count's words say.
+
+Today: “selection cleared” is fixed, in English. The count and “clear” can be translated; the announcement that the selection was cleared can't.
 
 ## content
 
-- **`label`** — what the actions act on, a noun phrase: `missing episodes`.
-- **Heading** — what the list holds, with the count: `2,500 missing`.
-- **Actions** — a verb and its object. Bulk actions carry the count: `grab 8 selected`.
-- **Emphasized** — the next step for most people. Not the newest action, not the most dangerous one.
-- **Overflow** — what people rarely need: `export csv`, `sweep settings`.
-- **Select all** — with the whole count: `select all 2,500`.
+- **The name.** What the actions act on, as a noun phrase: “missing episodes”.
+- **Heading.** What the list holds, with the count: “2,500 missing”.
+- **Actions.** A verb and its object. Actions on a selection carry the count: “grab 8 selected”.
+- **The emphasized action.** The next step for most people. Not the newest action, and not the most dangerous one.
+- **Overflow.** What people rarely need: “export csv”, “sweep settings”.
+- **Select all.** With the whole count: “select all 2,500”.
 
 ## do and don't
 
@@ -123,7 +132,7 @@ The keyboard map and the attributes it sets are on its [React page](/design-syst
 </DoDont>
 
 <DoDont>
-  <Do caption="The action carries the count, so people can check it covers what they meant to select." column>
+  <Do caption="The action carries the count, so people can check that it covers what they meant to select." column>
     <SelectionToolbar label="missing episodes" selectedCount={8} onClearSelection={() => undefined} primaryAction={(n) => ({ label: 'grab ' + n + ' selected', onSelect: () => undefined })} />
   </Do>
   <Dont caption="Without the count, the action could mean the selection, the page or the whole list." column>
@@ -133,7 +142,33 @@ The keyboard map and the attributes it sets are on its [React page](/design-syst
 
 ## related
 
-- [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) — selecting rows, the count, select all, and the actions on them.
-- <C slug="action-menu">Action menu</C> — the overflow menu, and the actions of one row.
-- <C slug="filter-bar">Filter bar</C> — what narrows the list. It sits above the toolbar.
-- [Worklist](/design-system/patterns/worklist/) — the floorplan that puts filter tabs, a filter bar, the toolbar and the table together.
+- [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/): selecting rows, the count, select all, and the actions on a selection.
+- <C slug="action-menu">Action menu</C>: the overflow menu, and the actions of one row.
+- <C slug="filter-bar">Filter bar</C>: what narrows the list. It sits above the toolbar.
+- [Worklist](/design-system/patterns/worklist/): the page that puts filter tabs, a filter bar, the toolbar and the table together.
+
+## specs
+
+| part | spec |
+| --- | --- |
+| Frame | `Toolbar`: a `div` with `role="toolbar"`, named by `label` (its `aria-label`). It wraps (`flex-wrap: wrap`), at least 45px tall, padding 8px 12px, gaps of 8px between lines and 12px between items, a 1px `--border` frame, `--surface` fill, `border-radius: 0`. It can hold focus itself (`tabindex="-1"`), with a 2px `--focus-ring` outline inside its frame on keyboard focus. |
+| Heading | `heading`, on the left, taking the free width: JetBrains Mono 600, 13px, `--fg`, lowercased with `text-transform`. |
+| Extra content | `children`, between the heading and the actions. |
+| Actions | On the right, 8px apart, every one a `size="sm"` button (28px): the emphasized one first, `variant="primary"` (or `"danger"`), then `variant="default"` buttons (or `"danger"`). An action's `icon` goes in the button's `leading` slot. |
+| Overflow | An `ActionMenu`, last, named by `overflowLabel` (default “more actions”). |
+| Selection state | `SelectionToolbar` with `selectedCount` above 0: the frame turns `--state-information-border`, with a 3px `--cloud-blue` rule inset on the left; the count is in `--cloud-blue`. |
+| Clear and select all | `size="sm"`, `variant="ghost"` buttons after the count. |
+| Announcement | A visually hidden `aria-live="polite"` region in the heading: the count, or “selection cleared” at 0, after every change of `selectedCount` but not on the first render. |
+
+| setting | in code | what it does |
+| --- | --- | --- |
+| Emphasized | `emphasized: true` on an action | At most one. A second one renders as a standard button, and the console warns. |
+| Danger | `danger: true` | A danger button, or a danger item in the menu. |
+| Always in the menu | `overflow: true` | Keeps the action in the menu at every width. |
+| Narrow | `collapseBelow`: 560 (px) by default | Below this width, measured inside the padding, every action but the emphasized one moves into the menu. Until it has been measured, the toolbar lays out as wide. |
+| Disabled, busy | `disabled`, `loading` | As on a button. In the menu, either one makes a disabled item; the arrow keys skip both. |
+| Count | `selectedCount`, written by `formatSelected` (“8 selected” by default, with thousands separators) | At 0, the heading shows instead of the count. |
+| Clear | `onClearSelection`, and `clearLabel` (“clear” by default) | Shows “clear” after the count while something is selected. |
+| Select all | `selectAll`: `{ label, onSelect }`, or `null` | Offers to extend the selection: “select all 2,500”. |
+| Action for the selection | `primaryAction(n)`, which returns the action, or `null` for none | The one emphasized action of a selection toolbar. Build its label from `n`. |
+| Other actions | `actions` | In a selection toolbar, never emphasized. |

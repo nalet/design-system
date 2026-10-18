@@ -1,17 +1,18 @@
 ---
 layout: ../../layouts/Doc.astro
 title: tabs
-description: A row of mono tabs that switch between views of the same object, the selected one underlined in cloud blue.
+description: A row of tabs that switches between views of the same thing, such as the overview, the logs and the metrics of one service. The selected tab is underlined in blue.
 component: tabs
 ---
-import { Tabs } from '@nalet/design-system';
+import { Tabs, Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { WithPanel, WithDisabled } from '@site/examples/tabs';
 
 # tabs
 
-A row of mono tabs that switch between views of the same object. The selected tab is underlined in `--cloud-blue`.
+Tabs let people switch between views of the same thing, such as the overview, the logs and the metrics of one service. The selected tab is underlined in blue.
 
 <Example label="tabs and the view they switch, live">
   <WithPanel client:visible />
@@ -19,33 +20,33 @@ A row of mono tabs that switch between views of the same object. The selected ta
 
 ## when to use
 
-- To switch between views of one object at the same level: the `overview`, `logs`, `metrics` and `events` of one service.
-- When each view makes sense on its own and people move between them in no fixed order.
+- To switch between views of one thing that sit at the same level: the “overview”, “logs”, “metrics” and “events” of one service.
+- When each view makes sense on its own, and people move between them in no fixed order.
 - For two to six short labels that fit on one row.
 
-## when not to use
+## when to use something else
 
-- **To filter one list.** Use <C slug="filter-tabs" />: each tab is a count over a label, and the list below follows the choice.
-- **To go to another page or app.** Use links; for a home page of apps, <C slug="tile">tiles</C> in a <C slug="tile-group" />.
-- **For more views than fit on one row.** Today the row doesn't scroll, wrap or overflow into a menu. Use a <C slug="select" />.
+- **To filter one list.** Use <C slug="filter-tabs" />: each tab shows a count over its label, and the list below follows the choice.
+- **To go to another page or app.** Use links. For a home page of apps, use <C slug="tile">tiles</C> in a <C slug="tile-group" />.
+- **For more views than fit on one row.** Use a <C slug="select" />. Today the row of tabs doesn't scroll, wrap or move the extra tabs into a menu.
 - **To turn a setting on or off.** Use a <C slug="switch" />.
 
 ## anatomy
 
-1. **Tab list** — a row with a 1px `--border` rule underneath.
-2. **Tab** — JetBrains Mono 500, 13px, 8px × 12px padding, `--fg-muted`, shown lowercase.
-3. **Selection** — the selected tab's label and a 2px underline in `--cloud-blue`, laid over the list's rule.
-4. **Panel** — not part of the component. It goes right below the list; what it needs is under [accessibility](#accessibility).
+1. **Tab list.** The row of tabs, with a thin line underneath.
+2. **Tab.** A label in <Term id="monospace">monospace</Term> and lowercase, in grey, with room around it.
+3. **Selection.** The selected tab's label turns blue, and a blue underline lies over the row's line, under that tab.
+4. **Panel.** The view itself. It isn't part of the component: it goes right below the row, and what it needs is under [accessibility](#accessibility).
 
 ## variants and states
 
 | state | looks |
 | --- | --- |
-| Rest | `--fg-muted` label |
-| Hover | `--fg` label |
-| Selected | `--cloud-blue` label and 2px underline |
-| Focus | A 2px `--focus-ring` outline inside the tab |
-| Disabled | 40% opacity. It can't be focused, clicked or reached with the arrow keys |
+| At rest | A grey label |
+| Under the pointer | The label brightens |
+| Selected | A blue label, with a blue underline |
+| Focused | An outline inside the tab, when the keyboard brings <Term id="focus">focus</Term> to it |
+| <Term id="disabled">Disabled</Term> | Faded. It can't be focused or clicked, and the arrow keys pass over it |
 
 <Example label="tabs with a disabled one, live">
   <WithDisabled client:visible />
@@ -53,31 +54,29 @@ A row of mono tabs that switch between views of the same object. The selected ta
 
 ## behaviour
 
-- A click selects the tab.
-- The row is one tab stop, on the selected tab; the arrow keys move along it and select as they go, wrapping at the ends.
-- Selection follows the arrow keys: every press switches the view. Keep the views quick to switch, or load a slow one only after the selection has settled.
+- A click selects a tab.
+- The row is one <Term id="tab-stop">tab stop</Term>, on the selected tab. The left and right arrow keys move along the row and select as they go, wrapping around at the ends. <Kbd>home</Kbd> and <Kbd>end</Kbd> jump to the first and the last tab that isn't disabled.
+- Selection follows the arrow keys: every press switches the view. Keep the views quick to switch, or load a slow one only once the selection has settled.
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-navigation-tabs--docs).
+The full keyboard map is on the tabs' [React page](/design-system/react/?path=/docs/components-navigation-tabs--docs).
 
 ## accessibility
 
-- Screen readers hear a tab list, its tabs, and which one is selected.
-- The panel is yours to name: name it after the selected tab, and when it holds nothing focusable, make it a tab stop, so keyboard users can reach its content. The example at the top does this.
+- A <Term id="screen-reader">screen reader</Term> announces a row of tabs, each tab, and which one is selected.
+- **Name the panel.** The tabs don't include the panel, so naming it is up to you: name it after the selected tab. When it holds nothing that can take focus, make it a tab stop, so people who use a keyboard can reach its content. The example at the top of this page does this.
 
-Today:
-
-- Disabled tabs can't be focused, so screen-reader users don't learn that they exist.
+Today: a disabled tab can't take focus, so people who use a screen reader don't learn that it exists.
 
 ## content
 
-- One or two words per tab, nouns: `overview`, `logs`, `metrics`. No verbs and no counts — a count belongs in <C slug="filter-tabs" />.
-- The same views in the same order on every object of a kind, so `logs` is always in the same place.
-- Write labels as they should be read; the lowercase look is CSS.
+- One or two words per tab, and nouns: “overview”, “logs”, “metrics”. No verbs and no counts; a count belongs in <C slug="filter-tabs" />.
+- The same views in the same order on every object of a kind, so “logs” is always in the same place.
+- Write the labels as they should be read. The lowercase look is only a style.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="Views of one object, at one level.">
+  <Do caption="Views of one thing, at one level.">
     <Tabs client:visible defaultValue="overview" items={[{ value: 'overview', label: 'overview' }, { value: 'logs', label: 'logs' }, { value: 'metrics', label: 'metrics' }, { value: 'events', label: 'events' }]} />
   </Do>
   <Dont caption="Counts that filter one list are filter tabs, which show the count and connect the tabs to the list.">
@@ -86,7 +85,7 @@ Today:
 </DoDont>
 
 <DoDont>
-  <Do caption="One or two words, nouns.">
+  <Do caption="One or two words, and nouns.">
     <Tabs client:visible defaultValue="logs" items={[{ value: 'logs', label: 'logs' }, { value: 'metrics', label: 'metrics' }, { value: 'events', label: 'events' }]} />
   </Do>
   <Dont caption="Sentences and verbs make the row long and slow to scan.">
@@ -98,13 +97,30 @@ Today:
   <Do caption="Leave out a view that doesn't apply.">
     <Tabs client:visible defaultValue="overview" items={[{ value: 'overview', label: 'overview' }, { value: 'logs', label: 'logs' }, { value: 'events', label: 'events' }]} />
   </Do>
-  <Dont caption="A disabled tab can't be focused and doesn't say why it is off.">
+  <Dont caption="A disabled tab can't be focused, and doesn't say why it is off.">
     <Tabs client:visible defaultValue="overview" items={[{ value: 'overview', label: 'overview' }, { value: 'logs', label: 'logs' }, { value: 'traces', label: 'traces', disabled: true }, { value: 'events', label: 'events' }]} />
   </Dont>
 </DoDont>
 
 ## related
 
-- <C slug="filter-tabs">Filter tabs</C> — tabs that filter one list, with counts, a named tab list and the list wired to it.
-- <C slug="select">Select</C> — when the views don't fit on one row.
-- <C slug="tile-group">Tile group</C> — moving between apps rather than views.
+- <C slug="filter-tabs">Filter tabs</C>: tabs that filter one list, with counts, a named row of tabs and the list connected to it.
+- <C slug="select">Select</C>: when the views don't fit on one row.
+- <C slug="tile-group">Tile group</C>: for moving between apps rather than views.
+
+## specs
+
+| state | spec |
+| --- | --- |
+| At rest | `--fg-muted` label |
+| Under the pointer | `--fg` label |
+| Selected | `--cloud-blue` label and a 2px `--cloud-blue` underline. Set with `value` (and `onChange`), or `defaultValue` |
+| Focused | A 2px `--focus-ring` outline inside the tab (`outline-offset: -2px`), on `:focus-visible` |
+| Disabled | `disabled: true` on an item. 40% opacity, a not-allowed cursor; a disabled `button`, so it is out of the tab order, and the arrow keys skip it |
+
+- **Tab list:** a row with a 1px `--border` rule underneath, `role="tablist"`. It doesn't scroll, wrap or overflow.
+- **Tab:** a `button` with `role="tab"` and `aria-selected`: JetBrains Mono 500, 13px, padding 8px 12px, `--fg-muted`, lowercased with `text-transform`. Only the selected tab has `tabindex="0"`.
+- **Underline:** a 2px bottom border, pulled 1px down, so it lies over the list's rule.
+- **Items:** `items`, each with a `value`, a `label` and an optional `disabled`. Without `value` or `defaultValue`, the first item is selected; `onChange` receives the new value.
+- **Panel:** not rendered. Give yours `role="tabpanel"`, an `aria-label` after the selected tab, and `tabIndex={0}` when it holds nothing focusable, as the first example does.
+- **Motion:** the label and underline colours change in 120ms `ease`.

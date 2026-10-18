@@ -1,18 +1,19 @@
 ---
 layout: ../../layouts/Doc.astro
 title: select
-description: A square, native drop-down for choosing one value from a list, marked by a small cloud-blue chevron.
+description: A select lets people pick one value from a list that is too long to show at once. It is the browser's own drop-down, in a square box marked by a small blue arrow.
 component: select
 ---
 import { Switch } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { SelectField } from '@site/demos/components/select';
 import { Playground, Sizes, States, WithChildren } from '@site/examples/select';
 
 # select
 
-A square, native drop-down for choosing one value from a list. The browser draws the list; a small `--cloud-blue` chevron marks the box.
+A select lets people pick one value from a list, such as a region or how long to keep backups. It is a <Term id="native-element">native element</Term>: the browser draws the list, and a small blue arrow marks the box.
 
 <Example label="a select">
   <Playground />
@@ -20,29 +21,29 @@ A square, native drop-down for choosing one value from a list. The browser draws
 
 ## when to use
 
-- To choose exactly one value from a known list that is too long to show at once: a region, a retention period, a sort order.
-- In a form, inside a <C slug="field" /> for its label and hint.
-- When the list is stable and people recognise their option by its name.
+- To pick exactly one value from a known list that is too long to show at once: a region, how long to keep something, a sort order.
+- In a form, inside a <C slug="field" />, which gives it its label and its hint.
+- When the list stays the same and people recognise their option by its name.
 
-## when not to use
+## when to use something else
 
-- **For two or three options that should stay visible.** Show them all as a native radio group (`<fieldset>` with `<input type="radio">`); the system has no radio component today. See [forms and settings](/design-system/patterns/forms-and-settings/).
-- **For on/off.** Use a <C slug="switch" /> when the change applies at once, or a <C slug="checkbox" /> in a form that is saved.
-- **To choose several values.** Use a group of <C slug="checkbox">checkboxes</C>; this select holds one value.
-- **To filter a list or table.** Use the <C slug="filter-bar" />.
-- **To switch between views of one page.** Use <C slug="tabs" />.
-- **For a long list that people need to search.** A native select only jumps by the letters typed, and there is no searchable combobox today. Let people type the value in an <C slug="input" /> and check it.
+- **For two or three options that should stay in view.** Show them all, as a group of the browser's own radio buttons; today the system has no radio button component of its own. See [forms and settings](/design-system/patterns/forms-and-settings/).
+- **For on and off.** Use a <C slug="switch" /> when the change applies at once, or a <C slug="checkbox" /> in a form that is saved. Both show the state at a glance and change it with one press, where a select hides it behind a list.
+- **To pick several values.** Use a group of <C slug="checkbox">checkboxes</C>. A select holds one value only.
+- **To filter a list or a table.** Use the <C slug="filter-bar" />, which keeps the search, the filters and the count of what is left together.
+- **To switch between views of one page.** Use <C slug="tabs" />, which show the name of every view at once.
+- **For a long list that people need to search.** A select only jumps to the option that starts with the letters people type, and today there is no list people can search in. Let people type the value in an <C slug="input" />, and check it.
 
 ## anatomy
 
-1. **Box** — square, 1px `--border-control` border on `--bg-2`; height 28 / 34 / 42px by size. Padding is 8 / 12 / 16px on the left and 28 / 32 / 36px on the right, which keeps the value clear of the chevron. It fills the width of its container.
-2. **Value** — JetBrains Mono 13px (14px in `lg`) in `--fg`.
-3. **Chevron** — 12px, `--cloud-blue`, 12px from the right edge. Decoration only: hidden from assistive tech and not clickable.
-4. **List** — drawn by the browser and the operating system. Where the browser allows it, options take `--surface` and `--fg`.
+1. **Box.** A square with a thin border on a dark fill, in one of three heights. It fills the width of its container, and keeps room on the right so the value never runs under the arrow.
+2. **Value.** The option that is chosen, in <Term id="monospace">monospace</Term>.
+3. **Arrow.** A small blue arrow near the right edge. It is only decoration: <Term id="assistive-technology">assistive technology</Term> skips it, and it can't be clicked.
+4. **List.** The options, drawn by the browser and the operating system. Where the browser allows it, they show as light text on a dark panel.
 
 ## variants and states
 
-Three sizes: `sm` (28px), `md` (34px, the default), `lg` (42px) — the heights of <C slug="input" /> and <C slug="button" />, so they line up in a row.
+A select comes in three heights, small, medium and large: the same three as an <C slug="input" /> and a <C slug="button" />, so they line up in a row. Medium is the usual one.
 
 <Example label="three sizes">
   <Sizes />
@@ -50,16 +51,16 @@ Three sizes: `sm` (28px), `md` (34px, the default), `lg` (42px) — the heights 
 
 | state | looks |
 | --- | --- |
-| Default | `--border-control` border |
-| Focused | `--cloud-blue` border, 2px thick (an inset shadow), on any focus, by mouse or keyboard |
-| Invalid | `--state-error` border, kept while focused |
-| Disabled | 50% opacity; cannot be focused, changed or submitted |
+| At rest | A thin grey border |
+| Focused | A thicker blue border, whenever the select has <Term id="focus">focus</Term>, from the mouse or the keyboard |
+| Invalid | A red border, which stays while the select has focus |
+| Disabled | Dimmed. It can't take focus, be changed or be sent with the form |
 
-<Example label="default, invalid and disabled">
+<Example label="at rest, invalid and disabled">
   <States />
 </Example>
 
-A disabled option stays in the list but cannot be chosen.
+A disabled option stays in the list, but people can't choose it.
 
 <Example label="a list with a disabled option: open it">
   <WithChildren />
@@ -67,29 +68,32 @@ A disabled option stays in the list but cannot be chosen.
 
 ## behaviour
 
-- The browser and the operating system draw the list and own the keys, so the details differ by platform. The select is one tab stop.
-- Choosing an option only sets the value. Don't navigate, submit or delete on a change: on some platforms the arrow keys change the value without opening the list, so a keyboard user would trigger it just by looking through the options.
-- Today: only the text area of the box is the native control. A click on the chevron or on the padding around the value does not open the list.
+- The browser and the operating system draw the list and decide what the keys do, so the details differ from one platform to another. A select is one <Term id="tab-stop">tab stop</Term>.
+- Choosing an option only sets the value. Don't go to another page, send the form or delete anything when the value changes: on some platforms the up and down arrow keys change the value without opening the list, so someone using the keyboard would set it off just by looking through the options.
 
-The keyboard map and the attributes it sets are on its [React page](/design-system/react/?path=/docs/components-inputs-select--docs).
+Today: only the part of the box that holds the text is the browser's own control. A click on the arrow, or on the space around the value, doesn't open the list.
+
+The full keyboard map is on the select's [React page](/design-system/react/?path=/docs/components-inputs-select--docs).
 
 ## accessibility
 
-- The browser exposes the native select with its role, its value and its options. Give it a visible label: a <C slug="field" /> renders one.
-- An invalid select turns its border `--state-error`. Say in words what is wrong; a field's error does.
-- If the reason an option is disabled matters, put it in the option's label: `1 year (needs more storage)`.
-- Today: there are no forced-colours (Windows high contrast) styles. Focus is a border colour and an inset shadow, which forced colours override.
+- Because it is the browser's own control, the browser tells a <Term id="screen-reader">screen reader</Term> what it is, its value and its options.
+- **Give it a visible label.** A <C slug="field" /> adds one, and the label becomes the select's name.
+- **Say in words what is wrong.** An invalid select only turns its border red; a field's error message says why.
+- **Say why an option is disabled**, when the reason matters, in the option's own words: “1 year (needs more storage)”.
+
+Today: there are no styles for <Term id="forced-colours">forced colours</Term>, the high-contrast setting some operating systems offer. A select shows focus with a border colour and a shadow inside the box, and forced colours override both, so a select with focus can look as if it had none.
 
 ## content
 
-- **Label** — a noun for the value, in sentence case: `Region`, `Keep backups for`. Not `Select a region`; the control already says how it works.
-- **Options** — short, lowercase and parallel: `7 days`, `30 days`, `90 days`. Order them by size, time or how often they are chosen; alphabetically only when there is no natural order.
-- **Default** — preselect the safe or the most common value. When there is none, start with an empty option such as `choose a region`, and make the choice required, so the form cannot be sent without one.
+- **Label.** A noun for the value, in <Term id="sentence-case">sentence case</Term>: “Region”, “Keep backups for”. Not “Select a region”: the control already shows how it works.
+- **Options.** Short, lowercase and written the same way: “7 days”, “30 days”, “90 days”. Order them by size, by time or by how often people choose them; alphabetically only when there is no natural order.
+- **The value it starts with.** Choose the safe or the most common value in advance. When there is none, start with an empty option such as “choose a region”, and make the choice required, so the form can't be sent without one.
 
 ## do and don't
 
 <DoDont>
-  <Do caption="Short, parallel options in a natural order." column>
+  <Do caption="Short options, written the same way, in a natural order." column>
     <SelectField
       label="Keep backups for"
       defaultValue="30"
@@ -114,10 +118,10 @@ The keyboard map and the attributes it sets are on its [React page](/design-syst
 </DoDont>
 
 <DoDont>
-  <Do caption="On or off is a switch: one press, and the state is always visible.">
+  <Do caption="On or off is a switch: one press, and the state is always in view.">
     <Switch label="Email alerts" defaultChecked />
   </Do>
-  <Dont caption="A select with on and off hides the state behind a list and takes two steps to change." column>
+  <Dont caption="A select with on and off hides the state behind a list, and takes two steps to change." column>
     <SelectField
       label="Email alerts"
       defaultValue="on"
@@ -131,7 +135,32 @@ The keyboard map and the attributes it sets are on its [React page](/design-syst
 
 ## related
 
-- <C slug="field">Field</C> — the label, hint and error around the select.
-- <C slug="input">Input</C> — free text when the values are not known in advance.
-- <C slug="checkbox">Checkbox</C> — for several values, or a single yes/no in a form.
-- <C slug="filter-bar">Filter bar</C> — selects and search that filter a list.
+- <C slug="field">Field</C>: the label, hint and error around the select.
+- <C slug="input">Input</C>: free text, when the values aren't known in advance.
+- <C slug="checkbox">Checkbox</C>: several values, or a single yes or no in a form.
+- <C slug="filter-bar">Filter bar</C>: selects and a search that filter a list.
+
+## specs
+
+| size | in code | height | padding, left | padding, right | value |
+| --- | --- | --- | --- | --- | --- |
+| Small | `selectSize="sm"` | 28px | 8px | 28px | 13px |
+| Medium | `selectSize="md"` (the default) | 34px | 12px | 32px | 13px |
+| Large | `selectSize="lg"` | 42px | 16px | 36px | 14px |
+
+| state | in code | looks |
+| --- | --- | --- |
+| At rest | The default | A 1px `--border-control` border on `--bg-2` |
+| Focused | `:focus-within`, on any focus, by mouse or keyboard | A `--cloud-blue` border and a 1px inset shadow in the same colour: 2px in all |
+| Invalid | `invalid`, which sets `aria-invalid="true"`; a field's `error` sets it for you | A `--state-error` border; with focus, the border and the inset shadow both in `--state-error` |
+| Disabled | `disabled` | 50% opacity and a not-allowed cursor; can't be focused, changed or submitted |
+
+- **Box:** square (`border-radius: 0`), `width: 100%`, so set the width on its container. Border colour and shadow change in 120ms `ease`. The native `<select>` fills the space between the paddings; the paddings and the arrow are outside it, which is why a click there doesn't open the list.
+- **Value:** JetBrains Mono, 13px (14px in large), line-height 1.4, in `--fg`.
+- **Arrow:** a 12px chevron SVG in `--cloud-blue`, 12px (`--s-3`) from the right edge, in an `aria-hidden` span with `pointer-events: none`.
+- **List:** native. Where the browser allows it, the options are `--fg` on `--surface`.
+- **Options:** `options`, an array of `{ label, value, disabled? }`, or `<option>` children. When both are given, `options` wins. A disabled option is `disabled` and stays in the list.
+- **No value yet:** an empty first option, `value: ''`, with `required` on the select.
+- **Why `selectSize`:** `size` is already a native attribute of `<select>`, the number of rows shown at once.
+- **Radio group:** for two or three options, a native `<fieldset>` with `<input type="radio">`; there is no radio component.
+- **Forced colours:** no `forced-colors` styles today. Focus is a border colour and an inset shadow, which forced colours override.

@@ -1,69 +1,77 @@
 ---
 layout: ../../layouts/Doc.astro
 title: text
-description: Copy at one of five type roles — body for prose, ui for interface text, muted and dim for secondary lines, code for mono values.
+description: Text sets words in one of five type roles. Body text is for reading, interface text for short names and values, muted and dim text for secondary lines, and mono text for values.
 component: text
 ---
 import { Code, Text } from '@nalet/design-system';
 import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Variants, InlineMono, Truncate, AsElement } from '@site/examples/text';
 
 # text
 
-Copy at one of five type roles: `body` for prose, `ui` for interface text, `muted` and `dim` for secondary lines, `code` for mono values.
+Text sets a run of words in one of five <Term id="type-role">type roles</Term>: body text for reading, interface text for short names and values, muted and dim text for secondary lines, and mono text for values.
 
-<Example label="the five variants">
+<Example label="the five type roles">
   <Variants />
 </Example>
 
 ## when to use
 
-- For sentences and paragraphs (`body`, as a paragraph).
-- For short interface text that isn't a control's own label: a name in a list, a value in a panel (`ui`).
-- For secondary facts beside the main line: a timestamp, a size, a path (`muted`); and for the line people can safely skip (`dim`).
-- For values people read in mono — durations, hashes, sizes — that don't need the frame of <C slug="code" /> (`code`).
-- With `truncate`, for one line that must not wrap, such as a long path in a narrow column.
+- For sentences and paragraphs: body text, set as a paragraph.
+- For short text in an interface that isn't a control's own label, such as a name in a list or a value in a panel: interface text.
+- For secondary facts beside the main line, such as a timestamp, a size or a path: muted text. For a line people can safely skip: dim text.
+- For values people read in <Term id="monospace">monospace</Term>, such as durations, hashes and sizes, when they don't need the frame that <C slug="code" /> draws: mono text.
+- For a line that must not wrap, such as a long path in a narrow column: text cut to one line.
 
-## when not to use
+## when to use something else
 
-- **For a page or section title.** Use <C slug="heading" />, which renders a real `h1` or `h2`.
-- **For commands, flags or anything people type or copy.** Use <C slug="code" />: a `code` element in a frame.
-- **For a keyboard key.** Use <C slug="kbd" />.
-- **For a form label, hint or error.** Use <C slug="field" />. It renders the `label`, ties the hint and error to the control and marks it invalid. `Text as="label"` is only styled text, tied to nothing.
-- **For a state or a message.** An object's state is <C slug="object-status" />; a message about the page is a <C slug="message-strip" />.
+- **For a page or section title.** Use a <C slug="heading" />, which makes a real heading, at the first or the second <Term id="heading-level">heading level</Term>.
+- **For commands, flags or anything people type or copy.** Use <C slug="code" />, which marks the text as code and puts it in a frame.
+- **For a keyboard key.** Use <C slug="kbd" />, which draws the key as a keycap.
+- **For a form label, a hint or an error.** Use a <C slug="field" />. It makes a real label, ties the hint and the error to the control, and marks the control as invalid. Text that only looks like a label is styled text, tied to nothing.
+- **For a state or a message.** The state of an object is an <C slug="object-status" />; a message about the page is a <C slug="message-strip" />.
 
 ## anatomy
 
-One run of text with no margin. The variant sets the family, weight, size, line height and colour:
-
-| variant | family | weight | size / line height | colour |
-| --- | --- | --- | --- | --- |
-| `body` (default) | Inter (`--ff-ui`) | 400 | 16px / 1.55 | `--fg-2` |
-| `ui` | Inter | 500 | 13px / 1.4 | `--fg` |
-| `muted` | Inter | 400 | 13px / 1.4 | `--fg-muted` |
-| `dim` | Inter | 400 | 13px / 1.4 | `--fg-dim` |
-| `code` | JetBrains Mono (`--ff-mono`) | 500 | 13px / 1.5 | `--fg-2` |
-
-With `truncate`, the text stays on one line, no wider than its container, and is cut with an ellipsis.
+1. **Run of text.** Words in one role, with no space of their own around them. The role sets the typeface, the weight, the size, the spacing between lines and the colour.
+2. **<Term id="ellipsis">Ellipsis</Term>** (when it is cut to one line). Three dots where the line is cut, at the edge of its container.
 
 ## variants and states
 
-`muted` and `dim` are 13px, the size of `ui`, not of `body`: they are for secondary lines in an interface, not for quieter paragraphs. There is no muted 16px body.
+### the five roles
 
-`code` is mono text without the frame and colour of <C slug="code" />. Use it for values people read, not for code.
+| role | looks | use it for |
+| --- | --- | --- |
+| Body text (the default) | The <Term id="body-face">body face</Term> at reading size, in a soft white | Sentences and paragraphs |
+| Interface text | The body face, smaller than body text, a little heavier and brighter | A name in a list, a value in a panel |
+| Muted text | The body face at the size of interface text, in grey | Facts beside the main line: a timestamp, a size, a path |
+| Dim text | The body face at the size of interface text, in a darker grey | A line people can safely skip |
+| Mono text | Monospace at the size of interface text | Values people read: durations, hashes, sizes |
+
+Muted and dim text are the size of interface text, not of body text. They are for secondary lines in an interface, not for quieter paragraphs: there is no muted version of body text.
+
+### mono values in a sentence
+
+Mono text is monospace without the frame and the colour that <C slug="code" /> has. Use it for values people read, not for code.
 
 <Example label="mono values in a sentence">
   <InlineMono />
 </Example>
 
-`truncate` cuts a single line where its container ends.
+### cut to one line
 
-<Example label="two truncated lines in a narrow column">
+Text can be cut to a single line where its container ends.
+
+<Example label="two lines cut short in a narrow column">
   <Truncate />
 </Example>
 
-The element can change while the look stays the same: a variant can be a paragraph, or a heading level that <C slug="heading" /> doesn't offer.
+### what the text is
+
+What the text is can change while its look stays the same: text in any role can be a paragraph, or a heading at a level that <C slug="heading">the heading component</C> doesn't offer.
 
 <Example label="text as a heading, a paragraph and a block">
   <AsElement />
@@ -71,41 +79,42 @@ The element can change while the look stays the same: a variant can be a paragra
 
 ## behaviour
 
-- Text is static: it takes no focus and handles no keys.
-- `truncate` needs a width to cut against: it fills at most its container.
+- Text is only there to be read: it takes no <Term id="focus">focus</Term> and handles no keys.
+- A line cut to one line needs a width to cut against: it is at most as wide as its container.
 
-The keyboard map, the element it renders and what passes through are on its [React page](/design-system/react/?path=/docs/components-data-display-text--docs).
+The keyboard map, the element it renders and what it passes through are on the text's [React page](/design-system/react/?path=/docs/components-data-display-text--docs).
 
 ## accessibility
 
-- The element carries the meaning, not the variant: pick a paragraph, a heading, or a run inside other text for what the text is.
-- Colour carries no meaning. `muted` and `dim` lower emphasis, not importance: never put the only copy of something people need in `dim`.
-- Every text colour meets 4.5:1 on every background, `--fg-dim` included.
-- Today: `truncate` cuts the text only for the eye. Screen readers read all of it, but sighted keyboard, touch and mouse users can't reach the rest: there is no tooltip built in. Show the full value somewhere reachable — a detail view, or a <C slug="tooltip" />, whose trigger takes focus.
+- **The meaning comes from what the text is, not from its look.** Make it a paragraph, a heading or a run of words inside other text, whichever it really is.
+- **Colour carries no meaning.** Muted and dim text lower the emphasis, not the importance. Never put the only copy of something people need in dim text.
+- Every text colour, dim included, has enough <Term id="contrast">contrast</Term> on every background.
+
+Today: a line cut to one line is cut only for the eye. A <Term id="screen-reader">screen reader</Term> reads all of it, but people who see the screen, whether they use a keyboard, touch or a mouse, can't reach the rest: no tooltip is built in. Show the full value somewhere they can reach, in a detail view or in a <C slug="tooltip" />, whose trigger takes focus.
 
 ## content
 
-- `body` is for full sentences. Follow the voice: sentence case, plain, no exclamation marks.
-- `ui` is a few words: a name, a value, a short phrase.
-- `muted` states facts, not instructions: `Updated 3 min ago`, `412 GB used`.
-- `dim` is only for what people can skip. Warnings and next steps never go there.
-- Mono (`code`) is for values. A sentence set in mono to look technical is harder to read, not more precise.
+- **Body text** is for full sentences. Follow the voice: sentence case, plain words, no exclamation marks.
+- **Interface text** is a few words: a name, a value, a short phrase.
+- **Muted text** states facts, not instructions: “Updated 3 min ago”, “412 GB used”.
+- **Dim text** is only for what people can skip. Warnings and next steps never go there.
+- **Mono text** is for values. A sentence set in mono to look technical is harder to read, not more precise.
 
 ## do and don't
 
 <DoDont>
-  <Do column caption="The main line in ui, the facts that qualify it in muted.">
+  <Do column caption="The main line in interface text, and the facts that qualify it in muted text.">
     <Text variant="ui">storage-01</Text>
     <Text variant="muted">412 GB used, updated 3 min ago</Text>
   </Do>
-  <Dont column caption="Dim is for what people can skip. A warning in dim is a warning nobody reads; use a message strip.">
+  <Dont column caption="Dim text is for what people can skip. A warning in dim text is a warning nobody reads; use a message strip.">
     <Text variant="ui">storage-01</Text>
     <Text variant="dim">This volume will be deleted at midnight</Text>
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="A command people copy is code: framed, in a code element.">
+  <Do caption="A command people copy is code: in a frame, and marked as code.">
     <Text as="p" variant="body">Run <Code>ctl get volumes</Code> to list them.</Text>
   </Do>
   <Dont caption="Mono text without the frame doesn't read as something to type.">
@@ -115,7 +124,22 @@ The keyboard map, the element it renders and what passes through are on its [Rea
 
 ## related
 
-- <C slug="heading">Heading</C> — page and section titles.
-- <C slug="code">Code</C> — commands and identifiers, in a frame.
-- [Typography](/design-system/styles/typography/) — the type roles these variants come from.
-- [Content & voice](/design-system/foundations/content-voice/) — how to write it.
+- <C slug="heading">Heading</C>: page and section titles.
+- <C slug="code">Code</C>: commands and identifiers, in a frame.
+- [Typography](/design-system/styles/typography/): the full set of type roles, these five included.
+- [Content & voice](/design-system/foundations/content-voice/): how to write the words.
+
+## specs
+
+| role | in code | typeface | weight | size / line height | colour |
+| --- | --- | --- | --- | --- | --- |
+| Body text | `variant="body"` (the default) | Inter (`--ff-ui`) | 400 | 16px / 1.55 | `--fg-2` |
+| Interface text | `variant="ui"` | Inter | 500 | 13px / 1.4 | `--fg` |
+| Muted text | `variant="muted"` | Inter | 400 | 13px / 1.4 | `--fg-muted` |
+| Dim text | `variant="dim"` | Inter | 400 | 13px / 1.4 | `--fg-dim` |
+| Mono text | `variant="code"` | JetBrains Mono (`--ff-mono`) | 500 | 13px / 1.5 | `--fg-2` |
+
+- **Element:** a `span` with no margin. `as` picks another element and keeps the look: `as="p"` for a paragraph, `as="h3"` for a heading level `Heading` doesn't offer, `as="div"` for a block. `variant="code"` is still a `span`, not a `code` element.
+- **Cut to one line:** `truncate`. An `inline-block` with `max-width: 100%`, on one line (`white-space: nowrap`), cut with `text-overflow: ellipsis`. It sets no `title`.
+- **Contrast:** every text colour, `--fg-dim` included, meets 4.5:1 on every background.
+- **The other components:** `Heading` renders a real `h1` or `h2`; `Code` renders a `code` element in a frame; `Field` renders the `label`, ties the hint and the error to the control and marks it invalid. `Text as="label"` is only styled text, tied to nothing.

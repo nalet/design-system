@@ -1108,7 +1108,9 @@ a.ds-card:focus-visible {
    scrolling. */
 .ds-example:has(.nc-multiselect, .nc-tooltip),
 .ds-verdict__stage:has(.nc-multiselect, .nc-tooltip) {
-  overflow: visible;
+  /* popups may rise above or drop below the frame, but nothing may widen the page */
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 /* ---- words a reader may not know: <Term> and its popup ------------------ */

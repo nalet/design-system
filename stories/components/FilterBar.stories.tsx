@@ -90,7 +90,7 @@ export const Playground: Story = {
 export const Narrow: Story = {
   render: function Narrow() {
     return (
-      <div style={{ width: 360 }}>
+      <div style={{ maxWidth: 360 }}>
         <FilterBar {...useFilters().props} label="filter titles" />
       </div>
     );

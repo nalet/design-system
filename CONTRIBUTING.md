@@ -70,7 +70,7 @@ for the people; give the agents their own compact version.
   names out of the prose. Say "the emphasized button" rather than
   `variant="primary"`; the React pages carry the technical names.
 - **Mark the words a reader may not know** with `<Term id="…">`, defined once in
-  `site/src/data/glossary.ts`. Mark a word the first time it appears on a page,
+  `site/src/data/glossary/` (core, patterns and general; an id is defined once). Mark a word the first time it appears on a page,
   not every time. The explanation shows in a popup and is not part of the text.
 - **Draw the idea, not the component.** Principles and patterns use storyboard
   sketches (`site/src/sketches/`, built from `kit.tsx`): frames, placeholder

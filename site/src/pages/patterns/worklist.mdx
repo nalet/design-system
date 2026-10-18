@@ -1,124 +1,115 @@
 ---
 layout: ../../layouts/Doc.astro
 title: worklist
-description: The floorplan for a list of things that need doing — key figures that filter it, one strip about what it leaves out, a table that groups, grows and acts.
+description: A page for working through what needs doing — what needs a person first, one next step for each item, and acting on many at once.
 react: patterns-worklist
 ---
-import { ActionMenu, Button, IllustratedMessage, MessageStrip, ObjectStatus, Toaster } from '@nalet/design-system';
 import C from '@site/components/C.astro';
-import { DoDont, Do, Dont, Example } from '@site/blocks';
-import { FullExample } from '@site/examples/worklist';
+import Term from '@site/components/Term.astro';
+import { DoDont, Do, Dont } from '@site/blocks';
+import { WorklistOverview, WorklistAnatomy, OneStrip, StackedStrips, WorklistEmpty } from '@site/sketches/worklist';
+import { RowMenus, RowButtons } from '@site/sketches/selection';
 
 # worklist
 
-The floorplan for a list of things that need doing: what is missing, failing or waiting, and the one next step for each. Key figures filter it, one strip explains what it leaves out, and the table groups, grows and acts.
+A <Term id="worklist">worklist</Term> is a page for working through a list of things that need doing: episodes that are missing, jobs that failed, hosts that don't answer. It shows what needs a person first, and offers one next step for each item.
 
-<Example flush scroll label="a worklist of 2,644 made-up items">
-  <div style={{ width: '100%' }}>
-    <FullExample client:visible />
-  </div>
-</Example>
+It is a <Term id="floorplan">floorplan</Term>: a whole page, put together from components, so that every list of work looks and works the same, and people only learn it once.
 
-The example is live: 2,644 made-up items across 120 invented series and 140 movies. Select rows and grab them, use a row's menu, collapse a season, filter, search, and press **show them** in the strip.
+<figure class="ds-figure">
+  <WorklistOverview />
+  <figcaption>A worklist of missing episodes: counted tabs at the top, one message about the list as a whole, the filters, the selection in the toolbar, and the episodes grouped by season.</figcaption>
+</figure>
 
-## when to use
+The live version is on the worklist's [React page](/design-system/react/?path=/docs/patterns-worklist--docs), with 2,644 made-up items: select rows and grab them, use a row's menu, collapse a season, filter and search.
 
-- A backlog, a queue, an inbox of items that each need an action or a decision: missing episodes, failed jobs, unhealthy hosts, unchecked titles.
-- When the items fall into a few states that people triage by ("needs attention" first).
-- When people act on several items at once as often as on one.
+## when it fits
 
-## when not to use
+Use a worklist when people work through many items that each need an action or a decision, when those items fall into a few states that people sort by, like “needs attention” first, and when people often act on several items at once.
 
-- **One object, in depth** — use a page for the object (an object page floorplan is **planned**); for a summary, a <C slug="card" />.
-- **Key figures to monitor, no list to work through** — the [launchpad](/design-system/patterns/launchpad-and-tiles/) with KPI <C slug="tile">tiles</C>.
-- **Static reference data** — a plain <C slug="table" />.
-- **Settings** — [forms and settings](/design-system/patterns/forms-and-settings/).
-- **A dozen items with no states** — a <C slug="data-table" /> on its own, without tabs or a filter bar.
+For other jobs, other pages fit better:
+
+- **One item in depth.** A page for that item (the object page is planned), or a <C slug="card" /> for a summary.
+- **A few numbers to keep an eye on**, with no list to work through. <Term id="number-tile">Number tiles</Term> on the [launchpad](/design-system/patterns/launchpad-and-tiles/).
+- **Reference information nobody acts on.** A plain <C slug="table" />.
+- **Settings.** A form; see [forms and settings](/design-system/patterns/forms-and-settings/).
+- **A dozen items without states.** A <C slug="data-table" /> on its own, without tabs or filters.
 
 ## anatomy
 
-1. **Header** — the title (the list's noun: "missing"), one subtitle line with the rule that decides membership, and a quiet line of facts (`headerInfo`).
-2. **Key-figure tabs** — the list's states as counts that filter it: everything, then the states people triage by. <C slug="filter-tabs">Filter tabs</C>. Give a count a state when it means one: information for what is under way ("on their way"), error for what needs attention, warning for what can't be checked; plain counts (everything, not yet aired) stay neutral.
-3. **Message strip** — at most one or two, about the list as a whole: what it leaves out, a load that failed. <C slug="message-strip">Message strip</C>.
-4. **Filter bar** — search and facets, the count of what is left, clear all. <C slug="filter-bar">Filter bar</C>.
-5. **Toolbar** — the list's count while nothing is selected; the selection and its one emphasized action once something is. <C slug="toolbar">Selection toolbar</C>.
-6. **Table** — grouped by the items' parent (a series' season), a hundred rows at a time, sortable, selectable. <C slug="data-table">Data table</C> with <C slug="table-cells" />.
-7. **Row actions** — one menu per row, never buttons. <C slug="action-menu">Action menu</C>.
-8. **Empty state** — in place of the table, saying which kind of empty this is. <C slug="illustrated-message">Illustrated message</C>, [empty states](/design-system/patterns/empty-states/).
-9. **Feedback** — a toast after an action ("8 episodes queued"); an error strip when one fails. <C slug="toast">Toast</C>, [message handling](/design-system/patterns/message-handling/).
+<figure class="ds-figure">
+  <WorklistAnatomy />
+  <figcaption>The worklist, from top to bottom.</figcaption>
+</figure>
 
-The `Worklist` component lays the parts out; its props are on its [React page](/design-system/react/?path=/docs/patterns-worklist--docs).
+1. **Header.** The list's name, like “missing”, a line that says which items belong in it, and a quiet line of facts, such as when the list was last refreshed.
+2. **Counted tabs.** The list's states, each with its count: everything first, then the states people sort by. Choosing a tab filters the list. A count takes a colour only when it means something: blue for what is on its way, red for what needs attention, amber for what can't be checked. Plain counts stay grey. These are the <C slug="filter-tabs" />.
+3. **A <Term id="message-strip">message strip</Term>.** At most one or two, about the list as a whole: what it leaves out, or a load that failed. See the <C slug="message-strip" />.
+4. **Search and filters**, with the number of items left and a way to clear them all: the <C slug="filter-bar" />.
+5. **The toolbar.** The count of what is shown; once rows are selected, the selection and its one <Term id="emphasized-action">emphasized action</Term>. See the <C slug="toolbar">selection toolbar</C>.
+6. **The table.** Grouped by the items' parent, like a season of a series, a hundred rows at a time. People can sort it and select rows. See the <C slug="data-table" />.
+7. **A menu on every row**, with that row's actions, instead of buttons: the <C slug="action-menu" />.
 
-## behaviour
+Two more parts appear only at times. When there is nothing to list, a message takes the table's place and says which kind of empty it is. And after an action, a short <Term id="toast">toast</Term> says what happened, like “8 episodes queued”; when an action fails, a message strip says so instead.
 
-- **Tabs, then filters.** The selected tab decides which items are in play; search and facets narrow within it. Tab counts come from the same data the table shows, so a count and its list never disagree.
-- **Counts the list can't hold** (items that are not in it, like "not yet aired") can still be a tab; selecting it shows an illustrated message that says why there is no list.
-- **Growing starts over when the view changes.** The tab and the filters reset the table's growing; a refresh of the data keeps the person's place.
-- **Act on what is visible.** In the example, a filter that hides a selected row drops it from the selection, so "grab 8 selected" never grabs rows the person can't see. The selection toolbar offers "select all n" to widen a partial selection to everything the filters keep. How a selection should behave across filters is [under review](/design-system/patterns/selection-and-bulk-actions/#keeping-a-selection).
-- **The toolbar and the table header stick** while the list scrolls, the header under the toolbar.
-- **After an action** the toast says what happened in counts ("8 episodes queued · 2 skipped: held already or under way") and the rows follow when the data reloads; a failed action is an error strip with the raw error under details.
+## how it behaves
 
-## keyboard and accessibility
-
-- The worklist is a section named by its title; give it `headingLevel={2}` inside an app shell that owns the page's `h1`.
-- The tabs are a tab list and the content below them its panel, labelled by the selected tab.
-- The tab order is short: the tabs (one stop) → the strip's actions → the filter bar → the toolbar (one stop) → the table's sort headers → the table (one stop for its rows) → "show n more".
-- Give the table a name and a row label, so each checkbox and each row menu says what it acts on ("select The Quiet Harbour S04E07", "actions for The Quiet Harbour S04E07").
-
-## content
-
-- **Title** — the list's noun, lowercase: `missing`, `failed jobs`.
-- **Subtitle** — the membership rule in one line, in sentence case: `Aired, monitored, and not in the library`.
-- **Facts** — what the reader may wonder about: when the data was last refreshed, what runs on its own.
-- **Tabs** — `missing`, `on their way`, `needs attention`: the object's states in its own words, with counts.
-- **Toolbar heading** — the count and the noun of what is shown: `2,500 missing`, `81 need attention`.
-- **Groups** — the parent's own name and the count: `The Quiet Harbour · S04 · 8 missing`.
-
-## do and don't
+- **Tabs first, then filters.** The tab decides which items are in play; search and filters narrow it down from there. The counts come from the same data as the table, so a count and its list always agree.
+- **A tab can count items the list doesn't hold**, like “not yet aired”. Choosing it shows a message that says why there is no list.
+- **Changing the view starts again at the top.** A new tab or a new filter goes back to the first hundred rows. A refresh of the data keeps people's place.
+- **People act on what they can see.** In the live example, a filter that hides a selected row also unselects it, so “grab 8 selected” never grabs rows that are out of sight. How a selection should behave across filters is [under review](/design-system/patterns/selection-and-bulk-actions/#keeping-a-selection).
+- **The toolbar and the table's header stay in view** while the list scrolls.
+- **After an action**, the toast counts what happened, “8 episodes queued · 2 skipped: held already or under way”, and the rows update when the data reloads. A failed action shows as an error strip, with the technical details behind “details”.
 
 <DoDont>
-  <Do caption="One strip for the one thing the list leaves out, with its way forward." column>
-    <MessageStrip state="warning" live="off">
-      <Fragment slot="actions"><Button size="sm" variant="ghost">show them</Button></Fragment>
-      105 titles can&apos;t be checked: the catalog holds them without an identity.
-    </MessageStrip>
+  <Do caption="One strip for the one thing the list leaves out, with a way forward.">
+    <OneStrip />
   </Do>
-  <Dont caption="A stack of strips: none of them reads as important any more." column>
-    <MessageStrip state="warning" live="off">105 titles can&apos;t be checked.</MessageStrip>
-    <MessageStrip state="information" live="off">The sweep only searches.</MessageStrip>
-    <MessageStrip state="neutral" live="off">Holdings were last asked 3h ago.</MessageStrip>
+  <Dont caption="A stack of strips: none of them reads as important any more, and the list is pushed down.">
+    <StackedStrips />
   </Dont>
 </DoDont>
 
 <DoDont>
-  <Do caption="Per row: the status in words and one menu.">
-    <ObjectStatus state="neutral">missing</ObjectStatus>
-    <ActionMenu label="actions for S04E07" items={[{ id: 'pick', label: 'pick a release', onSelect: () => undefined }, { id: 'grab', label: 'grab now', onSelect: () => undefined }]} />
+  <Do caption="Each row: its status in words, and one small menu.">
+    <RowMenus />
   </Do>
-  <Dont caption="Per row: two buttons, one primary. A hundred rows, a hundred primaries.">
-    <ObjectStatus state="neutral">missing</ObjectStatus>
-    <Button size="sm" variant="primary">grab</Button>
-    <Button size="sm">releases</Button>
+  <Dont caption="Each row: two buttons, one of them blue. A hundred rows, a hundred blue buttons.">
+    <RowButtons />
   </Dont>
 </DoDont>
 
-## the other states
+## when there is nothing to list
 
-When there is nothing to list, the header, the tabs and the strip stay, and the table's place holds an <C slug="illustrated-message" /> that says which kind of empty it is. The whole floorplans are the stories [nothing missing](/design-system/react/?path=/story/patterns-worklist--nothing-missing) and [holdings unknown for everything](/design-system/react/?path=/story/patterns-worklist--holdings-unknown); their bodies:
+When a worklist has nothing to show, the header, the tabs and the strip stay where they are, and the table's place holds a message that says which kind of empty it is: good news, or something nobody can know yet.
 
-<Example label="the worklist's empty states" column>
-  <IllustratedMessage illustration="done" headingLevel={3} title="nothing missing" description="Every aired, monitored episode and movie is in the library." />
-  <IllustratedMessage illustration="unknown" headingLevel={3} title="nothing can be checked yet" description="The library's holdings are unknown for all 105 titles, so nothing is known to be missing.">
-    <Fragment slot="actions"><Button variant="primary">ask the catalog again</Button></Fragment>
-  </IllustratedMessage>
-</Example>
+<figure class="ds-figure">
+  <WorklistEmpty />
+  <figcaption>Nothing missing is good news. Nothing can be checked yet is not, and it offers the step that finds out.</figcaption>
+</figure>
+
+The React page shows both as whole pages: [nothing missing](/design-system/react/?path=/story/patterns-worklist--nothing-missing) and [holdings unknown for everything](/design-system/react/?path=/story/patterns-worklist--holdings-unknown). [Empty states](/design-system/patterns/empty-states/) explains the five kinds of empty.
+
+## keyboard and screen readers
+
+- The worklist is a section named after its title. Inside an app, the app owns the page's main heading, so the worklist's title is a level below it.
+- The tabs are read as tabs, and the list below them as their content.
+- The Tab key stops only a few times: once for the tabs, then the strip's buttons, the filters, once for the toolbar, the sort buttons in the table's header, once for all the table's rows, and “show more”.
+- Give the table a name and each row a label, so every checkbox and every menu says what it acts on: “select The Quiet Harbour S04E07”, “actions for The Quiet Harbour S04E07”.
+
+## the words
+
+- **Title.** What is in the list, as a noun: “missing”, “failed jobs”.
+- **Subtitle.** The rule for what belongs in the list, in sentence case: “Aired, monitored, and not in the library”.
+- **Facts.** What readers may wonder about: when the data was last refreshed, what runs by itself.
+- **Tabs.** The items' states in their own words, with counts: “missing”, “on their way”, “needs attention”.
+- **Toolbar.** The count and what is shown: “2,500 missing”, “81 need attention”.
+- **Groups.** The parent's own name and its count: “The Quiet Harbour · S04 · 8 missing”.
 
 ## related
 
-- [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) — selecting rows and acting on them.
-- [Status vocabulary](/design-system/patterns/status-vocabulary/) — one status per item.
-- [Empty states](/design-system/patterns/empty-states/) — which kind of empty.
-- [Launchpad & tiles](/design-system/patterns/launchpad-and-tiles/) — the launchpad the worklists are opened from.
-- [Principles](/design-system/foundations/principles/) — 1: the system does the work; people handle the exceptions.
-
-<Toaster client:idle />
+- [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/): selecting rows and acting on all of them.
+- [Status vocabulary](/design-system/patterns/status-vocabulary/): one status per item, the same everywhere.
+- [Empty states](/design-system/patterns/empty-states/): which kind of empty.
+- [Launchpad & tiles](/design-system/patterns/launchpad-and-tiles/): where people open a worklist from.
+- [Principles](/design-system/foundations/principles/): 1, the system does the work; people handle the exceptions.

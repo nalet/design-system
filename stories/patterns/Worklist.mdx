@@ -6,31 +6,38 @@ import { Toaster } from '../../src';
 
 # worklist
 
-Design guidance — when to use the floorplan, its parts, its behaviour and its words: **[worklist on the guidelines site →](https://nalet.github.io/design-system/patterns/worklist/)**
+When to use the worklist floorplan, what its parts are, how it behaves and how to word it is on the guidelines site: **[worklist guidance →](https://nalet.github.io/design-system/patterns/worklist/)**
+
+Here is a whole worklist, and it is live: 2,644 made-up items across 120 invented series and 140 movies.
 
 <Canvas of={WorklistStories.FullExample} />
 
 <Toaster />
 
-The example is live: 2,644 made-up items across 120 invented series and 140 movies. Its code is [`stories/patterns/BacklogWorklist.tsx`](https://github.com/nalet/design-system/blob/main/stories/patterns/BacklogWorklist.tsx), its data `stories/_data/`.
+Its code is in [`stories/patterns/BacklogWorklist.tsx`](https://github.com/nalet/design-system/blob/main/stories/patterns/BacklogWorklist.tsx), and its data in `stories/_data/`.
 
 ## the other states
 
-With nothing to list, the header, the tabs and the strip stay, and an illustrated message takes the table's place.
+When there is nothing to list, the header, the tabs and the strip stay, and an illustrated message takes the table's place. Here nothing is missing.
 
 <Canvas of={WorklistStories.NothingMissing} />
+
+Here the holdings are unknown for every title, so nothing is known to be missing.
 
 <Canvas of={WorklistStories.HoldingsUnknown} />
 
 ## implementation notes
 
-- `Worklist` lays the parts out; the parts are the components: `tabs` are `FilterTab`s, `messages` message strips, `filterBar` a `FilterBar`, `toolbar` a `Toolbar` or `SelectionToolbar`, and `children` the `DataTable` — or the `IllustratedMessage` when there is nothing to show.
-- It renders a `section` named by its title. `headingLevel` sets the title's level: 1 when the worklist is the page, 2 inside an app shell that owns the `h1`.
-- With `tabs` and `activeTab`, the tabs are a `tablist` and the content below them its `tabpanel`, labelled by the selected tab; `tabsLabel` names the tab list ("filter the list" by default).
-- The toolbar and the table header stick while the list scrolls (`stickyToolbar`, on by default): the worklist measures its toolbar and offsets the table's sticky header under it with `--nc-dt-sticky-top`.
-- Pass the tab and the filters as the table's `growingResetKey`: growing starts over when the view changes, and a refresh of the data keeps the person's place.
+- `Worklist` lays the parts out, and the parts are the components: `tabs` are `FilterTab`s, `messages` are message strips, `filterBar` is a `FilterBar`, `toolbar` is a `Toolbar` or a `SelectionToolbar`, and `children` is the `DataTable`, or the `IllustratedMessage` when there is nothing to show.
+- It renders a `section` named by its title.
+- `headingLevel` sets the title's level: 1 when the worklist is the page, and 2 inside an app shell that owns the `h1`.
+- With `tabs` and `activeTab`, the tabs are a `tablist`, and the content below them is its `tabpanel`, labelled by the selected tab.
+- `tabsLabel` names the tab list (“filter the list” by default).
+- The toolbar and the table header stick while the list scrolls (`stickyToolbar`, on by default), so the actions and the column headers stay in view.
+- To do that, the worklist measures its toolbar and offsets the table's sticky header under it with `--nc-dt-sticky-top`.
+- Pass the tab and the filters as the table's `growingResetKey`. Growing then starts over when the view changes, and a refresh of the data keeps the person's place.
 - Give the table an `aria-label` and a `rowLabel`, so each checkbox and each row menu says what it acts on.
-- It passes other `section` attributes, and its `ref`, through.
+- It passes other `section` attributes and its `ref` through.
 
 ## props
 

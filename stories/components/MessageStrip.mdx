@@ -5,36 +5,44 @@ import * as MessageStripStories from './MessageStrip.stories';
 
 # message strip
 
-Design guidance — when to use it, its states, details and dismiss, its words: **[message strip on the guidelines site →](https://nalet.github.io/design-system/components/message-strip/)**
+When to use a message strip, its states, when to add details or a dismiss button and how to word it is on the guidelines site: **[message strip guidance →](https://nalet.github.io/design-system/components/message-strip/)**
 
 <Canvas of={MessageStripStories.Playground} />
 
 ## examples
 
-`state`: `neutral`, `information` (the default), `success`, `warning` and `error`.
+`state` takes five values: `neutral`, `information` (the default), `success`, `warning` and `error`.
 
 <Canvas of={MessageStripStories.States} />
 
-`details` behind its disclosure, and a ghost button in `actions`.
+`details` behind a disclosure, and a ghost button in `actions`.
 
 <Canvas of={MessageStripStories.WithDetails} />
 
-`onDismiss` adds the dismiss button; the story stops rendering the strip when it is called.
+`onDismiss` adds the dismiss button. The story stops rendering the strip when it is called.
 
 <Canvas of={MessageStripStories.Dismissible} />
 
 ## implementation notes
 
-- Renders a `<div>` with `data-state`: the glyph, the text, `actions`, the details toggle, the details and dismiss. Its own controls are native buttons, in this order: your actions, the details toggle, dismiss.
-- The text alone is the live region: `role="status"` (polite) by default, `role="alert"` for `error`, with `aria-atomic="true"`, so an update reads the whole message and never the actions, the details or dismiss.
-- `live` overrides the role: `"polite"` gives a status, `"assertive"` an alert, and `"off"` no role at all, for a static note — a strip that is on the page from the start and doesn't change.
-- Every state but `neutral` puts its name, visually hidden, before the text. A `stateLabel` string replaces the word (and gives `neutral` one); `false` leaves it out.
-- The glyph is `aria-hidden`.
-- `details` is a disclosure: the toggle has `aria-expanded` and `aria-controls` pointing at the details, and closed details are `hidden`, so they are neither read nor focusable. The details sit outside the live region. `detailsLabel` names the toggle (default "details").
+- It renders a `<div>` with `data-state`, holding the glyph, the text, `actions`, the details toggle, the details and dismiss.
+- Its own controls are native buttons, in this order: your actions, the details toggle, then dismiss.
+- Only the text is the live region: `role="status"` (polite) by default, and `role="alert"` for `error`.
+- The live region has `aria-atomic="true"`, so an update reads the whole message, and never the actions, the details or dismiss.
+- `live` overrides the role: `"polite"` gives a status, `"assertive"` an alert, and `"off"` no role at all.
+- Use `"off"` for a static note: a strip that is on the page from the start and doesn't change.
+- Every state but `neutral` puts its name, visually hidden, before the text, so a screen reader hears the state as well as the message.
+- A `stateLabel` string replaces that word, and gives `neutral` one. `false` leaves it out.
+- The glyph is `aria-hidden`, so a screen reader skips it.
+- `details` is a disclosure: the toggle has `aria-expanded`, and `aria-controls` pointing at the details.
+- Closed details are `hidden`, so they are neither read nor focusable.
+- The details sit outside the live region.
+- `detailsLabel` names the toggle (“details” by default).
 - The strip keeps the details' open state itself. `defaultDetailsOpen` opens them on the first render, and is read only then.
-- `onDismiss` adds the dismiss button, named by `dismissLabel` (default "dismiss"). The strip doesn't hide itself: it calls `onDismiss`, and you stop rendering it.
+- `onDismiss` adds the dismiss button, named by `dismissLabel` (“dismiss” by default).
+- The strip doesn't hide itself: it calls `onDismiss`, and you stop rendering it.
 - The toggle and dismiss show a 2px `--focus-ring` outline on `:focus-visible`.
-- Other `<div>` attributes (all but `title`) and the `ref` reach the container.
+- Other `<div>` attributes, all but `title`, and the `ref` reach the container.
 - axe-core finds no violations in any state, with actions, open details and dismiss.
 
 | key | does |
@@ -44,7 +52,7 @@ Design guidance — when to use it, its states, details and dismiss, its words: 
 
 Today:
 
-- Dismissing removes the button that had focus: move focus yourself in `onDismiss`.
+- Dismissing removes the button that had focus, so move focus yourself in `onDismiss`.
 - With two strips on a page, set `detailsLabel` and `dismissLabel` so they can be told apart.
 
 ## props

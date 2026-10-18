@@ -5,37 +5,40 @@ import * as InputStories from './Input.stories';
 
 # input
 
-Design guidance — when to use it, its sizes, affixes and states, its words: **[input on the guidelines site →](https://nalet.github.io/design-system/components/input/)**
+When to use an input, its sizes, affixes and states and how to word it is on the guidelines site: **[input guidance →](https://nalet.github.io/design-system/components/input/)**
 
 <Canvas of={InputStories.Playground} />
 
 ## examples
 
-`inputSize`: `sm` (28px), `md` (34px, the default), `lg` (42px).
+`inputSize` sets one of three heights: `sm` (28px), `md` (34px, the default) and `lg` (42px).
 
 <Canvas of={InputStories.Sizes} />
 
-An icon or a `>` prompt in `leading`, a unit in `trailing`.
+An icon or a `>` prompt in `leading`, and a unit in `trailing`.
 
 <Canvas of={InputStories.WithAffixes} />
 
-Default, `invalid`, `disabled` and the native `readOnly`.
+The default input, then `invalid`, `disabled` and the native `readOnly`.
 
 <Canvas of={InputStories.States} />
 
-`value` with `onChange`, and a line that follows the value.
+A controlled input, with `value` and `onChange`, and a line that follows the value.
 
 <Canvas of={InputStories.Controlled} />
 
 ## implementation notes
 
-- Renders a native `<input>` inside a box (a `<div>`), with the affixes beside it in the box. The text is the native `<input>`, so the browser provides the keyboard model.
+- It renders a native `<input>` inside a box (a `<div>`), with the affixes beside it in the box.
+- The text is the native `<input>`, so the browser gives it the keyboard behaviour for free.
 - `type` is the browser's default, `text`, unless you pass one. `search`, `number`, `email` and `password` keep their native behaviour.
-- The component holds no state. Use `defaultValue`, or `value` with `onChange`.
-- The native `<input>` carries the name, the value and the state. A [field](?path=/docs/components-inputs-field--docs) renders a `<label for>` and links the hint or error with `aria-describedby`.
+- The component holds no state of its own. Use `defaultValue`, or `value` with `onChange`.
+- The native `<input>` carries the name, the value and the state.
+- A [field](?path=/docs/components-inputs-field--docs) gives it a label: it renders a `<label for>` and links the hint or error with `aria-describedby`.
 - `invalid` sets `aria-invalid="true"` and the `--state-error` border. A field's `error` sets `invalid` for you.
-- `leading` and `trailing` take any node — an `<Icon icon={Search} />`, a `>` prompt, a unit such as `ms` — and render it inside the box, outside the `<input>`.
-- `className` lands on the box; every other attribute — `value`, `onChange`, `type`, `name`, `aria-*`, `style` — and the ref land on the native `<input>`. Set the width on the container: the box always fills it.
+- `leading` and `trailing` take any node, such as an `<Icon icon={Search} />`, a `>` prompt or a unit like `ms`, and render it inside the box, outside the `<input>`.
+- `className` lands on the box. Every other attribute, such as `value`, `onChange`, `type`, `name`, `aria-*` and `style`, lands on the native `<input>`, and so does the ref.
+- Set the width on the container: the box always fills it.
 
 | key | does |
 | --- | --- |
@@ -45,6 +48,6 @@ Default, `invalid`, `disabled` and the native `readOnly`.
 
 ## props
 
-The size prop is `inputSize` because `size` is the native attribute (a width in characters).
+The size prop is called `inputSize`, because `size` is already a native attribute: a width in characters.
 
 <ArgTypes of={InputStories} />

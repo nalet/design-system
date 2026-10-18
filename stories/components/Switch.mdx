@@ -5,37 +5,40 @@ import * as SwitchStories from './Switch.stories';
 
 # switch
 
-Design guidance — when to use it, its sizes and states, settings that apply at once, its words: **[switch on the guidelines site →](https://nalet.github.io/design-system/components/switch/)**
+When to use a switch, which size and state to show, how it works for a setting that applies at once and how to word it is on the guidelines site: **[switch guidance →](https://nalet.github.io/design-system/components/switch/)**
 
 <Canvas of={SwitchStories.Playground} />
 
 ## examples
 
-`size`: `sm` and `md` (the default).
+There are two values of `size`: `sm` and `md`, the default.
 
 <Canvas of={SwitchStories.Sizes} />
 
-Off, on (`defaultChecked`), and `disabled`, off and on.
+Here a switch is off, on (`defaultChecked`), and `disabled` both off and on.
 
 <Canvas of={SwitchStories.States} />
 
-`checked` with `onChange`, and a `role="status"` line that says what changed.
+This switch is controlled with `checked` and `onChange`, and a `role="status"` line below it says what changed.
 
 <Canvas of={SwitchStories.Controlled} />
 
-A settings panel: one switch per setting, each with its own `label`.
+In a settings panel, each setting gets its own switch, with its own `label`.
 
 <Canvas of={SwitchStories.SettingsPanel} />
 
 ## implementation notes
 
-- It is a native checkbox with `role="switch"`: a `<label>` around the track and the label text, and the native `<input type="checkbox" role="switch">` over the track, transparent. It takes the focus, the clicks and the form value, and the browser provides the keyboard model.
-- `role="switch"` is what makes screen readers announce a switch. The state is the native `checked`: don't add `aria-checked`.
-- The component holds no state. Use `defaultChecked`, or `checked` with `onChange`. Apply the setting in `onChange`.
-- Focus is drawn on `:focus-visible`.
-- `enter` does not toggle it, as with any native checkbox.
-- `className` lands on the outer `<label>`; every other attribute — `checked`, `defaultChecked`, `onChange`, `name`, `aria-*` — and the ref land on the native `<input type="checkbox" role="switch">`.
-- Today: inside a [field](?path=/docs/components-inputs-field--docs) with `error`, React warns about an unknown `invalid` attribute.
+- It is a native checkbox with `role="switch"`. A `<label>` wraps the track and the label text.
+- The native `<input type="checkbox" role="switch">` lies over the track, transparent. It takes the focus, the clicks and the form value, and the browser gives it the keyboard behaviour.
+- `role="switch"` is what makes screen readers announce a switch.
+- The state is the native `checked`, so don't add `aria-checked`.
+- The component holds no state of its own. Use `defaultChecked`, or `checked` with `onChange`.
+- Apply the setting in `onChange`, because a switch takes effect at once.
+- Focus is drawn on `:focus-visible`, so it shows when someone uses the keyboard.
+- `enter` doesn't toggle it, just as it doesn't toggle any native checkbox.
+- `className` lands on the outer `<label>`. Every other attribute (`checked`, `defaultChecked`, `onChange`, `name`, `aria-*`) and the ref land on the native `<input type="checkbox" role="switch">`.
+- Today: inside a [field](?path=/docs/components-inputs-field--docs) with an `error`, React warns about an unknown `invalid` attribute.
 
 | key | does |
 | --- | --- |

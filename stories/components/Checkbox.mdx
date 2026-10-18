@@ -5,38 +5,41 @@ import * as CheckboxStories from './Checkbox.stories';
 
 # checkbox
 
-Design guidance — when to use it, its states, groups and the mixed parent, its words: **[checkbox on the guidelines site →](https://nalet.github.io/design-system/components/checkbox/)**
+When to use a checkbox, its states, how groups and a mixed parent work and how to word the label is on the guidelines site: **[checkbox guidance →](https://nalet.github.io/design-system/components/checkbox/)**
 
 <Canvas of={CheckboxStories.Playground} />
 
 ## examples
 
-Off, on (`defaultChecked`), mixed (`indeterminate`), and `disabled`, off and on.
+A checkbox off, on (`defaultChecked`) and mixed (`indeterminate`), and `disabled` both off and on.
 
 <Canvas of={CheckboxStories.States} />
 
-A group in a native `<fieldset>`, its `<legend>` in the field label's look.
+A group in a native `<fieldset>`, with its `<legend>` in the look of a field label.
 
 <Canvas of={CheckboxStories.Group} />
 
-A parent's `checked` and `indeterminate`, worked out from its children in `onChange`.
+A parent whose `checked` and `indeterminate` are worked out from its children in `onChange`.
 
 <Canvas of={CheckboxStories.Interactive} />
 
-Without `label`: `aria-label` names each box.
+Without a `label`, an `aria-label` names each box.
 
 <Canvas of={CheckboxStories.WithoutLabel} />
 
 ## implementation notes
 
-- Renders a `<label>` around the box and the label text. The native `<input type="checkbox">` lies over the box, transparent. It takes the focus, the clicks and the form value. The control is a native checkbox, so the browser provides the keyboard model.
-- The component holds no state. Use `defaultChecked`, or `checked` with `onChange`.
+- It renders a `<label>` around the box and the label text, so a click on the text toggles the box too.
+- The native `<input type="checkbox">` lies over the box, transparent. It takes the focus, the clicks and the form value.
+- Because the control is a native checkbox, the browser gives it the keyboard behaviour for free.
+- The component holds no state of its own. Use `defaultChecked`, or `checked` with `onChange`.
 - `indeterminate` is yours to control: in `onChange`, set the parent's `checked` when all children are on, and `indeterminate` when only some are.
-- `aria-checked="mixed"` comes from the native `indeterminate`, which the component sets on the `<input>`. The browser clears the mixed state on every click, and the component re-applies `indeterminate` only when the prop changes. Recompute it in `onChange`, as the parent example above does.
-- Focus is drawn on `:focus-visible`.
-- `enter` does not toggle a checkbox.
-- `className` lands on the outer `<label>`; every other attribute — `checked`, `defaultChecked`, `onChange`, `name`, `value`, `aria-*` — and the ref land on the native `<input type="checkbox">`.
-- Today: if `indeterminate` stays `true` across a click, the dash stays drawn but the browser's mixed state is gone, so assistive tech announces on or off while the screen shows mixed.
+- `aria-checked="mixed"` comes from the native `indeterminate`, which the component sets on the `<input>`.
+- The browser clears the mixed state on every click, and the component re-applies `indeterminate` only when the prop changes. So recompute it in `onChange`, as the parent example above does.
+- Focus is drawn on `:focus-visible`, so the ring shows for keyboard focus and not for a click.
+- `enter` does not toggle a checkbox. `space` does.
+- `className` lands on the outer `<label>`. Every other attribute, such as `checked`, `defaultChecked`, `onChange`, `name`, `value` and `aria-*`, lands on the native `<input type="checkbox">`, and so does the ref.
+- Today: if `indeterminate` stays `true` across a click, the dash stays drawn but the browser's mixed state is gone. Assistive tech then announces on or off while the screen shows mixed.
 - Today: inside a [field](?path=/docs/components-inputs-field--docs) with `error`, `aria-invalid` is set on the native checkbox, and React warns about an unknown `invalid` attribute.
 
 | key | does |

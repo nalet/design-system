@@ -5,42 +5,46 @@ import * as ButtonStories from './Button.stories';
 
 # button
 
-Design guidance — when to use it, its variants and states, its words: **[button on the guidelines site →](https://nalet.github.io/design-system/components/button/)**
+When to use a button, which kind to pick and how to word it is on the guidelines site: **[button guidance →](https://nalet.github.io/design-system/components/button/)**
 
 <Canvas of={ButtonStories.Playground} />
 
 ## examples
 
-Four variants; only `primary` is filled.
+There are four variants. Only `primary` is filled, because it marks the one emphasized action on a screen.
 
 <Canvas of={ButtonStories.Variants} />
 
-`size`: `sm` (28px), `md` (34px, the default), `lg` (42px).
+`size` sets one of three heights: `sm` (28px), `md` (34px, the default) and `lg` (42px). They match the other controls, so a row of controls lines up.
 
 <Canvas of={ButtonStories.Sizes} />
 
-`loading` and `disabled`.
+A button at rest, while it is `loading`, and `disabled`.
 
 <Canvas of={ButtonStories.States} />
 
-Icons in `leading` and `trailing`.
+An icon can go before the label in `leading`, or after it in `trailing`.
 
 <Canvas of={ButtonStories.WithIcons} />
 
-`block` stretches the button to its container.
+`block` stretches the button to the full width of its container.
 
 <Canvas of={ButtonStories.Block} />
 
 ## implementation notes
 
-- Renders a native `<button>`, so the browser provides the keyboard model.
-- `type` defaults to `"button"`, not the browser's `"submit"`. Pass `type="submit"` for the button that submits a form.
-- `loading` shows a spinner in the leading slot, disables the button and sets `aria-busy="true"`; the spinner is a `status` named "loading". The width stays stable.
-- `disabled` dims the button to 45% and removes it from the tab order. A disabled or loading button ignores clicks and cannot be focused.
-- `leading` and `trailing` take an element, such as `<Icon icon={Rocket} />`; `trailing` is hidden while `loading`.
-- The label is lowercased with `text-transform`; the DOM keeps the text you wrote.
-- A focused button shows a 2px `--focus-ring` outline on `:focus-visible`.
-- Every native `<button>` attribute passes through (`onClick`, `type`, `aria-*` …), and the `ref` reaches the `<button>`.
+- It renders a native `<button>`, so the browser gives it the keyboard behaviour for free.
+- `type` defaults to `"button"`, not the browser's `"submit"`, so a button inside a form doesn't send it by accident. Pass `type="submit"` for the button that submits a form.
+- `loading` shows a spinner in the leading slot, disables the button and sets `aria-busy="true"`.
+- The spinner is a `status` named “loading”.
+- While it is loading, the button keeps its width, so nothing around it jumps.
+- `disabled` dims the button to 45% and takes it out of the tab order.
+- A disabled or loading button ignores clicks and can't be focused.
+- `leading` and `trailing` take an element, such as `<Icon icon={Rocket} />`.
+- `trailing` is hidden while the button is `loading`.
+- The label is lowercased with `text-transform`, but the DOM keeps the text you wrote, so write it the way a screen reader should read it.
+- A focused button shows a 2px `--focus-ring` outline on `:focus-visible`, so the ring shows for keyboard focus and not for a click.
+- Every native `<button>` attribute passes through, such as `onClick`, `type` and `aria-*`, and the `ref` reaches the `<button>`.
 
 | key | does |
 | --- | --- |

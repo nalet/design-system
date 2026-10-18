@@ -5,21 +5,26 @@ import * as LockupStories from './Lockup.stories';
 
 # lockup
 
-Design guidance — when to show the lockup, its cursor, and the one cursor per screen: **[brand on the guidelines site →](https://nalet.github.io/design-system/styles/brand/)**
+When to show the lockup, how its cursor behaves and why there is only one cursor per screen is on the guidelines site: **[brand guidance →](https://nalet.github.io/design-system/styles/brand/)**
 
 <Canvas of={LockupStories.Playground} />
 
 ## examples
 
+The lockup at `height={48}`: with its cursor, with `showCursor={false}`, and `filled` on `--surface-2`.
+
 <Canvas of={LockupStories.Variants} />
 
 ## implementation notes
 
-- `Lockup` renders an inline `<svg>` in a 300 × 160 box: the chevron, the wordmark in JetBrains Mono 700 (`var(--ff-mono)`) and, with `showCursor` (the default), the cursor block. It mirrors `assets/terminal/nalet-lockup.svg`.
-- `height` sets the size (40px by default); the width follows the ratio.
+- `Lockup` renders an inline `<svg>` in a 300 × 160 box: the chevron, the wordmark in JetBrains Mono 700 (`var(--ff-mono)`) and, with `showCursor` (the default), the cursor block.
+- It mirrors `assets/terminal/nalet-lockup.svg`.
+- `height` sets the size, 40px by default, and the width follows the ratio.
 - `filled` paints a `--bg` rectangle behind the mark, like the SVG file.
-- The cursor blinks with an SVG `<animate>`: on for half of a 1.05s cycle. Under `prefers-reduced-motion` the stylesheet hides that element with `display: none`, but `display` doesn't apply to SVG animation elements, so a browser can keep it blinking: pass `showCursor={false}` wherever the lockup stays in view.
-- It renders `role="img"` with `aria-label="nalet"`. Inside a link it names the link with the wordmark; pass `aria-label` when the link needs other words.
+- The cursor blinks with an SVG `<animate>`, on for half of a 1.05s cycle.
+- Under `prefers-reduced-motion`, the stylesheet hides that element with `display: none`. But `display` doesn't apply to SVG animation elements, so a browser can keep it blinking. Pass `showCursor={false}` wherever the lockup stays in view, because blinking that lasts more than five seconds needs a way to stop it.
+- It renders `role="img"` with `aria-label="nalet"`.
+- Inside a link, it names the link with the wordmark. Pass `aria-label` when the link needs other words.
 - Other `<svg>` attributes and its `ref` reach the `<svg>`.
 
 ## props

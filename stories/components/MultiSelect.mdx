@@ -5,29 +5,35 @@ import * as MultiSelectStories from './MultiSelect.stories';
 
 # multi select
 
-Design guidance — when to use it, its parts and states, how it opens and closes, its words: **[multi select on the guidelines site →](https://nalet.github.io/design-system/components/multi-select/)**
+When to use a multi select, its parts and states, how it opens and closes and how to word it is on the guidelines site: **[multi select guidance →](https://nalet.github.io/design-system/components/multi-select/)**
 
 <Canvas of={MultiSelectStories.Playground} />
 
 ## examples
 
-`value` with two options chosen: the summary says `2 chosen`.
+A `value` with two options chosen, so the summary says `2 chosen`.
 
 <Canvas of={MultiSelectStories.Chosen} />
 
-`size="sm"`.
+The same control at `size="sm"`.
 
 <Canvas of={MultiSelectStories.Small} />
 
 ## implementation notes
 
-- It is controlled: pass `value` and `onChange`. Every change calls `onChange` at once, with the new list of values in the order they were chosen. `clear` calls `onChange([])`.
+- It is controlled: pass `value` and `onChange`.
+- Every change calls `onChange` at once, with the new list of values in the order they were chosen.
+- `clear` calls `onChange([])`.
 - Values in `value` that aren't in `options` stay in `value`, but the summary doesn't count them.
-- The trigger is a `<button type="button">` with `aria-expanded`, and `aria-controls` pointing at the panel. It has no `aria-haspopup`: it opens a group of checkboxes, not a menu or a listbox.
-- The options are a `fieldset` named by the facet's label (a visually hidden `legend`), and each is a native [checkbox](?path=/docs/components-inputs-checkbox--docs). The checkboxes have no `name`, so a form sends none of them.
-- A closed panel is `hidden`.
+- The trigger is a `<button type="button">` with `aria-expanded`, and `aria-controls` pointing at the panel.
+- The trigger has no `aria-haspopup`, because it opens a group of checkboxes, not a menu or a listbox.
+- The options are a `fieldset`, named by the facet's label in a visually hidden `legend`, so a screen reader announces them as one group.
+- Each option is a native [checkbox](?path=/docs/components-inputs-checkbox--docs).
+- The checkboxes have no `name`, so a form sends none of them.
+- A closed panel is `hidden`, so it is neither read nor focusable.
 - Today: the panel isn't rendered into `document.body`, so an ancestor with `overflow: hidden` cuts it off. It is positioned under the trigger, at `z-index: 120`.
-- `MultiSelect` passes no other attributes through; `className` goes on the wrapper around the trigger and the panel.
+- `MultiSelect` passes no other attributes through.
+- `className` goes on the wrapper around the trigger and the panel.
 
 | key | does |
 | --- | --- |

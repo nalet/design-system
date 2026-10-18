@@ -5,24 +5,30 @@ import * as ChevronStories from './Chevron.stories';
 
 # chevron
 
-Design guidance — where the brand glyph goes, its one colour, when not to use it: **[brand on the guidelines site →](https://nalet.github.io/design-system/styles/brand/)**
+Where the chevron goes, why it comes in one colour only and when not to use it is on the guidelines site: **[brand guidance →](https://nalet.github.io/design-system/styles/brand/)**
 
 <Canvas of={ChevronStories.Playground} />
 
 ## examples
 
+The chevron at six values of `size`, from 64px down to 14px.
+
 <Canvas of={ChevronStories.Sizes} />
 
-As a section mark, as the way into a tile, and as the prompt in an input's leading slot:
+The chevron in use: as a section mark, as the way into a tile, and as the prompt in an input's `leading` slot.
 
 <Canvas of={ChevronStories.InUse} />
 
 ## implementation notes
 
-- `Chevron` renders an inline `<svg>`: one path, `M5 3 L11 8 L5 13`, in a 16-unit square, stroked in `currentColor` with rounded caps and join.
-- Its colour comes from its own class, `--cloud-blue`. The `color` prop overrides it; the brand says don't.
-- `size` is the edge length in px (16 by default). The stroke is `strokeWidth` px, or 14% of `size` with a 1.5px floor.
-- It renders `role="img"` with `aria-label="chevron"`. Next to a title it is decoration: pass `aria-hidden`, as every use inside the library does.
+- `Chevron` renders an inline `<svg>` with one path, `M5 3 L11 8 L5 13`, in a 16-unit square.
+- The path is stroked in `currentColor`, with rounded caps and join.
+- Its colour, `--cloud-blue`, comes from its own class.
+- The `color` prop can override it, but the brand says not to.
+- `size` is the edge length in px, 16 by default.
+- The stroke is `strokeWidth` px. Without it, the stroke is 14% of `size`, but never thinner than 1.5px, so the mark keeps its weight from 14px to 128px.
+- It renders `role="img"` with `aria-label="chevron"`.
+- Next to a title it is decoration, so pass `aria-hidden`, as every use inside the library does.
 - Other `<svg>` attributes and its `ref` reach the `<svg>`.
 
 ## props

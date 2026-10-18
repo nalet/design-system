@@ -5,24 +5,32 @@ import * as IconStories from './Icon.stories';
 
 # icon
 
-Design guidance — sizes, colour, decoration and meaning, the one rounded shape: **[iconography on the guidelines site →](https://nalet.github.io/design-system/styles/iconography/)**
+Which sizes and colour to give an icon, when it is decoration and when it carries meaning, and why icons are the one rounded shape is on the guidelines site: **[iconography guidance →](https://nalet.github.io/design-system/styles/iconography/)**
 
 <Canvas of={IconStories.Playground} />
 
 ## examples
 
+A few glyphs at the default size, each labelled with the component you pass to `icon`.
+
 <Canvas of={IconStories.Gallery} />
+
+The four sizes the components use, set with `size`: 12, 16, 20 and 22px.
 
 <Canvas of={IconStories.Sizes} />
 
 ## implementation notes
 
-- `Icon` takes the Lucide component in `icon` — the component, not an element: `<Icon icon={Terminal} />`.
-- It renders Lucide's `<svg>` with the class `nc-icon`: inline-block, `color: inherit`, never shrinking in a flex row, sitting on the middle of the text line. The stroke is `currentColor`.
-- `size` is the edge length in px, 16 by default; `strokeWidth` is 1.75 by default (Lucide's own is 2).
-- It sets `aria-hidden="true"` unless you pass an `aria-label`, rather than rely on Lucide's own default, which depends on the Lucide version. An icon that informs on its own needs `aria-label` and `role="img"`.
-- Every other Lucide prop passes through (`className`, `style`, `absoluteStrokeWidth`, `aria-*` …), and the `ref` reaches the `<svg>`.
-- `lucide-react` is a peer dependency: the library imports it for its types only and bundles no icons.
+- `Icon` takes the Lucide component in `icon`. Pass the component itself, not an element: `<Icon icon={Terminal} />`.
+- It renders Lucide's `<svg>` with the class `nc-icon`.
+- The class makes it inline-block with `color: inherit`, keeps it from shrinking in a flex row and sits it on the middle of the text line.
+- The stroke is `currentColor`, so the icon takes the colour of the text around it.
+- `size` is the edge length in px, 16 by default.
+- `strokeWidth` is 1.75 by default, a little lighter than Lucide's own 2.
+- It sets `aria-hidden="true"` unless you pass an `aria-label`, rather than rely on Lucide's own default, which depends on the Lucide version.
+- An icon that informs on its own needs an `aria-label` and `role="img"`.
+- Every other Lucide prop passes through, such as `className`, `style`, `absoluteStrokeWidth` and `aria-*`, and the `ref` reaches the `<svg>`.
+- `lucide-react` is a peer dependency. The library imports it for its types only and bundles no icons, so an app carries only the icons it uses.
 
 ## props
 

@@ -6,62 +6,74 @@ import { SelectionToolbar } from '../../src';
 
 # toolbar
 
-Design guidance — when to use it, its parts, one emphasized action, overflow, the selection toolbar, its words: **[toolbar and selection toolbar on the guidelines site →](https://nalet.github.io/design-system/components/toolbar/)**
+When to use a toolbar, what its parts are, why only one action is emphasized, how the overflow works, what the selection toolbar adds and how to word it all is on the guidelines site: **[toolbar and selection toolbar guidance →](https://nalet.github.io/design-system/components/toolbar/)**
 
 <Canvas of={ToolbarStories.Playground} />
 
 ## examples
 
-The same `label` and `heading` in a 360px frame, below `collapseBelow` (560 by default): every action but the `emphasized` one is in the menu.
+Here the same `label` and `heading` sit in a 360px frame, below `collapseBelow` (560 by default), so every action but the `emphasized` one has moved into the menu.
 
 <Canvas of={ToolbarStories.Narrow} />
 
-`SelectionToolbar` with `selectedCount`, `onClearSelection`, `selectAll` and `primaryAction`, and one other action in `actions`; the buttons under it set the count.
+This `SelectionToolbar` uses `selectedCount`, `onClearSelection`, `selectAll` and `primaryAction`, with one more action in `actions`. The buttons under it set the count.
 
 <Canvas of={ToolbarStories.Selection} />
 
 ## implementation notes
 
-- `Toolbar` renders a `<div role="toolbar">`, named by `label` (`aria-label`). It carries `tabindex="-1"` so it can hold focus itself: when the control that has focus goes away, the toolbar takes focus instead of the page.
-- The emphasized action is a `sm` `Button` with `variant="primary"`, or `"danger"` when it is also `danger`; the others are `sm` `Button`s, `default` or `danger`. An action's `icon` goes in the button's `leading` slot.
+- `Toolbar` renders a `<div role="toolbar">`, named by `label` (`aria-label`).
+- It carries `tabindex="-1"`, so it can hold focus itself. When the control that has focus goes away, the toolbar takes the focus instead of the page, and keyboard users keep their place.
+- The emphasized action is a `sm` `Button` with `variant="primary"`, or `"danger"` when it is also `danger`.
+- The other actions are `sm` `Button`s, `default` or `danger`.
+- An action's `icon` goes in the button's `leading` slot.
 - A second `emphasized` action renders as a default button, and the toolbar warns in the console: `Toolbar "missing episodes": 2 emphasized actions; only the first is emphasized.`
-- The overflow is an `ActionMenu` named by `overflowLabel` (default "more actions"). `overflow: true` keeps an action in it. In the menu, a `disabled` or `loading` action is a disabled item, and a `danger` action a danger item.
-- The toolbar measures its own width, inside its padding, with a `ResizeObserver`: below `collapseBelow`, 560px by default, every action but the emphasized one moves into the menu. Until it has been measured, and wherever there is no `ResizeObserver`, it lays out as wide.
-- One tab stop is a roving tabindex: after every render, the toolbar puts `tabindex="0"` on one control and `-1` on the others, so there is still one tab stop when actions come and go.
-- The arrows move through every enabled button, link, input and select inside the toolbar, in order — including the heading's and your `children`'s. Disabled buttons are skipped, and so is a `loading` one, which is disabled while it is busy.
-- In an `input` or a `select`, the arrow keys, `home` and `end` stay with the field; `tab` leaves the toolbar from there.
+- The overflow is an `ActionMenu` named by `overflowLabel` (“more actions” by default).
+- `overflow: true` keeps an action in the menu at every width.
+- In the menu, a `disabled` or `loading` action becomes a disabled item, and a `danger` action a danger item.
+- The toolbar measures its own width, inside its padding, with a `ResizeObserver`. Below `collapseBelow`, 560px by default, every action but the emphasized one moves into the menu.
+- Until it has been measured, and wherever there is no `ResizeObserver`, it lays out as wide.
+- The toolbar is one tab stop, kept with a roving tabindex. After every render it puts `tabindex="0"` on one control and `-1` on the others, so there is still one tab stop when actions come and go.
+- The arrow keys move through every enabled button, link, input and select inside the toolbar, in order, including those in the heading and in your `children`.
+- Disabled buttons are skipped, and so is a `loading` one, because it is disabled while it is busy.
+- In an `input` or a `select`, the arrow keys, `home` and `end` stay with the field, so people can still edit or choose. From there, `tab` leaves the toolbar.
 - An `onKeyDown` you pass runs first. Call `preventDefault()` on a key to keep the toolbar from acting on it.
-- `SelectionToolbar` takes `selectedCount`. At 0 it shows `heading` and no emphasized action, unless `primaryAction(0)` returns one. Above 0 it shows the count (`formatSelected`, by default `8 selected` with thousands separators), `clear` when you pass `onClearSelection` (`clearLabel` renames it), `selectAll` when you pass it, and the emphasized action that `primaryAction(n)` returns; return `null` for none. `actions` are never emphasized. Build the bulk action's label from `n` in `primaryAction`.
-- A visually hidden `aria-live="polite"` region in the heading announces every change of `selectedCount` after the first render: the count as `formatSelected` writes it, or `selection cleared` at 0.
-- `Toolbar` passes other `<div>` attributes (all but `title`) and its `ref` to the `role="toolbar"` element. `SelectionToolbar` takes everything `Toolbar` takes except `heading` and `actions`, which it defines itself, and passes the rest on.
+- `SelectionToolbar` takes `selectedCount`. At 0 it shows `heading` and no emphasized action, unless `primaryAction(0)` returns one.
+- Above 0 it shows the count as `formatSelected` writes it, by default `8 selected` with thousands separators.
+- It shows `clear` when you pass `onClearSelection`, and `clearLabel` renames it. It shows `selectAll` when you pass it.
+- The emphasized action is the one `primaryAction(n)` returns, or none when it returns `null`. Build the bulk action's label from `n` in `primaryAction`, so the label carries the count.
+- `actions` are never emphasized.
+- A visually hidden `aria-live="polite"` region in the heading announces every change of `selectedCount` after the first render. It reads the count as `formatSelected` writes it, or `selection cleared` at 0.
+- `Toolbar` passes other `<div>` attributes (all but `title`) and its `ref` to the `role="toolbar"` element.
+- `SelectionToolbar` takes everything `Toolbar` takes except `heading` and `actions`, which it defines itself, and passes the rest on.
 - axe-core finds no violations in either toolbar.
-- Today: a `textarea` in `children` is not in the arrow-key set.
+- Today: a `textarea` in `children` is not in the arrow-key set, so the arrow keys pass over it.
 
 | key | does |
 | --- | --- |
-| `tab` / `shift+tab` | Moves into the toolbar, onto one control — the first, or the one last focused in it — and out of it on the next press. |
+| `tab` / `shift+tab` | Moves into the toolbar onto one control (the first, or the one last focused in it), and out of the toolbar on the next press. |
 | `→` / `←` | Moves to the next / previous control, wrapping at the ends. |
 | `home` / `end` | Moves to the first / last control. |
-| `enter` / `space` | Native: activates the focused button. |
+| `enter` / `space` | Activates the focused button, as native buttons do. |
 | `↓` / `↑` on `more actions` | Opens the overflow menu. Inside it, the [action menu](?path=/docs/components-actions-action-menu--docs)'s keys apply. |
 
 ## props
 
 <ArgTypes of={ToolbarStories} />
 
-Each entry in `actions`:
+Each entry in `actions` has these fields:
 
 | field | does |
 | --- | --- |
 | `id` | A key, unique within the toolbar |
 | `label` | The button's text: a verb and its object |
 | `onSelect` | Runs on press, or when chosen from the overflow menu |
-| `emphasized` | The one primary action; at most one |
+| `emphasized` | The one primary action; at most one per toolbar |
 | `danger` | A danger button, or a danger item in the menu |
 | `disabled`, `loading` | As on a button; in the menu, either makes a disabled item |
-| `overflow` | Always in the `more actions` menu |
+| `overflow` | Always puts the action in the `more actions` menu |
 | `icon` | Decoration before the label |
 
-`SelectionToolbar`:
+`SelectionToolbar` takes these props:
 
 <ArgTypes of={SelectionToolbar} />

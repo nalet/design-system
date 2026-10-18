@@ -5,52 +5,58 @@ import * as TileGroupStories from './TileGroup.stories';
 
 # tile group
 
-Design guidance — when to group tiles, the parts, the columns and the keyboard model, the words: **[tile group on the guidelines site →](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/#tile-groups)**
+When to group tiles, what a group is made of, how its columns work, how the keyboard moves through it and how to word it is on the guidelines site: **[tile group guidance →](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/#tile-groups)**
 
 <Canvas of={TileGroupStories.Playground} />
 
 ## examples
 
-`columns={4}`: a fixed column count, at every width.
+With `columns={4}`, the group keeps four columns at every width.
 
 <Canvas of={TileGroupStories.FixedColumns} />
 
-`action`: one low-weight control at the end of the legend row.
+An `action` puts one low-weight control at the end of the legend row.
 
 <Canvas of={TileGroupStories.WithAction} />
 
-`description`: a line under the legend.
+A `description` adds a line under the legend.
 
 <Canvas of={TileGroupStories.WithDescription} />
 
-`navigation="tab"`: every tile is its own tab stop.
+With `navigation="tab"`, every tile is its own tab stop.
 
 <Canvas of={TileGroupStories.TabOrder} />
 
 ## implementation notes
 
-- Renders a `<section>` labelled by its legend with `aria-labelledby`, so it is a region landmark. The legend is a real `<h2>`, and the chevron before it is `aria-hidden`; `description` is a `<p>`; `action` sits in a slot at the end of the legend row; the tiles go in a CSS grid.
-- `columns="auto"` (the default) is `repeat(auto-fill, minmax(minTileWidth, 1fr))`, with `minTileWidth` 14rem by default (224px at a 16px root). A number is `repeat(n, minmax(0, 1fr))`: that many columns at every width, and `minTileWidth` has no effect.
+- It renders a `<section>` labelled by its legend with `aria-labelledby`, so it is a region landmark that screen reader users can jump to.
+- The legend is a real `<h2>`, and the chevron before it is `aria-hidden`.
+- `description` is a `<p>`, and `action` sits in a slot at the end of the legend row.
+- The tiles go in a CSS grid.
+- `columns="auto"` (the default) is `repeat(auto-fill, minmax(minTileWidth, 1fr))`, with `minTileWidth` 14rem by default (224px at a 16px root), so the group fits as many columns as there is room for.
+- A number is `repeat(n, minmax(0, 1fr))`: that many columns at every width. `minTileWidth` then has no effect.
 - `gap` sets the space between tiles: `xs` 4px, `sm` 8px, `md` 16px (the default), `lg` 24px.
-- `navigation` picks the keyboard model: `roving` (the default; one tab stop and the arrow keys) or `tab` (every tile is its own tab stop).
-- With `roving`, the group keeps exactly one tile at `tabindex="0"` and the rest at `-1`, and checks again on every render, so it follows tiles that appear or are hidden. The tiles it moves between are the elements that carry `data-nc-tile`, which interactive [tiles](?path=/docs/components-navigation-tile--docs) set: links, buttons and `as` elements.
-- Inside a [portal](?path=/docs/patterns-portal--docs) that runs roving (its default), the group leaves the keys to the portal, and they move across all groups.
-- A group with the `hidden` attribute disappears; the portal's search hides groups that way when none of their tiles match.
-- Today: the legend is always an `<h2>`, whatever the headings around it; there is no prop for another level.
+- `navigation` picks the keyboard model: `roving` (the default), with one tab stop and the arrow keys, or `tab`, where every tile is its own tab stop.
+- With `roving`, the group keeps exactly one tile at `tabindex="0"` and the rest at `-1`. It checks again on every render, so it follows tiles that appear or are hidden.
+- The tiles it moves between are the elements that carry `data-nc-tile`, which interactive [tiles](?path=/docs/components-navigation-tile--docs) set: links, buttons and `as` elements.
+- Inside a [portal](?path=/docs/patterns-portal--docs) that runs roving (its default), the group leaves the keys to the portal, so they move across all groups.
+- A group with the `hidden` attribute disappears. The portal's search hides groups that way when none of their tiles match.
+- Today: the legend is always an `<h2>`, whatever the headings around it. There is no prop for another level.
 - Today: the grid is a plain `<div>`, with no role that announces the arrow keys. If people get stuck, use `navigation="tab"`.
 - Other `<section>` attributes and the `ref` reach the section.
 
-With `navigation="roving"`:
+With `navigation="roving"`, the keys work like this:
 
 | key | does |
 | --- | --- |
-| `tab` / `shift+tab` | Enters the group on one tile and leaves it on the next press. That tile is the one you last moved to with the arrow keys, otherwise the first enabled tile. |
-| `→` / `←` | The next / previous tile in reading order. Stops at the first and the last tile. |
-| `↓` / `↑` | The nearest tile below / above by position on screen, preferring the same column. |
-| `home` / `end` | The first / last tile. |
-| `enter` / `space` | Native: `enter` follows a link tile; `enter` and `space` press a button tile. |
+| `tab` / `shift+tab` | Enters the group on one tile and leaves it on the next press. That tile is the one you last moved to with the arrow keys, or else the first enabled tile. |
+| `→` / `←` | Moves to the next / previous tile in reading order, and stops at the first and the last tile. |
+| `↓` / `↑` | Moves to the nearest tile below / above by position on screen, preferring the same column. |
+| `home` / `end` | Moves to the first / last tile. |
+| `enter` / `space` | Native: `enter` follows a link tile, and `enter` and `space` press a button tile. |
 
-- The keys act only while focus is on a tile in the grid. The action slot keeps its own tab stop.
+- The keys act only while focus is on a tile in the grid.
+- The action slot keeps its own tab stop.
 - The arrow keys skip disabled and display-only tiles (they aren't links or buttons) and tiles that aren't visible.
 - With `navigation="tab"`, every tile is its own tab stop and the arrow keys do nothing.
 

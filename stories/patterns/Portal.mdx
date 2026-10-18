@@ -5,36 +5,46 @@ import * as PortalStories from './Portal.stories';
 
 # portal (launchpad)
 
-Design guidance — the launchpad floorplan, when to use a tile, groups, the keyboard model and the words: **[launchpad & tiles on the guidelines site →](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/)**
+How the launchpad floorplan is laid out, when to use a tile, how to group tiles, how the keyboard moves through them and how to word it all is on the guidelines site: **[launchpad and tiles guidance →](https://nalet.github.io/design-system/patterns/launchpad-and-tiles/)**
+
+Here is a launchpad with favourites and a search you control with `query` and `onQueryChange`.
 
 <Canvas of={PortalStories.WithFavorites} />
 
 ## examples
 
-The default: a title, the search and groups. The controls below change its props.
+This is the default: a title, the search and groups. You can change its props with the controls below it.
 
 <Canvas of={PortalStories.Playground} />
 
-A hub of key figures, without the search (`searchable={false}`):
+This hub of key figures has no search (`searchable={false}`).
 
 <Canvas of={PortalStories.KpiDashboard} />
 
-`density="compact"`, here with `sm` tiles:
+With `density="compact"` the spaces are tighter, and here the tiles are `sm` as well.
 
 <Canvas of={PortalStories.Compact} />
 
-A search that matches nothing, with its own `emptyState`:
+Here the search matches nothing, and the portal shows the `emptyState` it was given.
 
 <Canvas of={PortalStories.NoMatches} />
 
 ## implementation notes
 
-- `Portal` renders an optional title bar — the title as an `<h1>` with an 18px chevron, and the search, a `role="search"` landmark around a text input named by `searchLabel` ("search apps" by default) — then `favorites`, then its children, the `TileGroup`s, then the empty state and a visually hidden polite live region with the match count.
-- The search is uncontrolled by default. Pass `query` with `onQueryChange` to control it; `onQueryChange` fires on every keystroke either way. A controlled `query` without `onQueryChange` freezes the search box.
-- Matching is on each tile's `data-nc-search` (its title and description, lowercased), which `Tile` sets. Tiles that don't match are hidden, and so is a group left without a match (the `hidden` attribute); a hidden tile never keeps the tab stop.
-- `/` with focus in the body moves focus to the search; `esc` in the search clears it and moves focus to the first tile.
-- `navigation="roving"` (the default) runs one roving-grid model across every tile in the body, favourites included. It is `useRovingGrid(ref, enabled)`, which the library exports: it keeps one `[data-nc-tile]` element under `ref` at `tabindex="0"` and the rest at `-1`, and returns the `onKeyDown` handler for the container — a custom launcher can reuse it. `navigation="tab"` turns it off; each tile group then runs its own model unless it is given `navigation="tab"` too.
-- `density="compact"` tightens the spaces: 16px under the title bar instead of 24, 24px between groups instead of 32.
+- `Portal` renders, in order: an optional title bar, then `favorites`, then its children (the `TileGroup`s), then the empty state and a visually hidden polite live region with the match count.
+- The title bar holds the title, an `<h1>` with an 18px chevron, and the search: a `role="search"` landmark around a text input named by `searchLabel` (“search apps” by default).
+- The search is uncontrolled by default. To control it, pass `query` with `onQueryChange`.
+- `onQueryChange` fires on every keystroke either way.
+- A controlled `query` without `onQueryChange` freezes the search box.
+- The search matches against each tile's `data-nc-search`, which `Tile` sets to its title and description, lowercased.
+- Tiles that don't match are hidden with the `hidden` attribute, and so is a group left without a match.
+- A hidden tile never keeps the tab stop, so `tab` always lands on a tile people can see.
+- Pressing `/` with focus in the body moves focus to the search.
+- `esc` in the search clears it and moves focus to the first tile.
+- `navigation="roving"` (the default) runs one roving-grid model across every tile in the body, favourites included, so the arrow keys move across all groups.
+- The model is `useRovingGrid(ref, enabled)`, which the library exports, so a custom launcher can reuse it. It keeps one `[data-nc-tile]` element under `ref` at `tabindex="0"` and the rest at `-1`, and returns the `onKeyDown` handler for the container.
+- `navigation="tab"` turns the model off. Each tile group then runs its own model, unless you give it `navigation="tab"` too.
+- `density="compact"` tightens the spaces: 16px under the title bar instead of 24, and 24px between groups instead of 32.
 - `Portal` passes other attributes and its `ref` to its root `<div>`.
 
 ## props

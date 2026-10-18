@@ -5,17 +5,17 @@ import * as HeadingStories from './Heading.stories';
 
 # heading
 
-Design guidance — when to use it, the two levels, the chevron, its words: **[heading on the guidelines site →](https://nalet.github.io/design-system/components/heading/)**
+When to use a heading, which of its two levels to pick, when to add the chevron and how to word it is on the guidelines site: **[heading guidance →](https://nalet.github.io/design-system/components/heading/)**
 
 <Canvas of={HeadingStories.Playground} />
 
 ## examples
 
-`level={1}` and `level={2}`.
+The two levels, `level={1}` and `level={2}`.
 
 <Canvas of={HeadingStories.Levels} />
 
-`chevron` on a `level={1}` heading.
+A `level={1}` heading with `chevron`.
 
 <Canvas of={HeadingStories.WithChevron} />
 
@@ -25,9 +25,10 @@ A `level={1}` heading with `chevron` above its first `level={2}` section, each i
 
 ## implementation notes
 
-- Renders a native `h1` (`level={1}`, the default) or `h2` (`level={2}`), with `margin: 0`.
-- `chevron` puts a `span` with `aria-hidden="true"` before your text, holding a `>` in `--cloud-blue`.
-- Every native heading attribute passes through (`id` for in-page links, `aria-*`, …), and the `ref` reaches the heading.
+- It renders a native `h1` (`level={1}`, the default) or `h2` (`level={2}`), with `margin: 0`.
+- Because it is a native heading, screen reader users can list the headings on a page and jump between them.
+- `chevron` puts a `span` with `aria-hidden="true"` before your text, holding a `>` in `--cloud-blue`, so a screen reader reads only your text.
+- Every native heading attribute passes through, such as `id` for in-page links and `aria-*`, and the `ref` reaches the heading.
 
 | key | does |
 | --- | --- |

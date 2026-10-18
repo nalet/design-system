@@ -5,23 +5,27 @@ import * as FilterTabsStories from './FilterTabs.stories';
 
 # filter tabs
 
-Design guidance — when to use them, their parts, states on counts, their words: **[filter tabs on the guidelines site →](https://nalet.github.io/design-system/components/filter-tabs/)**
+When to use filter tabs, their parts, the states on their counts and how to word them is on the guidelines site: **[filter tabs guidance →](https://nalet.github.io/design-system/components/filter-tabs/)**
 
 <Canvas of={FilterTabsStories.Playground} />
 
 ## examples
 
-`tabs` with a `count` and no `state`: plain counts.
+`tabs` that each have a `count` and no `state` show plain counts.
 
 <Canvas of={FilterTabsStories.WithoutState} />
 
 ## implementation notes
 
-- Controlled only: pass `value` and set it in `onChange`. A `value` you don't update freezes the row.
-- Renders a `<div>` around a `<div role="tablist">` named by `label` (`aria-label`, required). Each tab is a `<button type="button">` with `role="tab"` and `aria-selected`; only the selected tab has `tabindex="0"`.
-- The label comes first in the DOM, so it is read first, and CSS draws the count above it. A real space sits between the two in the DOM, so they are never read as one word.
-- The fade on a cut-off edge follows the row's scroll position, and a `ResizeObserver` on the row.
-- **Wiring the panel.** Pass `panelId`, and every tab points at your panel with `aria-controls`. Pass `idPrefix`, and each tab's ID is `filterTabId(idPrefix, tab.id)`. Render the list inside the panel, named by the selected tab:
+- The tabs are controlled only: pass `value`, and set it in `onChange`.
+- A `value` you don't update freezes the row.
+- It renders a `<div>` around a `<div role="tablist">`, named by `label` (`aria-label`, required).
+- Each tab is a `<button type="button">` with `role="tab"` and `aria-selected`.
+- Only the selected tab has `tabindex="0"`, so `tab` lands on it, and the arrow keys move on from there.
+- The label comes first in the DOM, so it is read first, and CSS draws the count above it.
+- A real space sits between the label and the count in the DOM, so they are never read as one word.
+- The fade on a cut-off edge follows the row's scroll position and its size, which a `ResizeObserver` on the row watches.
+- **Wiring the panel.** Pass `panelId`, and every tab points at your panel with `aria-controls`. Pass `idPrefix`, and each tab's ID becomes `filterTabId(idPrefix, tab.id)`. Then render the list inside the panel, named by the selected tab:
 
 ```tsx
 import { FilterTabs, filterTabId } from '@nalet/design-system';
@@ -39,15 +43,16 @@ import { FilterTabs, filterTabId } from '@nalet/design-system';
 </div>
 ```
 
-Without `idPrefix` the tabs still get IDs, but from a generated prefix you can't know, so pass it whenever you render the panel, and keep it unique on the page. The [worklist](?path=/docs/patterns-worklist--docs) does all of this for you.
+Without `idPrefix`, the tabs still get IDs, but from a generated prefix you can't know. So pass it whenever you render the panel, and keep it unique on the page. The [worklist](?path=/docs/patterns-worklist--docs) does all of this for you.
 
 - axe-core finds no violations, with the panel wired.
-- Today: a `value` that matches no enabled tab leaves the row without a tab stop: no tab has `tabindex="0"`, or the one that has it is disabled, so `tab` can't reach the row.
-- Other `<div>` attributes (all but `onChange`, which is its own) and the `ref` reach the wrapper around the tablist; `label` names the tablist itself.
+- Today: a `value` that matches no enabled tab leaves the row without a tab stop. Either no tab has `tabindex="0"`, or the one that has it is disabled, so `tab` can't reach the row.
+- Other `<div>` attributes and the `ref` reach the wrapper around the tablist, all but `onChange`, which is the component's own.
+- `label` names the tablist itself.
 
 | key | does |
 | --- | --- |
-| `tab` | Moves focus into the row, onto the selected tab — the only one with `tabindex="0"` — and out of the row on the next press. |
+| `tab` | Moves focus into the row, onto the selected tab (the only one with `tabindex="0"`), and out of the row on the next press. |
 | `→` / `←` | Selects the next / previous enabled tab, wrapping at the ends: calls `onChange` and moves focus to it. |
 | `home` / `end` | Selects and focuses the first / last enabled tab. |
 | `enter` / `space` | Native button: selects the focused tab. |
@@ -56,4 +61,4 @@ Without `idPrefix` the tabs still get IDs, but from a generated prefix you can't
 
 <ArgTypes of={FilterTabsStories} />
 
-Each entry in `tabs` has an `id`, a `label`, and optionally a `count`, a `state` and `disabled`. `filterTabId(idPrefix, tabId)` returns a tab's ID, for the panel's `aria-labelledby`.
+Each entry in `tabs` has an `id`, a `label` and, optionally, a `count`, a `state` and `disabled`. `filterTabId(idPrefix, tabId)` returns a tab's ID, for the panel's `aria-labelledby`.

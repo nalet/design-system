@@ -6,25 +6,25 @@ import { Toaster } from '../../src';
 
 # forms and settings
 
-Design guidance — instant or saved, the footer and unsaved changes, validation, failed saves, the words: **[forms and settings on the guidelines site →](https://nalet.github.io/design-system/patterns/forms-and-settings/)**
+When a setting applies at once and when it waits for a save, how the footer handles unsaved changes, how to validate, what to do when a save fails and how to word it all is on the guidelines site: **[forms and settings guidance →](https://nalet.github.io/design-system/patterns/forms-and-settings/)**
 
-The three examples below are the pattern's reference code: open "show code" under each.
+The three examples below are the pattern's reference code. To read it, open “show code” under each one.
 
 ## a settings page
 
-Change a value, save with an error, fix it, save; switch the times to UTC and save.
+This is a whole settings page to try: change a value, save with an error, fix it and save again, then switch the times to UTC and save.
 
 <Canvas of={FormsStories.Settings} />
 
 ## after a save with errors
 
-The summary at the top, each error at its field.
+This is the form right after a save with errors: a summary at the top, and each error at its field.
 
 <Canvas of={FormsStories.FailedValidation} />
 
 ## when the save fails
 
-The values are kept, and "try again" sends them again.
+When the server refuses a save, the values are kept, and “try again” sends them again.
 
 <Canvas of={FormsStories.SaveFails} />
 
@@ -32,13 +32,15 @@ The values are kept, and "try again" sends them again.
 
 ## implementation notes
 
-- The form is a native `<form noValidate>`, named by its card's heading through `aria-labelledby`. The card's `header` is an `h3` with `margin: 0` and `font: inherit`, so it keeps the card title's look.
-- `Button` defaults to `type="button"`. Pass `type="submit"` to `save changes` only: `enter` in a text field presses the form's first submit button.
-- `noValidate` keeps the browser's own error bubbles out of the way. Pass `required` to the controls all the same, so assistive tech says "required": `Field`'s `required` only draws an asterisk.
-- `Field` sets `aria-invalid` and the `--state-error` border on its control when it has an `error`, so `form.querySelector('[aria-invalid="true"]')` finds the first invalid control to focus after a save.
-- `toast('settings saved', { state: 'success', id: 'backup-settings' })`: a fixed `id` makes a second save replace the toast instead of stacking another.
-- `loading` on the save button disables it, and a disabled button can't keep focus: when the save ends, put focus back on save if it fell to the page, as the example does.
-- To keep the footer in view on a long form, wrap it with `position: sticky; bottom: 0`; the card's footer doesn't stick by itself.
-- Nothing in the library warns before leaving a page with unsaved changes: use the router's navigation blocker or `beforeunload`.
-- A `Field` `error` around a checkbox or a switch passes `invalid` to it: React warns about an unknown attribute, and the box looks the same. Check option groups as a whole.
-- There is no fieldset or radio component: reset a native `<fieldset>` (no border, margin or padding, `min-width: 0`) and give its `<legend>` the field label's look — Inter 500, 13px, `--fg-2`.
+- The form is a native `<form noValidate>`, named by its card's heading through `aria-labelledby`.
+- The card's `header` is an `h3` with `margin: 0` and `font: inherit`, so it keeps the card title's look.
+- `Button` defaults to `type="button"`. Pass `type="submit"` to `save changes` only, because `enter` in a text field presses the form's first submit button.
+- `noValidate` keeps the browser's own error bubbles out of the way.
+- Pass `required` to the controls all the same, so assistive tech says “required”. `Field`'s `required` only draws an asterisk.
+- When a `Field` has an `error`, it sets `aria-invalid` and the `--state-error` border on its control. That way `form.querySelector('[aria-invalid="true"]')` finds the first invalid control to focus after a save.
+- The confirmation is `toast('Settings saved', { state: 'success', id: 'backup-settings' })`. Its fixed `id` makes a second save replace the toast instead of stacking another.
+- `loading` on the save button disables it, and a disabled button can't keep focus. When the save ends, put focus back on the save button if it fell to the page, as the example does.
+- The card's footer doesn't stick by itself. To keep it in view on a long form, wrap it with `position: sticky; bottom: 0`.
+- Nothing in the library warns before someone leaves a page with unsaved changes. Use the router's navigation blocker or `beforeunload` for that.
+- A `Field` `error` around a checkbox or a switch passes `invalid` to it. React then warns about an unknown attribute, and the box looks the same, so check an option group as a whole instead.
+- There is no fieldset or radio component. Reset a native `<fieldset>` instead (no border, margin or padding, `min-width: 0`), and give its `<legend>` the field label's look: Inter 500, 13px, `--fg-2`.

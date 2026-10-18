@@ -5,37 +5,41 @@ import * as FilterBarStories from './FilterBar.stories';
 
 # filter bar
 
-Design guidance — when to use it, its parts, wide and narrow, its words: **[filter bar on the guidelines site →](https://nalet.github.io/design-system/components/filter-bar/)**
+When to use a filter bar, its parts, how it looks wide and narrow and how to word it is on the guidelines site: **[filter bar guidance →](https://nalet.github.io/design-system/components/filter-bar/)**
 
 <Canvas of={FilterBarStories.Playground} />
 
 ## examples
 
-In a 360px column, below `collapseBelow`, the facets fold behind the `filters` toggle; `label` names the landmark.
+In a 360px column, narrower than `collapseBelow`, the facets fold behind the `filters` toggle, and `label` names the landmark.
 
 <Canvas of={FilterBarStories.Narrow} />
 
-`search` and `resultCount` alone, with no `filters` and no `onClearAll`.
+A bar with only `search` and `resultCount`, and no `filters` or `onClearAll`.
 
 <Canvas of={FilterBarStories.SearchOnly} />
 
 ## implementation notes
 
-- Fully controlled: the bar holds no values of its own. Each value comes from you and goes back through its `onChange`; the list filters itself from them.
-- Renders a `<div role="search">` named by `label` (`aria-label`, default "filters").
-- `search` renders an `Input` with `type="search"`, named by `search.label` (`aria-label`, default "search").
-- Each `select` facet is a native `Select` inside its own `<label>`; a `multiselect` facet is a `MultiSelect`.
-- `collapseBelow` (640 by default) is compared with the bar's own width, measured with a `ResizeObserver`. Until the bar has been measured, and wherever there is no `ResizeObserver`, it lays out wide.
-- Narrow, the toggle has `aria-expanded`, and `aria-controls` pointing at the facets. Folded facets are `hidden`.
-- The count is a live region, `aria-live="polite"` with `aria-atomic="true"`. It is always on the page, empty while there is no `resultCount`, so the first count is announced too.
-- `clear all` calls `onClearAll`. Reset the search and every facet there.
+- The bar is fully controlled and holds no values of its own.
+- Each value comes from you and goes back through its `onChange`, and the list filters itself from those values.
+- It renders a `<div role="search">` named by `label` (`aria-label`, “filters” by default). That makes it a search landmark, so screen reader users can jump to it.
+- `search` renders an `Input` with `type="search"`, named by `search.label` (`aria-label`, “search” by default).
+- Each `select` facet is a native `Select` inside its own `<label>`, and a `multiselect` facet is a `MultiSelect`.
+- `collapseBelow` (640 by default) is compared with the bar's own width, which a `ResizeObserver` measures, so the bar folds by the room it has, not by the window.
+- Until the bar has been measured, and wherever there is no `ResizeObserver`, it lays out wide.
+- When the bar is narrow, the toggle has `aria-expanded`, and `aria-controls` pointing at the facets.
+- Folded facets are `hidden`, so they are neither seen nor read.
+- The count is a live region, `aria-live="polite"` with `aria-atomic="true"`, so each change is read whole. That is how someone typing hears that the list changed.
+- The count is always on the page, empty while there is no `resultCount`, so the first count is announced too.
+- `clear all` calls `onClearAll`: reset the search and every facet there.
 - axe-core finds no violations, with a multi select open.
 - Other `<div>` attributes and the `ref` reach the `role="search"` element.
 
 | key | does |
 | --- | --- |
-| `tab` / `shift+tab` | Native order: the search, each facet, your controls, `clear all`. Narrow: the search, the `filters` toggle and, while it is open, the facets, your controls and `clear all`. A disabled `clear all` is skipped. |
-| Typing in the search | Calls `search.onChange` on every keystroke: the list filters as the person types. |
+| `tab` / `shift+tab` | In the native order: the search, each facet, your controls, `clear all`. When narrow: the search, the `filters` toggle and, while it is open, the facets, your controls and `clear all`. A disabled `clear all` is skipped. |
+| Typing in the search | Calls `search.onChange` on every keystroke, so the list filters as the person types. |
 | `esc` in the search | Clears it, when it holds text. A modal around the bar stays open. On an empty search, the key goes on to the page. |
 | Keys in a select facet | Native: see [select](?path=/docs/components-inputs-select--docs). |
 | Keys in a multi select facet | See [multi select](?path=/docs/components-inputs-multi-select--docs). |
@@ -45,7 +49,7 @@ In a 360px column, below `collapseBelow`, the facets fold behind the `filters` t
 
 <ArgTypes of={FilterBarStories} />
 
-`search` takes `value`, `onChange`, `placeholder` and `label` (default "search"). Each entry in `filters` is one facet:
+`search` takes `value`, `onChange`, `placeholder` and `label` (“search” by default). Each entry in `filters` is one facet, with these fields:
 
 | field | `select` facet | `multiselect` facet |
 | --- | --- | --- |

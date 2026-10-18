@@ -5,46 +5,48 @@ import * as CardStories from './Card.stories';
 
 # card
 
-Design guidance — when to use it, its parts and variants, titles and asides, a card as a section: **[card on the guidelines site →](https://nalet.github.io/design-system/components/card/)**
+When to use a card, which parts and variants it has, how to write its title and aside and when to make it a section is on the guidelines site: **[card guidance →](https://nalet.github.io/design-system/components/card/)**
 
 <Canvas of={CardStories.Playground} />
 
 ## examples
 
-Children only: no `header`, `headerAside` or `footer`.
+A card with only `children`, and no `header`, `headerAside` or `footer`.
 
 <Canvas of={CardStories.Plain} />
 
-`header`, and a `footer` holding a `Stack` with a muted line and a ghost button.
+A card with a `header`, and a `footer` that holds a `Stack` with a muted line and a ghost button.
 
 <Canvas of={CardStories.WithHeaderAndFooter} />
 
-`headerAside` with a `Badge` count and a ghost `Button`.
+`headerAside` puts a `Badge` count and a ghost `Button` beside the title.
 
 <Canvas of={CardStories.HeaderAside} />
 
-`sunken`, nested in a default card.
+A `sunken` card, nested in a default one.
 
 <Canvas of={CardStories.Sunken} />
 
-`flush`, with a table built from the [table](?path=/docs/components-data-display-table--docs) primitives.
+A `flush` card, holding a table built from the [table](?path=/docs/components-data-display-table--docs) primitives.
 
 <Canvas of={CardStories.Flush} />
 
-A heading element as `header`, with `role="region"` and `aria-labelledby` on the card.
+A heading element as `header`, with `role="region"` and `aria-labelledby` on the card, so the card becomes a landmark named by its heading.
 
 <Canvas of={CardStories.AsSection} />
 
 ## implementation notes
 
-- Renders a plain `div` with no role and no name. Inside it, in this order: the header row when `header` or `headerAside` is set, the body, and the footer row when `footer` is set.
-- In a `flush` card, build the table from the [table](?path=/docs/components-data-display-table--docs) primitives: today `Table` draws its own 1px frame, which doubles the card's edge.
-- Today: the title renders in a `div`. To make it a heading, pass a heading element as `header`; with `margin: 0` and `font: inherit` it keeps the title's look. To make the card a landmark, add `role="region"` and `aria-labelledby` pointing at that heading — `Card` passes both to its container.
-- Every native `div` attribute passes to the container (`role`, `aria-labelledby`, `id`, …), and the `ref` reaches it.
+- It renders a plain `div` with no role and no name.
+- Inside it come, in this order: the header row when `header` or `headerAside` is set, the body, and the footer row when `footer` is set.
+- In a `flush` card, build the table from the [table](?path=/docs/components-data-display-table--docs) primitives, because today `Table` draws its own 1px frame, which doubles the card's edge.
+- Today: the title renders in a `div`. To make it a heading, pass a heading element as `header`. With `margin: 0` and `font: inherit`, it keeps the title's look.
+- To make the card a landmark, add `role="region"` and `aria-labelledby` pointing at that heading. `Card` passes both to its container.
+- Every native `div` attribute passes to the container, such as `role`, `aria-labelledby` and `id`, and the `ref` reaches it.
 
 | key | does |
 | --- | --- |
-| `tab` | Skips the card; focus moves through the controls inside it — header aside, then body, then footer. |
+| `tab` | Skips the card. Focus moves through the controls inside it: the header aside, then the body, then the footer. |
 
 ## props
 

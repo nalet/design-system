@@ -5,42 +5,43 @@ import * as BoxStories from './Box.stories';
 
 # box
 
-Design guidance — when to use it, padding, backgrounds and borders, what goes inside: **[box on the guidelines site →](https://nalet.github.io/design-system/components/box/)**
+When to use a box, how much padding to give it, which background and border to pick and what goes inside is on the guidelines site: **[box guidance →](https://nalet.github.io/design-system/components/box/)**
 
 <Canvas of={BoxStories.Playground} />
 
 ## examples
 
-`p` at 8, 16, 24 and 32; there is no default.
+`p` pads every side, here at 8, 16, 24 and 32. There is no default, so a box has no padding until you give it some.
 
 <Canvas of={BoxStories.Padding} />
 
-`px` and `py` instead of `p`.
+`px` and `py` instead of `p`: one pads the left and right, the other the top and bottom.
 
 <Canvas of={BoxStories.AsymmetricPadding} />
 
-`bg`: `bg`, `bg-2`, `surface` and `surface-2`, each with `border`.
+`bg` takes four backgrounds: `bg`, `bg-2`, `surface` and `surface-2`, each shown here with `border`.
 
 <Canvas of={BoxStories.Backgrounds} />
 
-A `bg="bg-2"` box nested in a `bg="surface"` box.
+A box with `bg="bg-2"` nested in one with `bg="surface"`, as a sunken region inside a surface.
 
 <Canvas of={BoxStories.Panel} />
 
 ## implementation notes
 
-- Renders a `div` with `box-sizing: border-box` and `border-radius: 0`.
-- `p` pads every side, `px` the left and right, `py` the top and bottom. Each takes 0, 4, 8, 12, 16, 24, 32, 48 or 64 and resolves to the `--s-1` … `--s-8` tokens.
-- `px` and `py` are applied after `p`, so `p={16} px={24}` gives 16px top and bottom and 24px left and right.
-- `p`, `px`, `py` and `bg` are written as inline styles over your `style`, so they win over the same properties there.
-- Today: if `p` changes on a re-render while `px` or `py` is set, the new `padding` shorthand can overwrite the `px`/`py` sides (React warns about this in development). Use `p` alone, or `px` and `py` together, when padding changes at run time.
-- A plain `div` with no role. For a landmark or a region, pass `role` with `aria-label` or `aria-labelledby` through, or use a native element.
-- Today: it is always a `div`; there is no `as` prop for a `section`, `aside` or `ul`.
+- It renders a `div` with `box-sizing: border-box` and `border-radius: 0`, so padding and border stay inside the width you set, and the corners stay square.
+- `p` pads every side, `px` the left and right, and `py` the top and bottom.
+- Each takes 0, 4, 8, 12, 16, 24, 32, 48 or 64 and resolves to the `--s-1` … `--s-8` tokens, so the padding always comes from the space scale.
+- `px` and `py` are applied after `p`, so they win: `p={16} px={24}` gives 16px top and bottom and 24px left and right.
+- `p`, `px`, `py` and `bg` are written as inline styles on top of your `style`, so they win over the same properties there.
+- Today: when `p` changes on a re-render while `px` or `py` is set, the new `padding` shorthand can overwrite the sides that `px` or `py` set, and React warns about this in development. When the padding changes at run time, use `p` alone, or `px` and `py` together.
+- The `div` has no role. To make the box a landmark or a region, pass a `role` with `aria-label` or `aria-labelledby` through, or use a native element.
+- Today: it is always a `div`. There is no `as` prop to render a `section`, an `aside` or a `ul`.
 - Every native `div` attribute passes through, and the `ref` reaches the `div`.
 
 | key | does |
 | --- | --- |
-| `tab` | Skips the box; focus moves through what's inside it, in order. |
+| `tab` | Skips the box. Focus moves through what's inside it, in order. |
 
 ## props
 

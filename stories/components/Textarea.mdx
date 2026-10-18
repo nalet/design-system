@@ -5,46 +5,47 @@ import * as TextareaStories from './Textarea.stories';
 
 # textarea
 
-Design guidance — when to use it, its rows and states, length limits, its words: **[textarea on the guidelines site →](https://nalet.github.io/design-system/components/textarea/)**
+When to use a textarea, how many rows to give it, which states it has, how to handle a length limit and how to word it is on the guidelines site: **[textarea guidance →](https://nalet.github.io/design-system/components/textarea/)**
 
 <Canvas of={TextareaStories.Playground} />
 
 ## examples
 
-`defaultValue`, named with `aria-label`.
+This textarea starts with a `defaultValue` and is named with `aria-label`.
 
 <Canvas of={TextareaStories.Default} />
 
-`rows`: 2, 4 (the default) and 8.
+Here `rows` is 2, 4 (the default) and 8.
 
 <Canvas of={TextareaStories.Sizes} />
 
-`invalid`, set by a field's `error`.
+Here a field's `error` sets `invalid` on the textarea.
 
 <Canvas of={TextareaStories.Invalid} />
 
-`disabled`.
+This one is `disabled`.
 
 <Canvas of={TextareaStories.Disabled} />
 
-`value` with `onChange`, `maxLength`, and a count linked with `aria-describedby`.
+This one is controlled with `value` and `onChange`, has a `maxLength`, and shows a count linked with `aria-describedby`.
 
 <Canvas of={TextareaStories.Controlled} />
 
 ## implementation notes
 
-- Renders a native `<textarea>` — the box is the element itself — so the browser provides the keyboard model.
-- The component holds no state. Use `defaultValue`, or `value` with `onChange`.
-- A [field](?path=/docs/components-inputs-field--docs) renders a `<label for>` and links the hint or error with `aria-describedby`.
-- `invalid` sets `aria-invalid="true"` and the `--state-error` border. A field's `error` sets `invalid` for you. Read-only is the native `readOnly`.
-- The limit is the native `maxLength`. Link a count to the textarea with `aria-describedby`, as the controlled example does.
+- It renders a native `<textarea>`, and the box you see is that element itself, so the browser gives it the keyboard behaviour for free.
+- The component holds no state of its own. Use `defaultValue`, or `value` with `onChange`.
+- A [field](?path=/docs/components-inputs-field--docs) renders a `<label for>` for it and links the hint or error with `aria-describedby`.
+- `invalid` sets `aria-invalid="true"` and the `--state-error` border. A field's `error` sets `invalid` for you.
+- For read-only, use the native `readOnly`.
+- The length limit is the native `maxLength`. Link a count to the textarea with `aria-describedby`, as the controlled example does, so a screen reader reads the count with the field.
 - Every native `<textarea>` attribute passes through (`value`, `onChange`, `maxLength`, `name`, `aria-*`, …), and the ref reaches the `<textarea>`.
 
 | key | does |
 | --- | --- |
 | `tab` / `shift+tab` | Moves focus to / from the field. `tab` does not type a tab character. |
 | `enter` | Starts a new line. It never submits the form. |
-| Arrows, `home`, `end` | Move the caret; with `shift` they select. |
+| Arrows, `home`, `end` | Move the caret. With `shift`, they select. |
 
 ## props
 

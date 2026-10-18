@@ -5,44 +5,47 @@ import * as StackStories from './Stack.stories';
 
 # stack
 
-Design guidance — when to use it, direction, gap and alignment, reading order: **[stack on the guidelines site →](https://nalet.github.io/design-system/components/stack/)**
+When to use a stack, how to set its direction, gap and alignment, and how it keeps the reading order is on the guidelines site: **[stack guidance →](https://nalet.github.io/design-system/components/stack/)**
 
 <Canvas of={StackStories.Playground} />
 
 ## examples
 
-`direction="vertical"`, the default, with `gap={8}`.
+Here is the default, `direction="vertical"`, with `gap={8}`.
 
 <Canvas of={StackStories.Vertical} />
 
-`direction="horizontal"` with `gap={12}`.
+Here is `direction="horizontal"` with `gap={12}`.
 
 <Canvas of={StackStories.Horizontal} />
 
-`gap` at 4, 16 and 32, in rows with `align="center"`.
+These rows use `gap` at 4, 16 and 32, each with `align="center"`.
 
 <Canvas of={StackStories.GapScale} />
 
-`justify="between"` and `align="center"`: a title and its action at the ends.
+With `justify="between"` and `align="center"`, a title and its action sit at the two ends of a row.
 
 <Canvas of={StackStories.Justified} />
 
-`wrap` on a horizontal stack.
+With `wrap`, a horizontal stack moves its children onto a new line when they run out of room.
 
 <Canvas of={StackStories.Wrap} />
 
 ## implementation notes
 
-- Renders a `div` with `display: flex` (`inline-flex` with `inline`), `box-sizing: border-box` and `min-width: 0`, so it can shrink inside other flex and grid layouts.
-- `gap` takes 0, 4, 8, 12, 16 (the default), 24, 32, 48 or 64 and resolves to the `--s-*` tokens.
-- A plain `div` with no role. For a real list, render `ul` and `li`, or pass `role="list"` to the stack and `role="listitem"` to each child.
-- Today: it is always a `div`; there is no `as` prop.
+- It renders a `div` with `display: flex`, or `inline-flex` when you pass `inline`.
+- It sets `box-sizing: border-box` and `min-width: 0`, so it can shrink inside other flex and grid layouts.
+- `gap` takes 0, 4, 8, 12, 16 (the default), 24, 32, 48 or 64, and resolves to the `--s-*` tokens, so every gap comes from the space scale.
+- It is a plain `div` with no role.
+- For a real list, render `ul` and `li`, or pass `role="list"` to the stack and `role="listitem"` to each child, so screen readers announce it as a list.
+- Today: it is always a `div`. There is no `as` prop.
 - Every native `div` attribute passes through, and the `ref` reaches the `div`.
-- Your `style` is merged over the base layout, so it can change `display`, the direction and the `gap`; `align`, `justify` and `wrap` are applied after it and win.
+- Your `style` is merged over the base layout, so it can change `display`, the direction and the `gap`.
+- `align`, `justify` and `wrap` are applied after your `style`, so they win over it.
 
 | key | does |
 | --- | --- |
-| `tab` | Skips the stack; focus moves through its children in source order. |
+| `tab` | Skips the stack itself. Focus moves through its children in source order. |
 
 ## props
 

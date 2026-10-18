@@ -5,40 +5,42 @@ import * as CodeStories from './Code.stories';
 
 # code
 
-Design guidance — inline or block, overflow, accessibility, the words: **[code on the guidelines site →](https://nalet.github.io/design-system/components/code/)**
+When to use inline code or a block, what happens when a line runs long, how code works with assistive tech and how to write a command is on the guidelines site: **[code guidance →](https://nalet.github.io/design-system/components/code/)**
 
 <Canvas of={CodeStories.Playground} />
 
 ## examples
 
-Inline, the default, in `body` text.
+Inline code, the default, inside a `body` paragraph.
 
 <Canvas of={CodeStories.Inline} />
 
-`block`: a command and its output, line breaks kept.
+With `block`, a command and its output keep their line breaks.
 
 <Canvas of={CodeStories.Block} />
 
-`block` with a line longer than its 360px frame: the block scrolls.
+A `block` with a line longer than its 360px frame scrolls sideways.
 
 <Canvas of={CodeStories.Overflow} />
 
-Two `block`s in a stack.
+Two blocks, each with `block`, in a `Stack`.
 
 <Canvas of={CodeStories.Stacked} />
 
 ## implementation notes
 
-- Inline renders `code`; a block renders `pre` with a `code` inside.
-- The block keeps spaces and line breaks with `white-space: pre`, and scrolls with `overflow-x: auto`.
-- A `ResizeObserver` on the `pre` and its content tracks whether the block overflows; while it does, the `pre` is a focusable region (see the keys below) and shows the `--focus-ring` when focused.
-- To name an overflowing block better than "code", pass an `aria-label` ("install command"); your `tabIndex`, `role` and `aria-label` go to the `pre` and win over the defaults.
-- Native attributes go to its element — the `code` when inline, the `pre` for a block — and so does the `ref`.
+- Inline code renders a `code` element. A block renders a `pre` with a `code` inside.
+- The block keeps spaces and line breaks with `white-space: pre`, and scrolls sideways with `overflow-x: auto` rather than wrapping.
+- A `ResizeObserver` on the `pre` and its content tracks whether the block overflows.
+- While it overflows, the `pre` is a focusable region, so keyboard users can reach it and scroll it (see the keys below). It shows the `--focus-ring` when focused.
+- To give an overflowing block a better name than “code”, pass an `aria-label`, such as “install command”.
+- Your `tabIndex`, `role` and `aria-label` go to the `pre` and win over the defaults.
+- Native attributes go to its element, the `code` when inline or the `pre` for a block, and so does the `ref`.
 
 | key | does |
 | --- | --- |
 | `tab` | Skips inline code and a block that fits. |
-| `tab`, then arrow keys | A block whose lines run past its edge is a focusable region (`tabindex="0"`, `role="region"`, named "code") while it overflows: tab reaches it, the arrow keys scroll it. A block that fits takes no tab stop. |
+| `tab`, then arrow keys | While a block's lines run past its edge, it is a focusable region (`tabindex="0"`, `role="region"`, named “code”): `tab` reaches it, and the arrow keys scroll it. A block that fits takes no tab stop. |
 
 ## props
 

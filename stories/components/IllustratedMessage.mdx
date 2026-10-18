@@ -5,35 +5,36 @@ import * as IllustratedMessageStories from './IllustratedMessage.stories';
 
 # illustrated message
 
-Design guidance — when to use it, its kinds, sizes and actions, its words: **[illustrated message on the guidelines site →](https://nalet.github.io/design-system/components/illustrated-message/)**
+When to use an illustrated message, its kinds, sizes and actions and how to word it is on the guidelines site: **[illustrated message guidance →](https://nalet.github.io/design-system/components/illustrated-message/)**
 
 <Canvas of={IllustratedMessageStories.Playground} />
 
 ## examples
 
-The five values of `illustration`, at `size="sm"`; two with a button in `actions`.
+The five values of `illustration`, at `size="sm"`, two of them with a button in `actions`.
 
 <Canvas of={IllustratedMessageStories.Kinds} />
 
-`size`: `sm`, `md` (the default) and `lg`.
+The three values of `size`: `sm`, `md` (the default) and `lg`.
 
 <Canvas of={IllustratedMessageStories.Sizes} />
 
-`actions` with one primary button.
+`actions` holding one primary button.
 
 <Canvas of={IllustratedMessageStories.WithAction} />
 
 ## implementation notes
 
-- Renders a `<div>`, a centred column: the SVG illustration, the title, the description and the actions.
+- It renders a `<div>` as a centred column: the SVG illustration, the title, the description and the actions.
 - `illustration` picks the picture: `empty` (the default), `done`, `search`, `error` or `unknown`.
-- `title` is a heading: an `h2` unless `headingLevel` (2 to 6) sets another level. `description` is a `<p>` under it.
-- `actions` takes the buttons and renders whatever it is given.
-- `size`: `sm`, `md` (the default) or `lg`.
-- The SVG has `aria-hidden="true"` and `focusable="false"`.
+- `title` is a heading: an `h2`, unless `headingLevel` (2 to 6) sets another level. Pick the level that fits the page around it.
+- `description` is a `<p>` under the title.
+- `actions` takes the buttons, and renders whatever it is given.
+- `size` is `sm`, `md` (the default) or `lg`.
+- The SVG has `aria-hidden="true"` and `focusable="false"`, so the picture is decoration and the words carry the message.
 - It is not a live region: it doesn't announce itself when it appears.
 - A [data table](?path=/docs/components-data-display-data-table--docs) takes it in its `empty` prop.
-- Other `<div>` attributes (all but `title`, which is the heading) and the `ref` reach the container.
+- Other `<div>` attributes and the `ref` reach the container, all but `title`, which is the heading.
 - axe-core finds no violations in any kind, with a title, a description and an action.
 
 | key | does |

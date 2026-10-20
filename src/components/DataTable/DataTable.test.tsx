@@ -231,6 +231,16 @@ describe('cells', () => {
     expect(container.textContent).toBe('—no date');
   });
 
+  it('writes an English month in three letters, the same in every engine', () => {
+    const date = '2026-09-15T10:00:00';
+    const { container, rerender } = render(<DateCell value={date} relative={false} />);
+    expect(container.querySelector('time')).toHaveTextContent(/^15 Sep 2026$/);
+    // other languages are written the way the engine writes them.
+    rerender(<DateCell value={date} relative={false} locale="de-CH" />);
+    const german = new Intl.DateTimeFormat('de-CH', { day: 'numeric', month: 'short', year: 'numeric' });
+    expect(container.querySelector('time')).toHaveTextContent(german.format(new Date(date)));
+  });
+
   it('a status cell keeps its whole reason in the dom', () => {
     render(<StatusCell state="error" text="needs attention" detail="no release passed the profile: all below 720p" />);
     expect(screen.getByText('no release passed the profile: all below 720p')).toHaveAttribute('title');

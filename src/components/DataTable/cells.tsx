@@ -83,6 +83,17 @@ function formatter(locale: string, options: Intl.DateTimeFormatOptions): Intl.Da
   return f;
 }
 
+// English short month names differ between engines and their versions ("Sept"
+// in one, "Sep" in another); the first three letters read the same everywhere.
+function absolute(date: Date, locale: string, format: Intl.DateTimeFormatOptions): string {
+  const f = formatter(locale, format);
+  if (format.month !== 'short' || !/^en(-|$)/i.test(locale)) return f.format(date);
+  return f
+    .formatToParts(date)
+    .map((part) => (part.type === 'month' ? part.value.slice(0, 3) : part.value))
+    .join('');
+}
+
 /**
  * DateCell — a date said both ways: absolute ("12 oct 2026", a <time> with the
  * full timestamp on hover) and relative ("5d ago", read as "5 days ago").
@@ -105,13 +116,13 @@ export function DateCell({
       </span>
     );
   }
-  const abs = formatter(locale, format).format(date);
+  const abs = absolute(date, locale, format);
   const full = formatter(locale, FULL_FORMAT).format(date);
   const rel = relative ? relativeDay(date, now ?? new Date()) : null;
   // A date's text may differ between the server that pre-rendered the page and
-  // the browser that hydrates it: each engine carries its own locale data
-  // ("Sept" or "Sep"), and "today" depends on when it is read. That is
-  // expected, so React keeps the server's text instead of failing hydration.
+  // the browser that hydrates it: each engine carries its own locale data,
+  // and "today" depends on when it is read. That is expected, so React keeps
+  // the server's text instead of failing hydration.
   return (
     <span className={cx('nc-cell-date', className)}>
       <time className="nc-cell-date__abs" dateTime={date.toISOString()} title={full} suppressHydrationWarning>

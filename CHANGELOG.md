@@ -98,6 +98,10 @@ through. They go in 0.5.0. Class names stay as they are.
   `find <KeepCase>German</KeepCase> for 4 selected` read
   “findGermanfor 4 selected”. A `Badge` now wraps its text in
   `nc-badge__label`.
+- A date cell writes an English month in three letters in every browser:
+  “15 sep 2026”. Chrome wrote “15 sept 2026”, next to “19 mar 2026”, where
+  Safari wrote “15 sep 2026”. Other languages are written as the browser
+  writes them.
 
 ### fixed — on phones
 

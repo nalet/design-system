@@ -1,0 +1,114 @@
+---
+layout: ../../layouts/Doc.astro
+title: meaningful text
+description: Where the words on a screen come from, what they leave out, and how people and agents check them before they ship.
+draft: true
+---
+import { Banner, EmptyState } from '@nalet/design-system';
+import Term from '@site/components/Term.astro';
+import { DoDont, Do, Dont } from '@site/blocks';
+import { HeaderSample } from '@site/specimens/text';
+
+# meaningful text
+
+Every sentence on a screen asks for a moment of someone's attention, and it should give something back: a fact they need, or a way forward. Text that only fills space teaches people to skip text, and then they skip the sentence that matters too.
+
+Much of the text in our apps is written with <Term id="ai-agent">AI agents</Term>, and they tend to slip in one particular way. They fill the space with what they were told instead of with what is true: the request they were given, the plan behind it, the names from the code. The result is what people call “AI slop”. This page describes where good text comes from, what it leaves out, and the checks it goes through before it ships, whoever wrote it.
+
+[Content & voice](/design-system/foundations/content-voice/) covers how the words sound. This page is about whether they say anything.
+
+## where the words come from
+
+Good text starts with the reader, not with the writer. Three questions help before writing anything:
+
+- **Who looks at this?** The person who runs the server, someone choosing a film, a new colleague. Each of them needs different words.
+- **What do they want to know or do right now?** Whether something worked, why it didn't, what happens next, and what they can do about it.
+- **What is true at this moment?** The states, the numbers and the settings, as the running system has them.
+
+The answers are the text. Everything else that comes to mind while building a screen is background: the request that started the work, the decision that shaped it, the review that changed it, the names the code uses. That background helps the people who build the app, and it stays with them.
+
+## a request is not a description
+
+The most common slip is putting the request on the screen. Someone asks for subtitles in English, German and Chinese for every title, and that sentence becomes the page's description. On the screen it reads as a promise, and the numbers right below it show that the promise isn't kept yet.
+
+A description says what the page holds, as it is today. The numbers show how far it has got, and the goal stays in the plan.
+
+<DoDont>
+  <Do caption="What the page holds, with the numbers that show how far it has got.">
+    <HeaderSample description="Subtitles for the library's movies and episodes." />
+  </Do>
+  <Dont caption="The request as the description: a promise that the numbers right below it contradict.">
+    <HeaderSample description="Subtitles in English, German and Chinese for every title." />
+  </Dont>
+</DoDont>
+
+Plans work the same way. A feature that is designed but not built yet doesn't appear in the interface, not even in passing, as in “the missing ones are made for you”. Its text arrives together with the feature.
+
+<DoDont>
+  <Do caption="What is missing, and where to find out more.">
+    <EmptyState size="sm" illustration="unknown" title="subtitles aren't set up" description="The subtitle source needs an account and an API key. Settings shows what's missing." headingLevel={3} />
+  </Do>
+  <Dont caption="A goal stated as a fact, with a word only the people running the server know.">
+    <EmptyState size="sm" illustration="unknown" title="subtitles aren't set up" description="Every title gets subtitles once the deployment has an account and an API key." headingLevel={3} />
+  </Dont>
+</DoDont>
+
+## what to leave out
+
+These kinds of text look like content but give the reader nothing. Each has a better alternative, and sometimes the better alternative is no text at all.
+
+| leave out | for example | instead |
+| --- | --- | --- |
+| The request, the plan, the decision record | “every title gets subtitles”, “the missing ones are made for you” | What the product does today, or nothing |
+| The system's own words | instance, deployment, pipeline, the work, in line, candidate | The reader's words, such as server, settings, queued, version |
+| A repeat of what is already on the screen | “This page shows your subtitles.” | Nothing: the title and the numbers say it |
+| Praise and promises | seamless, effortless, smart, powerful, simply, successfully | The fact itself: “Settings saved” |
+| Talking about the reader instead of to them | “a person can pick one”, “users can” | “You can pick one”, or just the verb: “pick a version” |
+| Hedges and padding | “may”, “some”, “various”, “in order to”, “please note” | The plain statement, or nothing |
+| Numbers and words that disagree | 9 downloads left in the dialog, 7 in the header | One number and one word for each thing, everywhere on the screen |
+| Decoration | three adjectives in every sentence, stacked dashes and colons, emoji, exclamation marks | Short sentences, one fact each |
+
+<DoDont>
+  <Do caption="The state and what follows from it, said to the reader.">
+    <Banner state="information" live="off">Automatic downloads are off. Only what you find or pick is downloaded.</Banner>
+  </Do>
+  <Dont caption="The same fact in the words of the code, about “a person” instead of to the reader.">
+    <Banner state="information" live="off">Downloading on its own is off. Only what a person asks for or picks is downloaded.</Banner>
+  </Dont>
+</DoDont>
+
+## the checks
+
+Every text goes through these questions before it ships. They take a few minutes, and they catch most of what goes wrong.
+
+1. **Is it true right now?** Check it against the running system, not against the plan or the request.
+2. **Would anyone miss it?** Take the sentence away and look at the screen again. If nothing is lost, leave it out.
+3. **Is it in the reader's words?** Internal names, setting keys and error codes go under details, where the people fixing things look for them.
+4. **Does it agree with the rest of the screen?** The same number and the same word for the same thing, in the header, the rows and the dialogs.
+5. **Does it speak to the reader?** “You”, and a verb for anything they can do.
+6. **Does it promise anything?** Only what the product does today.
+7. **Does it read well where it appears?** Text is judged on the screen, with real data next to it. A screenshot shows more than the code does.
+
+## for agents
+
+These steps are written for AI agents, and they work just as well for people.
+
+- **Write from the facts, not from the prompt.** The <Term id="prompt">prompt</Term> says what to build. The text on the screen comes from what was built: its states, its numbers and its settings.
+- **Keep the conversation off the screen.** The request, the decision record, the review notes and the commit messages stay where they are. If a sentence sounds like something said while building, rewrite it for the person who will use the app.
+- **Find every piece of text.** Statuses, reasons and errors that the server writes are part of the interface too, and so are hints, empty states and toasts. Go through all of them, not only the page you changed.
+- **Look for leaks.** Search the text for the request's own wording and for the project's internal words, and rewrite every hit.
+- **Look at the result.** Take a screenshot with real data and read it the way the person will.
+- **When in doubt, write less.** A missing sentence costs less than a wrong one.
+- **Show what changed.** List the texts you wrote or changed, so that someone can review the words and not only the code.
+
+## related
+
+- [Content & voice](/design-system/foundations/content-voice/): how the words sound: two voices, short and true.
+- [Principles](/design-system/foundations/principles/): 3, people's words first, the system's detail one click away.
+- [Message handling](/design-system/patterns/message-handling/): which component says what.
+- [Empty states](/design-system/patterns/empty-states/): what a list says when it has nothing to show.
+
+## specs
+
+- **For agents.** `/llms.txt` carries the checks in short form, under “writing ui text”, so an agent can keep them at hand while it works.
+- **Details.** A banner's `details`, a table row's details toggle and a status cell's hover text are where internal names, setting keys and error codes go.

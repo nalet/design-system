@@ -59,6 +59,7 @@ export const SECTIONS: NavSection[] = [
           { title: 'principles', href: url('foundations/principles/'), summary: 'Five principles that decide what a screen does and what it leaves out.', draft: true },
           { title: 'accessibility', href: url('foundations/accessibility/'), summary: 'Screens everyone can use: the standard we meet, how it is checked, and what is still missing.' },
           { title: 'content & voice', href: url('foundations/content-voice/'), summary: 'How the words on a screen are written: two voices, one per typeface, short and true.' },
+          { title: 'meaningful text', href: url('foundations/meaningful-text/'), summary: 'Where the words on a screen come from, what they leave out, and how people and agents check them before they ship.', draft: true },
           { title: 'interaction', href: url('foundations/interaction/'), summary: 'States, focus, the keys and selecting rows: the same in every component.' },
           { title: 'layout', href: url('foundations/layout/'), summary: 'One scale for space, three control heights, density, and screens that work on a phone.' },
         ],

@@ -2,6 +2,17 @@
 import type { GlossaryEntry } from './types';
 
 export const GENERAL_TERMS: Record<string, GlossaryEntry> = {
+  // building with agents
+  'ai-agent': {
+    term: 'AI agent',
+    explanation:
+      'A program built on a large language model that carries out a piece of work on its own, such as writing code and the text of an interface, and then checks its results. People give it the work as a prompt.',
+  },
+  prompt: {
+    term: 'prompt',
+    explanation:
+      'The instruction a person gives an AI agent: what to build or change, and often why. It describes the work, not the words the finished screen should show.',
+  },
   // using a screen: the keyboard, assistive technology, states
   'tab-stop': {
     term: 'tab stop',

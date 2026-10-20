@@ -21,6 +21,10 @@ attached to its GitHub release.
   page, or to the same entry on the React subsite, and a page that was renamed
   keeps its old address, which leads on to the new one.
 - **Search** over the guidelines, with Pagefind.
+- **Meaningful text** (draft), a new foundations page: where the words on a
+  screen come from, what they leave out, the checks every text goes through
+  before it ships, and the steps for AI agents. `/llms.txt` carries the checks
+  in short form.
 - **Drafts under review:** the principles, and the patterns top bar, app
   navigation, home & tiles, settings and setup, loading and progress, and
   selection and bulk actions. The start page is called home, and its tiles are

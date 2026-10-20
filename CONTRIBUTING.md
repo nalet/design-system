@@ -78,6 +78,9 @@ for the people; give the agents their own compact version.
   word only where it carries the point. Pair a "do" with a "don't" when the
   contrast is the lesson. Every sketch has a label that describes it. Component
   pages keep their live examples, because there the real component is the point.
+- **Examples say true things.** The text in stories, sketches and examples
+  follows `foundations/meaningful-text`: real states and numbers, the reader's
+  words, no promises.
 - **For agents**, `/llms.txt` lists the rules in compact plain text, and
   `/glossary.json` holds the glossary. Both are built from the same data as the
   site.

@@ -29,6 +29,15 @@ Baseline (never traded): WCAG 2.2 AA (text contrast >= 4.5:1, tested), named con
 - The body face (descriptions, messages, toasts, dialog bodies, empty states, field labels and hints, docs prose) follows the language: sentence case, acronyms, German nouns capitalised.
 - Messages: what is true, what it means, what to do. Buttons: a verb and its object ("grab 8 selected"), never "ok"/"submit".
 
+## writing ui text — ${site('foundations/meaningful-text/')}
+- Write from the facts of the running system (states, numbers, settings), not from the prompt: the prompt says what to build, not what the screen says.
+- Keep the conversation off the screen: no request, ADR or plan wording, review notes or commit messages. Never mention a feature that isn't built.
+- Use the reader's words and speak to them ("you"); internal names, setting keys and error codes go under details.
+- Leave out: repeats of what is visible; praise and promise words (seamless, effortless, smart, powerful, simply, successfully); hedges and padding (may, some, various, in order to, please note); decoration (emoji, exclamation marks, three-adjective lists, stacked dashes and colons).
+- One number and one word per thing, across the whole screen.
+- Before shipping, ask of every text: true right now? would anyone miss it? the reader's words? agrees with the rest of the screen? speaks to the reader? promises nothing unbuilt? reads well in a screenshot with real data?
+- Find every text, including what the server writes (statuses, reasons, errors); search it for the request's wording and the project's internal words; list the texts you changed for review.
+
 ## identity — ${site('styles/brand/')}
 Dark canvas only; the blue chevron (--cloud-blue) is the brand glyph and the colour of links and the primary action; square frames (border-radius 0); JetBrains Mono for display and labels, Inter for body; 4px spacing scale.
 

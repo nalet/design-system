@@ -27,6 +27,10 @@ An icon can go before the label in `leading`, or after it in `trailing`.
 
 <Canvas of={ButtonStories.WithIcons} />
 
+A name inside the label, such as a language or a title, keeps its capitals in `KeepCase`, while the rest of the label is lowercased.
+
+<Canvas of={ButtonStories.NameInLabel} />
+
 `block` stretches the button to the full width of its container.
 
 <Canvas of={ButtonStories.Block} />
@@ -43,6 +47,7 @@ An icon can go before the label in `leading`, or after it in `trailing`.
 - `leading` and `trailing` take an element, such as `<Icon icon={Rocket} />`.
 - `trailing` is hidden while the button is `loading`.
 - The label is lowercased with `text-transform`, but the DOM keeps the text you wrote, so write it the way a screen reader should read it.
+- `KeepCase` is a `<span class="nc-keep-case">` with `text-transform: none`: a name inside the label is shown as written.
 - A focused button shows a 2px `--focus-ring` outline on `:focus-visible`, so the ring shows for keyboard focus and not for a click.
 - Every native `<button>` attribute passes through, such as `onClick`, `type` and `aria-*`, and the `ref` reaches the `<button>`.
 

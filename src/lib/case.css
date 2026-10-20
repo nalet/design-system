@@ -1,0 +1,5 @@
+/* a name inside lowercased monospace chrome keeps its own capitals:
+   <KeepCase> or class="nc-keep-case". */
+.nc-keep-case {
+  text-transform: none;
+}

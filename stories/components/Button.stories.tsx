@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Terminal, Rocket, Trash2, ArrowRight } from 'lucide-react';
-import { Button, type ButtonProps, Icon } from '../../src';
+import { Button, type ButtonProps, Icon, KeepCase } from '../../src';
 
 const meta: Meta<ButtonProps> = {
   title: 'Components/actions/button',
@@ -91,6 +91,20 @@ export const States: Story = {
       </Button>
       <Button variant="default" disabled>
         run
+      </Button>
+    </div>
+  ),
+};
+
+export const NameInLabel: Story = {
+  name: 'a name in the label',
+  render: () => (
+    <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
+      <Button variant="primary">
+        find <KeepCase>German</KeepCase> for 4 selected
+      </Button>
+      <Button variant="default">
+        open <KeepCase>The Quiet Orchard</KeepCase>
       </Button>
     </div>
   ),

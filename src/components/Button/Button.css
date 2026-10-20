@@ -124,7 +124,8 @@
   color: inherit;
 }
 
+/* one flex item whose text flows inline, so a name inside the label (KeepCase)
+   keeps the spaces around it. */
 .nc-btn__label {
-  display: inline-flex;
-  align-items: center;
+  display: block;
 }

@@ -20,10 +20,10 @@
   outline-offset: -2px;
 }
 
+/* text that flows inline, so a name inside the heading (KeepCase) keeps the
+   spaces around it; a selection toolbar's count lays itself out. */
 .nc-toolbar__heading {
-  display: flex;
-  align-items: center;
-  gap: var(--s-2);
+  display: block;
   flex: 1 1 auto;
   min-width: 0;
   font-family: var(--ff-mono);

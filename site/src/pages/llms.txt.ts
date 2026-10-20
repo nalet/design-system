@@ -25,7 +25,7 @@ export function GET() {
 Baseline (never traded): WCAG 2.2 AA (text contrast >= 4.5:1, tested), named controls, visible focus, keyboard complete, works at phone width, docs state known gaps.
 
 ## voice — ${site('foundations/content-voice/')}
-- Monospace (titles, headings, buttons, tabs, navigation, status chips, table headers, menu items, codes) is lowercase in every language; names and codes inside keep their case.
+- Monospace (titles, headings, buttons, tabs, navigation, status chips, table headers, menu items, codes) is lowercase in every language; names and codes inside keep their case. The components lowercase by CSS, so wrap a name inside such a label in <KeepCase> (or class nc-keep-case): \`find <KeepCase>German</KeepCase> for 4 selected\`.
 - The body face (descriptions, messages, toasts, dialog bodies, empty states, field labels and hints, docs prose) follows the language: sentence case, acronyms, German nouns capitalised.
 - Messages: what is true, what it means, what to do. Buttons: a verb and its object ("grab 8 selected"), never "ok"/"submit".
 

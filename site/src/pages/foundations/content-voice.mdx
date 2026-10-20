@@ -3,7 +3,7 @@ layout: ../../layouts/Doc.astro
 title: content & voice
 description: How the words on a screen are written. Two voices, one per typeface, short and true, in the reader's language rather than the system's.
 ---
-import { Banner, Button, EmptyState, Status, Text } from '@nalet/design-system';
+import { Banner, Button, EmptyState, KeepCase, Status, Text } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont } from '@site/blocks';
@@ -16,7 +16,7 @@ The words on a screen do as much work as its layout. They say what is true and w
 
 The system speaks with two voices, and the typeface tells them apart.
 
-- **<Term id="monospace">Monospace</Term> is the system's voice, and it is lowercase.** Titles and headings; buttons, tabs and navigation; statuses and badges; table and column headers; menu items, toolbar and filter labels; numbers and codes. It is short and easy to scan, and the lowercase is part of the identity, in every language. Names and codes inside it keep their own capitals: a series called “The Quiet Harbour” stays “The Quiet Harbour” in a group label, an episode stays “S04E07”, and an id stays as it is. The components lowercase this <Term id="chrome">chrome</Term>, and only this.
+- **<Term id="monospace">Monospace</Term> is the system's voice, and it is lowercase.** Titles and headings; buttons, tabs and navigation; statuses and badges; table and column headers; menu items, toolbar and filter labels; numbers and codes. It is short and easy to scan, and the lowercase is part of the identity, in every language. Names and codes inside it keep their own capitals: a series called “The Quiet Harbour” stays “The Quiet Harbour” in a group label, a language stays “German” in a button that reads “find German for 4 selected”, an episode stays “S04E07”, and an id stays as it is. The components lowercase this <Term id="chrome">chrome</Term>, and only this, so a name inside a lowercase label, such as a button or a dialog title, is marked as a name and keeps its case.
 - **The <Term id="body-face">body face</Term> is the reader's language, and it follows that language's rules.** It carries everything that explains: descriptions and subtitles; the messages in banners, toasts and dialogs; the descriptions of empty states; field labels, hints and errors; checkbox and switch labels; and the text of these guidelines. It is written in <Term id="sentence-case">sentence case</Term>: a capital at the start of each sentence, for names, for “I”, for abbreviations such as HEVC, GB, WCAG, CSS or URL, and for German nouns. Nothing lowercases it.
 - **Why two voices.** The brand lives in the monospace layer, where text is short and set apart. Easy reading, and correct spelling in every language, live in the layer people actually read.
 - **Short.** A label is two or three words, a message one or two sentences. Leave out adverbs, “please” and “successfully”.
@@ -44,6 +44,15 @@ The system speaks with two voices, and the typeface tells them apart.
       <Text as="p" variant="body" style={{ margin: 0 }}>die einstellungen gelten ab der nächsten sicherung.</Text>
       <Button variant="primary">einstellungen speichern</Button>
     </div>
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="The language is a name, so it keeps its capital inside the lowercase button.">
+    <Button variant="primary">find <KeepCase>German</KeepCase> for 4 selected</Button>
+  </Do>
+  <Dont caption="The name lowercased with the rest of the label: “german” reads like a spelling mistake.">
+    <Button variant="primary">find German for 4 selected</Button>
   </Dont>
 </DoDont>
 
@@ -144,6 +153,7 @@ Some words come up on every screen. Each of them means one thing, everywhere.
 ## specs
 
 - **Lowercase chrome.** The components set `text-transform: lowercase` on their monospace chrome, and only there. The text in the DOM stays as written.
+- **Names inside lowercase chrome.** Wrap the name in `KeepCase`, or give its element the class `nc-keep-case`: `find <KeepCase>German</KeepCase> for 4 selected`. It sets `text-transform: none` on the name alone, in any label that takes elements: buttons, dialog and empty-state titles, tabs, menu items, toolbar headings and statuses.
 - **Counts.** `formatCount(2500)` returns “2,500”; it is the formatter the components use.
 - **Dates.** The `DateCell` writes a date both ways.
 - **Details.** A banner's `details` prop; a native `<details>` per table row; a raw search error kept in a status cell's hover text.

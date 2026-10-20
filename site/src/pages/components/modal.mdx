@@ -112,7 +112,7 @@ Today:
 
 ## content
 
-- **Title.** A verb and its object, in the same words as the control that opened it: “delete volume”, “add server”. Not a question, and no full stop. The lowercase look is only a style, so write the title exactly as it should be read.
+- **Title.** A verb and its object, in the same words as the control that opened it: “delete volume”, “add server”. Not a question, and no full stop. The lowercase look is only a style, so write the title exactly as it should be read. A name in it keeps its capitals: “pick a release for The Quiet Orchard”.
 - **Body.** One or two sentences, in <Term id="sentence-case">sentence case</Term>: what happens, to what, and whether it can be undone. Name the object: “This permanently deletes storage-01 and its 3 snapshots.”
 - **Actions.** The button that confirms repeats the title's verb, as in “delete volume”, and the way out is “cancel”, as a quiet button. The confirming action goes last, on the right. Use the danger button only for an action that deletes something or can't be undone.
 
@@ -160,7 +160,7 @@ Today:
 | Backdrop | `--bg`, the canvas colour, at 72% opacity, over the whole viewport. `aria-hidden="true"`. |
 | Dialog | `role="dialog"`, `aria-modal="true"`, `tabindex="-1"`. `--surface` fill, a 1px `--border-2` border, square, centred, text in `--fg-2`. As wide as there is room for, up to `width` (480px by default); at most the viewport's height minus 48px. `className` lands here. |
 | Header | Only with `title`. Padding 12px 16px, 12px between the title and the close button, a 1px `--border` rule below. |
-| Title | `title`: an `h2` that names the dialog (`aria-labelledby`). JetBrains Mono 600, 15px, `--fg`, lowercased with `text-transform`. |
+| Title | `title`: an `h2` that names the dialog (`aria-labelledby`). JetBrains Mono 600, 15px, `--fg`, lowercased with `text-transform`; a name wrapped in `KeepCase` keeps its case. |
 | Close button | 26px square, above the 24px minimum target size, with a 14px × in `--fg-muted`; named “close” (`aria-label`). Hover: a `--surface-2` fill and `--fg`, in 120ms `ease`. Keyboard focus: the 2px `--focus-ring` outline, 1px outside. |
 | Body | `children`. Padding 16px, Inter 14px, line-height 1.55. It scrolls (`overflow-y: auto`) when the content is taller than the dialog. |
 | Footer | `footer`. The actions right-aligned, 8px apart; padding 12px 16px, a 1px `--border` rule above. |

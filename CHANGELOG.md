@@ -27,6 +27,16 @@ attached to its GitHub release.
   found with the one search, in the top bar; `Portal`'s own search box is for
   a launcher outside a shell.
 
+### added
+
+- **`KeepCase`**, and the class `nc-keep-case` it sets: a name inside
+  lowercased monospace chrome, such as a language in a button or a series
+  title in a dialog title, keeps its own capitals:
+  `find <KeepCase>German</KeepCase> for 4 selected`. It works in every label
+  that takes elements. Two tests guard it: no rule that transforms text
+  reaches the name's own element, and the text of a label is laid out as text,
+  never as a flex or grid box.
+
 ### changed — names
 
 Three components, and a few words of the guidelines, are called by plain
@@ -82,6 +92,12 @@ through. They go in 0.5.0. Class names stay as they are.
 
 - A loading `Button` or `IconButton` shows its spinner in the label's colour;
   on a primary button the spinner's blue vanished into the fill.
+- The label of a `Button` or a `Badge`, and the heading of a `Toolbar`, are
+  laid out as text: a name or any other element inside keeps the spaces around
+  it. Before, each was a flex box, and
+  `find <KeepCase>German</KeepCase> for 4 selected` read
+  “findGermanfor 4 selected”. A `Badge` now wraps its text in
+  `nc-badge__label`.
 
 ### fixed — on phones
 

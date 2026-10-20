@@ -90,6 +90,7 @@ The full keyboard map is on the button's [React page](/design-system/react/?path
 
 - Start with a verb, and name the object when the screen holds more than one kind of thing: “grab 8 selected”, “ask the catalog again”, “save changes”.
 - Keep the label short and lowercase, with no full stop and no exclamation mark.
+- A name inside the label, such as a language or a title, keeps its capitals: “find German for 4 selected”, “open The Quiet Orchard”.
 - Avoid “ok”, “submit”, “yes” and “click here”. Say what will happen instead.
 - In an action for several items, include the count. “grab 8 selected” tells people more than “grab selected”.
 
@@ -149,7 +150,7 @@ The full keyboard map is on the button's [React page](/design-system/react/?path
 | Large | `size="lg"` | 42px | 24px | 14px | 14px |
 
 - **Frame:** square (`border-radius: 0`), a 1px border; icon and label 8px apart.
-- **Label:** JetBrains Mono 600, lowercased with `text-transform`, on one line.
+- **Label:** JetBrains Mono 600, lowercased with `text-transform`, on one line. A name wrapped in `KeepCase` keeps its case.
 - **Busy:** `loading`. A spinner in the leading slot, the trailing slot hidden, the width unchanged. The button is disabled while busy, so it ignores presses and leaves the tab order.
 - **Disabled:** `disabled`. 45% opacity, a not-allowed cursor, out of the tab order.
 - **Icons:** `leading` and `trailing` take an element, such as an `Icon`: 12px in a small button, 16px in a medium one (see [iconography](/design-system/styles/iconography/)).

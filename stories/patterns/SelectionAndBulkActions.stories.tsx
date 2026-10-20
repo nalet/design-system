@@ -6,6 +6,7 @@ import {
   Button,
   DataTable,
   Icon,
+  KeepCase,
   SelectionToolbar,
   Toaster,
   formatCount,
@@ -136,7 +137,11 @@ export const SelectAndAct: Story = {
       <div style={{ display: 'grid' }}>
         <SelectionToolbar
           label="missing episodes"
-          heading={`${SERIES[0].title} · ${formatCount(items.length)} missing`}
+          heading={
+            <>
+              <KeepCase>{SERIES[0].title}</KeepCase> · {formatCount(items.length)} missing
+            </>
+          }
           selectedCount={selected.size}
           onClearSelection={() => setSelected(new Set())}
           selectAll={
@@ -197,7 +202,11 @@ export const GroupActions: Story = {
       <div style={{ display: 'grid' }}>
         <SelectionToolbar
           label="missing episodes"
-          heading={`${SECOND_TITLE} · ${formatCount(items.length)} missing`}
+          heading={
+            <>
+              <KeepCase>{SECOND_TITLE}</KeepCase> · {formatCount(items.length)} missing
+            </>
+          }
           selectedCount={selected.size}
           onClearSelection={() => setSelected(new Set())}
           primaryAction={(n) =>

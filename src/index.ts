@@ -45,6 +45,8 @@ export { Kbd } from './components/Kbd/Kbd';
 export type { KbdProps } from './components/Kbd/Kbd';
 export { Code } from './components/Code/Code';
 export type { CodeProps } from './components/Code/Code';
+export { KeepCase } from './lib/KeepCase';
+export type { KeepCaseProps } from './lib/KeepCase';
 
 // controls
 export { Button } from './components/Button/Button';

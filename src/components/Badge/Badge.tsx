@@ -22,7 +22,7 @@ export const Badge = React.forwardRef<HTMLSpanElement, BadgeProps>(function Badg
   return (
     <span ref={ref} className={cx('nc-badge', `nc-badge--${tone}`, className)} {...rest}>
       {dot ? <span className="nc-badge__dot" aria-hidden="true" /> : null}
-      {children}
+      {children != null ? <span className="nc-badge__label">{children}</span> : null}
     </span>
   );
 });

@@ -32,10 +32,11 @@ Baseline (never traded): WCAG 2.2 AA (text contrast >= 4.5:1, tested), named con
 ## writing ui text — ${site('foundations/meaningful-text/')}
 - Write from the facts of the running system (states, numbers, settings), not from the prompt: the prompt says what to build, not what the screen says.
 - Keep the conversation off the screen: no request, ADR or plan wording, review notes or commit messages. Never mention a feature that isn't built.
+- True on every installation: values that come from settings (languages, sources, limits, scope, where something is configured) are read from the configuration when the screen is shown, or left out. Never type one installation's setup into a sentence.
 - Use the reader's words and speak to them ("you"); internal names, setting keys and error codes go under details.
 - Leave out: repeats of what is visible; praise and promise words (seamless, effortless, smart, powerful, simply, successfully); hedges and padding (may, some, various, in order to, please note); decoration (emoji, exclamation marks, three-adjective lists, stacked dashes and colons).
 - One number and one word per thing, across the whole screen.
-- Before shipping, ask of every text: true right now? would anyone miss it? the reader's words? agrees with the rest of the screen? speaks to the reader? promises nothing unbuilt? reads well in a screenshot with real data?
+- Before shipping, ask of every text: true right now? true on every installation? would anyone miss it? the reader's words? agrees with the rest of the screen? speaks to the reader? promises nothing unbuilt? reads well in a screenshot with real data?
 - Find every text, including what the server writes (statuses, reasons, errors); search it for the request's wording and the project's internal words; list the texts you changed for review.
 
 ## identity — ${site('styles/brand/')}

@@ -31,13 +31,13 @@ The answers are the text. Everything else that comes to mind while building a sc
 
 The most common slip is putting the request on the screen. Someone asks for subtitles in English, German and Chinese for every title, and that sentence becomes the page's description. On the screen it reads as a promise, and the numbers right below it show that the promise isn't kept yet.
 
-A description says what the page holds, as it is today. The numbers show how far it has got, and the goal stays in the plan.
+Often the title and the numbers say enough, and the page needs no description at all. When it does need one, the description says what the page holds, as it is today. The goal stays in the plan.
 
 <DoDont>
-  <Do caption="What the page holds, with the numbers that show how far it has got.">
-    <HeaderSample description="Subtitles for the library's movies and episodes." />
+  <Do caption="The title, and the numbers read from the settings of the installation it runs on. Nothing here can be wrong somewhere else.">
+    <HeaderSample />
   </Do>
-  <Dont caption="The request as the description: a promise that the numbers right below it contradict.">
+  <Dont caption="The request as the description: a promise the numbers right below contradict, with one installation's languages typed into the sentence.">
     <HeaderSample description="Subtitles in English, German and Chinese for every title." />
   </Dont>
 </DoDont>
@@ -46,12 +46,18 @@ Plans work the same way. A feature that is designed but not built yet doesn't ap
 
 <DoDont>
   <Do caption="What is missing, and where to find out more.">
-    <EmptyState size="sm" illustration="unknown" title="subtitles aren't set up" description="The subtitle source needs an account and an API key. Settings shows what's missing." headingLevel={3} />
+    <EmptyState size="sm" illustration="unknown" title="subtitles aren't set up" description="The subtitle source isn't set up yet. Settings shows what's missing." headingLevel={3} />
   </Do>
-  <Dont caption="A goal stated as a fact, with a word only the people running the server know.">
+  <Dont caption="A goal stated as a fact, with one installation's setup and a word only the people running the server know.">
     <EmptyState size="sm" illustration="unknown" title="subtitles aren't set up" description="Every title gets subtitles once the deployment has an account and an API key." headingLevel={3} />
   </Dont>
 </DoDont>
+
+## true on every installation
+
+The same app runs in many places, and each one is set up its own way: other languages, another source, other limits, features switched off. A sentence written while looking at one installation quietly describes that installation, and on all the others it is wrong.
+
+So a value that comes from the settings is read from the settings when the screen is shown, like the languages in the numbers above. Where that isn't possible, the sentence leaves the value out. The same goes for where something is set up: the screen names the setting itself, not the way one installation happens to provide it.
 
 ## what to leave out
 
@@ -60,6 +66,7 @@ These kinds of text look like content but give the reader nothing. Each has a be
 | leave out | for example | instead |
 | --- | --- | --- |
 | The request, the plan, the decision record | “every title gets subtitles”, “the missing ones are made for you” | What the product does today, or nothing |
+| One installation's setup, typed into a sentence | “in English, German and Chinese”, “the platform's languages”, “added where the app is installed” | Values read from the settings when the screen is shown, or nothing |
 | The system's own words | instance, deployment, pipeline, the work, in line, candidate | The reader's words, such as server, settings, queued, version |
 | A repeat of what is already on the screen | “This page shows your subtitles.” | Nothing: the title and the numbers say it |
 | Praise and promises | seamless, effortless, smart, powerful, simply, successfully | The fact itself: “Settings saved” |
@@ -82,18 +89,20 @@ These kinds of text look like content but give the reader nothing. Each has a be
 Every text goes through these questions before it ships. They take a few minutes, and they catch most of what goes wrong.
 
 1. **Is it true right now?** Check it against the running system, not against the plan or the request.
-2. **Would anyone miss it?** Take the sentence away and look at the screen again. If nothing is lost, leave it out.
-3. **Is it in the reader's words?** Internal names, setting keys and error codes go under details, where the people fixing things look for them.
-4. **Does it agree with the rest of the screen?** The same number and the same word for the same thing, in the header, the rows and the dialogs.
-5. **Does it speak to the reader?** “You”, and a verb for anything they can do.
-6. **Does it promise anything?** Only what the product does today.
-7. **Does it read well where it appears?** Text is judged on the screen, with real data next to it. A screenshot shows more than the code does.
+2. **Is it true on every installation?** Languages, sources, limits and switches differ from one installation to the next. Read them from the settings, or leave them out.
+3. **Would anyone miss it?** Take the sentence away and look at the screen again. If nothing is lost, leave it out.
+4. **Is it in the reader's words?** Internal names, setting keys and error codes go under details, where the people fixing things look for them.
+5. **Does it agree with the rest of the screen?** The same number and the same word for the same thing, in the header, the rows and the dialogs.
+6. **Does it speak to the reader?** “You”, and a verb for anything they can do.
+7. **Does it promise anything?** Only what the product does today.
+8. **Does it read well where it appears?** Text is judged on the screen, with real data next to it. A screenshot shows more than the code does.
 
 ## for agents
 
 These steps are written for AI agents, and they work just as well for people.
 
 - **Write from the facts, not from the prompt.** The <Term id="prompt">prompt</Term> says what to build. The text on the screen comes from what was built: its states, its numbers and its settings.
+- **Read the settings, don't type them.** A language, a source or a limit you saw while building belongs to one installation. Take it from the running configuration, or leave it out.
 - **Keep the conversation off the screen.** The request, the decision record, the review notes and the commit messages stay where they are. If a sentence sounds like something said while building, rewrite it for the person who will use the app.
 - **Find every piece of text.** Statuses, reasons and errors that the server writes are part of the interface too, and so are hints, empty states and toasts. Go through all of them, not only the page you changed.
 - **Look for leaks.** Search the text for the request's own wording and for the project's internal words, and rewrite every hit.

@@ -79,6 +79,22 @@ Pick the kind by what is true, not by what the screen looks like. A list that fa
 | The list is still loading | No empty state | — | The loading state |
 | A refresh or an action failed, and the content is still there | No empty state | — | A banner above it, with a way forward |
 
+## when it couldn't load: say why
+
+“Couldn't load” covers several different problems, and each one has a different way out. Say what went wrong, as far as the app can tell, and offer the one thing that can help. Trying again can't bring back something that was removed, so that screen offers the way back instead.
+
+| what went wrong | title | description | action |
+| --- | --- | --- | --- |
+| No answer: the connection dropped or the server didn't reply | “couldn't load the library” | “Check the connection to the server, then try again.” | “try again” |
+| The server ran into a problem | “couldn't load the library” | “The server ran into a problem. Try again in a moment.” | “try again” |
+| The server is busy | “couldn't load the library” | “The server is busy. Try again in a moment.” | “try again” |
+| The server didn't accept the request | “couldn't load the library” | “The server didn't accept the request. Check for an app update, then try again.” | “try again” |
+| It was removed | “this title isn't in the library anymore” | None | “back” |
+| People don't have access to it | “you don't have access to this” | None | “back” |
+| People are signed out | No empty state: the app signs them in again, or takes them to sign-in and back to where they were | — | — |
+
+The title names what couldn't load, in the screen's own words: “couldn't load this title”, “couldn't load your watchlists”. The way out gets the focus first. The code that tells the cases apart goes under details, for the people who fix things.
+
 ## where it goes
 
 - **In a table:** in its body, under the header row, across every column, at the small size.
@@ -157,3 +173,9 @@ Today:
 - [Message handling](/design-system/patterns/message-handling/): when a problem is a banner or a toast, not an empty state.
 - <C slug="data-table">Data table</C>: its empty body and its loading state.
 - [Worklist](/design-system/patterns/worklist/): where most empty states live.
+- [Meaningful text](/design-system/foundations/meaningful-text/): why each case says only what is true for it.
+
+## specs
+
+- **Which case.** Decided by the HTTP status, never by the error message: no answer or 408 is the connection case, 5xx the server, 429 busy, 404 and 410 removed, 403 no access, 401 signed out, and any other 4xx not accepted.
+- **Details.** The status and its reason phrase, such as “HTTP 503 Service Unavailable”, go under details, never into the title or the description.

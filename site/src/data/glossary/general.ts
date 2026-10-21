@@ -13,6 +13,11 @@ export const GENERAL_TERMS: Record<string, GlossaryEntry> = {
     explanation:
       'Density-independent pixels, the layout unit of Android and Android TV. A TV screen is 960 × 540 dp whatever its resolution, so on a 1920 × 1080 screen 1 dp is 2 pixels.',
   },
+  'safe-area': {
+    term: 'safe area',
+    explanation:
+      'The part of a TV picture that every TV shows in full. Some TVs cut off a few percent at the edges, so text and everything that can take focus stays at least 5% away from them.',
+  },
   // building with agents
   'ai-agent': {
     term: 'AI agent',

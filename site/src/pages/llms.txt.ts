@@ -42,7 +42,7 @@ Baseline (never traded): WCAG 2.2 AA (text contrast >= 4.5:1, tested), named con
 ## tv focus (10-foot) — ${site('patterns/tv-focus/')}
 - One focus style for every focusable item in a TV app, never a per-screen style: a 3 dp ring in --focus-ring (#00A4DC), the focused surface --surface-focus (#2A3142) behind rows, plain buttons and chips, growth 1.05 for cards, buttons and chips and 1.02 for rows, and text one step brighter (title --fg).
 - Cards, buttons and chips: the ring outside with a 2 dp gap where the background shows. Rows: the ring inside the edge, no gap.
-- The ring means focus only: "where you came from" is a 4 dp left-edge bar in --cloud-blue. 150 ms ease-out; none when animations are off. At least 12 dp between cards and from screen edges.
+- The ring means focus only: "where you came from" is a 4 dp left-edge bar in --cloud-blue. 150 ms ease-out; none when animations are off. At least 12 dp between cards; everything focusable and all text inside the safe area (48 dp left and right, 27 dp top and bottom).
 - dp = 1/960 of the screen width (2 CSS px on a 1920 × 1080 web screen). Screenshot tests of every kind, focused and at rest.
 
 ## identity — ${site('styles/brand/')}

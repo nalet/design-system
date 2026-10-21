@@ -59,7 +59,8 @@ The ring always means focus, and only focus. Other marks look different:
 ## movement and space
 
 - Focus moves at once. The growth and the ring take 150 ms to settle, easing out. With animations switched off on the device, they appear at once.
-- The ring and the growth need room. Between two cards, leave at least 12 dp, so a focused card never touches its neighbours. Keep lists at least 12 dp from the screen's edges, so a growing row is never cut off.
+- The ring and the growth need room. Between two cards, leave at least 12 dp, so a focused card never touches its neighbours.
+- Everything that can take focus stays inside the <Term id="safe-area">safe area</Term>: 48 dp from the left and right edges, 27 dp from the top and bottom. Some TVs cut off the edges of the picture, and a focused item that grows must not grow into that edge.
 
 ## checks
 
@@ -86,6 +87,8 @@ The ring always means focus, and only focus. Other marks look different:
 | growth | 1.05; 1.02 | Cards, buttons and chips; rows |
 | timing | 150 ms, ease-out | None when animations are off |
 | left-edge bar | 4 dp, `--cloud-blue` | “Where you came from” |
+| room | 12 dp | Between cards, buttons and chips |
+| safe area | 48 dp left and right, 27 dp top and bottom | Everything that can take focus, and all text |
 
 - **Units.** dp are the TV's layout units: a TV screen is 960 × 540 dp. On a 1920 × 1080 screen drawn by a web browser, as in TV web apps, 1 dp is 2 CSS px. The pictures on this page draw 1 dp as 1 px.
 - **Contrast, tested.** The ring: 6.70:1 on `bg`, 6.34:1 on `surface`, 6.02:1 on `surface-2`, 4.54:1 on `surface-focus`. Text on `surface-focus`: `fg` 10.41:1, `fg-2` 8.42:1, `fg-muted` 6.46:1. `fg-dim`, at 3.49:1, never sits on it.

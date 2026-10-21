@@ -50,6 +50,8 @@ export const TEXT_ON_FOCUS = ['fg', 'fg-2', 'fg-muted'];
 export const FILLS = [
   { fg: 'bg', bg: 'cloud-blue', why: 'primary button label' },
   { fg: 'bg', bg: 'signal-amber', why: 'danger button label on hover' },
+  { fg: 'bg', bg: 'state-success', why: 'a label or icon on a green fill' },
+  { fg: 'bg', bg: 'state-error', why: 'a label or icon on a red fill' },
 ];
 
 /** tokens deliberately outside the policy, and why. rendered in the docs. */

@@ -38,6 +38,14 @@ export const TEXT_ON_TINT = ['fg', 'fg-2', 'fg-muted'];
  */
 export const BOUNDARIES = ['border-control', 'focus-ring', 'cloud-blue'];
 
+/**
+ * the focused item on a TV (patterns/tv-focus). lighter than every resting
+ * surface; text on it brightens one step, so the dimmest text token never sits
+ * on it, and the focus ring keeps 3:1 against it.
+ */
+export const FOCUS_SURFACE = 'surface-focus';
+export const TEXT_ON_FOCUS = ['fg', 'fg-2', 'fg-muted'];
+
 /** text on a filled control. */
 export const FILLS = [
   { fg: 'bg', bg: 'cloud-blue', why: 'primary button label' },
@@ -137,6 +145,8 @@ export function contrastReport(colors) {
   for (const s of STATES) add(`state-${s}`, `state-${s}-bg`, MIN_TEXT, 'state text on its tint');
   for (const s of STATES) for (const fg of TEXT_ON_TINT) add(fg, `state-${s}-bg`, MIN_TEXT, 'text on a state tint');
   for (const fg of BOUNDARIES) for (const bg of BACKGROUNDS) add(fg, bg, MIN_NON_TEXT, 'non-text ui');
+  for (const fg of TEXT_ON_FOCUS) add(fg, FOCUS_SURFACE, MIN_TEXT, 'text on the focused surface (tv)');
+  add('focus-ring', FOCUS_SURFACE, MIN_NON_TEXT, 'focus ring on the focused surface (tv)');
   for (const f of FILLS) add(f.fg, f.bg, MIN_TEXT, `text on a fill (${f.why})`);
   return rows;
 }

@@ -130,6 +130,12 @@ export const SECTIONS: NavSection[] = [
           { title: 'forms and settings', href: url('patterns/forms-and-settings/'), summary: 'Switches that apply at once, forms that wait for save, and errors that say how to fix them.' },
         ],
       },
+      {
+        title: 'tv',
+        pages: [
+          { title: 'tv focus', href: url('patterns/tv-focus/'), summary: 'How the one focused thing on a TV screen stands out from across the room: a ring, a lighter surface and a little growth.', draft: true },
+        ],
+      },
     ],
   },
   {

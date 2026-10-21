@@ -39,6 +39,12 @@ Baseline (never traded): WCAG 2.2 AA (text contrast >= 4.5:1, tested), named con
 - Before shipping, ask of every text: true right now? true on every installation? would anyone miss it? the reader's words? agrees with the rest of the screen? speaks to the reader? promises nothing unbuilt? reads well in a screenshot with real data?
 - Find every text, including what the server writes (statuses, reasons, errors); search it for the request's wording and the project's internal words; list the texts you changed for review.
 
+## tv focus (10-foot) — ${site('patterns/tv-focus/')}
+- One focus style for every focusable item in a TV app, never a per-screen style: a 3 dp ring in --focus-ring (#00A4DC), the focused surface --surface-focus (#2A3142) behind rows, plain buttons and chips, growth 1.05 for cards, buttons and chips and 1.02 for rows, and text one step brighter (title --fg).
+- Cards, buttons and chips: the ring outside with a 2 dp gap where the background shows. Rows: the ring inside the edge, no gap.
+- The ring means focus only: "where you came from" is a 4 dp left-edge bar in --cloud-blue. 150 ms ease-out; none when animations are off. At least 12 dp between cards and from screen edges.
+- dp = 1/960 of the screen width (2 CSS px on a 1920 × 1080 web screen). Screenshot tests of every kind, focused and at rest.
+
 ## identity — ${site('styles/brand/')}
 Dark canvas only; the blue chevron (--cloud-blue) is the brand glyph and the colour of links and the primary action; square frames (border-radius 0); JetBrains Mono for display and labels, Inter for body; 4px spacing scale.
 

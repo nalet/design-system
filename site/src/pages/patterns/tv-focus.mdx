@@ -1,0 +1,92 @@
+---
+layout: ../../layouts/Doc.astro
+title: tv focus
+description: How the one focused thing on a TV screen stands out from across the room. A ring, a lighter surface and a little growth, the same on every screen.
+draft: true
+---
+import Term from '@site/components/Term.astro';
+import { DoDont, Do, Dont } from '@site/blocks';
+import { FocusKinds, OnAProjector } from '@site/specimens/tv-focus';
+
+# tv focus
+
+On a TV, people move through the screen with the arrow keys of a remote, and exactly one thing has <Term id="focus">focus</Term> at a time. That focus is the cursor: when people can't see it, they can't use the app. They sit across the room, sometimes in front of a projector that washes out dark colours, so the focused item has to stand out in brightness and size, not by a slightly different shade.
+
+Every focusable item in a TV app shows focus the same way, on every screen, so people learn it once. Screens made for this distance are called <Term id="ten-foot">10-foot</Term> screens.
+
+## the focus style
+
+<FocusKinds />
+
+Four things change together when an item gets focus:
+
+1. **A ring** in the focus colour, 3 <Term id="dp">dp</Term> wide. It does most of the work: it is at least 3:1 against everything around it, and 6.7:1 against the background.
+2. **A lighter surface** behind rows, plain buttons and chips. It helps, but it never shows focus on its own.
+3. **A little growth.** Cards, buttons and chips grow by 5%, rows by 2%.
+4. **Brighter text.** The focused item's title turns to the brightest text colour, and the text under it one step brighter.
+
+Rows and cards differ a little, because they sit differently on the screen:
+
+| item | ring | gap to the ring | surface | growth |
+| --- | --- | --- | --- | --- |
+| Rows: an episode, a setting | Inside the row's edge | None | The focused surface | 2% |
+| Cards: a poster, a still | Outside the card | 2 dp, where the background shows | The artwork, unchanged | 5% |
+| Buttons and chips | Outside | 2 dp | Filled buttons keep their fill; plain ones get the focused surface | 5% |
+
+The gap is there for artwork and filled buttons, which can be any colour, the focus colour included. With a strip of background between the item and its ring, the ring always has the dark background on both sides, so it stays visible on every poster and every button.
+
+## why a lighter surface is not enough
+
+A row that only turns a little lighter is easy to see up close on a good screen. Across a room, and through a projector, the two shades become one. The ring and the growth survive, because they change brightness and size rather than shade.
+
+<DoDont>
+  <Do caption="An episode list, roughly as a projector in a lit room shows it. The ring and the growth still mark the focused episode.">
+    <OnAProjector focus="full" />
+  </Do>
+  <Dont caption="Only the surface changes. On the projector, the focused episode is hard to tell from the others.">
+    <OnAProjector focus="surface" />
+  </Dont>
+</DoDont>
+
+## one meaning for the ring
+
+The ring always means focus, and only focus. Other marks look different:
+
+- **Where you came from**, such as the episode a detail page opened on, gets a bar along its left edge in the accent blue, not a ring. Two rings on one screen make people guess which one moves.
+- **What is playing or chosen** is said in words or with a small marker, never with the ring.
+- **No screen has a focus style of its own.** A blue fill on one screen, a white fill on the next and growth alone on a third make people relearn the app on every screen.
+
+## movement and space
+
+- Focus moves at once. The growth and the ring take 150 ms to settle, easing out. With animations switched off on the device, they appear at once.
+- The ring and the growth need room. Between two cards, leave at least 12 dp, so a focused card never touches its neighbours. Keep lists at least 12 dp from the screen's edges, so a growing row is never cut off.
+
+## checks
+
+- Every focusable item uses the one shared focus style.
+- Screenshot tests show each kind of item, a row, a card, a button and a chip, at rest and focused, and fail when the focused look changes.
+- The contrast of the ring against the background, the surfaces and the focused surface is tested with the colour tokens, like every other pair.
+
+## related
+
+- [Interaction](/design-system/foundations/interaction/#focus): focus on the web, with a keyboard.
+- [Accessibility](/design-system/foundations/accessibility/): the 3:1 rule for focus and controls.
+- [Colour](/design-system/styles/colour/): the contrast table these numbers come from.
+
+## specs
+
+| token | value | used for |
+| --- | --- | --- |
+| `--focus-ring` | `#00A4DC`, cloud-cyan | The ring |
+| `--surface-focus` | `#2A3142` | The focused surface of rows, plain buttons and chips |
+| `--fg` | `#E6E6E6` | The focused item's title |
+| `--fg-2`, `--fg-muted` | `#C9D1D9`, `#AEB8C2` | Text under the title, one step brighter on focus: `fg-muted` becomes `fg-2`, `fg-dim` becomes `fg-muted` |
+| ring width | 3 dp | Every focusable item |
+| ring gap | 2 dp outside | Cards, buttons and chips; rows draw the ring inside, without a gap |
+| growth | 1.05; 1.02 | Cards, buttons and chips; rows |
+| timing | 150 ms, ease-out | None when animations are off |
+| left-edge bar | 4 dp, `--cloud-blue` | “Where you came from” |
+
+- **Units.** dp are the TV's layout units: a TV screen is 960 × 540 dp. On a 1920 × 1080 screen drawn by a web browser, as in TV web apps, 1 dp is 2 CSS px. The pictures on this page draw 1 dp as 1 px.
+- **Contrast, tested.** The ring: 6.70:1 on `bg`, 6.34:1 on `surface`, 6.02:1 on `surface-2`, 4.54:1 on `surface-focus`. Text on `surface-focus`: `fg` 10.41:1, `fg-2` 8.42:1, `fg-muted` 6.46:1. `fg-dim`, at 3.49:1, never sits on it.
+- **Android TV.** One shared focus modifier, or one set of tv-material defaults for border, scale and colours set in the theme. No screen passes focus colours of its own.

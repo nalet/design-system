@@ -34,6 +34,11 @@ attached to its GitHub release.
 
 ### added
 
+- **`--surface-focus`** (`#2A3142`), the focused item's surface in a TV app.
+  The contrast test checks `fg`, `fg-2` and `fg-muted` on it at 4.5:1 and the
+  focus ring at 3:1. **TV focus** (draft pattern): one focus style for every
+  focusable item on a TV, a 3 dp ring, the focused surface, a little growth and
+  brighter text, with the sizes, timing and tested contrasts.
 - **`KeepCase`**, and the class `nc-keep-case` it sets: a name inside
   lowercased monospace chrome, such as a language in a button or a series
   title in a dialog title, keeps its own capitals:

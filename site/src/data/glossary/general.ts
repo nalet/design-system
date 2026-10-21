@@ -2,6 +2,17 @@
 import type { GlossaryEntry } from './types';
 
 export const GENERAL_TERMS: Record<string, GlossaryEntry> = {
+  // tv
+  'ten-foot': {
+    term: '10-foot',
+    explanation:
+      'Made to be used from a sofa, about three metres (ten feet) away, with a remote control instead of a mouse or a touch screen. TV apps are 10-foot screens: their text, focus and spacing are larger and stronger than on a laptop.',
+  },
+  dp: {
+    term: 'dp',
+    explanation:
+      'Density-independent pixels, the layout unit of Android and Android TV. A TV screen is 960 × 540 dp whatever its resolution, so on a 1920 × 1080 screen 1 dp is 2 pixels.',
+  },
   // building with agents
   'ai-agent': {
     term: 'AI agent',

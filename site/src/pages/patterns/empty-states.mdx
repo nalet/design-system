@@ -178,4 +178,6 @@ Today:
 ## specs
 
 - **Which case.** Decided by the HTTP status, never by the error message: no answer or 408 is the connection case, 5xx the server, 429 busy, 404 and 410 removed, 403 no access, 401 signed out, and any other 4xx not accepted.
+- **404 on a list.** A list can't be removed. On a list screen, 404 and 410 mean the app and the server don't match, so they are the not-accepted case, with its hint to check for an app update. “Removed” is only for a page about one thing, such as a title or a person.
+- **Signed out.** The app first tries to renew the sign-in silently; when that can't reach the sign-in service, it is the connection case. Only when the sign-in is refused does the app take people to sign-in, and back to where they were afterwards.
 - **Details.** The status and its reason phrase, such as “HTTP 503 Service Unavailable”, go under details, never into the title or the description.

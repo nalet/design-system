@@ -21,14 +21,10 @@ attached to its GitHub release.
   page, or to the same entry on the React subsite, and a page that was renamed
   keeps its old address, which leads on to the new one.
 - **Search** over the guidelines, with Pagefind.
-- **Subtitles** (draft pattern, in “watching”): one look for every title
-  (white with a black outline, sized by the picture, the system's font, inside
-  the safe area), people's own caption settings first, one subtitle at a time,
-  and a menu that puts the languages people use first.
-- **Downloads and offline**, **casting** (draft patterns, in a new “watching”
-  group with TV focus): the download control's statuses and words, the
-  downloads screen, what the app does when it can't reach the server, and
-  casting with Google's widgets in our colours.
+- **The design system stays general.** One product's screens, states and
+  words belong to that product's spec, not here: the short-lived pages on
+  downloads and offline, casting and subtitles moved to the chino apps' spec in
+  the zaentrum docs, together with the media words (the kinds of subtitles).
 - **Empty states: when it couldn't load, say why.** Each kind of failure (no
   answer, a server problem, a busy server, a request the server didn't
   accept, removed, no access, signed out) has its own words and its own way

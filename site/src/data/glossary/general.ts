@@ -18,11 +18,6 @@ export const GENERAL_TERMS: Record<string, GlossaryEntry> = {
     explanation:
       'The part of a TV picture that every TV shows in full. Some TVs cut off a few percent at the edges, so text and everything that can take focus stays at least 5% away from them.',
   },
-  casting: {
-    term: 'casting',
-    explanation:
-      'Sending a film or an episode from the phone to a TV or a speaker on the same network. The TV plays it, and the phone becomes the remote.',
-  },
   // building with agents
   'ai-agent': {
     term: 'AI agent',

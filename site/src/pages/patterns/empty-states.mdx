@@ -85,15 +85,15 @@ Pick the kind by what is true, not by what the screen looks like. A list that fa
 
 | what went wrong | title | description | action |
 | --- | --- | --- | --- |
-| No answer: the connection dropped or the server didn't reply | “couldn't load the library” | “Check the connection to the server, then try again.” | “try again” |
-| The server ran into a problem | “couldn't load the library” | “The server ran into a problem. Try again in a moment.” | “try again” |
-| The server is busy | “couldn't load the library” | “The server is busy. Try again in a moment.” | “try again” |
-| The server didn't accept the request | “couldn't load the library” | “The server didn't accept the request. Check for an app update, then try again.” | “try again” |
+| No answer: the connection dropped or the server didn't reply | “couldn't load the library” | “Can't reach the server.” | “try again” |
+| The server ran into a problem | “couldn't load the library” | “The server ran into a problem.” | “try again” |
+| The server is busy | “couldn't load the library” | “The server is busy.” | “try again” |
+| The server didn't accept the request | “couldn't load the library” | “The server didn't accept the request. Check for an app update.” | “try again” |
 | It was removed | “this title isn't in the library anymore” | None | “back” |
 | People don't have access to it | “you don't have access to this” | None | “back” |
 | People are signed out | No empty state: the app signs them in again, or takes them to sign-in and back to where they were | — | — |
 
-The title names what couldn't load, in the screen's own words: “couldn't load this title”, “couldn't load your watchlists”. The way out gets the focus first. The code that tells the cases apart goes under details, for the people who fix things.
+The title names what couldn't load, in the screen's own words: “couldn't load this title”, “couldn't load your watchlists”. The description gives the reason and nothing the button already says: “try again” is the button, so the sentence above it never asks people to try again. Only what no button offers, such as an app update, is said in words. The way out gets the focus first. The code that tells the cases apart goes under details, for the people who fix things.
 
 ## where it goes
 

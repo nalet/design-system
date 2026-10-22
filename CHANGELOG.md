@@ -39,6 +39,10 @@ attached to its GitHub release.
   selection and bulk actions. The start page is called home, and its tiles are
   found with the one search, in the top bar; `Portal`'s own search box is for
   a launcher outside a shell.
+- **A failure says why.** The couldn't-load cases give the reason only (“Can't
+  reach the server.”, “The server ran into a problem.”, “The server is busy.”),
+  because “try again” is the button; meaningful text leaves out an instruction
+  the button beside it already gives.
 
 ### added
 

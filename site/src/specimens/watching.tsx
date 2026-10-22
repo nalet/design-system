@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react';
-import { AlertCircle, Ban, Check, Clock, Download, Home, Library, Pause, Search, User, Wifi } from 'lucide-react';
+import { AlertCircle, Ban, Check, Clock, Download, Home, Library, Pause, RefreshCw, Search, User, Wifi } from 'lucide-react';
 
 /**
  * the phone patterns for watching (patterns/downloads-and-offline,
@@ -53,6 +53,15 @@ const STATES: { state: string; control: ReactNode; note?: string }[] = [
     ),
   },
   {
+    state: 'needs a check',
+    control: (
+      <Control icon={<RefreshCw size={14} />} iconColor="var(--fg-muted)">
+        downloaded · check needed
+      </Control>
+    ),
+    note: 'Downloads are checked with the server every 30 days. This one plays again once the server can be reached.',
+  },
+  {
     state: 'failed',
     control: (
       <Control icon={<AlertCircle size={14} />} iconColor="var(--state-error)">
@@ -65,10 +74,10 @@ const STATES: { state: string; control: ReactNode; note?: string }[] = [
     state: "can't come along",
     control: (
       <Control icon={<Ban size={14} />} iconColor="var(--fg-muted)">
-        can't be downloaded yet
+        can't be downloaded
       </Control>
     ),
-    note: 'This title can only be streamed for now.',
+    note: 'This title can only be streamed.',
   },
 ];
 
@@ -77,7 +86,7 @@ export function DownloadStates() {
   return (
     <div
       role="img"
-      aria-label="The download control in seven states: download with the size, queued, waiting for Wi-Fi, downloading 42 percent with a bar, downloaded with the size, couldn't download with the reason, and can't be downloaded yet with the reason."
+      aria-label="The download control in eight states: download with the size, queued, waiting for Wi-Fi, downloading 42 percent with a bar, downloaded with the size, downloaded but needing a check with the reason, couldn't download with the reason, and can't be downloaded with the reason."
       style={{ background: 'var(--bg)', border: '1px solid var(--border)', padding: 'var(--s-5)', display: 'grid', gap: 'var(--s-4)' }}
     >
       {STATES.map(({ state, control, note }) => (

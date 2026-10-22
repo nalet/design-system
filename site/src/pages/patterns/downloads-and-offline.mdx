@@ -1,0 +1,85 @@
+---
+layout: ../../layouts/Doc.astro
+title: downloads and offline
+description: Taking titles along on a phone. One status per title, the downloads screen, and what the app does when it can't reach the server.
+draft: true
+---
+import { Banner } from '@nalet/design-system';
+import { DownloadStates, StorageLine } from '@site/specimens/watching';
+
+# downloads and offline
+
+On a phone, people can download a title and watch it without a connection: on a train, on a plane, wherever the signal drops. A download is a copy on the phone. It stays until people delete it, and it plays even when the server can't be reached.
+
+Every title says plainly whether it's on the phone, on its way, or can't come along, and how much room it takes.
+
+## one status per title
+
+The download control sits next to “play” on a title's page. It shows the title's download status, and offers the one thing that makes sense in it.
+
+<DownloadStates />
+
+| status | the control says | what people can do |
+| --- | --- | --- |
+| Not on the phone | “download · 1.4 GB” | Download it |
+| Waiting its turn | “queued” | Cancel |
+| Waiting for Wi-Fi | “waiting for Wi-Fi” | Cancel; it starts by itself on Wi-Fi |
+| On its way | “downloading 42%”, with a thin bar | Cancel |
+| On the phone | “downloaded · 1.4 GB” | Play it, delete it |
+| Failed | “couldn't download”, and why in a sentence: “Not enough space on this phone.” | “try again”, or delete what was started |
+| Can't come along | “can't be downloaded yet”, and why: “This title can only be streamed for now.” | Nothing; the control changes when the title can be downloaded |
+
+- The size is the size at the chosen download quality, as the server reports it. When it isn't known, the control leaves it out rather than guess.
+- The percentage changes at most once a second, so it reads calmly.
+- “Waiting for Wi-Fi” appears only when downloads are set to Wi-Fi only and the phone has none. It is true, and it says what happens next.
+
+### series
+
+Each episode has its own control. A season offers all of its episodes at once, with their number and total size: “download season 1 · 8 episodes · 9.6 GB”. A series that is partly on the phone says how far: “3 of 8 downloaded”.
+
+## the downloads screen
+
+The downloads screen lists everything on the phone, newest first, grouped by series and season, with films in a group of their own. Each title shows its size and its status, and plays from there.
+
+At the top, one line says how much room downloads take, and how much is left:
+
+<StorageLine />
+
+- **Delete one.** From the title's menu or its control. It asks nothing, because the title can be downloaded again.
+- **Delete all.** One action at the end of the list. It asks once, and names what goes: “Delete all downloads?”, then “This removes 23 titles, 12.4 GB, from this phone.”, with “delete all” and “cancel”.
+- **Empty.** “nothing downloaded yet”, and “Titles you download show up here, ready to watch without a connection.”
+
+## when the server can't be reached
+
+When the app can't reach the server, it opens on the downloads screen, with a banner:
+
+<Banner state="information" live="off">Can't reach the server. Your downloads still play.</Banner>
+
+That sentence is true whether the phone has no connection or the server is down, and it says what still works. Screens that need the server show the usual “couldn't load” screen, with the way out that fits the cause. Downloaded titles play from anywhere in the app.
+
+Watch progress made without a connection is kept on the phone and sent once the server can be reached again, with nothing for people to do. When the server is back, the banner goes, and queued downloads carry on.
+
+## settings
+
+- **Download quality.** The same names as the player's quality menu, each with its size for an hour of video, as the server reports it: “Medium · about 1.1 GB an hour”.
+- **Download over Wi-Fi only.** On by default, so a download never uses mobile data unless people want it to.
+
+## words
+
+- Say “downloads” and “on this phone”. Avoid “offline mode”, “sync” and “cache”: they describe the app, not what people get.
+- Sizes in GB with one decimal, and in MB below 1 GB: “1.4 GB”, “820 MB”.
+- A failure says why, in a sentence people can act on: “Not enough space on this phone.”, “The server didn't accept the download.” The technical reason goes under details.
+
+## related
+
+- [Empty states](/design-system/patterns/empty-states/#when-it-couldnt-load-say-why): what a screen says when it couldn't load.
+- [Casting](/design-system/patterns/casting/): watching on a TV, with the phone as the remote.
+- [Meaningful text](/design-system/foundations/meaningful-text/): why sizes come from the server, and never from a guess.
+
+## specs
+
+- **States** follow the download manager's own: queued, waiting for the network, downloading, completed, failed and removing.
+- **“Can't be downloaded yet”** is for titles without a downloadable package. The server says which titles can be downloaded.
+- **Progress** in whole percent, updated at most once a second.
+- **Watch progress** made offline is stored with its time and sent in order once the server can be reached. The server's rule for a finished title applies to it like to any other.
+- **The banner** uses the information state, without a close button while the server can't be reached.

@@ -21,6 +21,10 @@ attached to its GitHub release.
   page, or to the same entry on the React subsite, and a page that was renamed
   keeps its old address, which leads on to the new one.
 - **Search** over the guidelines, with Pagefind.
+- **Downloads and offline**, **casting** (draft patterns, in a new “watching”
+  group with TV focus): the download control's statuses and words, the
+  downloads screen, what the app does when it can't reach the server, and
+  casting with Google's widgets in our colours.
 - **Empty states: when it couldn't load, say why.** Each kind of failure (no
   answer, a server problem, a busy server, a request the server didn't
   accept, removed, no access, signed out) has its own words and its own way

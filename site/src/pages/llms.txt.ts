@@ -45,6 +45,17 @@ Baseline (never traded): WCAG 2.2 AA (text contrast >= 4.5:1, tested), named con
 - The ring means focus only: "where you came from" is a 4 dp left-edge bar in --cloud-blue. 150 ms ease-out; none when animations are off. At least 12 dp between cards; everything focusable and all text inside the safe area (48 dp left and right, 27 dp top and bottom).
 - dp = 1/960 of the screen width (2 CSS px on a 1920 × 1080 web screen). Screenshot tests of every kind, focused and at rest.
 
+## downloads and offline (phone) — ${site('patterns/downloads-and-offline/')}
+- One download control next to "play", one status: "download · 1.4 GB" | "queued" | "waiting for Wi-Fi" (Wi-Fi only, no Wi-Fi) | "downloading 42%" + bar | "downloaded · 1.4 GB" | "couldn't download" + why in a sentence + "try again" | "can't be downloaded yet" + "This title can only be streamed for now."
+- Sizes from the server at the chosen quality, left out when unknown; progress at most once a second. Seasons: "download season 1 · 8 episodes · 9.6 GB"; partial series "3 of 8 downloaded".
+- Downloads screen: newest first, by series and season, films apart; top line "12.4 GB used by downloads · 18 GB free on this phone"; delete one without asking, "delete all" asks once naming titles and size.
+- Server unreachable: open on Downloads with the information banner "Can't reach the server. Your downloads still play."; offline progress is sent later. Words: "downloads", "on this phone"; never "offline mode", "sync", "cache".
+
+## casting (phone) — ${site('patterns/casting/')}
+- Google's Cast icon, bar and full controls in our colours; the button only when a device is on the network, in the top bar of the player and a title's page, on the right.
+- The bar sits above the bottom navigation: title, "playing on {device name from the network}", play/pause. Full controls: artwork, title, seek bar, play/pause, ±10 s, subtitles and audio if offered, "stop casting".
+- The position hands over both ways. When the TV can't play: "{device} can't play this title." with the reason under details; casting stops.
+
 ## identity — ${site('styles/brand/')}
 Dark canvas only; the blue chevron (--cloud-blue) is the brand glyph and the colour of links and the primary action; square frames (border-radius 0); JetBrains Mono for display and labels, Inter for body; 4px spacing scale.
 

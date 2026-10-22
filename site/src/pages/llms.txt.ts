@@ -46,9 +46,9 @@ Baseline (never traded): WCAG 2.2 AA (text contrast >= 4.5:1, tested), named con
 - dp = 1/960 of the screen width (2 CSS px on a 1920 × 1080 web screen). Screenshot tests of every kind, focused and at rest.
 
 ## downloads and offline (phone) — ${site('patterns/downloads-and-offline/')}
-- One download control next to "play", one status: "download · 1.4 GB" | "queued" | "waiting for Wi-Fi" (Wi-Fi only, no Wi-Fi) | "downloading 42%" + bar | "downloaded · 1.4 GB" | "couldn't download" + why in a sentence + "try again" | "can't be downloaded yet" + "This title can only be streamed for now."
-- Sizes from the server at the chosen quality, left out when unknown; progress at most once a second. Seasons: "download season 1 · 8 episodes · 9.6 GB"; partial series "3 of 8 downloaded".
-- Downloads screen: newest first, by series and season, films apart; top line "12.4 GB used by downloads · 18 GB free on this phone"; delete one without asking, "delete all" asks once naming titles and size.
+- One download control next to "play", one status: "download · 1.4 GB" | "queued" | "waiting for Wi-Fi" (Wi-Fi only, no Wi-Fi) | "waiting for a connection" | "waiting · battery low" | "downloading 42%" + bar | "downloaded · 1.4 GB" | "couldn't download" + the reason (not an instruction) + "try again" | "can't be downloaded yet" + "This title can only be streamed for now." | "deleting".
+- Sizes from the server at the chosen quality, left out when unknown; one decimal without a trailing zero ("18 GB"), MB below 1 GB; progress at most once a second. Seasons: "download season 1 · 8 episodes · 9.6 GB", then "download 2 more episodes · 724 MB" once some are handled; partial series "3 of 8 downloaded".
+- Downloads screen: newest first, by series and season, films apart; top line "12.4 GB used by downloads · 18 GB free on this phone"; a failed title shows its reason and no size; delete one without asking; "delete all" asks once in a dialog titled "delete all downloads", counting only what is on the phone. Quality names as the player's menu ("720p · about 932 MB an hour").
 - Server unreachable: open on Downloads with the information banner "Can't reach the server. Your downloads still play."; offline progress is sent later. Words: "downloads", "on this phone"; never "offline mode", "sync", "cache".
 
 ## casting (phone) — ${site('patterns/casting/')}

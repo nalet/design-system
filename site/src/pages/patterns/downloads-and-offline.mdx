@@ -24,29 +24,33 @@ The download control sits next to “play” on a title's page. It shows the tit
 | Not on the phone | “download · 1.4 GB” | Download it |
 | Waiting its turn | “queued” | Cancel |
 | Waiting for Wi-Fi | “waiting for Wi-Fi” | Cancel; it starts by itself on Wi-Fi |
+| Waiting for a connection | “waiting for a connection” | Cancel; it starts by itself once the phone is online |
+| Waiting for the battery | “waiting · battery low” | Cancel; it starts by itself once the phone charges |
 | On its way | “downloading 42%”, with a thin bar | Cancel |
 | On the phone | “downloaded · 1.4 GB” | Play it, delete it |
-| Failed | “couldn't download”, and why in a sentence: “Not enough space on this phone.” | “try again”, or delete what was started |
+| Failed | “couldn't download”, and why in a sentence: “Not enough space on this phone.”, “Can't reach the server.” | “try again”, or delete what was started |
 | Can't come along | “can't be downloaded yet”, and why: “This title can only be streamed for now.” | Nothing; the control changes when the title can be downloaded |
 
 - The size is the size at the chosen download quality, as the server reports it. When it isn't known, the control leaves it out rather than guess.
 - The percentage changes at most once a second, so it reads calmly.
 - “Waiting for Wi-Fi” appears only when downloads are set to Wi-Fi only and the phone has none. It is true, and it says what happens next.
+- The reason of a failure is a reason, not an instruction: the control already offers “try again”, so the sentence doesn't repeat it.
+- “deleting” shows for the moment it takes to remove a title.
 
 ### series
 
-Each episode has its own control. A season offers all of its episodes at once, with their number and total size: “download season 1 · 8 episodes · 9.6 GB”. A series that is partly on the phone says how far: “3 of 8 downloaded”.
+Each episode has its own control. A season offers all of its episodes at once, with their number and total size: “download season 1 · 8 episodes · 9.6 GB”. Once some of them are on the phone, on their way or can't be downloaded, it offers the rest, and says so: “download 2 more episodes · 724 MB”. A series that is partly on the phone says how far: “3 of 8 downloaded”.
 
 ## the downloads screen
 
-The downloads screen lists everything on the phone, newest first, grouped by series and season, with films in a group of their own. Each title shows its size and its status, and plays from there.
+The downloads screen lists everything on the phone, newest first, grouped by series and season, with films in a group of their own. Each title shows its size and its status, and plays from there. A title that failed shows its reason and no size, because nothing of it is on the phone.
 
 At the top, one line says how much room downloads take, and how much is left:
 
 <StorageLine />
 
 - **Delete one.** From the title's menu or its control. It asks nothing, because the title can be downloaded again.
-- **Delete all.** One action at the end of the list. It asks once, and names what goes: “Delete all downloads?”, then “This removes 23 titles, 12.4 GB, from this phone.”, with “delete all” and “cancel”.
+- **Delete all.** One action at the end of the list. It asks once, in a dialog titled with what it does, “delete all downloads”, and names what goes: “This removes 23 titles, 12.4 GB, from this phone.”, with “delete all” and “cancel”. It counts only what is on the phone.
 - **Empty.** “nothing downloaded yet”, and “Titles you download show up here, ready to watch without a connection.”
 
 ## when the server can't be reached
@@ -61,13 +65,13 @@ Watch progress made without a connection is kept on the phone and sent once the 
 
 ## settings
 
-- **Download quality.** The same names as the player's quality menu, each with its size for an hour of video, as the server reports it: “Medium · about 1.1 GB an hour”.
+- **Download quality.** The same names as the player's quality menu, each with its size for an hour of video, as the server reports it: “720p · about 932 MB an hour”. Where too few titles have a quality to tell its size reliably, the size is left out.
 - **Download over Wi-Fi only.** On by default, so a download never uses mobile data unless people want it to.
 
 ## words
 
 - Say “downloads” and “on this phone”. Avoid “offline mode”, “sync” and “cache”: they describe the app, not what people get.
-- Sizes in GB with one decimal, and in MB below 1 GB: “1.4 GB”, “820 MB”.
+- Sizes in GB with one decimal, without a trailing zero, and in MB below 1 GB: “1.4 GB”, “18 GB”, “820 MB”.
 - A failure says why, in a sentence people can act on: “Not enough space on this phone.”, “The server didn't accept the download.” The technical reason goes under details.
 
 ## related

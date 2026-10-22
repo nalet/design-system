@@ -2,9 +2,10 @@ import type { CSSProperties, ReactNode } from 'react';
 import { AlertCircle, Ban, Check, Clock, Download, Home, Library, Pause, RefreshCw, Search, User, Wifi } from 'lucide-react';
 
 /**
- * the phone patterns for watching (patterns/downloads-and-offline,
- * patterns/casting), drawn from the colour tokens: the download control in
- * each of its states, the storage line, and the bar while casting.
+ * the patterns for watching (patterns/downloads-and-offline, patterns/casting,
+ * patterns/subtitles), drawn from the colour tokens: the download control in
+ * each of its states, the storage line, the bar while casting, a subtitle over
+ * a picture, and the subtitle menu.
  */
 
 const mono: CSSProperties = { fontFamily: 'var(--ff-mono)', fontSize: 12, fontWeight: 600 };
@@ -137,6 +138,114 @@ export function MiniController() {
         <Library {...navIcon} aria-hidden="true" />
         <User {...navIcon} aria-hidden="true" />
       </div>
+    </div>
+  );
+}
+
+// a picture: a dusky scene, light at the bottom where subtitles sit, so the
+// outline has to do its work.
+const picture: CSSProperties = {
+  position: 'relative',
+  width: '100%',
+  aspectRatio: '16 / 9',
+  overflow: 'hidden',
+  background: 'linear-gradient(180deg, hsl(215 30% 22%) 0%, hsl(30 35% 45%) 70%, hsl(40 55% 72%) 100%)',
+};
+
+const outline = '0 0 2px #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000';
+
+/** a subtitle over a picture: the one look, or the boxed band from a file's own style. */
+export function SubtitleSample({ look }: { look: 'outline' | 'band' }) {
+  const line = 'I told you the harbour closes at nine.';
+  return (
+    <div
+      role="img"
+      aria-label={
+        look === 'outline'
+          ? 'A subtitle in white text with a black outline, centred near the bottom of the picture, with no box behind it.'
+          : 'A subtitle in oversized text on a black band across the whole picture, cut off at both edges, with a second, smaller subtitle drawn over it.'
+      }
+      style={{ ...picture, containerType: 'size' } as CSSProperties}
+    >
+      {look === 'outline' ? (
+        <span
+          style={{
+            position: 'absolute',
+            left: '10%',
+            right: '10%',
+            bottom: '8%',
+            textAlign: 'center',
+            fontFamily: 'system-ui, sans-serif',
+            fontSize: '5.33cqh',
+            lineHeight: 1.25,
+            color: '#FFFFFF',
+            textShadow: outline,
+          }}
+        >
+          {line}
+        </span>
+      ) : (
+        <>
+          <span
+            style={{
+              position: 'absolute',
+              left: '-6%',
+              right: '-6%',
+              bottom: '6%',
+              padding: '1.5cqh 0',
+              textAlign: 'center',
+              whiteSpace: 'nowrap',
+              fontFamily: 'system-ui, sans-serif',
+              fontSize: '9cqh',
+              color: '#FFFFFF',
+              background: '#000000',
+            }}
+          >
+            {line}
+          </span>
+          <span
+            style={{
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: '11%',
+              textAlign: 'center',
+              fontFamily: 'system-ui, sans-serif',
+              fontSize: '4cqh',
+              color: '#FFFFFF',
+            }}
+          >
+            我告诉过你港口九点关门。
+          </span>
+        </>
+      )}
+    </div>
+  );
+}
+
+/** the subtitle menu: off, the preferred and the server's languages, then more languages. */
+export function SubtitleMenu() {
+  const item: CSSProperties = { ...mono, fontWeight: 500, padding: '8px 12px', color: 'var(--fg-2)' };
+  const items = [
+    'off',
+    'English',
+    'English · for deaf and hard of hearing',
+    'German',
+    'German · foreign-language parts only',
+    'Chinese (Simplified)',
+  ];
+  return (
+    <div
+      role="img"
+      aria-label="A subtitle menu: off, English, English for deaf and hard of hearing, German, German foreign-language parts only, Chinese (Simplified), and at the end more languages."
+      style={{ width: '100%', maxWidth: 360, background: 'var(--surface)', border: '1px solid var(--border-2)', display: 'grid', padding: '6px 0' }}
+    >
+      {items.map((text, i) => (
+        <span key={text} style={{ ...item, color: i === 1 ? 'var(--fg)' : item.color, background: i === 1 ? 'var(--surface-focus)' : undefined }}>
+          {text}
+        </span>
+      ))}
+      <span style={{ ...item, color: 'var(--fg-muted)', borderTop: '1px solid var(--border)', marginTop: 4, paddingTop: 10 }}>more languages</span>
     </div>
   );
 }

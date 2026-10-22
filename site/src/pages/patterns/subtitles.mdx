@@ -1,0 +1,64 @@
+---
+layout: ../../layouts/Doc.astro
+title: subtitles
+description: How subtitles look and how people pick them, the same on the TV, the phone and the web. One look for every title, one subtitle at a time, and a menu in people's words.
+draft: true
+---
+import { DoDont, Do, Dont } from '@site/blocks';
+import { SubtitleMenu, SubtitleSample } from '@site/specimens/watching';
+
+# subtitles
+
+Subtitles are read in a second, over a moving picture, sometimes from across the room. They should be plain and steady: the same look for every title, covering as little of the picture as they can, and only one at a time.
+
+## the look
+
+<DoDont>
+  <Do caption="White text with a dark outline, at a size that follows the picture, inside its edges.">
+    <SubtitleSample look="outline" />
+  </Do>
+  <Dont caption="A file's own style: an oversized line on a black band, cut at both edges, and a second subtitle drawn over it.">
+    <SubtitleSample look="band" />
+  </Dont>
+</DoDont>
+
+- **White text with a black outline,** with no box behind it. It reads on bright and dark scenes alike, and hides as little of the picture as possible.
+- **Its size follows the picture,** not the screen: the same share of the picture's height on a TV, a phone or in a browser window.
+- **The device's own sans-serif font,** so that every language has its letters, Chinese, Japanese and Korean included.
+- **Centred at the bottom,** on at most two lines where the text allows, within 80% of the picture's width. On a TV, it stays inside the safe area, so it is never cut at an edge.
+- **One look for every title.** Colours, boxes, fonts and positions that come inside a file are ignored.
+- **One subtitle at a time.**
+
+### people's own settings
+
+Phones and TVs have caption settings of their own, under accessibility. When someone has set them, for example a box behind the text because that reads better for them, their settings win over ours. Our look is the default for everyone else.
+
+## the menu
+
+<SubtitleMenu />
+
+- **“off” comes first.**
+- **Then the languages that matter here:** the person's preferred subtitle language, then the other subtitle languages the server is set up for.
+- **Then “more languages”,** when a file brings others. It opens the rest, so a long list never buries the few people use.
+- **Within a language,** the plain track comes first, then “for deaf and hard of hearing”, then “foreign-language parts only”.
+- **Names follow the word list:** “English · for deaf and hard of hearing”, “Chinese (Simplified)”, “Portuguese (Brazil)”.
+- **Two tracks of the same language and kind** show once.
+
+## what switches on by itself
+
+- **Nothing in another language** than the one people chose.
+- **Their preferred subtitle language,** when they set one in settings and the title has it.
+- **“Foreign-language parts only” in the language people listen in,** because it translates the lines the audio doesn't.
+
+## related
+
+- [Content & voice](/design-system/foundations/content-voice/#words-that-mean-one-thing): the names of the subtitle kinds and of language variants.
+- [TV focus](/design-system/patterns/tv-focus/): the safe area of a TV.
+- [Downloads and offline](/design-system/patterns/downloads-and-offline/): a download takes its subtitles with it.
+
+## specs
+
+- **The look.** Text `#FFFFFF`; edge: outline, `#000000`; background and window: transparent; size: 5.33% of the picture's height; font: the system's sans-serif.
+- **Android (Media3).** A subtitle view with embedded styles and embedded font sizes switched off, a fractional text size of 0.0533, and that caption style. When the system's caption settings are switched on, it takes the user's style and text size instead. On a TV, the subtitle view is inset by the safe area.
+- **Web.** The same through `::cue`: white, no background, an outline drawn with text shadows, and a font size relative to the video's height.
+- **The list.** Built from the tracks the title has, ordered as above; the server's subtitle languages come from its configuration. A packaged title carries only those, so it has no “more languages”.

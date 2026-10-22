@@ -57,6 +57,12 @@ Baseline (never traded): WCAG 2.2 AA (text contrast >= 4.5:1, tested), named con
 - The bar sits above the bottom navigation: title, "playing on {device name from the network}", play/pause. Full controls: artwork, title, seek bar, play/pause, ±10 s, subtitles and audio if offered, "stop casting".
 - The position hands over both ways. When the TV can't play: "{device} can't play this title." with the reason under details; casting stops.
 
+## subtitles (TV, phone, web) — ${site('patterns/subtitles/')}
+- One look for every title: white #FFFFFF text, black outline, no background or window, 5.33% of the picture's height, the system's sans-serif (CJK coverage), centred at the bottom, at most two lines within 80% of the width, inside the TV safe area. Embedded styles and sizes ignored. One subtitle at a time.
+- The device's own caption settings (accessibility) win when set.
+- Menu: "off", then the preferred subtitle language, then the server's other subtitle languages (from configuration), then "more languages" for the rest of a file's tracks. Within a language: plain, "· for deaf and hard of hearing", "· foreign-language parts only". Names per the word list ("Chinese (Simplified)"); duplicates show once.
+- Switches on by itself: only the preferred language, and "foreign-language parts only" in the audio's language. Never another language.
+
 ## identity — ${site('styles/brand/')}
 Dark canvas only; the blue chevron (--cloud-blue) is the brand glyph and the colour of links and the primary action; square frames (border-radius 0); JetBrains Mono for display and labels, Inter for body; 4px spacing scale.
 

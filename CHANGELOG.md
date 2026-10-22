@@ -21,6 +21,10 @@ attached to its GitHub release.
   page, or to the same entry on the React subsite, and a page that was renamed
   keeps its old address, which leads on to the new one.
 - **Search** over the guidelines, with Pagefind.
+- **Subtitles** (draft pattern, in “watching”): one look for every title
+  (white with a black outline, sized by the picture, the system's font, inside
+  the safe area), people's own caption settings first, one subtitle at a time,
+  and a menu that puts the languages people use first.
 - **Downloads and offline**, **casting** (draft patterns, in a new “watching”
   group with TV focus): the download control's statuses and words, the
   downloads screen, what the app does when it can't reach the server, and

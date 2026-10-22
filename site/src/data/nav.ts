@@ -136,6 +136,7 @@ export const SECTIONS: NavSection[] = [
           { title: 'tv focus', href: url('patterns/tv-focus/'), summary: 'How the one focused thing on a TV screen stands out from across the room: a ring, a lighter surface and a little growth.', draft: true },
           { title: 'downloads and offline', href: url('patterns/downloads-and-offline/'), summary: "Taking titles along on a phone: one status per title, the downloads screen, and what the app does when it can't reach the server.", draft: true },
           { title: 'casting', href: url('patterns/casting/'), summary: "Watching on a TV from the phone: the Cast button, the controls while casting, and what happens when the TV can't play a title.", draft: true },
+          { title: 'subtitles', href: url('patterns/subtitles/'), summary: 'How subtitles look and how people pick them: one look for every title, one at a time, and a menu in their words.', draft: true },
         ],
       },
     ],

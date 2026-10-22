@@ -9,7 +9,7 @@ import { DownloadStates, StorageLine } from '@site/specimens/watching';
 
 # downloads and offline
 
-On a phone or a tablet, people can download a title and watch it without a connection: on a train, on a plane, wherever the signal drops. A download is a copy on the device, kept for the account that made it, and it plays even when the server can't be reached.
+On a phone or a tablet, people can download a title and watch it without a connection: on a train, on a plane, wherever the signal drops. A download is a copy on the device, with its subtitles, kept for the account that made it, and it plays even when the server can't be reached.
 
 Every title says plainly whether it's on the phone, on its way, or can't come along, and how much room it takes. This page says “phone” throughout; on a tablet, the app says “tablet”.
 
@@ -31,7 +31,8 @@ The download control sits next to “play” on a title's page. It shows the tit
 | Failed | “couldn't download”, and why in a sentence: “Not enough space on this phone.”, “Can't reach the server.” | “try again”, or delete what was started |
 | Can't come along | “can't be downloaded”, and why: “This title can only be streamed.” | Nothing |
 
-- The size is the size at the chosen download quality, as the server reports it. When it isn't known, the control leaves it out rather than guess.
+- The size is the size of exactly what will be downloaded at the chosen quality, as the server reports it, so it is the same number before and after the download. When it isn't known, the control leaves it out rather than guess.
+- Status and size are one text: “queued · 347 MB”, “waiting for Wi-Fi · 281 MB”, “downloading 15% · 281 MB”, “downloaded · 1.4 GB”. When it wraps, it wraps as one, and “check needed” stays together.
 - The percentage changes at most once a second, so it reads calmly.
 - “Waiting for Wi-Fi” appears only when downloads are set to Wi-Fi only and the phone has none. It is true, and it says what happens next.
 - The reason of a failure is a reason, not an instruction: the control already offers “try again”, so the sentence doesn't repeat it.
@@ -39,7 +40,9 @@ The download control sits next to “play” on a title's page. It shows the tit
 
 ### series
 
-Each episode has its own control. A season offers all of its episodes at once, with their number and total size: “download season 1 · 8 episodes · 9.6 GB”. Once some of them are on the phone, on their way or can't be downloaded, it offers the rest, and says so: “download 2 more episodes · 724 MB”. A series that is partly on the phone says how far: “3 of 8 downloaded”.
+Each episode has its own control. A season offers all of its episodes at once, with their number and total size: “download season 1 · 8 episodes · 9.6 GB”, but only when every episode of the season can be downloaded and none is on the phone or on its way yet. When some can only be streamed, it offers the ones that can: “download 6 episodes · 7.2 GB”. Once some of them are on the phone or on their way, it offers the rest, and says so: “download 2 more episodes · 724 MB”. A series that is partly on the phone says how far: “3 of 8 downloaded”.
+
+When the server can't be reached, a series' page shows what is on the phone, without a total it can't know: “2 episodes on this phone”, and no check mark while one of them needs a check.
 
 ## whose downloads they are
 
@@ -79,7 +82,8 @@ When the app can't reach the server, it opens on the downloads screen, with a ba
 
 That sentence is true whether the phone has no connection or the server is down, and it says what still works. When nothing is downloaded, the banner says “Can't reach the server.” alone, because nothing else would be true.
 
-- **A downloaded title's page** is built from what is on the phone, with the banner on top. What needs the server is left out: the watchlist, lists, the watched mark, the trailer and the people.
+- **A downloaded title's page** is built from what is on the phone, with the banner on top, under the top bar. What needs the server is left out: the watchlist, lists, the watched mark, the trailer and the people. A title that needs its check shows “play” or “resume” dimmed, with the sentence that says why.
+- **The player** offers the subtitles that came with the download, by the same names as online. A title without subtitles offers only “off”.
 - **Every other screen** that needs the server shows the usual “couldn't load” screen, with the way out that fits the cause.
 - **Watch progress** made without a connection is kept on the phone and sent once the server can be reached again, with nothing for people to do. When the server is back, the banner goes, and queued downloads carry on.
 
@@ -108,6 +112,8 @@ That sentence is true whether the phone has no connection or the server is down,
 - **“Can't be downloaded”** is for titles without a downloadable package. The server says which titles can be downloaded.
 - **Accounts.** Downloads are stored per account. Signing out, removing an account and changing the server delete that account's downloads, after the question above.
 - **The 30-day check.** A download that hasn't been checked with the server for 30 days asks for the server before it plays. With the server reachable, the check runs without anything on screen. When the server says the account may no longer watch a title, its download is deleted.
+- **Subtitles.** A download takes all of the title's subtitle tracks with it; they are a few kilobytes each.
+- **Space.** A failed download frees what it had downloaded so far; a waiting or queued one keeps it, to carry on. The storage line and the questions compute one total, from the bytes, rounded once.
 - **Progress** in whole percent, updated at most once a second.
 - **Watch progress** made offline is stored with its time and sent in order once the server can be reached. The server's rule for a finished title applies to it like to any other.
 - **The banner** uses the information state, without a close button while the server can't be reached.

@@ -200,7 +200,7 @@ export function TwoSearches() {
 
 export function MyAppsPlanned() {
   return (
-    <Sketch h={160} label="Planned: a my apps group at the top of the home page, drawn dashed, holding the tiles one person pinned. The apps group follows below it.">
+    <Sketch h={160} label="A my apps group at the top of the home page, drawn dashed, holding the tiles one person pinned. The apps group follows below it.">
       <Screen h={158} />
       <Top />
       <Head />

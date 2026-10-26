@@ -43,6 +43,9 @@ attached to its GitHub release.
   reach the server.”, “The server ran into a problem.”, “The server is busy.”),
   because “try again” is the button; meaningful text leaves out an instruction
   the button beside it already gives.
+- **Patterns, not one product.** Home & tiles, top bar and settings & setup
+  describe the pattern only: one product's groups, plans and today's state
+  live in that product's own docs, with its mockups.
 
 ### added
 

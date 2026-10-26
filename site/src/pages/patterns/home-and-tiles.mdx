@@ -1,7 +1,7 @@
 ---
 layout: ../../layouts/Doc.astro
 title: home & tiles
-description: The portal's home page — one page of tiles in a few fixed groups, narrowed by the search in the top bar — and when something gets a tile.
+description: A portal's home page — one page of tiles in a few fixed groups, narrowed by the search in the top bar — and when something gets a tile.
 draft: true
 draftNote: "When something gets a tile (an app, a number, a task), how tiles are grouped and the search in the top bar are new and under review; the home page, the tile and the tile group are described as they are."
 react:
@@ -19,20 +19,20 @@ import {
 
 # home & tiles
 
-The <Term id="home">home page</Term> is the first page people see when they sign in to the <Term id="portal">portal</Term>. It has one job: to take people to the right <Term id="app">app</Term> quickly, and to show them where something needs their attention.
+The <Term id="home">home page</Term> is the first page people see when they sign in to a <Term id="portal">portal</Term>. It has one job: to take people to the right <Term id="app">app</Term> quickly, and to show them where something needs their attention.
 
 It does that with <Term id="tile">tiles</Term>, one for each app, sorted into a few <Term id="tile-group">groups</Term> that always appear in the same order.
 
 <figure class="ds-figure">
   <LaunchpadOverview />
-  <figcaption>The home page: the search sits in the top bar, and under the title come three groups in a fixed order. The amber 3 is a number tile: three things that need attention.</figcaption>
+  <figcaption>A home page: the search sits in the top bar, and under the title come three groups in a fixed order. The amber 3 is a number tile: three things that need attention.</figcaption>
 </figure>
 
 The home page, the tile and the tile group are real components. Their React pages show them live, in every variant: the [home page](/design-system/react/?path=/docs/patterns-portal--docs), the [tile](/design-system/react/?path=/docs/components-navigation-tile--docs) and the [tile group](/design-system/react/?path=/docs/components-navigation-tile-group--docs).
 
 ## one page, in a fixed order
 
-People find things by where they were last time. So the home page is a single page, and its groups and tiles keep their places from one visit to the next: apps first, then manage, then settings. After a few visits, people reach for a tile without reading.
+People find things by where they were last time. So the home page is a single page, and its groups and tiles keep their places from one visit to the next, in the same order every time. After a few visits, people reach for a tile without reading.
 
 <DoDont>
   <Do caption="One page with every group in view, always in the same order.">
@@ -67,15 +67,15 @@ There is no second search box on the page. With only one search, always in the s
 
 The component that draws the home page has a search box of its own. Inside the shell, leave it off, because the search in the top bar narrows the tiles. The component's own box is for a launcher that stands on its own, outside a shell. A launcher that only holds a few number tiles, as a board of key figures, can do without a search at all.
 
-A catalogue that lists every app to browse through isn't needed for now. It becomes useful once people can arrange pages of their own, to pick the apps they want on them.
+A catalogue that lists every app to browse through becomes useful only once people can arrange pages of their own, to pick the apps they want on them. Until then, the home page is the catalogue.
 
-## favourites, later
+## favourites
 
-Most people use the same two or three apps every day. Later, each person will be able to pin those to a “my apps” group at the top of the home page, so that they always come first. This is planned.
+Most people use the same two or three apps every day. Where people can pin those, they go in a “my apps” group at the top of the home page, so that they always come first.
 
 <figure class="ds-figure">
   <MyAppsPlanned />
-  <figcaption>Planned: a “my apps” group at the top, holding the tiles each person pinned.</figcaption>
+  <figcaption>A “my apps” group at the top, holding the tiles each person pinned.</figcaption>
 </figure>
 
 ## when something gets a tile
@@ -105,8 +105,8 @@ A tile should lead somewhere worth going on its own. If everything gets a tile, 
 
 Groups help people scan: they look for their group first, then for the tile in it. That only works when there are few groups, always in the same place, named after the people who use them.
 
-- **Group by who uses the tiles, and why.** The apps group is for everyone's daily work, manage for the people who look after the library, and settings for the people who may change the platform. Not by addon or by vendor: people don't know, and shouldn't need to know, where an app came from.
-- **About four groups at most, always in the same order.** Today that is apps, manage and settings; once favourites arrive, “my apps” goes on top.
+- **Group by who uses the tiles, and why.** For example, one group for everyone's daily work, one for the people who look after the content, and one for the people who may change the platform. Not by addon or by vendor: people don't know, and shouldn't need to know, where an app came from.
+- **About four groups at most, always in the same order.** A group of pinned favourites, where there is one, goes on top.
 - **An addon joins an existing group.** It doesn't bring a group of its own.
 - **A group with nothing a person may open is hidden.** People only see the groups and tiles they can use.
 - **The same group names in every installation**, so people who use more than one feel at home, and guides and screenshots stay true.
@@ -181,7 +181,7 @@ A tile group gathers tiles under a name that stays put. It is what the home page
   <figcaption>A tile group, close up.</figcaption>
 </figure>
 
-1. **Title.** The group's name, led by a small blue chevron: apps, manage, settings. It is a heading, so people can jump to it.
+1. **Title.** The group's name, led by a small blue chevron, such as apps, manage or settings. It is a heading, so people can jump to it.
 2. **Action** (optional). One quiet button for the group as a whole, at the end of the title row. Leave out the loud, blue kind: it would compete with the tiles.
 3. **Description** (optional). One short line under the title, only when the name needs it.
 4. **Tiles.** In a grid with as many columns as there is room for, so the grid reflows when the screen gets narrower.
@@ -245,7 +245,7 @@ Today:
 
 - **The home page's title.** The name of the place, in one word: “home”. No greeting and no tagline; people skip them on every visit, and they push the tiles down.
 - **The search.** Its placeholder says what it finds, “search apps…”, in the same words as its name, in the top bar and in a launcher's own search box alike.
-- **Group titles.** Who the tiles are for, in one or two words, always the same: apps, manage, settings. Avoid “misc”, “other”, or one group for everything.
+- **Group titles.** Who the tiles are for, in one or two words, the same on every visit, such as “apps”, “manage” and “settings”. Avoid “misc”, “other”, or one group for everything.
 - **Tile names.** The app's name, as a noun rather than a verb: “downloads”, not “open downloads”.
 - **Descriptions.** What the app is for, in a few words, in sentence case: “What is on its way”.
 - **Badges.** A count, like 3, or one word: “new”, “failed”, “needs setup”. Not “!”, which says that something is wrong but not what.

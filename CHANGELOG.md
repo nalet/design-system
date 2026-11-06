@@ -5,10 +5,13 @@ The design system follows [semantic versioning](https://semver.org). While it is
 (0.3.1) only fixes. Every release is a Git tag `vX.Y.Z` with the packed tarball
 attached to its GitHub release.
 
-## unreleased
+## 0.4.0 — 2026-11-06
 
 ### documentation
 
+- **Accepted.** The principles, meaningful text, top bar, app navigation, home &
+  tiles, settings and setup, loading and progress, selection and bulk actions
+  and TV focus were proposals under review; they are the guidelines now.
 - **Two sites.** The guidelines are a site of their own at `/design-system/`,
   built with Astro and with the design system itself: get started,
   foundations (principles, accessibility, content & voice, interaction,

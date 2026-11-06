@@ -1,6 +1,6 @@
 {
   "name": "@nalet/design-system",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "nalet design system — dark canvas, monospace voice, blue chevron, square frames. Tokens + React components.",
   "license": "MIT",
   "type": "module",

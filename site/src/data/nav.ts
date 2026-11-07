@@ -60,8 +60,8 @@ export const SECTIONS: NavSection[] = [
           { title: 'accessibility', href: url('foundations/accessibility/'), summary: 'Screens everyone can use: the standard we meet, how it is checked, and what is still missing.' },
           { title: 'content & voice', href: url('foundations/content-voice/'), summary: 'How the words on a screen are written: two voices, one per typeface, short and true.' },
           { title: 'meaningful text', href: url('foundations/meaningful-text/'), summary: 'Where the words on a screen come from, what they leave out, and how people and agents check them before they ship.' },
-          { title: 'interaction', href: url('foundations/interaction/'), summary: 'States, focus, the keys and selecting rows: the same in every component.' },
-          { title: 'layout', href: url('foundations/layout/'), summary: 'One scale for space, three control heights, density, and screens that work on a phone.' },
+          { title: 'interaction', href: url('foundations/interaction/'), summary: 'States, focus, the keys and selecting rows: the same in every component.', draft: true },
+          { title: 'layout', href: url('foundations/layout/'), summary: 'One scale for space, three control heights, density, touch and TV sizes, and screens that work on a phone.', draft: true },
         ],
       },
     ],
@@ -110,6 +110,7 @@ export const SECTIONS: NavSection[] = [
         pages: [
           { title: 'top bar', href: url('patterns/top-bar/'), summary: 'The bar across the top of every screen: where you are, the one search, what is new for you, and your account.' },
           { title: 'app navigation', href: url('patterns/app-navigation/'), summary: "Side navigation for an app's views, and when tabs are the better fit." },
+          { title: 'consumer navigation', href: url('patterns/consumer-navigation/'), summary: 'Up to five views in a product for consumers: words in the top bar, a tab bar of icons on a phone, and a rail when it is turned and on a TV.', draft: true },
           { title: 'home & tiles', href: url('patterns/home-and-tiles/'), summary: 'The home page: one page of tiles in a few fixed groups, found with the search in the top bar, and when something gets a tile.' },
           { title: 'settings and setup', href: url('patterns/settings-and-setup/'), summary: 'Where each kind of setting lives, and the one place it is changed.' },
         ],
@@ -120,20 +121,20 @@ export const SECTIONS: NavSection[] = [
           { title: 'status vocabulary', href: url('patterns/status-vocabulary/'), summary: 'One status per item, in words people understand, the same everywhere.' },
           { title: 'message handling', href: url('patterns/message-handling/'), summary: 'Where each message goes, so that every thing is said once, in the place that fits it.' },
           { title: 'empty states', href: url('patterns/empty-states/'), summary: 'What a list says when it has nothing to show: five kinds of empty, and the way forward from each.' },
-          { title: 'loading and progress', href: url('patterns/loading-and-progress/'), summary: 'What to show while people wait: nothing for a blink, then the loader, a value, or the shape of the content.' },
+          { title: 'loading and progress', href: url('patterns/loading-and-progress/'), summary: 'What to show while people wait: nothing for a blink, then the loader, a value, or the shape of the content.', draft: true },
         ],
       },
       {
         title: 'lists & forms',
         pages: [
           { title: 'selection and bulk actions', href: url('patterns/selection-and-bulk-actions/'), summary: 'Ticking the rows to act on, and acting on all of them at once.' },
-          { title: 'forms and settings', href: url('patterns/forms-and-settings/'), summary: 'Switches that apply at once, forms that wait for save, and errors that say how to fix them.' },
+          { title: 'forms and settings', href: url('patterns/forms-and-settings/'), summary: 'Switches that apply at once, forms that wait for save, errors that say how to fix them, and the planned slider and stepper.', draft: true },
         ],
       },
       {
         title: 'tv',
         pages: [
-          { title: 'tv focus', href: url('patterns/tv-focus/'), summary: 'How the one focused thing on a TV screen stands out from across the room: a ring, a lighter surface and a little growth.' },
+          { title: 'tv focus', href: url('patterns/tv-focus/'), summary: 'How the one focused thing on a TV screen stands out from across the room: a ring, a lighter surface and a little growth, and choosing from a list on a TV.', draft: true },
         ],
       },
     ],

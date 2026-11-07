@@ -74,4 +74,36 @@ export const PATTERN_TERMS: Record<string, GlossaryEntry> = {
     term: 'validation',
     explanation: 'Checking the values in a form before they are saved, and saying which ones need a fix and how.',
   },
+  'tab-bar': {
+    term: 'tab bar',
+    explanation: 'The row of icons along the foot of a phone’s screen, one for each view of a product. Pressing one opens that view; the current one is blue, with a bar on its edge.',
+  },
+  rail: {
+    term: 'rail',
+    explanation: 'A narrow column of icons down the left edge of the screen, one for each view: on a phone held sideways, and on a TV, where it opens to show their names once the focus moves into it.',
+  },
+  'touch-area': {
+    term: 'touch area',
+    explanation: 'The part of the screen around a control that answers to a finger. It is larger than the control looks, at least 48 by 48.',
+  },
+  'toggle-button': {
+    term: 'toggle button',
+    explanation: 'A button that stays on after one press and off after the next, such as one that saves a title to a list. A screen reader says whether it is pressed.',
+  },
+  slider: {
+    term: 'slider',
+    explanation: 'A control for a value in a range, such as the volume: a square thumb on a track, with the value in words beside it.',
+  },
+  'seek-bar': {
+    term: 'seek bar',
+    explanation: 'The slider in a player that shows where you are and moves you to another moment.',
+  },
+  stepper: {
+    term: 'stepper',
+    explanation: 'A whole number in small steps, such as a countdown in seconds: a minus and a plus on either side of the value.',
+  },
+  'progress-bar': {
+    term: 'progress bar',
+    explanation: 'A bar that fills as work gets done, with how far it has come in words under it.',
+  },
 };

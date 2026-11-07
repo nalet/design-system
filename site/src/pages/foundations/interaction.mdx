@@ -2,6 +2,8 @@
 layout: ../../layouts/Doc.astro
 title: interaction
 description: How every component answers people in the same way, with the same states, a visible focus, one keyboard model and one way of selecting.
+draft: true
+draftNote: "On a touch screen, under pointer and touch, is new and under review: the touch area of 48 around every control. The rest of the page describes the system as it is."
 ---
 import { Button, Checkbox, IconButton, Icon, Input, Kbd } from '@nalet/design-system';
 import { RotateCw } from 'lucide-react';
@@ -110,6 +112,14 @@ Opening a row and selecting it are kept apart: a press on the row opens it, and 
 - **Hover is never the only way in.** What the pointer finds on hover, the keyboard finds on focus: tooltips, and the arrow on a tile.
 - **Nothing depends on a gesture.** No swipe, drag or long press is the only way to do something.
 
+### on a touch screen
+
+A finger is wider than a pointer, and it hides what it presses. So on a touch screen, targets are larger than 24:
+
+- **Every control answers in at least 48 × 48**, its touch area, and every row is at least 48 high. That is Android's minimum for anything that can be touched, and more than the 44 that WCAG 2.5.5 asks for at level AAA, and the 44 points Apple asks for. [Touch and tv sizes](/design-system/foundations/layout/#touch-and-tv-sizes) shows how a control is drawn inside it.
+- **The touch area isn't drawn.** The control keeps its look; only the part of the screen that answers to a finger grows, into the space around the control. It never reaches into another control's area, so a touch between two controls never lands on the wrong one.
+- **The label counts.** A checkbox or a switch answers anywhere on its row, label included, just as it does to a pointer.
+
 ## related
 
 - [Accessibility](/design-system/foundations/accessibility/): names, roles, announcements and the known gaps.
@@ -132,4 +142,5 @@ Opening a row and selecting it are kept apart: a press on the row opens it, and 
 - **Today:** text fields, selects and textareas show focus as a `--cloud-blue` border with an inset shadow; the tiles on the home page as a `--cloud-blue` frame.
 - **Native elements** wherever they exist: `<button>`, checkboxes, `<select>`, `<details>`.
 - **Targets:** at least 24px (WCAG 2.5.8). The `sm` controls are 28px high.
+- **Targets on a touch screen** (planned): a touch area of at least 48 × 48 around every control, centred on it and never overlapping another, and rows at least 48 high. WCAG 2.5.5, level AAA, asks for 44 × 44; Android for 48 × 48 dp. The sizes and their sources are in [layout](/design-system/foundations/layout/#touch-and-tv-sizes-1).
 - **Keys** in text: the `Kbd` component.

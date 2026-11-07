@@ -2,6 +2,8 @@
 layout: ../../layouts/Doc.astro
 title: loading and progress
 description: What to show while people wait — nothing for a blink, the loader where the result will appear, a value when progress is known, and the shape of the content for a list.
+draft: true
+draftNote: "The progress bar, under known progress, is new and under review: its parts, its states and how it behaves. The rest of the page describes the pattern as it was accepted."
 ---
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
@@ -9,6 +11,7 @@ import { DoDont, Do, Dont } from '@site/blocks';
 import {
   LoadingOverview, LoaderSizes, WaitFirst, ProgressDo, ProgressDont, SkeletonDo, LoaderInSpaceDont, Refreshing,
 } from '@site/sketches/loading';
+import { ProgressAnatomy, ProgressStates, ProgressFailedDo, ProgressFailedDont } from '@site/sketches/sizes-and-inputs';
 
 # loading and progress
 
@@ -67,6 +70,50 @@ When the work knows how far it has come, show a bar and the value in words: the 
     <ProgressDont />
   </Dont>
 </DoDont>
+
+### the progress bar
+
+<figure class="ds-figure">
+  <ProgressAnatomy />
+  <figcaption>A progress bar, close up.</figcaption>
+</figure>
+
+1. **What is under way**, in the body face: “Copying 3 files”.
+2. **The bar**: a track as wide as its container, which fills from the start as the work gets done. It is 4 high, the first step of the scale, and square at both ends. The filled part is blue, the colour of information, for work that is on its way.
+3. **The value in words**, under the bar: “62% · 1.4 of 2.2 gb”.
+4. **Cancel**, a quiet button, where stopping is safe. Where stopping would lose what is done, “pause” comes before it.
+
+The bar's colour follows the work, as a <C slug="status" /> does:
+
+<figure class="ds-figure">
+  <ProgressStates />
+  <figcaption>One copy in four states: under way, paused, failed and done.</figcaption>
+</figure>
+
+- **Under way**: blue, and the value in words.
+- **Paused, or waiting**: the bar stays where it is, in grey, and the words say so: “paused · 62%”.
+- **Failed**: the bar stays where it stopped, in red, and the words say what happened and what to do next, with “try again” when it can be tried again.
+- **Done**: the bar goes, and the result takes its place, a status in the item's own words: “copied · 2.2 gb”.
+
+<DoDont>
+  <Do caption="A copy that failed: the bar stays where it stopped, in red, and says why, with the way forward.">
+    <ProgressFailedDo />
+  </Do>
+  <Dont caption="A copy that failed, still drawn as a blue bar: it looks as if the copy were still going.">
+    <ProgressFailedDont />
+  </Dont>
+</DoDont>
+
+How it behaves:
+
+- **It shows only what is known.** Until the work knows its total, show the loader, not an empty bar: a bar that doesn't move reads as stuck.
+- **It moves at a true pace.** A bar that runs to 90% in seconds and then waits for minutes makes people wonder whether the work stopped.
+- **When the work stalls, the words say so**, with the reason when it is known, rather than a bar that waits without a word.
+- **With <Term id="reduced-motion">reduced motion</Term>**, the filled part changes without sliding. The value still shows.
+- **On a TV**, it is the same bar, drawn in dp, inside the safe area.
+- **For <Term id="screen-reader">screen readers</Term>**, it is the browser's own progress element, named by its first line, with its value in words: “62%, 1.4 of 2.2 GB”. It is read when people come to it, not every few percent, and the end, done or failed, is said once.
+
+Where this comes from: Apple's guidelines for [progress indicators](https://developer.apple.com/design/human-interface-guidelines/progress-indicators) ask for a bar that is as accurate as it can be, that says when the work stalls, and that lets people stop, with pause where stopping loses work. The filled part has at least 3:1 against the track, as <Term id="wcag">WCAG</Term> 1.4.11 asks for the parts of a graphic: the blue 5.14:1, the grey 6.46:1, the red 3.88:1, on a `--border-2` track.
 
 ## a list or a page
 

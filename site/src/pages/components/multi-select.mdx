@@ -3,6 +3,8 @@ layout: ../../layouts/Doc.astro
 title: multi select
 description: A filter that keeps several values of one property at once. A button says what is chosen, and a panel of checkboxes opens under it.
 component: multi-select
+draft: true
+draftNote: "An action under the options and a long list of options, under variants and states, are new and under review, together with their lines in the specs. The rest of the page describes the multi select as it is today."
 ---
 import { Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
@@ -10,6 +12,7 @@ import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { DemoMulti, SERIES, STATES } from '@site/demos/components/multi-select';
 import { Playground, Chosen, Small } from '@site/examples/multi-select';
+import { ActionUnderOptions, FootInViewDo, ActionLostDont } from '@site/sketches/component-drafts';
 
 # multi select
 
@@ -60,6 +63,37 @@ There are two sizes: medium, the default, and small, to sit next to other small 
 <Example label="the small size, live">
   <Small client:visible />
 </Example>
+
+### an action under the options
+
+Where people make the options themselves, such as their own lists, the panel can end with one action that adds an option: “create a list”, in a picker of the lists that hold a title. It sits in the panel's foot, under the thin rule and before “clear …”, so both stay in view however long the options run. The action is planned: the drawings show the idea.
+
+<figure class="ds-figure">
+  <ActionUnderOptions />
+  <figcaption>The lists that hold a title, two of three ticked. Under the rule, create a list, and clear lists while something is ticked.</figcaption>
+</figure>
+
+- **One action, a verb and its object**, with a plus before it: “create a list”. It is a quiet text button, like “clear …”, and it is there whether or not anything is chosen.
+- **It closes the panel first.** Pressing it closes the panel and puts <Term id="focus">focus</Term> back on the trigger, and then it runs, as an item of an <C slug="action-menu" /> does. So a dialog it opens, to name the new list, gives focus back to the trigger when it closes.
+- **What it adds** is among the options the next time the panel opens.
+- **The order for the keyboard:** the trigger, the checkboxes, the action, then “clear …”.
+- **A picker, not a filter.** A multi select like this one sets something about one thing, the lists that hold this title, instead of filtering a list. It works the same way: each tick applies at once, with no apply button.
+
+### a long list of options
+
+The options scroll inside the panel once they would be taller than 320px, or would come closer than 8px to the bottom of the window: the 320px are the panel's own largest width, and the 8px the margin an action menu keeps. The foot stays under them, in view. When the panel wouldn't fit below the trigger and there is more room above it, the panel opens above, as an action menu does. The scrolling is planned: the drawings show the idea.
+
+- The scroll keeps a list that grows, such as people's own lists, inside the window. It doesn't make the multi select fit for many options: those still need a search, as [when to use something else](#when-to-use-something-else) says.
+- <Kbd>tab</Kbd> still goes through every checkbox, and the panel scrolls the one with focus into view. Scrolling the options doesn't scroll the page behind them.
+
+<DoDont>
+  <Do caption="The options scroll, and the action and clear stay in view under them.">
+    <FootInViewDo />
+  </Do>
+  <Dont caption="The action at the end of a long list: the panel runs past the window, and the action with it.">
+    <ActionLostDont />
+  </Dont>
+</DoDont>
 
 ## behaviour
 
@@ -149,3 +183,5 @@ Today:
 - **Value:** controlled. `value` holds the chosen values, and an empty list means no filter. `onChange` gets the new list at once, on every change; “clear” calls it with `[]`.
 - **Forms:** the checkboxes have no `name`, so a form sends none of them.
 - **Closing:** a `pointerdown` anywhere outside, focus leaving the multi select, or <Kbd>esc</Kbd> while it is open, which also focuses the trigger and stops the key there.
+- **Action (planned):** one quiet button in the foot, under the rule and before clear, there whether or not anything is chosen. It looks like clear: full width, padding 8px 12px, JetBrains Mono 12px in `--fg-muted` (`--fg` on hover), left-aligned, lowercase, with a 12px plus icon, the size for small controls, 8px before its words. Pressing it closes the panel and focuses the trigger before its own handler runs.
+- **Long lists (planned):** the options in a part of their own that scrolls, at most 320px tall, with `overflow-y: auto` and `overscroll-behavior: contain`; the foot stays outside it. The panel measures itself before it shows, keeps 8px from the viewport's bottom edge, and opens above the trigger when it wouldn't fit below and there is more room above, as the action menu's placement does.

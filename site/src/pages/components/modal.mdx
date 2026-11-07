@@ -3,6 +3,8 @@ layout: ../../layouts/Doc.astro
 title: modal
 description: A dialog over the dimmed page, for one task that needs an answer before the page can go on, such as confirming a delete.
 component: modal
+draft: true
+draftNote: "A sheet on a phone is new and not decided: the section sets out two answers for review, and one of them will stay. The rest of the page describes the modal as it is today."
 ---
 import { Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
@@ -10,6 +12,7 @@ import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { DemoModal } from '@site/demos/components/modal';
 import { Confirm, Form, NoTitle, Persistent, LongContent } from '@site/examples/modal';
+import { SheetTwoAnswers } from '@site/sketches/component-drafts';
 
 # modal
 
@@ -85,6 +88,43 @@ Long content scrolls inside the body, while the title and the actions stay in vi
 <Example label="long content, live">
   <LongContent client:visible />
 </Example>
+
+## a sheet on a phone
+
+On a phone, a dialog could rise from the foot of the screen as a sheet, instead of sitting in the middle. Whether it may isn't decided. The design system's own rules speak against it, and the phone platforms' guidance speaks for it in some cases. Both answers are drafted below; one of them will stay. Until then, a dialog sits in the middle on every screen, as the rest of this page describes.
+
+<figure class="ds-figure">
+  <SheetTwoAnswers />
+  <figcaption>The same dialog on a computer, in the middle; on a phone, in the middle as well, as answer 1 has it; or, as answer 2 has it, on the foot of the phone's screen.</figcaption>
+</figure>
+
+### what speaks against a sheet
+
+- **The dialog already works on a phone.** It keeps 16px from the screen's edges, it is never taller than the screen less 48px, and its body scrolls. [Layout](/design-system/foundations/layout/#phone-width) asks every screen to work at 390 and at 320 pixels wide, and the dialog does.
+- **The components don't look at the screen.** They change with the room they have, and use no <Term id="breakpoint">breakpoints</Term> ([layout](/design-system/foundations/layout/#responsive-behaviour)). A sheet only on phones would make the modal the first component that changes with the width of the window.
+- **Panels don't slide.** Dialogs open and close at once, and nothing slides across the screen ([motion](/design-system/styles/motion/#what-doesnt-move)); motion that isn't feedback is left out ([principles](/design-system/foundations/principles/#5-calm-and-quick)). A sheet would have to appear in its place at once, without rising.
+- **Nothing depends on a gesture.** A swipe down could never be the only way to close a sheet ([interaction](/design-system/foundations/interaction/#pointer-and-touch)).
+
+### what speaks for one
+
+- **The thumb.** On a tall phone held in one hand, the thumb reaches the foot of the screen more easily than its middle, where a centred dialog puts its buttons.
+- **The platforms.** The guidelines of both phone platforms bring a sheet up from the foot for a short task or a set of choices, and keep a question that needs an answer, such as one before a delete, in the middle. People know sheets from their phones.
+
+### answer 1: no sheet
+
+A dialog sits in the middle on every screen. On a phone it is the screen's width less 16px on each side, its body scrolls, and its buttons stay in its footer. What a phone would put in a sheet goes where the system already has a place for it: a list of actions into an <C slug="action-menu" />, a long form or a long list into a page of its own.
+
+### answer 2: a sheet on a narrow screen
+
+Where the window is narrower than the dialog's largest width and its two margins, 480 + 2 × 16 = 512px for a dialog of the usual width, a dialog for a short task or a set of choices sits on the foot of the screen:
+
+- **Across the whole width**, on the foot of the screen, square like every frame. It is never taller than the screen less 48px, the room a dialog always leaves, so the dimmed page shows above it, and a press there closes it, as the backdrop does.
+- **The same dialog.** The same header with its title and close button, the same body that scrolls, and the same footer, which stays above the strip a phone keeps at its foot for its own gestures.
+- **At once.** It appears and goes without moving, as every dialog does.
+- **The same ways out.** The close button, “cancel”, <Kbd>esc</Kbd> on a keyboard, the backdrop, and the phone's own back. A swipe down can be added, never as the only way.
+- **The same focus.** Focus moves into it, stays inside it, and goes back to what opened it.
+- **Not for a question.** A confirmation before something that deletes or can't be undone stays in the middle, on a phone too: people read it before they reach its buttons.
+- **Measured, not guessed.** The modal measures its own room, the window, as the filter bar and the toolbar measure theirs. A narrow window on a computer, or a page zoomed to 400%, gets the sheet too.
 
 ## behaviour
 

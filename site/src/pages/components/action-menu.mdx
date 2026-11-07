@@ -3,6 +3,8 @@ layout: ../../layouts/Doc.astro
 title: action menu
 description: An action menu keeps several actions behind one small button, such as the actions for one row of a table, or the ones that don't fit in a toolbar.
 component: action-menu
+draft: true
+draftNote: "A menu of one choice, the variant whose options carry a check, is new and under review, together with the pointer to it under when to use something else. The rest of the page describes the menu as it is today."
 ---
 import { Kbd, Select } from '@nalet/design-system';
 import C from '@site/components/C.astro';
@@ -11,6 +13,7 @@ import MotionFrame from '@site/components/MotionFrame.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { DemoMenu } from '@site/demos/components/action-menu';
 import { Playground, InARow, TextTrigger, DisabledAndDanger, Busy, Alignment } from '@site/examples/action-menu';
+import { OneChoiceMenu, ChoiceGroupsDo, ChoiceMixedDont } from '@site/sketches/component-drafts';
 
 # action menu
 
@@ -30,7 +33,7 @@ An action menu keeps several actions behind one small button, so a table row or 
 
 - **For the one <Term id="emphasized-action">emphasized action</Term> of a view.** Show it as a <C slug="button" />. Hidden in a menu, nothing reads as the next step.
 - **For actions on several selected rows.** Use a <C slug="toolbar">selection toolbar</C>, which says how many rows it acts on.
-- **To choose a value, such as a sort order or a filter.** A menu runs commands, and it doesn't show the current choice. Use a <C slug="select" />, or a <C slug="multi-select" /> for several values.
+- **To choose a value, such as a sort order or a filter.** A menu runs commands, and it doesn't show the current choice. Use a <C slug="select" />, or a <C slug="multi-select" /> for several values. One value from a few, behind an icon in a toolbar or a player's controls, such as a video's quality, is the planned [menu of one choice](#a-menu-of-one-choice).
 - **To go to another page.** Use a link. A menu item is a button, so it can't be opened in a new tab.
 - **To ask for a decision.** Use a <C slug="modal" />.
 
@@ -71,6 +74,79 @@ Usually the menu lines up with the right edge of its trigger. It can line up wit
 <Example label="menus lined up with the start and the end of their triggers, live">
   <Alignment client:visible />
 </Example>
+
+## a menu of one choice
+
+A menu can also hold a choice: one value from a few, such as a video's quality or its speed. Its items are then options, not commands, and a check marks the one that is picked. Picking another moves the check, and the choice applies at once. This variant is planned: today the menu holds commands only, and the drawings show the idea.
+
+<figure class="ds-figure">
+  <OneChoiceMenu />
+  <figcaption>A player's settings, behind an icon in its controls: two choices, quality and speed, each under its header, with the picked option checked.</figcaption>
+</figure>
+
+1. **Header.** The name of the choice, such as “quality” or “speed”, above its options, in <Term id="monospace">monospace</Term>, lowercase and quieter than the options. It can't be picked, and the arrow keys pass over it. A menu with only one choice can leave it out when its trigger names the choice.
+2. **Check.** A small blue check before the picked option. The other options keep its place empty, so every label starts at the same point.
+3. **The picked option.** Its words are the brightest grey, and a step bolder. The check says which one is picked; the words only back it.
+4. **Separator.** A thin line between two choices.
+5. **What auto picked** (optional). An option that leaves the pick to the system says what it picked, after a middle dot, in a quieter grey: “auto · 720p”.
+
+Each choice is a group of its own, under its header, with exactly one option picked, so one menu can hold several choices, as a player's settings do.
+
+### a menu of one choice, or a select
+
+Both pick one value. They differ in where they sit, and in whose list opens.
+
+| what | a menu of one choice | a <C slug="select" /> |
+| --- | --- | --- |
+| Where it sits | In a toolbar or a player's controls, behind an icon or a word, among commands | In a form or a filter bar, with a visible label, among other fields |
+| The value | In the menu, checked, once it is open | Always in view, in its box |
+| The list that opens | The design system's menu: the same on every device, over a video too | The device's own, drawn by the browser and the operating system |
+| Choices | One per group, and several groups in one menu | One |
+| Options | A few, that fit without scrolling | A known list, too long to show at once |
+| When it applies | At once | At once in a filter bar, or when the form is saved |
+
+So a sort order beside the filters stays a select, and a video's quality, behind an icon in the player's controls, is a menu of one choice. For two or three options that should stay in view, show them all, as radio buttons; see [forms and settings](/design-system/patterns/forms-and-settings/).
+
+### picking
+
+- The menu opens on the picked option of its first choice, as a select's list opens on its value.
+- The up and down arrow keys go through the options of every choice in order, past the headers and the separators, and round at the ends. <Kbd>home</Kbd> and <Kbd>end</Kbd> jump to the first option and the last.
+- A click, <Kbd>enter</Kbd> or <Kbd>space</Kbd> picks the option: the check moves to it, the menu closes, focus goes back to the trigger, and the choice applies. Picking the option that is already picked only closes the menu.
+- <Kbd>esc</Kbd>, <Kbd>tab</Kbd> and a press outside close the menu and change nothing, as they do for commands.
+- An option can be disabled, as an item can. It is never a danger item: picking a value deletes nothing.
+
+### names and states
+
+- Each option tells <Term id="assistive-technology">assistive technology</Term> whether it is checked, so a <Term id="screen-reader">screen reader</Term> says which one is picked. The check itself is decoration.
+- Each choice is a group named by its header, and a screen reader passes over the separator or names it as one.
+- **Name the trigger after the choice:** “playback speed”, or, for a menu that holds several, after what they set together: “player settings”. Not “more”.
+- The check contrasts 7.18 to 1 with the menu and 6.82 to 1 with an option under the pointer, above the 3 to 1 that <Term id="wcag">WCAG</Term> 1.4.11 asks of a part that shows a state.
+- On a TV, the check marks the pick and the ring only the focus, as [TV focus](/design-system/patterns/tv-focus/#one-meaning-for-the-ring) keeps them apart.
+
+### the words
+
+- **Header.** A noun for the choice: “quality”, “speed”, “sort order”.
+- **Options.** The values, short and written the same way, in an order that means something: from the best quality to the lowest, from the slowest speed to the fastest. Auto, when there is one, comes first. A name keeps its case.
+- **Values, not verbs.** “1080p”, not “switch to 1080p”: the check shows what is picked, and the header what it is.
+
+<DoDont>
+  <Do caption="Each choice under its header, each with one option checked.">
+    <ChoiceGroupsDo />
+  </Do>
+  <Dont caption="Two choices in one list with no headers: which check belongs to what?">
+    <ChoiceMixedDont />
+  </Dont>
+</DoDont>
+
+| part | in code (planned) |
+| --- | --- |
+| Option | `role="menuitemradio"` with `aria-checked`. The item's own spec: at least 32px tall, padding 4px 12px, JetBrains Mono 13px in `--fg-2`, lowercased. |
+| Check | A 16px check icon, the usual size next to interface text, in `--cloud-blue`, `aria-hidden`. It has a column of its own at the start of every option, 8px before the label, empty on the options that aren't picked. |
+| Picked option | Its label in `--fg`, weight 600. |
+| What auto picked | After a middle dot, in `--fg-muted`. |
+| Group | `role="group"`, named by its header with `aria-labelledby`. |
+| Header | JetBrains Mono 12px in `--fg-muted`, lowercased, as the multi select's clear button; padding 4px 12px, like an item's. It takes no focus. |
+| Separator | `role="separator"`: a 1px `--border` rule with 4px, the menu's own padding, above and below. |
 
 ## behaviour
 

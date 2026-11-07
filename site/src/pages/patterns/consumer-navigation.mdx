@@ -1,29 +1,49 @@
 ---
 layout: ../../layouts/Doc.astro
 title: consumer navigation
-description: How people move between the few views of a product for consumers — words in the top bar on a wide screen, a tab bar of icons on a phone, a rail when the phone is turned and on a TV — and how it fits with the top bar and app navigation.
+description: How people move between the few views of a product for consumers — icons alone, in one rail down the left edge on a wide screen, on a phone held sideways and on a TV, and in a tab bar at the foot of a phone held upright — and how it fits with the top bar and app navigation.
 draft: true
+draftNote: "This page is a proposal. It changes what the accepted top bar page says about a product for consumers; the section on the top bar and app navigation says how."
 ---
 import { Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont } from '@site/blocks';
 import {
-  ConsumerNavOverview, TwoKinds, WideAnatomy, PhoneAnatomy, FiveTabsDo, SixTabsDont, CurrentBarDo, ColourOnlyDont,
-  PlainIconsDo, UnclearIconsDont, OpenedKeepsTabsDo, OpenedCoversTabsDont, SidewaysAnatomy, Turning, TvClosed, TvOpen,
-  TvRailOpensDo, TvRailNeverOpensDont,
+  ConsumerNavOverview, TwoKinds, WideAnatomy, RailDo, WordsInBarDont, PhoneAnatomy, FiveTabsDo, SixTabsDont, CurrentBarDo,
+  ColourOnlyDont, PlainIconsDo, UnclearIconsDont, OpenedKeepsTabsDo, OpenedCoversTabsDont, SidewaysAnatomy, Turning, TvClosed,
+  TvOpen, TvRailOpensDo, TvRailNeverOpensDont,
 } from '@site/sketches/consumer-navigation';
 
 # consumer navigation
 
-A product for consumers, such as one for watching films, has only a few <Term id="view">views</Term>, and people move between them all the time: home, films, series, their watchlist. They use it on a computer, on a phone held either way, and on a TV across the room. Every one of these screens gets the same views, in the same order, in the place that suits it: words in the <Term id="top-bar">top bar</Term> on a wide screen, a tab bar at the foot of a phone, and a rail down the left edge when the phone is turned and on a TV.
+A product for consumers, such as one for watching films, has only a few <Term id="view">views</Term>, and people move between them all the time: home, films, series, their watchlist. They use it on a computer, on a phone held either way, and on a TV across the room. On every one of these screens, the views are the same icons, in the same order: in a <Term id="rail">rail</Term> down the left edge, or, on a phone held upright, in a <Term id="tab-bar">tab bar</Term> at the foot, within reach of the thumb.
 
 <figure class="ds-figure">
   <ConsumerNavOverview />
-  <figcaption>One product on four screens, with films as the current view. Words in the top bar on a wide screen, a tab bar of icons on a phone, and a rail of icons on a phone held sideways and on a TV. The phone adds downloads, to watch offline.</figcaption>
+  <figcaption>One product on four screens, with films as the current view: the same rail of icons down the left edge on a wide screen, on a phone held sideways and on a TV, and a tab bar of icons at the foot of a phone held upright. The phone adds downloads, to watch offline.</figcaption>
 </figure>
 
-The top bar with the views, the tab bar and the rail are planned components; the drawings on this page show the idea.
+The rail, the tab bar and the <Term id="top-bar">top bar</Term> are planned components; the drawings on this page show the idea.
+
+## one rail and one tab bar
+
+Two components show the views, one for each shape of screen:
+
+- **The rail**, a column of icons down the left edge, wherever there is room for a column beside the page: on a computer and a tablet, on a phone held sideways, and on a TV.
+- **The tab bar**, a row of icons along the foot of a phone held upright, which has no width to spare for a column, where the thumb is.
+
+Both hold the same views, in the same order, as the same icons, and both mark the current view the same way: in the accent blue, with a bar on its edge. People learn the icons on the first screen they use, and find them again on the next. What changes from one screen to the next is what each one has room for:
+
+| screen | the views | their names | settings | the current view |
+| --- | --- | --- | --- | --- |
+| A computer or a tablet | The rail, under the product's mark in the top bar | A tooltip under the pointer, and for a screen reader | At the rail's foot | Blue on a lighter square, with a bar on its left edge |
+| A phone held upright | The tab bar, at the foot | For a screen reader | In the user menu | Blue, with a bar on its top edge |
+| A phone held sideways | The rail, beside a slimmer top bar | For a screen reader | In the user menu | Blue, with a bar on its left edge |
+| A TV | The rail, which holds the whole frame, because a TV has no top bar | Beside the icons while the focus is in the rail, and for a screen reader | At the rail's foot, with the notifications | Blue, with a bar on its left edge |
+
+- **The lighter square belongs to the wide screen.** There, a view's square lightens while the pointer rests on it, as a quiet button does, and the current view keeps that square. A phone has no pointer, and on a TV a lighter surface means focus ([TV focus](/design-system/patterns/tv-focus/#the-focus-style)), so there the current view has its blue and its bar alone.
+- **Settings sit in the rail where it has room for them**: at its foot, apart from the views, on a wide screen and on a TV. On a phone, held either way, they stay in the <Term id="user-menu">user menu</Term>: the tab bar has no room for a sixth tab, and turning the phone should move nothing but the tabs.
 
 ## when it applies
 
@@ -31,48 +51,111 @@ This page is for a product people use for themselves, at home or on the go, with
 
 The three navigation pages fit together like this:
 
-- **The [top bar](/design-system/patterns/top-bar/)** is on every screen, and belongs to the <Term id="shell">shell</Term>: the product's name, the one search, the notifications and the <Term id="user-menu">user menu</Term>.
-- **[App navigation](/design-system/patterns/app-navigation/)** lists an app's views down the side, under the top bar.
-- **This page** puts a product's views into the top bar itself, as the [top bar](/design-system/patterns/top-bar/#the-same-everywhere) lets a product for consumers do, and moves them to a tab bar or a rail where the bar has no room for them.
+- **The [top bar](/design-system/patterns/top-bar/)** is on every screen, and belongs to the <Term id="shell">shell</Term>: the product's name, the one search, the notifications and the user menu. Over a rail, the product's mark stands for its name.
+- **[App navigation](/design-system/patterns/app-navigation/)** lists an app's views down the side, under the top bar, with their names, in groups.
+- **This page** keeps a product's few views out of the top bar: icons alone, in a rail down the left edge, or in a tab bar at the foot of a phone.
 
 <figure class="ds-figure">
   <TwoKinds />
-  <figcaption>The same top bar over two kinds of navigation. An app inside the portal lists its views down the side, in groups. A product for consumers keeps its few views in the bar, and its page takes the whole width.</figcaption>
+  <figcaption>The same top bar, with the search, the bell and the user menu in the same places, over two kinds of navigation. An app inside the portal lists its views down the side, with their names, in groups. A product for consumers shows its few views as icons in a rail, under its mark, with settings at the rail's foot.</figcaption>
 </figure>
 
 | | an app inside the portal | a product for consumers |
 | --- | --- | --- |
 | Its views | As many as its work needs, in the groups work, find and setup | Up to five, on one level, without groups |
-| On a wide screen | A side navigation under the top bar | Words in the top bar |
-| On a phone | A menu that opens from the app's name | A tab bar of icons at the foot, and a rail when the phone is held sideways |
-| On a TV | — | A rail down the left edge, which shows the names when the focus is in it |
-| Settings | The setup group, at the bottom of the side navigation | The user menu; on a TV, the foot of the rail |
+| On a wide screen | A side navigation under the top bar, each view with its icon and its name | A rail under the top bar, each view its icon alone, with its name as a tooltip |
+| On a medium-sized screen | The side navigation shrinks to its icons | The same rail |
+| On a phone | A menu that opens from the app's name | A tab bar of icons at the foot; held sideways, the rail |
+| On a TV | — | The rail, which holds the whole frame and shows the names when the focus is in it |
+| The start of the top bar | The product's name, then the app's name | The product's mark, as wide as the rail under it |
+| Settings | The setup group, at the bottom of the side navigation | At the rail's foot on a wide screen and on a TV; in the user menu on a phone |
 
 A product whose views need groups, or more than five of them, takes the side navigation instead. Five views fit across a phone, each one press away; a sixth squeezes the tabs, or pushes one out of sight.
 
 A tab bar is not a row of <C slug="tabs" />: tabs switch between the parts of one thing, on one screen, and the tab bar moves between the product's views.
 
+## where it differs from the top bar and app navigation
+
+Until this page is accepted, the [top bar](/design-system/patterns/top-bar/) page says otherwise in three places:
+
+- **Its rule for a product for consumers** ([the same everywhere](/design-system/patterns/top-bar/#the-same-everywhere)) says that “a product for consumers can keep its own main navigation in the bar, such as home, films and series”, and draws them as words between the product's name and the bell. This page takes the views out of the bar. On a wide screen they are icons in a rail, and the bar holds only what the shell puts there: the search, the notifications and the user menu.
+- **Its first part** is the product's name, led by the chevron. Over a rail, it is the product's mark, the chevron and the first letter of the name, in a cell as wide as the rail. It still leads home, and it is still named after the product.
+- **Its user menu** holds settings. In a product with a rail, settings sit at the rail's foot on a wide screen and on a TV, and the user menu there leaves them out.
+
+[App navigation](/design-system/patterns/app-navigation/) is for apps, and stays as it is: it says nothing about a product for consumers.
+
+Once this page is accepted, the top bar's line would read: “A product for consumers shows its few views as icons in a rail down the left edge, with its mark over the rail at the start of the bar. The search, the notifications and the user menu stay where the shell puts them, and look the way the shell draws them; see consumer navigation.” Its drawing of a bar with home, films and series would show the rail instead, and its user menu would say that a product with a rail keeps settings at the rail's foot. App navigation would send a product for consumers to this page, and its side navigation, where a medium-sized screen shrinks it to its icons, could take the rail's sizes and its tooltips, so the two columns of icons look alike.
+
 ## the views
 
 - **Up to five, on one level.** Android's guidance gives a navigation bar three to five views. Apple's warns that tabs that don't fit turn the last one into a “more” list, which makes the rest harder to find. Android's guidance for TVs asks for five or six at most, so that the rail never scrolls.
 - **The same views, in the same order, on every screen**, so people find each one where it was last time. A view that only one kind of device offers, such as downloads to watch offline on a phone, comes last.
-- **Home comes first**, and the product's name leads back to it too.
+- **Home comes first**, and the product's mark, or its name on a phone, leads back to it too.
 - **Every view has its own address**, so a link, a reload or the back button brings people right back to it, as in [app navigation](/design-system/patterns/app-navigation/#how-it-behaves).
-- **Search, notifications, the user menu and settings aren't views.** They stay where every screen has them: in the top bar and its user menu, and on a TV at the top and the foot of the rail. None of them becomes a tab.
+- **Search, notifications and the user menu aren't views.** They stay where every screen has them: in the top bar, and on a TV at the top and the foot of the rail. None of them becomes a tab.
+- **Settings isn't one of the five.** It has a place of its own: at the rail's foot, where its gear is the current one while settings is open, or in the user menu on a phone, where no tab is current while it is open.
+
+## icons alone
+
+The rail and the tab bar show the views' icons, and no names beside or under them. Names would make the rail wider and the tab bar taller, on every screen, and with a few views, always in the same place, people learn the icons once and then reach for them without looking. Both phone platforms' own guidance shows a name with the tabs, Apple's under every icon and Android's at least under the current one, so icons alone are a choice. They work only when:
+
+- **Every icon is plain and familiar.** A house for home, a film strip for films, a television for series, a bookmark for the watchlist, an arrow into a tray for downloads: people name each one with the view's own word, without being told.
+- **It is the same icon in every product**, for the same view, and it means nothing else anywhere. A house is always home. The table below lists them.
+- **Each view keeps its name for the people who need it.** The view's name is its link's <Term id="accessible-name">accessible name</Term>, so a <Term id="screen-reader">screen reader</Term> says “films”, and people who use <Term id="speech-input">speech input</Term> say the word the icon makes them think of, and the link answers to it. On a wide screen, the browser also shows the name as its own tooltip while the pointer rests on the icon, as it does with an <C slug="icon-button" />'s label.
+- **The current view is marked twice**, by its colour and by its bar.
+
+People who see the screen but use a keyboard or a touch screen never see that tooltip, as with an icon button. That is one more reason for icons nobody has to guess.
+
+An icon that people would name in different ways can't stand alone. A sparkle might mean new or for you, and a compass discover or a map. A view without a plain icon doesn't get a place in the rail or the tab bar: it starts from home instead, or it gets a plainer name and an icon to match.
+
+| view | its icon | in the icon set |
+| --- | --- | --- |
+| Home | A house | `house` |
+| Films | A film strip | `film` |
+| Series | A television | `tv` |
+| Watchlist | A bookmark | `bookmark` |
+| Downloads | An arrow into a tray | `download` |
+| Search, in the bar | A magnifying glass | `search` |
+| Notifications, in the bar | A bell | `bell` |
+| Settings, at the rail's foot, or in the user menu on a phone | A gear | `settings` |
+
+The icons come from the system's [icon set](/design-system/styles/iconography/#where-the-icons-come-from).
+
+<DoDont>
+  <Do caption="Icons everyone names the same way: home, films, series, watchlist and downloads.">
+    <PlainIconsDo />
+  </Do>
+  <Dont caption="A sparkle and a compass: one person reads new, another for you; one reads discover, another a map. Icons like these need their words.">
+    <UnclearIconsDont />
+  </Dont>
+</DoDont>
 
 ## on a wide screen
 
+On a computer or a tablet, the views run down the left edge in the rail, under the top bar.
+
 <figure class="ds-figure">
   <WideAnatomy />
-  <figcaption>The top bar of a product for consumers, close up, with films as the current view.</figcaption>
+  <figcaption>A wide screen, close up, with films as the current view and the pointer resting on watchlist.</figcaption>
 </figure>
 
-1. **The product's name**, led by the blue chevron, as on every top bar. It leads home.
-2. **The views**, as words, right after the name: home, films, series and watchlist. Each one is a link to its view.
-3. **The current view** is brighter than the others, with a blue line under it, the way the top bar of these pages marks the section you are in. The line, not only the brighter colour, says which one it is.
-4. **The search, the bell and the user menu** stay where the shell puts them, and look the way the shell draws them; see [top bar](/design-system/patterns/top-bar/#what-it-holds).
+1. **The product's mark**, in the bar's first cell, over the rail and as wide as it: the chevron and the first letter of the product's name, as the system's [app icon](/design-system/styles/brand/#the-app-icon) pairs the chevron with the letter n. It leads home.
+2. **The rail**: the views, one under the other, in their order, each its icon alone: home, films, series and watchlist. Each one is a link to its view.
+3. **The current view**: its icon is the accent blue, on a lighter square, with a blue bar on its left edge. The bar, not only the colour, says which one it is.
+4. **A view's name**, while the pointer rests on it: its square lightens, its icon brightens, and the browser shows the name as its own tooltip.
+5. **Settings**, a gear, at the rail's foot, apart from the views. While settings is open, the gear is the current one.
+6. **The search, the bell and the user menu** stay where the shell puts them, at the end of the bar, and look the way the shell draws them; see [top bar](/design-system/patterns/top-bar/#what-it-holds).
 
-There is no side navigation: the views are all in the bar, and the page takes the whole width. Where the bar gets too narrow for the search field beside the views, the search folds into its icon, as on a phone.
+The page takes the rest of the screen, beside the rail and under the bar. The rail and the bar stay in place while the page scrolls.
+
+<DoDont>
+  <Do caption="The views in the rail, the same icons as on the phone and the TV. The bar keeps its room for the search field.">
+    <RailDo />
+  </Do>
+  <Dont caption="The views as words in the bar: the computer looks unlike the phone and the TV, and the words take the room of the search field, which folds into its icon.">
+    <WordsInBarDont />
+  </Dont>
+</DoDont>
 
 ## on a phone held upright
 
@@ -109,39 +192,6 @@ The bar keeps what every screen needs, and the views move to a tab bar at the fo
   </Dont>
 </DoDont>
 
-### icons alone
-
-The tabs show their icons, and no names under them. Names would make the bar taller and busier on every screen, and with a few views, always in the same place, people learn the icons once and then reach for them without looking. Both phone platforms' own guidance shows a name with the tabs, Apple's under every icon and Android's at least under the current one, so icons alone are a choice. They work only when:
-
-- **Every icon is plain and familiar.** A house for home, a film strip for films, a television for series, a bookmark for the watchlist, an arrow into a tray for downloads: people name each one with the view's own word, without being told.
-- **It is the same icon in every product**, for the same view, and it means nothing else anywhere. A house is always home. The table below lists them.
-- **Each tab keeps its name for the people who need it.** The view's name is the tab's <Term id="accessible-name">accessible name</Term>, so a <Term id="screen-reader">screen reader</Term> says “films”, and people who use <Term id="speech-input">speech input</Term> say the word the icon makes them think of, and the tab answers to it.
-- **The current tab is marked twice**, by its colour and by its bar.
-
-An icon that people would name in different ways can't stand alone. A sparkle might mean new or for you, and a compass discover or a map. A view without a plain icon doesn't get a tab: it starts from home instead, or it gets a plainer name and an icon to match.
-
-| view | its icon | in the icon set |
-| --- | --- | --- |
-| Home | A house | `house` |
-| Films | A film strip | `film` |
-| Series | A television | `tv` |
-| Watchlist | A bookmark | `bookmark` |
-| Downloads | An arrow into a tray | `download` |
-| Search, in the bar | A magnifying glass | `search` |
-| Notifications, in the bar | A bell | `bell` |
-| Settings, in the user menu, or at the foot of a TV's rail | A gear | `settings` |
-
-The icons come from the system's [icon set](/design-system/styles/iconography/#where-the-icons-come-from).
-
-<DoDont>
-  <Do caption="Icons everyone names the same way: home, films, series, watchlist and downloads.">
-    <PlainIconsDo />
-  </Do>
-  <Dont caption="A sparkle and a compass: one person reads new, another for you; one reads discover, another a map. Icons like these need their words.">
-    <UnclearIconsDont />
-  </Dont>
-</DoDont>
-
 ### a screen opened from a view
 
 A screen opened from a view, such as a film's page, keeps the tab bar. Its bar shows a back arrow and the screen's name, in place of the product's name, the search, the bell and the user menu, which wait on every view, one press away.
@@ -149,7 +199,7 @@ A screen opened from a view, such as a film's page, keeps the tab bar. Its bar s
 - **The tab bar stays**, so every view is still one press away. Apple's guidance asks the same, because without the tab bar people can forget where in the product they are. Only a screen that needs the whole screen, such as the player, covers it, and its own way out leads back.
 - **Which tab is current depends on where the screen belongs.** A screen inside one view, such as one of the lists in the watchlist, keeps that view current. A screen that opens from several views, such as a film's page, which opens from home, from films, from the watchlist and from the search, is none of them, so no tab is current.
 - **The back arrow** goes back to where people came from.
-- **On a wide screen**, the same screen sits under the same top bar as the views.
+- **On a wide screen**, the same screen opens beside the same rail, under the same bar, and the same rule says which view is current.
 
 <DoDont>
   <Do caption="A film's page keeps the tab bar, with a back arrow and the film's name in the bar. It is none of the views, so no tab is current.">
@@ -162,23 +212,23 @@ A screen opened from a view, such as a film's page, keeps the tab bar. Its bar s
 
 ## on a phone held sideways
 
-A phone held sideways is wide but low, so its frame gives the page the height.
+A phone held sideways is wide but low, so the tabs move to the rail, and the frame gives the page the height.
 
 <figure class="ds-figure">
   <SidewaysAnatomy />
   <figcaption>A phone held sideways, with films as the current view.</figcaption>
 </figure>
 
-1. **The tabs become a rail** down the left edge: the same tabs, in the same order, each its icon alone.
-2. **The current tab** is blue, with its bar on its left edge, as the side navigation marks its current view.
-3. **The bar is slimmer**, with the same parts as when the phone is upright.
+1. **The rail**, down the left edge: the tab bar's tabs, in the same order, each its icon alone.
+2. **The current tab** is blue, with its bar on its left edge, as in the rail on a wide screen, without the lighter square: a phone has no pointer.
+3. **The bar is slimmer**, and runs beside the rail rather than over it, with the same parts as when the phone is upright: the product's name, the search as an icon, the bell and the user menu.
 4. **The page** takes the rest: the whole height under the bar.
 
-The rail and the bar keep clear of the camera's cutout and of the phone's own bar, on whichever side they are. A screen opened from a view shows its back arrow and its name in the slimmer bar, and the rail stays.
+It is the wide screen's rail, as wide, with the phone's tabs and nothing else. The product's name stays in the bar and settings stay in the user menu, as when the phone is upright, so turning the phone moves only the tabs. The rail and the bar keep clear of the camera's cutout and of the phone's own bar, on whichever side they are. A screen opened from a view shows its back arrow and its name in the slimmer bar, and the rail stays.
 
 ### a phone stays a phone
 
-The frame follows the screen's short side, not its width. Turned sideways, a phone is as wide as a small tablet, but it is still a phone in people's hands, held the same way and used with the same thumbs. So a screen or a window less than 600 dp on its short side, 600 pixels in a browser, gets the phone's frame, held either way. With 600 or more, the views go in the top bar.
+The frame follows the screen's short side, not its width. Turned sideways, a phone is as wide as a small tablet, but it is still a phone in people's hands, held the same way and used with the same thumbs. So a screen or a window less than 600 dp on its short side, 600 pixels in a browser, gets the phone's frame, held either way. With 600 or more, it gets the wide screen's frame: the rail under the top bar.
 
 The line comes from Android's window sizes: a phone held upright is narrower than 600 dp, a phone held sideways is lower than 480, and most tablets are 600 or more across even when held upright.
 
@@ -186,7 +236,7 @@ The line comes from Android's window sizes: a phone held upright is narrower tha
 | --- | --- | --- |
 | A phone held upright | Under 600 | The tab bar at the foot |
 | A phone held sideways | Under 600 | The rail at the left, and a slimmer bar |
-| A tablet, or a window on a computer | 600 or more | The views in the top bar |
+| A tablet, or a window on a computer | 600 or more | The rail under the top bar, with the product's mark over it |
 | A window on a computer, zoomed to 400% | Under 600: a 1280-pixel window becomes 320 | The phone's frame: the tab bar when the window is taller than wide, the rail when it is wider |
 | A TV | Any | The TV's rail, because it is used with a remote, from across the room |
 
@@ -203,7 +253,7 @@ The frame turns with the phone, and turning it never loses people's place. The c
 
 ## on a TV
 
-A TV has no top bar. Everything the bar holds moves into the rail down the left edge, one item under the other, so people reach all of it the same way: by pressing left.
+A TV has no top bar. The rail holds everything the bar holds, one item under the other, so people reach all of it the same way: by pressing left.
 
 <figure class="ds-figure">
   <TvClosed />
@@ -213,7 +263,7 @@ A TV has no top bar. Everything the bar holds moves into the rail down the left 
 1. **The avatar**, at the top: who is signed in. It opens the user menu.
 2. **The search**, under it.
 3. **The views**, in their order. While the focus is on the page, the rail shows their icons alone, and the current view keeps a blue bar on its left edge: the mark that [TV focus](/design-system/patterns/tv-focus/#one-meaning-for-the-ring) gives to where people came from.
-4. **Notifications and settings**, at the foot, apart from the views. The bell shows its count, as in the top bar. On a TV, settings have a place of their own in the rail, rather than in the user menu.
+4. **Notifications and settings**, at the foot, apart from the views. The bell shows its count, as in the top bar. As on a wide screen, settings have their place at the rail's foot, rather than in the user menu.
 5. **The <Term id="safe-area">safe area</Term>.** Everything that can take focus, and all text, stays 48 dp from the left and right edges and 27 dp from the top and bottom, as on every [TV screen](/design-system/patterns/tv-focus/#movement-and-space). The rail's own surface may run to the edge.
 
 Android's guidance for TVs puts them in the same places: the profile and the search at the top, settings at the foot. There is no product's name in the rail: home, its first view, takes people home.
@@ -247,25 +297,28 @@ When the focus moves into the rail, the rail opens and shows each item's name be
 
 - **The frame is the same on every view.** Moving between views changes the page, and nothing else.
 - **It stays on every screen opened from a view**, except one that needs the whole screen, such as the player.
-- **A view keeps its place** while people are elsewhere: back on it, they find it scrolled where they left it. Pressing the current tab again goes back to the start of its view, at the top.
-- **The current mark moves at once.** The blue line, the tab's bar and the rail's bar change in place, without sliding from one view to the next, as the current tab's underline does; see [motion](/design-system/styles/motion/#what-doesnt-move).
+- **A view keeps its place** while people are elsewhere: back on it, they find it scrolled where they left it. Pressing the current view again goes back to the start of it, at the top.
+- **The current mark moves at once.** The blue, the square and the bars change in place, without sliding from one view to the next, as the current tab's underline does; see [motion](/design-system/styles/motion/#what-doesnt-move).
+- **The tooltip is the browser's own.** It shows after the browser's short delay, only under the pointer, and goes when the pointer leaves.
 - **Turning the phone keeps people's place**, and so does opening and closing the rail on a TV.
 
 ## accessibility
 
 Planned, together with the components:
 
-- **Landmarks.** The top bar is the page's header <Term id="landmark">landmark</Term>, as on every screen. The views are a navigation landmark of their own, named “views”, wherever they are: in the bar, in the tab bar or in the rail. The page is the main landmark.
-- **Each view is a link**, named after its view: “films”. In the tab bar and the closed rail, the name is text that only <Term id="assistive-technology">assistive technology</Term> reads, and the icon is decoration, hidden from it, as in [iconography](/design-system/styles/iconography/#decoration-and-meaning).
+- **Landmarks.** The top bar is the page's header <Term id="landmark">landmark</Term>, as on every screen. The views are a navigation landmark of their own, named “views”, wherever they are: in the rail or in the tab bar. The page is the main landmark.
+- **Each view is a link**, named after its view: “films”. The name is text that only <Term id="assistive-technology">assistive technology</Term> reads, and the icon is decoration, hidden from it, as in [iconography](/design-system/styles/iconography/#decoration-and-meaning). On a wide screen, the same word is the link's tooltip, and assistive technology may read it a second time, as a description, as with an icon button.
+- **The product's mark is a link** named after the product and where it goes, as the top bar's name is: the product's name and “home”. The chevron and the letter are decoration.
 - **The current view is told, not only drawn.** A screen reader hears “films, current page” on the view itself. On a screen inside one view, that view is marked as current; on a screen that is none of the views, none is.
-- **The focus follows the screen.** The top bar comes first, with the views in it on a wide screen, then the page. On a phone held upright, the tab bar comes last, after the page, where it sits; held sideways, the rail comes after the bar and before the page. Turning the phone keeps the focus where it was.
-- **On a wide screen, <Kbd>tab</Kbd> moves through the views** one at a time, from the product's name to the search, as through any row of links.
-- **Contrast.** The muted grey of the icons at rest and the blue of the current one are tested at 4.5:1 on every background, like text, well above the 3:1 an icon that carries meaning needs (WCAG 1.4.11); see [colour](/design-system/styles/colour/#contrast).
+- **The focus follows the screen.** On a wide screen, the top bar comes first, the mark, the search, the bell and the user menu, then the rail, then the page. On a phone held upright, the tab bar comes last, after the page, where it sits; held sideways, the rail comes after the bar and before the page. Turning the phone keeps the focus where it was.
+- **The rail and the tab bar are one tab stop each**, as a toolbar is ([interaction](/design-system/foundations/interaction/#the-keyboard-model)). <Kbd>tab</Kbd> moves onto the current view, or onto the first one when none is current, and the arrow keys move along: up and down in the rail, left and right in the tab bar, with <Kbd>home</Kbd> and <Kbd>end</Kbd> for the first and the last. <Kbd>enter</Kbd> opens the view. Settings, at the rail's foot, is part of the same stop.
+- **Contrast.** The muted grey of the icons at rest, 9.4:1 on the rail, and the blue of the current one, 6.8:1 on its lighter square, are tested at 4.5:1 on every background, like text, well above the 3:1 an icon that carries meaning needs (WCAG 1.4.11); see [colour](/design-system/styles/colour/#contrast). The lighter square is only 1.1:1 against the rail, so it never marks the current view on its own: the blue and the bar do.
 - **On a TV**, each item in the rail is read with its name, open or closed, and the current view is read as current. The focus looks the way [TV focus](/design-system/patterns/tv-focus/) has it, and with animations switched off on the device, the ring and the growth appear at once.
 
 ## the words
 
-- **The views' names.** One word each, a noun, lowercase, as people name the place: “home”, “films”, “series”, “watchlist”, “downloads”. The same word in the top bar, as a tab's name for a screen reader, in the TV's rail and as the view's title.
+- **The views' names.** One word each, a noun, lowercase, as people name the place: “home”, “films”, “series”, “watchlist”, “downloads”. The same word as a view's tooltip, as its name for a screen reader, in the TV's rail and as the view's title.
+- **The product's mark.** The first letter of the product's name, as the name is written in the bar: lowercase. Its tooltip, and its name for a screen reader, are the product's name and “home”.
 - **No “more”, no “menu”.** Every tab is a place; there is no tab for the rest.
 - **The back arrow** is named after where it goes: “back to films”.
 - **The screen's name in the bar** is the screen's own title, with a name's own capitals: “The Quiet Harbour”.
@@ -274,12 +327,14 @@ Planned, together with the components:
 
 ## related
 
-- [Top bar](/design-system/patterns/top-bar/): the bar every screen shares, and the rule that lets a product for consumers keep its views in it.
+- [Top bar](/design-system/patterns/top-bar/): the bar every screen shares; this page changes what a product for consumers keeps in it.
 - [App navigation](/design-system/patterns/app-navigation/): the side navigation and the phone menu of an app inside the portal.
 - [TV focus](/design-system/patterns/tv-focus/): the ring, the surface and the growth of the focused item, the safe area, and the bar for where people came from.
 - [Iconography](/design-system/styles/iconography/): the icon set, its sizes, and when an icon needs a name.
+- <C slug="icon-button">Icon button</C>: an icon alone, whose label is its name and its tooltip, as a view's name is in the rail.
+- [Brand](/design-system/styles/brand/): the chevron, and the app icon that the product's mark follows.
 - [Settings and setup](/design-system/patterns/settings-and-setup/): what the user menu's settings hold.
-- [Layout](/design-system/foundations/layout/#phone-width): the phone's width, and a window zoomed to 400%.
+- [Layout](/design-system/foundations/layout/#touch-and-tv-sizes): the touch area, the phone's width, and a window zoomed to 400%.
 - <C slug="tabs">Tabs</C>: for the parts of one thing, not for a product's views.
 
 ## specs
@@ -288,17 +343,25 @@ Planned. The values the drawings use, and where they come from:
 
 | part | spec |
 | --- | --- |
-| Views | Up to five, on one level. Android: three to five in a navigation bar; Android TV: five or six at most in the rail, so it never scrolls |
-| Frame | Under 600 dp on the short side: the phone's frame, with the tab bar when the screen is taller than wide and the rail when it is wider. 600 dp or more: the views in the top bar. A TV: the TV's rail. From Android's window sizes: compact width is under 600 dp (phones held upright), compact height under 480 dp (phones held sideways) |
-| Views in the top bar | Monospace, lowercase, in `--fg-muted`; the current one in `--fg` with a 2px `--cloud-blue` line under it, as the top bar of these pages marks its current section |
+| Views | Up to five, on one level, and settings apart from them. Android: three to five in a navigation bar; Android TV: five or six at most in its navigation drawer, so it never scrolls |
+| Frame | Under 600 dp on the short side: the phone's frame, with the tab bar when the screen is taller than wide and the rail when it is wider. 600 dp or more: the rail under the top bar. A TV: the TV's rail. From Android's window sizes: compact width is under 600 dp (phones held upright), compact height under 480 dp (phones held sideways) |
+| Rail, on a wide screen | 80 wide, from the bar to the foot of the screen: a 48 square with 16 on either side. `--bg-2`, with a 1px `--border` rule on its right edge that runs on up through the bar, beside the mark. Android's navigation rail is 80 dp wide too |
+| The product's mark | The bar's first cell, 80 wide and as high as the bar: the chevron at 16, its default size ([brand](/design-system/styles/brand/#specs)), then the first letter of the product's name in the wordmark's face, JetBrains Mono 700, in `--fg-2` |
+| A view in the rail | A 48 × 48 square, the touch area, centred in the rail: the first 16 under the bar, then one every 56, so two squares stand 8 apart, as controls on a touch screen do ([layout](/design-system/foundations/layout/#on-a-touch-screen)). Its icon 24, with the usual 1.75 line, in `--fg-muted` at rest |
+| Under the pointer | The square `--surface-2` and the icon `--fg`, the hover of a quiet button, `variant="ghost"` ([button](/design-system/components/button/#specs)); the browser's own tooltip, from the link's `title` |
+| Keyboard focus | The 2px `--focus-ring` outline, 1px outside the square, on keyboard focus only, as on a button ([button](/design-system/components/button/#specs)) |
+| Current view, in the rail | The icon `--cloud-blue` on the `--surface-2` square, with a 2px `--cloud-blue` bar inside the square's left edge |
+| Settings, in the rail | The same square, its gear `settings`, 16 above the rail's foot |
 | Tab | An equal share of the tab bar's width, at least 48 dp high: Android's smallest touch target. Apple's default control is 44 pt; WCAG 2.5.8 asks for 24px at the least |
-| Tab icon | 22, the size of a tile's app icon, with the usual 1.75 line ([iconography](/design-system/styles/iconography/#sizes)); `--fg-muted` at rest, `--cloud-blue` when current |
-| Current tab | A 2px `--cloud-blue` bar on its top edge; in the rail, on its left edge, as the side navigation's current view |
+| Tab icon | 24, as in the rail; `--fg-muted` at rest, `--cloud-blue` when current |
+| Current tab | A 2px `--cloud-blue` bar on its top edge |
+| Rail, on a phone held sideways | 80 dp, as on a wide screen, the screen's whole height, beside the bar; its tabs at least 48 dp high and 8 apart, in the middle of its height. The current tab `--cloud-blue`, with a 2 dp bar on the rail's left edge, and no square |
 | TV rail, current view | A 4 dp `--cloud-blue` bar on its left edge, the “where you came from” bar of TV focus |
 | TV rail, focused item | The focus of a row: a 3 dp `--focus-ring` ring inside its edge, `--surface-focus`, a growth of 1.02, settling in 150 ms, easing out |
 | TV safe area | 48 dp left and right, 27 dp top and bottom, for everything that can take focus and all text |
-| Motion | The current mark changes at once; the TV's rail opens and closes at once; nothing slides |
+| Motion | The current mark changes at once; the tooltip is the browser's own; the TV's rail opens and closes at once; nothing slides |
 
-- **In code.** The views are links in a `<nav aria-label="views">`. The current view's link has `aria-current="page"`, and on a screen inside one view, that view's link has `aria-current="true"`, as the top bar of these pages marks its current section. A tab's name is visually hidden text inside its link, and its icon is `aria-hidden`.
+- **The icons' size.** 24 is the icon set's own grid, so the 1.75 line is 1.75 pixels, and the size of the icons in Android's navigation rail and navigation bar, and in Android TV's navigation drawer. It is one step past the largest size that [iconography](/design-system/styles/iconography/#sizes) lists today, 22, a tile's app icon.
+- **In code.** The views are links in a `<nav aria-label="views">`: the rail, or the tab bar. The current view's link has `aria-current="page"`, and on a screen inside one view, that view's link has `aria-current="true"`, as the top bar of these pages marks its current section. A view's name is visually hidden text inside its link, the same word is the link's `title`, and its icon is `aria-hidden`. The current view's link has `tabindex="0"`, or the first one's when none is current, the others `-1`, and the arrow keys move the focus between them. The mark is a link to home, with the product's name and “home” as its name and its `title`.
 - **The phone's own bars.** The tab bar and the rail leave room for the system's bars and the camera's cutout: on the web, with `viewport-fit=cover`, they add `env(safe-area-inset-bottom)`, `env(safe-area-inset-left)` and `env(safe-area-inset-right)` to their padding.
-- **Sources.** Android: the navigation bar (three to five destinations), window size classes, touch target size (48 dp), and the TV navigation drawer (collapsed to icons, open with their names; five or six destinations). Apple's Human Interface Guidelines: tab bars (labels, overflow, keep the tab bar in view) and accessibility (control sizes). WCAG 2.2: 1.4.1 use of colour, 1.4.11 non-text contrast, 2.5.8 target size.
+- **Sources.** Android: the navigation bar (three to five destinations), window size classes, touch target size (48 dp), the navigation rail and the navigation bar of Compose Material 3 (`NavigationRail` at least 80 dp wide, from `NavigationRailCollapsedTokens.NarrowContainerWidth`; icons of 24 dp, `NavigationRailBaselineItemTokens.IconSize` and `NavigationBarVerticalItemTokens.IconSize`), and the TV navigation drawer (collapsed to icons, open with their names; five or six destinations; icons of 24 dp, `NavigationDrawerItemDefaults.IconSize`). Apple's Human Interface Guidelines: tab bars (labels, overflow, keep the tab bar in view) and accessibility (control sizes). WCAG 2.2: 1.4.1 use of colour, 1.4.11 non-text contrast, 2.5.8 target size. This system: the button's hover and focus, the icon button's label as its name and tooltip, the brand's chevron and wordmark, the token contrast test. And the rail as a product for watching films builds it on the web today: 80 px wide, its icons 24 in squares of 48, 8 apart, settings at its foot, the current view blue on a lighter square.

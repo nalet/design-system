@@ -2,12 +2,15 @@
 layout: ../../layouts/Doc.astro
 title: layout
 description: How space is used. One short scale of steps for every gap, three control heights, density per component, components that adapt to the room they get, and screens that work on a phone.
+draft: true
+draftNote: "Touch and tv sizes are new and under review: the touch area, the large sizes some components still lack, and the sizes a TV asks for. The rest of the page describes the system as it is."
 ---
 import { Button, Card, Checkbox, Input, Stack, Text } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { SpaceScale, ControlHeights, Density, Responsive, VolumesAt360 } from '@site/specimens/space';
+import { TouchArea, TouchDo, TouchDont, TvCanvas } from '@site/sketches/sizes-and-inputs';
 
 # layout
 
@@ -55,6 +58,74 @@ Every control comes in the same three heights, so controls in a row line up.
 - A <C slug="checkbox" />'s box and a <C slug="switch" />'s track are smaller than the controls, but their whole label is the target.
 - A few things sit outside the three heights: the items of an action menu, the portal's search field and a dialog's close button.
 - A <C slug="textarea">text area</C> has no fixed height. Its number of rows sets it, four unless you choose another.
+
+## touch and tv sizes
+
+The three heights are made for a pointer and a keyboard. A finger is wider than a pointer and hides what it presses, and a TV is read from across the room, so both ask for more. The large size covers most of it. This section says what else they need, and where each number comes from.
+
+### on a touch screen
+
+What a touch screen asks for, from the smallest <Term id="target-size">target</Term> to the largest:
+
+| who | asks for |
+| --- | --- |
+| <Term id="wcag">WCAG</Term> 2.2, 2.5.8 target size (minimum), level AA | 24 × 24 CSS pixels, or enough room around a smaller target that a circle 24 pixels across, on its centre, touches no other target and no other such circle |
+| Apple, for iOS and iPadOS | Controls of 44 × 44 points by default, and 28 × 28 at the least |
+| WCAG 2.2, 2.5.5 target size (enhanced), level AAA | 44 × 44 CSS pixels |
+| Android | 48 × 48 <Term id="dp">dp</Term> for everything that can be touched: “larger is even better” |
+
+Every screen meets 2.5.8 today. A screen made for touch meets the largest of the four, 48, and with it all the others. Android's browsers draw a CSS pixel as a dp, so 48 is the same number in an app and on a web page.
+
+- **Controls are drawn large, and answer in 48.** On a touch screen, a control is drawn at the large size, 42, and answers to a touch anywhere in a square of 48 around it: its touch area. The touch area isn't drawn. It is centred on the control and reaches 3 past each edge, into the space around it. 48 is a step of the scale.
+- **Touch areas never overlap**, so a touch between two controls lands on one of them or on neither. Two large controls need 6 between them to keep their areas apart, so they stand at least 8 apart, the next step of the scale.
+- **A part drawn smaller keeps its look.** A banner's dismiss and its details are 28 high, a dialog's close is 26 and a checkbox's box 16. Each still answers in 48 around it. A checkbox or a switch takes a row 48 high with its label, and the whole row is its target.
+- **A row is its own target**, at least 48 high: in a menu, a list, a table, or the options of a multi select.
+- **The usual density.** Dense tables and small controls are for a pointer, as [density](#density) says.
+
+<figure class="ds-figure">
+  <TouchArea />
+  <figcaption>The touch area, to scale: a large button, two icon buttons 8 apart, a part drawn smaller, and a switch whose whole row is its target.</figcaption>
+</figure>
+
+Some components have no large size yet. A screen made for touch needs one for each of them; they are planned:
+
+| component | today | at the touch size |
+| --- | --- | --- |
+| <C slug="switch" /> | Small and medium: a track of 30 × 16 or 36 × 20 | A track of 42 × 24 with an 18 thumb, one more step of the size that medium is over small, and a 14 label, as on the large controls. The track alone then meets 2.5.8 |
+| <C slug="multi-select" /> | Small and medium: 28 or 34 | 42, with the 16 of padding and the 14 text of a large select, and its options in rows of 48 |
+| <C slug="filter-bar" /> | Medium only: its search, selects and multi selects are 34 | Every control at 42, the “filters · 2” button included, which the facets fold behind on a narrow screen |
+| <C slug="action-menu" /> | A trigger of 28 or 34, and items at least 32 high | A trigger of 42, the large icon button, and items 48 high |
+| <C slug="tabs" /> | One height, about 35 | 48 high |
+
+<DoDont>
+  <Do caption="Large controls, 8 apart: each answers to a touch in its own 48, and the areas never meet.">
+    <TouchDo />
+  </Do>
+  <Dont caption="Small controls, 4 apart, on a phone: their touch areas run into each other, and a touch between two can land on either.">
+    <TouchDont />
+  </Dont>
+</DoDont>
+
+### on a tv
+
+A TV is used from across the room, about ten feet away, which gives <Term id="ten-foot">10-foot</Term> screens their name. Whatever its resolution, its screen is laid out on a canvas of 960 × 540 dp: Android TV designs at that size, Microsoft lays its TV apps out at 960 × 540 effective pixels, and Apple lays a TV out at 1920 × 1080 points, two points a dp. On that canvas, a size on these pages is a dp: 42 here is 42 dp on a TV, 84 pixels on a 1920 × 1080 screen. What the TV platforms ask for is close to what the system draws already.
+
+- **Controls are large: 42 dp.** Android TV's own buttons are at least 40 dp high, Microsoft asks for at least 32 for anything people use, and Apple's controls on a TV are 66 points by default, 33 dp. Only the large size meets all three, so a TV draws every control large.
+- **Rows are 48 dp for one line**, 64 for two, and 40 in a menu or in the list a select opens: the heights of Android TV's own list items and of its dense ones.
+- **Text people read is 16 dp, labels at least 14, and nothing is smaller than 12.** Microsoft asks for 15 for text people read and 12 at the least. Apple's text on a TV is 29 points by default, 14.5 dp, and 23 points, 11.5 dp, at the least. The body role, 16, is for reading, and the large controls' labels are 14. So on a TV, the components' 11- and 13-pixel sizes step up to 12 and 14.
+- **The focus needs room.** A focused item grows by 5% and draws its 3 dp ring 2 dp outside itself, as [tv focus](/design-system/patterns/tv-focus/) sets out. A large button, 42 dp at rest, takes about 54 dp with the focus. That is why focusable items stand 12 dp apart.
+- **Everything that can take focus stays inside the <Term id="safe-area">safe area</Term>**, together with its ring and its growth: 48 dp from the left and right edges and 27 from the top and bottom, the 5% of Android TV and Microsoft. Apple asks for more at the top and bottom on tvOS: 60 points, 30 dp.
+- **Few presses across.** Microsoft asks that going from one edge of the screen to the other takes no more than six presses. A few larger things in a row do that better than many small ones.
+
+<figure class="ds-figure">
+  <TvCanvas />
+  <figcaption>A TV screen, to scale, on its 960 × 540 dp canvas.</figcaption>
+</figure>
+
+1. **The safe area**, dashed: 48 dp from the left and right edges, 27 from the top and bottom.
+2. **Large controls**, 42 dp and 12 dp apart. The one with the focus is 5% larger, with its ring 2 dp outside it.
+3. **Rows of 48 dp**, one line each.
+4. **Text**: the title at 32 dp, what people read at 16, labels at 14, and the badge at 12, the smallest.
 
 ## density
 
@@ -227,6 +298,30 @@ The nudges inside small parts: 2px in the switch track and between a filter tab'
 - The checkbox box is 16px; the switch track is 20px high (`md`) or 16px (`sm`).
 - Outside the three heights: action menu items are at least 32px high, the portal's search field is 32px, and a modal's close button 26px.
 - Textarea: `rows`, 4 by default.
+
+### touch and tv sizes
+
+| | on a touch screen | on a tv |
+| --- | --- | --- |
+| Unit | The CSS pixel, which Android's browsers draw as a dp | The dp, on a 960 × 540 canvas: 2 CSS px on a page 1920 pixels wide |
+| Controls | `lg`, 42px, with a touch area of at least 48 × 48 (`--s-7`), centred on the control | `lg`, 42 dp |
+| Between controls | At least 8 (`--s-2`) | At least 12 dp (`--s-3`), as tv focus sets out |
+| Rows | At least 48 (`--s-7`) | 48 dp for one line, 64 for two; 40 in a menu or an open list |
+| Text | As on a computer | 16 dp for reading, at least 14 for labels, never under 12 |
+| Edges | | The safe area: 48 dp left and right, 27 top and bottom; 30 at the top and bottom on tvOS |
+
+- **Planned.** The large size exists for buttons, icon buttons, inputs and selects. The touch area, rows of 48, and the large switch, multi select, filter bar, action menu trigger and tabs don't exist yet.
+- **The touch area, measured today.** At their tallest: a tab about 35px, a multi select's option 35px, an action menu's item 32px, a banner's details and dismiss 28px, a modal's close 26px, a checkbox's or a switch's label row 18 to 20px.
+- **The large switch.** Small to medium adds 6 to the track's width and 4 to its height and its thumb (30 × 16 and 10, then 36 × 20 and 14). One more step makes 42 × 24 and 18; the thumb slides 18. Its label is 14px, the large controls' size.
+- **A focused large control on a tv:** 42 × 1.05 = 44.1 dp, plus the 2 dp gap and the 3 dp ring on each side: about 54 dp.
+
+Where the numbers come from:
+
+- **WCAG 2.2.** [2.5.8 target size (minimum)](https://www.w3.org/WAI/WCAG22/Understanding/target-size-minimum.html), level AA: 24 × 24 CSS px, or spacing that keeps a 24px circle on each smaller target clear of the others. [2.5.5 target size (enhanced)](https://www.w3.org/WAI/WCAG22/Understanding/target-size-enhanced.html), level AAA: 44 × 44 CSS px.
+- **Android.** [Touch targets](https://developer.android.com/guide/topics/ui/accessibility/apps) of at least 48 × 48 dp. Its browsers and web views [draw CSS pixels as dp](https://developer.android.com/develop/ui/views/layout/webapps/targeting).
+- **Android TV.** [Layouts](https://developer.android.com/design/ui/tv/guides/styles/layouts) at 960 × 540 dp, with margins of 48 dp at the sides and 27 at the top and bottom, the 5% kept clear of overscan. Its own components, in [`androidx.tv.material3`](https://github.com/androidx/androidx/tree/androidx-main/tv/tv-material/src/main/java/androidx/tv/material3): buttons at least 40 dp high (`ButtonDefaults.MinHeight`); icon buttons of 28, 40 and 56 dp; list items at least 48, 64 and 80 dp for one, two and three lines, and 40, 56 and 72 when dense; a type scale with labels of 11 to 14 sp and body text of 12 to 16 sp (`TypeScaleTokens`).
+- **Apple's Human Interface Guidelines.** [Accessibility](https://developer.apple.com/design/human-interface-guidelines/accessibility): controls of 44 × 44 pt by default and 28 × 28 at the least on iOS and iPadOS, 66 × 66 and 56 × 56 on tvOS; text of 29 pt by default and 23 at the least on tvOS. [Layout](https://developer.apple.com/design/human-interface-guidelines/layout): on tvOS, a safe area of 60 pt at the top and bottom and 80 at the sides, and grids whose columns fill the 1920 points between (two columns of 860 pt, 40 apart). Its grids keep 40 pt, 20 dp, between items.
+- **Microsoft.** [Designing for Xbox and TV](https://learn.microsoft.com/en-us/windows/apps/design/devices/designing-for-tv), archived: a viewer about ten feet away; apps laid out at 960 × 540 effective pixels (1280 × 720 for web apps); controls at least 32 high; text at least 15 for reading and 12 for the rest; 48 and 27 kept clear at the edges; no more than six presses from one edge to the other.
 
 ### density
 

@@ -3,6 +3,8 @@ layout: ../../layouts/Doc.astro
 title: forms and settings
 description: Switches for what applies at once, a form for what waits for save, one emphasized save, and errors that show on save and say how to fix them.
 react: patterns-forms-and-settings
+draft: true
+draftNote: "Numbers and ranges, with the planned slider and stepper, is new and under review. The rest of the page describes the pattern as it was accepted."
 ---
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
@@ -11,6 +13,9 @@ import {
   SettingsOverview, SettingsAnatomy, ValidationStory, CheckboxInForm, SwitchAboveSave, OneEmphasis, TwoEmphasized,
   SaveEnabled, SaveDisabled, SaveFailedStrip, SaveFailedToast, SavedToast, SavedStrip,
 } from '@site/sketches/forms';
+import {
+  SliderKinds, SliderAnatomy, SliderOwnRowDo, SliderInARowDont, StepperAnatomy, StepperStates,
+} from '@site/sketches/sizes-and-inputs';
 
 # forms and settings
 
@@ -70,6 +75,86 @@ Today there is no radio button component; a group of the browser's own radio but
 6. **Footer**: the “unsaved changes” signal, “cancel” as a quiet button, and “save changes” as the one <Term id="emphasized-action">emphasized</Term> button, at the end of the row.
 
 Three more parts appear only at times: a success message above the content, after a save that changed what the page shows; an error summary at the top of a long form, after a save that found errors; and a toast that confirms a save.
+
+## numbers and ranges
+
+Some values are numbers: how loud, how far into a film, how many seconds to count down. Two planned inputs take them, the slider and the stepper. Until they are built, a <C slug="select" /> with the values, or an <C slug="input" /> with the number and its unit after it, does the job.
+
+| the value | use |
+| --- | --- |
+| A value in a range that people judge by its effect: the volume, a place in a film, a brightness | A slider, with the value in words beside it |
+| A whole number, a few small steps from end to end: a countdown in seconds, how many copies to keep | A stepper |
+| A number from a wide range, or one people know exactly: a port, a size in GB | An input, with its unit after it |
+| One of a few named values | A select, or radio buttons |
+
+### the slider
+
+<figure class="ds-figure">
+  <SliderKinds />
+  <figcaption>Three sliders: how loud, and where you are, in a player; and a value in a range, in settings.</figcaption>
+</figure>
+
+<figure class="ds-figure">
+  <SliderAnatomy />
+  <figcaption>A slider, close up.</figcaption>
+</figure>
+
+1. **Label**, as a field's, in the body face: “Volume”. In a player, an icon can stand in for it, and the label is then the slider's name for screen readers.
+2. **Track**: the whole range, from the lowest value at the start to the highest at the end.
+3. **The part up to the thumb**, in blue. On a seek bar, what has loaded can follow it, in a lighter grey.
+4. **Thumb**: a square, as every frame is.
+5. **The value in words**, after the track: “60%”. On a seek bar, the time played comes before the track, and the length after it.
+
+- **The words say the value.** The thumb shows about where it is, and the words say exactly, so the value never rests on the thumb alone.
+- **A press on the track moves the thumb there**, and dragging moves it with the pointer or the finger. The whole track is the target; on a touch screen, it answers in a band 48 high.
+- **The arrow keys take one step**, Page Up and Page Down a larger one, and Home and End go to the two ends. The slider is one <Term id="tab-stop">tab stop</Term>. The product sets the size of a step.
+- **It applies as it moves** where people hear or see the effect, like the volume: outside a form, a slider is an instant setting, like a switch. Inside a form, it waits for save, like every field.
+- **Sizes.** The slider takes the height of the controls in its row, so the row lines up. Its track is 4 high, the first step of the scale, and its thumb is a square of 16, the size of a checkbox's box.
+
+On a TV:
+
+- **A slider takes a row of its own.** In a row with other controls, left and right would move its thumb and never the focus, so people couldn't get past it. On a row of its own, like a player's seek bar above the player's buttons, left and right change the value, and up and down move on.
+- **Where it has to share a row**, like a player's volume next to its buttons, up and down change it, and left and right move on.
+- **A value people set exactly**, like a countdown, is a stepper or a list on a TV, not a slider. Apple's tvOS has no slider at all.
+
+<DoDont>
+  <Do caption="On a TV, the seek bar has a row of its own: left and right move the thumb, and down goes to the buttons.">
+    <SliderOwnRowDo />
+  </Do>
+  <Dont caption="A slider between two buttons in one row: right moves the thumb, so the button after it never gets the focus.">
+    <SliderInARowDont />
+  </Dont>
+</DoDont>
+
+### the stepper
+
+<figure class="ds-figure">
+  <StepperAnatomy />
+  <figcaption>A stepper, close up.</figcaption>
+</figure>
+
+1. **Label**, as a field's: “Countdown”.
+2. **Minus**, one step down.
+3. **The value with its unit**: “5 s”.
+4. **Plus**, one step up.
+5. **Hint**: the range, “From 1 to 15 seconds”, or the error in its place.
+
+- **One step a press.** Minus and plus change the value by one step. At either end, the button that would go past it is dimmed and does nothing, and the value stays.
+- **For a few steps.** A stepper suits a short range, a few presses from one end to the other. Where people may want a value far away, let them type it: the value is then a field, with minus and plus on either side of it.
+- **The keyboard.** The value is the one tab stop. The up and down arrow keys take a step, and Home and End go to the two ends. Minus and plus are for the pointer and for touch, and the Tab key passes them.
+- **Instant or saved**, like every field: in a form, it waits for save.
+- **Sizes.** The stepper is as high as a field, in one of the three heights. Minus and plus are squares of that height, like icon buttons, and on a touch screen each one answers in 48.
+
+<figure class="ds-figure">
+  <StepperStates />
+  <figcaption>A stepper at its lowest value, and the same setting on a TV, as one row.</figcaption>
+</figure>
+
+On a TV, a stepper is one row: its label, and the value between two small arrows at the row's end. Left and right change the value, and up and down move to the next row. Like a slider, it has a row of its own. Apple's tvOS has no stepper either, so the product draws the row itself.
+
+- **The words.** The value is short, with its unit, “5 s”, and is read out in full, “5 seconds”. The hint says the range: “From 1 to 15 seconds”. A value typed out of range gets an error that says how to fix it: “Use a whole number from 1 to 15”.
+- **For screen readers.** The slider is the browser's own range input, so a screen reader says it is a slider, with its label and its value in words: “60%”, “42 minutes of 1 hour 52”. The stepper's value is a spin button with its label, its value and its range; minus and plus are named after the value they change, such as “fewer seconds” and “more seconds”.
+- **Where this comes from.** The keys follow the WAI-ARIA authoring practices for a [slider](https://www.w3.org/WAI/ARIA/apg/patterns/slider/) and a [spin button](https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/). Apple's guidelines have no [slider](https://developer.apple.com/design/human-interface-guidelines/sliders) and no [stepper](https://developer.apple.com/design/human-interface-guidelines/steppers) in tvOS, and suggest a field next to a stepper for values that vary widely. Microsoft's [guidance for remotes](https://learn.microsoft.com/en-us/windows/apps/design/input/gamepad-and-remote-interactions) calls a slider that catches left and right in a row a focus trap; one way out it gives is to stack the controls, so that the slider has a row of its own.
 
 ## the footer and unsaved changes
 

@@ -2,10 +2,14 @@
 layout: ../../layouts/Doc.astro
 title: tv focus
 description: How the one focused thing on a TV screen stands out from across the room. A ring, a lighter surface and a little growth, the same on every screen.
+draft: true
+draftNote: "The focus of fields and selects, and choosing on a tv, are new and under review. The rest of the page describes the focus style as it was accepted."
 ---
+import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont } from '@site/blocks';
 import { FocusKinds, OnAProjector } from '@site/specimens/tv-focus';
+import { TvFieldFocus, TvListOpen, TvListPickedDo, TvListFirstDont } from '@site/sketches/sizes-and-inputs';
 
 # tv focus
 
@@ -31,8 +35,18 @@ Rows and cards differ a little, because they sit differently on the screen:
 | Rows: an episode, a setting | Inside the row's edge | None | The focused surface | 2% |
 | Cards: a poster, a still | Outside the card | 2 dp, where the background shows | The artwork, unchanged | 5% |
 | Buttons and chips | Outside | 2 dp | Filled buttons keep their fill; plain ones get the focused surface | 5% |
+| Fields and selects | Inside the field's edge, in place of its border | None | The focused surface | 2% |
 
 The gap is there for artwork and filled buttons, which can be any colour, the focus colour included. With a strip of background between the item and its ring, the ring always has the dark background on both sides, so it stays visible on every poster and every button.
+
+A field takes the focus of a row, not of a button. A text field or a select is wide, and it sits in a column of other fields, the way a row sits in a list. Its fill is always the dark colour of a field, so its ring needs no gap to stay visible: the ring is drawn inside the field's edge, where its border was. A growth of 5% would push a wide field into the one under it; 2% doesn't. The value turns to the brightest text, a placeholder one step brighter, and the label above the field brightens with it.
+
+<figure class="ds-figure">
+  <TvFieldFocus />
+  <figcaption>A text field and a select on a TV, to scale, at rest and focused: the ring inside the edge, the focused surface, a little growth and brighter text.</figcaption>
+</figure>
+
+OK on a focused text field opens the TV's own keyboard; on a select, it opens the select's list, as [choosing on a tv](#choosing-on-a-tv) describes.
 
 ## why a lighter surface is not enough
 
@@ -61,6 +75,36 @@ The ring always means focus, and only focus. Other marks look different:
 - The ring and the growth need room. Between two cards, leave at least 12 dp, so a focused card never touches its neighbours.
 - Everything that can take focus stays inside the <Term id="safe-area">safe area</Term>: 48 dp from the left and right edges, 27 dp from the top and bottom. Some TVs cut off the edges of the picture, and a focused item that grows must not grow into that edge.
 
+## choosing on a tv
+
+On a computer or a phone, a <C slug="select" /> opens the device's own list. A TV has none that a product can count on: Apple's tvOS has no such list at all. So on a TV, the product draws the list itself, and every app draws it the same way.
+
+<figure class="ds-figure">
+  <TvListOpen />
+  <figcaption>A select's list on a TV, to scale: over the page, at the select, with the focus on the value that is set.</figcaption>
+</figure>
+
+- **It opens over the page, at the select.** OK on a focused select opens the list right under it, inside the safe area, and dims the page behind it. Where there isn't room below, the list opens above.
+- **The focus is on the picked row.** The list opens with the focus on the value that is set, so people see it at once, and the values next to it are one press away.
+- **Up and down move**, one row at a time, and stop at the first and the last row. A list taller than the safe area scrolls, and keeps the focused row in view.
+- **Moving picks nothing.** Going up and down through the list sets no value on the way.
+- **OK picks and closes.** The select shows the new value, and the focus is back on it.
+- **Back closes, and nothing changes.** The value stays as it was, and the focus goes back to the select.
+- **Left and right don't leave the list.** While it is open, the focus stays in it, the way Tab stays inside a dialog.
+
+The list looks like the <C slug="action-menu" />'s menu: its surface, its thin frame and its shadow, square. Its rows are 40 dp high, the height of a row in a menu on a TV, each with a value's name in the monospace face at 14 dp, keeping its case. The picked row has a check before its name, and every row keeps the room of the check, so the names line up. The focused row has the focus of a row: the ring inside its edge, the focused surface and 2% growth.
+
+<DoDont>
+  <Do caption="The list opens on the value that is set: people see it at once, and the next value is one press away.">
+    <TvListPickedDo />
+  </Do>
+  <Dont caption="The list opens on its first row: what is set is further down, and people start from the top every time.">
+    <TvListFirstDont />
+  </Dont>
+</DoDont>
+
+For a <Term id="screen-reader">screen reader</Term>, the select is a button that says it opens a list, and the list is a list box that says which value is picked. The focus moves into the list when it opens, and back to the select when it closes.
+
 ## checks
 
 - Every focusable item uses the one shared focus style.
@@ -82,8 +126,8 @@ The ring always means focus, and only focus. Other marks look different:
 | `--fg` | `#E6E6E6` | The focused item's title |
 | `--fg-2`, `--fg-muted` | `#C9D1D9`, `#AEB8C2` | Text under the title, one step brighter on focus: `fg-muted` becomes `fg-2`, `fg-dim` becomes `fg-muted` |
 | ring width | 3 dp | Every focusable item |
-| ring gap | 2 dp outside | Cards, buttons and chips; rows draw the ring inside, without a gap |
-| growth | 1.05; 1.02 | Cards, buttons and chips; rows |
+| ring gap | 2 dp outside | Cards, buttons and chips; rows, fields and selects draw the ring inside, without a gap |
+| growth | 1.05; 1.02 | Cards, buttons and chips; rows, fields and selects |
 | timing | 150 ms, ease-out | None when animations are off |
 | left-edge bar | 4 dp, `--cloud-blue` | “Where you came from” |
 | room | 12 dp | Between cards, buttons and chips |
@@ -92,3 +136,19 @@ The ring always means focus, and only focus. Other marks look different:
 - **Units.** dp are the TV's layout units: a TV screen is 960 × 540 dp. On a 1920 × 1080 screen drawn by a web browser, as in TV web apps, 1 dp is 2 CSS px. The pictures on this page draw 1 dp as 1 px.
 - **Contrast, tested.** The ring: 6.70:1 on `bg`, 6.34:1 on `surface`, 6.02:1 on `surface-2`, 4.54:1 on `surface-focus`. Text on `surface-focus`: `fg` 10.41:1, `fg-2` 8.42:1, `fg-muted` 6.46:1. `fg-dim`, at 3.49:1, never sits on it.
 - **Android TV.** One shared focus modifier, or one set of tv-material defaults for border, scale and colours set in the theme. No screen passes focus colours of its own.
+- **Fields and selects.** Focused: the 3 dp ring inside the edge replaces the 1px `--border-control` border, the fill turns from `--bg-2` to `--surface-focus`, and the box grows by 1.02. The value is `--fg`; a placeholder turns from `--fg-dim` to `--fg-muted`, so nothing in `--fg-dim` sits on the focused surface.
+
+### choosing on a tv
+
+| part | value |
+| --- | --- |
+| List | `--surface`, a 1px `--border-2` frame and the action menu's shadow, square; 4 dp under the select, the gap the action menu leaves under its trigger, or above it where there is no room below; inside the safe area, and never taller than it |
+| Rows | 40 dp, a check's room before each name; names in the monospace face at 14 dp |
+| Picked | A check before the name, in `--fg` |
+| Focused | The row's focus: the ring inside, `--surface-focus`, 1.02 |
+| The page behind | Dimmed while the list is open |
+
+- **Planned.** Today the design system has no component for it; the product draws the list.
+- **Keys.** They follow the select-only combobox of the [WAI-ARIA authoring practices](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/), with OK for Enter and back for Escape: up and down move without wrapping, OK sets the value and closes, back closes and keeps the value. Microsoft's [guidance for remotes](https://learn.microsoft.com/en-us/windows/apps/design/input/gamepad-and-remote-interactions) maps Enter to the select button and Escape to back in the same way.
+- **Roles.** The select: `aria-haspopup="listbox"` and `aria-expanded`. The list: `role="listbox"`, its rows `role="option"`, the picked one `aria-selected="true"`. The focus moves to the focused row.
+- **Why the product draws it.** Apple's guidelines list pop-up buttons, the control a select is, as [not supported in tvOS](https://developer.apple.com/design/human-interface-guidelines/pop-up-buttons). In Microsoft's [guidance for Xbox and TV](https://learn.microsoft.com/en-us/windows/apps/design/devices/designing-for-tv), a list that opens stays inside the safe area, and its [guidance for remotes](https://learn.microsoft.com/en-us/windows/apps/design/input/gamepad-and-remote-interactions) dims the page behind a pop-up.

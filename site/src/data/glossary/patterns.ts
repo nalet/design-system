@@ -80,7 +80,7 @@ export const PATTERN_TERMS: Record<string, GlossaryEntry> = {
   },
   rail: {
     term: 'rail',
-    explanation: 'A narrow column of icons down the left edge of the screen, one for each view: on a phone held sideways, and on a TV, where it opens to show their names once the focus moves into it.',
+    explanation: 'A narrow column of icons down the left edge of the screen, one for each view of a product: on a wide screen under the product’s mark, on a phone held sideways, and on a TV, where it opens to show their names once the focus moves into it.',
   },
   'touch-area': {
     term: 'touch area',
@@ -105,5 +105,9 @@ export const PATTERN_TERMS: Record<string, GlossaryEntry> = {
   'progress-bar': {
     term: 'progress bar',
     explanation: 'A bar that fills as work gets done, with how far it has come in words under it.',
+  },
+  space: {
+    term: 'space',
+    explanation: 'One part of the portal’s home page: a page with the tiles of one kind of work, such as apps, manage or settings. A bar under the top bar lists the spaces; each has its own address.',
   },
 };

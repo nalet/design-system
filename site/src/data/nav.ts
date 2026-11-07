@@ -110,8 +110,9 @@ export const SECTIONS: NavSection[] = [
         pages: [
           { title: 'top bar', href: url('patterns/top-bar/'), summary: 'The bar across the top of every screen: where you are, the one search, what is new for you, and your account.' },
           { title: 'app navigation', href: url('patterns/app-navigation/'), summary: "Side navigation for an app's views, and when tabs are the better fit." },
-          { title: 'consumer navigation', href: url('patterns/consumer-navigation/'), summary: 'Up to five views in a product for consumers: words in the top bar, a tab bar of icons on a phone, and a rail when it is turned and on a TV.', draft: true },
+          { title: 'consumer navigation', href: url('patterns/consumer-navigation/'), summary: 'Up to five views in a product for consumers, as icons: one rail down the left edge on a wide screen, a phone held sideways and a TV, and a tab bar on a phone held upright.', draft: true },
           { title: 'home & tiles', href: url('patterns/home-and-tiles/'), summary: 'The home page: one page of tiles in a few fixed groups, found with the search in the top bar, and when something gets a tile.' },
+          { title: 'spaces', href: url('patterns/spaces/'), summary: 'The home page in a few spaces: a bar of them under the top bar, each space a page of tiles for one kind of work, with its own address, all found by the one search.', draft: true },
           { title: 'settings and setup', href: url('patterns/settings-and-setup/'), summary: 'Where each kind of setting lives, and the one place it is changed.' },
         ],
       },

@@ -1,10 +1,10 @@
-// storyboard drawings for consumer navigation: a product's few views as words
-// in the top bar on a wide screen, as a tab bar of icons at the foot of a
-// phone, as a rail down the left edge when the phone is turned, and as a rail
-// on a TV that shows the names once the focus moves into it. the views' icons
-// are drawn plainly, because this page is about icons people name the same way.
+// storyboard drawings for consumer navigation: a product's few views as icons
+// alone, in one rail down the left edge on a wide screen, on a phone held
+// sideways and on a TV, where it shows the names once the focus moves into it,
+// and in a tab bar at the foot of a phone held upright. the views' icons are
+// drawn plainly, because this page is about icons people name the same way.
 import type { ReactNode } from 'react';
-import { Arrow, Bell, Callout, Chevron, Line, Marker, Pointer, SearchField, SearchIcon, Sketch, Word } from './kit';
+import { Arrow, Bell, Callout, Chevron, Cursor, Line, Marker, Pointer, SearchField, SearchIcon, Sketch, Word } from './kit';
 
 type IconKind = 'home' | 'films' | 'series' | 'watchlist' | 'downloads' | 'settings' | 'sparkle' | 'compass';
 
@@ -17,26 +17,31 @@ const r2 = (v: number) => Math.round(v * 100) / 100;
 
 /* ---- the parts ---------------------------------------------------------------- */
 
-/** a view's icon on a square of side s: a house, a film strip, a television, a bookmark, an arrow into a tray, a gear; and a sparkle and a compass, which people name in different ways. */
-function ViewIcon({ kind, x, y, s = 9, current }: { kind: IconKind; x: number; y: number; s?: number; current?: boolean }) {
+/**
+ * a view's icon on a square of side s: a house, a film strip, a television, a bookmark, an arrow into a tray, a gear;
+ * and a sparkle and a compass, which people name in different ways. `bright`: under the pointer, in the brightest text colour.
+ */
+function ViewIcon({ kind, x, y, s = 9, current, bright }: { kind: IconKind; x: number; y: number; s?: number; current?: boolean; bright?: boolean }) {
   const p = (fx: number, fy: number) => `${r2(x + fx * s)} ${r2(y + fy * s)}`;
   const cls = current ? 'sk-icon sk-icon--accent' : 'sk-icon';
+  const style = bright && !current ? { stroke: 'var(--fg)' } : undefined;
   switch (kind) {
     case 'home':
-      return <path className={cls} d={`M${p(0, 0.46)} L${p(0.5, 0)} L${p(1, 0.46)} M${p(0.14, 0.33)} L${p(0.14, 1)} L${p(0.86, 1)} L${p(0.86, 0.33)} M${p(0.4, 1)} L${p(0.4, 0.64)} L${p(0.6, 0.64)} L${p(0.6, 1)}`} />;
+      return <path className={cls} style={style} d={`M${p(0, 0.46)} L${p(0.5, 0)} L${p(1, 0.46)} M${p(0.14, 0.33)} L${p(0.14, 1)} L${p(0.86, 1)} L${p(0.86, 0.33)} M${p(0.4, 1)} L${p(0.4, 0.64)} L${p(0.6, 0.64)} L${p(0.6, 1)}`} />;
     case 'films':
       return (
         <path
           className={cls}
+          style={style}
           d={`M${p(0, 0)} L${p(1, 0)} L${p(1, 1)} L${p(0, 1)} Z M${p(0.27, 0)} L${p(0.27, 1)} M${p(0.73, 0)} L${p(0.73, 1)} M${p(0, 0.5)} L${p(1, 0.5)} M${p(0, 0.25)} L${p(0.27, 0.25)} M${p(0, 0.75)} L${p(0.27, 0.75)} M${p(0.73, 0.25)} L${p(1, 0.25)} M${p(0.73, 0.75)} L${p(1, 0.75)}`}
         />
       );
     case 'series':
-      return <path className={cls} d={`M${p(0, 0.3)} L${p(1, 0.3)} L${p(1, 1)} L${p(0, 1)} Z M${p(0.28, 0)} L${p(0.5, 0.28)} L${p(0.72, 0)}`} />;
+      return <path className={cls} style={style} d={`M${p(0, 0.3)} L${p(1, 0.3)} L${p(1, 1)} L${p(0, 1)} Z M${p(0.28, 0)} L${p(0.5, 0.28)} L${p(0.72, 0)}`} />;
     case 'watchlist':
-      return <path className={cls} d={`M${p(0.2, 0)} L${p(0.8, 0)} L${p(0.8, 1)} L${p(0.5, 0.72)} L${p(0.2, 1)} Z`} />;
+      return <path className={cls} style={style} d={`M${p(0.2, 0)} L${p(0.8, 0)} L${p(0.8, 1)} L${p(0.5, 0.72)} L${p(0.2, 1)} Z`} />;
     case 'downloads':
-      return <path className={cls} d={`M${p(0.5, 0)} L${p(0.5, 0.66)} M${p(0.22, 0.4)} L${p(0.5, 0.68)} L${p(0.78, 0.4)} M${p(0, 0.6)} L${p(0, 1)} L${p(1, 1)} L${p(1, 0.6)}`} />;
+      return <path className={cls} style={style} d={`M${p(0.5, 0)} L${p(0.5, 0.66)} M${p(0.22, 0.4)} L${p(0.5, 0.68)} L${p(0.78, 0.4)} M${p(0, 0.6)} L${p(0, 1)} L${p(1, 1)} L${p(1, 0.6)}`} />;
     case 'settings': {
       const cx = x + s / 2;
       const cy = y + s / 2;
@@ -53,7 +58,7 @@ function ViewIcon({ kind, x, y, s = 9, current }: { kind: IconKind; x: number; y
         }
       }
       return (
-        <g className={cls}>
+        <g className={cls} style={style}>
           <path d={`M${pts.join(' L')} Z`} />
           {s >= 7 ? <circle cx={r2(cx)} cy={r2(cy)} r={r2(0.15 * s)} /> : null}
         </g>
@@ -179,6 +184,114 @@ function SideRail({ x, y, w, h, current, s = 9, top = 8 }: { x: number; y: numbe
   );
 }
 
+/**
+ * the rail on a wide screen, under the bar: the views as icons alone, each in a square, and settings at the foot.
+ * drawn to the rail's own proportions, k units a pixel: squares of 48 in a rail 80 wide, 8 apart, 16 from the bar
+ * and from the foot, icons of 24 (or `icon`, where a small drawing needs them larger). the current view is blue on
+ * a lighter square, with a bar on its left edge; `hover` rests the pointer on a view, whose square lightens and whose
+ * icon brightens. `colour={false}`: as someone sees it who can't tell the blue from the grey.
+ */
+function WideRail({
+  x,
+  y,
+  h,
+  k,
+  current,
+  hover,
+  icon,
+  bar = 2,
+  colour = true,
+}: {
+  x: number;
+  y: number;
+  h: number;
+  k: number;
+  current?: number | 'settings';
+  hover?: number;
+  icon?: number;
+  bar?: number;
+  colour?: boolean;
+}) {
+  const w = 80 * k;
+  const sq = 48 * k;
+  const s = icon ?? 24 * k;
+  const step = 56 * k;
+  const top = 16 * k;
+  const sx = x + (w - sq) / 2;
+  const item = (kind: IconKind, iy: number, on: boolean, under: boolean) => (
+    <g key={kind}>
+      {on || under ? <rect className="sk-card--hover" x={r2(sx)} y={r2(iy)} width={r2(sq)} height={r2(sq)} /> : null}
+      {on ? <rect className={colour ? 'sk-fill-info' : 'sk-text sk-text--strong'} x={r2(sx)} y={r2(iy)} width={bar} height={r2(sq)} /> : null}
+      <ViewIcon kind={kind} x={r2(sx + (sq - s) / 2)} y={r2(iy + (sq - s) / 2)} s={r2(s)} current={on && colour} bright={under} />
+    </g>
+  );
+  return (
+    <g>
+      <rect className="sk-side" x={x} y={y} width={r2(w)} height={r2(h)} />
+      {VIEWS.map((v, i) => item(v, y + top + i * step, current === i, hover === i))}
+      {item('settings', y + h - top - sq, current === 'settings', false)}
+    </g>
+  );
+}
+
+/** the product's mark: the chevron and the first letter of the product's name, the letter drawn as a short bar, centred on (cx, cy). */
+function Mark({ cx, cy, s = 7 }: { cx: number; cy: number; s?: number }) {
+  const lw = s * 0.75;
+  const gap = s * 0.3;
+  const x0 = cx - (s / 2 + gap + lw) / 2;
+  return (
+    <g>
+      <Chevron x={r2(x0)} y={r2(cy - s / 2)} s={s} />
+      <rect className="sk-text sk-text--strong" x={r2(x0 + s / 2 + gap)} y={r2(cy - s * 0.3)} width={r2(lw)} height={r2(s * 0.6)} />
+    </g>
+  );
+}
+
+/**
+ * a wide screen's top bar over the rail: the product's mark in the first cell, as wide as the rail, then, at the
+ * end, the search field just before the bell, and the avatar, where the shell puts them.
+ */
+function RailBar({
+  x,
+  y,
+  w,
+  h,
+  rail,
+  field,
+  fieldH,
+  mark = 7,
+  bell = 1,
+  avatar = 12,
+}: {
+  x: number;
+  y: number;
+  w: number;
+  h: number;
+  rail: number;
+  field: number;
+  fieldH?: number;
+  mark?: number;
+  bell?: number;
+  avatar?: number;
+}) {
+  const right = x + w;
+  const ax = right - 6 - avatar;
+  const bx = ax - 6 - 10 * bell;
+  const fx = bx - 8 - field;
+  const fh = fieldH ?? Math.min(12, h - 5);
+  return (
+    <g>
+      <rect className="sk-bar" x={x} y={y} width={w} height={h} />
+      <line className="sk-rule" x1={x} x2={right} y1={y + h} y2={y + h} />
+      <line className="sk-rule" x1={x + rail} x2={x + rail} y1={y} y2={y + h} />
+      <Mark cx={r2(x + rail / 2)} cy={r2(y + h / 2)} s={mark} />
+      <SearchField x={r2(fx)} y={r2(y + (h - fh) / 2)} w={field} h={fh} />
+      <SmallBell x={r2(bx)} y={r2(y + (h - 9 * bell) / 2)} k={bell} />
+      <Avatar x={r2(ax)} y={r2(y + (h - avatar) / 2)} s={avatar} />
+    </g>
+  );
+}
+
 /** the views as words in a wide top bar, after the name; the current one brighter, with a blue line under it. */
 function ViewWords({ x, y, current, gap = 12, barBottom }: { x: number; y: number; current?: number; gap?: number; barBottom: number }) {
   let at = x;
@@ -216,25 +329,18 @@ function Posters({ x, y, n, w = 16, gap = 5, fresh }: { x: number; y: number; n:
 
 function TinyWide({ x, y }: { x: number; y: number }) {
   const w = 128;
+  const h = 82;
+  const bar = 11;
+  const rail = 14;
+  const page = x + rail + 5;
   return (
     <g>
-      <rect className="sk-screen" x={x} y={y} width={w} height={82} />
-      <rect className="sk-bar" x={x} y={y} width={w} height={12} />
-      <line className="sk-rule" x1={x} x2={x + w} y1={y + 12} y2={y + 12} />
-      <Chevron x={x + 5} y={y + 3.5} s={5} />
-      <Line x={x + 12} y={y + 4} w={12} strong />
-      {[0, 1, 2, 3].map((i) => (
-        <g key={i}>
-          <Line x={x + 30 + i * 12} y={y + 4} w={8} strong={i === 1} />
-          {i === 1 ? <rect className="sk-fill-info" x={x + 30 + i * 12} y={y + 10.5} width={8} height={1.5} /> : null}
-        </g>
-      ))}
-      <SearchField x={x + 78} y={y + 2.5} w={24} h={7} />
-      <SmallBell x={x + 106} y={y + 2.5} k={0.6} />
-      <Avatar x={x + 117} y={y + 2.5} s={7} />
-      <rect className="sk-box" x={x + 5} y={y + 17} width={w - 10} height={24} />
-      <Line x={x + 5} y={y + 46} w={26} strong />
-      <Posters x={x + 5} y={y + 53} n={5} w={16} gap={9.5} />
+      <rect className="sk-screen" x={x} y={y} width={w} height={h} />
+      <rect className="sk-box" x={page} y={y + bar + 5} width={x + w - 5 - page} height={22} />
+      <Line x={page} y={y + bar + 32} w={22} strong />
+      <Posters x={page} y={y + bar + 40} n={5} w={14} gap={r2((x + w - 5 - page - 70) / 4)} />
+      <RailBar x={x} y={y} w={w} h={bar} rail={rail} field={28} fieldH={6} mark={4.4} bell={0.6} avatar={7} />
+      <WideRail x={x} y={y + bar} h={h - bar} k={rail / 80} current={1} icon={4.6} bar={1.2} />
     </g>
   );
 }
@@ -286,7 +392,7 @@ export function ConsumerNavOverview() {
     <Sketch
       w={480}
       h={140}
-      label="One product for watching films on four screens. On a wide screen, the views are words in the top bar, films current with a blue line under it. On a phone held upright, they are a tab bar of five icons at the foot, films blue with a bar on its edge. Held sideways, the same icons run down the left edge as a rail. On a TV, a rail down the left edge holds the avatar, the search, the views, the bell and settings, inside a dashed safe area."
+      label="One product for watching films on four screens, with films as the current view. On a wide screen, the views are a rail of icons down the left edge, under the product's mark in the top bar's first cell, films blue on a lighter square with a bar on its edge, and a gear at the rail's foot; the bar holds the search, the bell and the avatar. On a phone held upright, the views are a tab bar of five icons at the foot, films blue with a bar on its edge. Held sideways, the same icons run down the left edge as a rail. On a TV, a rail down the left edge holds the avatar, the search, the views, the bell and settings, inside a dashed safe area."
     >
       <Word x={1} y={9} size="xs" tone="dim" mono={false}>
         On a wide screen
@@ -320,7 +426,7 @@ export function TwoKinds() {
     <Sketch
       w={480}
       h={170}
-      label="Two screens under the same top bar. On the left, an app inside the portal: its name, downloads, after the product's name, and its views listed down the left side in three groups, the first one current. On the right, a product for consumers: its four views in the bar itself, after the product's name, films current with a blue line under it, and the page with its posters taking the whole width."
+      label="Two screens under the same top bar, with the search, the bell and the avatar in the same places. On the left, an app inside the portal: its name, downloads, after the product's name, and its views listed down the left side with their names, in three groups, the first one current. On the right, a product for consumers: the product's mark in the bar's first cell, over a rail of four icons, home, films, series and watchlist, with films current, blue on a lighter square with a bar on its edge, and a gear at the rail's foot; the page with its posters takes the rest of the width."
     >
       <Word x={1} y={9} size="xs" tone="dim" mono={false}>
         An app inside the portal
@@ -365,22 +471,11 @@ export function TwoKinds() {
         A product for consumers
       </Word>
       <rect className="sk-screen" x={245} y={16} width={234} height={152} />
-      <rect className="sk-bar" x={245} y={16} width={234} height={16} />
-      <line className="sk-rule" x1={245} x2={479} y1={32} y2={32} />
-      <Chevron x={252} y={20.5} s={7} />
-      <Line x={263} y={22} w={26} strong />
-      {[0, 1, 2, 3].map((i) => (
-        <g key={i}>
-          <Line x={298 + i * 21} y={22} w={15} strong={i === 1} />
-          {i === 1 ? <rect className="sk-fill-info" x={298 + i * 21} y={30} width={15} height={2} /> : null}
-        </g>
-      ))}
-      <SearchField x={381} y={19.5} w={60} h={9} />
-      <SmallBell x={446} y={19.5} k={0.85} />
-      <Avatar x={462} y={18} />
-      <rect className="sk-box" x={254} y={40} width={216} height={50} />
-      <Line x={254} y={98} w={46} strong />
-      <Posters x={254} y={108} n={9} w={20} gap={4.5} />
+      <rect className="sk-box" x={276} y={40} width={194} height={50} />
+      <Line x={276} y={98} w={46} strong />
+      <Posters x={276} y={108} n={8} w={20} gap={4.86} />
+      <RailBar x={245} y={16} w={234} h={16} rail={22} field={50} fieldH={9} mark={7} bell={0.85} avatar={12} />
+      <WideRail x={245} y={32} h={136} k={22 / 80} current={1} />
     </Sketch>
   );
 }
@@ -388,30 +483,113 @@ export function TwoKinds() {
 /* ---- on a wide screen ---------------------------------------------------------------- */
 
 export function WideAnatomy() {
-  const y = 30;
+  // a screen of 1280 × 800, drawn at 0.3 units a pixel: the rail 80 wide, its squares 48, its icons 24.
+  const k = 0.3;
+  const x = 56;
+  const y = 26;
+  const w = 1280 * k;
+  const h = 800 * k;
+  const bar = 17;
+  const rail = 80 * k;
+  const page = x + rail + 8;
+  const pw = x + w - 8 - page;
+  // where the rail puts its items: 16 under the bar, then one every 56.
+  const at = (i: number) => y + bar + 16 * k + i * 56 * k;
+  const sq = 48 * k;
+  const sqx = x + (rail - sq) / 2;
+  const tipX = 69;
+  const tipY = r2(at(3) + 8);
   return (
     <Sketch
       w={480}
-      h={88}
-      label="The top bar of a product for consumers, close up: 1 the product's name, led by the chevron; 2 the views as words, home, films, series and watchlist; 3 films, the current view, brighter, with a blue line under it; 4 the search, the bell and the user menu, as the shell has them."
+      h={272}
+      label="A wide screen, close up, with films as the current view: 1 the product's mark, the chevron and the first letter of its name, in the top bar's first cell, over the rail and as wide as it; 2 the rail down the left edge, the views as icons alone, a house, a film strip, a television and a bookmark; 3 films, the current view, blue on a lighter square with a blue bar on its left edge; 4 the pointer resting on watchlist, whose square lightens while the browser shows its name, watchlist, in a small box under the pointer; 5 settings, a gear, at the rail's foot; 6 the search, the bell and the avatar at the end of the bar, as the shell has them. The page takes the rest, beside the rail and under the bar."
     >
-      <rect className="sk-bar" x={8} y={y} width={464} height={24} />
-      <line className="sk-rule" x1={8} x2={472} y1={y + 24} y2={y + 24} />
-      <Chevron x={18} y={y + 8.5} s={7} />
-      <Line x={30} y={y + 10} w={36} strong />
-      <ViewWords x={86} y={y + 15} current={1} barBottom={y + 24} />
-      <SearchField x={300} y={y + 6} w={110} />
-      <Bell x={422} y={y + 7} />
-      <Avatar x={446} y={y + 6} />
-      <Callout x={48} y={12} n={1} />
-      <Pointer x1={48} y1={18} x2={48} y2={y + 9} />
-      <Callout x={190} y={12} n={2} />
-      <Pointer x1={190} y1={18} x2={190} y2={y + 7} />
-      <Callout x={125} y={76} n={3} />
-      <Pointer x1={125} y1={70} x2={125} y2={y + 24} />
-      <Callout x={427} y={76} n={4} />
-      <Pointer x1={427} y1={70} x2={427} y2={y + 17} />
+      <rect className="sk-screen" x={x} y={y} width={w} height={h} />
+      <rect className="sk-box" x={page} y={y + bar + 8} width={r2(pw)} height={78} />
+      <Line x={page} y={y + bar + 94} w={60} strong />
+      <Posters x={page} y={y + bar + 104} n={9} w={30} gap={r2((pw - 270) / 8)} />
+      <Line x={page} y={y + bar + 159} w={50} strong />
+      <Posters x={page} y={y + bar + 169} n={9} w={30} gap={r2((pw - 270) / 8)} />
+      <RailBar x={x} y={y} w={w} h={bar} rail={rail} field={116} mark={7} bell={1} avatar={12} />
+      <WideRail x={x} y={y + bar} h={h - bar} k={k} current={1} hover={3} />
+      <Cursor x={tipX} y={tipY} />
+      <rect className="sk-sheet" x={tipX + 3} y={r2(tipY + 12)} width={54} height={11} />
+      <Word x={tipX + 7} y={r2(tipY + 20)} size="xs" tone="strong">
+        watchlist
+      </Word>
+      <Callout x={x + rail / 2} y={12} n={1} />
+      <Pointer x1={x + rail / 2} y1={18} x2={x + rail / 2} y2={y + 4} />
+      <Callout x={34} y={r2(at(0) + sq / 2)} n={2} />
+      <Pointer x1={40} y1={r2(at(0) + sq / 2)} x2={r2(sqx)} y2={r2(at(0) + sq / 2)} />
+      <Callout x={34} y={r2(at(1) + sq / 2)} n={3} />
+      <Pointer x1={40} y1={r2(at(1) + sq / 2)} x2={r2(sqx)} y2={r2(at(1) + sq / 2)} />
+      <Callout x={34} y={r2(tipY + 17.5)} n={4} />
+      <Pointer x1={40} y1={r2(tipY + 17.5)} x2={tipX + 3} y2={r2(tipY + 17.5)} />
+      <Callout x={34} y={r2(y + h - 16 * k - sq / 2)} n={5} />
+      <Pointer x1={40} y1={r2(y + h - 16 * k - sq / 2)} x2={r2(sqx)} y2={r2(y + h - 16 * k - sq / 2)} />
+      <Callout x={411} y={12} n={6} />
+      <Pointer x1={411} y1={18} x2={411} y2={y + 4} />
     </Sketch>
+  );
+}
+
+/** a wide screen, small, with films as the current view: its views in the rail, or as words in the bar. */
+function SmallWide({ rail, label }: { rail: boolean; label: string }) {
+  const x = 10;
+  const y = 5;
+  const w = 280;
+  const h = 140;
+  const bar = 14;
+  const railW = 22;
+  const page = rail ? x + railW + 8 : x + 8;
+  const pw = x + w - 8 - page;
+  const n = rail ? 8 : 9;
+  const gap = 6;
+  const each = r2((pw - (n - 1) * gap) / n);
+  const right = x + w;
+  return (
+    <Sketch w={300} h={150} label={label}>
+      <rect className="sk-screen" x={x} y={y} width={w} height={h} />
+      <rect className="sk-box" x={page} y={y + bar + 7} width={r2(pw)} height={46} />
+      <Line x={page} y={y + bar + 61} w={40} strong />
+      <Posters x={page} y={y + bar + 71} n={n} w={each} gap={gap} />
+      {rail ? (
+        <g>
+          <RailBar x={x} y={y} w={w} h={bar} rail={railW} field={84} fieldH={9} mark={6} bell={0.8} avatar={10} />
+          <WideRail x={x} y={y + bar} h={h - bar} k={railW / 80} current={1} />
+        </g>
+      ) : (
+        <g>
+          <rect className="sk-bar" x={x} y={y} width={w} height={bar} />
+          <line className="sk-rule" x1={x} x2={right} y1={y + bar} y2={y + bar} />
+          <Chevron x={x + 7} y={y + 3.5} s={7} />
+          <Line x={x + 17} y={y + 5} w={26} strong />
+          <ViewWords x={x + 52} y={y + 10} current={1} gap={8} barBottom={y + bar} />
+          <SearchIcon x={right - 46} y={y + 4} s={5.4} />
+          <SmallBell x={right - 30} y={y + 3.4} k={0.8} />
+          <Avatar x={right - 16} y={y + 2} s={10} />
+        </g>
+      )}
+    </Sketch>
+  );
+}
+
+export function RailDo() {
+  return (
+    <SmallWide
+      rail
+      label="A wide screen with the views as icons in a rail down the left edge, films current, blue on a lighter square with a bar on its edge, and a gear at the rail's foot. The bar holds the product's mark over the rail, then the search field, the bell and the avatar at its end."
+    />
+  );
+}
+
+export function WordsInBarDont() {
+  return (
+    <SmallWide
+      rail={false}
+      label="The same screen with the views as words in the bar, home, films, series and watchlist, films underlined in blue, and no rail. The words fill the bar, and the search has folded into an icon beside the bell."
+    />
   );
 }
 

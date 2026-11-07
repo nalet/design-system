@@ -1,0 +1,305 @@
+---
+layout: ../../layouts/Doc.astro
+title: spaces
+description: The portal's home page in a few spaces — a bar of them under the top bar, each space a page with the tiles of one kind of work and an address of its own — and the one search finding tiles in all of them.
+draft: true
+---
+import { Kbd } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
+import { DoDont, Do, Dont } from '@site/blocks';
+import {
+  SpacesOverview, OneKindOrSeveral, AddonJoinsSpaceDo, AddonOwnSpaceDont, SpacesAnatomy, CurrentLineDo, ColourOnlyDont,
+  AddressPerSpace, WhoSeesWhich, HiddenDo, FadedDont, SearchAcrossSpaces, SearchEverySpaceDo, SearchOneSpaceDont,
+  FiveFitDo, SixScrollDont, PhoneUprightAndSideways, WordsAtTheTopDo, IconTabsDont, HomeAndApp, KeysThroughTheBar,
+} from '@site/sketches/spaces';
+
+# spaces
+
+When different people do different kinds of work in a <Term id="portal">portal</Term>, its <Term id="home">home page</Term> comes in a few spaces. A space is a page of <Term id="tile">tiles</Term> for one kind of work: the apps people use every day, the ones for looking after the content, or the platform's settings. A bar under the <Term id="top-bar">top bar</Term> lists the spaces, across the whole width, and the home page opens on the first one.
+
+<figure class="ds-figure">
+  <SpacesOverview />
+  <figcaption>A home page in three spaces, apps, manage and settings, in a bar under the top bar. It opens on apps: the current space, brighter, with a blue line under it. Under the bar come the space's title and its tiles.</figcaption>
+</figure>
+
+The bar of spaces is planned, like the top bar; the drawings on this page show the idea. Inside a space, the tiles and the tile groups are the real components of [home & tiles](/design-system/patterns/home-and-tiles/).
+
+## spaces or one page
+
+[Home & tiles](/design-system/patterns/home-and-tiles/#one-page-in-a-fixed-order) keeps the home page to one page, and names the way to grow: separate pages, once different people need a different start. Spaces are those pages, under one home page and one bar.
+
+- **Use spaces when people do different kinds of work in the portal.** Some only use its apps, some look after what is in them, and a few may change the platform itself. Each kind of work gets a space.
+- **Many people see one space, and no bar.** Someone who only uses the apps may open nothing else, so their home page is one page of tiles, as before; see [hidden spaces](#hidden-spaces-and-no-bar-for-one).
+- **People who do several kinds of work get a page for each**, instead of one long page with all of them.
+
+Splitting a home page into pages has a cost: people have to know which page an app is on. Spaces keep that cost low. Each one is named after a kind of work, so the work people came to do says where its tile is, and the search in the top bar finds a tile in any space.
+
+## what a space is
+
+- **The tiles of one kind of work.** One tile per app, in the space of the people who use it, with the number tiles and task tiles that [home & tiles](/design-system/patterns/home-and-tiles/#when-something-gets-a-tile) allows. Each tile belongs to one space.
+- **One page, with its own address.** Opening a space changes the page under the bar; the top bar and the bar of spaces stay as they are.
+- **In tile groups, when it holds several kinds of tiles.** A space whose tiles are all of one kind shows them under its title, without a group title. A space with several kinds sorts them into <Term id="tile-group">tile groups</Term>, which follow the rules for [groups](/design-system/patterns/home-and-tiles/#groups): a few of them, named after the people who use them and why, in the same order on every visit.
+- **Its title is its name.** The page's title, which on a home page of one page says “home”, is the space's name: the same word as in the bar.
+
+<figure class="ds-figure">
+  <OneKindOrSeveral />
+  <figcaption>Two spaces of one home page. Apps holds tiles of one kind, under its title. Settings holds two kinds, in two tile groups: platform and diagnostics.</figcaption>
+</figure>
+
+## the spaces
+
+- **Up to five**, so that the bar fits a phone held upright; see [up to five](#up-to-five-so-a-phone-fits-them).
+- **In a fixed order, the same for everyone.** The daily work comes first, and the home page opens on it. The platform's settings come last, as setup comes last in an app's [navigation](/design-system/patterns/app-navigation/#anatomy). A space someone may not open is left out, and the others keep their order.
+- **The same names in every installation**, so people who use more than one feel at home, and guides and screenshots stay true.
+- **The platform sets them.** The spaces are among the platform's settings, with the people, the apps and the tiles; see [settings and setup](/design-system/patterns/settings-and-setup/#four-kinds-of-settings).
+- **An <Term id="addon">addon</Term> joins a space.** Its tile, and its number tile if it brings one, go to the space of the people who will use it, and to a group in it when the space has groups. An addon never brings a space of its own.
+
+<DoDont>
+  <Do caption="A new addon's tile joins the end of the manage space, where the people who will use it already work.">
+    <AddonJoinsSpaceDo />
+  </Do>
+  <Dont caption="An addon with a space of its own: the bar grows with every addon, and people need to know where an app came from to find it.">
+    <AddonOwnSpaceDont />
+  </Dont>
+</DoDont>
+
+## the bar
+
+<figure class="ds-figure">
+  <SpacesAnatomy />
+  <figcaption>The top of a home page in spaces, close up.</figcaption>
+</figure>
+
+1. **The top bar**, as on every screen: the product's name, the search, the notifications and the <Term id="user-menu">user menu</Term>.
+2. **The bar of spaces**, right under it, across the whole width, with a thin line along its foot. It stays in view with the top bar while the page scrolls.
+3. **A space**: its name, in monospace and lowercase, a link to its page. The first name lines up with the page's title and tiles.
+4. **The current space** is brighter than the others, with a blue line under it, the way a row of <C slug="tabs" /> marks its selected tab. The line, not only the brighter colour, says which one it is.
+5. **The space's page**: its title, the space's name, and its tiles.
+
+Pressing a space opens its page. The top bar and the bar of spaces stay as they are; only the current mark changes, at once and in place, as the selected tab's underline does (see [motion](/design-system/styles/motion/#what-doesnt-move)).
+
+<DoDont>
+  <Do caption="The current space is brighter and has a blue line under it. Without the colour, the line still shows which one it is.">
+    <CurrentLineDo />
+  </Do>
+  <Dont caption="The current space is marked by its blue alone. Without the colour, nothing shows which one it is.">
+    <ColourOnlyDont />
+  </Dont>
+</DoDont>
+
+## the first space, and an address for each
+
+- **The home page opens on the first space** a person may open. The product's name in the top bar leads there, from every screen.
+- **Every space has its own address**, the first one included, so a link or a bookmark leads straight to it, and a reload or the back button brings people back to it. Going to another space is a step in the browser's history: back returns to the space before.
+- **An address a person can't open**, of a space they may not open or of one that no longer exists, opens the first space instead.
+- **The window's title names the space**, then the product, so the browser's tabs, its history and a bookmark say which space each one is.
+
+<figure class="ds-figure">
+  <AddressPerSpace />
+  <figcaption>The home page's own address opens apps. Pressing manage gives the page manage's address, and a reload brings back manage, as a link or a bookmark to that address does.</figcaption>
+</figure>
+
+## hidden spaces, and no bar for one
+
+People see only the spaces they may use, just as they see only the groups and the tiles they may use.
+
+- **A space with nothing a person may open is hidden.** It isn't faded or locked: it isn't there. The spaces after it close up, in the same order.
+- **Someone who may open only one space sees no bar.** A bar of one offers no choice, and it would take a row from the tiles. Their home page is that space: its title and its tiles, right under the top bar.
+
+<figure class="ds-figure">
+  <WhoSeesWhich />
+  <figcaption>One home page, three people. Someone who may change the platform sees all three spaces, and someone who looks after the content sees two. Someone who only uses the apps sees no bar: their home page is the apps space.</figcaption>
+</figure>
+
+<DoDont>
+  <Do caption="Only the spaces this person may open, apps and manage.">
+    <HiddenDo />
+  </Do>
+  <Dont caption="Settings faded, with a lock: a space this person may not open, which they read past on every visit.">
+    <FadedDont />
+  </Dont>
+</DoDont>
+
+## the search finds tiles in every space
+
+The search in the top bar finds tiles in every space, not only in the one in view, so nobody has to remember which space a tile is in.
+
+- **While the search holds words, the matching tiles of all spaces show in place of the space**, grouped by space: each space's name, with its matching tiles under it, in the spaces' order. A space with nothing that matches steps aside, as an empty group does.
+- **No space is current while the search holds words**, because the page holds tiles from all of them. The bar stays where it is, and pressing a space clears the search and opens that space.
+- **Clearing the search brings back the space people were in.** <Kbd>esc</Kbd> in the search clears it and puts the <Term id="focus">focus</Term> on the space's first tile.
+- **When nothing matches**, the page says what didn't match and how to get back, in the words of [home & tiles](/design-system/patterns/home-and-tiles/#the-words).
+
+<figure class="ds-figure">
+  <SearchAcrossSpaces />
+  <figcaption>Typing “log” in the manage space. The matching tiles of every space take the page's place, under their spaces' names: catalog in manage, logs in settings. Apps has no match, so it steps aside, and no space is current until the search is cleared.</figcaption>
+</figure>
+
+<DoDont>
+  <Do caption="The search finds catalog in manage and logs in settings, each under its space's name.">
+    <SearchEverySpaceDo />
+  </Do>
+  <Dont caption="The search narrows only the space in view: it finds catalog, and leaves out logs, which is in settings.">
+    <SearchOneSpaceDont />
+  </Dont>
+</DoDont>
+
+## up to five, so a phone fits them
+
+On a phone, the spaces share the bar's width, and five of them fit across it with every name whole, each one press away.
+
+- **At 390 pixels**, the width of a phone held upright that every screen works at ([layout](/design-system/foundations/layout/#phone-width)), each of five spaces gets 78 pixels. A name of eight letters, such as “settings”, takes 62 of them in the 13-pixel monospace face, and leaves room on each side.
+- **At 320 pixels**, which is what a 1280-pixel window becomes at 400% zoom, each gets 64, and eight letters still fit, without scrolling sideways. That is why a name has eight letters at most, and the bar five spaces.
+- **A sixth space, or a longer name, no longer fits.** The row would run past the edge, and the last spaces would be out of sight until people scroll it sideways, like the row of tabs in [app navigation](/design-system/patterns/app-navigation/#how-it-behaves).
+
+<DoDont>
+  <Do caption="Five spaces, each one short word, share the phone's width: every name is whole, and each is one press away.">
+    <FiveFitDo />
+  </Do>
+  <Dont caption="Six spaces, one with a long name: the row runs past the edge, and has to be scrolled sideways to reach the last ones.">
+    <SixScrollDont />
+  </Dont>
+</DoDont>
+
+## on a phone
+
+<figure class="ds-figure">
+  <PhoneUprightAndSideways />
+  <figcaption>The same home page on a phone held upright and held sideways, with apps as the current space. Upright, the spaces share the width; sideways, each is as wide as its name, from the left, as on a computer. The tiles take as many columns as fit.</figcaption>
+</figure>
+
+### held upright
+
+- **The same bar, in the same place**: under the top bar, whose search is an icon on a phone ([top bar](/design-system/patterns/top-bar/#search)).
+- **Each space gets an equal share of the width**, at least 48 pixels high: on a touch screen, everything that can be touched answers in 48 ([layout](/design-system/foundations/layout/#on-a-touch-screen)).
+- **The tiles reflow** into fewer, wider columns, one on most phones, as tile groups do ([home & tiles](/design-system/patterns/home-and-tiles/#tile-groups)).
+
+### held sideways
+
+- **The spaces sit at their own width, from the left**, as on a computer: a phone held sideways is wider than five spaces need. They keep the touch height.
+- **The bar stays under the top bar**, and the tiles take more columns.
+- **Turning the phone keeps people's place**: the same space, the search as it was, and the page scrolled where it was.
+
+### words at the top, not a tab bar
+
+On a phone too, the spaces are words at the top, not a <Term id="tab-bar">tab bar</Term> of icons at the foot, as a product for consumers has for its views ([consumer navigation](/design-system/patterns/consumer-navigation/#on-a-phone-held-upright)). Icons stand alone only when everyone names each one the same way, and no icon says manage the way a house says home. And a tab bar stays on every screen of a product, while the spaces belong to the home page.
+
+<DoDont>
+  <Do caption="The spaces as words in the bar under the top bar, sharing the width.">
+    <WordsAtTheTopDo />
+  </Do>
+  <Dont caption="The spaces as a tab bar of icons at the foot: a grid and a wrench don't say apps and manage the way a house says home, and the tab bar would go as soon as an app opens.">
+    <IconTabsDont />
+  </Dont>
+</DoDont>
+
+## a part of the shell, not tabs
+
+The bar of spaces looks like a row of <C slug="tabs" />: names in monospace and lowercase, over a thin line, with a blue line under the current one. But it isn't the tabs component. It belongs to the <Term id="shell">shell</Term>, like the top bar.
+
+- **Tabs switch between the parts of one thing, in place.** They have no addresses, the row is one <Term id="tab-stop">tab stop</Term>, and the arrow keys select as they move. The spaces are pages, each with its own address, so the bar is a row of links in a navigation <Term id="landmark">landmark</Term>, and each space is a tab stop of its own.
+- **It isn't in the top bar.** The top bar only holds what every screen shares ([top bar](/design-system/patterns/top-bar/#what-doesnt-go-in-it)), and the spaces belong to the home page.
+- **It isn't on an app's screens.** An <Term id="app">app</Term> opened from a tile has its own navigation under the top bar ([app navigation](/design-system/patterns/app-navigation/)), and two rows of navigation, one above the other, would compete. The product's name in the top bar, or back, leads to the home page again.
+- **The user menu's settings open the space for settings**, where a portal has one, so the platform's settings are in one place, whichever way people come.
+
+<figure class="ds-figure">
+  <HomeAndApp />
+  <figcaption>Pressing the catalog tile in the manage space opens the catalog app. Under the top bar, the app's own views take the place of the bar of spaces.</figcaption>
+</figure>
+
+| | top bar | bar of spaces | tabs |
+| --- | --- | --- | --- |
+| On which screens | Every screen | The home page | Inside one page |
+| What it holds | The product's name, the search, the notifications and the user menu | The spaces | The parts of one thing |
+| A choice opens | — | A page, with its own address | Another part, in place |
+| The keyboard | <Kbd>tab</Kbd> through its parts | <Kbd>tab</Kbd> through the spaces, one at a time | One tab stop; the arrow keys move and select |
+| For a screen reader | The header landmark | A navigation landmark, “spaces”; the current space is the current page | A tab list; the selected tab is selected |
+
+## what changes in home & tiles
+
+[Home & tiles](/design-system/patterns/home-and-tiles/) is accepted, and this draft doesn't change it. Once spaces are accepted, these parts of it change:
+
+| part of home & tiles | today | with spaces |
+| --- | --- | --- |
+| The opening, and the description | One page of tiles in a few fixed groups | A few spaces in a fixed order, each a page of tiles, in groups when it holds several kinds |
+| One page, in a fixed order | One page for everyone; separate home pages once different people need a different start | The spaces are those pages, under one bar |
+| The page's title | “home” | The space's name, the same word as in the bar |
+| Search finds the tile | The tiles narrow in place | The matching tiles of every space show in place of the space, grouped by space |
+| Groups | Apps, manage and settings are the groups; about four at most | Apps, manage and settings are spaces. Groups are inside a space, about four at most in each, and named after the kinds of work in it |
+| What an addon brings | Its tiles join an existing group | Its tiles join a space, and a group in it when the space has groups |
+| Favourites | A “my apps” group at the top of the home page | At the top of the first space, where the home page opens, holding tiles from any space |
+| Using it with a keyboard | <Kbd>tab</Kbd> reaches the tiles once | The spaces come first, one tab stop each. The tiles stay one stop, and the arrow keys move within the space, or within the search's results |
+| Accessibility | The home page's title is the main heading | The space's name is the main heading, and the bar is a navigation landmark, “spaces” |
+| The words | Group titles such as “apps”, “manage” and “settings” | Those are the spaces' names. A group's title inside a space names one kind of work in it |
+
+The don't under “one page, in a fixed order”, a home page of three pages with a few tiles each, then needs new words, because spaces are pages too. Its reason still holds: people shouldn't have to remember which page an app is on. Spaces answer it with names for kinds of work, hidden spaces, and a search that finds tiles in all of them.
+
+The [top bar](/design-system/patterns/top-bar/) changes in one place: on the home page, its search finds the tiles of every space, rather than narrowing one page. The product's name in it still leads home, which now opens on the first space. [App navigation](/design-system/patterns/app-navigation/) and <C slug="tabs" /> stay as they are; the tabs page may name the bar of spaces among the things to use instead. [Settings and setup](/design-system/patterns/settings-and-setup/) already lists the spaces among the platform's settings.
+
+## using it with a keyboard
+
+<figure class="ds-figure">
+  <KeysThroughTheBar />
+  <figcaption>After the top bar, Tab moves through the spaces one at a time, 1 to 3, then to the tiles, 4, which are one stop together. Here manage has the focus.</figcaption>
+</figure>
+
+| key | what it does |
+| --- | --- |
+| <Kbd>tab</Kbd> | From the top bar to the spaces, one at a time, then on to the tiles. <Kbd>shift</Kbd> <Kbd>tab</Kbd> goes back the same way |
+| <Kbd>enter</Kbd> | Opens the space that has the focus. The focus stays on it, so the next <Kbd>tab</Kbd> goes on along the bar |
+| The arrow keys | Move between the tiles, as on [home & tiles](/design-system/patterns/home-and-tiles/#using-it-with-a-keyboard). In the bar they do nothing: it is a row of links |
+| <Kbd>/</Kbd> | Jumps to the search in the top bar |
+| <Kbd>esc</Kbd>, in the search | Clears the search; the space people were in comes back, and the focus goes to its first tile |
+
+## accessibility
+
+Planned, together with the bar:
+
+- **Landmarks.** The top bar is the page's header landmark, as on every screen. The bar of spaces is a navigation landmark of its own, named “spaces”, between the header and the page's main landmark, so <Term id="screen-reader">screen reader</Term> users can jump to it.
+- **Each space is a link**, named by its word. The current space is marked as the current page, so a screen reader says “manage, current page”. While the search holds words, no space is.
+- **Headings.** The space's name is the page's main heading, and each group's title is a heading under it. While the search holds words, each space's name heads its matching tiles.
+- **The window's title** names the space, so the browser's tabs and history tell the spaces apart.
+- **The focus stays on a space's link** when the space opens, as it stays on a tab.
+- **Contrast.** The grey of the names and the blue of the line are tested at 4.5:1 on every background, like text, above the 3:1 a mark that carries meaning needs (WCAG 1.4.11); see [colour](/design-system/styles/colour/#contrast).
+- **Touch.** On a touch screen, each space is at least 48 by 48 pixels, Android's smallest touch target, and twice WCAG's 24 (2.5.8).
+- **Zoom.** At 400% zoom, five spaces still fit across without scrolling sideways, as WCAG 1.4.10 asks of a page at 320 pixels.
+
+## the words
+
+- **The spaces' names.** One word each, of eight letters at most, lowercase, after the kind of work in the space: “apps”, “manage”, “settings”. The same names, in the same order, in every installation.
+- **No space for the rest.** No “all”, “other”, “misc” or “more”: every tile has a space, and the search finds tiles in all of them.
+- **No counts or badges in the bar.** A number someone must act on is a <Term id="number-tile">number tile</Term> in its space.
+- **The page's title.** The space's name, the same word as in the bar.
+- **The window's title.** The space's name, then the product's name.
+- **The landmark.** Named “spaces”, after what it holds.
+
+## related
+
+- [Home & tiles](/design-system/patterns/home-and-tiles/): the tiles and tile groups inside a space, and the home page of one page that spaces grow from.
+- [Top bar](/design-system/patterns/top-bar/): the bar above the spaces, and its one search.
+- [App navigation](/design-system/patterns/app-navigation/): an app's own views, under the top bar once an app is open.
+- [Consumer navigation](/design-system/patterns/consumer-navigation/): the few views of a product for consumers, and its tab bar on a phone.
+- [Settings and setup](/design-system/patterns/settings-and-setup/): the platform's settings, where the spaces are set.
+- [Layout](/design-system/foundations/layout/#phone-width): the phone's width, and a window zoomed to 400%.
+- <C slug="tabs">Tabs</C>: the parts of one thing, which the bar looks like but isn't.
+
+## specs
+
+Planned. The values the drawings use, and where they come from:
+
+| part | spec |
+| --- | --- |
+| Spaces | Two to five, in the platform's order; with one, no bar. Each named in one word of eight letters at most |
+| Bar | Under the top bar, across the whole width, on the page's background, with the 1px `--border` rule of a row of tabs along its foot. It stays in view with the top bar |
+| Space | A link: JetBrains Mono 500, 13px, lowercase, `--fg-muted`, with 8px 12px of padding, as a tab: 35px high. On a touch screen, at least 48 × 48px, the touch size of [layout](/design-system/foundations/layout/#touch-and-tv-sizes) |
+| Under the pointer | `--fg` |
+| Current space | `--fg`, with a 2px `--cloud-blue` line under it that lies over the bar's rule, as a tab's underline; `aria-current="page"` |
+| Focus | A 2px `--focus-ring` outline inside the link (`outline-offset: -2px`), as on a tab |
+| Width | 600px wide and more: each space as wide as its name and padding, from the left, the first name in line with the page's title. Under 600px: an equal share of the bar's width each, the name centred. 600 is where Android's compact width ends; [consumer navigation](/design-system/patterns/consumer-navigation/#a-phone-stays-a-phone) draws its line there too, on the screen's short side |
+| Fit | Measured in this site's JetBrains Mono: 7.8px a letter at 13px, so eight letters take 62.4px. Five shares are 78px at 390px and 64px at 320px. At 320px, two names of eight letters side by side keep only 1.6px between them, so with five spaces most names should be shorter |
+| Page | The space's name as its `h1`, in the style of the home page's title; its tiles and tile groups as on [home & tiles](/design-system/patterns/home-and-tiles/#specs). A space of one kind lays its tiles out as a tile group without a title; today a tile group always has one |
+| While searching | The matching tiles of every space, under the spaces' names as headings at a group title's level, in the spaces' order; no space has `aria-current` |
+| Motion | The current mark changes at once, in place; the names' colour changes in 120ms `ease`, as a tab's |
+
+- **In code.** A `<nav aria-label="spaces">` with a list of links, after the top bar's `<header>` and before `<main>`. The current space's link has `aria-current="page"`. Every space has its own path; the home page's path opens the first space the person may open, and so does a path they can't open. The document's `<title>` starts with the space's name.
+- **Sources.** WCAG 2.2: 1.4.1 use of colour, 1.4.10 reflow, 1.4.11 non-text contrast, 2.4.2 page titled, 2.5.8 target size. WAI-ARIA 1.2: `aria-current`. Android: window size classes (compact is under 600 dp wide) and touch targets of 48 dp.

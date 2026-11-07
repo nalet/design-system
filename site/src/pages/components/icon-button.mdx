@@ -3,6 +3,8 @@ layout: ../../layouts/Doc.astro
 title: icon button
 description: An icon button is an action shown as an icon alone, with the kinds and sizes of a button. Its label isn't shown, but it is required, because screen readers announce it as the button's name.
 component: icon-button
+draft: true
+draftNote: "On and off, an icon button that holds a state, is new and under review, together with the pointer to it under when to use something else. The rest of the page describes the icon button as it is today."
 ---
 import { Play, Rocket, RotateCw, Square, Terminal } from 'lucide-react';
 import { Button, Code, Icon, IconButton, Kbd } from '@nalet/design-system';
@@ -11,6 +13,7 @@ import Term from '@site/components/Term.astro';
 import MotionFrame from '@site/components/MotionFrame.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Variants, Sizes, States, Toolbar } from '@site/examples/icon-button';
+import { OnOffLook, WhichOneFits, OnBarDo, OnFillDont } from '@site/sketches/component-drafts';
 
 # icon button
 
@@ -29,7 +32,7 @@ An icon button is a <C slug="button" /> that shows only an icon, in the same kin
 ## when to use something else
 
 - **When there is room for a label, or for the main action of the screen.** Use a <C slug="button" /> with a label, and the icon before it if it helps. A word is read faster than an icon is worked out.
-- **For a setting that is on or off.** Use a <C slug="switch" />. The icon button has no pressed look.
+- **For a setting that is on or off.** Use a <C slug="switch" />. The icon button has no pressed look. A state of what is on the screen, such as a saved title, is the planned icon button that is [on and off](#on-and-off).
 - **For more than three or four actions side by side.** Put them in a <C slug="toolbar">toolbar</C>, and let the rest go into an action menu.
 - **For several actions on every row of a table.** Give each row one action menu, and put the actions for several rows in a selection toolbar. [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) shows how.
 - **To go somewhere.** Use a link. A button that changes the page breaks “open in new tab” and the browser's back button.
@@ -70,6 +73,83 @@ In a toolbar, keep the actions quiet, with one emphasized action at most.
 <Example label="icon buttons in a toolbar">
   <Toolbar />
 </Example>
+
+## on and off
+
+Some icon buttons hold a state that people turn on and off where they are: a title saved to a list, a title they like, subtitles shown in a player. A press turns such a button on, and it stays on, and looks on, until the next press. The on look is planned: the package doesn't draw it yet, and the drawings show the idea.
+
+<figure class="ds-figure">
+  <OnOffLook />
+  <figcaption>The same icon button off and on, in the standard and the quiet kind. On, a blue bar runs along its bottom edge, over a faint blue tint.</figcaption>
+</figure>
+
+### when it fits
+
+Three controls go back and forth between two states, and each fits its own case:
+
+| what it is | use | its label | for example |
+| --- | --- | --- | --- |
+| A setting that lasts, in a list or a panel of settings | A <C slug="switch" /> | The setting's name, the same in both states | “Email alerts” |
+| A state of the thing on the screen, changed where people act, where a switch and its words don't fit | An icon button that is on or off | One action for both states, verb first | “save to watchlist”, “like”, “show subtitles” |
+| Two states that need two verbs | An icon button whose label and icon change, with no on look | What the next press does | “play”, then “pause” |
+
+<figure class="ds-figure">
+  <WhichOneFits />
+  <figcaption>A setting is a switch. A state of the thing on the screen is an icon button that is on or off. Two states that need two verbs are one button whose label and icon change with each press.</figcaption>
+</figure>
+
+- **The label stays an action.** It is the action that turns the button on, and it doesn't change when the button does, as <Term id="aria">ARIA</Term>'s guidance for toggle buttons asks. A <Term id="screen-reader">screen reader</Term> adds the state in its own words, such as “pressed”. A label that changed as well would say the state twice, or contradict it: “remove from watchlist”, pressed, says the title is removed while it is saved.
+- **When one verb can't serve both states,** as with play and pause, the button isn't on or off. It says what its next press does, and its icon changes with its label.
+- **Where there is room for words, a setting stays a switch.** An icon button that is on or off is for the places a switch and its label don't fit: a toolbar, a player's controls, the actions of a title.
+
+### the on look
+
+On adds two things to the icon button:
+
+1. **Bar.** A blue bar along the bottom edge, inside the frame: the same mark as the line under the current tab. It is the shape that says on, so the state never rests on colour alone.
+2. **Tint.** The faint blue of a selected row, behind the icon. On its own it is too faint to see; it only backs the bar.
+
+- **The icon stays as it is**, a line drawing like every icon ([iconography](/design-system/styles/iconography/)), in the brightest grey.
+- **Only the standard and the quiet kinds can be on.** The emphasized kind is the next step, and the danger kind deletes something: neither holds a state.
+- **Under the pointer,** an icon button that is on keeps its bar, over the usual hover fill. Keyboard <Term id="focus">focus</Term> is the outline every control shows.
+- **Not a blue fill.** A filled blue icon button is the one <Term id="emphasized-action">emphasized action</Term> of a view, so toggles filled blue would read as more next steps.
+- **On a TV,** the bar stays while the button has focus, and the ring stays the sign of focus alone ([TV focus](/design-system/patterns/tv-focus/#one-meaning-for-the-ring)).
+
+<DoDont>
+  <Do caption="Two toggles on, each with its bar: play is still the only blue button, and the only next step.">
+    <OnBarDo />
+  </Do>
+  <Dont caption="On drawn as a blue fill: next to play, the saved and the liked toggles read as three next steps.">
+    <OnFillDont />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="One label for both states, the action that turns it on. The button tells a screen reader that it is pressed.">
+    <Code>label="save to watchlist"</Code>
+    <Code>aria-pressed="true"</Code>
+  </Do>
+  <Dont caption="A label that turned into the state as well: pressed, it says the title is removed while it is saved.">
+    <Code>label="remove from watchlist"</Code>
+    <Code>aria-pressed="true"</Code>
+  </Dont>
+</DoDont>
+
+### behaviour and accessibility
+
+- A press turns it on or off: a click or a tap, or <Kbd>enter</Kbd> or <Kbd>space</Kbd> on the keyboard. The change applies at once, as a switch's does, and focus stays on the button.
+- If applying the change fails, the button goes back, and the page says why.
+- When the effect shows somewhere else, confirm it with a <C slug="toast" />: “Saved to watchlist”.
+- It is a toggle button: it tells <Term id="assistive-technology">assistive technology</Term> whether it is pressed, and a screen reader announces both states.
+- The bar contrasts 6.85 to 1 with the tint, above the 3 to 1 that <Term id="wcag">WCAG</Term> 1.4.11 asks of a part that shows a state. The tint is 1.05 to 1 against the surface, which is why it never shows the state on its own.
+
+Today: nothing draws the on look. The icon button passes `aria-pressed` on to its button, so a screen reader would hear a state that people who see the screen can't. Until the look is built, use a switch, or a button whose label and icon change.
+
+| state | in code (planned) | looks |
+| --- | --- | --- |
+| Off | `aria-pressed="false"` | The kind as it is, standard or quiet |
+| On | `aria-pressed="true"` | A `--surface-selected` fill, a 2px `--cloud-blue` rule inside the bottom edge, drawn as an inset shadow so the size stays the same, and the icon in `--fg` |
+| On, under the pointer | `aria-pressed="true"` and hover | A `--surface-2` fill and the rule kept; the standard kind's border turns `--cloud-blue`, as on any hover |
 
 ## behaviour
 

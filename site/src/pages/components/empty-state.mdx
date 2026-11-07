@@ -3,12 +3,15 @@ layout: ../../layouts/Doc.astro
 title: empty state
 description: What a list or a panel shows when it has nothing to show. A small drawing and a few words say why, and what people can do next.
 component: empty-state
+draft: true
+draftNote: "Details, under variants and states, are new and under review, together with their line in the specs. The rest of the page describes the empty state as it is today."
 ---
-import { Button, EmptyState } from '@nalet/design-system';
+import { Button, EmptyState, Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { Playground, Kinds, Sizes, WithAction } from '@site/examples/empty-state';
+import { EmptyDetails, DetailsDo, DetailsDont } from '@site/sketches/component-drafts';
 
 # empty state
 
@@ -75,6 +78,31 @@ The actions are buttons: at most one for the <Term id="emphasized-action">emphas
 <Example label="with an action">
   <WithAction />
 </Example>
+
+### details
+
+An empty state that says something went wrong can keep the technical part behind “details”, for the people who fix things: the status and its reason phrase, or the id of the request. It takes the <C slug="banner" />'s own toggle and block: a quiet “details” with a small arrow, and under it the block in <Term id="monospace">monospace</Term>, closed until someone opens it. Details are planned for the empty state: the drawings show the idea.
+
+<figure class="ds-figure">
+  <EmptyDetails />
+  <figcaption>A list that couldn't load. Under try again, details is closed at first; opened, it shows the server's answer in the monospace face.</figcaption>
+</figure>
+
+- **What goes in.** The technical part, as it came: “HTTP 503 Service Unavailable”, “request id 7d1c0e4a”. It never goes into the title or the description; [empty states](/design-system/patterns/empty-states/#specs) says which status means which case.
+- **Only when there is something to show.** A load that got no answer has no status, so it has no details, and no toggle.
+- **Where.** The toggle has a line of its own under the actions, centred like them, and the block opens under the toggle, no wider than the description, its lines starting at the left as code does. In a banner, the toggle follows the actions on their line; in an empty state, that line holds only the ways forward.
+- **Closed until opened.** The details are closed whenever the empty state appears, and nothing reads them out. Once opened, they stay open until the empty state goes.
+- **The way forward first.** The actions come before the toggle in the order of the <Kbd>tab</Kbd> key, so <Term id="focus">focus</Term> reaches the way forward first.
+- **For a screen reader,** the toggle says whether the details are open. Closed details are neither read out nor reachable with the keyboard.
+
+<DoDont>
+  <Do caption="The cause in words, and the server's answer under details." column>
+    <DetailsDo />
+  </Do>
+  <Dont caption="The status as the description: people read a code where they need the cause." column>
+    <DetailsDont />
+  </Dont>
+</DoDont>
 
 ### heading level
 
@@ -173,3 +201,4 @@ Today:
 - **Actions:** `actions`. Centred, 8px apart, wrapping, 16px under the text. Buttons: at most one `variant="primary"`, and an optional second, `variant="default"` or `variant="ghost"`. Nothing enforces a single primary.
 - **Announcing:** none. It is not a live region.
 - **In a data table:** the data table's `empty` prop takes it, and shows it in the table's empty body.
+- **Details (planned):** the banner's `details` and `detailsLabel`. The toggle is the banner's, unchanged: JetBrains Mono 12px in `--fg-muted`, 28px tall, the 10px caret that turns down, `aria-expanded` and `aria-controls`; on a line of its own, 8px under the actions. The block is the banner's too: JetBrains Mono 12px, line-height 1.55, `--fg-muted`, padding 8px 12px, line breaks kept, long ids broken anywhere, `hidden` while closed, 8px under the toggle. Two things differ: the block is at most 46ch wide, like the description, with its text aligned left; and its rule on the left is `--border-2`, the empty state's quiet line, because an empty state has no state colour for it.

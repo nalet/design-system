@@ -3,6 +3,8 @@ layout: ../../layouts/Doc.astro
 title: toast
 description: A short message at the bottom of the screen that confirms an action someone just took. It never takes focus, waits for a pause before a screen reader reads it, and leaves on its own.
 component: toast
+draft: true
+draftNote: "At the top, under variants and states, is new and under review, together with its line in the specs. The rest of the page describes the toast as it is today."
 ---
 import { Toaster, Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
@@ -10,6 +12,7 @@ import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { ToastButton } from '@site/demos/ToastButton';
 import { Playground, States, AtMostThree, ReplaceById } from '@site/examples/toast';
+import { ToastAtTheTop, ToastTopDo, ToastBottomDont } from '@site/sketches/component-drafts';
 
 # toast
 
@@ -69,6 +72,29 @@ An action people repeat can replace its own toast instead of adding another one.
 <Example label="a toast that replaces itself, live">
   <ReplaceById client:visible />
 </Example>
+
+### at the top
+
+Some screens keep their foot for something people use the whole time, such as a video's controls and the subtitles above them. There the toasts appear at the top, in the middle, and nothing else about them changes: the same toast, the same five seconds, three at most, read out the same way. This placement is planned: today the toasts always appear at the bottom.
+
+<figure class="ds-figure">
+  <ToastAtTheTop />
+  <figcaption>Over a video, the toasts at the top, the newest nearest the edge: the subtitles and the controls at the foot stay clear.</figcaption>
+</figure>
+
+- **The screen moves the toaster, not one toast.** A screen whose foot is taken, such as a player that fills the window, moves the toasts to the top while it is open, and back when it closes. In that time every toast shows at the top, so they never split between two places.
+- **The newest nearest the edge.** At the top, the newest toast comes first and the older ones move down. It comes down a few pixels as it fades in, where at the bottom it rises.
+- **Clear of the bars.** 24px below the top edge, as it is 24px above the bottom one, and below a bar that stays at the top, so it never covers that bar's controls. On a TV, the distance from the edge is the <Term id="safe-area">safe area</Term>'s 27 dp, at the top as at the bottom ([TV focus](/design-system/patterns/tv-focus/#movement-and-space)).
+- **Above a bar at the foot.** Where only a bar takes the foot, such as a phone's tab bar, the toasts stay at the bottom, 24px above the bar.
+
+<DoDont>
+  <Do caption="Over a video, the toast at the top: the subtitles and the controls stay in view.">
+    <ToastTopDo />
+  </Do>
+  <Dont caption="At the bottom, the toast covers a line of subtitles for five seconds, right above the controls.">
+    <ToastBottomDont />
+  </Dont>
+</DoDont>
 
 ## behaviour
 
@@ -135,6 +161,7 @@ Today:
 | Glyph | The state's 12px glyph in its colour, `aria-hidden`. |
 | Entrance | Slides up 6px and fades in over 160ms `ease-out`; no animation with reduced motion. No exit animation. |
 | State in words | A visually hidden “warning: ” or “error: ” before the message of a warning or error toast. |
+| At the top (planned) | Set by the screen while it is open, for every toast: fixed at the top centre, 24px below the viewport's top edge, or below a bar that stays at the top; on a TV, 27 dp from either edge. The list puts the newest first, and the entrance slides down 6px. The rest is as at the bottom. |
 
 | setting | in code | what it does |
 | --- | --- | --- |

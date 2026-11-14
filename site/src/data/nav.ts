@@ -108,7 +108,7 @@ export const SECTIONS: NavSection[] = [
       {
         title: 'navigation',
         pages: [
-          { title: 'top bar', href: url('patterns/top-bar/'), summary: 'The bar across the top of every screen: where you are, the one search, what is new for you, and your account.' },
+          { title: 'top bar', href: url('patterns/top-bar/'), summary: 'The bar across the top of every screen: where you are, the one search, what is new for you, and your account.', draft: true },
           { title: 'app navigation', href: url('patterns/app-navigation/'), summary: "Side navigation for an app's views, and when tabs are the better fit." },
           { title: 'consumer navigation', href: url('patterns/consumer-navigation/'), summary: 'Up to five views in a product for consumers, as icons: one rail down the left edge on a wide screen, a phone held sideways and a TV, and a tab bar on a phone held upright.', draft: true },
           { title: 'home & tiles', href: url('patterns/home-and-tiles/'), summary: 'The home page: one page of tiles in a few fixed groups, found with the search in the top bar, and when something gets a tile.' },

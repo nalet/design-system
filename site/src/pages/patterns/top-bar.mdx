@@ -1,10 +1,13 @@
 ---
 layout: ../../layouts/Doc.astro
 title: top bar
+draft: true
+draftNote: "Where the search sits in the bar, under search: before the notifications where the bar starts with names, at the start of the bar over a rail."
 description: The bar across the top of every screen — where you are, the one search, what is new for you, and your account — the same in the portal, in every app and in every product.
 ---
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
+import { Kbd } from '@nalet/design-system';
 import { DoDont, Do, Dont } from '@site/blocks';
 import {
   TopBarOverview, TopBarAnatomy, UserMenuOpen, SearchInTheBar, SearchTwoWays, ConsumerBar, TopBarDo, TopBarDont,
@@ -45,7 +48,7 @@ The menu starts with the person's name and email address, so they can see who is
 
 ## search
 
-There is one search, and it is always in the same place: in the top bar, just before the notifications. It finds apps, and the things inside them that the apps offer to search. Because it never moves, people learn it once and find it on every screen. The search is planned, like the rest of the bar.
+There is one search, and it is always in the top bar. It finds apps, and the things inside them that the apps offer to search. Because it is always there, people learn it once and find it on every screen. The search is planned, like the rest of the bar.
 
 <figure class="ds-figure">
   <SearchInTheBar />
@@ -56,6 +59,21 @@ There is one search, and it is always in the same place: in the top bar, just be
 - **Anywhere else, it shows a short list of results** under the field, with the apps first, so people can open another app from wherever they are.
 - **The / key jumps to it** from anywhere on the screen, except while people are typing in a text field.
 - **On a phone, it is an icon** in the bar. Pressing it opens a field across the whole width.
+
+### where it sits
+
+The frame around the bar decides where the search sits in it, so no screen has to choose:
+
+| the frame | the start of the bar | the search |
+| --- | --- | --- |
+| The portal, and every app inside it | Says where people are: the product's name, then the app's name | Just before the notifications, with the bar's other helpers |
+| A product whose views are in a rail ([consumer navigation](/design-system/patterns/consumer-navigation/)) | Free: the rail says where people are, and the product's mark takes one cell | At the start of the bar, right after the mark |
+| A phone, in either | The product's name | An icon just before the notifications |
+
+- **The start of the bar answers “where am I?” first.** Where names answer it, the search waits at the end. Where a rail answers it, the search takes the start, because finding something is what people came for.
+- **The notifications and the user menu never move.** They are at the end of the bar in every frame, in that order.
+- **It is the same field in both places**: the same look, the same <Kbd>/</Kbd> key, a placeholder that says what it finds.
+- **Never two, and never anywhere else.** A search isn't in the rail on a wide screen, in the page, or in both ends of the bar.
 
 <figure class="ds-figure">
   <SearchTwoWays />

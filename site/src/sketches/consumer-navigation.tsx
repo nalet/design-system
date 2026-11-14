@@ -248,8 +248,8 @@ function Mark({ cx, cy, s = 7 }: { cx: number; cy: number; s?: number }) {
 }
 
 /**
- * a wide screen's top bar over the rail: the product's mark in the first cell, as wide as the rail, then, at the
- * end, the search field just before the bell, and the avatar, where the shell puts them.
+ * a wide screen's top bar over the rail: the product's mark in the first cell, as wide as the rail, then the search
+ * field at the start of the bar, where a rail leaves it free, and at the end the bell and the avatar.
  */
 function RailBar({
   x,
@@ -277,7 +277,7 @@ function RailBar({
   const right = x + w;
   const ax = right - 6 - avatar;
   const bx = ax - 6 - 10 * bell;
-  const fx = bx - 8 - field;
+  const fx = x + rail + 8;
   const fh = fieldH ?? Math.min(12, h - 5);
   return (
     <g>
@@ -426,7 +426,7 @@ export function TwoKinds() {
     <Sketch
       w={480}
       h={170}
-      label="Two screens under the same top bar, with the search, the bell and the avatar in the same places. On the left, an app inside the portal: its name, downloads, after the product's name, and its views listed down the left side with their names, in three groups, the first one current. On the right, a product for consumers: the product's mark in the bar's first cell, over a rail of four icons, home, films, series and watchlist, with films current, blue on a lighter square with a bar on its edge, and a gear at the rail's foot; the page with its posters takes the rest of the width."
+      label="Two screens under the same top bar, with the bell and the avatar in the same places. The search sits just before the bell in the app, and at the start of the bar over the rail. On the left, an app inside the portal: its name, downloads, after the product's name, and its views listed down the left side with their names, in three groups, the first one current. On the right, a product for consumers: the product's mark in the bar's first cell, over a rail of four icons, home, films, series and watchlist, with films current, blue on a lighter square with a bar on its edge, and a gear at the rail's foot; the page with its posters takes the rest of the width."
     >
       <Word x={1} y={9} size="xs" tone="dim" mono={false}>
         An app inside the portal
@@ -503,7 +503,7 @@ export function WideAnatomy() {
     <Sketch
       w={480}
       h={272}
-      label="A wide screen, close up, with films as the current view: 1 the product's mark, the chevron and the first letter of its name, in the top bar's first cell, over the rail and as wide as it; 2 the rail down the left edge, the views as icons alone, a house, a film strip, a television and a bookmark; 3 films, the current view, blue on a lighter square with a blue bar on its left edge; 4 the pointer resting on watchlist, whose square lightens while the browser shows its name, watchlist, in a small box under the pointer; 5 settings, a gear, at the rail's foot; 6 the search, the bell and the avatar at the end of the bar, as the shell has them. The page takes the rest, beside the rail and under the bar."
+      label="A wide screen, close up, with films as the current view: 1 the product's mark, the chevron and the first letter of its name, in the top bar's first cell, over the rail and as wide as it; 2 the rail down the left edge, the views as icons alone, a house, a film strip, a television and a bookmark; 3 films, the current view, blue on a lighter square with a blue bar on its left edge; 4 the pointer resting on watchlist, whose square lightens while the browser shows its name, watchlist, in a small box under the pointer; 5 settings, a gear, at the rail's foot; 6 the search field at the start of the bar, right after the mark; 7 the bell and the avatar at the end of the bar, as the shell has them. The page takes the rest, beside the rail and under the bar."
     >
       <rect className="sk-screen" x={x} y={y} width={w} height={h} />
       <rect className="sk-box" x={page} y={y + bar + 8} width={r2(pw)} height={78} />
@@ -528,7 +528,9 @@ export function WideAnatomy() {
       <Pointer x1={40} y1={r2(tipY + 17.5)} x2={tipX + 3} y2={r2(tipY + 17.5)} />
       <Callout x={34} y={r2(y + h - 16 * k - sq / 2)} n={5} />
       <Pointer x1={40} y1={r2(y + h - 16 * k - sq / 2)} x2={r2(sqx)} y2={r2(y + h - 16 * k - sq / 2)} />
-      <Callout x={411} y={12} n={6} />
+      <Callout x={x + rail + 28} y={12} n={6} />
+      <Pointer x1={x + rail + 28} y1={18} x2={x + rail + 28} y2={y + 4} />
+      <Callout x={411} y={12} n={7} />
       <Pointer x1={411} y1={18} x2={411} y2={y + 4} />
     </Sketch>
   );
@@ -579,7 +581,7 @@ export function RailDo() {
   return (
     <SmallWide
       rail
-      label="A wide screen with the views as icons in a rail down the left edge, films current, blue on a lighter square with a bar on its edge, and a gear at the rail's foot. The bar holds the product's mark over the rail, then the search field, the bell and the avatar at its end."
+      label="A wide screen with the views as icons in a rail down the left edge, films current, blue on a lighter square with a bar on its edge, and a gear at the rail's foot. The bar holds the product's mark over the rail, then the search field at its start, and the bell and the avatar at its end."
     />
   );
 }

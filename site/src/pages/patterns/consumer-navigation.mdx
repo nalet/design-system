@@ -57,7 +57,7 @@ The three navigation pages fit together like this:
 
 <figure class="ds-figure">
   <TwoKinds />
-  <figcaption>The same top bar, with the search, the bell and the user menu in the same places, over two kinds of navigation. An app inside the portal lists its views down the side, with their names, in groups. A product for consumers shows its few views as icons in a rail, under its mark, with settings at the rail's foot.</figcaption>
+  <figcaption>The same top bar, with the bell and the user menu in the same places, over two kinds of navigation. The search sits just before the bell where the bar starts with names, and leads the bar where a rail leaves its start free. An app inside the portal lists its views down the side, with their names, in groups. A product for consumers shows its few views as icons in a rail, under its mark, with settings at the rail's foot.</figcaption>
 </figure>
 
 | | an app inside the portal | a product for consumers |
@@ -76,15 +76,16 @@ A tab bar is not a row of <C slug="tabs" />: tabs switch between the parts of on
 
 ## where it differs from the top bar and app navigation
 
-Until this page is accepted, the [top bar](/design-system/patterns/top-bar/) page says otherwise in three places:
+Until this page is accepted, the [top bar](/design-system/patterns/top-bar/) page says otherwise in four places:
 
 - **Its rule for a product for consumers** ([the same everywhere](/design-system/patterns/top-bar/#the-same-everywhere)) says that “a product for consumers can keep its own main navigation in the bar, such as home, films and series”, and draws them as words between the product's name and the bell. This page takes the views out of the bar. On a wide screen they are icons in a rail, and the bar holds only what the shell puts there: the search, the notifications and the user menu.
 - **Its first part** is the product's name, led by the chevron. Over a rail, it is the product's mark, the chevron and the first letter of the name, in a cell as wide as the rail. It still leads home, and it is still named after the product.
 - **Its user menu** holds settings, and still does: a product with a rail also puts them at the rail's foot on a wide screen and on a TV.
+- **Its search** sat “always in the same place: in the top bar, just before the notifications”. It is still always in the top bar, and its place there now follows the frame: just before the notifications where the bar starts with names, at the start of the bar over a rail. The top bar page has this rule as a draft; see [where it sits](/design-system/patterns/top-bar/#where-it-sits).
 
 [App navigation](/design-system/patterns/app-navigation/) is for apps, and stays as it is: it says nothing about a product for consumers.
 
-Once this page is accepted, the top bar's line would read: “A product for consumers shows its few views as icons in a rail down the left edge, with its mark over the rail at the start of the bar. The search, the notifications and the user menu stay where the shell puts them, and look the way the shell draws them; see consumer navigation.” Its drawing of a bar with home, films and series would show the rail instead, and its user menu would say that a product with a rail keeps settings at the rail's foot. App navigation would send a product for consumers to this page, and its side navigation, where a medium-sized screen shrinks it to its icons, could take the rail's sizes and its tooltips, so the two columns of icons look alike.
+Once this page is accepted, the top bar's line would read: “A product for consumers shows its few views as icons in a rail down the left edge, with its mark over the rail at the start of the bar, and the search right after it. The notifications and the user menu stay where the shell puts them, and look the way the shell draws them; see consumer navigation.” Its drawing of a bar with home, films and series would show the rail instead, and its user menu would say that a product with a rail keeps settings at the rail's foot. App navigation would send a product for consumers to this page, and its side navigation, where a medium-sized screen shrinks it to its icons, could take the rail's sizes and its tooltips, so the two columns of icons look alike.
 
 ## the views
 
@@ -144,7 +145,8 @@ On a computer or a tablet, the views run down the left edge in the rail, under t
 3. **The current view**: its icon is the accent blue, on a lighter square, with a blue bar on its left edge. The bar, not only the colour, says which one it is.
 4. **A view's name**, while the pointer rests on it: its square lightens, its icon brightens, and the browser shows the name as its own tooltip.
 5. **Settings**, a gear, at the rail's foot, apart from the views. While settings is open, the gear is the current one.
-6. **The search, the bell and the user menu** stay where the shell puts them, at the end of the bar, and look the way the shell draws them; see [top bar](/design-system/patterns/top-bar/#what-it-holds).
+6. **The search** leads the bar, right after the mark. The rail says where people are, so the start of the bar is free, and finding something to watch is what most visits begin with. In the portal, where the start of the bar holds the product's and the app's name, the search sits just before the bell; see [top bar](/design-system/patterns/top-bar/#where-it-sits). On a phone, both are an icon before the bell.
+7. **The bell and the user menu** stay where the shell puts them, at the end of the bar, and look the way the shell draws them; see [top bar](/design-system/patterns/top-bar/#what-it-holds).
 
 The page takes the rest of the screen, beside the rail and under the bar. The rail and the bar stay in place while the page scrolls.
 
@@ -346,6 +348,7 @@ Planned. The values the drawings use, and where they come from:
 | Views | Up to five, on one level, and settings apart from them. Android: three to five in a navigation bar; Android TV: five or six at most in its navigation drawer, so it never scrolls |
 | Frame | Under 600 dp on the short side: the phone's frame, with the tab bar when the screen is taller than wide and the rail when it is wider. 600 dp or more: the rail under the top bar. A TV: the TV's rail. From Android's window sizes: compact width is under 600 dp (phones held upright), compact height under 480 dp (phones held sideways) |
 | Rail, on a wide screen | 80 wide, from the bar to the foot of the screen: a 48 square with 16 on either side. `--bg-2`, with a 1px `--border` rule on its right edge that runs on up through the bar, beside the mark. Android's navigation rail is 80 dp wide too |
+| The search, on a wide screen | The design system's search field at the start of the bar, after the mark's cell, where the page's content starts. It grows with the bar up to a largest width and never reaches the bell. Its place by the frame: [top bar](/design-system/patterns/top-bar/#where-it-sits) |
 | The product's mark | The bar's first cell, 80 wide and as high as the bar: the chevron at 16, its default size ([brand](/design-system/styles/brand/#specs)), then the first letter of the product's name in the wordmark's face, JetBrains Mono 700, in `--fg-2` |
 | A view in the rail | A 48 × 48 square, the touch area, centred in the rail: the first 16 under the bar, then one every 56, so two squares stand 8 apart, as controls on a touch screen do ([layout](/design-system/foundations/layout/#on-a-touch-screen)). Its icon 24, with the usual 1.75 line, in `--fg-muted` at rest |
 | Under the pointer | The square `--surface-2` and the icon `--fg`, the hover of a quiet button, `variant="ghost"` ([button](/design-system/components/button/#specs)); the browser's own tooltip, from the link's `title` |

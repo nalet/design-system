@@ -80,26 +80,6 @@ function Bar({
   );
 }
 
-export function TopBarOverview() {
-  return (
-    <Sketch h={150} label="An app inside the shell, under the top bar: the chevron and the product's name, a slash and the app's name, downloads; on the right the search field, a bell with 2 unread, and a square with the initials au.">
-      <rect className="sk-screen" x={1} y={1} width={318} height={148} />
-      <Bar />
-      <rect className="sk-side" x={1} y={24} width={80} height={125} />
-      {[36, 48, 60, 72, 92, 104].map((y, i) => (
-        <g key={y}>
-          <rect className="sk-icon" x={10} y={y} width={6} height={6} />
-          <Line x={22} y={y + 1} w={[40, 32, 36, 28, 34, 30][i]} />
-        </g>
-      ))}
-      <Line x={96} y={38} w={90} strong />
-      {[52, 74, 96, 118].map((y) => (
-        <rect key={y} className="sk-card" x={96} y={y} width={208} height={16} />
-      ))}
-    </Sketch>
-  );
-}
-
 export function TopBarAnatomy() {
   return (
     <Sketch h={84} label="The top bar, close up: 1 the product's name, led by the chevron; 2 the app's name; 3 the search; 4 notifications, with 2 unread; 5 the user menu.">
@@ -177,23 +157,6 @@ function Phone({ x, open }: { x: number; open?: boolean }) {
   );
 }
 
-export function SearchInTheBar() {
-  return (
-    <Sketch h={152} label="The same search on two kinds of screen. On a wide screen, it is a field in the top bar, between the app's name and the bell. On a phone, the bar has room for an icon only; pressing it opens a field across the whole bar, here with down typed into it.">
-      <Word x={2} y={9} size="xs" tone="dim" mono={false}>
-        On a wide screen
-      </Word>
-      <Bar y={15} />
-      <Word x={2} y={60} size="xs" tone="dim" mono={false}>
-        On a phone
-      </Word>
-      <Phone x={40} />
-      <Arrow x1={142} y1={76} x2={178} y2={76} />
-      <Phone x={184} open />
-    </Sketch>
-  );
-}
-
 /** a small screen whose top bar has down typed into its search. */
 function Typing({ x, y, children }: { x: number; y: number; children: ReactNode }) {
   const w = 152;
@@ -253,29 +216,6 @@ export function SearchTwoWays() {
         <rect className="sk-planned" x={227} y={67} width={80} height={9} />
         <rect className="sk-planned" x={227} y={81} width={80} height={9} />
       </Typing>
-    </Sketch>
-  );
-}
-
-/* ---- the same everywhere ------------------------------------------------------ */
-
-export function ConsumerBar() {
-  const nav = ['home', 'films', 'series'];
-  return (
-    <Sketch h={40} label="A top bar in a product for consumers: the product's name on the left, its own navigation, home, films and series, in the middle, and the same bell and user menu on the right.">
-      <rect className="sk-bar" x={1} y={9} width={318} height={22} />
-      <Chevron x={9} y={16.5} s={7} />
-      <Line x={21} y={18} w={34} strong />
-      {nav.map((t, i) => (
-        <g key={t}>
-          <Word x={96 + i * 46} y={23.5} size="xs" tone={i === 0 ? 'accent' : 'strong'}>
-            {t}
-          </Word>
-          {i === 0 ? <rect className="sk-fill-info" x={96} y={27} width={20} height={2} /> : null}
-        </g>
-      ))}
-      <Bell x={265} y={15} />
-      <Avatar x={297} y={13} />
     </Sketch>
   );
 }

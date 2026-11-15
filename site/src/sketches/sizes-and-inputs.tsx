@@ -616,35 +616,6 @@ export function StepperAnatomy() {
   );
 }
 
-export function StepperStates() {
-  return (
-    <Sketch h={104} label="A stepper at its lowest value, 1 s, where the minus is dimmed and does nothing. And the same setting on a TV: one row, Countdown, with 5 s between two small arrows at its end; the row has the focus, with the ring inside its edge.">
-      <Word x={8} y={16} size="xs" tone="dim" mono={false}>
-        At its lowest
-      </Word>
-      <Word x={8} y={38} size="xs" tone="strong" mono={false}>
-        Countdown
-      </Word>
-      <Stepper x={8} y={46} value="1 s" lowest />
-
-      <Word x={164} y={16} size="xs" tone="dim" mono={false}>
-        On a TV: one row
-      </Word>
-      <rect x={164} y={40} width={150} height={26} style={{ fill: 'var(--surface-focus)' }} />
-      <rect className="sk-focus" x={165} y={41} width={148} height={24} style={{ strokeWidth: 2 }} />
-      <Word x={174} y={56} size="xs" tone="strong" mono={false}>
-        Countdown
-      </Word>
-      <Word x={304} y={56} size="xs" tone="strong" anchor="end">
-        ‹ 5 s ›
-      </Word>
-      <Word x={164} y={86} size="xs" tone="dim">
-        ← → change it · ↑ ↓ move on
-      </Word>
-    </Sketch>
-  );
-}
-
 /* ---- the progress bar ---------------------------------------------------------- */
 
 /** a progress bar in the kit's scale: the track, and the part that is done in its state's colour. */

@@ -125,34 +125,6 @@ function Picked({ x, y, children }: { x: number; y: number; children: string }) 
   );
 }
 
-/* ---- icon button: on and off ------------------------------------------------------- */
-
-export function OnOffLook() {
-  const cols: { x: number; quiet?: boolean; on?: boolean; cap: string }[] = [
-    { x: 34, cap: 'standard, off' },
-    { x: 110, on: true, cap: 'standard, on' },
-    { x: 186, quiet: true, cap: 'quiet, off' },
-    { x: 262, quiet: true, on: true, cap: 'quiet, on' },
-  ];
-  return (
-    <Sketch h={92} label="Four icon buttons with a bookmark on a page: the standard kind off and on, and the quiet kind off and on. On, each has a blue bar along its bottom edge, marked 1, over a faint blue tint, marked 2. The icon is the same line drawing in both states.">
-      <rect className="sk-screen" x={1} y={1} width={318} height={64} />
-      {cols.map((c) => (
-        <g key={c.cap}>
-          <IconBtn x={c.x} y={19} s={26} name="bookmark" quiet={c.quiet} on={c.on} />
-          <Caption x={c.x + 13} y={80}>
-            {c.cap}
-          </Caption>
-        </g>
-      ))}
-      <Callout x={152} y={43.4} n={1} />
-      <Pointer x1={146} y1={43.4} x2={137} y2={43.4} />
-      <Callout x={304} y={27} n={2} />
-      <Pointer x1={298} y1={27} x2={289} y2={27} />
-    </Sketch>
-  );
-}
-
 export function WhichOneFits() {
   return (
     <Sketch h={130} label="Three cases side by side. A list of settings, each with its name and a switch, the first one on. A title's actions: play, a bookmark that is on, with its blue bar, and a heart that is off. And a play button that becomes a pause button once it is pressed, its label changing from play to pause.">
@@ -218,22 +190,6 @@ function TitleActions({ filled }: { filled?: boolean }) {
       <IconBtn x={66} y={26} s={18} name="bookmark" on={!filled} filled={filled} />
       <IconBtn x={90} y={26} s={18} name="heart" on={!filled} filled={filled} />
     </g>
-  );
-}
-
-export function OnBarDo() {
-  return (
-    <Sketch w={200} h={60} label="A title's actions: the emphasized play button, then a bookmark and a heart that are both on, each with a blue bar along its bottom edge.">
-      <TitleActions />
-    </Sketch>
-  );
-}
-
-export function OnFillDont() {
-  return (
-    <Sketch w={200} h={60} label="The same actions, with the bookmark and the heart on drawn filled with blue: three blue buttons side by side.">
-      <TitleActions filled />
-    </Sketch>
   );
 }
 
@@ -398,41 +354,6 @@ function FailedPanel({ cx, details, codeAsSentence }: { cx: number; details?: 'c
   );
 }
 
-export function EmptyDetails() {
-  return (
-    <Sketch h={162} label="The same empty state twice: a broken line, the title couldn't load the list, the sentence The server is busy., and a try again button. Under the button, a quiet details with a small arrow. On the left it is closed; on the right it is open, and under it, behind a thin line on its left, the server's answer in the monospace face: HTTP 503 Service Unavailable.">
-      <rect className="sk-screen" x={4} y={4} width={152} height={140} />
-      <FailedPanel cx={80} details="closed" />
-      <Caption x={80} y={156}>
-        Closed, at first
-      </Caption>
-      <rect className="sk-screen" x={164} y={4} width={152} height={140} />
-      <FailedPanel cx={240} details="open" />
-      <Caption x={240} y={156}>
-        Opened
-      </Caption>
-    </Sketch>
-  );
-}
-
-export function DetailsDo() {
-  return (
-    <Sketch w={200} h={120} label="An empty state: couldn't load the list, The server is busy., try again, and under it details, closed.">
-      <rect className="sk-screen" x={1} y={1} width={198} height={118} />
-      <FailedPanel cx={100} details="closed" />
-    </Sketch>
-  );
-}
-
-export function DetailsDont() {
-  return (
-    <Sketch w={200} h={120} label="An empty state whose sentence is the server's answer, HTTP 503 Service Unavailable, above try again.">
-      <rect className="sk-screen" x={1} y={1} width={198} height={118} />
-      <FailedPanel cx={100} codeAsSentence />
-    </Sketch>
-  );
-}
-
 /* ---- multi select: an action, and a long list -------------------------------------- */
 
 /** the multi select's trigger: its label, the summary in blue, the arrow turned over while open. */
@@ -477,26 +398,6 @@ function Option({ x, y, text, on }: { x: number; y: number; text: string; on?: b
         {text}
       </Word>
     </g>
-  );
-}
-
-export function ActionUnderOptions() {
-  return (
-    <Sketch h={146} label="A multi select named lists, open, its summary saying 2 chosen. In its panel, three lists with checkboxes, marked 1: Watchlist and Rainy Sundays ticked, Film club not. Under a thin rule, a plus and create a list, marked 2, and under it clear lists, marked 3.">
-      <rect className="sk-screen" x={1} y={1} width={318} height={144} />
-      <MultiTrigger x={40} y={12} chosen="2 chosen" />
-      <rect className="sk-sheet" x={40} y={34} width={140} height={94} />
-      {LISTS.slice(0, 3).map((t, i) => (
-        <Option key={t} x={40} y={40 + i * 16} text={t} on={i < 2} />
-      ))}
-      <Foot x={40} y={92} />
-      <Callout x={206} y={64} n={1} />
-      <Pointer x1={200} y1={64} x2={182} y2={64} />
-      <Callout x={206} y={101} n={2} />
-      <Pointer x1={200} y1={101} x2={182} y2={101} />
-      <Callout x={206} y={116} n={3} />
-      <Pointer x1={200} y1={116} x2={182} y2={116} />
-    </Sketch>
   );
 }
 
@@ -555,16 +456,6 @@ function Player({ w, h }: { w: number; h: number }) {
   );
 }
 
-export function ToastAtTheTop() {
-  return (
-    <Sketch h={180} label="A video playing: two lines of subtitles near the foot of the picture, and under them the controls, a progress line and a row of icons, with subtitles on. At the top, in the middle, two toasts: the newest, Saved to watchlist, nearest the edge, and an older one under it, Added to Film club.">
-      <Player w={320} h={180} />
-      <Toast x={104} y={12} w={112} lines={['Saved to watchlist']} />
-      <Toast x={104} y={34} w={112} lines={['Added to Film club']} />
-    </Sketch>
-  );
-}
-
 export function ToastTopDo() {
   return (
     <Sketch w={240} h={150} label="A video playing, its subtitles and controls at the foot, and a toast at the top: Saved to watchlist.">
@@ -616,49 +507,5 @@ function PhoneFrame({ x, y }: { x: number; y: number }) {
         <rect key={i} className={i === 0 ? 'sk-icon sk-icon--accent' : 'sk-icon'} x={x + 6 + i * 13} y={y + 140} width={6} height={6} />
       ))}
     </g>
-  );
-}
-
-export function SheetTwoAnswers() {
-  return (
-    <Sketch h={182} label="One dialog three times. On a computer, it sits in the middle of the dimmed page. On a phone, as answer 1 has it, it sits in the middle too, nearly as wide as the screen. On a phone, as answer 2 has it, it sits on the foot of the screen across its whole width, over the tabs, with the dimmed page above it.">
-      {/* on a computer */}
-      <rect className="sk-screen" x={4} y={30} width={144} height={100} />
-      <rect className="sk-bar" x={4} y={30} width={144} height={12} />
-      <Line x={10} y={34} w={28} strong />
-      {[52, 68, 84, 100].map((y) => (
-        <rect key={y} className="sk-card" x={12} y={y} width={128} height={12} />
-      ))}
-      <rect className="sk-fade" x={4} y={30} width={144} height={100} />
-      <rect className="sk-sheet" x={36} y={50} width={80} height={60} />
-      <DialogParts x={36} y={50} w={80} />
-      <Caption x={76} y={166}>
-        On a computer
-      </Caption>
-
-      {/* answer 1: in the middle */}
-      <PhoneFrame x={162} y={4} />
-      <rect className="sk-fade" x={162} y={4} width={70} height={150} />
-      <rect className="sk-sheet" x={165} y={48} width={64} height={60} />
-      <DialogParts x={165} y={48} w={64} />
-      <Caption x={197} y={166}>
-        Answer 1:
-      </Caption>
-      <Caption x={197} y={176}>
-        in the middle
-      </Caption>
-
-      {/* answer 2: at the foot */}
-      <PhoneFrame x={246} y={4} />
-      <rect className="sk-fade" x={246} y={4} width={70} height={150} />
-      <rect className="sk-sheet" x={246} y={94} width={70} height={60} />
-      <DialogParts x={246} y={94} w={70} />
-      <Caption x={281} y={166}>
-        Answer 2:
-      </Caption>
-      <Caption x={281} y={176}>
-        at the foot
-      </Caption>
-    </Sketch>
   );
 }

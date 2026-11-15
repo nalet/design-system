@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { TabBar } from './TabBar';
 import { Language } from '../../lib/language';
-import type { NavigationItem } from '../../lib/navigation';
+import type { NavigateHandler, NavigationItem } from '../../lib/navigation';
 import { expectNoAxeViolations } from '../../test/axe';
 
 const icon = <svg viewBox="0 0 24 24" width="1.5rem" height="1.5rem" />;
@@ -71,7 +71,7 @@ describe('TabBar', () => {
 
   it('lets a router take a press over, and leaves a press that opens the view elsewhere alone', async () => {
     const user = userEvent.setup();
-    const onNavigate = vi.fn((e: React.MouseEvent) => e.preventDefault());
+    const onNavigate = vi.fn<NavigateHandler>((e) => e.preventDefault());
     render(<TabBar views={VIEWS} current="/films" onNavigate={onNavigate} />);
     await user.click(tab('watchlist'));
     expect(onNavigate).toHaveBeenCalledTimes(1);

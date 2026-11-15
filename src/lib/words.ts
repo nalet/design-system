@@ -65,7 +65,10 @@ export interface Words {
     /** The search field's placeholder. */
     searchPlaceholder: string;
   };
-  select: Record<string, never>;
+  select: {
+    /** The name of the list a select opens on a tv, when the select has no name of its own. */
+    options: string;
+  };
   spinner: {
     /** The loader's name for a screen reader. */
     loading: string;
@@ -134,7 +137,9 @@ export const english: Words = {
     search: 'search apps',
     searchPlaceholder: 'search apps…',
   },
-  select: {},
+  select: {
+    options: 'options',
+  },
   spinner: {
     loading: 'loading',
   },
@@ -195,7 +200,9 @@ export const german: Words = {
     search: 'apps suchen',
     searchPlaceholder: 'apps suchen…',
   },
-  select: {},
+  select: {
+    options: 'optionen',
+  },
   spinner: {
     loading: 'lädt',
   },

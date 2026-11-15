@@ -24,7 +24,15 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(functi
   }, [indeterminate]);
 
   return (
-    <label className={cx('nc-checkbox', disabled && 'nc-checkbox--disabled', className)}>
+    <label
+      className={cx(
+        'nc-checkbox',
+        // with a label the whole row is the target; a screen made for touch or a tv sizes the row by it.
+        label != null && 'nc-checkbox--labelled',
+        disabled && 'nc-checkbox--disabled',
+        className,
+      )}
+    >
       <span className="nc-checkbox__box">
         <input
           ref={innerRef}

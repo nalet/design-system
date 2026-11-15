@@ -32,6 +32,12 @@
   height: 1rem;
   padding: 2px;
 }
+/* large: one more step of what medium is over small (6 wider, 4 higher). */
+.nc-switch--lg .nc-switch__track {
+  width: 2.625rem;
+  height: 1.5rem;
+  padding: 2px;
+}
 
 .nc-switch__input {
   position: absolute;
@@ -62,6 +68,10 @@
   width: 0.625rem;
   height: 0.625rem;
 }
+.nc-switch--lg .nc-switch__thumb {
+  width: 1.125rem;
+  height: 1.125rem;
+}
 
 .nc-switch__input:checked + .nc-switch__thumb {
   background: var(--bg);
@@ -69,6 +79,9 @@
 }
 .nc-switch--sm .nc-switch__input:checked + .nc-switch__thumb {
   transform: translateX(0.875rem);
+}
+.nc-switch--lg .nc-switch__input:checked + .nc-switch__thumb {
+  transform: translateX(1.125rem);
 }
 
 .nc-switch__input:checked ~ .nc-switch__thumb,
@@ -91,4 +104,9 @@
   font-size: 0.8125rem;
   line-height: 1.4;
   color: var(--fg-2);
+}
+
+/* the large switch's label is the large controls' size. */
+.nc-switch--lg .nc-switch__label {
+  font-size: 0.875rem;
 }

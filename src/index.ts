@@ -9,6 +9,9 @@
 
 // foundation: css variables, fonts, base — owned by the tokens build.
 import './styles/tokens.css';
+// the components on a screen made for touch and on a tv: rules that apply
+// only under data-nc-screen="touch" or data-nc-screen="tv".
+import './styles/screens.css';
 
 // re-export the typed tokens (color/type/space) from the tokens module.
 export * from './tokens';

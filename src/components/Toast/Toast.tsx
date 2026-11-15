@@ -35,6 +35,8 @@ const MAX_VISIBLE = 3;
 // the screens that moved the toasts, in the order they opened: the last one
 // still open decides, so the toasts go back when it closes.
 interface Move {
+  /** the screen that asked: one object for as long as it is open. */
+  screen: object;
   placement: ToastPlacement;
   offset: number;
 }
@@ -104,16 +106,29 @@ toast.clear = (): void => {
  * open, in px at the usual text size; the toasts keep their distance from it.
  */
 export function useToastPlacement(placement: ToastPlacement | null | undefined, offset = 0): void {
+  const [screen] = React.useState<object>(() => ({}));
+  // what the screen asks for now. it keeps its place among the open screens
+  // when it asks for something else, so the one that opened last still decides.
   React.useEffect(() => {
-    if (!placement) return;
-    const move: Move = { placement, offset };
-    moves = [...moves, move];
+    const at = moves.findIndex((m) => m.screen === screen);
+    if (!placement) {
+      if (at < 0) return;
+      moves = moves.filter((m) => m.screen !== screen);
+    } else {
+      const move: Move = { screen, placement, offset };
+      moves = at < 0 ? [...moves, move] : moves.map((m) => (m.screen === screen ? move : m));
+    }
     emit();
-    return () => {
-      moves = moves.filter((m) => m !== move);
+  }, [screen, placement, offset]);
+  // the screen closes: the toasts are back where they were.
+  React.useEffect(
+    () => () => {
+      if (!moves.some((m) => m.screen === screen)) return;
+      moves = moves.filter((m) => m.screen !== screen);
       emit();
-    };
-  }, [placement, offset]);
+    },
+    [screen],
+  );
 }
 
 export interface ToasterProps {

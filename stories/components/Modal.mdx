@@ -80,7 +80,7 @@ With `sheet`, in a window narrower than the dialog's `width` plus its two margin
 | `↓` / `→`, on a TV | Moves to the next control in the dialog, and stops at the last. |
 | `↑` / `←`, on a TV | Moves to the control before, and stops at the first. |
 
-On a TV (`data-nc-screen="tv"`), the arrow keys reach the dialog after its own widgets, as `esc` does: tabs, a menu or a list that moved with the key and called `preventDefault()` keep it. A text field, a text area, a select and a range keep `←` and `→` for their text or their value; `↑` and `↓` move on from them. Disabled and hidden controls are skipped. On every other screen the dialog leaves the arrow keys alone.
+On a TV (`data-nc-screen="tv"`), the arrow keys reach the dialog after its own widgets, as `esc` does: tabs, a menu or a list that moved with the key and called `preventDefault()` keep it. A text field, a text area, a select and a range keep `←` and `→` for their text or their value; `↑` and `↓` move on from them. Disabled controls, and controls inside an element with the `hidden` attribute, are skipped. On every other screen the dialog leaves the arrow keys alone.
 
 ## props
 

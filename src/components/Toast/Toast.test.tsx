@@ -176,6 +176,31 @@ describe('toast', () => {
     expect(toaster).toHaveClass('nc-toaster--top');
   });
 
+  it('keeps the screen that opened last in charge when an earlier one asks for something else', () => {
+    function App({ outer, inner }: { outer: { placement: ToastPlacement | null; bar?: number }; inner: boolean }) {
+      return (
+        <>
+          <Toaster />
+          <Player placement={outer.placement} bar={outer.bar} />
+          {inner ? <Player placement="bottom" /> : null}
+        </>
+      );
+    }
+    const { rerender } = render(<App outer={{ placement: 'top' }} inner />);
+    const toaster = screen.getByRole('region', { name: 'notifications' });
+    expect(toaster).toHaveClass('nc-toaster--bottom');
+    // the outer screen's bar changes: the inner one, opened last, still decides.
+    rerender(<App outer={{ placement: 'top', bar: 48 }} inner />);
+    expect(toaster).toHaveClass('nc-toaster--bottom');
+    rerender(<App outer={{ placement: 'top', bar: 48 }} inner={false} />);
+    expect(toaster).toHaveClass('nc-toaster--top');
+    expect(toaster.style.getPropertyValue('--nc-toaster-bar')).toBe('3rem');
+    // a screen that stops asking, while it stays open, moves nothing any more.
+    rerender(<App outer={{ placement: null }} inner={false} />);
+    expect(toaster).toHaveClass('nc-toaster--bottom');
+    expect(toaster.style.getPropertyValue('--nc-toaster-bar')).toBe('');
+  });
+
   it('keeps clear of a bar at its edge: the toaster’s own, or the open screen’s', () => {
     function App({ playing }: { playing: boolean }) {
       return (

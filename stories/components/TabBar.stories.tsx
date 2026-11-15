@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { KeepCase, TabBar, type TabBarProps } from '../../src';
-import { PhoneUpright, TABS, nameOf, useCurrent } from '../_data/views';
+import { TabBar, type TabBarProps } from '../../src';
+import { PhoneUpright, TABS, useWhere } from '../_data/views';
 
 const meta: Meta<TabBarProps> = {
   title: 'Components/navigation/tab bar',
@@ -35,13 +35,8 @@ type Story = StoryObj<TabBarProps>;
 // a phone held upright: the tab bar at the foot, under the page.
 export const Playground: Story = {
   render: function TabBarOnAPhone(args) {
-    const { current, onNavigate } = useCurrent(args.current);
-    return (
-      <PhoneUpright
-        title={nameOf(current, args.views) ?? <KeepCase>The Quiet Harbour</KeepCase>}
-        tabBar={<TabBar {...args} current={current} onNavigate={onNavigate} />}
-      />
-    );
+    const where = useWhere(args.current);
+    return <PhoneUpright where={where} tabBar={<TabBar {...args} current={where.current} onNavigate={where.onNavigate} />} />;
   },
 };
 
@@ -49,13 +44,8 @@ export const Playground: Story = {
 export const NoneCurrent: Story = {
   name: 'no current tab',
   render: function TabBarWithoutACurrentTab() {
-    const { current, onNavigate } = useCurrent(undefined);
-    return (
-      <PhoneUpright
-        title={nameOf(current, TABS) ?? <KeepCase>The Quiet Harbour</KeepCase>}
-        tabBar={<TabBar views={TABS} current={current} onNavigate={onNavigate} />}
-      />
-    );
+    const where = useWhere(undefined);
+    return <PhoneUpright where={where} tabBar={<TabBar views={TABS} current={where.current} onNavigate={where.onNavigate} />} />;
   },
 };
 
@@ -63,8 +53,7 @@ export const NoneCurrent: Story = {
 export const ThreeViews: Story = {
   name: 'three views',
   render: function TabBarWithThreeViews() {
-    const views = TABS.slice(0, 3);
-    const { current, onNavigate } = useCurrent('?view=home');
-    return <PhoneUpright title={nameOf(current, views)} tabBar={<TabBar views={views} current={current} onNavigate={onNavigate} />} />;
+    const where = useWhere('?view=home');
+    return <PhoneUpright where={where} tabBar={<TabBar views={TABS.slice(0, 3)} current={where.current} onNavigate={where.onNavigate} />} />;
   },
 };

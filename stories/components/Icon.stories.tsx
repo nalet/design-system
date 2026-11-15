@@ -114,7 +114,7 @@ export const Sizes: Story = {
   name: 'sizes',
   render: () => (
     <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'flex-end', gap: 'var(--s-6)', color: 'var(--fg-2)' }}>
-      {[12, 16, 20, 22].map((s) => (
+      {[12, 16, 20, 22, 24].map((s) => (
         <div key={s} style={{ display: 'grid', justifyItems: 'center', gap: 'var(--s-2)' }}>
           <Icon icon={Server} size={s} />
           <span style={label}>{s}px</span>

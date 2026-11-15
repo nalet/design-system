@@ -1021,7 +1021,7 @@ function Tv({
             )}
             {names && item === 'avatar' ? (
               <Word x={r2(nameX)} y={r2(iy + 8 * k)} size={nameSize} tone="strong" mono={false}>
-                Alex Urban
+                Ada Urban
               </Word>
             ) : null}
             {names && item !== 'avatar' ? (
@@ -1065,7 +1065,7 @@ export function TvOpen() {
     <Sketch
       w={360}
       h={204}
-      label="The same TV with the rail open over the page, the names beside the icons: Alex Urban by the avatar, then search, home, films, series, watchlist, and notifications and settings at the foot. The focus has moved down to series, which has the ring inside its edge and a lighter surface; films, the current view, keeps its blue bar. Under the TV: the up and down keys move, ok opens, right or back closes the rail."
+      label="The same TV with the rail open over the page, the names beside the icons: Ada Urban by the avatar, then search, home, films, series, watchlist, and notifications and settings at the foot. The focus has moved down to series, which has the ring inside its edge and a lighter surface; films, the current view, keeps its blue bar. Under the TV: the up and down keys move, ok opens, right or back closes the rail."
     >
       <Tv x={22} y={4} open focus="series" />
       <Word x={180} y={198} size="xs" tone="dim" anchor="middle">

@@ -148,7 +148,7 @@ export type { StatusCellProps, DateCellProps, IdentifierCellProps } from './comp
 
 // a product's main navigation: its views in a rail, or in a tab bar
 export { Rail } from './components/Rail/Rail';
-export type { RailProps, RailMark } from './components/Rail/Rail';
+export type { RailProps } from './components/Rail/Rail';
 export { TabBar } from './components/TabBar/TabBar';
 export type { TabBarProps } from './components/TabBar/TabBar';
 export type { NavigationItem, NavigateHandler } from './lib/navigation';

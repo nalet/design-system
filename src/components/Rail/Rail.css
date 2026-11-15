@@ -1,7 +1,8 @@
 /* rail — a product's views as icons alone, one under the other, down the left
    edge of the screen.
-   - on a wide screen: squares of 48 in a column 80 wide, 8 apart, the first
-     16 under the rail's head; the current one blue on a lighter square.
+   - on a wide screen, under the top bar: squares of 48 in a column 80 wide,
+     8 apart, the first 16 under the bar; the current one blue on a lighter
+     square.
    - on a screen made for touch: the phone's tabs, across the rail and in the
      middle of its height; no pointer, so no lighter square.
    - on a tv: rows inside the safe area; closed, the icons alone; open, over
@@ -37,38 +38,6 @@
   padding: 0 0 env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
   background: var(--bg-2);
   overflow-y: auto;
-}
-
-/* the product's mark: the first cell of the top bar beside it. */
-.nc-rail__mark {
-  box-sizing: border-box;
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-block-size: var(--nc-rail-head, 3.5rem);
-  border-bottom: 1px solid var(--border);
-  color: var(--fg-2);
-  text-decoration: none;
-}
-
-.nc-rail__mark:hover {
-  color: var(--fg);
-}
-
-/* the focus rules name the rail too, so a page's own rule for its links doesn't move the outline. */
-.nc-rail .nc-rail__mark:focus-visible {
-  outline: 2px solid var(--focus-ring);
-  outline-offset: -2px;
-}
-
-.nc-rail__letter {
-  margin-left: -0.0625rem;
-  font-family: var(--ff-mono);
-  font-size: 1.125rem;
-  font-weight: 700;
-  line-height: 1;
-  text-transform: lowercase;
 }
 
 .nc-rail__group {
@@ -109,6 +78,7 @@
   color: var(--fg);
 }
 
+/* the focus rule names the rail too, so a page's own rule for its links doesn't move the outline. */
 .nc-rail .nc-rail__item:focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 1px;
@@ -134,9 +104,15 @@
   position: relative;
   flex: none;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
 }
 
-/* an icon is drawn at 24, the icon set's own grid, whatever size it was given. */
+/* an icon is drawn at 24, the icon set's own grid, whatever size it was given.
+   what isn't a drawing, such as a person's avatar, keeps its size and its
+   place in the middle of the icon's. */
 .nc-rail__icon > svg {
   inline-size: 1.5rem;
   block-size: 1.5rem;

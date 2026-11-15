@@ -104,14 +104,35 @@
   flex: 1 1 0;
 }
 
+/* the end of the bar: the search icon of a narrow bar, the bell, the user menu */
+.nc-topbar__end {
+  display: flex;
+  align-items: center;
+  flex: none;
+  gap: var(--s-3);
+}
+
+/* a narrow bar that has no room for its name beside its end puts the end on a
+   line of its own, at the end, and gets taller. nothing is cut off. */
+.nc-topbar--narrow {
+  flex-wrap: wrap;
+  padding-top: var(--s-1);
+  padding-bottom: var(--s-1);
+}
+
+.nc-topbar--narrow .nc-topbar__end {
+  margin-left: auto;
+}
+
 /* ---- the search ------------------------------------------------------------ */
 
-/* the field gives way first when the bar runs out of room, down to its
-   smallest width; under that the bar is narrow. */
+/* the field takes the room the names leave, up to its largest width; what is
+   left after that goes to the space before it. */
 .nc-topbar__search {
   position: relative;
-  flex: 0 1000 24rem;
+  flex: 1000 1 10rem;
   min-width: 10rem;
+  max-width: 24rem;
 }
 
 .nc-topbar__field {
@@ -171,6 +192,7 @@
   gap: var(--s-2);
   flex: 1 1 auto;
   min-width: 0;
+  max-width: none;
 }
 
 .nc-topbar--searching .nc-topbar__field {

@@ -1,0 +1,116 @@
+---
+layout: ../../layouts/Doc.astro
+title: avatar
+description: The small square that stands for a person on the screen. It shows their picture, cropped to a square, or their initials.
+component: avatar
+draft: true
+draftNote: "The avatar is a new component, built from the top bar pattern. This page is new."
+---
+import { Avatar } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { Sizes, Picture, OwnInitials, BesideAName } from '@site/examples/avatar';
+
+# avatar
+
+An avatar is the small square that stands for a person: their picture, or their initials when there is no picture. In the top bar, it is the button that opens the user menu; [top bar](/design-system/patterns/top-bar/) explains why every product shows the person the same way.
+
+<Example label="an avatar with a picture, and one with initials">
+  <Picture />
+</Example>
+
+## when to use
+
+- For the person who is signed in, at the end of the top bar. The <C slug="top-bar">user menu</C> draws it there, as its button.
+- Beside a person's name, where a list or a page shows who did something or who owns it.
+
+## when to use something else
+
+- **For an app or a thing.** An app has its icon, on its tile; an avatar is always a person.
+- **For a state or a count.** Use a <C slug="status" /> or a <C slug="badge" />.
+- **For a button of its own.** An avatar alone can't be pressed. The user menu makes it one; elsewhere, put it inside a link or a button that has a name.
+
+## anatomy
+
+1. **Square.** A thin frame around a slightly lighter fill, with square corners, like every frame in the system.
+2. **Picture.** It fills the square and is cropped to it from its middle, never squeezed.
+3. **Initials.** In place of the picture: one or two letters, in <Term id="monospace">monospace</Term> and lowercase.
+
+## variants and states
+
+An avatar comes in the three heights every control has, so it lines up with a button or a field beside it. Medium is the usual size, and the one in the top bar.
+
+<Example label="three sizes">
+  <Sizes />
+</Example>
+
+The initials are the first letter of the first and of the last word of the person's name; a name of one word gives one letter. Where those aren't the person's initials, as with a title before the name, give the initials yourself.
+
+<Example label="a title in the name gives the wrong letters; initials of its own put it right">
+  <OwnInitials />
+</Example>
+
+When the picture can't be loaded, the initials show instead, so the square is never empty.
+
+Beside the person's name, the avatar is decoration: the name already says who it is.
+
+<Example label="an avatar beside the person's name">
+  <BesideAName />
+</Example>
+
+## behaviour
+
+- An avatar doesn't take <Term id="focus">focus</Term>, and nothing happens when it is pressed.
+- On a TV, its initials are never smaller than a label; see [layout](/design-system/foundations/layout/#touch-and-tv-sizes).
+
+## accessibility
+
+- **On its own, it is a picture named after the person.** A <Term id="screen-reader">screen reader</Term> says the person's name, not the initials.
+- **Beside the name, or inside a button with a name, it is decoration**, and <Term id="assistive-technology">assistive technology</Term> skips it, so the name isn't read twice.
+- **The initials are text**, in the brightest text colour on the square's fill, so they keep their <Term id="contrast">contrast</Term> and grow with the reader's text size.
+
+Today:
+
+- A picture is the person's own, and nothing checks what it shows or how well it reads at this size.
+
+## content
+
+- **The name.** The person's name as they write it: “Ada Urban”. It is what a screen reader says, so don't give an email address or a user id where there is a name.
+- **The initials.** Lowercase, like all monospace in the system: “au”. Two letters at most read well in the small size.
+
+## do and don't
+
+<DoDont>
+  <Do caption="Square, like every frame in the system. A picture is cropped to the square.">
+    <Avatar name="Ada Urban" size="lg" />
+  </Do>
+  <Dont caption="A round avatar looks different from everything else on the screen.">
+    <Avatar name="Ada Urban" size="lg" style={{ borderRadius: '50%' }} />
+  </Dont>
+</DoDont>
+
+## related
+
+- <C slug="top-bar">Top bar and user menu</C>: the avatar as the button of the user menu.
+- [Top bar](/design-system/patterns/top-bar/#the-same-everywhere): one square avatar, the same in every product.
+- [Shape](/design-system/styles/shape/): square frames.
+
+## specs
+
+| size | in code | square | initials |
+| --- | --- | --- | --- |
+| Small | `size="sm"` | 28px | 12px |
+| Medium | `size="md"` (the default) | 34px | 13px |
+| Large | `size="lg"` | 42px | 14px |
+
+| part | spec |
+| --- | --- |
+| Square | A 1px `--border-control` frame on `--surface-2`, `border-radius: 0` |
+| Picture | `src`. An `<img>` that fills the square, cropped with `object-fit: cover`, with an empty `alt`: the avatar carries the name. When it fails to load, the initials show |
+| Initials | `initials`, or the first letter of the first and of the last word of `name`. JetBrains Mono 600 in `--fg`, lowercase |
+| Name | `name`. On its own, the avatar is `role="img"` named by it |
+| Decoration | `decorative`: `aria-hidden`, with no role and no name |
+| On a tv | Under `data-nc-screen="tv"`, the initials are 14px at every size |
+
+Other attributes and the `ref` reach the square.

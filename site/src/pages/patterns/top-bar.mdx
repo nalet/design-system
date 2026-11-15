@@ -2,16 +2,18 @@
 layout: ../../layouts/Doc.astro
 title: top bar
 draft: true
-draftNote: "Where the search sits in the bar, under search: before the notifications where the bar starts with names, at the start of the bar over a rail."
+draftNote: "The top bar, its search, the user menu and the avatar are now built, and this page shows them live: the bar with an app open, the search at the start, a narrow bar and the open user menu. The rest is as it was accepted."
 description: The bar across the top of every screen — where you are, the one search, what is new for you, and your account — the same in the portal, in every app and in every product.
+react:
+  - { label: top bar, id: components-navigation-top-bar }
+  - { label: user menu, id: components-navigation-user-menu }
 ---
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { Kbd } from '@nalet/design-system';
-import { DoDont, Do, Dont } from '@site/blocks';
-import {
-  TopBarOverview, TopBarAnatomy, UserMenuOpen, SearchInTheBar, SearchTwoWays, ConsumerBar, TopBarDo, TopBarDont,
-} from '@site/sketches/shell';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { TopBarAnatomy, SearchTwoWays, ConsumerBar, TopBarDo, TopBarDont } from '@site/sketches/shell';
+import { Playground, OnTheHomePage, SearchAtTheStart, UserMenuOpen, Narrow } from '@site/examples/top-bar';
 
 # top bar
 
@@ -19,12 +21,13 @@ The <Term id="top-bar">top bar</Term> runs across the top of every screen: on th
 
 Because it looks and works the same everywhere, people learn it once, and always know where to look.
 
-<figure class="ds-figure">
-  <TopBarOverview />
-  <figcaption>The top bar with an app open: the product's name and the app's name on the left; the search, notifications and the user menu on the right.</figcaption>
-</figure>
+<Example label="the top bar with an app open, live: type in the search, press the bell, open the user menu" flush>
+  <Playground client:visible />
+</Example>
 
-The top bar, its search, its user menu and the avatar are planned components; the drawings on this page show the idea.
+The top bar with an app open: the product's name and the app's name on the left; the search, notifications and the user menu on the right.
+
+The bar and its user menu are components, and so is the avatar: <C slug="top-bar" /> and <C slug="avatar" />. The examples on this page are the real ones, so they can be used: type “down” in the search, or open the user menu.
 
 ## what it holds
 
@@ -35,30 +38,38 @@ The top bar, its search, its user menu and the avatar are planned components; th
 
 1. **The product's name**, led by the blue chevron. It takes people home: to the portal's [home page](/design-system/patterns/home-and-tiles/), or to the product's own start page.
 2. **The app's name**, next to it, when an app is open: “/ downloads”. People always know where they are.
-3. **Search**: one field for the whole platform, which finds apps, and the things inside them that the apps offer to search. It is planned; [search](#search) below describes how it works.
+3. **Search**: one field for the whole platform, which finds apps, and the things inside them that the apps offer to search. [Search](#search) below describes how it works.
 4. **Notifications**: a bell with the number of unread notices. It opens one panel with the notices of every app.
 5. **The <Term id="user-menu">user menu</Term>**, behind a small square with the person's picture or initials, their <Term id="avatar">avatar</Term>. It opens one menu for everything about the person.
 
-<figure class="ds-figure">
-  <UserMenuOpen />
-  <figcaption>The user menu: who is signed in, then account, settings and help, and sign out last.</figcaption>
-</figure>
+<Example label="the user menu, open under the avatar, live" flush>
+  <UserMenuOpen client:visible />
+</Example>
+
+The user menu: who is signed in, then account, settings and help, and sign out last.
 
 The menu starts with the person's name and email address, so they can see who is signed in. Then come account, settings (only for people who may change them), and help. Sign out comes last, set apart, so nobody presses it by accident.
 
+Today:
+
+- The panel of notifications isn't a component yet. The bar tells the <Term id="shell">shell</Term> that the bell was pressed, and the shell draws the panel.
+
 ## search
 
-There is one search, and it is always in the top bar. It finds apps, and the things inside them that the apps offer to search. Because it is always there, people learn it once and find it on every screen. The search is planned, like the rest of the bar.
+There is one search, and it is always in the top bar. It finds apps, and the things inside them that the apps offer to search. Because it is always there, people learn it once and find it on every screen.
 
-<figure class="ds-figure">
-  <SearchInTheBar />
-  <figcaption>On a wide screen, the search is a field in the bar. On a phone, it is an icon that opens a field across the whole width.</figcaption>
-</figure>
+On a wide screen, the search is a field in the bar, as in the example at the top of this page. On a phone, it is an icon that opens a field across the whole width:
+
+<Example label="a narrow top bar, live: press the magnifying glass to open the search, and the cross or esc to close it">
+  <Narrow client:visible />
+</Example>
 
 - **On the home page, it narrows the tiles** as people type, so the search is also the tile finder. The home page has no search box of its own, so there is never a second one to choose from; see [home & tiles](/design-system/patterns/home-and-tiles/#search-finds-the-tile).
-- **Anywhere else, it shows a short list of results** under the field, with the apps first, so people can open another app from wherever they are.
+- **Anywhere else, it shows a short list of results** under the field, with the apps first, so people can open another app from wherever they are. The arrow keys pick a result and <Kbd>enter</Kbd> opens it, while the <Term id="focus">focus</Term> stays in the field. When nothing is found, the list says so.
+- **The bar shows what was found; it doesn't search.** The shell does the finding, and gives the bar the results to list.
 - **The / key jumps to it** from anywhere on the screen, except while people are typing in a text field.
-- **On a phone, it is an icon** in the bar. Pressing it opens a field across the whole width.
+- **On a phone, it is an icon** in the bar. Pressing it opens a field across the whole width, with a cross after it that closes it again; <Kbd>esc</Kbd> closes it too. Closing the field also empties it, so nothing stays searched for out of sight.
+- **A narrow bar is a phone's bar**, on any screen. The bar follows its own width, not the screen's, so a bar in a narrow window folds its search the same way. It starts with the product's name alone; the app's own header says which app is open.
 
 ### where it sits
 
@@ -75,16 +86,30 @@ The frame around the bar decides where the search sits in it, so no screen has t
 - **It is the same field in both places**: the same look, the same <Kbd>/</Kbd> key, a placeholder that says what it finds.
 - **Never two, and never anywhere else.** A search isn't in the rail on a wide screen, in the page, or in both ends of the bar.
 
+<Example label="a top bar over a rail, live: the product's mark, then the search at the start of the bar" flush>
+  <SearchAtTheStart client:visible />
+</Example>
+
+Over a rail, the bar starts with the product's mark, the chevron and the first letter of its name, in a cell as wide as the rail under it. The search comes right after it.
+
+### what it finds
+
 <figure class="ds-figure">
   <SearchTwoWays />
   <figcaption>The same search, in the same place. On the home page, typing “down” narrows the tiles to the one that matches. In an app, the same word opens a short list under the field, with the apps first and the things inside them after.</figcaption>
 </figure>
 
+Both are live on this page. In the bar at the top of the page, which has an app open, “down” opens the list. On the home page below, the same word narrows the tiles:
+
+<Example label="a home page under the top bar, live: type in the search to narrow the tiles" flush>
+  <OnTheHomePage client:visible />
+</Example>
+
 ## the same everywhere
 
 - **One user menu, in every product.** No email address shown in the bar, and no sign-out button of its own.
 - **The avatar is square**, like every frame in the system. A photo is cropped to a square.
-- **A product for consumers can keep its own main navigation in the bar**, such as home, films and series. The product's name, the notifications and the user menu stay where the <Term id="shell">shell</Term> puts them, and look the way the shell draws them.
+- **A product for consumers can keep its own main navigation in the bar**, such as home, films and series. The product's name, the notifications and the user menu stay where the shell puts them, and look the way the shell draws them.
 - **The product's name holds still.** The bar is always in view, so its chevron doesn't blink; see [brand](/design-system/styles/brand/#accessibility).
 
 <figure class="ds-figure">
@@ -111,11 +136,10 @@ The bar belongs to the shell, so it only holds what every screen shares.
 
 ## accessibility
 
-Planned, together with the components:
-
 - The bar is the page's header <Term id="landmark">landmark</Term>, which <Term id="screen-reader">screen reader</Term> users can jump to. The product's name is a link named after where it goes, such as the product's name and “home”.
-- The search is a region of its own that people can jump to as well, and its field is named after what it finds, such as “search apps”. On a phone, the icon is a button named “search”, and pressing it puts the <Term id="focus">focus</Term> in the field it opens.
+- The search is a region of its own that people can jump to as well, and its field is named after what it finds, such as “search apps”. On a phone, the icon is a button named “search”, and pressing it puts the focus in the field it opens. Closing the field puts the focus back on the icon.
 - While people type, a screen reader says how many apps match on the home page, and how many results the list holds anywhere else.
+- A screen reader reads the list as the field's own list of options, each group with its title, and says which result is picked while the arrow keys move through it.
 - The bell is a button whose name includes the count: “notifications, 2 unread”.
 - The avatar is a button whose name says what it shows and what it opens: “au, user menu”. Inside the menu, the arrow keys move between the items, and Esc closes it and puts the focus back on the avatar, as in the <C slug="action-menu" />.
 
@@ -126,9 +150,12 @@ Planned, together with the components:
 - **The search.** Its placeholder says what it finds, in the same words as its name: “search apps…”.
 - **The menu's header.** The person's name, then their email address, quieter.
 - **The menu's items.** Account, settings, help and sign out, in that order.
+- **The bar's own words.** The names it gives its parts, such as “search”, “notifications, 2 unread” and “sign out”, come in the page's language: English and German are built in.
 
 ## related
 
+- <C slug="top-bar">Top bar and user menu</C>: the components, with their states, their keys and their exact sizes.
+- <C slug="avatar">Avatar</C>: the square that stands for a person.
 - [App navigation](/design-system/patterns/app-navigation/): the app's own views, under the bar.
 - [Home & tiles](/design-system/patterns/home-and-tiles/): where the product's name leads back to, and the tiles the search narrows there.
 - [Settings and setup](/design-system/patterns/settings-and-setup/): what the user menu's settings hold.

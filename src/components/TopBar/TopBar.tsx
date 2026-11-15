@@ -61,7 +61,11 @@ export interface TopBarProps extends React.HTMLAttributes<HTMLElement> {
   homeHref?: string;
   /** A press on the product's name, for an app that routes itself. */
   onHomeClick?: React.MouseEventHandler<HTMLAnchorElement>;
-  /** The open app's name, the same word as on its tile. It follows the product's name after a slash. */
+  /**
+   * The open app's name, the same word as on its tile. It follows the
+   * product's name after a slash. A narrow bar has room for the product's
+   * name alone; there the app's own header says where people are.
+   */
   app?: React.ReactNode;
   /** The one search. Without it the bar has none. */
   search?: TopBarSearch;
@@ -75,7 +79,7 @@ export interface TopBarProps extends React.HTMLAttributes<HTMLElement> {
   /**
    * Below this width of the bar, in px at the usual text size, the search is
    * an icon that opens the field across the whole bar, and the bar starts
-   * with the product's name. Default 600.
+   * with the product's name alone. Default 600.
    */
   narrowBelow?: number;
   /** How many notifications are unread. The bell shows the number and says it in its name. */
@@ -214,6 +218,9 @@ export const TopBar = React.forwardRef<HTMLElement, TopBarProps>(function TopBar
     const onKey = (e: KeyboardEvent) => {
       if (e.key !== '/' || e.defaultPrevented || e.ctrlKey || e.metaKey || e.altKey || e.isComposing) return;
       if (isTyping(e.target)) return;
+      // a dialog that blocks the page blocks the bar under it too.
+      const modal = document.querySelector('[aria-modal="true"]');
+      if (modal && !modal.contains(barRef.current)) return;
       e.preventDefault();
       focusSearch();
     };
@@ -389,7 +396,7 @@ export const TopBar = React.forwardRef<HTMLElement, TopBarProps>(function TopBar
             <Chevron size={16} aria-hidden />
             <span className="nc-topbar__product">{product}</span>
           </a>
-          {app != null && app !== false ? (
+          {app != null && app !== false && !narrow ? (
             <span className="nc-topbar__app">
               <span className="nc-topbar__slash" aria-hidden="true">
                 /
@@ -477,8 +484,11 @@ export const TopBar = React.forwardRef<HTMLElement, TopBarProps>(function TopBar
     }
     parts.push(<span key="space" className="nc-topbar__space" />);
     if (!mark && !narrow) parts.push(searchRegion);
+
+    // what stands at the end of the bar in every frame, in this order.
+    const end: React.ReactNode[] = [];
     if (search && narrow) {
-      parts.push(
+      end.push(
         <button
           key="open-search"
           ref={searchButtonRef}
@@ -496,7 +506,7 @@ export const TopBar = React.forwardRef<HTMLElement, TopBarProps>(function TopBar
       );
     }
     if (onNotifications) {
-      parts.push(
+      end.push(
         <button
           key="bell"
           type="button"
@@ -516,9 +526,16 @@ export const TopBar = React.forwardRef<HTMLElement, TopBarProps>(function TopBar
       );
     }
     if (userMenu != null && userMenu !== false) {
-      parts.push(
+      end.push(
         <div key="user" className="nc-topbar__user">
           {userMenu}
+        </div>,
+      );
+    }
+    if (end.length) {
+      parts.push(
+        <div key="end" className="nc-topbar__end">
+          {end}
         </div>,
       );
     }

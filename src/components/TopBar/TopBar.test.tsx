@@ -192,6 +192,21 @@ describe('TopBar', () => {
     });
   });
 
+  it('leaves the / key alone under a dialog that blocks the page', async () => {
+    const user = userEvent.setup();
+    render(
+      <>
+        <Bar />
+        <div role="dialog" aria-modal="true" aria-label="a question">
+          <button type="button">cancel</button>
+        </div>
+      </>,
+    );
+    screen.getByRole('button', { name: 'cancel' }).focus();
+    await user.keyboard('/');
+    expect(screen.getByRole('button', { name: 'cancel' })).toHaveFocus();
+  });
+
   describe('the results', () => {
     it('are a list under the field that opens with a typed word, in the app’s groups', async () => {
       const user = userEvent.setup();
@@ -321,7 +336,8 @@ describe('TopBar', () => {
       expect(stops).toEqual(['platform, home', 'search', 'notifications, 2 unread', 'au, user menu']);
       expect(screen.queryByRole('search')).toBeNull();
       expect(screen.getByRole('link', { name: 'platform, home' })).toHaveTextContent('platform');
-      expect(screen.getByText('downloads')).toBeInTheDocument();
+      // the product's name alone: the app's own header says where people are.
+      expect(screen.queryByText('downloads')).toBeNull();
     });
 
     it('is narrow below its threshold, which can be moved', () => {

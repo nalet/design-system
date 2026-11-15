@@ -61,6 +61,7 @@
    leaves before a field's text. */
 [data-nc-screen='touch'] .nc-input .nc-input__control,
 [data-nc-screen='tv'] .nc-input .nc-input__control {
+  box-sizing: border-box;
   align-self: stretch;
   font-size: 0.875rem;
 }
@@ -85,6 +86,7 @@
    anywhere on the box opens the list. */
 [data-nc-screen='touch'] .nc-select .nc-select__control,
 [data-nc-screen='tv'] .nc-select .nc-select__control {
+  box-sizing: border-box;
   align-self: stretch;
   margin: 0 -2.25rem 0 calc(-1 * var(--s-4));
   padding: 0 2.25rem 0 var(--s-4);
@@ -122,8 +124,17 @@
 [data-nc-screen='touch'] .nc-tabs__tab,
 [data-nc-screen='tv'] .nc-tabs__tab {
   box-sizing: border-box;
-  min-width: 3rem;
   min-height: 3rem;
+}
+/* and are at least as wide. a spacer inside the tab, 48 less its padding and
+   of no height, widens a short label's tab; a min-width on the tab itself
+   would let a row that is too narrow squeeze the tabs under their labels. */
+[data-nc-screen='touch'] .nc-tabs__tab::before,
+[data-nc-screen='tv'] .nc-tabs__tab::before {
+  content: '';
+  display: block;
+  width: 1.5rem;
+  height: 0;
 }
 [data-nc-screen='touch'] .nc-filtertabs__tab,
 [data-nc-screen='tv'] .nc-filtertabs__tab {
@@ -215,8 +226,15 @@
    alone, the box and the track keep their look and answer in 48 around them. */
 [data-nc-screen='touch'] .nc-checkbox--labelled,
 [data-nc-screen='touch'] .nc-switch--labelled {
-  min-width: 3rem;
   min-height: 3rem;
+}
+/* a checkbox with a very short label is still 48 wide: the box, the gap and a
+   spacer of no height inside the label, as in a tab. */
+[data-nc-screen='touch'] .nc-checkbox--labelled .nc-checkbox__label::before {
+  content: '';
+  display: block;
+  width: 1.5rem;
+  height: 0;
 }
 
 /* the box is 16: 16 more on every side. */

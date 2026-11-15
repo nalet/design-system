@@ -3,7 +3,7 @@ layout: ../../layouts/Doc.astro
 title: interaction
 description: How every component answers people in the same way, with the same states, a visible focus, one keyboard model and one way of selecting.
 draft: true
-draftNote: "On a touch screen, under pointer and touch, is new and under review: the touch area of 48 around every control. The rest of the page describes the system as it is."
+draftNote: "On a touch screen, under pointer and touch, is now built: on a screen that an app marks as made for touch, every control answers in 48, shown live there. The rest of the page is as it was accepted."
 ---
 import { Button, Checkbox, IconButton, Icon, Input, Kbd } from '@nalet/design-system';
 import { RotateCw } from 'lucide-react';
@@ -114,11 +114,22 @@ Opening a row and selecting it are kept apart: a press on the row opens it, and 
 
 ### on a touch screen
 
-A finger is wider than a pointer, and it hides what it presses. So on a touch screen, targets are larger than 24:
+A finger is wider than a pointer, and it hides what it presses. So on a screen that an app marks as made for touch, targets are larger than 24:
 
-- **Every control answers in at least 48 × 48**, its touch area, and every row is at least 48 high. That is Android's minimum for anything that can be touched, and more than the 44 that WCAG 2.5.5 asks for at level AAA, and the 44 points Apple asks for. [Touch and tv sizes](/design-system/foundations/layout/#touch-and-tv-sizes) shows how a control is drawn inside it.
+- **Every control answers in at least 48 × 48**, its <Term id="touch-area">touch area</Term>, and every row is at least 48 high. That is Android's minimum for anything that can be touched, and more than the 44 that WCAG 2.5.5 asks for at level AAA, and the 44 points Apple asks for. [Touch and tv sizes](/design-system/foundations/layout/#touch-and-tv-sizes) shows how a control is drawn inside it.
 - **The touch area isn't drawn.** The control keeps its look; only the part of the screen that answers to a finger grows, into the space around the control. It never reaches into another control's area, so a touch between two controls never lands on the wrong one.
-- **The label counts.** A checkbox or a switch answers anywhere on its row, label included, just as it does to a pointer.
+- **The label counts.** A checkbox or a switch answers anywhere on its row, label included, just as it does to a pointer. The row is 48 high.
+- **A field answers everywhere.** A text field and a select answer on the whole box, its edges and its arrow included, and 3 above and below it.
+
+<Example label="a checkbox, a button and an icon button on a screen made for touch: each answers in 48">
+  <div data-nc-screen="touch" style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--s-4)' }}>
+    <Checkbox label="Include archived" defaultChecked />
+    <Button size="sm">check now</Button>
+    <IconButton size="sm" label="refresh"><Icon icon={RotateCw} /></IconButton>
+  </div>
+</Example>
+
+The focus, the states and the keys stay as they are on this page. A TV has a focus of its own, for a screen read from across the room: see [tv focus](/design-system/patterns/tv-focus/).
 
 ## related
 
@@ -142,5 +153,5 @@ A finger is wider than a pointer, and it hides what it presses. So on a touch sc
 - **Today:** text fields, selects and textareas show focus as a `--cloud-blue` border with an inset shadow; the tiles on the home page as a `--cloud-blue` frame.
 - **Native elements** wherever they exist: `<button>`, checkboxes, `<select>`, `<details>`.
 - **Targets:** at least 24px (WCAG 2.5.8). The `sm` controls are 28px high.
-- **Targets on a touch screen** (planned): a touch area of at least 48 × 48 around every control, centred on it and never overlapping another, and rows at least 48 high. WCAG 2.5.5, level AAA, asks for 44 × 44; Android for 48 × 48 dp. The sizes and their sources are in [layout](/design-system/foundations/layout/#touch-and-tv-sizes-1).
+- **Targets on a touch screen:** inside an element with `data-nc-screen="touch"`, usually the root element, a touch area of at least 48 × 48 around every control, centred on it, and rows at least 48 high. The areas of two controls 8 apart never overlap. WCAG 2.5.5, level AAA, asks for 44 × 44; Android for 48 × 48 dp. The sizes, how each component gets there and the sources are in [layout](/design-system/foundations/layout/#touch-and-tv-sizes-1).
 - **Keys** in text: the `Kbd` component.

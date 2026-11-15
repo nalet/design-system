@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { cx } from '../../lib/cx';
 import { useLanguage } from '../../lib/language';
+import { screenOf } from '../../lib/screen';
 import './Select.css';
 
 export interface SelectOption {
@@ -34,14 +35,25 @@ interface OpenList {
   labelledBy: string | undefined;
 }
 
-/** The screen an element is drawn on: the nearest `data-nc-screen` above it. */
-function screenOf(el: Element | null): string | null {
-  return el?.closest('[data-nc-screen]')?.getAttribute('data-nc-screen') ?? null;
-}
-
 /** The page's text size in px: the sizes below are shares of it, as every size is. */
 function textSize(): number {
   return parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
+}
+
+/**
+ * The select's box as it lies at rest. On a tv it is a little larger while it
+ * has the focus, and the focus is about to move into the list.
+ */
+function restingBox(box: HTMLElement): { left: number; right: number; top: number; bottom: number; width: number } {
+  const r = box.getBoundingClientRect();
+  const own = getComputedStyle(box).transform;
+  if (!own || own === 'none' || typeof DOMMatrixReadOnly === 'undefined') return r;
+  const m = new DOMMatrixReadOnly(own);
+  const width = r.width / (m.a || 1);
+  const height = r.height / (m.d || 1);
+  const x = (r.left + r.right) / 2;
+  const y = (r.top + r.bottom) / 2;
+  return { left: x - width / 2, right: x + width / 2, top: y - height / 2, bottom: y + height / 2, width };
 }
 
 // the list's place, in px at the usual text size: 4 from the select (the gap
@@ -123,7 +135,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function 
     const end = SAFE_END * unit;
     const vw = document.documentElement.clientWidth;
     const vh = document.documentElement.clientHeight;
-    const r = box.getBoundingClientRect();
+    const r = restingBox(box);
 
     node.style.minWidth = `${Math.max(0, Math.min(r.width, vw - 2 * side))}px`;
     node.style.maxHeight = `${Math.max(0, vh - 2 * end)}px`;

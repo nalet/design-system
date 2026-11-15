@@ -3,13 +3,15 @@ layout: ../../layouts/Doc.astro
 title: tv focus
 description: How the one focused thing on a TV screen stands out from across the room. A ring, a lighter surface and a little growth, the same on every screen.
 draft: true
-draftNote: "The focus of fields and selects, and choosing on a tv, are new and under review. The rest of the page describes the focus style as it was accepted."
+draftNote: "The TV focus is now built into the components, for every kind of item on this page, and a select opens its own list on a TV; both are shown live here. The rest of the page is as it was accepted."
 ---
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
-import { DoDont, Do, Dont } from '@site/blocks';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { FocusKinds, OnAProjector } from '@site/specimens/tv-focus';
 import { TvFieldFocus, TvListOpen, TvListPickedDo, TvListFirstDont } from '@site/sketches/sizes-and-inputs';
+import { TvFocus, TvFields } from '@site/demos/screens';
+import { OnATv as SelectOnATv } from '@site/examples/select';
 
 # tv focus
 
@@ -46,7 +48,32 @@ A field takes the focus of a row, not of a button. A text field or a select is w
   <figcaption>A text field and a select on a TV, to scale, at rest and focused: the ring inside the edge, the focused surface, a little growth and brighter text.</figcaption>
 </figure>
 
+<Example label="a text field and a select on a tv screen, live: press tab, or click one" column>
+  <TvFields client:visible />
+</Example>
+
 OK on a focused text field opens the TV's own keyboard; on a select, it opens the select's list, as [choosing on a tv](#choosing-on-a-tv) describes.
+
+### in the components
+
+On a screen that an app marks as a TV, the components draw this focus themselves. Each takes the focus of the kind it is closest to:
+
+| kind | components |
+| --- | --- |
+| Buttons and chips | <C slug="button">Buttons</C> and <C slug="icon-button">icon buttons</C>; the smaller buttons inside a banner, a dialog and a table's header; a checkbox or a switch that stands without a label |
+| Rows | The rows of a <C slug="data-table" />; a <C slug="checkbox" /> or a <C slug="switch" /> with its label; <C slug="tabs" /> and <C slug="filter-tabs" />, which stand flush on one line; the rows of a select's list |
+| Cards | <C slug="tile">Tiles</C> that open something |
+| Fields and selects | <C slug="input">Text fields</C>, <C slug="select">selects</C> and <C slug="textarea">text areas</C> |
+
+<Example label="the tv focus on the components, live: press tab, or click one" column>
+  <TvFocus client:visible />
+</Example>
+
+- **It shows however the focus got there**, from the remote's arrow keys or from a pointer. On a computer, a click shows no outline; on a TV the focused item is the cursor, so it always shows.
+- **A colour that means something stays.** A filled button keeps its fill, and a button for an action that can't be undone keeps its amber.
+- **Filter tabs don't grow.** Their row scrolls sideways, and a tab that grew would be cut at its edge. They show the ring and the surface.
+- **The ring on a field with an error is still the focus colour.** The error stays in words under the field.
+- **OK presses what has the focus.** A remote has no space bar, so on a TV OK also flips a switch and ticks a checkbox, which a keyboard does with the space bar only.
 
 ## why a lighter surface is not enough
 
@@ -71,28 +98,36 @@ The ring always means focus, and only focus. Other marks look different:
 
 ## movement and space
 
-- Focus moves at once. The growth and the ring take 150 ms to settle, easing out. With animations switched off on the device, they appear at once.
-- The ring and the growth need room. Between two cards, leave at least 12 dp, so a focused card never touches its neighbours.
+- Focus moves at once. The ring is there with it, and settles with the growth, which takes 150 ms, easing out. With animations switched off on the device, nothing grows: the ring, the surface and the brighter text are there at once.
+- The ring and the growth need room. Between two cards, leave at least 12 dp, so a focused card never touches its neighbours. The components keep 12 between their own parts, such as the buttons of a toolbar and the tiles of a group.
+- Which item is next is not the components' to say. Moving from one item to another with the arrow keys is the TV browser's part, or the app's. Inside a component the arrow keys work as on a computer: along a row of tabs, through a table's rows, through a list.
 - Everything that can take focus stays inside the <Term id="safe-area">safe area</Term>: 48 dp from the left and right edges, 27 dp from the top and bottom. Some TVs cut off the edges of the picture, and a focused item that grows must not grow into that edge.
 
 ## choosing on a tv
 
-On a computer or a phone, a <C slug="select" /> opens the device's own list. A TV has none that a product can count on: Apple's tvOS has no such list at all. So on a TV, the product draws the list itself, and every app draws it the same way.
+On a computer or a phone, a <C slug="select" /> opens the device's own list. A TV has none that a product can count on: Apple's tvOS has no such list at all. So on a TV, the select draws the list itself, the same in every app.
+
+<Example label="a select on a tv screen, live: press enter on it, or click it">
+  <SelectOnATv client:visible />
+</Example>
 
 <figure class="ds-figure">
   <TvListOpen />
   <figcaption>A select's list on a TV, to scale: over the page, at the select, with the focus on the value that is set.</figcaption>
 </figure>
 
-- **It opens over the page, at the select.** OK on a focused select opens the list right under it, inside the safe area, and dims the page behind it. Where there isn't room below, the list opens above.
+- **It opens over the page, at the select.** OK on a focused select opens the list right under it, inside the safe area, and dims the page behind it. The select itself stays in view. Where there isn't room below, the list opens above.
 - **The focus is on the picked row.** The list opens with the focus on the value that is set, so people see it at once, and the values next to it are one press away.
 - **Up and down move**, one row at a time, and stop at the first and the last row. A list taller than the safe area scrolls, and keeps the focused row in view.
 - **Moving picks nothing.** Going up and down through the list sets no value on the way.
 - **OK picks and closes.** The select shows the new value, and the focus is back on it.
 - **Back closes, and nothing changes.** The value stays as it was, and the focus goes back to the select.
 - **Left and right don't leave the list.** While it is open, the focus stays in it, the way Tab stays inside a dialog.
+- **A value that can't be chosen** stays in the list, dimmed, and the focus passes over it.
+- **A press works too.** With a pointer, a press on a row picks it, and a press on the dimmed page closes the list and changes nothing.
+- **Closed, the arrow keys only move the focus.** On a computer, the up and down arrow keys step through the values of a closed select. On a TV they are for moving, so there they change nothing.
 
-The list looks like the <C slug="action-menu" />'s menu: its surface, its thin frame and its shadow, square. Its rows are 40 dp high, the height of a row in a menu on a TV, each with a value's name in the monospace face at 14 dp, keeping its case. The picked row has a check before its name, and every row keeps the room of the check, so the names line up. The focused row has the focus of a row: the ring inside its edge, the focused surface and 2% growth.
+The list looks like the <C slug="action-menu" />'s menu: its surface, its thin frame and its shadow, square. Its rows are 40 dp high, the height of a row in a menu on a TV, each with a value's name in the monospace face at 14 dp, keeping its case. The picked row has a check before its name, and every row keeps the room of the check, so the names line up. The focused row has the focus of a row: the ring inside its edge, the focused surface and 2% growth. The rows stand a little inside the frame, so the focused one grows without leaving it.
 
 <DoDont>
   <Do caption="The list opens on the value that is set: people see it at once, and the next value is one press away.">
@@ -103,7 +138,7 @@ The list looks like the <C slug="action-menu" />'s menu: its surface, its thin f
   </Dont>
 </DoDont>
 
-For a <Term id="screen-reader">screen reader</Term>, the select is a button that says it opens a list, and the list is a list box that says which value is picked. The focus moves into the list when it opens, and back to the select when it closes.
+For a <Term id="screen-reader">screen reader</Term>, the select says that it opens a list and whether the list is open, and the list is a list box, named after the select, that says which value is picked. The focus moves into the list when it opens, and back to the select when it closes.
 
 ## checks
 
@@ -128,27 +163,32 @@ For a <Term id="screen-reader">screen reader</Term>, the select is a button that
 | ring width | 3 dp | Every focusable item |
 | ring gap | 2 dp outside | Cards, buttons and chips; rows, fields and selects draw the ring inside, without a gap |
 | growth | 1.05; 1.02 | Cards, buttons and chips; rows, fields and selects |
-| timing | 150 ms, ease-out | None when animations are off |
+| timing | 150 ms, ease-out | The growth. No growth and no transition when animations are off |
 | left-edge bar | 4 dp, `--cloud-blue` | “Where you came from” |
 | room | 12 dp | Between cards, buttons and chips |
 | safe area | 48 dp left and right, 27 dp top and bottom | Everything that can take focus, and all text |
 
-- **Units.** dp are the TV's layout units: a TV screen is 960 × 540 dp. On a 1920 × 1080 screen drawn by a web browser, as in TV web apps, 1 dp is 2 CSS px. The pictures on this page draw 1 dp as 1 px.
+- **Units.** dp are the TV's layout units: a TV screen is 960 × 540 dp. On a 1920 × 1080 screen drawn by a web browser, as in TV web apps, 1 dp is 2 CSS px. The pictures on this page draw 1 dp as 1 px, and so do the components: making a CSS pixel a dp, with the page's viewport or its scale, is the app's part.
+- **In code.** `data-nc-screen="tv"` on any element, usually the root element; without it the components keep the web's focus. The rules are in the package's stylesheet (`src/styles/screens.css`). They use `:focus` and `:focus-within`, not `:focus-visible`: the focus shows after a press with a pointer too. Under `prefers-reduced-motion: reduce` there is no `transform` and no `transition`.
+- **Kinds, in code.** Buttons: `Button`, `IconButton`, a banner's details and dismiss, a modal's close, a data table's sort buttons, and a `Checkbox` or `Switch` without `label` (the ring around the box, or around the whole track). Rows: a data table's rows and group rows (the ring is drawn on the cells), a `Checkbox` or `Switch` with `label`, `Tabs`, `FilterTabs` (no growth), a select's list. Cards: an interactive `Tile`. Fields: `Input`, `Select`, `Textarea`, the portal's search. A focused toolbar, and a table or a code block that scrolls, show the 3px ring and don't grow.
+- **Plain and filled.** `primary` keeps `--cloud-blue`; `default` and `ghost` get `--surface-focus` and `--fg`; `danger` gets `--surface-focus` and keeps `--signal-amber`.
+- **Not in the components:** moving the focus between components with the arrow keys (spatial navigation), the left-edge bar for “where you came from”, and the safe area.
 - **Contrast, tested.** The ring: 6.70:1 on `bg`, 6.34:1 on `surface`, 6.02:1 on `surface-2`, 4.54:1 on `surface-focus`. Text on `surface-focus`: `fg` 10.41:1, `fg-2` 8.42:1, `fg-muted` 6.46:1. `fg-dim`, at 3.49:1, never sits on it.
 - **Android TV.** One shared focus modifier, or one set of tv-material defaults for border, scale and colours set in the theme. No screen passes focus colours of its own.
-- **Fields and selects.** Focused: the 3 dp ring inside the edge replaces the 1px `--border-control` border, the fill turns from `--bg-2` to `--surface-focus`, and the box grows by 1.02. The value is `--fg`; a placeholder turns from `--fg-dim` to `--fg-muted`, so nothing in `--fg-dim` sits on the focused surface.
+- **Fields and selects.** Focused: the 3 dp ring inside the edge replaces the 1px `--border-control` border, the fill turns from `--bg-2` to `--surface-focus`, and the box grows by 1.02. The value is `--fg`; a placeholder and an icon in the field turn from `--fg-dim` to `--fg-muted`, so nothing in `--fg-dim` sits on the focused surface. A `Field`'s label turns from `--fg-2` to `--fg`. An invalid field's ring is `--focus-ring` too.
 
 ### choosing on a tv
 
 | part | value |
 | --- | --- |
 | List | `--surface`, a 1px `--border-2` frame and the action menu's shadow, square; 4 dp under the select, the gap the action menu leaves under its trigger, or above it where there is no room below; inside the safe area, and never taller than it |
-| Rows | 40 dp, a check's room before each name; names in the monospace face at 14 dp |
+| Rows | 40 dp, a check's room before each name; names in the monospace face at 14 dp; 4 dp inside the frame's sides |
 | Picked | A check before the name, in `--fg` |
 | Focused | The row's focus: the ring inside, `--surface-focus`, 1.02 |
 | The page behind | Dimmed while the list is open |
 
-- **Planned.** Today the design system has no component for it; the product draws the list.
-- **Keys.** They follow the select-only combobox of the [WAI-ARIA authoring practices](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/), with OK for Enter and back for Escape: up and down move without wrapping, OK sets the value and closes, back closes and keeps the value. Microsoft's [guidance for remotes](https://learn.microsoft.com/en-us/windows/apps/design/input/gamepad-and-remote-interactions) maps Enter to the select button and Escape to back in the same way.
-- **Roles.** The select: `aria-haspopup="listbox"` and `aria-expanded`. The list: `role="listbox"`, its rows `role="option"`, the picked one `aria-selected="true"`. The focus moves to the focused row.
+- **In code.** `Select` inside `data-nc-screen="tv"`; off a tv it is the browser's own select, unchanged. The native `<select>` stays the control: it holds the value and fires `change`, so `value`, `onChange`, `name` and the ref work as they do everywhere. The list reads its rows from the select's options when it opens, and is drawn at the end of `<body>`, over a layer that dims the page and leaves a window on the select.
+- **Keys.** They follow the select-only combobox of the [WAI-ARIA authoring practices](https://www.w3.org/WAI/ARIA/apg/patterns/combobox/examples/combobox-select-only/), with OK for Enter and back for Escape: up and down move without wrapping, OK sets the value and closes, back closes and keeps the value. Home and End go to the first and the last row; left, right and Tab stay in the list. Microsoft's [guidance for remotes](https://learn.microsoft.com/en-us/windows/apps/design/input/gamepad-and-remote-interactions) maps Enter to the select button and Escape to back in the same way. An app whose remote sends another key for back passes it on as Escape, as it does for a dialog.
+- **Closed.** Enter, Space or a press opens the list. The four arrow keys are stopped from stepping through the values, and still reach the app's own focus movement.
+- **Roles.** The select: `aria-haspopup="listbox"`, `aria-expanded`, and `aria-controls` while the list is open. The list: `role="listbox"`, named after the select; its rows `role="option"`, the picked one `aria-selected="true"`, one that can't be chosen `aria-disabled="true"`. The focus moves to the focused row.
 - **Why the product draws it.** Apple's guidelines list pop-up buttons, the control a select is, as [not supported in tvOS](https://developer.apple.com/design/human-interface-guidelines/pop-up-buttons). In Microsoft's [guidance for Xbox and TV](https://learn.microsoft.com/en-us/windows/apps/design/devices/designing-for-tv), a list that opens stays inside the safe area, and its [guidance for remotes](https://learn.microsoft.com/en-us/windows/apps/design/input/gamepad-and-remote-interactions) dims the page behind a pop-up.

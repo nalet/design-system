@@ -37,7 +37,8 @@ Without a `label`, an `aria-label` names each box.
 - `aria-checked="mixed"` comes from the native `indeterminate`, which the component sets on the `<input>`.
 - The browser clears the mixed state on every click, and the component re-applies `indeterminate` only when the prop changes. So recompute it in `onChange`, as the parent example above does.
 - Focus is drawn on `:focus-visible`, so the ring shows for keyboard focus and not for a click.
-- `enter` does not toggle a checkbox. `space` does.
+- `enter` does not toggle a checkbox. `space` does. Inside `data-nc-screen="tv"`, `enter` toggles it too: the checkbox clicks itself on the remote's OK. An `onKeyDown` of your own runs first; call `preventDefault()` in it and the checkbox leaves the key alone.
+- With a `label`, the outer `<label>` also has the class `nc-checkbox--labelled`. The touch and tv rules (`src/styles/screens.css`) size the row by it: at least 48px high inside `data-nc-screen="touch"` or `"tv"`. Without a `label`, the box answers in 48 × 48px on a touch screen.
 - `className` lands on the outer `<label>`. Every other attribute, such as `checked`, `defaultChecked`, `onChange`, `name`, `value` and `aria-*`, lands on the native `<input type="checkbox">`, and so does the ref.
 - Today: if `indeterminate` stays `true` across a click, the dash stays drawn but the browser's mixed state is gone. Assistive tech then announces on or off while the screen shows mixed.
 - Today: inside a [field](?path=/docs/components-inputs-field--docs) with `error`, `aria-invalid` is set on the native checkbox, and React warns about an unknown `invalid` attribute.
@@ -46,6 +47,7 @@ Without a `label`, an `aria-label` names each box.
 | --- | --- |
 | `tab` / `shift+tab` | Moves focus to / from the checkbox. |
 | `space` | Toggles it. On a mixed box this also clears the mixed state. |
+| `enter`, on a tv | Toggles it, as `space` does. |
 
 ## props
 

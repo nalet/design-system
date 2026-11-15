@@ -19,6 +19,48 @@ describe('Switch', () => {
     expect(onChange).toHaveBeenCalledTimes(2);
   });
 
+  it('is flipped by enter on a tv, where a remote has no space bar, and nowhere else', async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    const { rerender } = render(
+      <div data-nc-screen="tv">
+        <Switch label="Email alerts" onChange={onChange} />
+        <Switch label="Debug logging" disabled />
+      </div>,
+    );
+    const input = screen.getByRole('switch', { name: 'Email alerts' });
+    input.focus();
+    await user.keyboard('{Enter}');
+    expect(input).toBeChecked();
+    await user.keyboard('{Enter}');
+    expect(input).not.toBeChecked();
+    expect(onChange).toHaveBeenCalledTimes(2);
+    for (const said of ['touch', undefined]) {
+      rerender(
+        <div data-nc-screen={said}>
+          <Switch label="Email alerts" onChange={onChange} />
+        </div>,
+      );
+      screen.getByRole('switch', { name: 'Email alerts' }).focus();
+      await user.keyboard('{Enter}');
+      expect(screen.getByRole('switch', { name: 'Email alerts' })).not.toBeChecked();
+    }
+    expect(onChange).toHaveBeenCalledTimes(2);
+  });
+
+  it('leaves enter alone on a tv when the app took the key', async () => {
+    const user = userEvent.setup();
+    render(
+      <div data-nc-screen="tv">
+        <Switch label="Email alerts" onKeyDown={(e) => e.preventDefault()} />
+      </div>,
+    );
+    const input = screen.getByRole('switch', { name: 'Email alerts' });
+    input.focus();
+    await user.keyboard('{Enter}');
+    expect(input).not.toBeChecked();
+  });
+
   it('comes in three sizes, medium unless it is told another', () => {
     const { container, rerender } = render(<Switch label="Email alerts" />);
     const root = () => container.querySelector('.nc-switch')!;

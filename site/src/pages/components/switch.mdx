@@ -3,12 +3,14 @@ layout: ../../layouts/Doc.astro
 title: switch
 description: A switch turns one setting on or off. The change applies the moment it is flipped, with no save button.
 component: switch
+draft: true
+draftNote: "The large size is new and built: a third size, which a screen made for touch and a TV draw by themselves. The rest of the page is as it was accepted."
 ---
 import { Button, Kbd, Switch } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
-import { Playground, Sizes, States, Controlled, SettingsPanel } from '@site/examples/switch';
+import { Playground, Sizes, States, Controlled, SettingsPanel, OnATouchScreen, OnATv } from '@site/examples/switch';
 
 # switch
 
@@ -38,9 +40,9 @@ A switch turns one setting on or off, and the change applies the moment it is fl
 
 ## variants and states
 
-A switch comes in two sizes: medium, the usual one, for lists and panels of settings, and small for dense rows and tables.
+A switch comes in three sizes: medium, the usual one, for lists and panels of settings; small for dense rows and tables; and large, with the label of the large controls, for a setting that stands among them.
 
-<Example label="two sizes">
+<Example label="three sizes">
   <Sizes />
 </Example>
 
@@ -69,10 +71,26 @@ In a settings panel, put the switches one under the other, one per setting, each
   <SettingsPanel />
 </Example>
 
+### on a touch screen and on a tv
+
+On a screen that an app marks as made for touch, every switch is drawn large, whatever size it was asked for. With its label it takes a row 48 high, and the whole row answers to a finger. A switch without a label answers in 48 around its track.
+
+<Example label="switches on a screen made for touch: large, each in a row of 48">
+  <OnATouchScreen />
+</Example>
+
+On a TV a switch is large too, and with its label it is a row of a settings list: 48 high, with the [tv focus](/design-system/patterns/tv-focus/) on the whole row. Press <Kbd>tab</Kbd> to see it.
+
+<Example label="switches on a tv screen: each a row of 48 that takes the focus">
+  <OnATv />
+</Example>
+
+[Touch and tv sizes](/design-system/foundations/layout/#touch-and-tv-sizes) has the rules for every component.
+
 ## behaviour
 
 - A click on the label flips the switch too.
-- A switch is one <Term id="tab-stop">tab stop</Term>. <Kbd>space</Kbd> flips it; <Kbd>enter</Kbd> doesn't, as with any checkbox.
+- A switch is one <Term id="tab-stop">tab stop</Term>. <Kbd>space</Kbd> flips it; <Kbd>enter</Kbd> doesn't, as with any checkbox. On a TV, <Kbd>enter</Kbd> flips it too: it is the remote's OK, and a remote has no space bar.
 - If applying the setting can fail, set the switch back, and say why.
 
 The full keyboard map is on the switch's [React page](/design-system/react/?path=/docs/components-inputs-switch--docs).
@@ -86,7 +104,7 @@ The full keyboard map is on the switch's [React page](/design-system/react/?path
 
 Today:
 
-- The focus outline is drawn around the thumb. On a switch that is on, the outline falls mostly on the blue track, against which its colour has a <Term id="contrast">contrast</Term> of only about 1.1 to 1. Only a thin edge of it shows against the page, so keyboard focus on a switch that is on is hard to see.
+- The focus outline is drawn around the thumb. On a switch that is on, the outline falls mostly on the blue track, against which its colour has a <Term id="contrast">contrast</Term> of only about 1.1 to 1. Only a thin edge of it shows against the page, so keyboard focus on a switch that is on is hard to see. On a TV the ring goes around the row, or around the whole track of a switch without a label, and shows in both states.
 - There is no invalid state. Inside a <C slug="field" /> with an error, the switch doesn't change.
 - There are no styles for <Term id="forced-colours">forced colours</Term>, the high-contrast setting some operating systems offer.
 
@@ -142,8 +160,9 @@ Today:
 
 | size | in code | track | thumb | the thumb slides |
 | --- | --- | --- | --- | --- |
-| Medium | `size="md"` (the default) | 36 × 20px | 14px | 16px |
 | Small | `size="sm"` | 30 × 16px | 10px | 14px |
+| Medium | `size="md"` (the default) | 36 × 20px | 14px | 16px |
+| Large | `size="lg"` | 42 × 24px | 18px | 18px |
 
 | state | in code | looks |
 | --- | --- | --- |
@@ -155,7 +174,9 @@ Today:
 - **Hit area:** a `<label>` around the track and the label text, 8px (`--s-2`) apart.
 - **Track:** square (`border-radius: 0`), with 2px inner padding. Its fill and border change in 120ms `ease`.
 - **Thumb:** square. It slides in 140ms (0.14s) `ease`, and its colour changes in 120ms. Under `prefers-reduced-motion: reduce` it moves without sliding.
-- **Label:** `label`, Inter 13px, line-height 1.4, in `--fg-2`.
+- **Label:** `label`, Inter 13px (14px in large), line-height 1.4, in `--fg-2`.
+- **On a touch screen:** inside `data-nc-screen="touch"`, the large size whatever `size` says. With `label`, the `<label>` is at least 48 × 48 (`min-height: 3rem`); without, the input reaches 48 × 48 around the track.
+- **On a tv:** inside `data-nc-screen="tv"`, the large size, and Enter toggles it as Space does. With `label`, a row of at least 48px with 12px of padding; focused, it has a 3px `--focus-ring` ring inside its edge, `--surface-focus`, the label in `--fg`, and grows by 1.02. Without `label`, the ring is 2px outside the track, which grows by 1.05. The thumb draws no outline. No growth under `prefers-reduced-motion: reduce`.
 - **Element:** a native `<input type="checkbox" role="switch">`, transparent over the track. It takes the focus, the clicks and the form value; its state is the native `checked`, so don't add `aria-checked`.
 - **Name without a visible label:** `aria-label`. Nothing enforces it today.
 - **Focus on a switch that is on:** `--focus-ring` against `--cloud-blue` contrasts about 1.1:1, and only a 1px edge of the outline shows against the page.

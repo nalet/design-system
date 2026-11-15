@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
+import { pressOnTv } from '../../lib/screen';
 import './Checkbox.css';
 
 export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'size'> {
@@ -11,10 +12,11 @@ export interface CheckboxProps extends Omit<React.InputHTMLAttributes<HTMLInputE
 
 /**
  * Checkbox — a square checkbox with a blue fill when on. Supports the
- * indeterminate dash. Label sits to the right in ui type.
+ * indeterminate dash. Label sits to the right in ui type. On a tv Enter (the
+ * remote's OK) ticks it as Space does.
  */
 export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(
-  { label, indeterminate = false, disabled, className, id, ...rest },
+  { label, indeterminate = false, disabled, className, id, onKeyDown, ...rest },
   ref,
 ) {
   const innerRef = React.useRef<HTMLInputElement | null>(null);
@@ -41,6 +43,11 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(functi
           className="nc-checkbox__input"
           disabled={disabled}
           {...rest}
+          onKeyDown={(e) => {
+            onKeyDown?.(e);
+            // a remote has no space bar: on a tv, ok (enter) ticks the box.
+            pressOnTv(e);
+          }}
         />
         <span className="nc-checkbox__mark" aria-hidden="true">
           {indeterminate ? (

@@ -3,13 +3,15 @@ layout: ../../layouts/Doc.astro
 title: select
 description: A select lets people pick one value from a list that is too long to show at once. It is the browser's own drop-down, in a square box marked by a small blue arrow.
 component: select
+draft: true
+draftNote: "On a tv, under behaviour, is new and built: on a TV screen the select opens the system's own list in place of the browser's. The rest of the page is as it was accepted."
 ---
-import { Switch } from '@nalet/design-system';
+import { Kbd, Switch } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { SelectField } from '@site/demos/components/select';
-import { Playground, Sizes, States, WithChildren } from '@site/examples/select';
+import { Playground, Sizes, States, WithChildren, OnATv, OnATouchScreen } from '@site/examples/select';
 
 # select
 
@@ -39,7 +41,7 @@ A select lets people pick one value from a list, such as a region or how long to
 1. **Box.** A square with a thin border on a dark fill, in one of three heights. It fills the width of its container, and keeps room on the right so the value never runs under the arrow.
 2. **Value.** The option that is chosen, in <Term id="monospace">monospace</Term>.
 3. **Arrow.** A small blue arrow near the right edge. It is only decoration: <Term id="assistive-technology">assistive technology</Term> skips it, and it can't be clicked.
-4. **List.** The options, drawn by the browser and the operating system. Where the browser allows it, they show as light text on a dark panel.
+4. **List.** The options, drawn by the browser and the operating system. Where the browser allows it, they show as light text on a dark panel. On a TV, the select draws the list itself.
 
 ## variants and states
 
@@ -71,7 +73,30 @@ A disabled option stays in the list, but people can't choose it.
 - The browser and the operating system draw the list and decide what the keys do, so the details differ from one platform to another. A select is one <Term id="tab-stop">tab stop</Term>.
 - Choosing an option only sets the value. Don't go to another page, send the form or delete anything when the value changes: on some platforms the up and down arrow keys change the value without opening the list, so someone using the keyboard would set it off just by looking through the options.
 
-Today: only the part of the box that holds the text is the browser's own control. A click on the arrow, or on the space around the value, doesn't open the list.
+Today: only the part of the box that holds the text is the browser's own control. A click on the arrow, or on the space around the value, doesn't open the list. On a screen made for touch and on a TV, the whole box answers.
+
+### on a touch screen
+
+On a screen that an app marks as made for touch, a select is drawn large, whatever size it was asked for, and answers to a finger on the whole box and 3 above and below it. Its list is still the device's own.
+
+<Example label="a select on a screen made for touch: large, with the device's own list">
+  <OnATouchScreen />
+</Example>
+
+### on a tv
+
+A TV has no list of its own that a product can count on. So on a screen that an app marks as a TV, the select opens the system's own list: over the dimmed page, right at the select, with the focus on the value that is set.
+
+<Example label="a select on a tv screen, live: press enter on it, or click it">
+  <OnATv client:visible />
+</Example>
+
+- Up and down move through the list, and pick nothing on the way. They stop at the first and the last row.
+- <Kbd>enter</Kbd>, the remote's OK, picks the focused value and closes the list. <Kbd>esc</Kbd>, the remote's back, closes it and changes nothing. Either way the focus is back on the select.
+- While the list is open the focus stays in it.
+- While it is closed, the arrow keys don't step through the values, as they do on some computers: on a TV they move the focus.
+
+[Choosing on a tv](/design-system/patterns/tv-focus/#choosing-on-a-tv) has the whole behaviour and how the list looks.
 
 The full keyboard map is on the select's [React page](/design-system/react/?path=/docs/components-inputs-select--docs).
 
@@ -164,3 +189,5 @@ Today: there are no styles for <Term id="forced-colours">forced colours</Term>, 
 - **Why `selectSize`:** `size` is already a native attribute of `<select>`, the number of rows shown at once.
 - **Radio group:** for two or three options, a native `<fieldset>` with `<input type="radio">`; there is no radio component.
 - **Forced colours:** no `forced-colors` styles today. Focus is a border colour and an inset shadow, which forced colours override.
+- **On a touch screen:** inside `data-nc-screen="touch"`, the large size whatever `selectSize` says. The native `<select>` fills the box, under the arrow too, and is 48px high inside the 42px box.
+- **On a tv:** inside `data-nc-screen="tv"`, the large size, and the focus of a field: a 3px `--focus-ring` ring inside the edge, `--surface-focus`, 1.02. Enter, Space or a press opens a `role="listbox"` drawn at the end of `<body>`; the select has `aria-haspopup="listbox"`, `aria-expanded` and, while it is open, `aria-controls`. The native `<select>` stays the control: `value`, `onChange`, `name` and the ref work as they do off a tv. The list's sizes are in [tv focus](/design-system/patterns/tv-focus/#choosing-on-a-tv-1).

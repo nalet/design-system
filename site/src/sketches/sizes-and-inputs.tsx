@@ -124,7 +124,7 @@ export function TouchArea() {
     <Sketch
       w={360}
       h={204}
-      label="The touch area, to scale. A large button, 42 high, answers to a touch in a band 48 high around it. Two large icon buttons stand 8 apart, so their two 48 squares stay 2 apart. A banner's dismiss, drawn 28 square, answers in a 48 square around it. A switch with its label sits in a row 48 high, and the whole row is its target."
+      label="The touch area, to scale. A large button, 42 high, answers to a touch in a band 48 high around it. Two large icon buttons stand 8 apart, so their two 48 squares stay 2 apart. A banner's dismiss, drawn 28 square, answers in a 48 square around it. A large switch with its label sits in a row 48 high, and the whole row is its target."
     >
       <Area x={24} y={30} w={112} h={48} />
       <BigButton x={24} y={33} w={112} text="try again" />
@@ -151,10 +151,11 @@ export function TouchArea() {
         Drawn 28, touched in 48
       </T>
 
-      <Area x={185} y={122} w={151} h={48} />
-      <rect className="sk-toggle sk-toggle--on" x={195} y={136} width={36} height={20} />
-      <rect className="sk-knob sk-knob--on" x={214} y={139} width={14} height={14} />
-      <T x={241} y={150.5} size={13} body tone="strong">
+      {/* the large switch: a track of 42 × 24, an 18 thumb, a 14 label. its row starts at the track. */}
+      <Area x={185} y={122} w={136} h={48} />
+      <rect className="sk-toggle sk-toggle--on" x={185} y={134} width={42} height={24} />
+      <rect className="sk-knob sk-knob--on" x={206} y={137} width={18} height={18} />
+      <T x={235} y={151} size={14} body tone="strong">
         Email alerts
       </T>
       <T x={185} y={190} size={11} body tone="dim">
@@ -306,9 +307,11 @@ function TvList({ x, y, w, picked, focused }: { x: number; y: number; w: number;
       {LANGUAGES.map((name, i) => {
         const ry = y + 4 + i * 40;
         const isFocused = i === focused;
-        const gw = (w - 2) * 1.02;
+        // a row stands 4 inside the frame, so it grows by 2% without leaving it.
+        const rw = w - 10;
+        const gw = rw * 1.02;
         const gh = 40 * 1.02;
-        const gx = x + 1 - (gw - (w - 2)) / 2;
+        const gx = x + 5 - (gw - rw) / 2;
         const gy = ry - (gh - 40) / 2;
         return (
           <g key={name}>

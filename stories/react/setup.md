@@ -53,3 +53,24 @@ Or load them from a font service:
 ```
 
 Without them, the text falls back to the system's own fonts, `system-ui` and `ui-monospace`. Make sure to load JetBrains Mono 400: most monospace values are drawn at 400, and without it they show at the next weight up. Including the fonts in the package is **planned**.
+
+## touch screens and tvs
+
+The components are drawn for a pointer and a keyboard. An app made for touch, or for a TV, says so once, with an attribute on its root element:
+
+```html
+<html data-nc-screen="touch">
+```
+
+```html
+<html data-nc-screen="tv">
+```
+
+- **`touch`**, for a phone, a tablet or a kiosk: every control is drawn at its large size, whatever size it was given, and answers to a touch in at least 48 × 48px; a checkbox or a switch with its label, and a table's row, are at least 48px high.
+- **`tv`**, for a screen used with a remote from across the room: controls are large, rows are 48px, no text is smaller than 12px, the focus is the tv focus, and a `Select` opens the system's own list.
+- **Without the attribute** nothing changes. The components never look at the window's width or at the kind of pointer: a small window on a computer is still used with a mouse. Set the attribute where your app knows what it runs on.
+- **Where to put it.** On `<html>` or `<body>`, so that it reaches the dialogs and menus too, which are drawn at the end of `<body>`. On another element it applies to what is inside that element. From a script: `document.documentElement.dataset.ncScreen = 'tv'`.
+- **Nothing else to load.** The rules are part of `styles.css`.
+- **What stays with your app:** the space between components (8px on a touch screen, 12px on a tv), a tv's safe area, and moving the focus from one component to the next with the remote's arrow keys, which is the tv browser's spatial navigation or your own.
+
+The sizes and where they come from are on the guidelines site, under [touch and tv sizes](https://nalet.github.io/design-system/foundations/layout/#touch-and-tv-sizes) and [tv focus](https://nalet.github.io/design-system/patterns/tv-focus/).

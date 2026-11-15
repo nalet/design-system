@@ -18,8 +18,10 @@ const headings = [
 <Doc
   frontmatter={{
     title: 'react',
-    description: 'The React implementation of the nalet design system: what the React subsite holds, how to install it, what goes next to it, the stylesheet and the fonts.',
+    description: 'The React implementation of the nalet design system: what the React subsite holds, how to install it, what goes next to it, the stylesheet, the fonts, and how an app says that its screen is made for touch or is a TV.',
     react: 'react-getting-started',
+    draft: true,
+    draftNote: 'Touch screens and tvs is new: how an app says what kind of screen it draws. The rest of the page is as it was accepted.',
   }}
   headings={headings}
 >
@@ -74,6 +76,11 @@ const headings = [
     <li>
       <strong>The examples:</strong> written once in <code>stories/**/*.stories.tsx</code>; this site renders them through
       Storybook's portable stories.
+    </li>
+    <li>
+      <strong>Screens:</strong> <code>data-nc-screen="touch"</code> or <code>data-nc-screen="tv"</code> on the root element;
+      the rules are in <code>src/styles/screens.css</code> and in a few components' own stylesheets, all part of
+      <code>styles.css</code>.
     </li>
     <li>
       <strong>Types:</strong> each component's props type next to it (<code>ButtonProps</code>, <code>DataTableColumn</code>,

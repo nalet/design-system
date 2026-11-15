@@ -12,7 +12,11 @@ const meta: Meta<SwitchProps> = {
     disabled: false,
   },
   argTypes: {
-    size: { control: 'inline-radio', options: ['sm', 'md'] },
+    size: {
+      control: 'inline-radio',
+      options: ['sm', 'md', 'lg'],
+      description: 'The track: sm 30 × 16px, md 36 × 20px, lg 42 × 24px. A screen made for touch and a tv draw lg whatever this says.',
+    },
     label: { control: 'text' },
     defaultChecked: { control: 'boolean' },
     disabled: { control: 'boolean' },
@@ -51,6 +55,32 @@ export const Sizes: Story = {
     <div style={{ display: 'flex', gap: 'var(--s-4)', alignItems: 'center' }}>
       <Switch size="sm" label="sm" defaultChecked />
       <Switch size="md" label="md" defaultChecked />
+      <Switch size="lg" label="lg" defaultChecked />
+    </div>
+  ),
+};
+
+// a screen made for touch: the attribute on an element around the switches,
+// usually the page's root. every switch is drawn large, in a row 48 high.
+export const OnATouchScreen: Story = {
+  name: 'on a touch screen',
+  render: () => (
+    <div data-nc-screen="touch" style={{ display: 'flex', flexDirection: 'column', width: 280 }}>
+      <Switch label="Automatic updates" defaultChecked />
+      <Switch label="Email alerts" defaultChecked />
+      <Switch label="Weekly summary" />
+    </div>
+  ),
+};
+
+// a tv: each switch is a row of a settings list, with the tv focus on the row.
+export const OnATv: Story = {
+  name: 'on a tv',
+  render: () => (
+    <div data-nc-screen="tv" style={{ display: 'flex', flexDirection: 'column', width: 280 }}>
+      <Switch label="Automatic updates" defaultChecked />
+      <Switch label="Email alerts" defaultChecked />
+      <Switch label="Weekly summary" />
     </div>
   ),
 };

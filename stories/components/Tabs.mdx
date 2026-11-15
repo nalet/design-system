@@ -27,6 +27,14 @@ These tabs are controlled: pass `value` and set it in `onChange`. A `value` you 
 
 <Canvas of={TabsStories.Controlled} />
 
+Inside an element with `data-nc-screen="touch"`, usually the page's root, every tab is at least 48px high and 48px wide.
+
+<Canvas of={TabsStories.OnATouchScreen} />
+
+Inside `data-nc-screen="tv"` a tab is 48px high too, its label is 14px, and the focused tab shows the tv focus: press `tab`, then the arrow keys.
+
+<Canvas of={TabsStories.OnATv} />
+
 ## implementation notes
 
 - It renders a `<div>` around a `<div role="tablist">`.
@@ -35,7 +43,8 @@ These tabs are controlled: pass `value` and set it in `onChange`. A `value` you 
 - `Tabs` renders no panel, no IDs and no `aria-controls`.
 - Give your panel `role="tabpanel"` and name it after the selected tab with `aria-label`. When it holds nothing focusable, also give it `tabIndex={0}`, so keyboard users can still reach it. The with-panel story does this.
 - A disabled item is a disabled `<button>`, so it leaves the tab order and the arrow keys skip it.
-- A focused tab shows a 2px `--focus-ring` outline on `:focus-visible`, inside the tab.
+- A focused tab shows a 2px `--focus-ring` outline on `:focus-visible`, inside the tab. On a tv it is 3px on `--surface-focus`, the tab grows by 1.02, and it shows on `:focus`.
+- The touch and tv rules are CSS only (`src/styles/screens.css`, part of `styles.css`); there is no size prop.
 - The labels are lowercased with `text-transform`, so the DOM keeps the text as you wrote it.
 - Today: `aria-label` and other attributes go on the wrapper `<div>`, not on the tablist, so the tablist can't be named.
 - Today: the tabs have no IDs, so a panel can't point at its tab with `aria-labelledby`.

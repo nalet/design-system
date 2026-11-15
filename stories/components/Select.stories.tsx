@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { Select, type SelectProps, type SelectOption } from '../../src';
+import { Field, Select, type SelectProps, type SelectOption } from '../../src';
 
 const regions: SelectOption[] = [
   { label: 'eu-central', value: 'eu-central' },
@@ -41,7 +41,7 @@ const meta: Meta<SelectProps> = {
     docs: {
       description: {
         component:
-          'A square, native drop-down for choosing one value from a list, with a small cloud-blue chevron. Pass options or <option> children.',
+          'A square, native drop-down for choosing one value from a list, with a small cloud-blue chevron. Pass options or <option> children. On a tv screen it opens the system’s own list in place of the browser’s.',
       },
     },
   },
@@ -117,4 +117,41 @@ export const Controlled: Story = {
       </div>
     );
   },
+};
+
+const subtitles: SelectOption[] = [
+  { label: 'off', value: 'off' },
+  { label: 'English', value: 'en' },
+  { label: 'German', value: 'de' },
+  { label: 'French', value: 'fr' },
+  { label: 'Spanish', value: 'es' },
+];
+
+// a tv: the attribute on an element around the select, usually the page's
+// root. enter (the remote's ok) opens the system's own list over the dimmed
+// page, with the focus on the value that is set.
+export const OnATv: Story = {
+  name: 'on a tv',
+  render: function SelectOnATv() {
+    const [value, setValue] = useState('en');
+    return (
+      <div data-nc-screen="tv" style={{ width: 336 }}>
+        <Field label="Subtitles">
+          <Select options={subtitles} value={value} onChange={(e) => setValue(e.target.value)} />
+        </Field>
+      </div>
+    );
+  },
+};
+
+// a screen made for touch: large, and the browser's own list.
+export const OnATouchScreen: Story = {
+  name: 'on a touch screen',
+  render: () => (
+    <div data-nc-screen="touch" style={{ width: 336 }}>
+      <Field label="Subtitles">
+        <Select selectSize="sm" options={subtitles} defaultValue="en" />
+      </Field>
+    </div>
+  ),
 };

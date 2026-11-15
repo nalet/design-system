@@ -6,6 +6,11 @@ import docsTheme from './theme';
 // the tokens build has run, run `npm run build-tokens` first.
 import '../src/styles/tokens.css';
 
+// the library's rules for a screen made for touch and for a tv: they apply
+// only inside an element that carries data-nc-screen, as the "on a touch
+// screen" and "on a tv" stories do.
+import '../src/styles/screens.css';
+
 // dark terminal canvas + brand fonts for the preview iframe + docs.
 import './preview.css';
 

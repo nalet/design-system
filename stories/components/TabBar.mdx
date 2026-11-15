@@ -1,0 +1,62 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as TabBarStories from './TabBar.stories';
+
+<Meta of={TabBarStories} />
+
+# tab bar
+
+When a product takes a tab bar, how many tabs it holds and how its views are named is on the guidelines site: **[tab bar guidance →](https://nalet.github.io/design-system/components/tab-bar/)** and **[consumer navigation →](https://nalet.github.io/design-system/patterns/consumer-navigation/)**
+
+<Canvas of={TabBarStories.Playground} />
+
+## examples
+
+`views` are the product's views, each with an `href`, a `name` and an `icon` at 24. `current` is the `href` of the current view. The stories take every press over in `onNavigate`, as a router would.
+
+```tsx
+<TabBar
+  views={[
+    { href: '/', name: 'home', icon: <Icon icon={House} size={24} /> },
+    { href: '/films', name: 'films', icon: <Icon icon={Film} size={24} /> },
+  ]}
+  current="/films"
+  onNavigate={(event, href) => {
+    event.preventDefault();
+    router.push(href);
+  }}
+/>
+```
+
+Without `current`, no tab is the current one: a screen opened from several views, such as a film's page.
+
+<Canvas of={TabBarStories.NoneCurrent} />
+
+With fewer views, each tab is still an equal share of the width.
+
+<Canvas of={TabBarStories.ThreeViews} />
+
+## implementation notes
+
+- It renders a `<nav>` named by `label`: “views” by default, in the page's language (`words.navigation.views`). Inside it, the tabs are a list.
+- Each tab is an `<a href>`. Its `name` is visually hidden text inside the link and the link's `title`. Its icon is wrapped in an `aria-hidden` element.
+- `label` on an item becomes the link's `aria-label`, for a name that says more. `count` draws a number on the icon, written in the page's language, and hidden from assistive technology.
+- The current tab's link has `aria-current="page"`; with `inside`, `aria-current="true"`.
+- `onNavigate` is called on a press of the main button without a modifier key, with the event and the link's `href`. A press that opens the link elsewhere doesn't call it. It is called for the current tab too: go back to the top of the view there.
+- One link has `tabindex="0"`: the current tab's, or the first one's when none is current. The others have `-1`. While the focus is in the bar, the stop follows it; when the focus leaves, the stop is back on the current tab.
+- The bar is as wide as what holds it, and each tab at least 48px high. It doesn't place itself: put it last in the screen's column, after the page, so it sits at the foot and comes last in the tab order.
+- It adds `env(safe-area-inset-bottom)`, `env(safe-area-inset-left)` and `env(safe-area-inset-right)` to its padding, so it needs `viewport-fit=cover` in the page's viewport to keep clear of the phone's own bar.
+- It has no rules for a TV: a TV takes the rail.
+- More than five `views` logs a warning in the console.
+- Other `<nav>` attributes and the `ref` reach the `<nav>`.
+- axe-core finds no violations with a current tab, on a screen inside a view, with no current tab, and on a touch screen.
+
+| key | does |
+| --- | --- |
+| `tab` | Moves onto the current tab (or the first one), then out of the bar. |
+| `→` / `←` | Moves to the next / previous tab. Past the last, it goes on at the first. |
+| `home` / `end` | Moves to the first / last tab. |
+| `enter` | Opens the focused tab, as on any link. |
+
+## props
+
+<ArgTypes of={TabBarStories} />

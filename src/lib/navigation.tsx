@@ -19,7 +19,7 @@ export interface NavigationItem {
    * icon in an open rail on a TV.
    */
   name: string;
-  /** Its icon, at 24: `<Icon icon={Film} size={24} />`. Decoration: assistive technology skips it. */
+  /** Its icon: `<Icon icon={Film} size={24} />`. It is drawn at 24, and is decoration: assistive technology skips it. */
   icon: React.ReactNode;
   /** What a screen reader says where it says more than the name: "notifications, 2 unread". Start it with the name. */
   label?: string;

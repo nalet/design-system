@@ -90,6 +90,8 @@ export const COMPONENTS: ComponentEntry[] = [
   { slug: 'filter-tabs', name: 'filter tabs', exports: ['FilterTabs'], role: 'navigation', summary: 'Counts at the top of a list that also filter it.', react: 'components-navigation-filter-tabs' },
   { slug: 'tile', name: 'tile', exports: ['Tile'], role: 'navigation', summary: 'A square on the home page that opens an app, or shows a key figure.', react: 'components-navigation-tile', guidance: 'patterns/home-and-tiles/#the-tile' },
   { slug: 'tile-group', name: 'tile group', exports: ['TileGroup'], role: 'navigation', summary: 'A titled grid of tiles.', react: 'components-navigation-tile-group', guidance: 'patterns/home-and-tiles/#tile-groups' },
+  { slug: 'rail', name: 'rail', exports: ['Rail'], role: 'navigation', summary: 'The views of a product for consumers as icons down the left edge: on a wide screen, on a phone held sideways and on a TV.', react: 'components-navigation-rail' },
+  { slug: 'tab-bar', name: 'tab bar', exports: ['TabBar'], role: 'navigation', summary: 'The views of a product for consumers as icons at the foot of a phone held upright.', react: 'components-navigation-tab-bar' },
 ];
 
 /**

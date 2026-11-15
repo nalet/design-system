@@ -1,0 +1,111 @@
+---
+layout: ../../layouts/Doc.astro
+title: tab bar
+description: A row of icons at the foot of a phone held upright, one for each view of a product for consumers. The current tab is blue, with a bar on its top edge.
+component: tab-bar
+draft: true
+draftNote: "This page is new, and so is the component: the tab bar is built as consumer navigation describes it."
+---
+import { Kbd } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
+import { Example } from '@site/blocks';
+import { Playground, NoneCurrent, ThreeViews } from '@site/examples/tab-bar';
+
+# tab bar
+
+A <Term id="tab-bar">tab bar</Term> shows the few <Term id="view">views</Term> of a product for consumers as icons, side by side, at the foot of a phone held upright, within reach of the thumb. The current tab is blue, with a bar on its top edge.
+
+Why a product takes a tab bar, how many tabs it holds and how it fits with the top bar is on [consumer navigation](/design-system/patterns/consumer-navigation/). This page describes the component.
+
+<Example label="a tab bar on a phone held upright, live: press a tab">
+  <Playground client:visible />
+</Example>
+
+## when to use
+
+- For the main navigation of a product people use for themselves, with up to five views on one level, on a phone held upright.
+- Together with a <C slug="rail" />, which shows the same views, in the same order, on every other screen.
+- When every view has a plain icon that everyone names the same way. The tab bar shows the icons without their names.
+
+## when to use something else
+
+- **On a wide screen, a phone held sideways or a TV.** Use a <C slug="rail" />.
+- **For the parts of one thing, on one screen.** Use <C slug="tabs" />: tabs switch between the parts of one thing, and the tab bar moves between a product's views.
+- **For an app inside the portal.** Its views are behind the phone menu of [app navigation](/design-system/patterns/app-navigation/).
+- **For settings, search or notifications.** None of them is a tab: they are in the top bar and the user menu.
+
+## anatomy
+
+1. **The bar**, across the foot of the screen, with a thin line on its top edge. It keeps clear of the strip the phone keeps at its foot for its own gesture bar or buttons.
+2. **A tab** for each view, each one its icon alone and an equal share of the bar's width. Each one is a link to its view.
+3. **The current tab.** Its icon is the accent blue, and it has a blue bar on its top edge.
+
+## variants and states
+
+| state | looks |
+| --- | --- |
+| At rest | A grey icon |
+| Current | A blue icon, with a blue bar on the tab's top edge |
+| Under the pointer | The icon brightens. A screen made for touch has no pointer, so there nothing changes |
+| Focused | An outline inside the tab, when a keyboard brings <Term id="focus">focus</Term> to it |
+
+A screen opened from several views, such as a film's page, keeps the tab bar, and no tab is current:
+
+<Example label="a tab bar with no current tab, live">
+  <NoneCurrent client:visible />
+</Example>
+
+With fewer than five views, each tab is still an equal share of the width:
+
+<Example label="a tab bar with three views, live">
+  <ThreeViews client:visible />
+</Example>
+
+## behaviour
+
+- **A tab is a link.** A press opens its view. A product that changes its views without loading the page takes the press over; the address still changes with the view.
+- **Pressing the current tab** is passed on as well, so the product can go back to the top of that view.
+- **The tab bar is one <Term id="tab-stop">tab stop</Term>**, for people who use a keyboard with their phone. <Kbd>tab</Kbd> moves onto the current tab, or onto the first one when none is current. The left and right arrow keys move between the tabs, and go on at the other end past the last one. <Kbd>home</Kbd> and <Kbd>end</Kbd> jump to the first and the last. <Kbd>enter</Kbd> opens the focused one. Moving opens nothing.
+- **The current mark changes at once.** Nothing slides from one tab to the next.
+- **The bar is as wide as what holds it.** The product places it at the foot of the screen, after the page, where it stays while the page scrolls.
+
+The full keyboard map is on the tab bar's [React page](/design-system/react/?path=/docs/components-navigation-tab-bar--docs).
+
+## accessibility
+
+- **A landmark.** The tab bar is a navigation <Term id="landmark">landmark</Term> named “views”, which <Term id="screen-reader">screen reader</Term> users can jump to. It comes after the page, where it sits.
+- **Each tab has a name.** The view's name is its link's <Term id="accessible-name">accessible name</Term>, so a screen reader says “films”, and people who use <Term id="speech-input">speech input</Term> say the word the icon makes them think of. The icon is decoration and is skipped.
+- **The current tab is told, not only drawn.** A screen reader hears “films, current page”. On a screen inside one view, that view is read as current.
+- **Never by colour alone.** The current tab has its bar as well as its blue.
+- **Every tab is big enough to hit**: at least 48 high, and with five tabs on the narrowest phone, 64 wide. That is its <Term id="touch-area">touch area</Term>, and the tabs' areas lie side by side without overlapping.
+
+## content
+
+- **A view's name.** One word, a noun, lowercase, as people name the place: “home”, “films”, “series”, “watchlist”, “downloads”.
+- **The icons.** The same icon for the same view in every product; [consumer navigation](/design-system/patterns/consumer-navigation/#icons-alone) lists them.
+- **No “more”, no “menu”.** Every tab is a place. A product with more than five views takes another navigation.
+- **The word the tab bar brings itself**, “views”, comes in the page's language: English and German are built in.
+
+## related
+
+- [Consumer navigation](/design-system/patterns/consumer-navigation/): when a product takes a tab bar, the views it holds, and what happens when the phone is turned.
+- <C slug="rail">Rail</C>: the same views on a wide screen, a phone held sideways and a TV.
+- <C slug="tabs">Tabs</C>: for the parts of one thing, not for a product's views.
+- [Layout](/design-system/foundations/layout/#on-a-touch-screen): the touch area.
+
+## specs
+
+| part | spec |
+| --- | --- |
+| Bar | A `<nav>` named by `label` (default “views”), as wide as what holds it. `--bg-2`, with a 1px `--border` rule on its top edge |
+| Tab | `views`: each an `href`, a `name` and an `icon`. A link, an equal share of the bar's width and at least 48px high, its icon drawn at 24px in `--fg-muted`. The name is visually hidden text and the link's `title` |
+| Current | `current`, the view's `href`. `--cloud-blue` icon, and a 2px `--cloud-blue` bar on the tab's top edge, over the bar's rule, 8px in from either side of the tab. `aria-current="page"`, or `"true"` with `inside` |
+| Under the pointer | `--fg` icon. No change inside `data-nc-screen="touch"` |
+| Focus | The 2px `--focus-ring` outline inside the tab, on keyboard focus only |
+| Count | `count` on an item: the number in JetBrains Mono 11px in a small blue-tinted square on the icon's corner, shown above zero. Say it in the item's `label`, which becomes the link's name |
+
+- **Presses.** `onNavigate` is called with the press and the link's `href`, before the browser follows the link, on a press that opens the link in place. Preventing the press's default leaves the navigation to a router.
+- **Keys.** The current tab's link has `tabindex="0"`, or the first one's when none is current; the others have `-1`. While the focus is in the bar, the tab stop follows it.
+- **The phone's own bars.** The bar adds `env(safe-area-inset-bottom)`, `env(safe-area-inset-left)` and `env(safe-area-inset-right)` to its padding; the page needs `viewport-fit=cover`.
+- **Motion.** None.

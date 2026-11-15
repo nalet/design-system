@@ -3,12 +3,14 @@ layout: ../../layouts/Doc.astro
 title: consumer navigation
 description: How people move between the few views of a product for consumers — icons alone, in one rail down the left edge on a wide screen, on a phone held sideways and on a TV, and in a tab bar at the foot of a phone held upright — and how it fits with the top bar and app navigation.
 draft: true
-draftNote: "This page is a proposal. It changes what the accepted top bar page says about a product for consumers; the section on the top bar and app navigation says how."
+draftNote: "The rail and the tab bar are now built: the page shows them live, on a wide screen, on a phone and on a TV, and its keys, its accessibility and its specs say what the two components do. The rest of the page is as it was, where it differs from the top bar included."
 ---
 import { Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
-import { DoDont, Do, Dont } from '@site/blocks';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { Playground as RailLive, Sideways as RailSideways, Tv as RailTv, TvOpen as RailTvOpen } from '@site/examples/rail';
+import { Playground as TabBarLive } from '@site/examples/tab-bar';
 import {
   ConsumerNavOverview, TwoKinds, WideAnatomy, RailDo, WordsInBarDont, PhoneAnatomy, FiveTabsDo, SixTabsDont, CurrentBarDo,
   ColourOnlyDont, PlainIconsDo, UnclearIconsDont, OpenedKeepsTabsDo, OpenedCoversTabsDont, SidewaysAnatomy, Turning, TvClosed,
@@ -24,7 +26,7 @@ A product for consumers, such as one for watching films, has only a few <Term id
   <figcaption>One product on four screens, with films as the current view: the same rail of icons down the left edge on a wide screen, on a phone held sideways and on a TV, and a tab bar of icons at the foot of a phone held upright. The phone adds downloads, to watch offline.</figcaption>
 </figure>
 
-The rail, the tab bar and the <Term id="top-bar">top bar</Term> are planned components; the drawings on this page show the idea.
+The rail and the tab bar are components, the <C slug="rail" /> and the <C slug="tab-bar" />, and the examples on this page are live. The drawings show where each one sits on a screen.
 
 ## one rail and one tab bar
 
@@ -135,12 +137,18 @@ The icons come from the system's [icon set](/design-system/styles/iconography/#w
 
 On a computer or a tablet, the views run down the left edge in the rail, under the top bar.
 
+<Example label="the rail on a wide screen, live: press a view, or rest the pointer on one">
+  <RailLive client:visible />
+</Example>
+
+The example shows the rail alone, beside the room of the top bar and the page. The drawing shows the whole screen:
+
 <figure class="ds-figure">
   <WideAnatomy />
   <figcaption>A wide screen, close up, with films as the current view and the pointer resting on watchlist.</figcaption>
 </figure>
 
-1. **The product's mark**, in the bar's first cell, over the rail and as wide as it: the chevron and the first letter of the product's name, as the system's [app icon](/design-system/styles/brand/#the-app-icon) pairs the chevron with the letter n. It leads home.
+1. **The product's mark**, at the rail's head, where it is the bar's first cell, as wide as the rail and as high as the bar: the chevron and the first letter of the product's name, as the system's [app icon](/design-system/styles/brand/#the-app-icon) pairs the chevron with the letter n. It leads home.
 2. **The rail**: the views, one under the other, in their order, each its icon alone: home, films, series and watchlist. Each one is a link to its view.
 3. **The current view**: its icon is the accent blue, on a lighter square, with a blue bar on its left edge. The bar, not only the colour, says which one it is.
 4. **A view's name**, while the pointer rests on it: its square lightens, its icon brightens, and the browser shows the name as its own tooltip.
@@ -162,6 +170,10 @@ The page takes the rest of the screen, beside the rail and under the bar. The ra
 ## on a phone held upright
 
 The bar keeps what every screen needs, and the views move to a tab bar at the foot of the screen, within reach of the thumb.
+
+<Example label="the tab bar on a phone held upright, live: press a tab">
+  <TabBarLive client:visible />
+</Example>
 
 <figure class="ds-figure">
   <PhoneAnatomy />
@@ -216,6 +228,10 @@ A screen opened from a view, such as a film's page, keeps the tab bar. Its bar s
 
 A phone held sideways is wide but low, so the tabs move to the rail, and the frame gives the page the height.
 
+<Example label="the rail on a phone held sideways, live">
+  <RailSideways client:visible />
+</Example>
+
 <figure class="ds-figure">
   <SidewaysAnatomy />
   <figcaption>A phone held sideways, with films as the current view.</figcaption>
@@ -242,7 +258,7 @@ The line comes from Android's window sizes: a phone held upright is narrower tha
 | A window on a computer, zoomed to 400% | Under 600: a 1280-pixel window becomes 320 | The phone's frame: the tab bar when the window is taller than wide, the rail when it is wider |
 | A TV | Any | The TV's rail, because it is used with a remote, from across the room |
 
-The frame is chosen by the screen. The components are not: they follow their own width, whatever the screen ([layout](/design-system/foundations/layout/#responsive-behaviour)).
+The frame is chosen by the screen. The product reads the screen and draws the frame this table gives it, the rail or the tab bar; neither turns into the other by itself. The components on the page are not chosen by the screen: they follow their own width, whatever the screen ([layout](/design-system/foundations/layout/#responsive-behaviour)).
 
 ### turning the phone
 
@@ -256,6 +272,12 @@ The frame turns with the phone, and turning it never loses people's place. The c
 ## on a TV
 
 A TV has no top bar. The rail holds everything the bar holds, one item under the other, so people reach all of it the same way: by pressing left.
+
+<Example label="the rail on a tv, live, with the left part of the screen: it opens while the focus is in it">
+  <RailTv client:visible />
+</Example>
+
+In the example, <Kbd>tab</Kbd> or a press on a view moves the focus into the rail. The drawing shows the whole screen, with the rail closed:
 
 <figure class="ds-figure">
   <TvClosed />
@@ -279,9 +301,13 @@ When the focus moves into the rail, the rail opens and shows each item's name be
   <figcaption>The rail open, with the names. The focus has moved down to series, which has the ring; films, the current view, keeps its bar.</figcaption>
 </figure>
 
+<Example label="the rail on a tv, kept open here to look at">
+  <RailTvOpen client:visible />
+</Example>
+
 - **<Kbd>←</Kbd> from the page's first column** moves the focus into the rail and opens it, with the focus on the current view.
 - **<Kbd>↑</Kbd> and <Kbd>↓</Kbd> move** between the items. Moving opens nothing, so passing a view on the way to settings doesn't load it.
-- **<Kbd>ok</Kbd> opens** the focused item, closes the rail, and puts the focus on the page it opened.
+- **<Kbd>ok</Kbd> opens** the focused item. The product puts the focus on the page it opened, and the rail closes as the focus leaves it.
 - **<Kbd>→</Kbd> or <Kbd>back</Kbd> closes the rail** and puts the focus back on the page, where it was.
 - **The focused item** has the TV focus of a row: the ring inside its edge, the lighter surface, a little growth and brighter text. The ring always means focus, and only focus; the current view keeps its bar, so the two never look alike.
 - **The rail opens at once**, over the page, without sliding, and the page stays where it is. Only the ring and the growth settle, in 150 ms, as on every TV screen.
@@ -306,16 +332,14 @@ When the focus moves into the rail, the rail opens and shows each item's name be
 
 ## accessibility
 
-Planned, together with the components:
-
 - **Landmarks.** The top bar is the page's header <Term id="landmark">landmark</Term>, as on every screen. The views are a navigation landmark of their own, named “views”, wherever they are: in the rail or in the tab bar. The page is the main landmark.
 - **Each view is a link**, named after its view: “films”. The name is text that only <Term id="assistive-technology">assistive technology</Term> reads, and the icon is decoration, hidden from it, as in [iconography](/design-system/styles/iconography/#decoration-and-meaning). On a wide screen, the same word is the link's tooltip, and assistive technology may read it a second time, as a description, as with an icon button.
 - **The product's mark is a link** named after the product and where it goes, as the top bar's name is: the product's name and “home”. The chevron and the letter are decoration.
 - **The current view is told, not only drawn.** A screen reader hears “films, current page” on the view itself. On a screen inside one view, that view is marked as current; on a screen that is none of the views, none is.
-- **The focus follows the screen.** On a wide screen, the top bar comes first, the mark, the search, the bell and the user menu, then the rail, then the page. On a phone held upright, the tab bar comes last, after the page, where it sits; held sideways, the rail comes after the bar and before the page. Turning the phone keeps the focus where it was.
-- **The rail and the tab bar are one tab stop each**, as a toolbar is ([interaction](/design-system/foundations/interaction/#the-keyboard-model)). <Kbd>tab</Kbd> moves onto the current view, or onto the first one when none is current, and the arrow keys move along: up and down in the rail, left and right in the tab bar, with <Kbd>home</Kbd> and <Kbd>end</Kbd> for the first and the last. <Kbd>enter</Kbd> opens the view. Settings, at the rail's foot, is part of the same stop.
+- **The focus follows the screen.** On a wide screen, the rail comes first, the mark at its head and then its views, then the top bar's search, bell and user menu, then the page. On a phone held upright, the tab bar comes last, after the page, where it sits; held sideways, the rail comes after the bar and before the page. Turning the phone keeps the focus where it was.
+- **The rail and the tab bar are one tab stop each**, as a toolbar is ([interaction](/design-system/foundations/interaction/#the-keyboard-model)). <Kbd>tab</Kbd> moves onto the current view, or onto the first one when none is current, and the arrow keys move along: up and down in the rail, left and right in the tab bar, with <Kbd>home</Kbd> and <Kbd>end</Kbd> for the first and the last. <Kbd>enter</Kbd> opens the view. Settings, at the rail's foot, is part of the same stop, and the mark, at its head, is a stop of its own. On a TV, the arrow keys stop at the first and the last item.
 - **Contrast.** The muted grey of the icons at rest, 9.4:1 on the rail, and the blue of the current one, 6.8:1 on its lighter square, are tested at 4.5:1 on every background, like text, well above the 3:1 an icon that carries meaning needs (WCAG 1.4.11); see [colour](/design-system/styles/colour/#contrast). The lighter square is only 1.1:1 against the rail, so it never marks the current view on its own: the blue and the bar do.
-- **On a TV**, each item in the rail is read with its name, open or closed, and the current view is read as current. The focus looks the way [TV focus](/design-system/patterns/tv-focus/) has it, and with animations switched off on the device, the ring and the growth appear at once.
+- **On a TV**, each item in the rail is read with its name, open or closed, and the current view is read as current. The focus looks the way [TV focus](/design-system/patterns/tv-focus/) has it, and with animations switched off on the device, the ring appears at once and the focused item doesn't grow.
 
 ## the words
 
@@ -326,9 +350,11 @@ Planned, together with the components:
 - **The screen's name in the bar** is the screen's own title, with a name's own capitals: “The Quiet Harbour”.
 - **The rail on a TV.** The person's name beside the avatar, then “search”, the views, “notifications” and “settings”.
 - **The landmark.** Named “views”, after what it holds, as the top bar of these pages names its “sections”.
+- **In the page's language.** The two words the components bring themselves, “views” and the mark's “home”, come in English and in German. A product in another language gives them its own.
 
 ## related
 
+- <C slug="rail">Rail</C> and <C slug="tab-bar">tab bar</C>: the two components, with their states and their specs.
 - [Top bar](/design-system/patterns/top-bar/): the bar every screen shares; this page changes what a product for consumers keeps in it.
 - [App navigation](/design-system/patterns/app-navigation/): the side navigation and the phone menu of an app inside the portal.
 - [TV focus](/design-system/patterns/tv-focus/): the ring, the surface and the growth of the focused item, the safe area, and the bar for where people came from.
@@ -341,15 +367,15 @@ Planned, together with the components:
 
 ## specs
 
-Planned. The values the drawings use, and where they come from:
+The values the two components use, and where they come from:
 
 | part | spec |
 | --- | --- |
 | Views | Up to five, on one level, and settings apart from them. Android: three to five in a navigation bar; Android TV: five or six at most in its navigation drawer, so it never scrolls |
 | Frame | Under 600 dp on the short side: the phone's frame, with the tab bar when the screen is taller than wide and the rail when it is wider. 600 dp or more: the rail under the top bar. A TV: the TV's rail. From Android's window sizes: compact width is under 600 dp (phones held upright), compact height under 480 dp (phones held sideways) |
-| Rail, on a wide screen | 80 wide, from the bar to the foot of the screen: a 48 square with 16 on either side. `--bg-2`, with a 1px `--border` rule on its right edge that runs on up through the bar, beside the mark. Android's navigation rail is 80 dp wide too |
+| Rail, on a wide screen | 80 wide, down the whole left edge, with the mark's cell at its head: a 48 square with 16 on either side. `--bg-2`, with a 1px `--border` rule on its right edge, which runs on up beside the mark. Android's navigation rail is 80 dp wide too |
 | The search, on a wide screen | The design system's search field at the start of the bar, after the mark's cell, where the page's content starts. It grows with the bar up to a largest width and never reaches the bell. Its place by the frame: [top bar](/design-system/patterns/top-bar/#where-it-sits) |
-| The product's mark | The bar's first cell, 80 wide and as high as the bar: the chevron at 16, its default size ([brand](/design-system/styles/brand/#specs)), then the first letter of the product's name in the wordmark's face, JetBrains Mono 700, in `--fg-2` |
+| The product's mark | At the rail's head, where it is the bar's first cell: 80 wide and as high as the bar, 56 unless the product sets the bar's own height, with a 1px `--border` rule under it. The chevron at 16, its default size ([brand](/design-system/styles/brand/#specs)), then the first letter of the product's name in the wordmark's face, JetBrains Mono 700, at 18, in `--fg-2` |
 | A view in the rail | A 48 × 48 square, the touch area, centred in the rail: the first 16 under the bar, then one every 56, so two squares stand 8 apart, as controls on a touch screen do ([layout](/design-system/foundations/layout/#on-a-touch-screen)). Its icon 24, with the usual 1.75 line, in `--fg-muted` at rest |
 | Under the pointer | The square `--surface-2` and the icon `--fg`, the hover of a quiet button, `variant="ghost"` ([button](/design-system/components/button/#specs)); the browser's own tooltip, from the link's `title` |
 | Keyboard focus | The 2px `--focus-ring` outline, 1px outside the square, on keyboard focus only, as on a button ([button](/design-system/components/button/#specs)) |
@@ -357,14 +383,16 @@ Planned. The values the drawings use, and where they come from:
 | Settings, in the rail | The same square, its gear `settings`, 16 above the rail's foot |
 | Tab | An equal share of the tab bar's width, at least 48 dp high: Android's smallest touch target. Apple's default control is 44 pt; WCAG 2.5.8 asks for 24px at the least |
 | Tab icon | 24, as in the rail; `--fg-muted` at rest, `--cloud-blue` when current |
-| Current tab | A 2px `--cloud-blue` bar on its top edge |
+| Tab bar | As wide as the screen. `--bg-2`, with a 1px `--border` rule on its top edge, the rail's surface and rule |
+| Current tab | A 2px `--cloud-blue` bar on its top edge, over the bar's rule, 8 in from either side of the tab |
 | Rail, on a phone held sideways | 80 dp, as on a wide screen, the screen's whole height, beside the bar; its tabs at least 48 dp high and 8 apart, in the middle of its height. The current tab `--cloud-blue`, with a 2 dp bar on the rail's left edge, and no square |
+| TV rail | Closed, 112 dp wide: the safe area's 48, a row of 48, and 16 to the page. Open, over the page: as wide as its longest name and at least 320 dp, `--surface-2`, with a 1px `--border-2` rule on its right edge. Rows 48 dp high, 4 dp apart; an icon of 24 dp, then 12 dp, then the name in JetBrains Mono at 14 dp, `--fg-muted`. The person's name in Inter at 14 dp, `--fg-2`, with its capitals |
 | TV rail, current view | A 4 dp `--cloud-blue` bar on its left edge, the “where you came from” bar of TV focus |
-| TV rail, focused item | The focus of a row: a 3 dp `--focus-ring` ring inside its edge, `--surface-focus`, a growth of 1.02, settling in 150 ms, easing out |
+| TV rail, focused item | The focus of a row: a 3 dp `--focus-ring` ring inside its edge, `--surface-focus`, the icon and the name in `--fg`, a growth of 1.02, settling in 150 ms, easing out. With animations switched off: no growth, and the ring at once |
 | TV safe area | 48 dp left and right, 27 dp top and bottom, for everything that can take focus and all text |
 | Motion | The current mark changes at once; the tooltip is the browser's own; the TV's rail opens and closes at once; nothing slides |
 
 - **The icons' size.** 24 is the icon set's own grid, so the 1.75 line is 1.75 pixels, and the size of the icons in Android's navigation rail and navigation bar, and in Android TV's navigation drawer. It is one step past the largest size that [iconography](/design-system/styles/iconography/#sizes) lists today, 22, a tile's app icon.
-- **In code.** The views are links in a `<nav aria-label="views">`: the rail, or the tab bar. The current view's link has `aria-current="page"`, and on a screen inside one view, that view's link has `aria-current="true"`, as the top bar of these pages marks its current section. A view's name is visually hidden text inside its link, the same word is the link's `title`, and its icon is `aria-hidden`. The current view's link has `tabindex="0"`, or the first one's when none is current, the others `-1`, and the arrow keys move the focus between them. The mark is a link to home, with the product's name and “home” as its name and its `title`.
-- **The phone's own bars.** The tab bar and the rail leave room for the system's bars and the camera's cutout: on the web, with `viewport-fit=cover`, they add `env(safe-area-inset-bottom)`, `env(safe-area-inset-left)` and `env(safe-area-inset-right)` to their padding.
+- **In code.** The components are `Rail` and `TabBar`; their React pages list what each one takes. An ancestor's `data-nc-screen` says which rail is drawn: none for a wide screen, `touch` for a phone held sideways, `tv` for a TV. The views are links in a `<nav aria-label="views">`: the rail, or the tab bar. The current view's link has `aria-current="page"`, and on a screen inside one view, that view's link has `aria-current="true"`, as the top bar of these pages marks its current section. A view's name is visually hidden text inside its link, the same word is the link's `title`, and its icon is `aria-hidden`. The current view's link has `tabindex="0"`, or the first one's when none is current, the others `-1`, and the arrow keys move the focus between them. The mark is a link to home, with the product's name and “home” as its name and its `title`.
+- **The phone's own bars.** The tab bar and the rail leave room for the system's bars and the camera's cutout: on the web, with `viewport-fit=cover`, the tab bar adds `env(safe-area-inset-bottom)`, `env(safe-area-inset-left)` and `env(safe-area-inset-right)` to its padding, and the rail `env(safe-area-inset-left)` and `env(safe-area-inset-bottom)`.
 - **Sources.** Android: the navigation bar (three to five destinations), window size classes, touch target size (48 dp), the navigation rail and the navigation bar of Compose Material 3 (`NavigationRail` at least 80 dp wide, from `NavigationRailCollapsedTokens.NarrowContainerWidth`; icons of 24 dp, `NavigationRailBaselineItemTokens.IconSize` and `NavigationBarVerticalItemTokens.IconSize`), and the TV navigation drawer (collapsed to icons, open with their names; five or six destinations; icons of 24 dp, `NavigationDrawerItemDefaults.IconSize`). Apple's Human Interface Guidelines: tab bars (labels, overflow, keep the tab bar in view) and accessibility (control sizes). WCAG 2.2: 1.4.1 use of colour, 1.4.11 non-text contrast, 2.5.8 target size. This system: the button's hover and focus, the icon button's label as its name and tooltip, the brand's chevron and wordmark, the token contrast test. And the rail as a product for watching films builds it on the web today: 80 px wide, its icons 24 in squares of 48, 8 apart, settings at its foot, the current view blue on a lighter square.

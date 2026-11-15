@@ -1,0 +1,151 @@
+---
+layout: ../../layouts/Doc.astro
+title: rail
+description: A column of icons down the left edge of the screen, one for each view of a product for consumers. The current view is blue, with a bar on its edge. On a TV, the rail opens and shows the views' names.
+component: rail
+draft: true
+draftNote: "This page is new, and so is the component: the rail is built as consumer navigation describes it."
+---
+import { Kbd } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
+import { Example } from '@site/blocks';
+import { Playground, NoneCurrent, Sideways, Tv, TvOpen } from '@site/examples/rail';
+
+# rail
+
+A <Term id="rail">rail</Term> shows the few <Term id="view">views</Term> of a product for consumers as icons, one under the other, down the left edge of the screen: home, films, series, the watchlist. The current view is blue, with a bar on its edge.
+
+Why a product takes a rail, what the rail holds on each kind of screen and how it fits with the top bar is on [consumer navigation](/design-system/patterns/consumer-navigation/). This page describes the component.
+
+<Example label="a rail on a wide screen, live: press a view, or rest the pointer on one">
+  <Playground client:visible />
+</Example>
+
+## when to use
+
+- For the main navigation of a product people use for themselves, with up to five views on one level.
+- Wherever the screen has room for a column beside the page: on a computer or a tablet, on a phone held sideways, and on a TV.
+- When every view has a plain icon that everyone names the same way. The rail shows the icons without their names.
+
+## when to use something else
+
+- **On a phone held upright.** Use a <C slug="tab-bar" />, with the same views in the same order.
+- **For an app inside the portal**, whose views come in groups and grow with its work. Use the side navigation of [app navigation](/design-system/patterns/app-navigation/), which shows each view's name.
+- **For the parts of one thing, on one screen.** Use <C slug="tabs" />.
+- **For more than five views.** A rail holds few enough that it never has to scroll through them. A product with more takes the side navigation.
+
+## anatomy
+
+1. **The product's mark** (optional), at the rail's head: the <Term id="chevron">chevron</Term> and the first letter of the product's name. It leads home. It is as high as the <Term id="top-bar">top bar</Term> beside it, so it reads as the bar's first cell.
+2. **The views**, in their order, each an icon in a square. Each one is a link to its view.
+3. **The current view.** Its icon is the accent blue, on a lighter square, with a blue bar on its left edge.
+4. **An item at the foot** (optional), apart from the views: settings. While settings is open, its gear is the current one.
+
+## variants and states
+
+The rail has one look for each kind of screen. A product says which kind of screen it draws, once for the whole screen ([layout](/design-system/foundations/layout/#touch-and-tv-sizes)), and the rail follows.
+
+| screen | the rail |
+| --- | --- |
+| A wide screen, used with a pointer | Squares, the first one under the mark, and settings at the foot. The current view is blue on a lighter square, with its bar inside the square's left edge |
+| A phone held sideways, made for touch | The phone's tabs and nothing else, in the middle of the rail's height, each as wide as the rail. The current one is blue, with its bar on the rail's left edge, and has no square |
+| A TV | Rows inside the <Term id="safe-area">safe area</Term>: the person and the search above the views, the notifications and settings at the foot. Closed, it shows the icons alone; open, their names beside them |
+
+| state | looks |
+| --- | --- |
+| At rest | A grey icon |
+| Under the pointer | The square lightens and the icon brightens, and the browser shows the view's name as its own tooltip |
+| Current | A blue icon and a blue bar on the left edge; on a wide screen, on the lighter square |
+| Focused | An outline around the square, when the keyboard brings <Term id="focus">focus</Term> to it. On a TV, the ring inside the row's edge, a lighter surface, a little growth and brighter text |
+
+A screen that belongs to none of the views, such as a film's page, has no current view:
+
+<Example label="a rail with no current view, live">
+  <NoneCurrent client:visible />
+</Example>
+
+### on a phone held sideways
+
+On a screen made for touch, the rail is the phone's: its tabs, and neither the mark nor settings, which stay in the top bar and in the user menu. A phone has no pointer, so nothing lightens, and the current tab has its blue and its bar alone.
+
+<Example label="the rail of a phone held sideways, live">
+  <Sideways client:visible />
+</Example>
+
+### on a tv
+
+A TV has no top bar, so the rail holds what the bar holds elsewhere. While the focus is on the page, the rail is closed and shows the icons alone. When the focus moves into it, it opens over the page, at once, and shows each item's name. Press <Kbd>tab</Kbd> in this example, or one of its views, to move the focus into the rail.
+
+<Example label="the rail on a tv, live: it opens while the focus is in it">
+  <Tv client:visible />
+</Example>
+
+The same rail, kept open here to look at:
+
+<Example label="the rail on a tv, open">
+  <TvOpen client:visible />
+</Example>
+
+## behaviour
+
+- **A view is a link.** A press opens it, and it opens in a new tab the way any link does. A product that changes its views without loading the page takes the press over; the address still changes with the view.
+- **The rail is one <Term id="tab-stop">tab stop</Term>.** <Kbd>tab</Kbd> moves onto the current view, or onto the first one when none is current. The up and down arrow keys move between the items, settings included, and go on at the other end past the last one. <Kbd>home</Kbd> and <Kbd>end</Kbd> jump to the first and the last. <Kbd>enter</Kbd> opens the focused one. Moving opens nothing.
+- **The mark is a tab stop of its own**, before the views.
+- **The current mark changes at once.** Nothing slides or fades from one view to the next.
+- **On a TV**, the focus moves into the rail on the current view. <Kbd>↑</Kbd> and <Kbd>↓</Kbd> move and stop at the first and the last item. <Kbd>ok</Kbd> opens the focused item. <Kbd>→</Kbd> or <Kbd>back</Kbd> closes the rail and puts the focus back on the page, where it was.
+- **The rail fills the height it is given**, and keeps its width. A rail that is too low for its items scrolls.
+
+The full keyboard map is on the rail's [React page](/design-system/react/?path=/docs/components-navigation-rail--docs).
+
+## accessibility
+
+- **A landmark.** The rail is a navigation <Term id="landmark">landmark</Term> named “views”, which <Term id="screen-reader">screen reader</Term> users can jump to.
+- **Each view has a name.** The view's name is its link's <Term id="accessible-name">accessible name</Term>, so a screen reader says “films”. The icon is decoration and is skipped. The same word is the link's tooltip, which a screen reader may read a second time, as a description.
+- **The current view is told, not only drawn.** A screen reader hears “films, current page”. On a screen inside one view, such as one of the watchlist's lists, that view is read as current.
+- **Never by colour alone.** The current view has its bar as well as its blue.
+- **A count is in the name.** A number drawn on an icon, such as the unread notifications, is hidden from a screen reader, which reads it in the item's name instead: “notifications, 2 unread”.
+- **On a TV**, each item is read with its name, whether the rail is open or closed. With animations switched off on the device, the ring appears at once and the focused item doesn't grow.
+- **The tooltip is only for a pointer.** People who use a keyboard or a touch screen never see it, so the icons have to be ones nobody has to guess; see [icons alone](/design-system/patterns/consumer-navigation/#icons-alone).
+
+## content
+
+- **A view's name.** One word, a noun, lowercase, as people name the place: “home”, “films”, “series”, “watchlist”. It is the same word as the view's title.
+- **The icons.** The same icon for the same view in every product; [consumer navigation](/design-system/patterns/consumer-navigation/#icons-alone) lists them.
+- **The mark.** The first letter of the product's name, as the top bar writes the name. Its tooltip and its name for a screen reader are the product's name and “home”.
+- **The person's name**, in a TV's rail, is written as the person writes it, with its capitals.
+- **The words the rail brings itself**, “views” and “home”, come in the page's language: English and German are built in.
+
+## related
+
+- [Consumer navigation](/design-system/patterns/consumer-navigation/): when a product takes a rail, the views it holds, and the rail on each kind of screen.
+- <C slug="tab-bar">Tab bar</C>: the same views at the foot of a phone held upright.
+- [TV focus](/design-system/patterns/tv-focus/): the ring, the surface and the growth of the focused item, and the bar for where people came from.
+- [App navigation](/design-system/patterns/app-navigation/): the side navigation of an app inside the portal.
+- <C slug="tabs">Tabs</C>: for the parts of one thing, not for a product's views.
+
+## specs
+
+| screen | in code | the rail |
+| --- | --- | --- |
+| A wide screen | No `data-nc-screen` on an ancestor | 80px wide. Squares of 48px, 16px from either side, the first 16px under the mark, 8px apart. `foot` 16px above the rail's foot |
+| A phone held sideways | `data-nc-screen="touch"` | 80px wide. Tabs 80 × 48px, 8px apart, in the middle of the rail's height. No change under the pointer |
+| A TV | `data-nc-screen="tv"` | Closed, 112px wide: 48px of safe area, a row of 48px, and 16px. Open, over the page: as wide as its longest name, at least 320px. Rows 48px high, 4px apart, 28px from the top and the foot: the safe area's 27px, and 1px for the focused row's growth. `head` above the views, `foot` at the foot |
+
+| part | spec |
+| --- | --- |
+| Rail | A `<nav>` named by `label` (default “views”). `--bg-2`, with a 1px `--border` rule on its right edge. It fills the height of what holds it, and scrolls when it is too low for its items |
+| Mark | `mark`, with the product's `href` and its name, `product`. A cell 80px wide and 56px high (`--nc-rail-head`, to match the top bar beside it), with a 1px `--border` rule under it: the chevron at 16px, then the first letter of the name in JetBrains Mono 700, 18px, `--fg-2`, lowercase. A link named `{product} home`, which is also its `title` |
+| View | `views`: each an `href`, a `name` and an `icon`. A link in a 48px square, its icon drawn at 24px in `--fg-muted`. The name is visually hidden text and the link's `title` |
+| Under the pointer | `--surface-2` square, `--fg` icon |
+| Current | `current`, the item's `href`. `--cloud-blue` icon on a `--surface-2` square, with a 2px `--cloud-blue` bar inside its left edge. `aria-current="page"`, or `"true"` with `inside`. On a touch screen: no square, the bar on the rail's left edge. On a TV: no square, a 4px bar |
+| Focus | The 2px `--focus-ring` outline, 1px outside the square, on keyboard focus only. On a TV: a 3px `--focus-ring` ring inside the row's edge, `--surface-focus`, the icon and the name in `--fg`, and a growth of 1.02, settling in 150ms, easing out; no growth and no settling under reduced motion |
+| Name, on a TV | Beside the icon while the rail is open: JetBrains Mono 14px, `--fg-muted`, lowercase. With `keepCase`: Inter 14px, `--fg-2`, with its capitals |
+| Open rail, on a TV | `--surface-2`, with a 1px `--border-2` rule on its right edge. Open while the focus is inside it, or as `open` says |
+| Count | `count` on an item: the number in JetBrains Mono 11px (12px on a TV) in a small blue-tinted square on the icon's corner, shown above zero. Say it in the item's `label` |
+
+- **Presses.** `onNavigate` is called with the press and the link's `href`, before the browser follows the link, on a press that opens the link in place. Preventing the press's default leaves the navigation to a router.
+- **Keys.** The current item's link has `tabindex="0"`, or the first view's when none is current; the others have `-1`. While the focus is in the rail, the tab stop follows it.
+- **A TV's keys.** <Kbd>→</Kbd>, <Kbd>esc</Kbd> and a remote's back key put the focus back on what had it before it entered the rail, and call `onClose`. The rail doesn't move the focus to the page a view opens: the product does, and the rail closes as the focus leaves it.
+- **The phone's own bars.** The rail adds `env(safe-area-inset-left)` and `env(safe-area-inset-bottom)` to its padding; the page needs `viewport-fit=cover`.
+- **Motion.** None, except the focus on a TV.

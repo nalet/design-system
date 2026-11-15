@@ -1,0 +1,68 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as StepperStories from './Stepper.stories';
+
+<Meta of={StepperStories} />
+
+# stepper
+
+When to use a stepper, its parts, how it behaves at its ends, on a touch screen and on a TV, and how to word it is on the guidelines site: **[stepper guidance →](https://nalet.github.io/design-system/components/stepper/)**
+
+<Canvas of={StepperStories.Playground} />
+
+## examples
+
+At `min`, minus is disabled; at `max`, plus is.
+
+<Canvas of={StepperStories.AtTheEnds} />
+
+`size` sets one of three heights: `sm` (28px), `md` (34px, the default) and `lg` (42px).
+
+<Canvas of={StepperStories.Sizes} />
+
+A hint with the range, a field's `error` for a value typed out of range, and `disabled`.
+
+<Canvas of={StepperStories.States} />
+
+A controlled stepper, with `value` and `onChange`. The value is kept as the string the field holds, so it can be empty while someone types.
+
+<Canvas of={StepperStories.Controlled} />
+
+Inside `data-nc-screen="touch"`, the stepper is 42px high, and minus and plus each answer in 48 × 48.
+
+<Canvas of={StepperStories.OnTouch} />
+
+Inside `data-nc-screen="tv"`, a stepper in a field is one row. Left and right change the value.
+
+<Canvas of={StepperStories.OnTv} />
+
+## implementation notes
+
+- It is a native `<input type="number">` between two native buttons, in one box (a `<div>`). The browser's own small arrows are hidden.
+- The input is the tab stop, and a spin button with `min` and `max` for a screen reader. Minus and plus have `tabindex="-1"`: a pointer and a finger reach them, the Tab key passes them.
+- `value` with `onChange` makes it controlled; `defaultValue` leaves the value with the input.
+- `onChange` is the native handler. It fires for a typed value and for every step, whether from a key or a button: a step sets the input's value and sends its `input` event. Read `event.target.value`, a string that is empty while the field is, or `event.target.valueAsNumber`.
+- A step adds or takes `step` (1 by default) and stays within `min` and `max`. From an empty field, a step gives `min`, or 0 without one. From a value out of range, one step comes back to the nearest end.
+- At `min`, minus is `disabled`; at `max`, plus is. Both are when the stepper is `disabled` or `readOnly`.
+- A typed value is left as it is typed. Check it when the form is saved, and say how to fix it in the field's `error`.
+- A press on minus or plus leaves the focus where it is, so no keyboard opens on a touch screen. A press beside the number, on the unit, puts the focus in the field.
+- `unit` is shown after the value. `formatValue` gives the value in full for a screen reader, as `aria-valuetext`; the unit is then `aria-hidden`.
+- `minusLabel` and `plusLabel` name the buttons (`aria-label`). Without them the names are “less” and “more”, from the page's language (`words.stepper`).
+- The field keeps the room of its longest value, the longer of `min` and `max`, in `ch`, so the unit stays where it is while the value changes.
+- `inputMode` is `numeric` for whole steps from a `min` of 0 or more, and `decimal` for steps with decimals.
+- `invalid` sets `aria-invalid="true"` and the `--state-error` frame. A [field](?path=/docs/components-inputs-field--docs)'s `error` sets it.
+- On a tv (`data-nc-screen="tv"` on an ancestor), left and right take a step and up and down are given away. The stepper doesn't call `preventDefault()` on up and down, so the code that moves the focus still sees an unused key. The number field steps on them all the same; the stepper puts that step back before `onChange` is called.
+- The tv row with its label uses `:has()`: a field that holds a stepper becomes the row. In a browser without `:has()`, the label stays above the row.
+- `className` lands on the box. Every other attribute, such as `name`, `required`, `aria-label` and `onBlur`, lands on the native `<input>`, and so does the ref.
+
+| key | does |
+| --- | --- |
+| `tab` / `shift+tab` | Moves focus to / from the value. Minus and plus are passed. |
+| `↑` / `↓` | One step up or down. |
+| `home` / `end` | To `min` or `max`, when it is set. |
+| Digits | Type a value. `←` `→` move the caret. |
+| `enter` | Can submit the surrounding form (the browser's implicit submission). |
+| On a tv, `←` / `→` | One step down or up; `↑` `↓` are left to the app. |
+
+## props
+
+<ArgTypes of={StepperStories} />

@@ -1,0 +1,259 @@
+.nc-slider {
+  /* the thumb: a square of 16, the size of a checkbox's box */
+  --nc-slider-thumb: 1rem;
+  --nc-slider-rail: var(--border-control);
+  --nc-slider-loaded-tone: var(--fg-dim);
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  color: var(--fg);
+}
+
+/* the slider takes the height of the controls in its row, so the row lines up */
+.nc-slider--sm {
+  min-height: 1.75rem;
+}
+.nc-slider--md {
+  min-height: 2.125rem;
+}
+.nc-slider--lg {
+  min-height: 2.625rem;
+}
+
+.nc-slider--disabled {
+  opacity: 0.5;
+}
+
+/* the track and the range input over it: as high as the slider, so the whole
+   band answers to a press */
+.nc-slider__control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  align-self: stretch;
+  flex: 1;
+  min-width: 3rem;
+}
+
+/* the track: the whole range, 4 high and square */
+.nc-slider__track {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: var(--s-1);
+  border-radius: 0;
+  background: var(--nc-slider-rail);
+}
+
+.nc-slider__fill,
+.nc-slider__loaded {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+}
+
+/* the part up to the thumb. the thumb stays inside the track, so its middle
+   travels from half a thumb after the start to half a thumb before the end. */
+.nc-slider__fill {
+  width: calc(var(--nc-slider-thumb) / 2 + (100% - var(--nc-slider-thumb)) * var(--nc-slider-at));
+  background: var(--cloud-blue);
+}
+
+/* on a seek bar: what has loaded, in a lighter grey, under the blue */
+.nc-slider__loaded {
+  width: calc(100% * var(--nc-slider-loaded));
+  background: var(--nc-slider-loaded-tone);
+}
+
+/* the browser's own range input, over the track. only its thumb is drawn. */
+.nc-slider__input {
+  -webkit-appearance: none;
+  appearance: none;
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-start: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  outline: none;
+  cursor: pointer;
+  /* a drag along the track is the slider's; a drag across it scrolls the page */
+  touch-action: pan-y;
+}
+
+.nc-slider__input:disabled {
+  cursor: not-allowed;
+}
+
+.nc-slider__input::-webkit-slider-runnable-track {
+  border: 0;
+  background: transparent;
+}
+
+.nc-slider__input::-moz-range-track {
+  border: 0;
+  background: transparent;
+}
+
+/* the thumb: a square, as every frame is. one rule per engine: a selector one
+   of them doesn't know would drop the whole rule. */
+.nc-slider__input::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  box-sizing: border-box;
+  width: var(--nc-slider-thumb);
+  height: var(--nc-slider-thumb);
+  border: 0;
+  border-radius: 0;
+  background: var(--fg);
+}
+
+.nc-slider__input::-moz-range-thumb {
+  appearance: none;
+  box-sizing: border-box;
+  width: var(--nc-slider-thumb);
+  height: var(--nc-slider-thumb);
+  border: 0;
+  border-radius: 0;
+  background: var(--fg);
+}
+
+.nc-slider--invalid .nc-slider__input::-webkit-slider-thumb {
+  background-color: var(--state-error);
+}
+
+.nc-slider--invalid .nc-slider__input::-moz-range-thumb {
+  background-color: var(--state-error);
+}
+
+.nc-slider__input:focus-visible::-webkit-slider-thumb {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+.nc-slider__input:focus-visible::-moz-range-thumb {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* the value in words after the track, and what stands before it: the system's
+   voice, lowercase */
+.nc-slider__value,
+.nc-slider__before,
+.nc-slider__after {
+  display: inline-flex;
+  align-items: center;
+  flex: none;
+  font-family: var(--ff-mono);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+.nc-slider__after {
+  color: var(--fg-muted);
+}
+
+.nc-slider--lg .nc-slider__value,
+.nc-slider--lg .nc-slider__before,
+.nc-slider--lg .nc-slider__after {
+  font-size: 0.875rem;
+}
+
+/* ---- a screen made for touch --------------------------------------------------
+   drawn at the large size. the track answers in a band 48 high, and the thumb
+   in 48 × 48 around it: its box grows, and only its middle 16 are drawn. the
+   input reaches 16 past each end, so the drawn thumb still travels the whole
+   track; what stands before and after the track keeps 16 away, clear of it. */
+[data-nc-screen='touch'] .nc-slider {
+  min-height: 2.625rem;
+  gap: var(--s-4);
+}
+
+[data-nc-screen='touch'] .nc-slider__value,
+[data-nc-screen='touch'] .nc-slider__before,
+[data-nc-screen='touch'] .nc-slider__after {
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='touch'] .nc-slider__input {
+  inset-block-start: calc((100% - 3rem) / 2);
+  inset-inline-start: calc((var(--nc-slider-thumb) - 3rem) / 2);
+  width: calc(100% + 3rem - var(--nc-slider-thumb));
+  height: 3rem;
+}
+
+[data-nc-screen='touch'] .nc-slider__input::-webkit-slider-thumb {
+  width: 3rem;
+  height: 3rem;
+  border: calc((3rem - var(--nc-slider-thumb)) / 2) solid transparent;
+  background-clip: padding-box;
+  outline-offset: calc(2px - (3rem - var(--nc-slider-thumb)) / 2);
+}
+
+[data-nc-screen='touch'] .nc-slider__input::-moz-range-thumb {
+  width: 3rem;
+  height: 3rem;
+  border: calc((3rem - var(--nc-slider-thumb)) / 2) solid transparent;
+  background-clip: padding-box;
+  outline-offset: calc(2px - (3rem - var(--nc-slider-thumb)) / 2);
+}
+
+/* ---- a tv ---------------------------------------------------------------------
+   large, with the text at 14. the slider is a row: the one with the focus
+   draws the ring inside its edge, turns to the focused surface and grows a
+   little. on that surface the track and the loaded part are one step lighter,
+   so they keep their contrast. */
+[data-nc-screen='tv'] .nc-slider {
+  min-height: 2.625rem;
+  padding-inline: var(--s-3);
+  transition: transform 0.15s ease-out, background-color 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+[data-nc-screen='tv'] .nc-slider__value,
+[data-nc-screen='tv'] .nc-slider__before,
+[data-nc-screen='tv'] .nc-slider__after {
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='tv'] .nc-slider:focus-within {
+  --nc-slider-rail: var(--fg-dim);
+  --nc-slider-loaded-tone: var(--fg-muted);
+  background: var(--surface-focus);
+  box-shadow: inset 0 0 0 3px var(--focus-ring);
+  transform: scale(1.02);
+}
+
+[data-nc-screen='tv'] .nc-slider:focus-within .nc-slider__after {
+  color: var(--fg-2);
+}
+
+/* the ring is the row's: the thumb draws none of its own */
+[data-nc-screen='tv'] .nc-slider__input::-webkit-slider-thumb {
+  outline: none;
+}
+
+[data-nc-screen='tv'] .nc-slider__input::-moz-range-thumb {
+  outline: none;
+}
+
+/* less motion: the focus appears at once, and nothing grows */
+@media (prefers-reduced-motion: reduce) {
+  [data-nc-screen='tv'] .nc-slider {
+    transition: none;
+  }
+
+  [data-nc-screen='tv'] .nc-slider:focus-within {
+    transform: none;
+  }
+}

@@ -1,0 +1,266 @@
+.nc-progress {
+  /* the colour follows the work, as a status does */
+  --nc-progress-tone: var(--state-information);
+  /* the height of a line of the words under the bar, to sit a glyph on */
+  --nc-progress-line: calc(0.75rem * 1.4);
+  display: flex;
+  flex-direction: column;
+  gap: var(--s-2);
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+}
+
+.nc-progress--paused {
+  --nc-progress-tone: var(--state-neutral);
+}
+
+.nc-progress--failed {
+  --nc-progress-tone: var(--state-error);
+  --nc-progress-line: calc(0.8125rem * 1.5);
+}
+
+.nc-progress--done {
+  --nc-progress-tone: var(--state-success);
+}
+
+/* the first line: what is under way, and the buttons that stop it at its end */
+.nc-progress__head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-2) var(--s-3);
+}
+
+/* where the line has no room for both, the buttons go under the words, at the line's end */
+.nc-progress__label {
+  flex: 1 1 8rem;
+  min-width: 0;
+  font-family: var(--ff-ui);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  color: var(--fg);
+}
+
+.nc-progress__actions {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex: none;
+  /* the buttons are taller than the line of text: the line keeps the text's height */
+  margin-block: calc((0.8125rem * 1.4 - 1.75rem) / 2);
+  margin-inline-start: auto;
+}
+
+/* the bar: a track as wide as its container, 4 high and square */
+.nc-progress__track {
+  position: relative;
+  display: block;
+  height: var(--s-1);
+  border-radius: 0;
+  background: var(--border-2);
+}
+
+/* the browser's own progress element lies over the track, unseen: it carries
+   the name and the value; the part that is done is drawn under it */
+.nc-progress__native {
+  -webkit-appearance: none;
+  appearance: none;
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  border: 0;
+  opacity: 0;
+}
+
+.nc-progress__fill {
+  position: absolute;
+  inset-block: 0;
+  inset-inline-start: 0;
+  background: var(--nc-progress-tone);
+  transition: width 0.2s ease;
+}
+
+/* under the bar: the value in words, or how the work ended */
+.nc-progress__foot {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-1) var(--s-3);
+  min-width: 0;
+}
+
+.nc-progress__value,
+.nc-progress__end {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.375rem;
+  min-width: 0;
+}
+
+/* where the line has no room for both, try again goes under the sentence */
+.nc-progress__end {
+  flex: 1 1 12rem;
+}
+
+/* until the work ends, the end holds nothing. it stays on the page, so that
+   its text is announced when it comes, but out of the line. */
+.nc-progress__end:empty {
+  position: absolute;
+}
+
+.nc-progress__icon {
+  display: inline-flex;
+  flex: none;
+  /* centre the 12px glyph on the first line of the words */
+  margin-block-start: calc((var(--nc-progress-line) - 0.75rem) / 2);
+  color: var(--nc-progress-tone);
+}
+
+/* the value and the result: the system's voice, lowercase */
+.nc-progress__words {
+  min-width: 0;
+  font-family: var(--ff-mono);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  text-transform: lowercase;
+  color: var(--fg);
+}
+
+/* what went wrong: a sentence, in the reader's voice */
+.nc-progress__message {
+  min-width: 0;
+  font-family: var(--ff-ui);
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  color: var(--fg);
+}
+
+/* cancel, pause and resume: quiet buttons, drawn small */
+.nc-progress__action {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  box-sizing: border-box;
+  min-height: 1.75rem;
+  margin: 0;
+  padding: 0 var(--s-2);
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg-2);
+  font-family: var(--ff-mono);
+  font-weight: 600;
+  font-size: 0.75rem;
+  letter-spacing: 0;
+  text-transform: lowercase;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.12s ease, border-color 0.12s ease, color 0.12s ease;
+}
+
+.nc-progress__action:hover {
+  background: var(--surface-2);
+  color: var(--fg);
+}
+
+.nc-progress__action:active {
+  background: var(--bg-2);
+}
+
+.nc-progress__action:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+/* try again: the way forward after a failure, framed */
+.nc-progress__action--framed {
+  padding: 0 var(--s-3);
+  border-color: var(--border-2);
+  background: var(--surface);
+  color: var(--fg);
+}
+
+.nc-progress__action--framed:hover {
+  border-color: var(--cloud-blue);
+}
+
+/* ---- a screen made for touch --------------------------------------------------
+   the buttons keep their small look, and each answers to a touch in 48 × 48
+   around it. the line that holds one is 48 high, so the touch areas stay inside
+   the progress bar and never meet a neighbour's. */
+[data-nc-screen='touch'] .nc-progress__actions {
+  margin-block: 0;
+}
+
+[data-nc-screen='touch'] .nc-progress__action {
+  margin-block: calc((3rem - 1.75rem) / 2);
+}
+
+[data-nc-screen='touch'] .nc-progress__action::after {
+  content: '';
+  position: absolute;
+  /* from the padding edge: past the 1px border, to 48 high and at least 48 wide */
+  inset-block: calc((1.75rem - 3rem) / 2 - 1px);
+  inset-inline: min(-1px, calc((100% - 3rem) / 2));
+}
+
+/* ---- a tv ---------------------------------------------------------------------
+   the same bar. text people read is at least 14, the buttons are large and
+   12 apart, and the one with the focus shows the tv focus of a plain button:
+   the ring 2 outside it, the focused surface, a little growth. */
+[data-nc-screen='tv'] .nc-progress {
+  /* room for a focused button's ring and growth, above the bar and under it */
+  gap: var(--s-3);
+}
+
+[data-nc-screen='tv'] .nc-progress__label,
+[data-nc-screen='tv'] .nc-progress__message {
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='tv'] .nc-progress--failed {
+  --nc-progress-line: calc(0.875rem * 1.5);
+}
+
+[data-nc-screen='tv'] .nc-progress__actions {
+  gap: var(--s-3);
+  margin-block: 0;
+}
+
+[data-nc-screen='tv'] .nc-progress__action {
+  min-height: 2.625rem;
+  padding: 0 var(--s-5);
+  font-size: 0.875rem;
+  transition: transform 0.15s ease-out, background-color 0.15s ease-out, color 0.15s ease-out;
+}
+
+[data-nc-screen='tv'] .nc-progress__action:focus {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  background: var(--surface-focus);
+  color: var(--fg);
+  transform: scale(1.05);
+}
+
+/* less motion: the filled part changes without sliding, and nothing grows */
+@media (prefers-reduced-motion: reduce) {
+  .nc-progress__fill,
+  .nc-progress__action,
+  [data-nc-screen='tv'] .nc-progress__action {
+    transition: none;
+  }
+
+  [data-nc-screen='tv'] .nc-progress__action:focus {
+    transform: none;
+  }
+}

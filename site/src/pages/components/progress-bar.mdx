@@ -1,0 +1,198 @@
+---
+layout: ../../layouts/Doc.astro
+title: progress bar
+description: A progress bar shows how far work of a known size has come, such as a copy or an upload. A bar fills from the start, and the words under it say exactly how far.
+component: progress-bar
+draft: true
+draftNote: "This page is new, for review. The progress bar is now built, as loading and progress describes it, and this is its guidance."
+---
+import { Kbd, ProgressBar } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { Playground, States, Stopping, Waiting, Live, Failed, OnTouch, OnTv } from '@site/examples/progress-bar';
+
+# progress bar
+
+A progress bar shows how far work has come when its size is known: a copy, an upload, a check of many files. A bar fills from the start, and the words under it say exactly how far. People read the words; the bar shows it at a glance.
+
+<Example label="a progress bar" column>
+  <Playground />
+</Example>
+
+## when to use
+
+- For work that knows how much there is and how much of it is done: a copy, an upload, a scan.
+- Where the work shows: in the panel or the row of the thing that is copied or checked, in the place where its result will stand.
+- With “cancel” where stopping is safe, and with “pause” before it where stopping would lose what is done.
+
+## when to use something else
+
+- **For a wait of unknown length.** Use a <C slug="spinner" />. Until the work knows its total, a bar would stand empty, and a bar that doesn't move reads as stuck.
+- **For an action that takes a moment**, like a save. Use the busy state of the <C slug="button" />: the wait then sits in the button that was pressed.
+- **While a table's rows load.** The <C slug="data-table" /> shows that by itself.
+- **For how full something is**, such as a disk. That is a measure, not work under way, and a progress bar promises an end. Say it in words: “1.4 of 2.2 gb used”.
+
+## anatomy
+
+1. **What is under way.** The first line, in the <Term id="body-face">body face</Term>: “Copying 3 files”. It is also the bar's name for a <Term id="screen-reader">screen reader</Term>.
+2. **Cancel and pause** (optional). Quiet buttons at the end of the first line.
+3. **Bar.** A track as wide as its container, thin and square at both ends. It fills from the start as the work gets done.
+4. **The value in words.** Under the bar, in <Term id="monospace">monospace</Term>: the percentage, then the amount.
+5. **The end**, in the value's place. When the work failed: the error's <Term id="glyph">glyph</Term>, a sentence that says what happened, and “try again”. When it is done: a check, and the result.
+
+The drawing with the numbers is on [loading and progress](/design-system/patterns/loading-and-progress/#the-progress-bar).
+
+## variants and states
+
+The bar's colour follows the work, as a <C slug="status" /> does.
+
+| state | the bar | under it |
+| --- | --- | --- |
+| Under way | Blue, the colour of information | The value in words: “62% · 1.4 of 2.2 gb” |
+| Paused, or waiting | Stays where it is, in grey | A dash and “paused · 62%”, or the words for what it waits for |
+| Failed | Stays where it stopped, in red | The error's cross, what happened and what to do next, and “try again” when it can be tried again |
+| Done | Gone | A check and the result, in the item's own words: “copied · 2.2 gb” |
+
+<Example label="one copy in four states: under way, paused, failed and done" column>
+  <States />
+</Example>
+
+### cancel and pause
+
+Work that is safe to stop gets “cancel”. Where stopping would lose what is done, “pause” comes before it, and turns into “resume” while the work is paused. A failed bar carries neither: its way forward is “try again”.
+
+<Example label="a check with cancel, and a copy with pause and cancel" column>
+  <Stopping />
+</Example>
+
+### waiting
+
+When the work stalls, the words say so, with the reason when it is known. The bar turns grey, so it doesn't look as if it were still filling.
+
+<Example label="a copy that waits, and says what for" column>
+  <Waiting />
+</Example>
+
+### from start to end
+
+This copy starts paused. “resume” runs it, “pause” holds it, and when it is done the result takes the bar's place.
+
+<Example label="a copy that can be resumed, paused and cancelled, live" column>
+  <Live client:visible />
+</Example>
+
+A copy that failed keeps its bar where it stopped. “try again” takes it up from there.
+
+<Example label="a copy that failed and can be tried again, live" column>
+  <Failed client:visible />
+</Example>
+
+### on a touch screen and on a tv
+
+On a screen made for touch, the buttons keep their small look, and each answers to a finger in a <Term id="touch-area">touch area</Term> of 48 by 48 around it. The line that holds a button is 48 high, so the areas of two bars, one under the other, never meet.
+
+<Example label="a progress bar on a touch screen" column>
+  <OnTouch />
+</Example>
+
+On a TV it is the same bar. The first line is a little larger, as every label on a TV is, and the buttons are large, with the [tv focus](/design-system/patterns/tv-focus/) of a plain button.
+
+<Example label="a progress bar on a tv" column>
+  <OnTv />
+</Example>
+
+## behaviour
+
+- **It shows only what is known.** The bar has no look for work of unknown size. Until the work knows its total, show the spinner.
+- **It moves at a true pace.** A bar that runs to 90% in seconds and then waits for minutes makes people wonder whether the work stopped. The bar never says 100% before the work is done: the last percent stays open until it is.
+- **The filled part slides** to its new place in a fifth of a second. With <Term id="reduced-motion">reduced motion</Term> it changes without sliding; the value still shows.
+- **The bar holds no state of its own.** The app tells it how far the work is and how it ended, and does the stopping, the pausing and the trying again.
+- **The buttons take <Term id="focus">focus</Term>** in reading order: pause or resume, then cancel; on a failed bar, try again. <Kbd>enter</Kbd> or <Kbd>space</Kbd> presses them. The bar itself takes no focus.
+
+What to show while people wait, and when a bar is the right answer, is in [loading and progress](/design-system/patterns/loading-and-progress/). The full keyboard map is on the progress bar's [React page](/design-system/react/?path=/docs/components-feedback-status-progress-bar--docs).
+
+## accessibility
+
+- **It is the browser's own progress element**, so a screen reader says that it is a progress bar. Its name is the first line, and its value is in words: “62%, 1.4 of 2.2 GB”.
+- **It is read when people come to it**, not every few percent. The words under the bar are for the eye only; a screen reader gets them once, from the bar.
+- **The end is said once.** When the work fails or is done, the sentence or the result under the bar is announced, politely, at the screen reader's next pause.
+- **A paused or a failed bar says so**: “paused, 62%”, “stopped at 62%”.
+- **Not by colour alone.** Grey comes with a dash and the word “paused”, red with a cross and a sentence, and the result with a check.
+- **The filled part stands out from the track** with a <Term id="contrast">contrast</Term> of at least 3 to 1 in every state: the blue 5.14, the grey 6.46 and the red 3.88 to 1.
+- **Without a first line**, the bar needs a name that is read out but not shown, or a <C slug="field" /> around it, whose label then names it. Nothing checks for one.
+
+Today:
+
+- A bar that is already failed or done when it appears isn't announced: nothing changed while people were there. It is read with the page.
+- “cancel”, “pause” and “try again” have the same names on every bar. A screen reader reads the bar's first line just before them, which is what tells two bars apart.
+- There are no styles for <Term id="forced-colours">forced colours</Term>, the high-contrast setting some operating systems offer.
+
+## content
+
+- **The first line.** What is under way, in the item's own words, in <Term id="sentence-case">sentence case</Term>: “Copying 3 files”, “Checking 2,400 files”. No “please wait”.
+- **The value.** The bar writes the percentage itself. Give it the amount, with <Term id="thousands-separator">thousands separators</Term> and the unit: “1.4 of 2.2 GB”, “880 of 2,400 files”. Together they read “62% · 1.4 of 2.2 gb”.
+- **Waiting.** What it waits for, then how far it is: “waiting for the other disk · 62%”.
+- **Failed.** What happened and what to do next, as a sentence: “Couldn't finish: the disk is full. Free 0.9 GB, then try again.” No codes; they belong behind the details of a <C slug="banner" />.
+- **Done.** The result in the item's own words, like a status: “copied · 2.2 gb”.
+- **Another language.** The percentage and the buttons follow the page's language: “62 %” and “abbrechen” on a German page.
+
+## do and don't
+
+<DoDont>
+  <Do caption="A copy that failed: the bar stays where it stopped, in red, and says why, with the way forward." column>
+    <ProgressBar label="Copying 3 files" value={1364} max={2200} state="failed" message="Couldn't finish: the disk is full. Free 0.9 GB, then try again." onRetry={() => {}} />
+  </Do>
+  <Dont caption="A copy that failed, still drawn as under way: it looks as if the copy were still going." column>
+    <ProgressBar label="Copying 3 files" value={1364} max={2200} amount="1.4 of 2.2 GB" />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="The percentage and the amount: people see how far it is, and how much is left." column>
+    <ProgressBar label="Checking 2,400 files" value={880} max={2400} amount="880 of 2,400 files" />
+  </Do>
+  <Dont caption="A first line that says nothing about the work, and a value without an amount." column>
+    <ProgressBar label="Please wait" value={880} max={2400} />
+  </Dont>
+</DoDont>
+
+## related
+
+- [Loading and progress](/design-system/patterns/loading-and-progress/): what to show while people wait, and where the progress bar fits.
+- <C slug="spinner">Spinner</C>: for a wait of unknown length.
+- <C slug="status">Status</C>: the state of one item; the bar's colours follow the same meanings.
+- <C slug="banner">Banner</C>: for a failure that concerns the whole page.
+
+## specs
+
+| state | in code | the bar | announced |
+| --- | --- | --- | --- |
+| Under way | `state="running"` (the default) | `--state-information` | Read when people come to it: `aria-valuetext`, “62%, 1.4 of 2.2 GB” |
+| Paused | `state="paused"` | `--state-neutral`, at its value | “paused, 62%”, or `valueText` |
+| Failed | `state="failed"` | `--state-error`, at its value | “stopped at 62%” on the bar; `message` once, in the `role="status"` under it |
+| Done | `state="done"` | Removed | `message` once, in the `role="status"` |
+
+| part | spec |
+| --- | --- |
+| Box | A column as wide as its container, 8px (`--s-2`) between the first line, the bar and the line under it. It carries `data-state`. |
+| First line | `label`. Inter 13px, line height 1.4, `--fg`. It names the bar (`aria-labelledby`). |
+| Cancel, pause, resume | Shown for `onCancel`, `onPause` (under way) and `onResume` (paused), at the end of the first line, 8px apart. Quiet buttons: JetBrains Mono 600, 12px, lowercase, `--fg-2`, 28px high, padding 0 8px; on hover `--surface-2` and `--fg`. The first line keeps the height of its text. |
+| Bar | A native `<progress>` over a track 4px high (`--s-1`) in `--border-2`, square. The filled part starts at the track's start, `value` ÷ `max` of its width. |
+| Value | JetBrains Mono 12px, line height 1.4, lowercase, `--fg`; `aria-hidden`. The percentage is rounded, and 99 at most until `value` reaches `max`. With `amount`: `{percent} · {amount}`. Paused: the neutral glyph, 12px in `--state-neutral`, and `paused · {percent}`. `valueText` replaces the words. |
+| Failed | The error glyph, 12px in `--state-error`, 6px before `message`: Inter 13px, line height 1.5, `--fg`. Without `message`: `stopped at {percent}`. |
+| Try again | Shown for `onRetry` while failed, after the message, under it when there is no room. A framed small button: `--surface`, a 1px `--border-2` frame, `--fg`, 28px high, padding 0 12px; on hover `--surface-2` and a `--cloud-blue` frame. |
+| Done | The success glyph, 12px in `--state-success`, and `message` in JetBrains Mono 12px, lowercase, `--fg`. |
+| Focus | The buttons: the 2px `--focus-ring` outline, 1px outside, on keyboard focus only. |
+
+| screen | in code | what changes |
+| --- | --- | --- |
+| Touch | `data-nc-screen="touch"` on an ancestor | Each button answers in 48 × 48 (`3rem`), centred on it and not drawn. The line that holds a button is 48px high. |
+| TV | `data-nc-screen="tv"` on an ancestor | The first line and the failed sentence are 14px. The buttons are 42px high with 14px text and 24px of padding, 12px apart. Focused: a 3px `--focus-ring` outline 2px outside, `--surface-focus`, and 1.05 times the size, in 150ms `ease-out`. |
+
+- **Motion:** the filled part changes its width in 200ms `ease`; the buttons' colours in 120ms. Under `prefers-reduced-motion: reduce` nothing is animated, and a focused button on a TV doesn't grow.
+- **Contrast, on the `--border-2` track:** `--state-information` 5.14:1, `--state-neutral` 6.46:1, `--state-error` 3.88:1.
+- **Words:** “cancel”, “pause”, “resume”, “try again”, “paused” and the percent sign's place come from the page's language, `words.progressBar`; English and German are built in.
+- **Sizes** are in `rem`, so the bar, the text and the buttons grow with the reader's text size.
+- **In a field:** the field's label names the bar, its hint or error is the bar's description, and an error draws the bar as failed.
+- **Not there:** no look for work of unknown size, no sizes, no `forced-colors` styles.

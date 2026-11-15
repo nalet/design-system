@@ -1,0 +1,70 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as ProgressBarStories from './ProgressBar.stories';
+
+<Meta of={ProgressBarStories} />
+
+# progress bar
+
+When to use a progress bar, its four states, what goes in its words and when it gets cancel or pause is on the guidelines site: **[progress bar guidance →](https://nalet.github.io/design-system/components/progress-bar/)**
+
+<Canvas of={ProgressBarStories.Playground} />
+
+## examples
+
+`state` takes four values: `running` (the default), `paused`, `failed` and `done`. A failed bar shows `message` as a sentence, and “try again” when `onRetry` is set. A done bar is gone, and `message` is the result.
+
+<Canvas of={ProgressBarStories.States} />
+
+`onCancel` adds “cancel”; `onPause` adds “pause” before it. While `state` is `paused`, `onResume` shows “resume” in pause's place.
+
+<Canvas of={ProgressBarStories.Stopping} />
+
+`valueText` replaces the words under the bar, for work that waits and knows why.
+
+<Canvas of={ProgressBarStories.Waiting} />
+
+This copy holds its own state. It starts paused; `onResume`, `onPause` and `onCancel` change the state, and at the end the story sets `state="done"`.
+
+<Canvas of={ProgressBarStories.Live} />
+
+A failed copy. `onRetry` sets the state back to `running`.
+
+<Canvas of={ProgressBarStories.Failed} />
+
+Inside `data-nc-screen="touch"`, each button answers to a touch in 48 × 48, and the line that holds one is 48 high.
+
+<Canvas of={ProgressBarStories.OnTouch} />
+
+Inside `data-nc-screen="tv"`, the first line is 14px and the buttons are large.
+
+<Canvas of={ProgressBarStories.OnTv} />
+
+## implementation notes
+
+- It renders a `<div>` with `data-state`, holding the first line, the track and the line under it.
+- The bar is a native `<progress>` with `value` and `max`. It lies over the track, transparent, and the filled part is drawn under it, so every browser draws the same bar.
+- `label` is the first line and the bar's name (`aria-labelledby`). Without a `label`, pass `aria-label`, or put the bar in a [field](?path=/docs/components-inputs-field--docs): its `<label>` then names the `<progress>`.
+- `value` is clamped to 0…`max`. The percentage is rounded, and stays at 99 until `value` reaches `max`.
+- The words under the bar are built from the percentage and `amount`: “62% · 1.4 of 2.2 gb”. They are set in lowercase by CSS and are `aria-hidden`: the `<progress>` carries the same words in `aria-valuetext`, with a comma and the amount as you wrote it, “62%, 1.4 of 2.2 GB”.
+- `valueText` replaces both, the words under the bar and `aria-valuetext`, while the state is `running` or `paused`.
+- The bar has no state for work of unknown size: `value` is required. Until the total is known, render a [spinner](?path=/docs/components-feedback-status-spinner--docs).
+- `state="paused"` draws the bar in `--state-neutral`, `failed` in `--state-error`. In both, the `<progress>` keeps its value.
+- `state="done"` removes the `<progress>`; `message` shows with the success glyph.
+- The line under the bar holds a `role="status"` element from the first render. It is empty until the state is `failed` or `done`, and then holds `message`, so a screen reader announces the end once. The value is never a live region.
+- Without a `message`, a failed bar says “stopped at 62%”.
+- The buttons are native buttons. Their words come from the page's language (`words.progressBar`), English and German built in.
+- “cancel” and “pause” or “resume” show while the state is `running` or `paused`; “try again” only while it is `failed`. None shows when `done`.
+- The component holds no state. Change `value` and `state` yourself, in the handlers.
+- Inside a field, the hint or the error joins the `<progress>`'s `aria-describedby`, and an `error` draws the bar as failed where no `state` is set.
+- The filled part changes its width in 200ms. Under `prefers-reduced-motion: reduce` it changes at once.
+- `id`, `aria-label`, `aria-labelledby` and `aria-describedby` land on the `<progress>`. `className`, the ref and every other attribute land on the outer `<div>`.
+- axe-core finds no violations in any state, with every button, inside a field, and on a touch and a tv screen.
+
+| key | does |
+| --- | --- |
+| `tab` / `shift+tab` | Moves through pause or resume, cancel, and try again. The bar takes no focus. |
+| `enter` / `space` | Presses the button that has the focus. |
+
+## props
+
+<ArgTypes of={ProgressBarStories} />

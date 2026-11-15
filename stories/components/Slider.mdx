@@ -1,0 +1,67 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as SliderStories from './Slider.stories';
+
+<Meta of={SliderStories} />
+
+# slider
+
+When to use a slider, its parts, how it behaves on a touch screen and on a TV and how to word its value is on the guidelines site: **[slider guidance →](https://nalet.github.io/design-system/components/slider/)**
+
+<Canvas of={SliderStories.Playground} />
+
+## examples
+
+A volume with an icon in `before` and a name in `aria-label`; a seek bar with the time played in `before`, the length in `after` and `loaded`; and a setting inside a field.
+
+<Canvas of={SliderStories.Kinds} />
+
+`size` sets one of three heights: `sm` (28px), `md` (34px, the default) and `lg` (42px), the heights of the buttons beside them.
+
+<Canvas of={SliderStories.Sizes} />
+
+The default slider, `disabled`, and a field's `error`, which sets `invalid`.
+
+<Canvas of={SliderStories.States} />
+
+A controlled slider, with `value` and `onChange`: the line under it follows as the thumb moves.
+
+<Canvas of={SliderStories.Controlled} />
+
+Inside `data-nc-screen="touch"`, the slider is 42px high, the track answers in a band of 48px, and the thumb in 48 × 48.
+
+<Canvas of={SliderStories.OnTouch} />
+
+Inside `data-nc-screen="tv"`. The seek bar has a row of its own. The volume sets `sharesRow`, so up and down change it.
+
+<Canvas of={SliderStories.OnTv} />
+
+## implementation notes
+
+- It is a native `<input type="range">` inside a box (a `<div>`). The input lies over the track, as high as the box, with nothing of it drawn but the thumb. The track, the part up to the thumb and the loaded part are drawn under it.
+- The native input was chosen over a custom `role="slider"` element: the look is reached in every engine with the thumb's two pseudo-elements, a [field](?path=/docs/components-inputs-field--docs)'s `<label for>` names it, it takes part in a form by its `name`, and the pointer, touch and the keys are the browser's.
+- `value` with `onChange` makes it controlled; `defaultValue` leaves the value with the input. Without either, it starts in the middle, as a range input does.
+- `onChange` is the native handler and fires as the thumb moves. Read `event.target.value`, a string, or `event.target.valueAsNumber`.
+- `min` (0), `max` (100) and `step` (1) are the input's own. The browser moves a value that is off the steps onto one.
+- `formatValue` gives the value in words. The slider sets them as `aria-valuetext`, and shows them after the track, `aria-hidden`, since the input already says them. Without it, the words are the number in the page's language.
+- The words keep the room of the longest of `formatValue(min)`, `formatValue(max)` and the current ones, in `ch`, so the track doesn't change its length while the value changes.
+- `before` takes any node before the track: an icon, or a seek bar's time played. `after` replaces the value in words after the track; `after={null}` leaves the place empty.
+- `loaded` draws a second part on the track, from the start to that value on the slider's scale, under the blue part.
+- `invalid` sets `aria-invalid="true"` and turns the thumb to `--state-error`. A field's `error` sets it.
+- Focus is drawn on `:focus-visible`, around the thumb.
+- On a tv (`data-nc-screen="tv"` on an ancestor), the slider gives two arrow keys away: up and down, or left and right with `sharesRow`. It doesn't call `preventDefault()` on them, so the code that moves the focus still sees an unused key. The range input steps on them all the same; the slider puts that step back before `onChange` is called.
+- The slider moves no focus itself. On a tv, the app's own arrow-key navigation does.
+- `className` and `style` land on the box. Every other attribute, such as `name`, `aria-label` and `onBlur`, lands on the native `<input>`, and so does the ref.
+- Set the width on the container: the box always fills it.
+
+| key | does |
+| --- | --- |
+| `tab` / `shift+tab` | Moves focus to / from the slider. It is one tab stop. |
+| `→` `↑` | One step up. |
+| `←` `↓` | One step down. |
+| `page up` / `page down` | A larger step up or down: a tenth of the range, or one step where a step is larger. The browser sets it. |
+| `home` / `end` | To the lowest or the highest value. |
+| On a tv, `←` `→` | Change the value; `↑` `↓` are left to the app. With `sharesRow`, the other way round. |
+
+## props
+
+<ArgTypes of={SliderStories} />

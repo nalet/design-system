@@ -55,6 +55,8 @@ export const COMPONENTS: ComponentEntry[] = [
   { slug: 'multi-select', name: 'multi select', exports: ['MultiSelect'], role: 'inputs', summary: 'Several values of one filter, as checkboxes in a panel that opens.', react: 'components-inputs-multi-select' },
   { slug: 'checkbox', name: 'checkbox', exports: ['Checkbox'], role: 'inputs', summary: 'An option that is saved with a form, with a mixed state for “some of these”.', react: 'components-inputs-checkbox' },
   { slug: 'switch', name: 'switch', exports: ['Switch'], role: 'inputs', summary: 'A setting that takes effect at once.', react: 'components-inputs-switch' },
+  { slug: 'slider', name: 'slider', exports: ['Slider'], role: 'inputs', summary: 'A value in a range that people judge by its effect, such as the volume.', react: 'components-inputs-slider' },
+  { slug: 'stepper', name: 'stepper', exports: ['Stepper'], role: 'inputs', summary: 'A whole number, a few small steps from end to end, between a minus and a plus.', react: 'components-inputs-stepper' },
   { slug: 'field', name: 'field', exports: ['Field'], role: 'inputs', summary: 'A label, a hint and an error, joined to one control.', react: 'components-inputs-field' },
   { slug: 'filter-bar', name: 'filter bar', exports: ['FilterBar'], role: 'inputs', summary: 'Search, filters, “clear all”, and the count of what is left.', react: 'components-inputs-filter-bar' },
 
@@ -74,6 +76,7 @@ export const COMPONENTS: ComponentEntry[] = [
   { slug: 'toast', name: 'toast', exports: ['toast', 'Toaster', 'useToastPlacement'], role: 'feedback & status', summary: 'A short confirmation of an action just taken.', react: 'components-feedback-status-toast' },
   { slug: 'empty-state', name: 'empty state', exports: ['EmptyState'], role: 'feedback & status', summary: "What a list shows when it is empty, done, has no matches, failed or can't be known.", react: 'components-feedback-status-empty-state' },
   { slug: 'spinner', name: 'spinner', exports: ['Spinner'], role: 'feedback & status', summary: 'Something is loading, where nothing better shows it.', react: 'components-feedback-status-spinner' },
+  { slug: 'progress-bar', name: 'progress bar', exports: ['ProgressBar'], role: 'feedback & status', summary: 'How far work of a known size has come: a bar, and the value in words.', react: 'components-feedback-status-progress-bar' },
 
   // layout & structure
   { slug: 'box', name: 'box', exports: ['Box'], role: 'layout & structure', summary: 'Padding and a canvas background.', react: 'components-layout-structure-box' },

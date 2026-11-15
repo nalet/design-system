@@ -3,15 +3,16 @@ layout: ../../layouts/Doc.astro
 title: loading and progress
 description: What to show while people wait — nothing for a blink, the loader where the result will appear, a value when progress is known, and the shape of the content for a list.
 draft: true
-draftNote: "The progress bar, under known progress, is new and under review: its parts, its states and how it behaves. The rest of the page describes the pattern as it was accepted."
+draftNote: "The progress bar, under known progress, is now built: the page shows it live, in its four states and from start to end. The rest of the page describes the pattern as it was accepted."
 ---
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
-import { DoDont, Do, Dont } from '@site/blocks';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
 import {
   LoadingOverview, LoaderSizes, WaitFirst, ProgressDo, ProgressDont, SkeletonDo, LoaderInSpaceDont, Refreshing,
 } from '@site/sketches/loading';
-import { ProgressAnatomy, ProgressStates, ProgressFailedDo, ProgressFailedDont } from '@site/sketches/sizes-and-inputs';
+import { ProgressAnatomy, ProgressFailedDo, ProgressFailedDont } from '@site/sketches/sizes-and-inputs';
+import { States as ProgressStates, Live as ProgressLive } from '@site/examples/progress-bar';
 
 # loading and progress
 
@@ -60,7 +61,7 @@ Most answers come quickly. If the loader appeared at once, it would flash for a 
 
 ## known progress
 
-When the work knows how far it has come, show a bar and the value in words: the percentage and the amount, like “62% · 1.4 of 2.2 gb”. People read the words; the bar shows how far, at a glance. The progress bar is a planned component.
+When the work knows how far it has come, show a bar and the value in words: the percentage and the amount, like “62% · 1.4 of 2.2 gb”. People read the words; the bar shows how far, at a glance. The <C slug="progress-bar" /> does both.
 
 <DoDont>
   <Do caption="Known progress: the value in words, and the bar.">
@@ -85,15 +86,20 @@ When the work knows how far it has come, show a bar and the value in words: the 
 
 The bar's colour follows the work, as a <C slug="status" /> does:
 
-<figure class="ds-figure">
+<Example label="one copy in four states: under way, paused, failed and done" column>
   <ProgressStates />
-  <figcaption>One copy in four states: under way, paused, failed and done.</figcaption>
-</figure>
+</Example>
 
 - **Under way**: blue, and the value in words.
 - **Paused, or waiting**: the bar stays where it is, in grey, and the words say so: “paused · 62%”.
 - **Failed**: the bar stays where it stopped, in red, and the words say what happened and what to do next, with “try again” when it can be tried again.
 - **Done**: the bar goes, and the result takes its place, a status in the item's own words: “copied · 2.2 gb”.
+
+This copy starts paused. “resume” runs it, “pause” holds it, and at the end the result takes the bar's place.
+
+<Example label="a copy that can be resumed, paused and cancelled, live" column>
+  <ProgressLive client:visible />
+</Example>
 
 <DoDont>
   <Do caption="A copy that failed: the bar stays where it stopped, in red, and says why, with the way forward.">
@@ -110,7 +116,8 @@ How it behaves:
 - **It moves at a true pace.** A bar that runs to 90% in seconds and then waits for minutes makes people wonder whether the work stopped.
 - **When the work stalls, the words say so**, with the reason when it is known, rather than a bar that waits without a word.
 - **With <Term id="reduced-motion">reduced motion</Term>**, the filled part changes without sliding. The value still shows.
-- **On a TV**, it is the same bar, drawn in dp, inside the safe area.
+- **On a touch screen**, cancel and pause keep their small look, and each answers to a finger in 48 by 48 around it.
+- **On a TV**, it is the same bar, drawn in dp, inside the safe area. Its first line is a little larger, and its buttons are large.
 - **For <Term id="screen-reader">screen readers</Term>**, it is the browser's own progress element, named by its first line, with its value in words: “62%, 1.4 of 2.2 GB”. It is read when people come to it, not every few percent, and the end, done or failed, is said once.
 
 Where this comes from: Apple's guidelines for [progress indicators](https://developer.apple.com/design/human-interface-guidelines/progress-indicators) ask for a bar that is as accurate as it can be, that says when the work stalls, and that lets people stop, with pause where stopping loses work. The filled part has at least 3:1 against the track, as <Term id="wcag">WCAG</Term> 1.4.11 asks for the parts of a graphic: the blue 5.14:1, the grey 6.46:1, the red 3.88:1, on a `--border-2` track.
@@ -162,6 +169,7 @@ Today the loader is read out as “loading”, and a busy button and a busy data
 ## related
 
 - <C slug="spinner">Spinner</C>: the loader, live.
+- <C slug="progress-bar">Progress bar</C>: the bar, with its states, its words and its specs.
 - [Motion](/design-system/styles/motion/): durations, loops and reduced motion.
 - [Empty states](/design-system/patterns/empty-states/): what comes when the load is done and there is nothing.
 - [Message handling](/design-system/patterns/message-handling/): what comes when the load fails.

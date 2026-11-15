@@ -264,6 +264,10 @@
   padding: 1px var(--s-1);
 }
 
+[data-nc-screen='tv'] .nc-multiselect__foot {
+  padding: 0 var(--s-1);
+}
+
 [data-nc-screen='tv'] .nc-multiselect__option {
   box-sizing: border-box;
   min-height: 2.5rem;

@@ -382,12 +382,9 @@ export function ActionMenu({
                   </span>
                   <span className="nc-actionmenu__value">
                     <span className="nc-actionmenu__label">{option.label}</span>
-                    {option.detail != null ? (
-                      <span className="nc-actionmenu__detail">
-                        {' · '}
-                        {option.detail}
-                      </span>
-                    ) : null}
+                    {/* a real space between the two, so the name reads "auto · 720p". */}
+                    {option.detail != null ? ' ' : null}
+                    {option.detail != null ? <span className="nc-actionmenu__detail">· {option.detail}</span> : null}
                   </span>
                 </button>
               );

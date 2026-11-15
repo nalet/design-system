@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { FilterTabs, filterTabId, type FilterTab } from './FilterTabs';
+import { Language } from '../../lib/language';
 import { expectNoAxeViolations } from '../../test/axe';
 
 const TABS: FilterTab[] = [
@@ -41,6 +42,21 @@ describe('FilterTabs', () => {
     expect(tab).toHaveAttribute('aria-selected', 'true');
     expect(tab).toHaveAttribute('aria-controls', 'panel');
     expect(screen.getByRole('tabpanel', { name: 'missing 2,500' })).toBeInTheDocument();
+  });
+
+  it('writes its counts the English way in English, as before', () => {
+    render(<Harness />);
+    expect(screen.getAllByRole('tab').map((t) => t.textContent)).toEqual(['missing 2,500', 'on their way 12', 'needs attention 3']);
+  });
+
+  it('writes its counts the German way inside a German part of the page', () => {
+    render(
+      <Language lang="de">
+        <Harness />
+      </Language>,
+    );
+    expect(screen.getByRole('tab', { name: 'missing 2.500' })).toBeInTheDocument();
+    expect(screen.getByRole('tabpanel', { name: 'missing 2.500' })).toBeInTheDocument();
   });
 
   it('selects with click and with the arrow keys, one tab stop', async () => {

@@ -30,7 +30,7 @@ Here the spinner stands in for one value while it loads, and its `label` names t
 ## implementation notes
 
 - It renders an inline-flex `<span>`, `size` × `size` px (16 by default).
-- The span has `role="status"` and an `aria-label` set from `label` (`loading` by default). The SVG inside is `aria-hidden`.
+- The span has `role="status"` and an `aria-label` set from `label`. The default is `loading`, from the words of the page's language (`spinner.loading`; see [language](?path=/docs/react-language--docs)). The SVG inside is `aria-hidden`.
 - The SVG draws one square path twice. The first is the frame, at 20% opacity, which never moves. The second is the lit part on top of it: a dash three quarters of the frame long.
 - The path starts in the middle of the top edge, so the dash never meets itself at a corner.
 - The stroke is 2px up to 24px, then a pixel more for every 16px.

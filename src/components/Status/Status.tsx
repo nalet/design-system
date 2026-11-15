@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
+import { fill, useLanguage } from '../../lib/language';
 import { StateGlyph, type State } from '../../lib/StateGlyph';
 import '../../lib/a11y.css';
 import './Status.css';
@@ -45,12 +46,6 @@ export const STATE_SEVERITY: Readonly<Record<State, number>> = Object.freeze({
   success: 0,
 });
 
-/** What a screen reader hears before the text, by default, for the states that need acting on. */
-const DEFAULT_STATE_LABEL: Partial<Record<State, string>> = {
-  warning: 'warning',
-  error: 'error',
-};
-
 export interface StatusProps extends Omit<React.HTMLAttributes<HTMLSpanElement>, 'children'> {
   /**
    * The meaning. Colour, glyph and the screen-reader prefix all follow from it;
@@ -65,9 +60,9 @@ export interface StatusProps extends Omit<React.HTMLAttributes<HTMLSpanElement>,
   /** A square chip (default), or text and glyph only — for dense rows and sentences. */
   appearance?: 'chip' | 'text';
   /**
-   * The word read before the text: "warning" and "error" by default, nothing
-   * for the other states. Pass a string to translate it, or false to omit it
-   * when the text already says it.
+   * The word read before the text: "warning" and "error" by default, in the
+   * page's language, and nothing for the other states. Pass a string to
+   * replace it, or false to omit it when the text already says it.
    */
   stateLabel?: string | false;
 }
@@ -82,8 +77,11 @@ export const Status = React.forwardRef<HTMLSpanElement, StatusProps>(function St
   { state = 'neutral', text, children, icon = true, appearance = 'chip', stateLabel, className, ...rest },
   ref,
 ) {
+  const { words } = useLanguage();
   const content = text ?? children;
-  const srLabel = stateLabel === false ? null : (stateLabel ?? DEFAULT_STATE_LABEL[state] ?? null);
+  // what a screen reader hears before the text, for the states that need acting on.
+  const own = state === 'warning' ? words.status.warning : state === 'error' ? words.status.error : null;
+  const stateWord = stateLabel === false ? null : (stateLabel ?? own);
   const glyph =
     icon === true ? <StateGlyph state={state} /> : icon === false || icon == null ? null : icon;
   return (
@@ -98,7 +96,11 @@ export const Status = React.forwardRef<HTMLSpanElement, StatusProps>(function St
           {glyph}
         </span>
       ) : null}
-      {srLabel ? <span className="nc-sr-only">{srLabel}: </span> : null}
+      {stateWord ? (
+        <span className="nc-sr-only">
+          {fill(words.status.stateBefore, { state: stateWord })}{' '}
+        </span>
+      ) : null}
       <span className="nc-status__text">{content}</span>
     </span>
   );

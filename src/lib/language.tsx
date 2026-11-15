@@ -71,11 +71,27 @@ export function pageLanguage(): string {
   return document.documentElement.lang || 'en';
 }
 
+// one observer for the whole page, however many components listen: a table
+// draws thousands of cells, and each of them reads the language.
+const listeners = new Set<() => void>();
+let observer: MutationObserver | null = null;
+
 function subscribe(onChange: () => void): () => void {
   if (typeof MutationObserver === 'undefined' || typeof document === 'undefined') return () => {};
-  const mo = new MutationObserver(onChange);
-  mo.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
-  return () => mo.disconnect();
+  listeners.add(onChange);
+  if (!observer) {
+    observer = new MutationObserver(() => {
+      for (const listener of Array.from(listeners)) listener();
+    });
+    observer.observe(document.documentElement, { attributes: true, attributeFilter: ['lang'] });
+  }
+  return () => {
+    listeners.delete(onChange);
+    if (listeners.size === 0 && observer) {
+      observer.disconnect();
+      observer = null;
+    }
+  };
 }
 
 function usePageLanguage(): string {

@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
+import { dateLanguage, pageLanguage, useLanguage } from '../../lib/language';
 import { Status, type StatusProps } from '../Status/Status';
 import '../../lib/a11y.css';
 import './cells.css';
@@ -36,20 +37,59 @@ function dayDiff(then: Date, now: Date): number {
   return Math.round((b - a) / DAY);
 }
 
-/**
- * relativeDay — a compact and a spoken form of how far a date is from today:
- * today, yesterday, 5d ago, 3w ago, 4mo ago, 2y ago, tomorrow, in 3d.
- */
-export function relativeDay(then: Date, now: Date = new Date()): { short: string; long: string } {
-  const d = dayDiff(then, now);
+const ENGLISH = /^en(-|$)/i;
+
+// English says how long ago in the system's own short forms, the same in every
+// engine and in every region: 5d ago, 3w ago, 4mo ago, 2y ago, in 3d.
+function englishRelative(d: number, count: number, unit: Intl.RelativeTimeFormatUnit): { short: string; long: string } {
   if (d === 0) return { short: 'today', long: 'today' };
   if (d === 1) return { short: 'yesterday', long: 'yesterday' };
   if (d === -1) return { short: 'tomorrow', long: 'tomorrow' };
+  const letter = unit === 'day' ? 'd' : unit === 'week' ? 'w' : unit === 'month' ? 'mo' : 'y';
+  const long = `${count} ${unit}${count === 1 ? '' : 's'}`;
+  return d > 0 ? { short: `${count}${letter} ago`, long: `${long} ago` } : { short: `in ${count}${letter}`, long: `in ${long}` };
+}
+
+// one formatter per language and style, made once, as for the dates below.
+const relativeFormats = new Map<string, Intl.RelativeTimeFormat>();
+function relativeFormat(lang: string, style: 'narrow' | 'long'): Intl.RelativeTimeFormat {
+  const key = `${lang}|${style}`;
+  let f = relativeFormats.get(key);
+  if (!f) {
+    f = new Intl.RelativeTimeFormat(lang, { numeric: 'auto', style });
+    relativeFormats.set(key, f);
+  }
+  return f;
+}
+
+/**
+ * relativeDay — a compact and a spoken form of how far a date is from today.
+ * In English: today, yesterday, 5d ago, 3w ago, 4mo ago, 2y ago, tomorrow,
+ * in 3d, spoken as "5 days ago". In any other language the forms are the
+ * language's own, from the browser: "vor 5 Tagen", "gestern". Without a
+ * language it is the page's.
+ */
+export function relativeDay(
+  then: Date,
+  now: Date = new Date(),
+  lang: string = pageLanguage(),
+): { short: string; long: string } {
+  const d = dayDiff(then, now);
   const n = Math.abs(d);
-  const [count, unit, word] =
-    n < 14 ? [n, 'd', 'day'] : n < 60 ? [Math.round(n / 7), 'w', 'week'] : n < 730 ? [Math.round(n / 30.44), 'mo', 'month'] : [Math.round(n / 365.25), 'y', 'year'];
-  const long = `${count} ${word}${count === 1 ? '' : 's'}`;
-  return d > 0 ? { short: `${count}${unit} ago`, long: `${long} ago` } : { short: `in ${count}${unit}`, long: `in ${long}` };
+  const [count, unit]: [number, Intl.RelativeTimeFormatUnit] =
+    n < 14 ? [n, 'day'] : n < 60 ? [Math.round(n / 7), 'week'] : n < 730 ? [Math.round(n / 30.44), 'month'] : [Math.round(n / 365.25), 'year'];
+  if (ENGLISH.test(lang)) return englishRelative(d, count, unit);
+  try {
+    // a date in the past is a negative distance.
+    const distance = d > 0 ? -count : count;
+    return {
+      short: relativeFormat(lang, 'narrow').format(distance, unit),
+      long: relativeFormat(lang, 'long').format(distance, unit),
+    };
+  } catch {
+    // a language tag the browser can't read: English, as for a count.
+    return englishRelative(d, count, unit);
+  }
 }
 
 export interface DateCellProps {
@@ -59,10 +99,14 @@ export interface DateCellProps {
   relative?: boolean;
   /** The moment taken as "now", for stable stories and tests. Default the current time. */
   now?: Date;
-  /** Default en-GB: 12 oct 2026. */
+  /**
+   * The language the date and how long ago are written in, as a language tag.
+   * Default: the language the cell is in, the page's or the nearest
+   * `Language`'s. English without a region writes the day first: 12 oct 2026.
+   */
   locale?: string;
   format?: Intl.DateTimeFormatOptions;
-  /** What an empty value shows. Default an em dash, read as "no date". */
+  /** What an empty value shows. Default an em dash, read as "no date" in the page's language. */
   emptyText?: string;
   className?: string;
 }
@@ -77,7 +121,12 @@ function formatter(locale: string, options: Intl.DateTimeFormatOptions): Intl.Da
   const key = `${locale}|${JSON.stringify(options)}`;
   let f = formatters.get(key);
   if (!f) {
-    f = new Intl.DateTimeFormat(locale, options);
+    try {
+      f = new Intl.DateTimeFormat(locale, options);
+    } catch {
+      // a language tag the browser can't read: English, as for a count.
+      f = new Intl.DateTimeFormat(dateLanguage('en'), options);
+    }
     formatters.set(key, f);
   }
   return f;
@@ -87,7 +136,7 @@ function formatter(locale: string, options: Intl.DateTimeFormatOptions): Intl.Da
 // in one, "Sep" in another); the first three letters read the same everywhere.
 function absolute(date: Date, locale: string, format: Intl.DateTimeFormatOptions): string {
   const f = formatter(locale, format);
-  if (format.month !== 'short' || !/^en(-|$)/i.test(locale)) return f.format(date);
+  if (format.month !== 'short' || !ENGLISH.test(locale)) return f.format(date);
   return f
     .formatToParts(date)
     .map((part) => (part.type === 'month' ? part.value.slice(0, 3) : part.value))
@@ -96,29 +145,33 @@ function absolute(date: Date, locale: string, format: Intl.DateTimeFormatOptions
 
 /**
  * DateCell — a date said both ways: absolute ("12 oct 2026", a <time> with the
- * full timestamp on hover) and relative ("5d ago", read as "5 days ago").
+ * full timestamp on hover) and relative ("5d ago", read as "5 days ago"), in
+ * the language the cell is in: "12. okt. 2026", "vor 5 tagen" on a German page.
  */
 export function DateCell({
   value,
   relative = true,
   now,
-  locale = 'en-GB',
+  locale,
   format = DEFAULT_FORMAT,
   emptyText = '—',
   className,
 }: DateCellProps) {
+  const { lang, words } = useLanguage();
   const date = value == null || value === '' ? null : value instanceof Date ? value : new Date(value);
   if (!date || Number.isNaN(date.getTime())) {
     return (
       <span className={cx('nc-cell-date', 'nc-cell-date--empty', className)}>
         <span aria-hidden="true">{emptyText}</span>
-        <span className="nc-sr-only">no date</span>
+        <span className="nc-sr-only">{words.dateCell.noDate}</span>
       </span>
     );
   }
-  const abs = absolute(date, locale, format);
-  const full = formatter(locale, FULL_FORMAT).format(date);
-  const rel = relative ? relativeDay(date, now ?? new Date()) : null;
+  // the cell's language: the one it is given, else the one it is in.
+  const dateTag = locale ?? dateLanguage(lang);
+  const abs = absolute(date, dateTag, format);
+  const full = formatter(dateTag, FULL_FORMAT).format(date);
+  const rel = relative ? relativeDay(date, now ?? new Date(), locale ?? lang) : null;
   // A date's text may differ between the server that pre-rendered the page and
   // the browser that hydrates it: each engine carries its own locale data,
   // and "today" depends on when it is read. That is expected, so React keeps

@@ -36,8 +36,11 @@
   text-transform: lowercase;
 }
 
+/* how long ago is chrome too: a language that writes it with a capital
+   ("vor 5 Tagen") reads in lowercase here, as its month does. */
 .nc-cell-date__rel {
   color: var(--fg-dim);
+  text-transform: lowercase;
 }
 
 .nc-cell-date--empty {

@@ -2,6 +2,8 @@
 layout: ../../layouts/Doc.astro
 title: home & tiles
 description: A portal's home page — one page of tiles in a few fixed groups, narrowed by the search in the top bar — and when something gets a tile.
+draft: true
+draftNote: "The home page's own words in the page's language are new and now built: the search's name, the count that is read out, the message when nothing matches, a tile's status and the numbers a tile is given, under accessibility and the specs. The rest of the page is as it was accepted."
 react:
   - { label: portal, id: patterns-portal }
   - { label: tile, id: components-navigation-tile }
@@ -222,6 +224,7 @@ What makes the home page work for everyone, including people who use a <Term id=
 
 - The home page's title is the page's main heading, and each group's title is a heading under it, so people can jump from group to group. The search in the top bar is a region of its own that they can jump to as well.
 - While people search, a screen reader says how many apps match. When nothing matches, the message is visible text.
+- The home page's own words are in the language of the page: the search's name and placeholder, the count that is read out, the message when nothing matches and the words for a tile's status. So are a tile's numbers: a count of 2,500 reads “2.500” on a German page. [Content & voice](/design-system/foundations/content-voice/#in-the-pages-language) says how.
 - A tile is read as one thing: its name, its badge, its status, then its description or its number. Keep each part short, because people hear all of it.
 - The icon, the chevron and the small triangle beside a change are decoration. The status dot is read out, but on screen it is colour only, so the description says the state in words.
 - Write the sign into a change, like +2 or −11, so it is read out, not only drawn.
@@ -231,7 +234,7 @@ Today:
 
 - In the component's own search box, the arrow keys don't work. Tab from the box reaches the first visible tile, and the arrows work from there.
 - Esc in that box only reaches the first tile when that tile's group was visible during the search; otherwise the <Term id="focus">focus</Term> stays in the box.
-- The count a screen reader hears, and the default message when nothing matches, are in English only, and with one match it says “1 app match”.
+- With one match, the English count that is read out says “1 app match”.
 - Nothing tells screen-reader users about the arrow keys, and a screen reader's reading mode still reads every tile.
 - The component's search box has a fainter frame than other text fields, and its focus is a blue frame rather than the usual focus outline.
 - The home page listens for the arrow keys anywhere among its tiles, and with its own search box for / as well, so a text field placed in a group's title row can't receive a /. Keep text fields out of that area.
@@ -265,9 +268,9 @@ The exact values, for designers and developers.
 | Tile icon | A 22px line icon with a 1.75 stroke, `--cloud-blue`, in a 28px box |
 | Tile name | JetBrains Mono 600, 14px, `--fg`, lowercase, one line with an ellipsis; a 14px chevron after it on hover and focus |
 | Tile description | Inter 13px, line-height 1.45, `--fg-muted`, at most two lines |
-| Badge | 18px high, mono 11px, top right; a number gets tabular figures. Tones: info `--cloud-blue`, success `--signal-green`, warning `--signal-amber`, danger `--signal-red`, neutral `--fg-muted` on `--surface-2` |
+| Badge | 18px high, mono 11px, top right; a number gets tabular figures and is written as a count in the page's language. Tones: info `--cloud-blue`, success `--signal-green`, warning `--signal-amber`, danger `--signal-red`, neutral `--fg-muted` on `--surface-2` |
 | Status dot | An 8px square: online `--signal-green`, degraded `--signal-amber`, offline `--signal-red`, unknown `--fg-dim` |
-| Number | The value in mono 700, 28px; the unit 14px in `--fg-muted`; the change in mono 12px with a small triangle: positive `--signal-green`, negative `--signal-red`, neutral `--fg-muted`; pinned to the bottom of the tile |
+| Number | The value in mono 700, 28px; the unit 14px in `--fg-muted`; the change in mono 12px with a small triangle: positive `--signal-green`, negative `--signal-red`, neutral `--fg-muted`; pinned to the bottom of the tile. A value or a change given as a number is written in the page's language, with a thousands separator and at most three decimals; one given as text shows as it is |
 | Tile states | Hover: `--surface-2` fill and `--border-2`. Focus: a 2px `--cloud-blue` frame. Current app: a 2px `--cloud-blue` rule on the left edge. Disabled: 45% opacity |
 | Group title | An `h2` led by a 14px chevron: JetBrains Mono 600, 13px, letter-spacing 0.04em, `--fg-muted`, lowercase |
 | Group action and description | The action 12px from the title, at the end of its row; the description Inter 13px in `--fg-dim` |

@@ -22,6 +22,10 @@ The playground shows one date cell for you to change.
 
 <Canvas of={CellsStories.Dates} />
 
+The same dates inside `<Language lang="de">`: the cell writes the date, how long ago and “no date” in the language it is in.
+
+<Canvas of={CellsStories.DatesInGerman} />
+
 `IdentifierCell` with a `title`, with and without `text`.
 
 <Canvas of={CellsStories.Identifiers} />
@@ -38,14 +42,17 @@ You can see all three at work in every [data table](?path=/docs/components-data-
 - Today: a `detail` that isn't a plain string gets no `title` at all, so its cut-off lines can't be seen on screen.
 - `DateCell` renders a `<time>` with the ISO `datetime`, and puts the full weekday, date and time in its `title`.
 - The compact relative part is `aria-hidden`, and its words, such as “5 days ago”, are in a visually hidden span, so a screen reader reads the words and not the short form.
-- An empty value is an `aria-hidden` dash and a visually hidden “no date”, so a screen reader says “no date” instead of skipping it.
+- An empty value is an `aria-hidden` dash and a visually hidden “no date”, so a screen reader says “no date” instead of skipping it. The words are `dateCell.noDate`, from the words of the page's language.
 - `value` takes a `Date`, an ISO string or epoch milliseconds. An empty or unreadable value shows the empty text.
-- `locale` (default `en-GB`) and `format` (default: day, short month, year) shape the absolute date.
+- `format` (default: day, short month, year) shapes the absolute date.
+- The cell writes in the language it is in, from `useLanguage()`: the page's, or the nearest `Language`'s (see [language](?path=/docs/react-language--docs)). English without a region is written as `en-GB`, day first.
+- `locale` names another language for one cell, for the date and how long ago together.
+- In English, how long ago is the cell's own short form, the same in every browser. In any other language it comes from `Intl.RelativeTimeFormat` with `numeric: 'auto'`, in the `narrow` style on screen and the `long` style for a screen reader. Both are lowercased with `text-transform`, as the date is.
 - `relative={false}` drops the relative part, and `emptyText` replaces the dash.
 - `now` pins “today” for stories and tests. The cell works out “today” against `now` when it renders, and `now` defaults to the current time.
-- `emptyText` changes only the visible dash, and `locale` only the absolute date, so a screen reader still hears “no date”, and the relative words stay in English.
+- `emptyText` changes only the visible dash, so a screen reader still hears “no date”.
 - The date cell builds one formatter per locale and format and reuses it, so a table of thousands of dates stays quick to render.
-- `relativeDay(then, now)` is the same wording as a function, for a date mentioned outside a cell, such as “last searched 5 days ago”. It returns both forms, `{ short: '5d ago', long: '5 days ago' }`, and `now` defaults to the current time.
+- `relativeDay(then, now, lang)` is the same wording as a function, for a date mentioned outside a cell, such as “last searched 5 days ago”. It returns both forms, `{ short: '5d ago', long: '5 days ago' }`. `now` defaults to the current time, and `lang` to the page's language.
 - `IdentifierCell`'s `title` and `text` both take any node, a link included.
 
 | key | does |
@@ -74,4 +81,4 @@ You can see all three at work in every [data table](?path=/docs/components-data-
 
 ### relative days
 
-`relativeDay(then: Date, now?: Date): { short: string; long: string }`. `now` defaults to the current time.
+`relativeDay(then: Date, now?: Date, lang?: string): { short: string; long: string }`. `now` defaults to the current time, and `lang` to the page's language.

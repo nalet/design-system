@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
+import { useLanguage } from '../../lib/language';
 import './Chevron.css';
 import { rem } from '../../lib/rem';
 
@@ -20,6 +21,7 @@ export const Chevron = React.forwardRef<SVGSVGElement, ChevronProps>(function Ch
   { size = 16, strokeWidth, color, className, style, ...rest },
   ref,
 ) {
+  const { words } = useLanguage();
   const sw = strokeWidth ?? Math.max(1.5, size * 0.14);
   return (
     <svg
@@ -30,7 +32,7 @@ export const Chevron = React.forwardRef<SVGSVGElement, ChevronProps>(function Ch
       viewBox="0 0 16 16"
       fill="none"
       role="img"
-      aria-label="chevron"
+      aria-label={words.chevron.name}
       style={{ color: color ?? undefined, ...style }}
       {...rest}
     >

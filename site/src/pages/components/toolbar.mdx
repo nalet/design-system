@@ -3,6 +3,8 @@ layout: ../../layouts/Doc.astro
 title: toolbar and selection toolbar
 description: A row of actions above the content they act on, with one emphasized and the rest standard or in a menu. The selection toolbar is the same row for a list whose rows can be selected.
 component: toolbar
+draft: true
+draftNote: "The toolbar's own words in the page's language are new and now built: “more actions”, “clear”, the count and “selection cleared”, under accessibility and the specs. The rest of the page is as it was accepted."
 ---
 import { SelectionToolbar, Toolbar, Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
@@ -99,8 +101,7 @@ The full keyboard map is on the toolbar's [React page](/design-system/react/?pat
 - The overflow menu is an <C slug="action-menu" />, and its button is named “more actions” unless you name it otherwise.
 - A selection toolbar's count is on the screen, and a screen reader reads it once per change, when it has a pause: “8 selected”, or “selection cleared” at zero. Nothing is read when the toolbar first shows.
 - The blue frame and the blue count repeat what the count's words say.
-
-Today: “selection cleared” is fixed, in English. The count and “clear” can be translated; the announcement that the selection was cleared can't.
+- The toolbar's own words are in the language of the page: “more actions”, “clear”, the count and “selection cleared”. On a German page they read “weitere aktionen”, “aufheben”, “8 ausgewählt” and “auswahl aufgehoben”. [Content & voice](/design-system/foundations/content-voice/#in-the-pages-language) says how.
 
 ## content
 
@@ -155,10 +156,10 @@ Today: “selection cleared” is fixed, in English. The count and “clear” c
 | Heading | `heading`, on the left, taking the free width: JetBrains Mono 600, 13px, `--fg`, lowercased with `text-transform`. |
 | Extra content | `children`, between the heading and the actions. |
 | Actions | On the right, 8px apart, every one a `size="sm"` button (28px): the emphasized one first, `variant="primary"` (or `"danger"`), then `variant="default"` buttons (or `"danger"`). An action's `icon` goes in the button's `leading` slot. |
-| Overflow | An `ActionMenu`, last, named by `overflowLabel` (default “more actions”). |
+| Overflow | An `ActionMenu`, last, named by `overflowLabel` (default “more actions”, in the page's language). |
 | Selection state | `SelectionToolbar` with `selectedCount` above 0: the frame turns `--state-information-border`, with a 3px `--cloud-blue` rule inset on the left; the count is in `--cloud-blue`. |
 | Clear and select all | `size="sm"`, `variant="ghost"` buttons after the count. |
-| Announcement | A visually hidden `aria-live="polite"` region in the heading: the count, or “selection cleared” at 0, after every change of `selectedCount` but not on the first render. |
+| Announcement | A visually hidden `aria-live="polite"` region in the heading: the count, or “selection cleared” at 0, after every change of `selectedCount` but not on the first render. Both in the page's language. |
 
 | setting | in code | what it does |
 | --- | --- | --- |
@@ -167,8 +168,8 @@ Today: “selection cleared” is fixed, in English. The count and “clear” c
 | Always in the menu | `overflow: true` | Keeps the action in the menu at every width. |
 | Narrow | `collapseBelow`: 560 (px) by default | Below this width, measured inside the padding, every action but the emphasized one moves into the menu. Until it has been measured, the toolbar lays out as wide. |
 | Disabled, busy | `disabled`, `loading` | As on a button. In the menu, either one makes a disabled item; the arrow keys skip both. |
-| Count | `selectedCount`, written by `formatSelected` (“8 selected” by default, with thousands separators) | At 0, the heading shows instead of the count. |
-| Clear | `onClearSelection`, and `clearLabel` (“clear” by default) | Shows “clear” after the count while something is selected. |
+| Count | `selectedCount`, written by `formatSelected` (“8 selected” by default, in the page's language and with its thousands separator) | At 0, the heading shows instead of the count. |
+| Clear | `onClearSelection`, and `clearLabel` (“clear” by default, in the page's language) | Shows “clear” after the count while something is selected. |
 | Select all | `selectAll`: `{ label, onSelect }`, or `null` | Offers to extend the selection: “select all 2,500”. |
 | Action for the selection | `primaryAction(n)`, which returns the action, or `null` for none | The one emphasized action of a selection toolbar. Build its label from `n`. |
 | Other actions | `actions` | In a selection toolbar, never emphasized. |

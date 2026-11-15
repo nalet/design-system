@@ -39,11 +39,12 @@ This `SelectionToolbar` uses `selectedCount`, `onClearSelection`, `selectAll` an
 - In an `input` or a `select`, the arrow keys, `home` and `end` stay with the field, so people can still edit or choose. From there, `tab` leaves the toolbar.
 - An `onKeyDown` you pass runs first. Call `preventDefault()` on a key to keep the toolbar from acting on it.
 - `SelectionToolbar` takes `selectedCount`. At 0 it shows `heading` and no emphasized action, unless `primaryAction(0)` returns one.
-- Above 0 it shows the count as `formatSelected` writes it, by default `8 selected` with thousands separators.
+- Above 0 it shows the count as `formatSelected` writes it, by default `8 selected`, in the page's language and with its thousands separator.
 - It shows `clear` when you pass `onClearSelection`, and `clearLabel` renames it. It shows `selectAll` when you pass it.
 - The emphasized action is the one `primaryAction(n)` returns, or none when it returns `null`. Build the bulk action's label from `n` in `primaryAction`, so the label carries the count.
 - `actions` are never emphasized.
 - A visually hidden `aria-live="polite"` region in the heading announces every change of `selectedCount` after the first render. It reads the count as `formatSelected` writes it, or `selection cleared` at 0.
+- The toolbar's own words, “more actions”, “clear”, the count and “selection cleared”, are the `toolbar` block of the words of the page's language (see [language](?path=/docs/react-language--docs)). `overflowLabel`, `clearLabel` and `formatSelected` win when you pass them.
 - `Toolbar` passes other `<div>` attributes (all but `title`) and its `ref` to the `role="toolbar"` element.
 - `SelectionToolbar` takes everything `Toolbar` takes except `heading` and `actions`, which it defines itself, and passes the rest on.
 - axe-core finds no violations in either toolbar.

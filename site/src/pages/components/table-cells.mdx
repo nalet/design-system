@@ -3,13 +3,15 @@ layout: ../../layouts/Doc.astro
 title: table cells
 description: Three ready-made cells for the columns of a data table. A status with its reason, a date said two ways and the name of each row then look and read the same in every table.
 component: table-cells
+draft: true
+draftNote: "The date cell in the page's language is new and now built: the date, how long ago and “no date” follow the language of the page, under variants and states, accessibility and the specs. The rest of the page is as it was accepted."
 ---
 import { DateCell, IdentifierCell, Kbd, StatusCell } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { STORY_NOW } from '@stories/_data/backlog';
-import { Statuses, Dates, Identifiers } from '@site/examples/table-cells';
+import { Statuses, Dates, DatesInGerman, Identifiers } from '@site/examples/table-cells';
 import { CellsInATable } from '@site/demos/components/table-cells';
 
 # table cells
@@ -91,6 +93,12 @@ How long ago counts whole calendar days, in the viewer's time zone:
   <Dates />
 </Example>
 
+Those are the English forms. The cell writes in the language of the page it is on, so on a page in another language the date, how long ago and “no date” are that language's own, with the same steps from days to weeks, months and years. [Content & voice](/design-system/foundations/content-voice/#in-the-pages-language) has the rules.
+
+<Example label="the same date cells inside German">
+  <DatesInGerman />
+</Example>
+
 ### identifier cell
 
 The title is what identifies the row; the text is a second line, when there is one to give. The title can be a link to the row's own page.
@@ -110,14 +118,13 @@ The full keyboard map is on the table cells' [React page](/design-system/react/?
 ## accessibility
 
 - **Status cell.** Screen readers skip the glyph: the words carry the state, and warnings and errors are read with their state first, as in “error: needs attention”. The detail is there in full for a screen reader, so it reads all of it, including the lines cut off on screen.
-- **Date cell.** The date is read as it is written, “12 Oct 2026”, because the lowercase is only a style. Then comes how long ago, in words: “5 days ago”. Screen readers skip the short “5d ago”. An empty value is read as “no date”.
+- **Date cell.** The date is read as it is written, “12 Oct 2026”, because the lowercase is only a style. Then comes how long ago, in words: “5 days ago”. Screen readers skip the short “5d ago”. An empty value is read as “no date”. All three are in the language of the page: “12. Okt. 2026”, “vor 5 Tagen”, “kein datum”.
 - **Identifier cell.** Plain text. As the row header, it names the row for every other cell in it.
 
 Today:
 
 - A status detail longer than two lines, and a date's full time, show only in the browser's own tooltip: under a mouse pointer. People who use a keyboard or a touch screen can't open it. Screen readers read the whole detail, but the time of day is only in that tooltip, which most of them don't read for plain text.
 - A detail that isn't plain text, such as one that holds a link, gets no tooltip at all, so the lines that are cut off can't be seen on screen.
-- The spoken words are fixed, in English: “no date”, and the words for how long ago, such as “5 days ago”, whatever the language of the dates.
 - An identifier's second line that doesn't fit is cut short with an ellipsis, and has no tooltip.
 
 ## content
@@ -175,8 +182,8 @@ Today:
 | Status | Detail | `detail`. JetBrains Mono 11px, line-height 1.45, `--fg-dim`, `max-width: 44ch`, clamped to two lines (`-webkit-line-clamp: 2`), `overflow-wrap: anywhere`. In the page in full. A string detail is also its `title`, the native tooltip; a detail that isn't a string gets none. |
 | Date (`DateCell`) | Wrapper | `inline-flex`, wrapping, on one baseline, the parts 8px (`--s-2`) apart. JetBrains Mono 12px, `font-variant-numeric: tabular-nums`. |
 | Date | Date | A `<time>` with the ISO `datetime`, in `--fg-2`, lowercased with `text-transform`. Its `title` holds the full weekday, date and time (`dateStyle: 'full'`, `timeStyle: 'short'`). |
-| Date | How long ago | `relative` (default `true`), in `--fg-dim`. The short form is `aria-hidden`; the long form is visually hidden. |
-| Date | Empty | `emptyText`, by default an em dash (—), `aria-hidden`, in `--fg-dim`, and a visually hidden “no date”. |
+| Date | How long ago | `relative` (default `true`), in `--fg-dim`, lowercased with `text-transform`. The short form is `aria-hidden`; the long form is visually hidden. |
+| Date | Empty | `emptyText`, by default an em dash (—), `aria-hidden`, in `--fg-dim`, and a visually hidden “no date”, in the page's language. |
 | Identifier (`IdentifierCell`) | Wrapper | An `inline-flex` column with 2px between its lines, `min-width: 0`. |
 | Identifier | Title | `title`, any node, a link included. JetBrains Mono 13px, `--fg`. |
 | Identifier | Text | `text`. Inter 12px, `--fg-muted`, on one line (`white-space: nowrap`), with `text-overflow: ellipsis` and no tooltip. |
@@ -184,13 +191,14 @@ Today:
 | date setting | in code | default |
 | --- | --- | --- |
 | The date | `value`: a `Date`, an ISO string or epoch milliseconds | An empty or unreadable value shows the empty text |
-| Language of the date | `locale` | `'en-GB'`: “12 oct 2026” |
+| Language | `locale`, a language tag, for the date and how long ago together | The language the cell is in: the page's, or the nearest `Language`'s. English without a region is written as `en-GB`: “12 oct 2026” |
 | Format | `format`, an `Intl.DateTimeFormatOptions` | Day, short month, year: `{ day: 'numeric', month: 'short', year: 'numeric' }` |
 | How long ago | `relative` | `true` |
 | Today | `now` | The current time; pinned in stories and tests |
 
-- **How long ago, the rule:** whole calendar days in the viewer's time zone. Under 14 days it counts days, under 60 weeks (days ÷ 7), under 730 months (days ÷ 30.44), then years (days ÷ 365.25), each rounded. `relativeDay(then, now)` is the same wording as a function, for a date outside a cell: it returns `{ short: '5d ago', long: '5 days ago' }`.
-- **Fixed words:** `emptyText` changes only the visible dash, and `locale` only the absolute date; “no date” and the words for how long ago stay English.
+- **How long ago, the rule:** whole calendar days in the viewer's time zone. Under 14 days it counts days, under 60 weeks (days ÷ 7), under 730 months (days ÷ 30.44), then years (days ÷ 365.25), each rounded. `relativeDay(then, now, lang)` is the same wording as a function, for a date outside a cell: it returns `{ short: '5d ago', long: '5 days ago' }`, and without a language it writes in the page's.
+- **How long ago, the words:** English has the system's own short forms, the same in every browser. Any other language takes them from `Intl.RelativeTimeFormat` with `numeric: 'auto'`: the narrow style on screen, the long style for a screen reader, so the short form is the browser's and may differ a little between browsers.
+- **Words:** `emptyText` changes only the visible dash. “no date” is the date cell's one text in the words of the page's language; a page gives its own with `Language`.
 - **Status cell props:** every status prop (`state`, `text` or children, `icon`, `appearance`, `stateLabel`) and `detail`. Spread a vocabulary entry in: `<StatusCell {...BACKLOG_STATES[row.state]} detail={why(row)} />`.
 - **Identifiers:** an internal id, such as a UUID, is never the title.
 - **Focus:** none in any cell, unless an identifier's `title` is a link.

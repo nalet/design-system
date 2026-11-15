@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
-import { formatCount } from '../../lib/format';
+import { formatCount, useLanguage } from '../../lib/language';
 import type { State } from '../../lib/StateGlyph';
 import './FilterTabs.css';
 
@@ -8,7 +8,7 @@ export interface FilterTab {
   id: string;
   /** What the tab keeps, lowercase: "needs attention". */
   label: string;
-  /** How many items the tab keeps. Omit when unknown. */
+  /** How many items the tab keeps, written in the page's language. Omit when unknown. */
   count?: number;
   /**
    * The count's meaning, when it carries one: error for "needs attention",
@@ -46,6 +46,7 @@ export const FilterTabs = React.forwardRef<HTMLDivElement, FilterTabsProps>(func
   { tabs, value, onChange, label, panelId, idPrefix, className, ...rest },
   ref,
 ) {
+  const { lang } = useLanguage();
   const fallbackPrefix = React.useId();
   const prefix = idPrefix ?? fallbackPrefix;
   const listRef = React.useRef<HTMLDivElement>(null);
@@ -120,7 +121,7 @@ export const FilterTabs = React.forwardRef<HTMLDivElement, FilterTabsProps>(func
               <span className="nc-filtertabs__label">{t.label}</span>
               {/* a real space, so the name reads "needs attention 3" in every engine; flex hides it. */}
               {t.count != null ? ' ' : null}
-              {t.count != null ? <span className="nc-filtertabs__count">{formatCount(t.count)}</span> : null}
+              {t.count != null ? <span className="nc-filtertabs__count">{formatCount(t.count, lang)}</span> : null}
             </button>
           );
         })}

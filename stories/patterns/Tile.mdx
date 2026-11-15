@@ -49,7 +49,8 @@ Here are the four values of `status`: `online`, `degraded`, `offline` and `unkno
 - Every tile carries its title and description, lowercased, in `data-nc-search`, and the [portal](?path=/docs/patterns-portal--docs) search matches against it.
 - `icon` takes the Lucide component, not an element, because the tile draws it itself, at 22px with a 1.75 stroke.
 - The icon, the chevron and the delta's triangle are `aria-hidden`.
-- The status dot has `role="img"` and the label `status: <status>`, so screen readers say the status in words.
+- The status dot has `role="img"` and the label `status: <status>`, so screen readers say the status in words. The label and the four statuses are the `tile` block of the words of the page's language (see [language](?path=/docs/react-language--docs)): “status: beeinträchtigt” inside German.
+- A `badge`, a `value` or a `delta.value` given as a number is written with `formatCount`, in the page's language: 2,500 in English, 2.500 in German, with at most three decimals. Given as a string, it shows as it is.
 - `selected` is visual only. Pass `aria-current="page"` on the current app's tile yourself. It reaches the element, as other attributes do.
 - Today: a disabled tile is a `<div>` with `aria-disabled`, which assistive tech ignores on a plain element.
 - Today: focus shows on `:focus-visible` as a 2px `--cloud-blue` frame, not the `--focus-ring` outline that other controls use.

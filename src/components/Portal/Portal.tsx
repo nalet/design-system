@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
 import { Chevron } from '../../brand/Chevron/Chevron';
+import { counted, fill, useLanguage } from '../../lib/language';
 import { useRovingGrid } from '../../lib/useRovingGrid';
 import { PortalContext } from './context';
 import './Portal.css';
@@ -14,9 +15,9 @@ export interface PortalProps
    * top bar's search as `query`; the box is for a launcher outside a shell.
    */
   searchable?: boolean;
-  /** Search input placeholder. */
+  /** Search input placeholder. Default "search apps…", in the page's language. */
   searchPlaceholder?: string;
-  /** Names the search landmark and its field. Default "search apps"; give each launcher on a page its own. */
+  /** Names the search landmark and its field. Default "search apps", in the page's language; give each launcher on a page its own. */
   searchLabel?: string;
   /** Controlled search value (pair with onQueryChange), or the top bar's search when `searchable` is false. */
   query?: string;
@@ -31,7 +32,7 @@ export interface PortalProps
   density?: 'comfortable' | 'compact';
   /** Pinned slot above the groups (typically a favourites TileGroup). */
   favorites?: React.ReactNode;
-  /** Shown when search matches nothing. */
+  /** Shown when search matches nothing. Default a sentence that names the search, in the page's language. */
   emptyState?: React.ReactNode;
   /** The TileGroups. */
   children: React.ReactNode;
@@ -47,8 +48,8 @@ export const Portal = React.forwardRef<HTMLDivElement, PortalProps>(function Por
   {
     title,
     searchable = true,
-    searchPlaceholder = 'search apps…',
-    searchLabel = 'search apps',
+    searchPlaceholder,
+    searchLabel,
     query,
     onQueryChange,
     navigation = 'roving',
@@ -61,6 +62,8 @@ export const Portal = React.forwardRef<HTMLDivElement, PortalProps>(function Por
   },
   ref,
 ) {
+  const { lang, words } = useLanguage();
+  const searchName = searchLabel ?? words.portal.search;
   const containerRef = React.useRef<HTMLDivElement>(null);
   const searchRef = React.useRef<HTMLInputElement>(null);
   const [innerQuery, setInnerQuery] = React.useState('');
@@ -131,13 +134,13 @@ export const Portal = React.forwardRef<HTMLDivElement, PortalProps>(function Por
               <span />
             )}
             {searchable ? (
-              <div className="nc-portal__search" role="search" aria-label={searchLabel}>
+              <div className="nc-portal__search" role="search" aria-label={searchName}>
                 <input
                   ref={searchRef}
                   type="text"
                   className="nc-portal__search-input"
-                  placeholder={searchPlaceholder}
-                  aria-label={searchLabel}
+                  placeholder={searchPlaceholder ?? words.portal.searchPlaceholder}
+                  aria-label={searchName}
                   value={query ?? innerQuery}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={onSearchKeyDown}
@@ -152,13 +155,13 @@ export const Portal = React.forwardRef<HTMLDivElement, PortalProps>(function Por
           {children}
           {matches === 0 ? (
             <div className="nc-portal__empty">
-              {emptyState ?? <span>No apps match “{query ?? innerQuery}”.</span>}
+              {emptyState ?? <span>{fill(words.portal.noMatch, { query: query ?? innerQuery })}</span>}
             </div>
           ) : null}
         </div>
 
         <span className="nc-portal__sr" aria-live="polite">
-          {matches >= 0 ? `${matches} app${matches === 1 ? '' : 's'} match` : ''}
+          {matches >= 0 ? counted(words.portal.matches, matches, lang) : ''}
         </span>
       </div>
     </PortalContext.Provider>

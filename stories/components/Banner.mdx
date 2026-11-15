@@ -31,13 +31,14 @@ When to use a banner, its states, when to add details or a dismiss button and ho
 - The live region has `aria-atomic="true"`, so an update reads the whole message, and never the actions, the details or dismiss.
 - `live` overrides the role: `"polite"` gives a status, `"assertive"` an alert, and `"off"` no role at all.
 - Use `"off"` for a static note: a banner that is on the page from the start and doesn't change.
-- Every state but `neutral` puts its name, visually hidden, before the text, so a screen reader hears the state as well as the message.
+- Every state but `neutral` puts its name, visually hidden, before the text, so a screen reader hears the state as well as the message. The name is in the page's language: “warning:” in English, “warnung:” in German.
 - A `stateLabel` string replaces that word, and gives `neutral` one. `false` leaves it out.
 - The glyph is `aria-hidden`, so a screen reader skips it.
 - `details` is a disclosure: the toggle has `aria-expanded`, and `aria-controls` pointing at the details.
 - Closed details are `hidden`, so they are neither read nor focusable.
 - The details sit outside the live region.
 - `detailsLabel` names the toggle (“details” by default).
+- The banner's own words, the states' names, “details” and “dismiss”, are the `banner` block of the words of the page's language (see [language](?path=/docs/react-language--docs)). A prop that sets one wins.
 - The banner keeps the details' open state itself. `defaultDetailsOpen` opens them on the first render, and is read only then.
 - `onDismiss` adds the dismiss button, named by `dismissLabel` (“dismiss” by default).
 - The banner doesn't hide itself: it calls `onDismiss`, and you stop rendering it.

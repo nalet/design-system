@@ -1,0 +1,61 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as LanguageStories from './Language.stories';
+import { Language } from '../../src';
+
+<Meta of={LanguageStories} />
+
+# language
+
+How numbers, dates and the components' own words follow the page's language is on the guidelines site: **[content & voice: in the page's language →](https://nalet.github.io/design-system/foundations/content-voice/#in-the-pages-language)**. How a page says its language, and how to give words for another language or of your own, is in [getting started](?path=/docs/react-getting-started--docs).
+
+The playground is a list of backups inside `Language`. Change `lang`, and the tabs' counts, the count of the selection, the dates and how long ago, and the words under the table follow.
+
+<Canvas of={LanguageStories.Playground} />
+
+## examples
+
+On an English page: `lang="en"`, which is also what a page without a `lang` is.
+
+<Canvas of={LanguageStories.English} />
+
+The same list inside `lang="de"`. The headers, the statuses and the sizes are the list's own words: it keeps them per language and writes its counts with `counted`, in the language `useLanguage()` gives it.
+
+<Canvas of={LanguageStories.German} />
+
+Single texts replaced with `words`, here to name what the list holds: the count of the selection, the clear button and the button under the table. Every other text stays the built-in one.
+
+<Canvas of={LanguageStories.OwnTexts} />
+
+## implementation notes
+
+- A component reads its language with `useLanguage()`, which returns `lang` and `words`: the nearest `Language`'s, else the page's.
+- The page's language is the `lang` of the root element, English where it has none. One `MutationObserver` watches that attribute for the whole page, so a change of it reaches every component.
+- On a server there is no page to read, so the language is English unless a `Language` says otherwise. For a page rendered on a server in another language, wrap the app in `Language` with that `lang`, so the server and the browser write the same text.
+- `Language` renders no element of its own, only its children.
+- `lang` is a language tag, such as `en`, `de` or `de-CH`. Without it, `Language` takes the page's own.
+- `words` is any part of a set, a `WordsOverride`: whole blocks or single texts. They are laid over the built-in set for `lang`: its own, its language's (`de-CH` reads `de`), else English.
+- A `Language` inside another doesn't inherit the outer one's `words`: it starts again from the built-in set for its own `lang`.
+- Keep the `words` object the same between renders, in a constant or a `useMemo`, so the components inside don't draw again for nothing.
+- Counts are written with `Intl.NumberFormat`, the form of a text that counts is chosen with `Intl.PluralRules`, and dates with `Intl.DateTimeFormat` and `Intl.RelativeTimeFormat`. A language tag the browser can't read is written the English way.
+- `dateLanguage(lang)` is the tag dates are written in: `en` gives `en-GB`, day before month; every other tag is itself.
+- A prop that sets a word wins over the words: `label ?? words.spinner.loading`.
+- Not built: a language written from right to left.
+
+## props
+
+<ArgTypes of={Language} />
+
+### the helpers
+
+| function | returns |
+| --- | --- |
+| `useLanguage()` | `{ lang, words }`: the language a component is in, and the components' words for it. |
+| `formatCount(n, lang?)` | A count as the language writes it: `2,500`, `2.500`. Without `lang`, the page's. |
+| `counted(text, n, lang, values?)` | The form of a text that counts for `n`, with the count in place of `{n}`: `counted({ one: '{n} row', other: '{n} rows' }, 2500, 'en')` is `2,500 rows`. |
+| `fill(text, values)` | A text with its values in place: `fill('select {name}', { name: 'db-01' })` is `select db-01`. |
+| `wordsFor(lang)` | The built-in set for a language tag. |
+| `pageLanguage()` | The `lang` of the page's root element, `en` where it has none. |
+| `dateLanguage(lang)` | The tag dates are written in. |
+| `relativeDay(then, now?, lang?)` | How long ago, short and spoken: `{ short: '5d ago', long: '5 days ago' }`. |
+
+`english` and `german` are the built-in sets, and `builtInWords` holds them by language. The types are `Words`, a whole set; `WordsOverride`, any part of one; and `Counted`, a text that counts.

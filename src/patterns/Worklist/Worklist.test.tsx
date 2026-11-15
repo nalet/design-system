@@ -8,6 +8,7 @@ import { FilterBar } from '../../components/FilterBar/FilterBar';
 import { SelectionToolbar } from '../../components/Toolbar/Toolbar';
 import { EmptyState } from '../../components/EmptyState/EmptyState';
 import { Button } from '../../components/Button/Button';
+import { Language } from '../../lib/language';
 import { expectNoAxeViolations } from '../../test/axe';
 
 function Harness() {
@@ -49,6 +50,25 @@ describe('Worklist', () => {
     await user.click(screen.getByRole('tab', { name: /needs attention/ }));
     expect(screen.getByRole('tabpanel')).toHaveAccessibleName('needs attention 0');
     expect(screen.getByRole('tab', { name: /needs attention/ })).toHaveAttribute('aria-controls', panel.id);
+  });
+
+  it('names its tabs "filter the list" in English, in German inside a German part, and a prop still wins', () => {
+    const tabs = [{ id: 'all', label: 'missing', count: 2500 }];
+    const page = (lang: string, tabsLabel?: string) => (
+      <Language lang={lang}>
+        <Worklist title="missing" tabs={tabs} activeTab="all" tabsLabel={tabsLabel}>
+          <p>list</p>
+        </Worklist>
+      </Language>
+    );
+    const { rerender } = render(page('en'));
+    expect(screen.getByRole('tablist', { name: 'filter the list' })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: 'missing 2,500' })).toBeInTheDocument();
+    rerender(page('de'));
+    expect(screen.getByRole('tablist', { name: 'liste filtern' })).toBeInTheDocument();
+    expect(screen.getByRole('tab', { name: 'missing 2.500' })).toBeInTheDocument();
+    rerender(page('de', 'fehlende nach zustand filtern'));
+    expect(screen.getByRole('tablist', { name: 'fehlende nach zustand filtern' })).toBeInTheDocument();
   });
 
   it('has no axe violations as a whole page', async () => {

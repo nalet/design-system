@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { DateCell, IdentifierCell, StatusCell, type DateCellProps } from '../../src';
+import { DateCell, IdentifierCell, Language, StatusCell, type DateCellProps } from '../../src';
 
 const NOW = new Date('2026-10-17T12:00:00Z');
 
@@ -35,6 +35,24 @@ export const Dates: Story = {
       <DateCell value="2026-10-21T08:00:00Z" now={NOW} />
       <DateCell value={null} />
     </div>
+  ),
+};
+
+/** The same dates inside German: the cell writes in the language it is in. */
+export const DatesInGerman: Story = {
+  name: 'dates in german',
+  render: () => (
+    <Language lang="de">
+      <div style={{ display: 'grid', gap: 'var(--s-2)' }}>
+        <DateCell value="2026-10-17T08:00:00Z" now={NOW} />
+        <DateCell value="2026-10-16T08:00:00Z" now={NOW} />
+        <DateCell value="2026-10-12T08:00:00Z" now={NOW} />
+        <DateCell value="2026-08-30T08:00:00Z" now={NOW} />
+        <DateCell value="2025-03-02T08:00:00Z" now={NOW} />
+        <DateCell value="2026-10-21T08:00:00Z" now={NOW} />
+        <DateCell value={null} />
+      </div>
+    </Language>
   ),
 };
 

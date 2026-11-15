@@ -49,14 +49,14 @@ For a grouped header (`rowSpan`, `colSpan`), this table is built from `Thead`, `
 | `align` | `left` (the default), `right` or `center`, for the header and its cells. |
 | `width` | A width for the column (a CSS length, or a number of px), set on its header cell. |
 
-- When `rows` is empty, the table shows a single row with the `empty` text. The default is `no rows`.
+- When `rows` is empty, the table shows a single row with the `empty` text. The default is `no rows`, from the words of the page's language (`table.empty`; see [language](?path=/docs/react-language--docs)).
 - Rows are keyed by their index unless you pass `rowKey`.
 - Pass a stable ID (`rowKey={(r) => r.id}`) whenever rows can be added, removed or reordered. Then React keeps each row, and any focus inside it, with the right record.
 - There is no caption prop, and children passed to `Table` are dropped.
 - To name the table, pass `aria-labelledby` with the ID of the heading above it, or `aria-label`. Both reach the `table` element.
 - `Table` renders every body cell as a `td`. For a row header (a first cell that names the row), build the table from the primitives and use `Th` with `scope="row"`.
 - While the table is wider than its frame, the frame becomes a focusable region (`tabindex="0"`, `role="region"`), so people can scroll it with the arrow keys.
-- That region is named by the table's `aria-label` or `aria-labelledby`, or “table” without either. It shows the `--focus-ring` when focused.
+- That region is named by the table's `aria-label` or `aria-labelledby`, or “table” without either (`table.region` in the words). It shows the `--focus-ring` when focused.
 - A `ResizeObserver` on the frame and the table tracks the overflow.
 - The frame takes no other props. They all go to the `table`.
 - **Primitives.** `Thead`, `Tbody`, `Tr`, `Th` and `Td` render their native element with the table's classes (`Tbody` is a plain `tbody`). Use them for what `columns` can't express: a grouped header, a row header, a cell that spans.

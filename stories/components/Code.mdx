@@ -33,7 +33,7 @@ Two blocks, each with `block`, in a `Stack`.
 - The block keeps spaces and line breaks with `white-space: pre`, and scrolls sideways with `overflow-x: auto` rather than wrapping.
 - A `ResizeObserver` on the `pre` and its content tracks whether the block overflows.
 - While it overflows, the `pre` is a focusable region, so keyboard users can reach it and scroll it (see the keys below). It shows the `--focus-ring` when focused.
-- To give an overflowing block a better name than “code”, pass an `aria-label`, such as “install command”.
+- To give an overflowing block a better name than “code”, pass an `aria-label`, such as “install command”. The default is `code.region` in the words of the page's language (see [language](?path=/docs/react-language--docs)).
 - Your `tabIndex`, `role` and `aria-label` go to the `pre` and win over the defaults.
 - Native attributes go to its element, the `code` when inline or the `pre` for a block, and so does the `ref`.
 

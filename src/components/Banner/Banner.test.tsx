@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Banner } from './Banner';
 import { Button } from '../Button/Button';
+import { Language } from '../../lib/language';
 import { expectNoAxeViolations } from '../../test/axe';
 
 describe('Banner', () => {
@@ -56,6 +57,60 @@ describe('Banner', () => {
     );
     await user.click(screen.getByRole('button', { name: 'dismiss' }));
     expect(onDismiss).toHaveBeenCalledOnce();
+  });
+
+  it('reads as before in English: each state by its name, a neutral one by none', () => {
+    const { container, rerender } = render(<Banner state="information">Saved.</Banner>);
+    const text = () => container.querySelector('.nc-strip__text')!.textContent;
+    expect(text()).toBe('information: Saved.');
+    rerender(<Banner state="success">Saved.</Banner>);
+    expect(text()).toBe('success: Saved.');
+    rerender(<Banner state="warning">Saved.</Banner>);
+    expect(text()).toBe('warning: Saved.');
+    rerender(<Banner state="error">Saved.</Banner>);
+    expect(text()).toBe('error: Saved.');
+    rerender(<Banner state="neutral">Saved.</Banner>);
+    expect(text()).toBe('Saved.');
+    rerender(
+      <Banner state="neutral" stateLabel="note" details="raw: http 503" onDismiss={() => undefined}>
+        Saved.
+      </Banner>,
+    );
+    expect(text()).toBe('note: Saved.');
+    expect(screen.getByRole('button', { name: 'details' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'dismiss' })).toBeInTheDocument();
+  });
+
+  it('reads in German inside a German part of the page, and a prop still wins', () => {
+    const { container, rerender } = render(
+      <Language lang="de">
+        <Banner state="warning" details="raw: http 503" onDismiss={() => undefined}>
+          105 Titel lassen sich nicht prüfen.
+        </Banner>
+      </Language>,
+    );
+    const text = () => container.querySelector('.nc-strip__text')!.textContent;
+    expect(text()).toBe('warnung: 105 Titel lassen sich nicht prüfen.');
+    expect(screen.getByRole('button', { name: 'details' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'ausblenden' })).toBeInTheDocument();
+    for (const [state, word] of [['information', 'hinweis'], ['success', 'erfolg'], ['error', 'fehler']] as const) {
+      rerender(
+        <Language lang="de">
+          <Banner state={state}>Gespeichert.</Banner>
+        </Language>,
+      );
+      expect(text()).toBe(`${word}: Gespeichert.`);
+    }
+    rerender(
+      <Language lang="de">
+        <Banner state="error" stateLabel="störung" detailsLabel="technische details" dismissLabel="schließen" details="x" onDismiss={() => undefined}>
+          Gespeichert.
+        </Banner>
+      </Language>,
+    );
+    expect(text()).toBe('störung: Gespeichert.');
+    expect(screen.getByRole('button', { name: 'technische details' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'schließen' })).toBeInTheDocument();
   });
 
   it.each(['neutral', 'information', 'success', 'warning', 'error'] as const)('has no axe violations (%s)', async (state) => {

@@ -95,10 +95,36 @@ export interface Words {
 
   // ---- new components: each fills its own block ------------------------------
   navigation: Record<string, never>;
-  progressBar: Record<string, never>;
+  progressBar: {
+    /** The share that is done: "{n}%". */
+    percent: string;
+    /** Under the bar, the share and the amount: "{percent} · {amount}". */
+    valueWithAmount: string;
+    /** The same for a screen reader: "{percent}, {amount}". */
+    spokenWithAmount: string;
+    /** Under a bar that is paused: "paused · {percent}". */
+    paused: string;
+    /** The same for a screen reader: "paused, {percent}". */
+    pausedSpoken: string;
+    /** A bar that failed, for a screen reader, and under it where the app gives no message: "stopped at {percent}". */
+    failed: string;
+    /** The button that stops the work. */
+    cancel: string;
+    /** The button that pauses the work. */
+    pause: string;
+    /** The button that takes paused work up again. */
+    resume: string;
+    /** The button that starts failed work again. */
+    tryAgain: string;
+  };
   sheet: Record<string, never>;
   slider: Record<string, never>;
-  stepper: Record<string, never>;
+  stepper: {
+    /** The minus button's name, where the app gives none. */
+    minus: string;
+    /** The plus button's name, where the app gives none. */
+    plus: string;
+  };
   topBar: Record<string, never>;
   userMenu: Record<string, never>;
 }
@@ -156,10 +182,24 @@ export const english: Words = {
   },
 
   navigation: {},
-  progressBar: {},
+  progressBar: {
+    percent: '{n}%',
+    valueWithAmount: '{percent} · {amount}',
+    spokenWithAmount: '{percent}, {amount}',
+    paused: 'paused · {percent}',
+    pausedSpoken: 'paused, {percent}',
+    failed: 'stopped at {percent}',
+    cancel: 'cancel',
+    pause: 'pause',
+    resume: 'resume',
+    tryAgain: 'try again',
+  },
   sheet: {},
   slider: {},
-  stepper: {},
+  stepper: {
+    minus: 'less',
+    plus: 'more',
+  },
   topBar: {},
   userMenu: {},
 };
@@ -217,10 +257,25 @@ export const german: Words = {
   },
 
   navigation: {},
-  progressBar: {},
+  progressBar: {
+    // a no-break space stands between the number and the sign
+    percent: '{n}\u00a0%',
+    valueWithAmount: '{percent} · {amount}',
+    spokenWithAmount: '{percent}, {amount}',
+    paused: 'pausiert · {percent}',
+    pausedSpoken: 'pausiert, {percent}',
+    failed: 'bei {percent} angehalten',
+    cancel: 'abbrechen',
+    pause: 'pausieren',
+    resume: 'fortsetzen',
+    tryAgain: 'erneut versuchen',
+  },
   sheet: {},
   slider: {},
-  stepper: {},
+  stepper: {
+    minus: 'weniger',
+    plus: 'mehr',
+  },
   topBar: {},
   userMenu: {},
 };

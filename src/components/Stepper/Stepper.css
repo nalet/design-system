@@ -1,0 +1,293 @@
+.nc-stepper {
+  /* the height of a field; minus and plus are squares of it */
+  --nc-stepper-h: 2.125rem;
+  display: inline-flex;
+  align-items: stretch;
+  box-sizing: border-box;
+  width: calc(var(--nc-stepper-h) * 5.5);
+  max-width: 100%;
+  min-height: var(--nc-stepper-h);
+  background: var(--bg-2);
+  border: 1px solid var(--border-control);
+  border-radius: 0;
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.nc-stepper--sm {
+  --nc-stepper-h: 1.75rem;
+}
+.nc-stepper--md {
+  --nc-stepper-h: 2.125rem;
+}
+.nc-stepper--lg {
+  --nc-stepper-h: 2.625rem;
+  font-size: 0.875rem;
+}
+
+/* the frame is a field's: blue while the value has the focus, red when it is wrong */
+.nc-stepper:focus-within {
+  border-color: var(--cloud-blue);
+  box-shadow: inset 0 0 0 1px var(--cloud-blue);
+}
+
+.nc-stepper--invalid {
+  border-color: var(--state-error);
+}
+.nc-stepper--invalid:focus-within {
+  border-color: var(--state-error);
+  box-shadow: inset 0 0 0 1px var(--state-error);
+}
+
+.nc-stepper--disabled {
+  opacity: 0.5;
+}
+
+/* the value with its unit, in the middle */
+.nc-stepper__value {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: 1;
+  gap: 0.75ch;
+  min-width: 0;
+  padding: 0 var(--s-2);
+  cursor: text;
+}
+
+/* the browser's own number field, as wide as its longest value, without the
+   browser's small arrows: minus and plus stand on either side */
+.nc-stepper__input {
+  -webkit-appearance: none;
+  -moz-appearance: textfield;
+  appearance: textfield;
+  box-sizing: content-box;
+  flex: none;
+  width: calc(var(--nc-stepper-digits, 2) * 1ch + 2px);
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  outline: none;
+  color: inherit;
+  font: inherit;
+  text-align: end;
+}
+
+.nc-stepper__input::-webkit-outer-spin-button,
+.nc-stepper__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.nc-stepper__input:disabled {
+  cursor: not-allowed;
+}
+
+.nc-stepper__unit {
+  flex: none;
+  white-space: nowrap;
+}
+
+/* minus and plus: squares of the field's height, their frame lines included */
+.nc-stepper__step {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  box-sizing: border-box;
+  width: calc(var(--nc-stepper-h) - 1px);
+  margin: 0;
+  padding: 0;
+  border: 0 solid var(--border-2);
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg-2);
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.nc-stepper__step--minus {
+  border-inline-end-width: 1px;
+}
+.nc-stepper__step--plus {
+  border-inline-start-width: 1px;
+}
+
+.nc-stepper__step:hover:not(:disabled) {
+  background: var(--surface-2);
+  color: var(--fg);
+}
+
+.nc-stepper__step:active:not(:disabled) {
+  background: var(--surface);
+}
+
+.nc-stepper__step:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}
+
+/* at either end, the button that would go past it is dimmed and does nothing */
+.nc-stepper__step:disabled {
+  cursor: not-allowed;
+}
+.nc-stepper__step:disabled > svg {
+  opacity: 0.4;
+}
+
+.nc-stepper__sign,
+.nc-stepper__arrow {
+  display: block;
+  flex: none;
+}
+
+/* the small arrows are a tv's */
+.nc-stepper__arrow {
+  display: none;
+}
+
+/* ---- a screen made for touch --------------------------------------------------
+   drawn at the large size. minus and plus each answer to a touch in 48 × 48,
+   centred on their square: 3 past the frame, and 3 into the value's own room. */
+[data-nc-screen='touch'] .nc-stepper {
+  --nc-stepper-h: 2.625rem;
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='touch'] .nc-stepper__step::after {
+  content: '';
+  position: absolute;
+  /* from the padding edge: past the 1px line on each side, then 3 more */
+  inset: -4px;
+  z-index: 1;
+}
+
+/* ---- a tv ---------------------------------------------------------------------
+   a stepper is one row: the value between two small arrows at the row's end.
+   left and right change the value. the row with the focus draws the ring
+   inside its edge, turns to the focused surface and grows a little. */
+[data-nc-screen='tv'] .nc-stepper {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  min-height: 3rem;
+  padding-inline: var(--s-3);
+  border: 0;
+  background: transparent;
+  font-size: 0.875rem;
+  transition: transform 0.15s ease-out, background-color 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+[data-nc-screen='tv'] .nc-stepper:focus-within {
+  background: var(--surface-focus);
+  box-shadow: inset 0 0 0 3px var(--focus-ring);
+  transform: scale(1.02);
+}
+
+[data-nc-screen='tv'] .nc-stepper__value {
+  flex: none;
+  padding: 0 var(--s-1);
+  cursor: default;
+}
+
+[data-nc-screen='tv'] .nc-stepper__step {
+  width: 1.5rem;
+  border-width: 0;
+  color: var(--fg-muted);
+}
+
+[data-nc-screen='tv'] .nc-stepper__sign {
+  display: none;
+}
+
+[data-nc-screen='tv'] .nc-stepper__arrow {
+  display: block;
+}
+
+/* the arrows point along the row: the other way where it starts on the right */
+[dir='rtl'] .nc-stepper__arrow {
+  transform: scaleX(-1);
+}
+
+/* inside a field, the field is the row: its label at the start and the value
+   between its arrows at the end, on one surface, which takes the focus in the
+   stepper's place. the hint or the error is a line under the row, off the
+   focused surface, where its colour keeps its contrast. */
+[data-nc-screen='tv'] .nc-field:has(> .nc-stepper) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--s-1) var(--s-4);
+}
+
+[data-nc-screen='tv'] .nc-field:has(> .nc-stepper)::before {
+  content: '';
+  grid-area: 1 / 1 / 2 / -1;
+  align-self: stretch;
+  transition: transform 0.15s ease-out, background-color 0.15s ease-out, box-shadow 0.15s ease-out;
+}
+
+[data-nc-screen='tv'] .nc-field:has(> .nc-stepper):focus-within::before {
+  background: var(--surface-focus);
+  box-shadow: inset 0 0 0 3px var(--focus-ring);
+  transform: scale(1.02);
+}
+
+/* the label and the stepper lie over the row's surface */
+[data-nc-screen='tv'] .nc-field:has(> .nc-stepper) > .nc-field__label {
+  position: relative;
+  grid-area: 1 / 1;
+  padding-inline-start: var(--s-3);
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='tv'] .nc-field:has(> .nc-stepper):focus-within > .nc-field__label {
+  color: var(--fg);
+}
+
+[data-nc-screen='tv'] .nc-field:has(> .nc-stepper) > .nc-stepper {
+  position: relative;
+  grid-area: 1 / 2;
+  width: auto;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+  transition: none;
+}
+
+[data-nc-screen='tv'] .nc-field:has(> .nc-stepper) > .nc-field__msg {
+  grid-area: 2 / 1 / 3 / -1;
+  padding-inline: var(--s-3);
+}
+
+/* less motion: the frame and the focus change at once, and nothing grows.
+   the field's rules stand alone: a browser that doesn't know :has() drops them
+   and keeps the others. */
+@media (prefers-reduced-motion: reduce) {
+  .nc-stepper,
+  .nc-stepper__step,
+  [data-nc-screen='tv'] .nc-stepper {
+    transition: none;
+  }
+
+  [data-nc-screen='tv'] .nc-stepper:focus-within {
+    transform: none;
+  }
+
+  [data-nc-screen='tv'] .nc-field:has(> .nc-stepper)::before {
+    transition: none;
+  }
+
+  [data-nc-screen='tv'] .nc-field:has(> .nc-stepper):focus-within::before {
+    transform: none;
+  }
+}

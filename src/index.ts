@@ -68,6 +68,10 @@ export { Checkbox } from './components/Checkbox/Checkbox';
 export type { CheckboxProps } from './components/Checkbox/Checkbox';
 export { Switch } from './components/Switch/Switch';
 export type { SwitchProps } from './components/Switch/Switch';
+export { Slider } from './components/Slider/Slider';
+export type { SliderProps } from './components/Slider/Slider';
+export { Stepper } from './components/Stepper/Stepper';
+export type { StepperProps } from './components/Stepper/Stepper';
 export { Field } from './components/Field/Field';
 export type { FieldProps } from './components/Field/Field';
 
@@ -86,6 +90,8 @@ export { Modal } from './components/Modal/Modal';
 export type { ModalProps } from './components/Modal/Modal';
 export { Spinner } from './components/Spinner/Spinner';
 export type { SpinnerProps } from './components/Spinner/Spinner';
+export { ProgressBar } from './components/ProgressBar/ProgressBar';
+export type { ProgressBarProps, ProgressState } from './components/ProgressBar/ProgressBar';
 
 // feedback & status — semantic state, page messages, transient feedback, empty states
 export { Status, defineStates, STATE_SEVERITY } from './components/Status/Status';

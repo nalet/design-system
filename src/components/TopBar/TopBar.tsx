@@ -237,10 +237,11 @@ export const TopBar = React.forwardRef<HTMLElement, TopBarProps>(function TopBar
     focusNext.current = 'button';
   };
 
+  // a chosen result closes the list; in a narrow bar it gives the whole bar back.
   const choose = (result: TopBarResult) => {
-    setDismissed(true);
     setActive(null);
-    setSearchOpen(false);
+    if (narrow) closeSearch();
+    else setDismissed(true);
     result.onSelect?.();
   };
 
@@ -252,7 +253,8 @@ export const TopBar = React.forwardRef<HTMLElement, TopBarProps>(function TopBar
   };
 
   const onInputKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!search) return;
+    // keys pressed while a word is being composed belong to the composing.
+    if (!search || e.nativeEvent.isComposing) return;
     switch (e.key) {
       case 'ArrowDown':
       case 'ArrowUp':
@@ -401,7 +403,7 @@ export const TopBar = React.forwardRef<HTMLElement, TopBarProps>(function TopBar
               <span className="nc-topbar__slash" aria-hidden="true">
                 /
               </span>
-              {app}
+              <span className="nc-topbar__app-name">{app}</span>
             </span>
           ) : null}
         </div>
@@ -415,7 +417,11 @@ export const TopBar = React.forwardRef<HTMLElement, TopBarProps>(function TopBar
       className="nc-topbar__search"
       role="search"
       aria-label={searchName}
-      onFocus={() => setFocused(true)}
+      onFocus={() => {
+        setFocused(true);
+        // a field that has the focus stays, even when its last letter goes.
+        setSearchOpen(true);
+      }}
       onBlur={onSearchBlur}
     >
       <div
@@ -547,7 +553,7 @@ export const TopBar = React.forwardRef<HTMLElement, TopBarProps>(function TopBar
       className={cx(
         'nc-topbar',
         `nc-topbar--search-${searchPlacement}`,
-        narrow && 'nc-topbar--narrow',
+        width != null && (narrow ? 'nc-topbar--narrow' : 'nc-topbar--wide'),
         mark && 'nc-topbar--mark',
         searching && 'nc-topbar--searching',
         className,

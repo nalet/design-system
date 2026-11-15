@@ -15,19 +15,15 @@ On the home page, the bar is given no `search.results`. The same `search.value` 
 
 <Canvas of={TopBarStories.OnTheHomePage} />
 
-`searchPlacement="start"` puts the search right after the product's mark, for a product whose views are in a rail under it.
+`searchPlacement="start"` puts the search right after the product's mark, for a product whose views are in a rail under it. This search is named “search films and series”, after what it finds.
 
 <Canvas of={TopBarStories.SearchAtTheStart} />
-
-The user menu goes in `userMenu`. Here it is open from the start.
-
-<Canvas of={TopBarStories.UserMenuOpen} />
 
 In a frame 390px wide, the bar is narrower than `narrowBelow`: the search is an icon that opens the field across the bar.
 
 <Canvas of={TopBarStories.Narrow} />
 
-`children` is the place for a product's own navigation, after the names.
+`children` is the place for a product's own navigation, after the names. This bar has no `search`.
 
 <Canvas of={TopBarStories.OwnNavigation} />
 
@@ -39,24 +35,25 @@ Under `data-nc-screen="touch"`, the field and the buttons are large and answer i
 
 - It renders a `<header>`. Other attributes and the `ref` reach it.
 - The bar doesn't position itself. To keep it in view while the page scrolls, make it sticky from outside, with `className` or `style`.
-- The product's name is an `<a href={homeHref}>` with `aria-label` “{product}, home”. `onHomeClick` hears the press, so an app that routes itself can call `preventDefault()`.
+- The product's name is an `<a href={homeHref}>` whose `aria-label` is the product's name and “home”: “platform, home”. `onHomeClick` hears the press, so an app that routes itself can call `preventDefault()`.
 - The chevron is `aria-hidden`, and so is the slash before `app`.
-- With `searchPlacement="start"`, the names give way to the product's mark: a link with the chevron and the first letter of `product`, named “{product}, home”, with the same words as its `title`. `app` isn't shown.
+- With `searchPlacement="start"`, the names give way to the product's mark: a link with the chevron and the first letter of `product`, with the same name, also as its `title`. `app` isn't shown.
 - The search is fully controlled: `search.value` and `search.onChange`. The bar doesn't search and holds no word.
 - The search is a `role="search"` region and its field an `<input type="text">`, both named by `search.label` (“search” by default). The placeholder is `search.placeholder`, or the label with an ellipsis.
 - Without `search.results`, the field has `role="searchbox"`. With it, even as an empty array, the field is a `role="combobox"` with `aria-autocomplete="list"`, `aria-expanded`, `aria-controls` and `aria-activedescendant`.
 - The list is a `role="listbox"` named “results”. A group with a `title` is a `role="group"` named by it; a group without one puts its rows straight into the list. Each row is a `role="option"`: an `<a>` when it has an `href`, a `<div>` otherwise.
 - The list shows while the search has the focus and `search.results` holds rows. With no rows and a typed word, a line says “no results” in its place, and the field's `aria-expanded` stays `false`.
 - Focus never leaves the field: the picked row is `aria-activedescendant`, and a press on a row keeps the focus where it is.
-- Choosing a row calls its `onSelect` and closes the list. The bar doesn't change `search.value`; empty it in `onSelect` if the word should go.
-- A `role="status"` region inside the search says “{n} results” while `search.value` isn't empty. The number is `search.resultCount`, or the rows in `search.results`.
+- Choosing a row calls its `onSelect` and closes the list. A wide bar doesn't change `search.value`; empty it in `onSelect` if the word should go. A narrow bar closes its field as well, which empties it.
+- A `role="status"` region inside the search says how many there are, “3 results”, while `search.value` isn't empty. The number is `search.resultCount`, or the rows in `search.results`.
 - `search.onSubmit(value)` is called on `enter` when no row is picked.
 - The bar measures its own content box with a `ResizeObserver`, in px at the usual text size. Below `narrowBelow` (600 by default) it is narrow: the search is a button named “search”, and the bar starts with the product's name whatever `searchPlacement` says. `app` isn't shown.
-- In a narrow bar, the field shows once the button is pressed, and for as long as `search.value` isn't empty. While it shows, the bar holds only the search and a button named “close search”.
+- In a narrow bar, the field shows once the button is pressed, while it has the focus, and for as long as `search.value` isn't empty. While it shows, the bar holds only the search and a button named “close search”.
 - Closing the field calls `search.onChange('')` and puts focus back on the search button.
 - Until it has measured itself, and where `ResizeObserver` doesn't exist, the bar is wide.
 - A wide bar is one line: when the names don't fit, `app` wraps under the product's name. A narrow bar may wrap: the search button, the bell and the user menu move to a second line, at its end, when they don't fit beside the name.
-- The bell is there when `onNotifications` is set. Its name is “notifications”, or “notifications, {n} unread” when `unread` is above 0; the visible count is `aria-hidden`. `notificationsExpanded` sets `aria-expanded` on it.
+- The bell is there when `onNotifications` is set. Its name is “notifications”, or “notifications, 2 unread” when `unread` is above 0; the visible count is `aria-hidden`. `notificationsExpanded` sets `aria-expanded` on it.
+- `userMenu` is rendered at the end of the bar, after the bell: pass a `UserMenu`. Its menu opens in place, so don't hide what overflows the bar.
 - Counts are written with `formatCount` in the page's language, and every word the bar brings comes from `useLanguage().words.topBar`, in English and German.
 - The bar listens for `keydown` on the document while it has a `search`: `/` focuses the field. It ignores the key with `ctrl`, `meta` or `alt`, when another listener has already handled it, while an element with `aria-modal="true"` that doesn't hold the bar is on the page, and when the key comes from an `<input>` that takes text, a `<textarea>`, a `<select>`, a `contenteditable` element or a `role` of `textbox`, `searchbox` or `combobox`.
 - With several bars on one page, the first one to mount takes the `/` key.

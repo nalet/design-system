@@ -91,7 +91,7 @@ describe('TopBar', () => {
 
   it('shows the open app’s name after a slash that is not read', () => {
     render(<Bar />);
-    const app = screen.getByText('downloads');
+    const app = screen.getByText('downloads').parentElement!;
     expect(app).toHaveTextContent('/downloads');
     expect(app.querySelector('[aria-hidden="true"]')).toHaveTextContent('/');
   });
@@ -383,6 +383,31 @@ describe('TopBar', () => {
       await user.keyboard('{Escape}');
       expect(screen.queryByRole('combobox')).toBeNull();
       expect(screen.getByRole('button', { name: 'search' })).toHaveFocus();
+    });
+
+    it('gives the bar back when a result is chosen', async () => {
+      const user = userEvent.setup();
+      const onSelect = vi.fn();
+      render(<Bar results={RESULTS} onSelect={onSelect} />);
+      resizeTo(390);
+      await user.click(screen.getByRole('button', { name: 'search' }));
+      await user.keyboard('down{ArrowDown}{Enter}');
+      expect(onSelect).toHaveBeenCalledWith('downloads');
+      expect(screen.queryByRole('combobox')).toBeNull();
+      expect(screen.getByRole('button', { name: 'search' })).toHaveFocus();
+      expect(screen.getByRole('link', { name: 'platform, home' })).toBeInTheDocument();
+    });
+
+    it('keeps a field that has the focus when its last letter goes', async () => {
+      const user = userEvent.setup();
+      render(<Bar />);
+      resizeTo(1200);
+      const field = screen.getByRole('searchbox');
+      await user.type(field, 'd');
+      resizeTo(390);
+      await user.keyboard('{Backspace}');
+      expect(screen.getByRole('searchbox')).toHaveFocus();
+      expect(screen.getByRole('searchbox')).toHaveValue('');
     });
 
     it('opens the field on the / key', async () => {

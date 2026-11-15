@@ -38,7 +38,7 @@ Under `data-nc-screen="tv"`, the rows are 40px high and show the TV focus.
 ## implementation notes
 
 - The trigger is a `<button>` that holds a decorative `Avatar`, at `size` (`md` by default).
-- Its name, also its `title`, is `label`. By default it is “{initials}, user menu”, and “{name}, user menu” when `picture` is set, so it says what the avatar shows and what it opens.
+- Its name, also its `title`, is `label`. By default it is the initials and “user menu”, “au, user menu”, and the person's name in place of the initials when `picture` is set, so it says what the avatar shows and what it opens.
 - The trigger has `aria-haspopup="menu"` and `aria-expanded`. While the menu is open, `aria-controls` points at it.
 - The menu exists only while it is open. It renders in place, right after the trigger, with `position: absolute` and `z-index: 150`; it is not a portal. An ancestor with `overflow: hidden` would cut it off, so the bar it sits in must not hide what overflows it.
 - `align` lines up the menu's `end` edge with the avatar's (the default), or its `start` edge.

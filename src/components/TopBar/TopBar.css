@@ -1,15 +1,24 @@
 .nc-topbar {
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--s-3);
+  gap: var(--s-1) var(--s-3);
   box-sizing: border-box;
   min-height: 3.5rem;
-  padding: 0 var(--s-4);
+  padding: var(--s-1) var(--s-4);
   border-bottom: 1px solid var(--border);
   background: var(--bg-2);
   color: var(--fg-2);
   font-family: var(--ff-mono);
+}
+
+/* nothing in the bar is cut off. a bar that knows it is wide keeps one line,
+   and its names give way: the app's name goes under the product's. a narrow
+   bar, and one that hasn't measured itself, puts its end on a line of its own
+   when there is no room beside the rest, and gets taller. */
+.nc-topbar--wide {
+  flex-wrap: nowrap;
 }
 
 /* ---- the names: the product's, then the app's ----------------------------- */
@@ -66,6 +75,13 @@
   color: var(--fg-dim);
 }
 
+/* one item whose text flows inline, so a name inside it (KeepCase) keeps the
+   spaces around it. */
+.nc-topbar__app-name {
+  display: block;
+  min-width: 0;
+}
+
 /* the product's mark: the chevron and the first letter of the name, in a cell
    as wide as the rail under it. the rail's rule runs up beside it. */
 .nc-topbar__mark {
@@ -77,7 +93,8 @@
   gap: var(--s-1);
   box-sizing: border-box;
   width: 5rem;
-  margin: 0 var(--s-3) 0 calc(-1 * var(--s-4));
+  /* out to the bar's own edges, past its padding */
+  margin: calc(-1 * var(--s-1)) var(--s-3) calc(-1 * var(--s-1)) calc(-1 * var(--s-4));
   border-right: 1px solid var(--border);
   color: var(--fg-2);
   font-size: 0.9375rem;
@@ -104,23 +121,13 @@
   flex: 1 1 0;
 }
 
-/* the end of the bar: the search icon of a narrow bar, the bell, the user menu */
+/* the end of the bar: the search icon of a narrow bar, the bell, the user
+   menu. on a line of its own, it keeps to the end. */
 .nc-topbar__end {
   display: flex;
   align-items: center;
   flex: none;
   gap: var(--s-3);
-}
-
-/* a narrow bar that has no room for its name beside its end puts the end on a
-   line of its own, at the end, and gets taller. nothing is cut off. */
-.nc-topbar--narrow {
-  flex-wrap: wrap;
-  padding-top: var(--s-1);
-  padding-bottom: var(--s-1);
-}
-
-.nc-topbar--narrow .nc-topbar__end {
   margin-left: auto;
 }
 
@@ -418,8 +425,11 @@
   transition: transform 0.15s ease-out;
 }
 
+/* room around the name for its ring; the name itself stays where it was */
 [data-nc-screen='tv'] .nc-topbar__home {
   min-height: 2.625rem;
+  margin-left: calc(-1 * var(--s-2));
+  padding: 0 var(--s-2);
 }
 
 [data-nc-screen='tv'] .nc-topbar__home:focus-visible,
@@ -482,6 +492,12 @@
 [data-nc-screen='tv'] .nc-topbar__none {
   min-height: 2.5rem;
   font-size: 0.875rem;
+}
+
+/* room at the list's sides for the picked row's growth: the list scrolls, so it cuts off what leaves it */
+[data-nc-screen='tv'] .nc-topbar__results {
+  padding-left: var(--s-1);
+  padding-right: var(--s-1);
 }
 
 [data-nc-screen='tv'] .nc-topbar__result--active {

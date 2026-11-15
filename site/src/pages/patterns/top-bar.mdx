@@ -13,7 +13,8 @@ import Term from '@site/components/Term.astro';
 import { Kbd } from '@nalet/design-system';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { TopBarAnatomy, SearchTwoWays, ConsumerBar, TopBarDo, TopBarDont } from '@site/sketches/shell';
-import { Playground, OnTheHomePage, SearchAtTheStart, UserMenuOpen, Narrow } from '@site/examples/top-bar';
+import { Playground, OnTheHomePage, SearchAtTheStart, Narrow } from '@site/examples/top-bar';
+import { Open as UserMenuOpen } from '@site/examples/user-menu';
 
 # top bar
 
@@ -39,20 +40,16 @@ The bar and its user menu are components, and so is the avatar: <C slug="top-bar
 1. **The product's name**, led by the blue chevron. It takes people home: to the portal's [home page](/design-system/patterns/home-and-tiles/), or to the product's own start page.
 2. **The app's name**, next to it, when an app is open: “/ downloads”. People always know where they are.
 3. **Search**: one field for the whole platform, which finds apps, and the things inside them that the apps offer to search. [Search](#search) below describes how it works.
-4. **Notifications**: a bell with the number of unread notices. It opens one panel with the notices of every app.
+4. **Notifications**: a bell with the number of unread notices. It opens one panel with the notices of every app. The panel isn't a component yet: the bar tells the <Term id="shell">shell</Term> that the bell was pressed, and the shell draws the panel.
 5. **The <Term id="user-menu">user menu</Term>**, behind a small square with the person's picture or initials, their <Term id="avatar">avatar</Term>. It opens one menu for everything about the person.
 
-<Example label="the user menu, open under the avatar, live" flush>
+<Example label="the user menu, open under the avatar, live">
   <UserMenuOpen client:visible />
 </Example>
 
 The user menu: who is signed in, then account, settings and help, and sign out last.
 
 The menu starts with the person's name and email address, so they can see who is signed in. Then come account, settings (only for people who may change them), and help. Sign out comes last, set apart, so nobody presses it by accident.
-
-Today:
-
-- The panel of notifications isn't a component yet. The bar tells the <Term id="shell">shell</Term> that the bell was pressed, and the shell draws the panel.
 
 ## search
 
@@ -61,7 +58,7 @@ There is one search, and it is always in the top bar. It finds apps, and the thi
 On a wide screen, the search is a field in the bar, as in the example at the top of this page. On a phone, it is an icon that opens a field across the whole width:
 
 <Example label="a narrow top bar, live: press the magnifying glass to open the search, and the cross or esc to close it">
-  <Narrow client:visible />
+  <Narrow client:load />
 </Example>
 
 - **On the home page, it narrows the tiles** as people type, so the search is also the tile finder. The home page has no search box of its own, so there is never a second one to choose from; see [home & tiles](/design-system/patterns/home-and-tiles/#search-finds-the-tile).

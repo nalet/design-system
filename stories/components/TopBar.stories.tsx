@@ -62,15 +62,28 @@ const DOWNLOADS = [
   { id: 'the-long-way-down', label: 'The Long Way Down', detail: 'failed' },
 ];
 
-function find(query: string, open: (what: string) => void): TopBarResultGroup[] {
+// and what the search of a product for watching films finds.
+const FILMS = [
+  { id: 'the-quiet-harbour', label: 'The Quiet Harbour', detail: '2019' },
+  { id: 'down-east', label: 'Down East', detail: '2021' },
+  { id: 'the-long-way-down', label: 'The Long Way Down', detail: '2016' },
+];
+const SERIES = [
+  { id: 'harbour-lights', label: 'Harbour Lights', detail: '3 seasons' },
+  { id: 'downstream', label: 'Downstream', detail: '1 season' },
+];
+
+type Find = (query: string, open: (what: string) => void) => TopBarResultGroup[];
+
+const matching = <T extends { label: string }>(list: T[], q: string) => list.filter((x) => x.label.toLowerCase().includes(q));
+
+const findInThePlatform: Find = (query, open) => {
   const q = query.trim().toLowerCase();
   if (!q) return [];
-  const apps = APPS.filter((a) => a.label.includes(q));
-  const downloads = DOWNLOADS.filter((d) => d.label.toLowerCase().includes(q));
   return [
     {
       title: 'apps',
-      results: apps.map((a) => ({
+      results: matching(APPS, q).map((a) => ({
         id: a.id,
         label: a.label,
         icon: <Icon icon={a.icon} />,
@@ -79,10 +92,19 @@ function find(query: string, open: (what: string) => void): TopBarResultGroup[] 
     },
     {
       title: 'in downloads',
-      results: downloads.map((d) => ({ ...d, onSelect: () => open(d.label) })),
+      results: matching(DOWNLOADS, q).map((d) => ({ ...d, onSelect: () => open(d.label) })),
     },
   ].filter((group) => group.results.length > 0);
-}
+};
+
+const findFilms: Find = (query, open) => {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  return [
+    { title: 'films', results: matching(FILMS, q).map((f) => ({ ...f, onSelect: () => open(f.label) })) },
+    { title: 'series', results: matching(SERIES, q).map((x) => ({ ...x, onSelect: () => open(x.label) })) },
+  ].filter((group) => group.results.length > 0);
+};
 
 const frame: CSSProperties = {
   display: 'flex',
@@ -129,20 +151,24 @@ function Screen({
   );
 }
 
-/** the stories' bar: its search holds its own word, and the app's answers come from `find`. */
+/**
+ * the stories' bar: its search holds its own word, and the app's answers come
+ * from `find`. each story names its search after what it finds there; a real
+ * product has one search, with one name on every screen.
+ */
 function Bar({
   report,
-  list = true,
-  menuOpen = false,
+  label = 'search apps and downloads',
+  find = findInThePlatform,
   query: givenQuery,
   onQuery,
   ...props
 }: Partial<TopBarProps> & {
   report: (what: string) => void;
-  /** the user menu open from the start. */
-  menuOpen?: boolean;
-  /** false: the page answers the search, as the home page does, and the bar shows no list. */
-  list?: boolean;
+  /** what the search finds: its name, and its placeholder. */
+  label?: string;
+  /** the app's search. false: the page answers, as the home page does, and the bar shows no list. */
+  find?: Find | false;
   query?: string;
   onQuery?: (query: string) => void;
 }) {
@@ -156,8 +182,8 @@ function Bar({
       search={{
         value: query,
         onChange: setQuery,
-        label: 'search apps',
-        results: list
+        label,
+        results: find
           ? find(query, (what) => {
               setQuery('');
               report(`opened ${what}`);
@@ -176,7 +202,6 @@ function Bar({
             { id: 'help', label: 'help', onSelect: () => report('help was chosen') },
           ]}
           onSignOut={() => report('sign out was chosen')}
-          defaultOpen={menuOpen}
         />
       }
       {...props}
@@ -193,7 +218,7 @@ export const OnTheHomePage: Story = {
   render: function OnTheHomePage() {
     const [query, setQuery] = useState('');
     return (
-      <Screen height="22rem" bar={(report) => <Bar report={report} list={false} query={query} onQuery={setQuery} />}>
+      <Screen height="22rem" bar={(report) => <Bar report={report} label="search apps" find={false} query={query} onQuery={setQuery} />}>
         {() => (
           <div style={{ padding: 'var(--s-5)' }}>
             <Portal title="home" searchable={false} query={query}>
@@ -217,7 +242,7 @@ export const OnTheHomePage: Story = {
 export const SearchAtTheStart: Story = {
   name: 'search at the start',
   render: () => (
-    <Screen bar={(report) => <Bar report={report} searchPlacement="start" />}>
+    <Screen bar={(report) => <Bar report={report} searchPlacement="start" label="search films and series" find={findFilms} />}>
       {(last) => (
         <div style={{ display: 'flex', flex: 1 }}>
           {/* where the product's rail of views stands: as wide as the mark above it. */}
@@ -229,11 +254,6 @@ export const SearchAtTheStart: Story = {
       )}
     </Screen>
   ),
-};
-
-export const UserMenuOpen: Story = {
-  name: 'the user menu open',
-  render: () => <Screen bar={(report) => <Bar report={report} app="downloads" menuOpen />} />,
 };
 
 export const Narrow: Story = {
@@ -258,7 +278,7 @@ export const OwnNavigation: Story = {
   render: () => (
     <Screen
       bar={(report) => (
-        <Bar report={report}>
+        <Bar report={report} search={undefined}>
           <nav aria-label="views" style={{ display: 'flex', marginLeft: 'var(--s-4)' }}>
             <a href="#" aria-current="page" style={{ ...view, color: 'var(--cloud-blue)', boxShadow: 'inset 0 -2px 0 var(--cloud-blue)' }}>
               home

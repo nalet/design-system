@@ -19,6 +19,11 @@ export type { ClassValue } from './lib/cx';
 export { space } from './lib/space';
 export type { SpaceToken } from './lib/space';
 export { formatCount } from './lib/format';
+// the page's language: its counts, its dates and the components' own words
+export { Language, useLanguage, counted, fill, pageLanguage, dateLanguage, wordsFor } from './lib/language';
+export type { LanguageProps, WordsOverride } from './lib/language';
+export { english, german, builtInWords } from './lib/words';
+export type { Words, Counted } from './lib/words';
 
 // brand
 export { Chevron } from './brand/Chevron/Chevron';

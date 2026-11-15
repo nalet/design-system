@@ -58,7 +58,7 @@ Inside `data-nc-screen="tv"`, the rail holds the frame: `head` takes the person 
 - The rail is 80px wide and fills the height of what holds it; place it in the first column of the screen's grid, beside the top bar and the page. It adds `env(safe-area-inset-left)` and `env(safe-area-inset-bottom)` to its padding, so it needs `viewport-fit=cover` in the page's viewport to keep clear of a phone's cutout and its own bar.
 - A rail too low for its items scrolls.
 - `data-nc-screen` on any ancestor chooses the look: none for a wide screen, `touch` for a phone held sideways, `tv` for a TV. The rail has no media queries of its own, except for reduced motion.
-- On a TV, the `<nav>` keeps the width of the closed rail, 112px, and the open rail lies over the page beside it, as wide as its longest name and at least 320px.
+- On a TV, the `<nav>` keeps the width of the closed rail, 112px, and the open rail lies over the page beside it, as wide as its longest name and at least 320px. On a TV the `<nav>` has no height of its own: it takes the height of the row that holds it, so give that row the screen's height.
 - On a TV, the rail is open while the focus is inside it: the `<nav>` has the class `nc-rail--open`. `open` sets it yourself.
 - On a TV, when the focus moves into the rail from outside by anything but a press, it lands on the current item, whichever link was focused. Focus any link of the rail from the page's own arrow-key handling.
 - On a TV, `→`, `esc` and a remote's back key (`GoBack`, `BrowserBack`) put the focus back on the element that had it before it entered the rail, and call `onClose`. If that element is gone, the focus stays in the rail: move it in `onClose`.

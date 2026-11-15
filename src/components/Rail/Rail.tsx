@@ -95,9 +95,16 @@ export const Rail = React.forwardRef<HTMLElement, RailProps>(function Rail(
   const currentIndex = current == null ? -1 : items.findIndex((item) => item.href === current);
   // tab moves onto the current item, or onto the first view where none is current.
   const home = currentIndex >= 0 ? currentIndex : views.length ? headItems.length : 0;
-  const roving = useRovingLinks(items.length, home, 'vertical');
+  const navRef = React.useRef<HTMLElement>(null);
+  React.useImperativeHandle(ref, () => navRef.current as HTMLElement);
+  const roving = useRovingLinks(navRef, items.length, home, 'vertical');
 
   const [within, setWithin] = React.useState(false);
+  // an item that goes away while it has the focus takes the focus out of the
+  // rail without a blur: the rail closes then too.
+  React.useLayoutEffect(() => {
+    if (within && navRef.current && !navRef.current.contains(document.activeElement)) setWithin(false);
+  });
   // what had the focus before it moved into the rail: where → and back put it again, on a tv.
   const cameFrom = React.useRef<HTMLElement | null>(null);
   const byPointer = React.useRef(false);
@@ -175,7 +182,7 @@ export const Rail = React.forwardRef<HTMLElement, RailProps>(function Rail(
 
   return (
     <nav
-      ref={ref}
+      ref={navRef}
       className={cx('nc-rail', (open ?? within) && 'nc-rail--open', className)}
       aria-label={label ?? words.navigation.views}
       {...rest}

@@ -159,7 +159,7 @@ export function TvScreen({ rail, title }: { rail: ReactNode; title: ReactNode })
     <div data-nc-screen="tv" style={{ ...frame, display: 'flex', width: '60rem', height: '33.75rem' }}>
       {rail}
       <Page title={title} shapes={10} style={{ padding: '1.6875rem var(--s-7) 1.6875rem var(--s-2)' }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--s-4)', margin: '0 0 var(--s-5)' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--s-3) var(--s-4)', margin: '0 0 var(--s-5)' }}>
           <Button size="lg" variant="primary">
             play
           </Button>

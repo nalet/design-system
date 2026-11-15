@@ -104,6 +104,13 @@ describe('TabBar', () => {
     expect(tab('downloads, 3 ready').querySelector('.nc-tabbar__count')).toHaveTextContent('3');
   });
 
+  it('gives its ref the landmark', () => {
+    const ref = { current: null as HTMLElement | null };
+    render(<TabBar ref={ref} views={VIEWS} id="views" />);
+    expect(ref.current).toBe(screen.getByRole('navigation', { name: 'views' }));
+    expect(ref.current).toHaveAttribute('id', 'views');
+  });
+
   it('warns about a sixth tab', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     render(<TabBar views={[...VIEWS, view('settings')]} />);

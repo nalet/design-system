@@ -63,9 +63,20 @@ export interface RovingLinks {
  * of the navigation's direction, Home and End move between the links. The stop
  * follows the focus while it is inside, and is back at `home` once it leaves.
  */
-export function useRovingLinks(total: number, home: number, direction: 'vertical' | 'horizontal'): RovingLinks {
+export function useRovingLinks(
+  nav: React.RefObject<HTMLElement | null>,
+  total: number,
+  home: number,
+  direction: 'vertical' | 'horizontal',
+): RovingLinks {
   const [active, setActive] = React.useState<number | null>(null);
   const stop = active != null && active < total ? active : home;
+
+  // a link that goes away while it has the focus takes the focus with it,
+  // and no blur says so: the stop goes back to `home` then too.
+  React.useLayoutEffect(() => {
+    if (active != null && nav.current && !nav.current.contains(document.activeElement)) setActive(null);
+  });
 
   const onFocus = (e: React.FocusEvent<HTMLElement>) => {
     const link = (e.target as HTMLElement).closest<HTMLElement>(LINK);

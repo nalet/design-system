@@ -35,7 +35,9 @@ export const TabBar = React.forwardRef<HTMLElement, TabBarProps>(function TabBar
 ) {
   const { lang, words } = useLanguage();
   const currentIndex = current == null ? -1 : views.findIndex((item) => item.href === current);
-  const roving = useRovingLinks(views.length, Math.max(currentIndex, 0), 'horizontal');
+  const navRef = React.useRef<HTMLElement>(null);
+  React.useImperativeHandle(ref, () => navRef.current as HTMLElement);
+  const roving = useRovingLinks(navRef, views.length, Math.max(currentIndex, 0), 'horizontal');
 
   React.useEffect(() => {
     if (views.length > 5 && typeof console !== 'undefined') {
@@ -45,7 +47,7 @@ export const TabBar = React.forwardRef<HTMLElement, TabBarProps>(function TabBar
 
   return (
     <nav
-      ref={ref}
+      ref={navRef}
       className={cx('nc-tabbar', className)}
       aria-label={label ?? words.navigation.views}
       {...rest}

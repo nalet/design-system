@@ -192,6 +192,26 @@ describe('Rail', () => {
     expect(link('home').querySelector('.nc-rail__count')).toBeNull();
   });
 
+  it('gives the stop back to the current view when the focused item goes away', async () => {
+    const user = userEvent.setup();
+    const { rerender } = render(<Rail views={VIEWS} foot={SETTINGS} current="/films" />);
+    await user.tab();
+    await user.keyboard('{End}');
+    expect(link('settings')).toHaveFocus();
+    // settings goes, and the focus with it.
+    rerender(<Rail views={VIEWS} current="/films" />);
+    expect(document.body).toHaveFocus();
+    expect(link('films')).toHaveAttribute('tabindex', '0');
+    expect(screen.getByRole('navigation', { name: 'views' })).not.toHaveClass('nc-rail--open');
+  });
+
+  it('gives its ref the landmark', () => {
+    const ref = { current: null as HTMLElement | null };
+    render(<Rail ref={ref} views={VIEWS} id="views" />);
+    expect(ref.current).toBe(screen.getByRole('navigation', { name: 'views' }));
+    expect(ref.current).toHaveAttribute('id', 'views');
+  });
+
   it('warns about a sixth view', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => undefined);
     render(<Rail views={[...VIEWS, view('downloads'), view('music')]} />);

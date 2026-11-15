@@ -91,67 +91,13 @@
   cursor: not-allowed;
 }
 
-/* ---- a screen made for touch --------------------------------------------------
-   drawn large, with the large size's icon, and it answers to a touch in 48
-   around its centre: the touch area is not drawn. */
-[data-nc-screen='touch'] .nc-iconbtn {
-  width: 2.625rem;
-  height: 2.625rem;
-}
-
-/* the touch area is placed against the button. :where() keeps this rule
-   weaker than any position an app gives the button itself. */
-:where([data-nc-screen='touch'] .nc-iconbtn) {
-  position: relative;
-}
-
-[data-nc-screen='touch'] .nc-iconbtn::after {
-  content: '';
-  position: absolute;
-  /* 48 around the centre, and never less than the control itself: each edge
-     reaches out by half of what the control is short of 48. */
-  inset: min(-1px, (100% - 3rem) / 2);
-}
-
+/* ---- a screen made for touch, and a tv -----------------------------------------
+   the general rules (src/styles/screens.css) draw every icon button large,
+   give it its touch area and its tv focus. what is the icon button's own: the
+   large size's icon. a button that is on keeps its bar while it has the focus:
+   the ring says focus alone. */
 [data-nc-screen='touch'] .nc-iconbtn > svg,
 [data-nc-screen='tv'] .nc-iconbtn > svg {
   width: 1.25rem;
   height: 1.25rem;
-}
-
-/* ---- a tv -----------------------------------------------------------------------
-   drawn large. the focus is the tv focus of a button: a 3px ring 2px outside
-   the frame, the focused surface where the button has no fill of its own, and
-   5% of growth. a button that is on keeps its bar: the ring says focus alone. */
-[data-nc-screen='tv'] .nc-iconbtn {
-  width: 2.625rem;
-  height: 2.625rem;
-  transition: background-color 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out,
-    transform 0.15s ease-out;
-}
-
-[data-nc-screen='tv'] .nc-iconbtn:focus-visible {
-  outline: 3px solid var(--focus-ring);
-  outline-offset: 2px;
-  transform: scale(1.05);
-}
-
-[data-nc-screen='tv'] .nc-iconbtn--default:focus-visible,
-[data-nc-screen='tv'] .nc-iconbtn--ghost:focus-visible {
-  background: var(--surface-focus);
-  color: var(--fg);
-}
-
-[data-nc-screen='tv'] .nc-iconbtn--danger:focus-visible {
-  background: var(--surface-focus);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  [data-nc-screen='tv'] .nc-iconbtn {
-    transition: none;
-  }
-
-  [data-nc-screen='tv'] .nc-iconbtn:focus-visible {
-    transform: none;
-  }
 }

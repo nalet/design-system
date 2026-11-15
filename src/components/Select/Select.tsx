@@ -320,7 +320,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function 
       </span>
       {list && typeof document !== 'undefined'
         ? createPortal(
-            <div className="nc-select-list">
+            <div className="nc-select-list" data-nc-screen="tv">
               <div
                 ref={shadeRef}
                 className="nc-select-list__shade"

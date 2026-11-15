@@ -5,6 +5,117 @@ The design system follows [semantic versioning](https://semver.org). While it is
 (0.3.1) only fixes. Every release is a Git tag `vX.Y.Z` with the packed tarball
 attached to its GitHub release.
 
+## unreleased
+
+On `main` and on the site, under review; it becomes 0.5.0. The parts that were
+drafts with drawings are built: a screen can be put together from the package
+for a computer, a phone and a TV, in the page's language, at the reader's text
+size.
+
+### added
+
+- **Top bar, user menu and avatar** (`TopBar`, `UserMenu`, `Avatar`). The bar
+  across the top of every screen: the product's name led by the chevron, the
+  app's name, the one search, the bell with its unread count, and the square
+  avatar that opens the user menu. The search sits just before the bell where
+  the bar starts with names, and leads the bar, after the product's mark,
+  over a rail (`searchPlacement`). A narrow bar folds the search into an icon
+  that opens the field across the bar; the bar measures its own width. The
+  `/` key moves the focus to the search. The bar gives the field and draws the
+  list of results an app passes; it does not search.
+- **Rail and tab bar** (`Rail`, `TabBar`). The views of a product for
+  consumers as icons alone: a rail down the left edge of a wide screen, under
+  the top bar, and a tab bar at the foot of a phone held upright. The current
+  view is blue with a bar on its edge. On a TV the rail holds the frame and
+  opens with the views' names while the focus is in it.
+- **Progress bar, slider and stepper** (`ProgressBar`, `Slider`, `Stepper`).
+  How far work of a known size has come, with its value in words and the ways
+  to pause, stop and try again; a value in a range, on the browser's own range
+  input; a whole number between a minus and a plus, on the browser's own
+  number field. All three work in a `Field`.
+- **A sheet on a narrow screen** (`Modal` `sheet`). A dialog for a short task
+  or a set of choices that asks for it sits on the foot of the screen where the
+  window is narrower than the dialog and its margins. It appears at once, and
+  a confirmation stays in the middle.
+- **Toasts at the top** (`Toaster` `placement` and `offset`,
+  `useToastPlacement`), for a screen whose foot holds controls.
+- **Details on an empty state** (`EmptyState` `details`, `detailsLabel`),
+  opened the way a banner's are.
+- **A menu of one choice** (`ActionMenu` `choices`): options with a check, one
+  of them picked, told to a screen reader as a group of radio items.
+- **An icon button that is on or off** (`IconButton` `pressed`): a blue bar
+  along the bottom edge over a faint tint, for the standard and the quiet
+  kind, told to a screen reader as pressed.
+- **Multi select**: an action under the options (`action`), a long list that
+  scrolls and opens above where there is more room, and a large size.
+- **Large sizes** for the switch (`size="lg"`: a track of 42 × 24), the multi
+  select, the action menu (a trigger of 42, items of 48) and the filter bar
+  (every control at 42).
+- **Screens made for touch, and TV screens.** An app says what kind of screen
+  it draws with `data-nc-screen="touch"` or `data-nc-screen="tv"` on an
+  ancestor; nothing looks at the window's width or the pointer. On a touch
+  screen every control is drawn large and answers to a touch in at least
+  48 × 48, and rows that are targets are 48 high. On a TV controls are large,
+  rows are 48, 64 and 40, small text steps up, and everything that takes the
+  focus shows the TV focus. The rules are in `src/styles/screens.css` and in a
+  few components' own stylesheets, all part of `styles.css`. A menu, a list
+  and a dialog, which are drawn into the body, carry the attribute themselves.
+  `screenOf(element)` tells a component of your own which screen it is on.
+- **A list in place of a select's, on a TV** (`Select`): OK opens the
+  system's own list over the dimmed page, the arrow keys move, OK picks, back
+  closes.
+- **The page's language** (`Language`, `useLanguage`, `formatCount(n, lang)`,
+  `counted`, `fill`, `dateLanguage`, the sets `english` and `german`, the
+  types `Words`, `WordsOverride` and `Counted`). A page says its language
+  once, with the `lang` of its root element or with `Language`, and every
+  component writes its counts and dates in it and takes its own words from the
+  set for it. English and German are built in; `<Language words={…}>` gives
+  another language, or replaces single texts. A prop that sets a word still
+  wins.
+- **Text follows the reader's text size.** Every size is in `rem`; borders,
+  outlines, shadows and anything of 3px or less stay in px. The heights of
+  buttons, text fields, selects and the multi select are smallest heights.
+  Icons, the loader and a dialog's width grow too, and a width a component
+  measures is taken at the usual text size. `rem(12)` returns `0.75rem`.
+
+### changed — visible
+
+- **Counts and dates follow the page's language.** On an English page nothing
+  changes. On a page with another `lang`, counts, the date cell's date and how
+  long ago are written in that language, where they were English before. The
+  date cell's `locale` still overrides.
+- **Numbers given to a tile** (`badge`, `value`, `delta.value`) are written as
+  counts: 2500 reads “2,500”. Text is left as it is.
+- **The data table sorts in its language**, where it used the browser's.
+- **A dialog's footer wraps** its actions where they don't fit on one line.
+- **The filter bar's search** keeps a width people can type in when the bar is
+  narrow, and a press on its magnifying glass puts the focus in the field.
+- **The switch's track** keeps its size beside a label that wraps.
+
+### changed — for developers
+
+- **The tokens hold sizes in `rem`**: `typography.h2.fontSize` is `1.375rem`
+  where it was `22px`, `space['s-4']` is `1rem`, and the Tailwind preset
+  follows. At the usual text size every one is the same number of pixels as
+  before. A page that sets the root's `font-size` to a size in pixels, or to
+  62.5%, scales every component with it.
+- **`height` is `min-height`** on buttons, text fields, selects and the multi
+  select.
+- **The old names stay one more release.** `ObjectStatus`, `MessageStrip`,
+  `IllustratedMessage` and their types, announced to go in 0.5.0, still work
+  and go in 0.6.0.
+
+### documentation
+
+- The pages that described these parts as planned now describe what is built,
+  with live examples: top bar, consumer navigation, loading and progress,
+  forms and settings, TV focus, layout (touch and TV sizes), interaction,
+  typography (text size), content & voice (the page's language), and the
+  pages of the components that changed. New component pages: top bar and user
+  menu, avatar, rail, tab bar, progress bar, slider, stepper.
+- React: “the page's language” and “touch screens and tvs” in the setup, and a
+  page for `Language`.
+
 ## 0.4.0 — 2026-11-06
 
 ### documentation

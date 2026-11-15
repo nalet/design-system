@@ -169,7 +169,7 @@ describe('Rail', () => {
       </Language>,
     );
     expect(screen.getByRole('navigation', { name: 'ansichten' })).toBeInTheDocument();
-    expect(link('Video startseite')).toHaveAttribute('title', 'Video startseite');
+    expect(link('startseite von Video')).toHaveAttribute('title', 'startseite von Video');
     rerender(
       <Language lang="de">
         <Rail views={VIEWS} label="bereiche" />

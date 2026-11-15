@@ -226,7 +226,7 @@ export const german: Words = {
 
   navigation: {
     views: 'ansichten',
-    home: '{product} startseite',
+    home: 'startseite von {product}',
   },
   progressBar: {},
   sheet: {},

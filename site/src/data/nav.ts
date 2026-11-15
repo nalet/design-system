@@ -129,7 +129,7 @@ export const SECTIONS: NavSection[] = [
         title: 'lists & forms',
         pages: [
           { title: 'selection and bulk actions', href: url('patterns/selection-and-bulk-actions/'), summary: 'Ticking the rows to act on, and acting on all of them at once.' },
-          { title: 'forms and settings', href: url('patterns/forms-and-settings/'), summary: 'Switches that apply at once, forms that wait for save, errors that say how to fix them, and the planned slider and stepper.', draft: true },
+          { title: 'forms and settings', href: url('patterns/forms-and-settings/'), summary: 'Switches that apply at once, forms that wait for save, errors that say how to fix them, and numbers that take a slider or a stepper.', draft: true },
         ],
       },
       {

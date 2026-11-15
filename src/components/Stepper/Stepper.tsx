@@ -74,8 +74,9 @@ export const Stepper = React.forwardRef<HTMLInputElement, StepperProps>(function
   const highest = now != null && max != null && now >= max;
   const locked = disabled || readOnly;
 
-  // room for the longest value, so the unit stays where it is while the value changes
+  // the field has the room of its longest value, to type in; what shows of it is centred with the unit
   const digits = Math.max(String(min ?? '').length, String(max ?? '').length, text.length, 2);
+  const shown = Math.max(text.length, 1);
   const decimals = Math.max(places(step), places(min));
 
   const setTo = (next: number) => {
@@ -184,7 +185,7 @@ export const Stepper = React.forwardRef<HTMLInputElement, StepperProps>(function
           inputMode={noMinus ? (wholeNumbers ? 'numeric' : 'decimal') : undefined}
           autoComplete="off"
           className="nc-stepper__input"
-          style={{ '--nc-stepper-digits': digits } as React.CSSProperties}
+          style={{ '--nc-stepper-digits': digits, '--nc-stepper-shown': shown } as React.CSSProperties}
           min={min}
           max={max}
           step={step}

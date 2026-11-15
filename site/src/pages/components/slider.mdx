@@ -1,0 +1,207 @@
+---
+layout: ../../layouts/Doc.astro
+title: slider
+description: A slider sets a value in a range that people judge by its effect, such as the volume. A square thumb on a track shows about where the value is, and the words beside it say exactly.
+component: slider
+draft: true
+draftNote: "This page is new, for review. The slider is now built, as forms and settings describes it, and this is its guidance."
+---
+import { Kbd } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { Playground, Kinds, Sizes, States, Controlled, OnTouch, OnTv } from '@site/examples/slider';
+import { SliderOwnRowDo, SliderInARowDont } from '@site/sketches/sizes-and-inputs';
+import { SliderField } from '@site/demos/components/slider';
+
+# slider
+
+A slider sets a value in a range that people judge by its effect: how loud, how bright, where in a film. A square thumb on a track shows about where the value is, and the words after the track say exactly.
+
+<Example label="a slider, live" column>
+  <Playground client:visible />
+</Example>
+
+## when to use
+
+- For a value in a range that people find by trying: the volume, a brightness, a text size. They move the thumb, and hear or see the effect.
+- For a place in something that plays: the <Term id="seek-bar">seek bar</Term> of a player.
+- Where an exact number matters less than its effect. The words beside the track still say the number.
+
+## when to use something else
+
+- **For a whole number in a few small steps**, such as a countdown in seconds. Use a <C slug="stepper" />: each press is one step, and no thumb has to be hit.
+- **For a number people know exactly**, or one from a wide range, such as a port or a size in GB. Use an <C slug="input" /> with its unit after it.
+- **For one of a few named values**, such as “low”, “medium” and “high”. Use a <C slug="select" />.
+- **For on and off.** Use a <C slug="switch" />.
+- **To show how far work has come.** That is a <C slug="progress-bar" />: people read it and don't set it.
+- **On a TV, for a value people set exactly.** Use a stepper or a list there. A remote moves a thumb one press at a time.
+
+## anatomy
+
+1. **Label.** A <C slug="field" />'s, above the slider, in the <Term id="body-face">body face</Term>: “Volume”. In a player, an icon before the track can stand in for it; the label is then the slider's name for a <Term id="screen-reader">screen reader</Term>.
+2. **Track.** The whole range, from the lowest value at the start to the highest at the end. It is thin and square.
+3. **The part up to the thumb**, in blue. On a seek bar, what has loaded can follow it, in a lighter grey.
+4. **Thumb.** A square, as every frame is, the size of a checkbox's box.
+5. **The value in words**, after the track, in <Term id="monospace">monospace</Term>: “60%”. On a seek bar, the time played stands before the track, and the length after it.
+
+The drawing with the numbers is on [forms and settings](/design-system/patterns/forms-and-settings/#the-slider).
+
+## variants and states
+
+There is one slider. What stands before and after its track makes it a volume, a seek bar or a setting.
+
+<Example label="three sliders: how loud, where you are, and a value in settings, live" column>
+  <Kinds client:visible />
+</Example>
+
+A slider takes the height of the controls in its row, small, medium or large, so the row lines up. The track and the thumb stay the same size.
+
+<Example label="three heights, each beside a button of the same height" column>
+  <Sizes />
+</Example>
+
+| state | looks |
+| --- | --- |
+| At rest | A grey track, blue up to a light thumb, and the value in words |
+| Focused | An outline around the thumb, for keyboard <Term id="focus">focus</Term> only |
+| Disabled | The whole slider dimmed. It can't take focus or be moved |
+| With an error | The thumb turns red, and the field's error says how to fix it |
+
+Nothing changes under the pointer.
+
+<Example label="a slider at rest, one that is disabled, and one with an error" column>
+  <States />
+</Example>
+
+Outside a form, a slider applies as it moves. Here the line under it follows the thumb.
+
+<Example label="a slider whose effect shows as it moves, live" column>
+  <Controlled client:visible />
+</Example>
+
+### on a touch screen
+
+On a screen made for touch, the slider is drawn at the large height. The whole track answers to a finger in a band 48 high, and the thumb in a <Term id="touch-area">touch area</Term> of 48 by 48 around it. Neither is drawn.
+
+<Example label="a slider on a touch screen" column>
+  <OnTouch />
+</Example>
+
+### on a tv
+
+On a TV, a slider is large, and it is a row: the one with the focus draws the ring inside its edge, turns to the lighter focused surface and grows a little, as [tv focus](/design-system/patterns/tv-focus/) sets out.
+
+- **A slider takes a row of its own.** Left and right change the value, and up and down move on. In a row with other controls, left and right would move its thumb and never the focus, so people couldn't get past it.
+- **Where it has to share a row**, like a player's volume next to its buttons, up and down change it, and left and right move on.
+
+<Example label="a player's controls on a tv: the seek bar on a row of its own, the volume in the buttons' row" column>
+  <OnTv />
+</Example>
+
+<DoDont>
+  <Do caption="On a TV, the seek bar has a row of its own: left and right move the thumb, and down goes to the buttons.">
+    <SliderOwnRowDo />
+  </Do>
+  <Dont caption="A slider between two buttons in one row, taking left and right: the button after it never gets the focus.">
+    <SliderInARowDont />
+  </Dont>
+</DoDont>
+
+## behaviour
+
+- **A press on the track moves the thumb there**, and dragging moves it with the pointer or the finger. The whole track is the <Term id="target-size">target</Term>, as high as the slider.
+- **The arrow keys take one step**: right and up one step up, left and down one step down. <Kbd>page up</Kbd> and <Kbd>page down</Kbd> take a larger step, and <Kbd>home</Kbd> and <Kbd>end</Kbd> go to the two ends. The product sets the size of a step.
+- **A slider is one <Term id="tab-stop">tab stop</Term>.**
+- **It applies as it moves** where people hear or see the effect, like the volume: outside a form, a slider is an instant setting, like a switch. Inside a form, it waits for save, like every field.
+- **The words keep their room.** The value in words has the room of its longest value from the start, so the track doesn't change its length while the thumb moves.
+- **On a TV, the slider gives two arrow keys away** and leaves them untouched, so the app's own way of moving the focus still gets them. The slider moves no focus itself.
+
+The full keyboard map is on the slider's [React page](/design-system/react/?path=/docs/components-inputs-slider--docs).
+
+## accessibility
+
+- **It is the browser's own range input**, so a screen reader says that it is a slider, with its label and its value in words: “60%”, “42 minutes of 1 hour 52”.
+- **The words say the value.** The thumb shows about where it is, and the words say exactly, so the value never rests on the thumb alone. The words after the track are for the eye; a screen reader gets them from the slider itself.
+- **Its label is its name.** A field gives it one. Without a visible label, as in a player, give it a name that is read out but not shown. Nothing checks for one.
+- **The keys are the browser's**, the ones of the WAI-ARIA [slider](https://www.w3.org/WAI/ARIA/apg/patterns/slider/) pattern.
+- **Text before and after the track** that you add yourself, like a seek bar's times, is read as text. Where the slider's own words already say it, hide that text from <Term id="assistive-technology">assistive technology</Term>.
+
+Today:
+
+- The unfilled track has a <Term id="contrast">contrast</Term> of 3.6 to 1 against the page, and the blue part of 2.1 to 1 against the unfilled track. The thumb marks where one ends and the other starts, so the value doesn't rest on the two colours.
+- On a TV, the slider leaves the two arrow keys it gives away unmarked. An app that relies on the browser's own way of moving the focus with arrow keys, without code of its own, can't get past a slider: the browser's range input takes all four keys before that.
+- How a real TV's browser and remote treat a range input isn't tested.
+- There are no styles for <Term id="forced-colours">forced colours</Term>, the high-contrast setting some operating systems offer.
+
+## content
+
+- **Label.** A noun for the value, in <Term id="sentence-case">sentence case</Term>: “Volume”, “Text size”.
+- **The value.** Short, with its unit: “60%”, “120%”. It is what people read and what is read out, so write it the way it should be said: “42 minutes of 1 hour 52” for a seek bar, whose times, “0:42:10” and “1:52:00”, stand before and after the track.
+- **Numbers** follow the page's language. Without words of its own, a slider shows its number that way: “2,500” on an English page, “2.500” on a German one.
+- **No ends in words.** “low” and “high” at the two ends of a track repeat what the track shows. When the ends need names, the value is one of a few named values, and a select fits better.
+
+## do and don't
+
+<DoDont>
+  <Do caption="The words say the value exactly; the thumb shows about where it is." column>
+    <SliderField label="Volume" defaultValue={60} percent />
+  </Do>
+  <Dont caption="A thumb alone: is this 55 or 60? Nobody can tell, and nobody can read it out to someone else." column>
+    <SliderField label="Volume" defaultValue={60} after={null} />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="A value people judge by its effect: they move the thumb until the text looks right." column>
+    <SliderField label="Text size" min={80} max={160} step={10} defaultValue={120} percent />
+  </Do>
+  <Dont caption="A number people know exactly, from a wide range: nobody finds 8,443 with a thumb. An input takes it." column>
+    <SliderField label="Port" min={1} max={65535} defaultValue={8443} />
+  </Dont>
+</DoDont>
+
+## related
+
+- [Forms and settings](/design-system/patterns/forms-and-settings/#numbers-and-ranges): which input takes which kind of number.
+- <C slug="stepper">Stepper</C>: a whole number in a few small steps.
+- <C slug="field">Field</C>: the label, the hint and the error around a slider.
+- <C slug="progress-bar">Progress bar</C>: a bar people read, not one they set.
+- [TV focus](/design-system/patterns/tv-focus/): the focus a slider's row shows on a TV.
+
+## specs
+
+| size | in code | height |
+| --- | --- | --- |
+| Small | `size="sm"` | 28px |
+| Medium | `size="md"` (the default) | 34px |
+| Large | `size="lg"` | 42px, with 14px text |
+
+| part | spec |
+| --- | --- |
+| Box | A row as wide as its container: what stands before the track, the track, and the value, 12px (`--s-3`) apart, centred on the row. The height is a smallest height. |
+| Track | 4px high (`--s-1`), square, `--border-control`. It takes the free width, at least 48px. |
+| The part up to the thumb | `--cloud-blue`, from the track's start to the middle of the thumb. |
+| Loaded | `loaded`: `--fg-dim`, from the track's start to that value, under the blue part. |
+| Thumb | A 16px square in `--fg`. It stays inside the track: its middle travels from 8px after the start to 8px before the end. |
+| Value | `formatValue(value)`, or the number in the page's language. JetBrains Mono 13px, line height 1.4, lowercase, `--fg`; `aria-hidden`, and at least as wide as its longest value. `after` takes its place, in `--fg-muted`; `after={null}` leaves it empty. |
+| Before | `before`: any node, in JetBrains Mono 13px, `--fg`. |
+| Input | A native `<input type="range">` over the track, as wide as the track and as high as the box, transparent but for the thumb. `min` 0, `max` 100, `step` 1 by default. It carries `aria-valuetext`. |
+
+| state | in code | looks |
+| --- | --- | --- |
+| Focused | `:focus-visible`, keyboard focus only | A 2px `--focus-ring` outline, 2px outside the thumb |
+| Disabled | `disabled` | The whole slider at 50% opacity, with a not-allowed cursor |
+| With an error | `invalid`, set by a field's `error` | The thumb in `--state-error`; `aria-invalid="true"` |
+
+| screen | in code | what changes |
+| --- | --- | --- |
+| Touch | `data-nc-screen="touch"` on an ancestor | 42px high, with 14px text. The input is a band 48px (`3rem`) high, centred on the track, and the thumb's box is 48 × 48 with its middle 16px drawn. The input reaches 16px past each end of the track, so the drawn thumb still travels all of it; what stands before and after the track is 16px (`--s-4`) away. |
+| TV | `data-nc-screen="tv"` on an ancestor | 42px high, with 14px text and 12px (`--s-3`) of room at its start and its end. Focused: a 3px `--focus-ring` ring inside the edge, `--surface-focus`, and 1.02 times the size, in 150ms `ease-out`; the thumb draws no outline. On the focused surface the track is `--fg-dim` and the loaded part `--fg-muted`. |
+
+- **Keys on a TV:** left and right change the value, and up and down are given away; with `sharesRow`, the other way round. The slider doesn't call `preventDefault()` on a key it gives away: it undoes the step the range input takes for it, before `onChange` is called.
+- **Motion:** none, but the focus on a TV. Under `prefers-reduced-motion: reduce` that appears at once, and nothing grows.
+- **Contrast:** the thumb, `--fg` on `--bg`, 15.3:1; the track, `--border-control` on `--bg`, 3.6:1; `--cloud-blue` on the track, 2.1:1. On the focused surface on a TV: the thumb 10.4:1, the track, `--fg-dim`, 3.49:1, and `--cloud-blue` on that track 1.5:1.
+- **Sizes** are in `rem`, so the slider grows with the reader's text size.
+- **Direction:** the track starts where the text starts. On a page written from right to left, the lowest value is on the right.
+- **Not there:** no hover style, no marks along the track, no second thumb for a range between two values, no upright slider, and no `forced-colors` styles.

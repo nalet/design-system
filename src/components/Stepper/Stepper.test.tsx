@@ -177,11 +177,13 @@ describe('Stepper', () => {
     expect(container.querySelector('.nc-stepper__unit')).not.toHaveAttribute('aria-hidden');
   });
 
-  it('keeps room for its longest value, so the unit stays where it is', () => {
+  it('keeps room for its longest value to be typed, and knows how much of it shows', () => {
     const { rerender } = render(<Stepper aria-label="Countdown" {...countdown} defaultValue={5} />);
     expect(field().style.getPropertyValue('--nc-stepper-digits')).toBe('2');
-    rerender(<Stepper aria-label="Timeout" min={0} max={1200} defaultValue={5} />);
+    expect(field().style.getPropertyValue('--nc-stepper-shown')).toBe('1');
+    rerender(<Stepper key="wide" aria-label="Timeout" min={0} max={1200} defaultValue={250} />);
     expect(field().style.getPropertyValue('--nc-stepper-digits')).toBe('4');
+    expect(field().style.getPropertyValue('--nc-stepper-shown')).toBe('3');
   });
 
   it('works inside a field: an error marks the value and its frame', () => {

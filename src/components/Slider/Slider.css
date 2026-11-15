@@ -174,9 +174,10 @@
    drawn at the large size. the track answers in a band 48 high, and the thumb
    in 48 × 48 around it: its box grows, and only its middle 16 are drawn. the
    input reaches 16 past each end, so the drawn thumb still travels the whole
-   track. */
+   track; what stands before and after the track keeps 16 away, clear of it. */
 [data-nc-screen='touch'] .nc-slider {
   min-height: 2.625rem;
+  gap: var(--s-4);
 }
 
 [data-nc-screen='touch'] .nc-slider__value,

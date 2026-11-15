@@ -1,0 +1,197 @@
+---
+layout: ../../layouts/Doc.astro
+title: stepper
+description: A stepper sets a whole number in a few small steps, such as a countdown in seconds. A minus and a plus stand on either side of the value, and each press is one step.
+component: stepper
+draft: true
+draftNote: "This page is new, for review. The stepper is now built, as forms and settings describes it, and this is its guidance."
+---
+import { Kbd } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { Playground, AtTheEnds, Sizes, States, Controlled, OnTouch, OnTv } from '@site/examples/stepper';
+import { StepperField } from '@site/demos/components/stepper';
+
+# stepper
+
+A stepper sets a whole number, a few small steps from end to end: a countdown in seconds, how many copies to keep. A minus and a plus stand on either side of the value, in one frame, and each press is one step.
+
+<Example label="a stepper, live" column>
+  <Playground client:visible />
+</Example>
+
+## when to use
+
+- For a whole number in a short range, a few presses from one end to the other: “5 s” between 1 and 15, “3” copies between 1 and 9.
+- Where each step matters, and people want to see the value change one step at a time.
+- On a TV, for a number people set exactly. A remote has no better way to set one.
+
+## when to use something else
+
+- **For a number from a wide range**, or one people know exactly, such as a port or a size in GB. Use an <C slug="input" /> with its unit after it. A stepper's value can be typed too, but nobody wants to press plus 400 times.
+- **For a value people judge by its effect**, such as the volume. Use a <C slug="slider" />.
+- **For one of a few named values.** Use a <C slug="select" />.
+- **To move through pages or steps of a task.** A stepper sets a number; it doesn't navigate.
+
+## anatomy
+
+1. **Label.** A <C slug="field" />'s, above the stepper, in the <Term id="body-face">body face</Term>: “Countdown”.
+2. **Minus.** One step down. A square at the start of the frame.
+3. **The value with its unit**, in the middle, in <Term id="monospace">monospace</Term>: “5 s”. The value is a number field.
+4. **Plus.** One step up. A square at the end of the frame.
+5. **Hint.** The field's, under the stepper: the range, “From 1 to 15 seconds”, or the error in its place.
+
+The drawing with the numbers is on [forms and settings](/design-system/patterns/forms-and-settings/#the-stepper).
+
+## variants and states
+
+At either end of its range, the button that would go past it is dimmed and does nothing, and the value stays.
+
+<Example label="a stepper at its lowest value and at its highest" column>
+  <AtTheEnds />
+</Example>
+
+A stepper is as high as a field, in one of the three heights. Minus and plus are squares of that height, like icon buttons.
+
+<Example label="three heights" column>
+  <Sizes />
+</Example>
+
+| state | looks |
+| --- | --- |
+| At rest | A field's frame, with a thin line between the value and each button |
+| Under the pointer | The button under the pointer turns a little lighter |
+| Focused | The frame turns blue while the value has the <Term id="focus">focus</Term> |
+| At an end | The minus, or the plus, dimmed |
+| With an error | The frame turns red, and the field's error says how to fix the value |
+| Disabled | The whole stepper dimmed. It can't take focus or be changed |
+
+<Example label="a stepper with its hint, one with an error and one that is disabled" column>
+  <States />
+</Example>
+
+Like every field, a stepper in a form waits for save. Outside a form it applies at once, and what it changes should show. Here a line under it says what the number means.
+
+<Example label="a stepper and the line that says what its value does, live" column>
+  <Controlled client:visible />
+</Example>
+
+### on a touch screen
+
+On a screen made for touch, the stepper is drawn at the large height, and minus and plus each answer to a finger in a <Term id="touch-area">touch area</Term> of 48 by 48 around them. A press on minus or plus doesn't open the keyboard; a press on the value does.
+
+<Example label="a stepper on a touch screen" column>
+  <OnTouch />
+</Example>
+
+### on a tv
+
+On a TV, a stepper is one row: its label, and the value between two small arrows at the row's end. Left and right change the value, and up and down move to the next row. The row with the focus draws the ring inside its edge, turns to the lighter focused surface and grows a little, as [tv focus](/design-system/patterns/tv-focus/) sets out. Like a slider, a stepper has a row of its own.
+
+<Example label="two settings on a tv, each a stepper in one row" column>
+  <OnTv />
+</Example>
+
+## behaviour
+
+- **One step a press.** Minus and plus change the value by one step. The product sets the size of a step.
+- **The keyboard.** The value is the one <Term id="tab-stop">tab stop</Term>. <Kbd>↑</Kbd> and <Kbd>↓</Kbd> take a step, and <Kbd>home</Kbd> and <Kbd>end</Kbd> go to the two ends. Minus and plus are for the pointer and for touch, and <Kbd>tab</Kbd> passes them.
+- **The value can be typed.** It is a number field, so someone who wants 12 can type it instead of pressing plus seven times.
+- **A typed value stays as it was typed**, also when it is out of range. The form checks it on save, and the field's error says how to fix it. From a value out of range, one press of minus or plus comes back to the nearest end.
+- **From an empty field**, a press gives the lowest value.
+- **A press on minus or plus leaves the focus where it is.**
+- **<Kbd>enter</Kbd> saves the form**, as in every text field.
+
+The full keyboard map is on the stepper's [React page](/design-system/react/?path=/docs/components-inputs-stepper--docs).
+
+## accessibility
+
+- **The value is the browser's own number field**, so a <Term id="screen-reader">screen reader</Term> says that it is a spin button, with its label, its value and its range.
+- **The value is read out in full**: “5 seconds”, not “5 s”. The short unit beside it is for the eye.
+- **Minus and plus are named after the value they change**, such as “fewer seconds” and “more seconds”. Without names from the product, they are “less” and “more”.
+- **The hint says the range**, and is read after the value.
+- **At an end, the dimmed button says that it can't be pressed.** It isn't a tab stop at any time, so the Tab key loses nothing there.
+- **An error marks the value as invalid** for <Term id="assistive-technology">assistive technology</Term> too, not only by its red frame.
+- **The keys** follow the WAI-ARIA [spin button](https://www.w3.org/WAI/ARIA/apg/patterns/spinbutton/) pattern.
+
+Today:
+
+- The number inside the field is drawn by the browser: digits without <Term id="thousands-separator">thousands separators</Term>, and a decimal sign in the browser's own language, not the page's. A stepper is for small whole numbers, where neither shows.
+- A value out of range isn't announced as wrong while people type. The error comes on save, as [forms and settings](/design-system/patterns/forms-and-settings/#checking-the-values) sets out.
+- <Kbd>home</Kbd> and <Kbd>end</Kbd> set the value, so they don't move the caret to the start or the end of a typed number.
+- On a TV, the row with its label needs a browser from 2023 or later. In an older one, the label stays above the row, and the row still works.
+- How a real TV's browser, its remote and its own keyboard treat a number field isn't tested.
+- There are no styles for <Term id="forced-colours">forced colours</Term>, the high-contrast setting some operating systems offer.
+
+## content
+
+- **Label.** A noun for the value, in <Term id="sentence-case">sentence case</Term>: “Countdown”, “Copies to keep”.
+- **The value.** Short, with its unit after it: “5 s”. Give the value in full for a screen reader, in the singular and the plural: “1 second”, “5 seconds”.
+- **Minus and plus.** Named after the value they change, as a screen reader says them: “fewer seconds” and “more seconds”.
+- **Hint.** The range: “From 1 to 15 seconds”.
+- **Error.** How to fix it: “Use a whole number from 1 to 15”.
+
+## do and don't
+
+<DoDont>
+  <Do caption="A short range: a few presses from one end to the other." column>
+    <StepperField label="Countdown" hint="From 1 to 15 seconds" unit="s" min={1} max={15} defaultValue={5} minusLabel="fewer seconds" plusLabel="more seconds" />
+  </Do>
+  <Dont caption="A wide range: from 5 to 3,600 is far too many presses. An input with its unit takes it." column>
+    <StepperField label="Timeout" hint="From 5 to 3,600 seconds" unit="s" min={5} max={3600} defaultValue={30} minusLabel="fewer seconds" plusLabel="more seconds" />
+  </Dont>
+</DoDont>
+
+<DoDont>
+  <Do caption="The hint says the range, so people know where the ends are before they reach one." column>
+    <StepperField label="Copies to keep" hint="From 1 to 9" min={1} max={9} defaultValue={3} minusLabel="fewer copies" plusLabel="more copies" />
+  </Do>
+  <Dont caption="No hint: the plus goes dim at 9, and nothing said why." column>
+    <StepperField label="Copies to keep" min={1} max={9} defaultValue={9} minusLabel="fewer copies" plusLabel="more copies" />
+  </Dont>
+</DoDont>
+
+## related
+
+- [Forms and settings](/design-system/patterns/forms-and-settings/#numbers-and-ranges): which input takes which kind of number.
+- <C slug="slider">Slider</C>: a value in a range that people judge by its effect.
+- <C slug="input">Input</C>: a number from a wide range, with its unit.
+- <C slug="field">Field</C>: the label, the hint and the error around a stepper.
+- [TV focus](/design-system/patterns/tv-focus/): the focus a stepper's row shows on a TV.
+
+## specs
+
+| size | in code | height | minus and plus | text | width |
+| --- | --- | --- | --- | --- | --- |
+| Small | `size="sm"` | 28px | 28 × 28px | 13px | 154px |
+| Medium | `size="md"` (the default) | 34px | 34 × 34px | 13px | 187px |
+| Large | `size="lg"` | 42px | 42 × 42px | 14px | 231px |
+
+| part | spec |
+| --- | --- |
+| Frame | An input's: `--bg-2`, a 1px `--border-control` border, square. 5.5 times as wide as it is high, and never wider than its container. The height is a smallest height. |
+| Minus and plus | Native buttons with `tabindex="-1"`, squares of the frame's height with its lines: a 1px `--border-2` line between each and the value. A 12px sign in `--fg-2`; on hover `--surface-2` and `--fg`. Named by `minusLabel` and `plusLabel` (default “less” and “more”). |
+| Value | A native `<input type="number">` without the browser's own arrows, JetBrains Mono, `--fg`, as wide as the longer of `min` and `max`, its number set to the end. With the unit, it is centred between the buttons. |
+| Unit | `unit`, after the value, in the same face. `aria-hidden` when `formatValue` gives the value in full, as `aria-valuetext`. |
+
+| state | in code | looks |
+| --- | --- | --- |
+| Focused | The value has the focus | A `--cloud-blue` border and a 1px inset line in the same blue |
+| At an end | The value is `min`, or `max` | That button is `disabled`: its sign at 40% opacity, a not-allowed cursor |
+| With an error | `invalid`, set by a field's `error` | A `--state-error` border; `aria-invalid="true"` |
+| Disabled | `disabled` | The whole stepper at 50% opacity; the field and both buttons are disabled |
+| Read only | `readOnly` | The value can be read and copied; both buttons are disabled, and the keys take no step |
+
+| screen | in code | what changes |
+| --- | --- | --- |
+| Touch | `data-nc-screen="touch"` on an ancestor | The large size: 42px high, 14px text. Minus and plus each answer in 48 × 48 (`3rem`), centred on their square: 3px past the frame, and 3px into the room beside the value. |
+| TV | `data-nc-screen="tv"` on an ancestor | No frame. A row 48px (`3rem`) high and as wide as its container, with the value at its end between two 12px arrows in `--fg-muted`, 14px text, and 12px (`--s-3`) of room at the row's start and end. Inside a field, the field is the row: its label at the start, at 14px. Focused: a 3px `--focus-ring` ring inside the row's edge, `--surface-focus`, and 1.02 times the size, in 150ms `ease-out`; the label turns to `--fg`. The hint or the error is a line under the row. |
+
+- **Steps:** `step`, 1 by default, kept within `min` and `max`. Fractions are rounded to the decimals of `step`.
+- **Keys on a TV:** left and right take a step; up and down are given away. The stepper doesn't call `preventDefault()` on them: it undoes the step the number field takes for them, before `onChange` is called.
+- **Motion:** the frame's colour changes in 120ms `ease`, like an input's. Under `prefers-reduced-motion: reduce` nothing is animated, and the focused row on a TV doesn't grow.
+- **Words:** “less” and “more” come from the page's language, `words.stepper`; English and German are built in.
+- **Sizes** are in `rem`, so the stepper grows with the reader's text size.
+- **Direction:** minus is where the text starts. On a page written from right to left it is on the right, and on a TV the left arrow key then takes a step up.
+- **Not there:** no press-and-hold to keep stepping, no `forced-colors` styles.

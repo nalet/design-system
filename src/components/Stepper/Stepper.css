@@ -58,8 +58,10 @@
   cursor: text;
 }
 
-/* the browser's own number field, as wide as its longest value, without the
-   browser's small arrows: minus and plus stand on either side */
+/* the browser's own number field, without the browser's small arrows: minus
+   and plus stand on either side. it is as wide as its longest value, with the
+   number at its end, next to the unit. the room a shorter number leaves before
+   it is taken back, so that what shows is centred between the buttons. */
 .nc-stepper__input {
   -webkit-appearance: none;
   -moz-appearance: textfield;
@@ -69,6 +71,7 @@
   width: calc(var(--nc-stepper-digits, 2) * 1ch + 2px);
   min-width: 0;
   margin: 0;
+  margin-inline-start: calc((var(--nc-stepper-shown, 2) - var(--nc-stepper-digits, 2)) * 1ch);
   padding: 0;
   border: 0;
   border-radius: 0;

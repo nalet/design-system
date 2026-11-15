@@ -27,12 +27,14 @@
 /* the first line: what is under way, and the buttons that stop it at its end */
 .nc-progress__head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  gap: var(--s-3);
+  gap: var(--s-2) var(--s-3);
 }
 
+/* where the line has no room for both, the buttons go under the words, at the line's end */
 .nc-progress__label {
-  flex: 1;
+  flex: 1 1 8rem;
   min-width: 0;
   font-family: var(--ff-ui);
   font-size: 0.8125rem;
@@ -100,8 +102,9 @@
   min-width: 0;
 }
 
+/* where the line has no room for both, try again goes under the sentence */
 .nc-progress__end {
-  flex: 1 1 24ch;
+  flex: 1 1 12rem;
 }
 
 /* until the work ends, the end holds nothing. it stays on the page, so that
@@ -215,6 +218,11 @@
    the same bar. text people read is at least 14, the buttons are large and
    12 apart, and the one with the focus shows the tv focus of a plain button:
    the ring 2 outside it, the focused surface, a little growth. */
+[data-nc-screen='tv'] .nc-progress {
+  /* room for a focused button's ring and growth, above the bar and under it */
+  gap: var(--s-3);
+}
+
 [data-nc-screen='tv'] .nc-progress__label,
 [data-nc-screen='tv'] .nc-progress__message {
   font-size: 0.875rem;

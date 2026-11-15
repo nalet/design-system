@@ -4,18 +4,18 @@ title: forms and settings
 description: Switches for what applies at once, a form for what waits for save, one emphasized save, and errors that show on save and say how to fix them.
 react: patterns-forms-and-settings
 draft: true
-draftNote: "Numbers and ranges, with the planned slider and stepper, is new and under review. The rest of the page describes the pattern as it was accepted."
+draftNote: "Numbers and ranges now describes the slider and the stepper as they are built, and shows them live. The rest of the page describes the pattern as it was accepted."
 ---
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
-import { DoDont, Do, Dont } from '@site/blocks';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
 import {
   SettingsOverview, SettingsAnatomy, ValidationStory, CheckboxInForm, SwitchAboveSave, OneEmphasis, TwoEmphasized,
   SaveEnabled, SaveDisabled, SaveFailedStrip, SaveFailedToast, SavedToast, SavedStrip,
 } from '@site/sketches/forms';
-import {
-  SliderKinds, SliderAnatomy, SliderOwnRowDo, SliderInARowDont, StepperAnatomy, StepperStates,
-} from '@site/sketches/sizes-and-inputs';
+import { SliderAnatomy, SliderOwnRowDo, SliderInARowDont, StepperAnatomy } from '@site/sketches/sizes-and-inputs';
+import { Kinds as SliderKinds, OnTv as SliderOnTv } from '@site/examples/slider';
+import { AtTheEnds as StepperAtTheEnds, OnTv as StepperOnTv } from '@site/examples/stepper';
 
 # forms and settings
 
@@ -78,7 +78,7 @@ Three more parts appear only at times: a success message above the content, afte
 
 ## numbers and ranges
 
-Some values are numbers: how loud, how far into a film, how many seconds to count down. Two planned inputs take them, the slider and the stepper. Until they are built, a <C slug="select" /> with the values, or an <C slug="input" /> with the number and its unit after it, does the job.
+Some values are numbers: how loud, how far into a film, how many seconds to count down. Two inputs are made for them, the <C slug="slider" /> and the <C slug="stepper" />. An <C slug="input" /> with the number's unit after it takes the rest.
 
 | the value | use |
 | --- | --- |
@@ -89,10 +89,11 @@ Some values are numbers: how loud, how far into a film, how many seconds to coun
 
 ### the slider
 
-<figure class="ds-figure">
-  <SliderKinds />
-  <figcaption>Three sliders: how loud, and where you are, in a player; and a value in a range, in settings.</figcaption>
-</figure>
+Three sliders: how loud, and where you are, in a player; and a value in a range, in settings.
+
+<Example label="three sliders: how loud, where you are, and a value in settings, live" column>
+  <SliderKinds client:visible />
+</Example>
 
 <figure class="ds-figure">
   <SliderAnatomy />
@@ -117,6 +118,10 @@ On a TV:
 - **Where it has to share a row**, like a player's volume next to its buttons, up and down change it, and left and right move on.
 - **A value people set exactly**, like a countdown, is a stepper or a list on a TV, not a slider. Apple's tvOS has no slider at all.
 
+<Example label="a player's controls on a tv: the seek bar on a row of its own, the volume in the buttons' row" column>
+  <SliderOnTv />
+</Example>
+
 <DoDont>
   <Do caption="On a TV, the seek bar has a row of its own: left and right move the thumb, and down goes to the buttons.">
     <SliderOwnRowDo />
@@ -140,17 +145,20 @@ On a TV:
 5. **Hint**: the range, “From 1 to 15 seconds”, or the error in its place.
 
 - **One step a press.** Minus and plus change the value by one step. At either end, the button that would go past it is dimmed and does nothing, and the value stays.
-- **For a few steps.** A stepper suits a short range, a few presses from one end to the other. Where people may want a value far away, let them type it: the value is then a field, with minus and plus on either side of it.
+- **For a few steps.** A stepper suits a short range, a few presses from one end to the other. Its value is a number field, with minus and plus on either side of it, so people who want a value far away can type it. Where most values are far away, an input with its unit fits better.
 - **The keyboard.** The value is the one tab stop. The up and down arrow keys take a step, and Home and End go to the two ends. Minus and plus are for the pointer and for touch, and the Tab key passes them.
 - **Instant or saved**, like every field: in a form, it waits for save.
 - **Sizes.** The stepper is as high as a field, in one of the three heights. Minus and plus are squares of that height, like icon buttons, and on a touch screen each one answers in 48.
 
-<figure class="ds-figure">
-  <StepperStates />
-  <figcaption>A stepper at its lowest value, and the same setting on a TV, as one row.</figcaption>
-</figure>
+<Example label="a stepper at its lowest value and at its highest" column>
+  <StepperAtTheEnds />
+</Example>
 
-On a TV, a stepper is one row: its label, and the value between two small arrows at the row's end. Left and right change the value, and up and down move to the next row. Like a slider, it has a row of its own. Apple's tvOS has no stepper either, so the product draws the row itself.
+On a TV, a stepper is one row: its label, and the value between two small arrows at the row's end. Left and right change the value, and up and down move to the next row. Like a slider, it has a row of its own. Apple's tvOS has no stepper either, so the stepper draws the row itself.
+
+<Example label="two settings on a tv, each a stepper in one row" column>
+  <StepperOnTv />
+</Example>
 
 - **The words.** The value is short, with its unit, “5 s”, and is read out in full, “5 seconds”. The hint says the range: “From 1 to 15 seconds”. A value typed out of range gets an error that says how to fix it: “Use a whole number from 1 to 15”.
 - **For screen readers.** The slider is the browser's own range input, so a screen reader says it is a slider, with its label and its value in words: “60%”, “42 minutes of 1 hour 52”. The stepper's value is a spin button with its label, its value and its range; minus and plus are named after the value they change, such as “fewer seconds” and “more seconds”.
@@ -240,6 +248,7 @@ Checking what people entered is called <Term id="validation">validation</Term>, 
 | Enter, in a text field | Saves the form: it presses “save changes” |
 | Space | Ticks a checkbox, flips a switch, or presses a button |
 | Arrow keys | Move through a select's options, or to the next radio button, choosing it |
+| Arrow keys, on a slider or in a stepper | Take one step. Home and End go to the two ends |
 | Esc | Closes whatever is open inside the form, like a select's list. It doesn't cancel the form |
 
 - The form is named after its card's title, so people can jump to it.
@@ -273,5 +282,6 @@ Today:
 - <C slug="field">Field</C>: the label, hint and error around each control.
 - [Message handling](/design-system/patterns/message-handling/): when a message is a banner, a toast, or at its field.
 - <C slug="switch">Switch</C>: the setting that applies at once.
+- <C slug="slider">Slider</C> and <C slug="stepper">stepper</C>: the two inputs for numbers, with their states and their specs.
 - <C slug="toast">Toast</C>: the confirmation after a save.
 - [Settings and setup](/design-system/patterns/settings-and-setup/): where each kind of setting is changed.

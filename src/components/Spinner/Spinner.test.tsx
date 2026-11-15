@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Spinner } from './Spinner';
+import { Language } from '../../lib/language';
 import { expectNoAxeViolations } from '../../test/axe';
 
 const snakeOf = (container: HTMLElement) => container.querySelector<SVGPathElement>('.nc-spinner__snake')!;
@@ -11,6 +12,22 @@ describe('Spinner', () => {
     const { container } = render(<Spinner label="loading the backlog" />);
     expect(screen.getByRole('status', { name: 'loading the backlog' })).toBeInTheDocument();
     expect(container.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
+  });
+
+  it('is named "loading" in English, as before', () => {
+    render(<Spinner />);
+    expect(screen.getByRole('status', { name: 'loading' })).toBeInTheDocument();
+  });
+
+  it('is named in German inside a German part of the page, and a label still wins', () => {
+    render(
+      <Language lang="de">
+        <Spinner />
+        <Spinner label="lädt die sicherungen" />
+      </Language>,
+    );
+    expect(screen.getByRole('status', { name: 'lädt' })).toBeInTheDocument();
+    expect(screen.getByRole('status', { name: 'lädt die sicherungen' })).toBeInTheDocument();
   });
 
   it('draws the frame and the snake on one square that starts mid-edge', () => {

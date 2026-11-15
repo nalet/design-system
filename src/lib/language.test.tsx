@@ -1,4 +1,4 @@
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import { act, render, screen } from '@testing-library/react';
 import { Language, counted, dateLanguage, fill, formatCount, useLanguage, wordsFor } from './language';
 import { english, german } from './words';
@@ -30,6 +30,32 @@ describe('language', () => {
       document.documentElement.lang = 'en';
     });
     return screen.findByText('en: close, 2,500 selected');
+  });
+
+  it('watches the page with one observer, however many components listen', async () => {
+    const made = vi.spyOn(window, 'MutationObserver');
+    const { unmount } = render(
+      <>
+        <Probe />
+        <Probe />
+        <Probe />
+      </>,
+    );
+    expect(made).toHaveBeenCalledTimes(1);
+    act(() => {
+      document.documentElement.lang = 'de';
+    });
+    expect(await screen.findAllByText('de: schließen, 2.500 ausgewählt')).toHaveLength(3);
+    // the last listener gone, the observer goes too; the next one starts a new one.
+    unmount();
+    made.mockClear();
+    render(<Probe />);
+    expect(made).toHaveBeenCalledTimes(1);
+    act(() => {
+      document.documentElement.lang = 'en';
+    });
+    await screen.findByText('en: close, 2,500 selected');
+    made.mockRestore();
   });
 
   it('takes the language and single words from <Language>', () => {

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { render, screen } from '@testing-library/react';
 import { Status, defineStates, STATE_SEVERITY } from './Status';
 import { STATES } from '../../lib/StateGlyph';
+import { Language } from '../../lib/language';
 import { expectNoAxeViolations } from '../../test/axe';
 
 describe('Status', () => {
@@ -28,6 +29,35 @@ describe('Status', () => {
     expect(container.textContent).toBe('failed');
     rerender(<Status state="error" stateLabel="fehler">failed</Status>);
     expect(container.textContent).toBe('fehler: failed');
+  });
+
+  it('names warnings and errors in German inside a German part of the page, and a prop still wins', () => {
+    const { container, rerender } = render(
+      <Language lang="de">
+        <Status state="error">braucht Aufmerksamkeit</Status>
+      </Language>,
+    );
+    expect(container.textContent).toBe('fehler: braucht Aufmerksamkeit');
+    rerender(
+      <Language lang="de">
+        <Status state="warning">Verbindung gefiltert</Status>
+      </Language>,
+    );
+    expect(container.textContent).toBe('warnung: Verbindung gefiltert');
+    rerender(
+      <Language lang="de">
+        <Status state="success">vorhanden</Status>
+      </Language>,
+    );
+    expect(container.textContent).toBe('vorhanden');
+    rerender(
+      <Language lang="de">
+        <Status state="error" stateLabel="störung">
+          ausgefallen
+        </Status>
+      </Language>,
+    );
+    expect(container.textContent).toBe('störung: ausgefallen');
   });
 
   it('gives every state its own glyph, hideable', () => {

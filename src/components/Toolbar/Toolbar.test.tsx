@@ -3,6 +3,7 @@ import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import * as React from 'react';
 import { SelectionToolbar, Toolbar } from './Toolbar';
+import { Language } from '../../lib/language';
 import { expectNoAxeViolations } from '../../test/axe';
 
 describe('Toolbar', () => {
@@ -102,6 +103,54 @@ describe('SelectionToolbar', () => {
     expect(live).toHaveTextContent('3 selected');
     rerender(<SelectionToolbar label="t" selectedCount={0} />);
     expect(live).toHaveTextContent('selection cleared');
+  });
+
+  it('reads as before in English: the count with its separator, clear, and the menu of the rest', () => {
+    const { container, rerender } = render(
+      <SelectionToolbar
+        label="missing episodes"
+        selectedCount={2500}
+        onClearSelection={() => undefined}
+        actions={[{ id: 'export', label: 'export csv', overflow: true, onSelect: () => undefined }]}
+      />,
+    );
+    expect(container.querySelector('.nc-seltoolbar__number')).toHaveTextContent(/^2,500 selected$/);
+    expect(screen.getByRole('button', { name: 'clear' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'more actions' })).toBeInTheDocument();
+    const live = container.querySelector('[aria-live="polite"]')!;
+    rerender(<SelectionToolbar label="missing episodes" selectedCount={1} />);
+    expect(live).toHaveTextContent(/^1 selected$/);
+    rerender(<SelectionToolbar label="missing episodes" selectedCount={0} />);
+    expect(live).toHaveTextContent(/^selection cleared$/);
+  });
+
+  it('reads in German inside a German part of the page, and a prop still wins', () => {
+    const page = (n: number, own?: boolean) => (
+      <Language lang="de">
+        <SelectionToolbar
+          label="fehlende folgen"
+          selectedCount={n}
+          onClearSelection={() => undefined}
+          actions={[{ id: 'export', label: 'als csv exportieren', overflow: true, onSelect: () => undefined }]}
+          {...(own
+            ? { formatSelected: (c: number) => `${c} markiert`, clearLabel: 'zurücksetzen', overflowLabel: 'mehr' }
+            : {})}
+        />
+      </Language>
+    );
+    const { container, rerender } = render(page(2500));
+    expect(container.querySelector('.nc-seltoolbar__number')).toHaveTextContent(/^2\.500 ausgewählt$/);
+    expect(screen.getByRole('button', { name: 'aufheben' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'weitere aktionen' })).toBeInTheDocument();
+    const live = container.querySelector('[aria-live="polite"]')!;
+    rerender(page(1));
+    expect(live).toHaveTextContent(/^1 ausgewählt$/);
+    rerender(page(0));
+    expect(live).toHaveTextContent(/^auswahl aufgehoben$/);
+    rerender(page(2500, true));
+    expect(container.querySelector('.nc-seltoolbar__number')).toHaveTextContent(/^2500 markiert$/);
+    expect(screen.getByRole('button', { name: 'zurücksetzen' })).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'mehr' })).toBeInTheDocument();
   });
 
   it('has no axe violations', async () => {

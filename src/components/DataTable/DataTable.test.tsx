@@ -5,6 +5,7 @@ import * as React from 'react';
 import { DataTable, type DataTableColumn, type DataTableSort } from './DataTable';
 import { StatusCell, DateCell, IdentifierCell, relativeDay } from './cells';
 import { ActionMenu } from '../ActionMenu/ActionMenu';
+import { Language } from '../../lib/language';
 import { expectNoAxeViolations } from '../../test/axe';
 
 interface Ep {
@@ -203,6 +204,53 @@ describe('DataTable', () => {
     expect(screen.getByText('Nothing missing.')).toBeInTheDocument();
   });
 
+  // 2,500 rows, so a count needs its separator.
+  const MANY: Ep[] = Array.from({ length: 2500 }, (_, i) => ({
+    id: `m${i}`,
+    show: i < 1200 ? 'The Example Show' : 'Copper Valley',
+    code: `S01E${String(i + 1).padStart(4, '0')}`,
+    aired: '2026-10-12',
+    state: 'wanted',
+  }));
+
+  it('reads as before in English: its own words, and its counts with their separator', () => {
+    const { unmount } = render(<Harness rows={MANY} growing={2} />);
+    expect(screen.getByRole('checkbox', { name: 'select every visible row' })).toBeInTheDocument();
+    expect(screen.getByRole('checkbox', { name: 'select S01E0001' })).toBeInTheDocument();
+    expect(screen.getByText('2 of 2,500')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'show 2 more' })).toBeInTheDocument();
+    unmount();
+    // rows without a name, and groups without a label of their own.
+    render(<Harness rows={MANY} growing={3} rowLabel={undefined} groupBy={(r) => r.show} defaultCollapsedGroups={['The Example Show']} />);
+    expect(screen.getByRole('row', { name: 'The Example Show · 1,200' })).toBeInTheDocument();
+    expect(screen.getByRole('row', { name: 'Copper Valley · 1,300' })).toBeInTheDocument();
+    expect(screen.getAllByRole('checkbox', { name: 'select row' })).toHaveLength(3);
+    expect(screen.getByText('3 of 2,500')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'show 3 more' })).toBeInTheDocument();
+  });
+
+  it('reads in German inside a German part of the page, and a function of the app still wins', () => {
+    const page = (props: React.ComponentProps<typeof Harness>) => (
+      <Language lang="de">
+        <Harness rows={MANY} {...props} />
+      </Language>
+    );
+    const first = render(page({ growing: 2 }));
+    expect(screen.getByRole('checkbox', { name: 'alle sichtbaren zeilen auswählen' })).toBeInTheDocument();
+    expect(screen.getByRole('checkbox', { name: 'S01E0001 auswählen' })).toBeInTheDocument();
+    expect(screen.getByText('2 von 2.500')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '2 weitere anzeigen' })).toBeInTheDocument();
+    first.rerender(page({ growing: 2, formatGrowing: (shown, total) => `${shown} / ${total}` }));
+    expect(screen.getByText('2 / 2500')).toBeInTheDocument();
+    first.unmount();
+    render(page({ growing: 3, rowLabel: undefined, groupBy: (r) => r.show, defaultCollapsedGroups: ['The Example Show'] }));
+    expect(screen.getByRole('row', { name: 'The Example Show · 1.200' })).toBeInTheDocument();
+    expect(screen.getByRole('row', { name: 'Copper Valley · 1.300' })).toBeInTheDocument();
+    expect(screen.getAllByRole('checkbox', { name: 'zeile auswählen' })).toHaveLength(3);
+    expect(screen.getByText('3 von 2.500')).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: '3 weitere anzeigen' })).toBeInTheDocument();
+  });
+
   it('has no axe violations: flat, selected, grouped, collapsed, empty', async () => {
     const { container, rerender } = render(<Harness initialSelected={['a1']} growing={3} />);
     await expectNoAxeViolations(container);
@@ -239,6 +287,99 @@ describe('cells', () => {
     rerender(<DateCell value={date} relative={false} locale="de-CH" />);
     const german = new Intl.DateTimeFormat('de-CH', { day: 'numeric', month: 'short', year: 'numeric' });
     expect(container.querySelector('time')).toHaveTextContent(german.format(new Date(date)));
+  });
+
+  it('says how long ago in another language in that language’s own forms, with the same thresholds', () => {
+    const now = new Date('2026-10-17T12:00:00');
+    const ago = (days: number) => new Date(now.getTime() - days * 86_400_000);
+    expect(relativeDay(ago(0), now, 'de')).toEqual({ short: 'heute', long: 'heute' });
+    expect(relativeDay(ago(1), now, 'de')).toEqual({ short: 'gestern', long: 'gestern' });
+    expect(relativeDay(ago(-1), now, 'de')).toEqual({ short: 'morgen', long: 'morgen' });
+    expect(relativeDay(ago(5), now, 'de')).toEqual({ short: 'vor 5 Tagen', long: 'vor 5 Tagen' });
+    expect(relativeDay(ago(-3), now, 'de').long).toBe('in 3 Tagen');
+    // days up to 13, then weeks, months from 60 days, years from 730.
+    expect(relativeDay(ago(13), now, 'de').long).toBe('vor 13 Tagen');
+    expect(relativeDay(ago(14), now, 'de').long).toBe('vor 2 Wochen');
+    expect(relativeDay(ago(59), now, 'de').long).toBe('vor 8 Wochen');
+    expect(relativeDay(ago(60), now, 'de').long).toBe('vor 2 Monaten');
+    expect(relativeDay(ago(729), now, 'de').long).toBe('vor 24 Monaten');
+    expect(relativeDay(ago(730), now, 'de').long).toBe('vor 2 Jahren');
+    // the short form is the language's narrow one, whatever the engine holds for it.
+    expect(relativeDay(ago(49), now, 'de').short).toBe(
+      new Intl.RelativeTimeFormat('de', { numeric: 'auto', style: 'narrow' }).format(-7, 'week'),
+    );
+  });
+
+  it('keeps the English forms for English with a region, and for a language tag it cannot read', () => {
+    const now = new Date('2026-10-17T12:00:00');
+    const then = new Date('2026-10-12T10:00:00');
+    expect(relativeDay(then, now, 'en')).toEqual({ short: '5d ago', long: '5 days ago' });
+    expect(relativeDay(then, now, 'en-US')).toEqual({ short: '5d ago', long: '5 days ago' });
+    expect(relativeDay(then, now, 'not a tag')).toEqual({ short: '5d ago', long: '5 days ago' });
+    expect(relativeDay(new Date('2026-08-29T10:00:00'), now, 'en-GB')).toEqual({ short: '7w ago', long: '7 weeks ago' });
+    expect(relativeDay(new Date('2025-02-17T10:00:00'), now, 'en')).toEqual({ short: '20mo ago', long: '20 months ago' });
+    expect(relativeDay(new Date('2024-10-17T10:00:00'), now, 'en')).toEqual({ short: '2y ago', long: '2 years ago' });
+  });
+
+  it('reads as before in English: the day before the month, how long ago in the short forms', () => {
+    const now = new Date('2026-10-17T12:00:00');
+    const { container, rerender } = render(<DateCell value="2026-10-12T10:00:00" now={now} />);
+    expect(container.querySelector('time')).toHaveTextContent(/^12 Oct 2026$/);
+    expect(container.querySelector('.nc-cell-date__rel')!.textContent).toBe('5d ago, 5 days ago');
+    rerender(<DateCell value="2026-10-16T10:00:00" now={now} />);
+    expect(container.textContent).toBe('16 Oct 2026yesterday, yesterday');
+    rerender(<DateCell value="" />);
+    expect(container.textContent).toBe('—no date');
+  });
+
+  it('a date cell reads in German inside a German part of the page: the date, how long ago and no date', () => {
+    const now = new Date('2026-10-17T12:00:00');
+    const cell = (value: string | null) => (
+      <Language lang="de">
+        <DateCell value={value} now={now} />
+      </Language>
+    );
+    const { container, rerender } = render(cell('2026-10-12T10:00:00'));
+    expect(container.querySelector('time')).toHaveTextContent(/^12\. Okt\. 2026$/);
+    expect(container.querySelector('time')).toHaveAttribute('title', expect.stringContaining('Montag, 12. Oktober 2026'));
+    expect(container.querySelector('.nc-cell-date__rel [aria-hidden="true"]')).toHaveTextContent(/^vor 5 Tagen$/);
+    expect(container.querySelector('.nc-cell-date__rel .nc-sr-only')).toHaveTextContent(/^, vor 5 Tagen$/);
+    rerender(cell('2026-10-16T10:00:00'));
+    expect(container.querySelector('.nc-cell-date__rel [aria-hidden="true"]')).toHaveTextContent(/^gestern$/);
+    rerender(cell('2026-10-17T08:00:00'));
+    expect(container.querySelector('.nc-cell-date__rel [aria-hidden="true"]')).toHaveTextContent(/^heute$/);
+    rerender(cell('2026-10-18T08:00:00'));
+    expect(container.querySelector('.nc-cell-date__rel [aria-hidden="true"]')).toHaveTextContent(/^morgen$/);
+    rerender(cell(null));
+    expect(container.textContent).toBe('—kein datum');
+  });
+
+  it('a date cell follows the language of the page, and its own locale before that', () => {
+    const now = new Date('2026-10-17T12:00:00');
+    document.documentElement.lang = 'de';
+    try {
+      const { container, rerender } = render(<DateCell value="2026-10-12T10:00:00" now={now} />);
+      expect(container.textContent).toBe('12. Okt. 2026vor 5 Tagen, vor 5 Tagen');
+      // the cell's own locale says otherwise: the date and how long ago are English again.
+      rerender(<DateCell value="2026-10-12T10:00:00" now={now} locale="en-GB" />);
+      expect(container.textContent).toBe('12 Oct 20265d ago, 5 days ago');
+      rerender(<DateCell value="2026-10-12T10:00:00" now={now} locale="en-US" />);
+      expect(container.textContent).toBe('Oct 12, 20265d ago, 5 days ago');
+    } finally {
+      document.documentElement.removeAttribute('lang');
+    }
+    // and a German cell on an English page.
+    const { container } = render(<DateCell value="2026-10-12T10:00:00" now={now} locale="de" />);
+    expect(container.textContent).toBe('12. Okt. 2026vor 5 Tagen, vor 5 Tagen');
+  });
+
+  it('a date cell falls back to English for a language tag it cannot read', () => {
+    const { container } = render(
+      <Language lang="not a tag">
+        <DateCell value="2026-10-12T10:00:00" now={new Date('2026-10-17T12:00:00')} />
+      </Language>,
+    );
+    expect(container.textContent).toBe('12 Oct 20265d ago, 5 days ago');
   });
 
   it('a status cell keeps its whole reason in the dom', () => {

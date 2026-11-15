@@ -3,7 +3,7 @@ import { describe, expect, expectTypeOf, it } from 'vitest';
 import * as ds from './index';
 
 describe('the old names', () => {
-  it('are the new exports under the names they had in 0.3.0, until 0.5.0', () => {
+  it('are the new exports under the names they had in 0.3.0, through 0.5.0', () => {
     expect(ds.ObjectStatus).toBe(ds.Status);
     expect(ds.MessageStrip).toBe(ds.Banner);
     expect(ds.IllustratedMessage).toBe(ds.EmptyState);

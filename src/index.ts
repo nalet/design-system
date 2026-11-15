@@ -28,6 +28,8 @@ export type { LanguageProps, WordsOverride } from './lib/language';
 export { english, german, builtInWords } from './lib/words';
 export type { Words, Counted } from './lib/words';
 // the kind of screen an element is on, as the app says it with data-nc-screen
+// a size in pixels at the usual text size, as a share of the page's text size
+export { rem } from './lib/rem';
 export { screenOf } from './lib/screen';
 export type { ScreenKind } from './lib/screen';
 
@@ -180,28 +182,28 @@ export type { UserMenuProps, UserMenuItem } from './components/UserMenu/UserMenu
 export { Worklist } from './patterns/Worklist/Worklist';
 export type { WorklistProps } from './patterns/Worklist/Worklist';
 
-// the old names, for one release: each is the new export under the name it had
-// in 0.3.0, and shows as deprecated in an editor. they go in 0.5.0.
+// the old names: each is the new export under the name it had in 0.3.0, and
+// shows as deprecated in an editor. they stay through 0.5.0 and go in 0.6.0.
 import { Status, type StatusProps, type State } from './components/Status/Status';
 import { STATES } from './lib/StateGlyph';
 import { Banner, type BannerProps } from './components/Banner/Banner';
 import { EmptyState, type EmptyStateProps, type EmptyStateSize } from './components/EmptyState/EmptyState';
 
-/** @deprecated use `Status`; the old name goes in 0.5.0. */
+/** @deprecated use `Status`; the old name goes in 0.6.0. */
 export const ObjectStatus = Status;
-/** @deprecated use `StatusProps`; the old name goes in 0.5.0. */
+/** @deprecated use `StatusProps`; the old name goes in 0.6.0. */
 export type ObjectStatusProps = StatusProps;
-/** @deprecated use `State`; the old name goes in 0.5.0. */
+/** @deprecated use `State`; the old name goes in 0.6.0. */
 export type ObjectState = State;
-/** @deprecated use `STATES`; the old name goes in 0.5.0. */
+/** @deprecated use `STATES`; the old name goes in 0.6.0. */
 export const OBJECT_STATES = STATES;
-/** @deprecated use `Banner`; the old name goes in 0.5.0. */
+/** @deprecated use `Banner`; the old name goes in 0.6.0. */
 export const MessageStrip = Banner;
-/** @deprecated use `BannerProps`; the old name goes in 0.5.0. */
+/** @deprecated use `BannerProps`; the old name goes in 0.6.0. */
 export type MessageStripProps = BannerProps;
-/** @deprecated use `EmptyState`; the old name goes in 0.5.0. */
+/** @deprecated use `EmptyState`; the old name goes in 0.6.0. */
 export const IllustratedMessage = EmptyState;
-/** @deprecated use `EmptyStateProps`; the old name goes in 0.5.0. */
+/** @deprecated use `EmptyStateProps`; the old name goes in 0.6.0. */
 export type IllustratedMessageProps = EmptyStateProps;
-/** @deprecated use `EmptyStateSize`; the old name goes in 0.5.0. */
+/** @deprecated use `EmptyStateSize`; the old name goes in 0.6.0. */
 export type IllustratedMessageSize = EmptyStateSize;

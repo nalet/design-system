@@ -4,6 +4,7 @@ import { cx } from '../../lib/cx';
 import { useLanguage } from '../../lib/language';
 import './Modal.css';
 import { rem } from '../../lib/rem';
+import { screenOf, type ScreenKind } from '../../lib/screenOf';
 
 export interface ModalProps {
   /** Whether the modal is shown. */
@@ -110,6 +111,15 @@ export function Modal({
   }, [open, sheet]);
   const asSheet = sheet && windowWidth != null && windowWidth < width + 2 * MARGIN;
 
+  // the dialog is rendered into the body, outside the element that says what
+  // kind of screen this is. it takes the kind from what opened it (what had
+  // the focus as it opened) and carries the attribute itself, so its touch
+  // and tv rules hold wherever the app put `data-nc-screen`.
+  const [screen, setScreen] = React.useState<ScreenKind | undefined>(undefined);
+  React.useLayoutEffect(() => {
+    if (open) setScreen(screenOf(document.activeElement));
+  }, [open]);
+
   React.useEffect(() => {
     if (!open) return;
     lastFocused.current = (document.activeElement as HTMLElement) ?? null;
@@ -188,7 +198,7 @@ export function Modal({
   if (!open || typeof document === 'undefined') return null;
 
   return createPortal(
-    <div className={cx('nc-modal', asSheet && 'nc-modal--sheet')} role="presentation">
+    <div className={cx('nc-modal', asSheet && 'nc-modal--sheet')} role="presentation" data-nc-screen={screen}>
       <div
         ref={backdropRef}
         className="nc-modal__backdrop"

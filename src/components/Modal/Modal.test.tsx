@@ -52,6 +52,42 @@ describe('Modal', () => {
     expect(screen.getByRole('button', { name: 'schließen' })).toBeInTheDocument();
   });
 
+  it('carries the kind of screen of what opened it, though it is rendered into the body', async () => {
+    function Opener() {
+      const [open, setOpen] = React.useState(false);
+      return (
+        <div data-nc-screen="touch">
+          <button onClick={() => setOpen(true)}>open</button>
+          <Modal open={open} onClose={() => setOpen(false)} title="add to lists">
+            <p>Pick the lists.</p>
+          </Modal>
+        </div>
+      );
+    }
+    render(<Opener />);
+    await userEvent.click(screen.getByRole('button', { name: 'open' }));
+    const layer = screen.getByRole('dialog').closest('.nc-modal');
+    expect(layer).toHaveAttribute('data-nc-screen', 'touch');
+    expect(layer?.parentElement).toBe(document.body);
+  });
+
+  it('carries no kind of screen where the page names none', async () => {
+    function Opener() {
+      const [open, setOpen] = React.useState(false);
+      return (
+        <>
+          <button onClick={() => setOpen(true)}>open</button>
+          <Modal open={open} onClose={() => setOpen(false)} title="add to lists">
+            <p>Pick the lists.</p>
+          </Modal>
+        </>
+      );
+    }
+    render(<Opener />);
+    await userEvent.click(screen.getByRole('button', { name: 'open' }));
+    expect(screen.getByRole('dialog').closest('.nc-modal')).not.toHaveAttribute('data-nc-screen');
+  });
+
   it('has no axe violations', async () => {
     render(<Harness onClose={vi.fn()} />);
     await expectNoAxeViolations(document.body);

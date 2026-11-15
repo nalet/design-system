@@ -64,7 +64,7 @@ With `sheet`, in a window narrower than the dialog's `width` plus its two margin
 - A form in the body can submit from the footer: give the `<form>` an `id`, and give the footer button `type="submit"` and `form={id}`. `enter` in a field then submits the form.
 - The page behind is not made `inert` or `aria-hidden`. `aria-modal` and the tab trap are what keep people in the dialog.
 - `Modal` passes no other attributes through.
-- **Touch and TV.** The modal renders into `<body>`, outside the app's root element. Its rules for a screen made for touch or for a TV reach it when `data-nc-screen` is on `<html>` or `<body>`; set on an element inside the app, the attribute doesn't reach the dialog.
+- **Touch and TV.** The modal renders into `<body>`, outside the element that carries `data-nc-screen`. An open dialog carries the attribute itself, taken from what opened it (the element that had the focus as it opened), so its rules for a screen made for touch or for a TV hold wherever the app set the attribute.
 - On a touch screen, the close button keeps its 26px look and answers to a touch in 48 × 48px around its centre.
 - On a TV, the layer keeps the safe area clear (27px at the top and the foot, 48px at the sides), the close button is 42px, and its focus is the TV focus: a 3px ring 2px outside it, the focused surface and 5% growth, none of the growth with reduced motion.
 - On a TV, the arrow keys move through the dialog's controls in their order in the document and stay inside it: see the keys below.

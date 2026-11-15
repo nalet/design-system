@@ -17,9 +17,16 @@ const meta: Meta<EmptyStateProps> = {
     title: { control: 'text' },
     description: { control: 'text' },
     actions: { control: false },
+    details: { control: 'text' },
+    detailsLabel: { control: 'text' },
   },
   parameters: {
-    docs: { description: { component: 'An empty, done, no-match, error or unknown state, with what to do about it.' } },
+    docs: {
+      description: {
+        component:
+          'An empty, done, no-match, error or unknown state, with what to do about it, and the technical part of a failure behind details.',
+      },
+    },
   },
 };
 export default meta;
@@ -58,6 +65,20 @@ export const WithAction: Story = {
       title="nothing can be checked yet"
       description="The library's holdings are unknown for all 105 titles, so nothing is known to be missing."
       actions={<Button variant="primary">ask the catalog again</Button>}
+    />
+  ),
+};
+
+// the cause in words, the way forward, and the server's answer behind details.
+export const WithDetails: Story = {
+  name: 'with details',
+  render: () => (
+    <EmptyState
+      illustration="error"
+      title="couldn't load the list"
+      description="The server is busy. Try again in a moment."
+      actions={<Button>try again</Button>}
+      details={'HTTP 503 Service Unavailable\nrequest id 7d1c0e4a'}
     />
   ),
 };

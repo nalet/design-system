@@ -4,15 +4,15 @@ title: modal
 description: A dialog over the dimmed page, for one task that needs an answer before the page can go on, such as confirming a delete.
 component: modal
 draft: true
-draftNote: "A sheet on a phone is new and not decided: the section sets out two answers for review, and one of them will stay. The rest of the page describes the modal as it is today."
+draftNote: "A sheet on a phone is now built: a dialog that asks for it sits on the foot of a narrow screen. New with it are the close button's touch area, the arrow keys on a TV and the close button's name in the page's language. The rest of the page describes the modal as it was accepted."
 ---
 import { Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { DemoModal } from '@site/demos/components/modal';
-import { Confirm, Form, NoTitle, Persistent, LongContent } from '@site/examples/modal';
-import { SheetTwoAnswers } from '@site/sketches/component-drafts';
+import { Confirm, Form, NoTitle, Persistent, LongContent, Sheet } from '@site/examples/modal';
+import { SheetOnAPhone } from '@site/sketches/overlays';
 
 # modal
 
@@ -39,16 +39,16 @@ A modal is a dialog that opens over the page for one task that needs an answer b
 ## anatomy
 
 1. **Backdrop.** A dark veil over the whole page, in the colour of the <Term id="canvas">canvas</Term>, through which the page shows faintly.
-2. **Dialog.** A square panel with a thin border, in the middle of the screen. It has a set maximum width, is never taller than the screen, and keeps a small margin from the screen's edges.
+2. **Dialog.** A square panel with a thin border, in the middle of the screen. It has a set maximum width, is never taller than the screen, and keeps a small margin from the screen's edges. A dialog that asks for it sits on the foot of a narrow screen instead, as [a sheet](#a-sheet-on-a-phone).
 3. **Header** (only with a title). A thin rule runs below it. It holds:
    - **Title.** A heading in <Term id="monospace">monospace</Term>, shown in lowercase.
-   - **Close button.** A small square with a cross, named “close”.
+   - **Close button.** A small square with a cross, named “close” in the page's language.
 4. **Body.** The content, in the <Term id="body-face">body face</Term>. When it is taller than the dialog, it scrolls, and the header and the footer stay in place.
-5. **Footer** (optional). The actions, lined up on the right, with a thin rule above them.
+5. **Footer** (optional). The actions, lined up on the right, with a thin rule above them. Where they don't fit side by side, as on a narrow screen with large text, each takes a line.
 
 ## variants and states
 
-A modal can be set up in four ways. The example at the top of this page is a confirm.
+A modal can be set up in five ways. The example at the top of this page is a confirm.
 
 | setup | how | use it for |
 | --- | --- | --- |
@@ -56,6 +56,7 @@ A modal can be set up in four ways. The example at the top of this page is a con
 | Form | A title, fields in the body, and a footer | A few values for one task |
 | No title | A name for <Term id="assistive-technology">assistive technology</Term> instead of a title | A short readout. With no header there is no close button, so put one in the footer |
 | Persistent | <Kbd>esc</Kbd> and the backdrop don't close it | Work that a stray key shouldn't hide. The close button in the header and the buttons in the footer still close it |
+| Sheet | The dialog asks to sit on the foot of a narrow screen | A short task or a set of choices on a phone, as [a sheet on a phone](#a-sheet-on-a-phone) describes. Never a confirm |
 
 ### form
 
@@ -91,47 +92,46 @@ Long content scrolls inside the body, while the title and the actions stay in vi
 
 ## a sheet on a phone
 
-On a phone, a dialog could rise from the foot of the screen as a sheet, instead of sitting in the middle. Whether it may isn't decided. The design system's own rules speak against it, and the phone platforms' guidance speaks for it in some cases. Both answers are drafted below; one of them will stay. Until then, a dialog sits in the middle on every screen, as the rest of this page describes.
+On a phone, a dialog for a short task or a set of choices can sit on the foot of the screen, as a <Term id="sheet">sheet</Term>. There the thumb reaches its buttons, and people know sheets from their phones. A dialog has to ask for it: one that doesn't sits in the middle on every screen, as the rest of this page describes.
 
 <figure class="ds-figure">
-  <SheetTwoAnswers />
-  <figcaption>The same dialog on a computer, in the middle; on a phone, in the middle as well, as answer 1 has it; or, as answer 2 has it, on the foot of the phone's screen.</figcaption>
+  <SheetOnAPhone />
+  <figcaption>The same dialog, which asks for a sheet: in a wide window it sits in the middle; on a phone it sits on the foot of the screen, with the dimmed page above it.</figcaption>
 </figure>
 
-### what speaks against a sheet
+This dialog asks for a sheet, and is 420 pixels wide at the most. Open it on a phone, or in a window narrower than 452 pixels, and it sits on the foot of the screen. In a wider window it sits in the middle.
 
-- **The dialog already works on a phone.** It keeps 16px from the screen's edges, it is never taller than the screen less 48px, and its body scrolls. [Layout](/design-system/foundations/layout/#phone-width) asks every screen to work at 390 and at 320 pixels wide, and the dialog does.
-- **The components don't look at the screen.** They change with the room they have, and use no <Term id="breakpoint">breakpoints</Term> ([layout](/design-system/foundations/layout/#responsive-behaviour)). A sheet only on phones would make the modal the first component that changes with the width of the window.
-- **Panels don't slide.** Dialogs open and close at once, and nothing slides across the screen ([motion](/design-system/styles/motion/#what-doesnt-move)); motion that isn't feedback is left out ([principles](/design-system/foundations/principles/#5-calm-and-quick)). A sheet would have to appear in its place at once, without rising.
-- **Nothing depends on a gesture.** A swipe down could never be the only way to close a sheet ([interaction](/design-system/foundations/interaction/#pointer-and-touch)).
+<Example label="a dialog that is a sheet in a narrow window, live">
+  <Sheet client:visible />
+</Example>
 
-### what speaks for one
+### when a sheet fits
 
-- **The thumb.** On a tall phone held in one hand, the thumb reaches the foot of the screen more easily than its middle, where a centred dialog puts its buttons.
-- **The platforms.** The guidelines of both phone platforms bring a sheet up from the foot for a short task or a set of choices, and keep a question that needs an answer, such as one before a delete, in the middle. People know sheets from their phones.
+- **A short task or a set of choices.** Picking the lists for a title, or two or three values for one task: something people do with a thumb and are done with.
+- **Never a question.** A confirmation before something that deletes or can't be undone stays in the middle, on a phone too: people read it before they reach its buttons.
+- **Not for what a dialog is too small for.** A list of actions goes into an <C slug="action-menu" />, and a long form or a long list into a page of its own, on a phone as on a computer.
 
-### answer 1: no sheet
+### when a dialog stays in the middle
 
-A dialog sits in the middle on every screen. On a phone it is the screen's width less 16px on each side, its body scrolls, and its buttons stay in its footer. What a phone would put in a sheet goes where the system already has a place for it: a list of actions into an <C slug="action-menu" />, a long form or a long list into a page of its own.
+- **When it doesn't ask.** Without being asked, no dialog becomes a sheet, however narrow the screen.
+- **When there is room.** The modal measures its own room, the window, as the filter bar and the toolbar measure theirs; it doesn't ask what kind of device it is on. A dialog that asks is a sheet only where the window is narrower than the dialog's largest width and its two margins: 480 + 2 × 16 = 512px for a dialog of the usual width. So a narrow window on a computer, or a page zoomed to 400%, gets the sheet too, and a tablet with room for the dialog doesn't.
+- **With larger text, sooner.** The dialog's width and its margins grow with the reader's text size, so the same window is too narrow for it sooner.
 
-### answer 2: a sheet on a narrow screen
-
-Where the window is narrower than the dialog's largest width and its two margins, 480 + 2 × 16 = 512px for a dialog of the usual width, a dialog for a short task or a set of choices sits on the foot of the screen:
+### how it behaves
 
 - **Across the whole width**, on the foot of the screen, square like every frame. It is never taller than the screen less 48px, the room a dialog always leaves, so the dimmed page shows above it, and a press there closes it, as the backdrop does.
 - **The same dialog.** The same header with its title and close button, the same body that scrolls, and the same footer, which stays above the strip a phone keeps at its foot for its own gestures.
-- **At once.** It appears and goes without moving, as every dialog does.
-- **The same ways out.** The close button, “cancel”, <Kbd>esc</Kbd> on a keyboard, the backdrop, and the phone's own back. A swipe down can be added, never as the only way.
-- **The same focus.** Focus moves into it, stays inside it, and goes back to what opened it.
-- **Not for a question.** A confirmation before something that deletes or can't be undone stays in the middle, on a phone too: people read it before they reach its buttons.
-- **Measured, not guessed.** The modal measures its own room, the window, as the filter bar and the toolbar measure theirs. A narrow window on a computer, or a page zoomed to 400%, gets the sheet too.
+- **At once.** It appears and goes without moving, as every dialog does: in this system panels don't slide ([motion](/design-system/styles/motion/#what-doesnt-move)).
+- **The same ways out.** The close button, “cancel”, <Kbd>esc</Kbd> on a keyboard and the backdrop. The phone's own back closes it too, once the app passes it on to the dialog. There is no swipe down: nothing here depends on a gesture ([interaction](/design-system/foundations/interaction/#pointer-and-touch)).
+- **The same focus.** <Term id="focus">Focus</Term> moves into it, stays inside it, and goes back to what opened it.
 
 ## behaviour
 
-- **When it opens,** <Term id="focus">focus</Term> moves to the first control in the dialog. With a title, that is the close button in the header. Without one, it is the first control in the body or the footer, or the dialog itself when there is none.
+- **When it opens,** focus moves to the first control in the dialog. With a title, that is the close button in the header. Without one, it is the first control in the body or the footer, or the dialog itself when there is none.
 - **While it is open,** <Kbd>tab</Kbd> and <Kbd>shift</Kbd> + <Kbd>tab</Kbd> stay inside the dialog: from its last control, focus wraps round to the first, and back. The page behind doesn't scroll.
 - **Closing.** <Kbd>esc</Kbd>, a click on the backdrop and the close button all close it; a persistent modal ignores <Kbd>esc</Kbd> and the backdrop. When an <C slug="action-menu" /> in the dialog is open, the first <Kbd>esc</Kbd> closes the menu, and the next one closes the dialog.
 - **When it closes,** focus goes back to whatever had it when the modal opened, usually the button that opened it.
+- **On a TV,** the arrow keys of the remote move through the dialog's controls, in their order: down and right to the next one, up and left to the one before. They stop at the first and at the last, and never leave the dialog, the way <Kbd>tab</Kbd> stays inside it. A field keeps left and right for its own text.
 
 The full keyboard map is on the modal's [React page](/design-system/react/?path=/docs/components-overlays-modal--docs).
 
@@ -139,13 +139,14 @@ The full keyboard map is on the modal's [React page](/design-system/react/?path=
 
 - **The title names the dialog.** Without a title, give the dialog an <Term id="accessible-name">accessible name</Term> instead. With neither, the dialog has no name.
 - The title is always a level-2 heading.
-- The close button is named “close”, and it is larger than the minimum <Term id="target-size">target size</Term>.
+- The close button is named “close”, in the page's language, and it is larger than the minimum <Term id="target-size">target size</Term>. On a screen made for touch it keeps its look, and answers to a touch in its <Term id="touch-area">touch area</Term>, 48 by 48 around it.
+- A sheet is the same dialog to a <Term id="screen-reader">screen reader</Term>: it has the same name, and nothing announces where it sits.
 - A click on plain text in the dialog puts focus on the dialog itself; <Kbd>tab</Kbd> and <Kbd>shift</Kbd> + <Kbd>tab</Kbd> from there stay inside.
 
 Today:
 
 - You can't choose where focus starts. With a title, it always starts on the close button.
-- A <Term id="screen-reader">screen reader</Term> announces the title, not what will happen, so make the title say what happens: “delete volume”, not “are you sure?”.
+- A screen reader announces the title, not what will happen, so make the title say what happens: “delete volume”, not “are you sure?”.
 - Open one modal at a time. Every open modal listens for <Kbd>esc</Kbd>, so one press closes them all.
 - The page's scrolling is locked, but nothing makes up for the width of its scrollbar, so the page behind can shift sideways when the modal opens.
 - If the control that opened the modal is gone when it closes, because you deleted its row for example, focus has nowhere to go back to. Move it yourself, to the next sensible place.
@@ -199,22 +200,30 @@ Today:
 | Layer | Nothing renders while `open` is `false`. Open, the modal renders into the page's `<body>` (a React portal): a fixed wrapper over the whole viewport, `role="presentation"`, `z-index: 100`, with 16px of padding, so the dialog keeps 16px from the viewport's edges. |
 | Backdrop | `--bg`, the canvas colour, at 72% opacity, over the whole viewport. `aria-hidden="true"`. |
 | Dialog | `role="dialog"`, `aria-modal="true"`, `tabindex="-1"`. `--surface` fill, a 1px `--border-2` border, square, centred, text in `--fg-2`. As wide as there is room for, up to `width` (480px by default); at most the viewport's height minus 48px. `className` lands here. |
+| Sheet | Only with `sheet`, and only where the window is narrower than `width` + 2 × 16px. The layer gets `nc-modal--sheet`: no padding, the dialog on its bottom edge and as wide as the window, at most the layer's height minus 48px (`--s-7`), with a 1px `--border-2` border on its top edge only. The dialog is padded by `env(safe-area-inset-bottom)` at the foot, and by the left and right insets at the sides. Everything else is the dialog's. |
 | Header | Only with `title`. Padding 12px 16px, 12px between the title and the close button, a 1px `--border` rule below. |
 | Title | `title`: an `h2` that names the dialog (`aria-labelledby`). JetBrains Mono 600, 15px, `--fg`, lowercased with `text-transform`; a name wrapped in `KeepCase` keeps its case. |
-| Close button | 26px square, above the 24px minimum target size, with a 14px × in `--fg-muted`; named “close” (`aria-label`). Hover: a `--surface-2` fill and `--fg`, in 120ms `ease`. Keyboard focus: the 2px `--focus-ring` outline, 1px outside. |
+| Close button | 26px square, above the 24px minimum target size, with a 14px × in `--fg-muted`; named “close” (`aria-label`), from the page's words: “schließen” on a German page. Hover: a `--surface-2` fill and `--fg`, in 120ms `ease`. Keyboard focus: the 2px `--focus-ring` outline, 1px outside. |
 | Body | `children`. Padding 16px, Inter 14px, line-height 1.55. It scrolls (`overflow-y: auto`) when the content is taller than the dialog. |
-| Footer | `footer`. The actions right-aligned, 8px apart; padding 12px 16px, a 1px `--border` rule above. |
+| Footer | `footer`. The actions right-aligned, 8px apart, on a line each where they don't fit side by side; padding 12px 16px, a 1px `--border` rule above. |
 
 | setting | in code | what it does |
 | --- | --- | --- |
 | Open and close | `open`, `onClose` | <Kbd>esc</Kbd>, a click on the backdrop and the close button call `onClose`. The modal never closes itself: you set `open` to `false`. |
 | No title | `ariaLabel` | Names the dialog (`aria-label`) when there is no `title`. |
 | Persistent | `closeOnEsc={false}` and `closeOnBackdrop={false}` | Both are `true` by default. |
-| Width | `width` | The largest width, in px. Default 480. |
+| Width | `width` | The largest width, in px at the usual text size. Default 480. |
+| A sheet on a narrow screen | `sheet` | `false` by default. With it, the dialog is a sheet where the window is narrower than `width` + 32px, and sits in the middle everywhere else. |
 | A form in the body | An `id` on the `<form>`, and `type="submit"` with `form={id}` on the footer button | The footer button sends the form, and so does <Kbd>enter</Kbd> in a field. |
 
 - **Focus on open:** the first `button`, `[href]`, `input`, `select`, `textarea` or `[tabindex]` (other than `-1`) in the dialog, or else the dialog itself. On close, focus returns to the element that had it when the modal opened.
 - **Focus trap:** <Kbd>tab</Kbd> and <Kbd>shift</Kbd> + <Kbd>tab</Kbd> wrap between the first and the last enabled controls; with none, <Kbd>tab</Kbd> does nothing.
 - **Esc:** heard on the whole document, after the dialog's own controls, and only when none of them has called `preventDefault()` on it. That is how an open action menu takes the first press.
 - **Scroll lock:** `overflow: hidden` on the page's `<body>` while open, with no room made for the scrollbar.
-- **Motion:** none when it opens or closes.
+- **Motion:** none when it opens or closes, as a dialog or as a sheet.
+- **The sheet's threshold:** measured, with no media query: a `ResizeObserver` on the backdrop, which covers the window, and one measurement before the first paint. The width counts in px at the usual text size, 16, so at twice the text size a window of 1,000px counts as 500. Where nothing can be measured (server rendering, jsdom tests), the dialog stays in the middle.
+- **The strip at a phone's foot:** a browser reports the safe-area insets only on a page whose viewport meta tag has `viewport-fit=cover`; everywhere else they are 0.
+- **The phone's back:** the app's to wire. When its history goes back while the dialog is open, it sets `open` to `false`.
+- **On a touch screen** (`data-nc-screen="touch"`): the close button answers to a touch in 48 × 48px (`--s-7`), centred on it; the area stays inside the header, which is 50px high.
+- **On a TV** (`data-nc-screen="tv"`): the layer's padding is the safe area, 27px at the top and the foot and 48px at the sides, and the dialog is at most the viewport's height minus 54px. The close button is 42px square; focused, it has a 3px `--focus-ring` outline 2px outside it, a `--surface-focus` fill and `--fg`, and grows by 1.05 in 150ms `ease-out`, without the growth under reduced motion. The arrow keys move through the first to the last enabled, visible control, in document order, and are stopped there; a text field, a text area, a select and a range keep left and right.
+- **Where the attribute goes:** the modal renders into `<body>`, so its touch and TV rules apply when `data-nc-screen` is on `<html>` or `<body>`.

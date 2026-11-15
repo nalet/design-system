@@ -1,10 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useRef } from 'react';
-import { Button, Toaster, toast, type ToasterProps } from '../../src';
+import { useRef, useState } from 'react';
+import { Button, Toaster, toast, useToastPlacement, type ToasterProps } from '../../src';
 
 const meta: Meta<ToasterProps> = {
   title: 'Components/feedback & status/toast',
   component: Toaster,
+  args: {
+    placement: 'bottom',
+    offset: 0,
+  },
+  argTypes: {
+    placement: { control: 'inline-radio', options: ['bottom', 'top'] },
+    offset: { control: 'number' },
+    label: { control: 'text' },
+    className: { control: false },
+  },
   parameters: {
     docs: { description: { component: 'Transient feedback after an action. Never takes focus; leaves on its own.' } },
   },
@@ -18,7 +28,7 @@ const meta: Meta<ToasterProps> = {
       return (
         <div style={{ minHeight: embedded ? undefined : 220 }}>
           <Story />
-          {context.viewMode === 'docs' || embedded ? null : <Toaster />}
+          {context.viewMode === 'docs' || embedded ? null : <Toaster {...context.args} />}
         </div>
       );
     },
@@ -70,6 +80,77 @@ export const AtMostThree: Story = {
       restart 4 hosts
     </Button>
   ),
+};
+
+// a screen whose foot is taken moves the toasts while it is open. `offset` is
+// the height of a bar that stays at the top of the page the story is shown on,
+// so the toasts appear below it; a page without one leaves it at 0.
+export const AtTheTop: Story = {
+  name: 'at the top',
+  render: function AtTheTop({ offset }) {
+    const [open, setOpen] = useState(false);
+    useToastPlacement(open ? 'top' : null, offset);
+    const save = () => toast('Saved to watchlist', { state: 'success' });
+    if (!open) {
+      return (
+        <div style={{ display: 'flex', gap: 'var(--s-3)', flexWrap: 'wrap' }}>
+          <Button variant="primary" onClick={() => setOpen(true)}>
+            open player
+          </Button>
+          <Button onClick={save}>save to watchlist</Button>
+        </div>
+      );
+    }
+    return (
+      <div
+        role="group"
+        aria-label="player"
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'flex-end',
+          width: 'min(100%, 30rem)',
+          minHeight: '13rem',
+          border: '1px solid var(--border-2)',
+          background: 'var(--bg-2)',
+        }}
+      >
+        <p
+          style={{
+            margin: 'var(--s-3) var(--s-4)',
+            textAlign: 'center',
+            fontFamily: 'var(--ff-ui)',
+            fontSize: '0.9375rem',
+            lineHeight: 1.4,
+            color: 'var(--fg)',
+          }}
+        >
+          Where were you last night?
+          <br />
+          Out by the harbour.
+        </p>
+        <div
+          style={{
+            display: 'flex',
+            gap: 'var(--s-2)',
+            flexWrap: 'wrap',
+            padding: 'var(--s-2) var(--s-3)',
+            borderTop: '1px solid var(--border)',
+          }}
+        >
+          <Button size="sm" onClick={save}>
+            save to watchlist
+          </Button>
+          <Button size="sm" onClick={() => toast('Added to Film club', { state: 'success' })}>
+            add to film club
+          </Button>
+          <Button size="sm" variant="ghost" onClick={() => setOpen(false)}>
+            close player
+          </Button>
+        </div>
+      </div>
+    );
+  },
 };
 
 export const ReplaceById: Story = {

@@ -6,7 +6,7 @@ import { Toaster } from '../../src';
 
 # toast
 
-When to use a toast, which state to pick, how long it stays and how several queue up, and how to word it is on the guidelines site: **[toast guidance →](https://nalet.github.io/design-system/components/toast/)**
+When to use a toast, which state to pick, how long it stays and how several queue up, when it appears at the top, and how to word it is on the guidelines site: **[toast guidance →](https://nalet.github.io/design-system/components/toast/)**
 
 <Canvas of={ToastStories.Playground} />
 
@@ -24,6 +24,10 @@ Every press here calls `toast()` with the same `id`, so one toast stays, and its
 
 <Canvas of={ToastStories.ReplaceById} />
 
+While the player here is open, `useToastPlacement('top')` moves every toast to the top, the newest first; when it closes, they appear at the bottom again.
+
+<Canvas of={ToastStories.AtTheTop} />
+
 ## implementation notes
 
 - You can call `toast(message, options)` from anywhere, such as an event handler or async code.
@@ -32,13 +36,19 @@ Every press here calls `toast()` with the same `id`, so one toast stays, and its
 - Mount exactly one, near the root of the app. With two, each toast shows twice, and a screen reader hears it twice.
 - If an app bundles two copies of the library (two versions, or a linked one), a `toast()` from one copy doesn't reach a toaster from the other.
 - **No toaster.** If no `<Toaster />` is mounted, `toast()` warns in the console, and nothing shows until a toaster mounts.
-- The toaster is a `<section>` named by `label` (“notifications” by default).
-- It is fixed at the bottom centre at `z-index: 200`, above a modal (at 100) and an action menu (at 150).
+- The toaster is a `<section>` named by `label`. Without one, its name is “notifications”, from the words of the page's language (`words.toast.region`; see `Language`).
+- It is fixed at the bottom centre at `z-index: 200`, above a modal (at 100) and an action menu (at 150), 24px above the bottom edge.
+- **At the top.** `placement="top"` on the toaster fixes it at the top centre instead, 24px below the top edge. The class `nc-toaster--top` and `data-placement="top"` say so.
+- **A screen moves the toaster.** A screen whose foot is taken calls `useToastPlacement('top')`. While that component is mounted, every toaster shows every toast at the top, whatever its own `placement`; when it unmounts, the toasts are back where they were. With several such screens open, the one that opened last decides. `useToastPlacement(null)` moves nothing, so a screen can ask only while it needs to.
+- **A bar at the edge.** `offset` on the toaster is the height of a bar that stays at the toasts' edge, such as a phone's tab bar at the foot, in px at the usual text size: the toasts keep their 24px from the bar. A screen that moves the toasts gives the height of the bar at its edge as the hook's second argument, `useToastPlacement('top', 56)`; while it is open, that replaces the toaster's own `offset`.
+- The distance from the edge grows by `env(safe-area-inset-bottom)`, or by `env(safe-area-inset-top)` at the top, so a toast stays clear of the strips a phone keeps for itself. A browser reports those insets only on a page whose viewport meta tag has `viewport-fit=cover`.
+- At the top, the list is drawn in reverse (`flex-direction: column-reverse`), so the newest toast is nearest the edge. The order in the document doesn't change, and neither does what a screen reader hears. The entrance slides down 6px, where at the bottom it slides up.
+- On a TV (`data-nc-screen="tv"` on an element around the toaster), the toasts keep the safe area clear: 27px from the top or the foot and 48px from the sides, and their text is 14px.
 - The toaster itself takes no pointer events (`pointer-events: none`), so the page under it stays clickable. The toasts do take them.
 - Inside it, the list is an `<ol>` and each toast an `<li>`.
 - The list is a polite live region (`aria-live="polite"`, `aria-relevant="additions text"`) that exists before the first toast, so a screen reader reads each new toast once.
 - Nothing in a toast is focusable.
-- The glyph is `aria-hidden`. A `warning` or `error` toast puts its state, visually hidden, before the message, so a screen reader says the state too.
+- The glyph is `aria-hidden`. A `warning` or `error` toast puts its state, visually hidden, before the message, so a screen reader says the state too: “warning: …”, from `words.toast.warning` and `words.toast.error`, each a whole text with `{message}` where the message goes.
 - **Timing.** A toast leaves after `duration`, 5000ms by default, counted from when it shows.
 - Hovering a toast pauses the count, so people can finish reading. Moving off resumes it with the time that was left.
 - When a toast with the same `id` is already showing, the new one replaces it. It takes the newest place, with a fresh timer.
@@ -59,7 +69,11 @@ Every press here calls `toast()` with the same `id`, so one toast stays, and its
 | `duration` | `5000` | How long it stays on screen, in milliseconds; hovering pauses it |
 | `id` | A new ID | Replaces the toast with this ID instead of adding one |
 
-`toast()` returns the toast's ID. `toast.dismiss(id)` removes one toast, and `toast.clear()` removes all of them. `Toaster` takes `label` and `className`, and nothing else:
+`toast()` returns the toast's ID. `toast.dismiss(id)` removes one toast, and `toast.clear()` removes all of them.
+
+`useToastPlacement(placement, offset)` takes the edge, `'top'` or `'bottom'`, or `null` to move nothing, and the height of a bar at that edge, 0 by default. It returns nothing.
+
+`Toaster` takes `label`, `placement`, `offset` and `className`, and nothing else:
 
 <ArgTypes of={ToastStories} />
 

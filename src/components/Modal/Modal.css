@@ -85,6 +85,9 @@
 
 .nc-modal__footer {
   display: flex;
+  /* actions that don't fit side by side (a narrow sheet, large text) go on a
+     line each, the confirming one last, and none is cut off. */
+  flex-wrap: wrap;
   align-items: center;
   justify-content: flex-end;
   gap: var(--s-2);

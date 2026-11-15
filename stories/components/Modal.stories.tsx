@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useCallback, useId, useState } from 'react';
-import { Modal, type ModalProps, Button, Field, Input } from '../../src';
+import { Modal, type ModalProps, Button, Checkbox, Field, Input } from '../../src';
 
 const meta: Meta<ModalProps> = {
   title: 'Components/overlays/modal',
@@ -9,6 +9,7 @@ const meta: Meta<ModalProps> = {
     open: false,
     title: 'delete volume',
     width: 480,
+    sheet: false,
     closeOnBackdrop: true,
     closeOnEsc: true,
   },
@@ -18,6 +19,7 @@ const meta: Meta<ModalProps> = {
     onClose: { control: false },
     title: { control: 'text' },
     width: { control: 'number' },
+    sheet: { control: 'boolean' },
     closeOnBackdrop: { control: 'boolean' },
     closeOnEsc: { control: 'boolean' },
     ariaLabel: { control: 'text' },
@@ -29,7 +31,7 @@ const meta: Meta<ModalProps> = {
     docs: {
       description: {
         component:
-          'A square dialog over a dim backdrop for one task that needs an answer. Traps Tab, closes on Esc and backdrop click, locks page scroll and returns focus to the opener.',
+          'A square dialog over a dim backdrop for one task that needs an answer. Traps Tab, closes on Esc and backdrop click, locks page scroll and returns focus to the opener. With `sheet`, it sits on the foot of a narrow window.',
       },
     },
   },
@@ -49,7 +51,7 @@ export const Playground: Story = {
       <>
         <Button onClick={() => setOpen(true)}>open modal</Button>
         <Modal {...args} open={open} onClose={close}>
-          Set the title, width and dismiss options in the controls, then open the dialog again.
+          Set the title, the width, the sheet and the dismiss options in the controls, then open the dialog again.
         </Modal>
       </>
     );
@@ -186,6 +188,43 @@ export const Persistent: Story = {
         >
           The schema migration on db-0 is running. Esc and the backdrop don't close this dialog, so
           a stray key can't hide the run. The close button and done still do.
+        </Modal>
+      </>
+    );
+  },
+};
+
+// a set of choices asks for the sheet: in a window narrower than 420 + 2 × 16,
+// the dialog sits on the foot of the screen; in a wider one, in the middle.
+export const Sheet: Story = {
+  render: function SheetModal() {
+    const [open, setOpen] = useState(false);
+    const close = useCallback(() => setOpen(false), []);
+    return (
+      <>
+        <Button onClick={() => setOpen(true)}>add to lists</Button>
+        <Modal
+          open={open}
+          onClose={close}
+          title="add to lists"
+          width={420}
+          sheet
+          footer={
+            <>
+              <Button variant="ghost" onClick={close}>
+                cancel
+              </Button>
+              <Button variant="primary" onClick={close}>
+                add to lists
+              </Button>
+            </>
+          }
+        >
+          <div style={{ display: 'grid', gap: 'var(--s-3)' }}>
+            <Checkbox label="Watchlist" defaultChecked />
+            <Checkbox label="Rainy Sundays" />
+            <Checkbox label="Film club" />
+          </div>
         </Modal>
       </>
     );

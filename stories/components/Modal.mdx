@@ -5,7 +5,7 @@ import * as ModalStories from './Modal.stories';
 
 # modal
 
-When to use a modal, its parts and setups, how focus and closing work and how to word it is on the guidelines site: **[modal guidance →](https://nalet.github.io/design-system/components/modal/)**
+When to use a modal, its parts and setups, when it is a sheet, how focus and closing work and how to word it is on the guidelines site: **[modal guidance →](https://nalet.github.io/design-system/components/modal/)**
 
 <Canvas of={ModalStories.Playground} />
 
@@ -31,6 +31,10 @@ Long `children` scroll inside the body, while the header and the `footer` stay i
 
 <Canvas of={ModalStories.LongContent} />
 
+With `sheet`, in a window narrower than the dialog's `width` plus its two margins of 16px (here 420 + 32 = 452px), the dialog sits on the foot of the screen across the whole width. In a wider window it sits in the middle, like every other dialog. Narrow the window, then open it.
+
+<Canvas of={ModalStories.Sheet} />
+
 ## implementation notes
 
 - `Modal` renders nothing while `open` is `false`.
@@ -38,9 +42,17 @@ Long `children` scroll inside the body, while the header and the `footer` stay i
 - The dialog has `role="dialog"`, `aria-modal="true"` and `tabindex="-1"`.
 - `title` renders as an `<h2>` that names the dialog through `aria-labelledby`. Without a `title`, `ariaLabel` names it through `aria-label`.
 - Give it one or the other: with neither, the dialog has no name, and a screen reader can't say what it is about.
-- `width` sets the dialog's max width in px, 480 by default.
+- `width` sets the dialog's max width in px at the usual text size, 480 by default. It is written in rem, so it grows with the reader's text size.
 - `className` lands on the dialog element.
-- The header's close button is a `<button type="button">` with `aria-label="close"`.
+- The footer's actions are right-aligned, and wrap onto a line each where they don't fit side by side, as in a narrow sheet with large text.
+- The header's close button is a `<button type="button">` named by `aria-label`: “close”, from the words of the page's language (`words.modal.close`; see `Language`).
+- **A sheet.** `sheet` lets the dialog sit on the foot of a narrow window; it is `false` by default, and a dialog without it sits in the middle on every screen. Give it to a dialog for a short task or a set of choices, never to a confirmation before something that deletes or can't be undone.
+- The modal measures the window itself: a `ResizeObserver` on its backdrop, which covers the window, and one measurement before the first paint, so a sheet never shows in the middle first. There is no media query.
+- The measured width is in px at the usual text size. Where the reader's text is larger, the same window counts as narrower by that share, so the threshold stays `width` + 32 at every text size.
+- Below the threshold, the layer gets the class `nc-modal--sheet`: the dialog is as wide as the window, at most the layer's height minus 48px, and has a border on its top edge only. Nothing else changes: the same element, the same roles, the same header, body and footer, the same focus steps and the same ways out. It appears and goes without a transition.
+- The sheet pads itself by `env(safe-area-inset-bottom)`, and by the left and right insets, so its footer stays clear of the strip a phone keeps for its own gestures. A browser reports those insets only on a page whose viewport meta tag has `viewport-fit=cover`.
+- Where nothing can be measured (no `ResizeObserver`: server rendering, jsdom tests), the dialog stays in the middle.
+- **The phone's back** is the app's to wire: when the app's history goes back while the dialog is open, set `open` to `false`, as for every other way out. The modal doesn't listen to the history, and there is no swipe.
 - `esc`, a click on the backdrop and the close button all call `onClose`.
 - The modal never closes itself: you set `open` to `false`.
 - When it opens, it remembers the element that has focus and sets `overflow: hidden` on `<body>`, so the page behind doesn't scroll.
@@ -52,6 +64,10 @@ Long `children` scroll inside the body, while the header and the `footer` stay i
 - A form in the body can submit from the footer: give the `<form>` an `id`, and give the footer button `type="submit"` and `form={id}`. `enter` in a field then submits the form.
 - The page behind is not made `inert` or `aria-hidden`. `aria-modal` and the tab trap are what keep people in the dialog.
 - `Modal` passes no other attributes through.
+- **Touch and TV.** The modal renders into `<body>`, outside the app's root element. Its rules for a screen made for touch or for a TV reach it when `data-nc-screen` is on `<html>` or `<body>`; set on an element inside the app, the attribute doesn't reach the dialog.
+- On a touch screen, the close button keeps its 26px look and answers to a touch in 48 × 48px around its centre.
+- On a TV, the layer keeps the safe area clear (27px at the top and the foot, 48px at the sides), the close button is 42px, and its focus is the TV focus: a 3px ring 2px outside it, the focused surface and 5% growth, none of the growth with reduced motion.
+- On a TV, the arrow keys move through the dialog's controls in their order in the document and stay inside it: see the keys below.
 - Today: `autoFocus` on a field is overridden, because focus always starts on the first focusable element.
 - Today: the dialog takes no `aria-describedby`, because `Modal` passes no other attributes to it.
 - Today: the tab trap counts hidden elements, `<input type="hidden">` included. When one is the first or the last focusable match in the dialog, `tab` can leave it.
@@ -61,6 +77,10 @@ Long `children` scroll inside the body, while the header and the `footer` stay i
 | `tab` / `shift+tab` | Moves through the dialog in the usual order. From its last focusable element it wraps to the first, and back, so focus stays in the dialog (with the limit in the notes above). |
 | `esc` | Calls `onClose`, unless `closeOnEsc={false}`. Widgets inside the dialog get it first: an open [action menu](?path=/docs/components-actions-action-menu--docs) closes on the first press, the dialog on the next. Once the dialog takes the key, it goes no further. |
 | `enter` / `space` | Native: activates the focused button. `enter` in a field submits its form. |
+| `↓` / `→`, on a TV | Moves to the next control in the dialog, and stops at the last. |
+| `↑` / `←`, on a TV | Moves to the control before, and stops at the first. |
+
+On a TV (`data-nc-screen="tv"`), the arrow keys reach the dialog after its own widgets, as `esc` does: tabs, a menu or a list that moved with the key and called `preventDefault()` keep it. A text field, a text area, a select and a range keep `←` and `→` for their text or their value; `↑` and `↓` move on from them. Disabled and hidden controls are skipped. On every other screen the dialog leaves the arrow keys alone.
 
 ## props
 

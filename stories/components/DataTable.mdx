@@ -126,6 +126,7 @@ Each column is an object with these fields:
 - Selection is controlled: `selected` is a set of `rowKey` values, and `onSelectionChange` receives the next set. Without `onSelectionChange`, nothing can change it.
 - When `isRowSelectable` returns `false`, the row's checkbox is disabled, and the row stays out of every way of selecting.
 - `rowLabel` names each checkbox, so people can tell which row they select: `rowLabel={(r) => r.code}` gives “select S04E07”. Without it, every checkbox is named “select row”.
+- The checkboxes' names are in the page's language: `dataTable.selectAllVisible`, `selectRow` and `selectUnnamedRow` in the words (see [language](?path=/docs/react-language--docs)).
 - The header checkbox's mixed state counts every key in `selected`, including keys of rows that are no longer in `rows`.
 - Whether a selection outlives a filter or a tab is up to your app. See [keeping a selection](https://nalet.github.io/design-system/patterns/selection-and-bulk-actions/#keeping-a-selection).
 
@@ -133,7 +134,7 @@ Each column is an object with these fields:
 
 - `groupBy` returns a key for each row. Rows that share a key go under one group row, and the table becomes a `treegrid`.
 - Group rows sit at `aria-level` 1, with `aria-expanded`, `aria-posinset` and `aria-setsize`. Data rows sit at level 2, numbered within their group.
-- `groupHeader(group)` is the group row's label, where `group` is `{ key, rows }`. The default is `key · count`, so pass one when the keys are not words.
+- `groupHeader(group)` is the group row's label, where `group` is `{ key, rows }`. The default is `key · count`, with the count written in the page's language, so pass one when the keys are not words.
 - `groupAction(group)` adds one action at the end of the group row.
 - The rows of a collapsed group leave the DOM.
 - The table can keep the collapsed groups itself, with `defaultCollapsedGroups` setting the start. Or you keep them: pass `collapsedGroups` with `onCollapsedGroupsChange`, for instance to keep them in the URL.
@@ -143,7 +144,8 @@ Each column is an object with these fields:
 
 - `growing={100}` shows the first 100 data rows. Without `growing`, every row renders.
 - The count is a polite live region (`aria-live="polite"`), so a screen reader announces each new count when it has a pause.
-- `formatGrowing(shown, total)` changes the count's words, and only the count: “show n more” stays as it is.
+- The count, “100 of 2,500”, and the button, “show 100 more”, are in the page's language, with its thousands separator: `dataTable.shownOfTotal` and `showMore` in the words.
+- `formatGrowing(shown, total)` changes the count's words, and only the count: “show n more” comes from the words.
 - The limit only grows, and `growingResetKey` starts it over: a change of its value goes back to one page.
 - Pass a string or a number that changes with the filters, such as ``growingResetKey={`${tab}|${query}`}``. An object made on every render would reset it on every render.
 

@@ -18,8 +18,11 @@ const headings = [
 <Doc
   frontmatter={{
     title: 'react',
-    description: 'The React implementation of the nalet design system: what the React subsite holds, how to install it, what goes next to it, the stylesheet and the fonts.',
+    description: 'The React implementation of the nalet design system: what the React subsite holds, how to install it, what goes next to it, the stylesheet, the fonts and the page\'s language.',
     react: 'react-getting-started',
+    draft: true,
+    draftNote:
+      "The page's language is new and now built: how a page says its language, the two built-in sets of words, and how to give words for another language or of your own. The rest of the page is as it was accepted.",
   }}
   headings={headings}
 >
@@ -74,6 +77,12 @@ const headings = [
     <li>
       <strong>The examples:</strong> written once in <code>stories/**/*.stories.tsx</code>; this site renders them through
       Storybook's portable stories.
+    </li>
+    <li>
+      <strong>The page's language:</strong> <code>Language</code> and <code>useLanguage</code>; the helpers
+      <code>formatCount</code>, <code>counted</code>, <code>fill</code> and <code>relativeDay</code>; the built-in sets
+      <code>english</code> and <code>german</code>; the types <code>Words</code>, <code>WordsOverride</code> and
+      <code>Counted</code>. Its <a href={reactDocs('react-language')}>React page</a> has the examples and the props.
     </li>
     <li>
       <strong>Types:</strong> each component's props type next to it (<code>ButtonProps</code>, <code>DataTableColumn</code>,

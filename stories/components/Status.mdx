@@ -38,7 +38,8 @@ These hosts are sorted with `STATE_SEVERITY`, so the most urgent one comes first
 - The glyph sits in an `aria-hidden` span, so screen readers skip it.
 - `icon={false}` hides the glyph. `icon` also takes your own node in its place, and hides it from screen readers in the same way.
 - For `warning` and `error`, a visually hidden `warning: ` or `error: ` goes in front of the text, so people who use a screen reader hear the state that the colour and the glyph show.
-- `stateLabel` changes that word. A string replaces it, so `stateLabel="fehler"` reads “fehler: failed”. On a calm state, which has no word of its own, a string adds one. `false` leaves the word out.
+- The two words are in the page's language, from the `status` block of its words (see [language](?path=/docs/react-language--docs)): inside German they read `warnung: ` and `fehler: `.
+- `stateLabel` changes that word for one status. A string replaces it, so `stateLabel="blocked"` reads “blocked: failed”. On a calm state, which has no word of its own, a string adds one. `false` leaves the word out.
 - The text is lowercased with `text-transform`, so the DOM keeps the text as you wrote it.
 - It isn't a live region, so a status that changes in place is not announced.
 - `text` and `children` fill the same slot, and `text` wins when you pass both. `text` is what lets a vocabulary entry spread in.

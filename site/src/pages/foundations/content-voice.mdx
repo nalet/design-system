@@ -2,13 +2,14 @@
 layout: ../../layouts/Doc.astro
 title: content & voice
 draft: true
-draftNote: "Numbers, dates and the components' own words in the page's language, under numbers and dates, are new and under review. The rest of the page describes the system as it is."
+draftNote: "In the page's language, under numbers and dates, is now built: the components write their counts and dates, and take their own words, in the language of the page, with English and German built in. The section shows it live, and the specs say how. The rest of the page is as it was accepted."
 description: How the words on a screen are written. Two voices, one per typeface, short and true, in the reader's language rather than the system's.
 ---
 import { Banner, Button, EmptyState, KeepCase, Status, Text } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
-import { DoDont, Do, Dont } from '@site/blocks';
+import { DoDont, Do, Dont, Example } from '@site/blocks';
+import { English, German } from '@site/examples/language';
 
 # content & voice
 
@@ -104,14 +105,24 @@ The examples on this page are English. On a page in another language, every numb
 | Shown of total | 100 of 2,500 | 100 von 2.500 |
 | A sentence that counts | 1 result, 105 results | 1 Ergebnis, 105 Ergebnisse |
 
-- **The page says its language once, and everything on it follows.** A component doesn't choose a language for itself, and a screen doesn't set one cell by cell. A count written one way beside a date written another reads as a mistake.
-- **The forms are the language's own.** The separators, the order of a date and the names of the months come from the browser, which knows them for every language. They are never put together by hand. A page that names a region as well gets that region's forms: a count on a Swiss German page reads “2'500”.
+- **The page says its language once, and everything on it follows.** A component doesn't choose a language for itself, and a screen doesn't set one cell by cell. A count written one way beside a date written another reads as a mistake. Where one part of a page is in another language than the rest, that part says so, once, and everything inside it follows.
+- **The forms are the language's own.** The separators, the order of a date, the names of the months and the words for how long ago come from the browser, which knows them for every language. They are never put together by hand. A page that names a region as well gets that region's forms: a count on a Swiss German page reads “2'500”.
+- **How long ago is as short as the language has it.** In English that is the system's own short form, “5d ago”. Another language uses its own shortest form, “vor 5 tagen”, and its own words for today, yesterday and tomorrow. A <Term id="screen-reader">screen reader</Term> hears it in full either way.
 - **A sentence that counts is written once for each form the language has.** English has two, “1 result” and “105 results”. Other languages have one, or more than two. The sentence is whole in each form, never a number joined to a word.
 - **The two voices hold in every language.** Monospace chrome is lowercase, so a month reads “okt.”. A sentence in Inter follows the language's own rules for capitals, so a German noun keeps its capital.
-- **The components' own words belong to the page.** A few components bring a word or two of their own, such as “loading”, “close”, “no rows” and “4 selected”. A page in another language replaces all of them in one place, for the whole page.
+- **The components' own words belong to the page.** A few components bring a word or two of their own, such as “loading”, “close”, “no rows” and “4 selected”. English and German come with the components. A page in another language gives all of them in one place, for the whole page, and a page can replace single ones in the same place.
+- **Your own words follow the same way.** The components can't know what your screen calls its things. Keep your texts per language as the components keep theirs, and write your counts and sizes with the same tools, so that your “2.500 sicherungen” and “12,4 GB” agree with the table's “4 von 2.500”.
 - **Not yet: a language written from right to left.** It turns every layout round, which the components don't do.
 
-Planned. Today the components write their counts the English way on every page, and say how long ago in English. The [specs](#specs) list what a page can already change.
+Here is one list, first on an English page and then inside German. Nothing in it names a language. The counts on the tabs, the count of the selection, the dates and how long ago, “4 of 2,500” and the button under the table all take theirs from the page; the headers, the statuses and the sizes are the list's own words, kept per language beside it.
+
+<Example column label="a list of backups on an English page: counts, dates and the components' words in English">
+  <English client:visible />
+</Example>
+
+<Example column label="the same list inside German: counts, dates and the components' words in German">
+  <German client:visible />
+</Example>
 
 ## words that mean one thing
 
@@ -181,8 +192,10 @@ Some words come up on every screen. Each of them means one thing, everywhere.
 
 - **Lowercase chrome.** The components set `text-transform: lowercase` on their monospace chrome, and only there. The text in the DOM stays as written.
 - **Names inside lowercase chrome.** Wrap the name in `KeepCase`, or give its element the class `nc-keep-case`: `find <KeepCase>German</KeepCase> for 4 selected`. It sets `text-transform: none` on the name alone, in any label that takes elements: buttons, dialog and empty-state titles, tabs, menu items, toolbar headings and statuses.
-- **Counts.** `formatCount(2500)` returns “2,500”; it is the formatter the components use. Today: it takes no language, and writes the English way on every page.
-- **Dates.** The `DateCell` writes a date both ways. Today: the date follows the cell's `locale` prop, British English unless you set it. How long ago, and “no date” for a screen reader, are English alone.
-- **The components' own words.** Today: most are props with an English default, set one component at a time: the spinner's `label`, the banner's `detailsLabel` and `dismissLabel`, the toolbar's `overflowLabel`, `clearLabel` and `formatSelected`, the filter bar's `label`, the multi select's `emptyText`, the table's `empty`, the data table's `formatGrowing`, and the portal's `searchLabel` and `searchPlaceholder`. A few are fixed in English: the dialog's “close”, the data table's “select every visible row”, “select” before a row's name and “show 50 more”, and a tile's “status:”.
-- **The page's language.** Planned: the components read the language the page declares, the `lang` of its root element, and format counts, dates and how long ago with the browser's `Intl`. Their own words come from one set per language, given once for the whole page; English is built in.
+- **The page's language.** The components read the language the page declares, the `lang` of its root element, and follow a change of it; a page without one is English. `<Language lang="de">` says it for one part of a page. How to set it up is on [react](/design-system/develop/react/#the-pages-language).
+- **Counts.** `formatCount(2500)` returns “2,500” on an English page and “2.500” on a German one, and `formatCount(2500, lang)` writes in the language it is given. It is the formatter the components use, each with the language it is in, from `useLanguage()`. A number with a unit is the app's own: `Intl.NumberFormat` with the same language.
+- **Dates.** The `DateCell` writes a date both ways, in the language it is in; its `locale` prop names another. English without a region is written day first, as `en-GB`. How long ago is the system's short form in English (“5d ago”, read as “5 days ago”); any other language takes it from `Intl.RelativeTimeFormat`, in the narrow style on screen and the long style for a screen reader. `relativeDay(then, now, lang)` is the same wording as a function.
+- **The components' own words.** One set per language, with a block for each component: `english` and `german` are built in, a region reads its language's set (`de-CH` the German one), and any other language reads the English set until it is given its own. `<Language words={…}>` takes a set for another language, or single texts to replace. A prop that sets a word still wins, such as the spinner's `label`, the table's `empty` or the toolbar's `formatSelected`.
+- **A text that counts.** One form per plural category of the language, chosen by `Intl.PluralRules`, with `{n}` where the count goes: `counted({ one: '{n} result', other: '{n} results' }, 105, lang)`. `fill('select {name}', { name })` puts a value in a text's named place.
+- **Lowercase in every language.** How long ago is lowercased with the date, so “vor 5 Tagen” in the page reads “vor 5 tagen” on screen.
 - **Details.** A banner's `details` prop; a native `<details>` per table row; a raw search error kept in a status cell's hover text.

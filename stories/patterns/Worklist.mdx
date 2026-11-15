@@ -32,7 +32,7 @@ Here the holdings are unknown for every title, so nothing is known to be missing
 - It renders a `section` named by its title.
 - `headingLevel` sets the title's level: 1 when the worklist is the page, and 2 inside an app shell that owns the `h1`.
 - With `tabs` and `activeTab`, the tabs are a `tablist`, and the content below them is its `tabpanel`, labelled by the selected tab.
-- `tabsLabel` names the tab list (“filter the list” by default).
+- `tabsLabel` names the tab list. The default is “filter the list”, from the words of the page's language (`worklist.tabs`; see [language](?path=/docs/react-language--docs)).
 - The toolbar and the table header stick while the list scrolls (`stickyToolbar`, on by default), so the actions and the column headers stay in view.
 - To do that, the worklist measures its toolbar and offsets the table's sticky header under it with `--nc-dt-sticky-top`.
 - Pass the tab and the filters as the table's `growingResetKey`. Growing then starts over when the view changes, and a refresh of the data keeps the person's place.

@@ -74,7 +74,7 @@ A <Term id="type-role">type role</Term> is a named text style, with its typeface
 - Numbers that people compare, count or watch change are set in monospace: counts, sizes, dates, durations and ids. Every monospace character has the same width, so a column of numbers lines up, and a count that changes doesn't push its neighbours.
 - The counts in the components also use <Term id="tabular-figures">tabular figures</Term>: the filter tabs' counts, the filter bar's result count, the multi select's option counts, a tile's key figure, change and count badge, the show-more row of a data table, and the date cell.
 - A number inside an Inter sentence stays in Inter. In a column of Inter text, or a value that updates in place, use tabular figures too.
-- Counts carry a <Term id="thousands-separator">thousands separator</Term>, as in “2,500”. The components format their counts that way.
+- Counts carry a <Term id="thousands-separator">thousands separator</Term>, as in “2,500”. The components format their counts that way, in the language of the page: “2.500” on a German one.
 
 ## text size
 
@@ -192,7 +192,7 @@ From `tokens/tokens.json` (`type.role`); the specimen above is drawn from the sa
 ### numbers
 
 - `font-variant-numeric: tabular-nums` on the counts listed under numbers, above. Add it to an Inter column or a value that updates in place.
-- `formatCount(2500)` returns `2,500`; it is the formatter the components use.
+- `formatCount(2500)` returns `2,500` on an English page and `2.500` on a German one; `formatCount(2500, lang)` writes in the language it is given. It is the formatter the components use, each in the language it is in.
 
 ### text size
 

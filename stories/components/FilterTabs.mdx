@@ -24,6 +24,7 @@ When to use filter tabs, their parts, the states on their counts and how to word
 - Only the selected tab has `tabindex="0"`, so `tab` lands on it, and the arrow keys move on from there.
 - The label comes first in the DOM, so it is read first, and CSS draws the count above it.
 - A real space sits between the label and the count in the DOM, so they are never read as one word.
+- The count is written with `formatCount`, in the language the tabs are in: “2,500” in English, “2.500” in German (see [language](?path=/docs/react-language--docs)).
 - The fade on a cut-off edge follows the row's scroll position and its size, which a `ResizeObserver` on the row watches.
 - **Wiring the panel.** Pass `panelId`, and every tab points at your panel with `aria-controls`. Pass `idPrefix`, and each tab's ID becomes `filterTabId(idPrefix, tab.id)`. Then render the list inside the panel, named by the selected tab:
 

@@ -39,7 +39,10 @@ describe('screens.css', () => {
   });
 
   it('leaves the action menu, the multi select and the filter bar to their own stylesheets', () => {
-    expect(screens.filter((r) => /\.nc-(actionmenu|multiselect|filterbar)/.test(r.selector)).map((r) => r.selector)).toEqual([]);
+    // it names one of them only to hand a multi select's options, which are checkboxes, back to it.
+    const named = screens.filter((r) => /\.nc-(actionmenu|multiselect|filterbar)/.test(r.selector)).map((r) => r.selector);
+    expect(named.length).toBeGreaterThan(0);
+    expect(named.filter((s) => !/^\[data-nc-screen='(touch|tv)'\] \.nc-multiselect \.nc-checkbox--labelled/.test(s))).toEqual([]);
   });
 
   it('ships in the package’s stylesheet: the entry imports it', () => {

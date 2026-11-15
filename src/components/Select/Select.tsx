@@ -35,6 +35,14 @@ interface OpenList {
   labelledBy: string | undefined;
 }
 
+/** What a label says: its text without the parts hidden from a screen reader, such as a field's required mark. */
+function spoken(label: HTMLLabelElement | undefined): string | undefined {
+  if (!label) return undefined;
+  const copy = label.cloneNode(true) as HTMLElement;
+  for (const hidden of Array.from(copy.querySelectorAll('[aria-hidden="true"]'))) hidden.remove();
+  return copy.textContent?.trim() || undefined;
+}
+
 /** The page's text size in px: the sizes below are shares of it, as every size is. */
 function textSize(): number {
   return parseFloat(getComputedStyle(document.documentElement).fontSize) || 16;
@@ -107,9 +115,9 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function 
     if (rows.length === 0) return;
     const ownName = el.getAttribute('aria-label');
     const labelledBy = el.getAttribute('aria-labelledby') ?? undefined;
-    const name = labelledBy ? undefined : (ownName ?? el.labels?.[0]?.textContent?.trim() ?? words.select.options);
+    const name = labelledBy ? undefined : ownName || spoken(el.labels?.[0]) || words.select.options;
     setTv(true);
-    setList({ rows, picked: el.selectedIndex, name: name || words.select.options, labelledBy });
+    setList({ rows, picked: el.selectedIndex, name, labelledBy });
   };
 
   const closeList = () => {
@@ -188,10 +196,15 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function 
   // while open: follow the select when the page scrolls or the window changes.
   React.useEffect(() => {
     if (!open) return;
-    window.addEventListener('scroll', place, true);
+    const onScroll = (e: Event) => {
+      // the list's own scrolling moves nothing: placing it again would wind it back.
+      if (e.target instanceof Node && listRef.current?.contains(e.target)) return;
+      place();
+    };
+    window.addEventListener('scroll', onScroll, true);
     window.addEventListener('resize', place);
     return () => {
-      window.removeEventListener('scroll', place, true);
+      window.removeEventListener('scroll', onScroll, true);
       window.removeEventListener('resize', place);
     };
   }, [open, place]);

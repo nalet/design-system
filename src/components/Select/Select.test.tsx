@@ -216,7 +216,8 @@ describe('Select', () => {
     render(
       <Language lang="de">
         <div data-nc-screen="tv">
-          <Field label="Untertitel">
+          {/* a required field's mark is hidden from a screen reader, and is no part of the name. */}
+          <Field label="Untertitel" required>
             <Select options={LANGUAGES} defaultValue="en" />
           </Field>
           <Select data-testid="bare" options={LANGUAGES} defaultValue="en" />

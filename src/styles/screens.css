@@ -14,6 +14,8 @@
  * the rules are foundations/layout ("touch and tv sizes") and
  * patterns/tv-focus. this file holds them for every component except the
  * action menu, the multi select and the filter bar, which carry their own.
+ * (the buttons, fields and selects inside those three follow the rules here,
+ * as they do everywhere.)
  *
  * how it is written:
  * - every selector is the component's own with the attribute in front, so it
@@ -235,6 +237,15 @@
   display: block;
   width: 1.5rem;
   height: 0;
+}
+
+/* a multi select's options are checkboxes, and they are the multi select's
+   own rows: its stylesheet gives them their height. */
+[data-nc-screen='touch'] .nc-multiselect .nc-checkbox--labelled {
+  min-height: 0;
+}
+[data-nc-screen='touch'] .nc-multiselect .nc-checkbox--labelled .nc-checkbox__label::before {
+  content: none;
 }
 
 /* the box is 16: 16 more on every side. */
@@ -487,6 +498,23 @@
   outline: 3px solid var(--focus-ring);
   outline-offset: 2px;
   transform: scale(1.05);
+}
+
+/* a multi select's options are checkboxes, and they are the multi select's
+   own rows: its stylesheet gives them their height and their focus. here
+   they keep the ring around the box, so the focus shows in any case. */
+[data-nc-screen='tv'] .nc-multiselect .nc-checkbox--labelled {
+  min-height: 0;
+  padding: 0;
+}
+[data-nc-screen='tv'] .nc-multiselect .nc-checkbox--labelled:focus-within {
+  background: none;
+  box-shadow: none;
+  transform: none;
+}
+[data-nc-screen='tv'] .nc-multiselect .nc-checkbox--labelled .nc-checkbox__input:focus + .nc-checkbox__mark {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
 }
 
 /* a data table's rows. outlines on table rows are unreliable, so the ring is

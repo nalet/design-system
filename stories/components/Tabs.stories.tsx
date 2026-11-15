@@ -109,3 +109,24 @@ export const WithPanel: Story = {
     );
   },
 };
+
+// a screen made for touch: the attribute on an element around the tabs,
+// usually the page's root. every tab is 48 high.
+export const OnATouchScreen: Story = {
+  name: 'on a touch screen',
+  render: () => (
+    <div data-nc-screen="touch">
+      <Tabs defaultValue="overview" items={[items[0], items[1], items[3]]} />
+    </div>
+  ),
+};
+
+// a tv: 48 high too, the labels at 14, and the tv focus inside the tab.
+export const OnATv: Story = {
+  name: 'on a tv',
+  render: () => (
+    <div data-nc-screen="tv">
+      <Tabs defaultValue="overview" items={[items[0], items[1], items[3]]} />
+    </div>
+  ),
+};

@@ -1,0 +1,657 @@
+/*
+ * screens — the components on a screen made for touch, and on a tv.
+ *
+ * an app says what kind of screen it draws with an attribute on any ancestor,
+ * usually the root element:
+ *
+ *   <html data-nc-screen="touch">    a phone, a tablet, a kiosk
+ *   <html data-nc-screen="tv">       a tv, used with a remote from across the room
+ *
+ * without the attribute a screen is for a pointer and a keyboard, and no rule
+ * in this file applies. nothing here looks at the window's width or at the
+ * pointer type.
+ *
+ * the rules are foundations/layout ("touch and tv sizes") and
+ * patterns/tv-focus. this file holds them for every component except the
+ * action menu, the multi select and the filter bar, which carry their own.
+ * (the buttons, fields and selects inside those three follow the rules here,
+ * as they do everywhere.)
+ *
+ * how it is written:
+ * - every selector is the component's own with the attribute in front, so it
+ *   outranks the rule it replaces wherever this file lands in a bundle.
+ * - sizes are in rem, lines in px, as everywhere.
+ * - the tv rules keep to css an older tv's browser knows: no :is(), no
+ *   :where(), no :focus-visible, and :has() only where a rule may be lost
+ *   without harm.
+ */
+
+/* ==========================================================================
+   both screens: every control is drawn at the large size, whatever size the
+   app asked for.
+   ========================================================================== */
+
+[data-nc-screen='touch'] .nc-btn,
+[data-nc-screen='tv'] .nc-btn {
+  min-height: 2.625rem;
+  padding: 0 var(--s-5);
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='touch'] .nc-iconbtn,
+[data-nc-screen='tv'] .nc-iconbtn {
+  width: 2.625rem;
+  height: 2.625rem;
+}
+
+[data-nc-screen='touch'] .nc-input,
+[data-nc-screen='tv'] .nc-input {
+  min-height: 2.625rem;
+  padding: 0 var(--s-4);
+}
+[data-nc-screen='touch'] .nc-input .nc-input__affix--prefix,
+[data-nc-screen='tv'] .nc-input .nc-input__affix--prefix {
+  margin-right: var(--s-3);
+}
+[data-nc-screen='touch'] .nc-input .nc-input__affix--suffix,
+[data-nc-screen='tv'] .nc-input .nc-input__affix--suffix {
+  margin-left: var(--s-3);
+}
+
+/* the browser's own field fills the box, so the whole box answers: up to the
+   box's edge on a side that has no icon. the 2px are the room a browser
+   leaves before a field's text. */
+[data-nc-screen='touch'] .nc-input .nc-input__control,
+[data-nc-screen='tv'] .nc-input .nc-input__control {
+  box-sizing: border-box;
+  align-self: stretch;
+  font-size: 0.875rem;
+}
+[data-nc-screen='touch'] .nc-input .nc-input__control:first-child,
+[data-nc-screen='tv'] .nc-input .nc-input__control:first-child {
+  margin-left: calc(-1 * var(--s-4));
+  padding-left: calc(var(--s-4) + 2px);
+}
+[data-nc-screen='touch'] .nc-input .nc-input__control:last-child,
+[data-nc-screen='tv'] .nc-input .nc-input__control:last-child {
+  margin-right: calc(-1 * var(--s-4));
+  padding-right: calc(var(--s-4) + 2px);
+}
+
+[data-nc-screen='touch'] .nc-select,
+[data-nc-screen='tv'] .nc-select {
+  min-height: 2.625rem;
+  padding: 0 2.25rem 0 var(--s-4);
+}
+
+/* the browser's own select fills the box, under the arrow too, so a press
+   anywhere on the box opens the list. */
+[data-nc-screen='touch'] .nc-select .nc-select__control,
+[data-nc-screen='tv'] .nc-select .nc-select__control {
+  box-sizing: border-box;
+  align-self: stretch;
+  margin: 0 -2.25rem 0 calc(-1 * var(--s-4));
+  padding: 0 2.25rem 0 var(--s-4);
+  font-size: 0.875rem;
+}
+
+/* a text area has no sizes: it takes the large field's text and side padding. */
+[data-nc-screen='touch'] .nc-textarea,
+[data-nc-screen='tv'] .nc-textarea {
+  padding: var(--s-3) var(--s-4);
+  font-size: 0.875rem;
+}
+
+/* the large switch: a track of 42 × 24, an 18 thumb that slides 18, a 14 label. */
+[data-nc-screen='touch'] .nc-switch .nc-switch__track,
+[data-nc-screen='tv'] .nc-switch .nc-switch__track {
+  width: 2.625rem;
+  height: 1.5rem;
+}
+[data-nc-screen='touch'] .nc-switch .nc-switch__thumb,
+[data-nc-screen='tv'] .nc-switch .nc-switch__thumb {
+  width: 1.125rem;
+  height: 1.125rem;
+}
+[data-nc-screen='touch'] .nc-switch .nc-switch__input:checked + .nc-switch__thumb,
+[data-nc-screen='tv'] .nc-switch .nc-switch__input:checked + .nc-switch__thumb {
+  transform: translateX(1.125rem);
+}
+[data-nc-screen='touch'] .nc-switch .nc-switch__label,
+[data-nc-screen='tv'] .nc-switch .nc-switch__label {
+  font-size: 0.875rem;
+}
+
+/* tabs have one larger height: 48. */
+[data-nc-screen='touch'] .nc-tabs__tab,
+[data-nc-screen='tv'] .nc-tabs__tab {
+  box-sizing: border-box;
+  min-height: 3rem;
+}
+/* and are at least as wide. a spacer inside the tab, 48 less its padding and
+   of no height, widens a short label's tab; a min-width on the tab itself
+   would let a row that is too narrow squeeze the tabs under their labels. */
+[data-nc-screen='touch'] .nc-tabs__tab::before,
+[data-nc-screen='tv'] .nc-tabs__tab::before {
+  content: '';
+  display: block;
+  width: 1.5rem;
+  height: 0;
+}
+[data-nc-screen='touch'] .nc-filtertabs__tab,
+[data-nc-screen='tv'] .nc-filtertabs__tab {
+  box-sizing: border-box;
+  min-height: 3rem;
+}
+
+/* the portal's search field is a control too. */
+[data-nc-screen='touch'] .nc-portal__search-input,
+[data-nc-screen='tv'] .nc-portal__search-input {
+  height: auto;
+  min-height: 2.625rem;
+  padding: 0 var(--s-4);
+  font-size: 0.875rem;
+}
+
+/* a row that opens or closes a group in a data table is its own target. */
+[data-nc-screen='touch'] .nc-dt__groupbar,
+[data-nc-screen='tv'] .nc-dt__groupbar {
+  min-height: 2.25rem;
+}
+
+/* ==========================================================================
+   a screen made for touch
+   ========================================================================== */
+
+/* ---- the touch area -------------------------------------------------------
+   a control answers to a touch in at least 48 × 48 around it: not drawn,
+   centred on the control, reaching past its edges where the control is
+   smaller. controls 8 apart keep their areas apart. */
+
+/* the area hangs on the control. :where() keeps this one rule as weak as a
+   class, so an app that places a button itself still decides its position. */
+:where([data-nc-screen='touch']) .nc-btn,
+:where([data-nc-screen='touch']) .nc-iconbtn,
+:where([data-nc-screen='touch']) .nc-strip__toggle,
+:where([data-nc-screen='touch']) .nc-strip__dismiss,
+:where([data-nc-screen='touch']) .nc-modal__close,
+:where([data-nc-screen='touch']) .nc-dt__sort {
+  position: relative;
+}
+
+/* from the control's padding edge: 1px out to its own edge where it is 48 or
+   more, and as far as 48 asks for where it is less. the parts drawn smaller
+   (a banner's details and dismiss, a dialog's close, a column's sort button)
+   keep their look and answer in 48. */
+[data-nc-screen='touch'] .nc-btn::after,
+[data-nc-screen='touch'] .nc-iconbtn::after,
+[data-nc-screen='touch'] .nc-strip__toggle::after,
+[data-nc-screen='touch'] .nc-strip__dismiss::after,
+[data-nc-screen='touch'] .nc-modal__close::after,
+[data-nc-screen='touch'] .nc-dt__sort::after {
+  content: '';
+  position: absolute;
+  inset: min(-1px, calc((100% - 3rem) / 2));
+}
+
+/* a text field and a select: the browser's own control is the area. it is 48
+   high inside a box that stays 42, so it reaches 3 past the box's top and
+   bottom edge. */
+[data-nc-screen='touch'] .nc-input .nc-input__control,
+[data-nc-screen='touch'] .nc-select .nc-select__control {
+  min-height: 3rem;
+  margin-top: calc(-0.1875rem - 1px);
+  margin-bottom: calc(-0.1875rem - 1px);
+}
+
+[data-nc-screen='touch'] .nc-textarea {
+  min-height: 3rem;
+}
+
+/* the portal's search field has no box around it: it is 48 high itself, and
+   draws 42 of it. */
+[data-nc-screen='touch'] .nc-portal__search-input {
+  min-height: 3rem;
+  margin: -0.1875rem 0;
+  border-width: 0.1875rem 0;
+  border-color: transparent;
+  background-clip: padding-box;
+  box-shadow: inset 0 0 0 1px var(--border-2);
+}
+[data-nc-screen='touch'] .nc-portal__search-input:focus-visible {
+  border-color: transparent;
+  box-shadow: inset 0 0 0 2px var(--cloud-blue);
+}
+
+/* ---- a checkbox and a switch ------------------------------------------------
+   with its label, each takes a row 48 high, and the whole row is its target.
+   alone, the box and the track keep their look and answer in 48 around them. */
+[data-nc-screen='touch'] .nc-checkbox--labelled,
+[data-nc-screen='touch'] .nc-switch--labelled {
+  min-height: 3rem;
+}
+/* a checkbox with a very short label is still 48 wide: the box, the gap and a
+   spacer of no height inside the label, as in a tab. */
+[data-nc-screen='touch'] .nc-checkbox--labelled .nc-checkbox__label::before {
+  content: '';
+  display: block;
+  width: 1.5rem;
+  height: 0;
+}
+
+/* a multi select's options are checkboxes, and they are the multi select's
+   own rows: its stylesheet gives them their height. */
+[data-nc-screen='touch'] .nc-multiselect .nc-checkbox--labelled {
+  min-height: 0;
+}
+[data-nc-screen='touch'] .nc-multiselect .nc-checkbox--labelled .nc-checkbox__label::before {
+  content: none;
+}
+
+/* the box is 16: 16 more on every side. */
+[data-nc-screen='touch'] .nc-checkbox:not(.nc-checkbox--labelled) .nc-checkbox__input {
+  inset: -1rem;
+}
+
+/* the track is 42 × 24, and the input lies on its padding edge, 1px inside. */
+[data-nc-screen='touch'] .nc-switch:not(.nc-switch--labelled) .nc-switch__input {
+  inset: calc(-0.75rem - 1px) calc(-0.1875rem - 1px);
+}
+
+/* ---- rows ---------------------------------------------------------------------
+   a row is its own target, at least 48 high: a table's row, and the header
+   that holds the sort buttons. */
+[data-nc-screen='touch'] .nc-table__td,
+[data-nc-screen='touch'] .nc-dt__cell,
+[data-nc-screen='touch'] .nc-dt__th {
+  box-sizing: border-box;
+  height: 3rem;
+}
+
+/* a banner's actions that wrap: a button over the details keeps its area clear of theirs. */
+[data-nc-screen='touch'] .nc-strip__actions {
+  row-gap: var(--s-4);
+}
+
+/* ==========================================================================
+   a tv
+   ========================================================================== */
+
+/* ---- text --------------------------------------------------------------------
+   nothing on a tv is smaller than 12, and labels are at least 14: the
+   components' 11 and 13 sizes step up to 12 and 14. */
+[data-nc-screen='tv'] .nc-badge,
+[data-nc-screen='tv'] .nc-status,
+[data-nc-screen='tv'] .nc-tile__badge,
+[data-nc-screen='tv'] .nc-table__th,
+[data-nc-screen='tv'] .nc-dt__th,
+[data-nc-screen='tv'] .nc-dt__popin-label,
+[data-nc-screen='tv'] .nc-cell-status__detail {
+  font-size: 0.75rem;
+}
+
+[data-nc-screen='tv'] .nc-text--ui,
+[data-nc-screen='tv'] .nc-text--muted,
+[data-nc-screen='tv'] .nc-text--dim,
+[data-nc-screen='tv'] .nc-text--code,
+[data-nc-screen='tv'] .nc-code,
+[data-nc-screen='tv'] .nc-field__label,
+[data-nc-screen='tv'] .nc-checkbox__label,
+[data-nc-screen='tv'] .nc-tabs__tab,
+[data-nc-screen='tv'] .nc-table,
+[data-nc-screen='tv'] .nc-dt__table,
+[data-nc-screen='tv'] .nc-cell-id__title,
+[data-nc-screen='tv'] .nc-strip,
+[data-nc-screen='tv'] .nc-toast,
+[data-nc-screen='tv'] .nc-card__title,
+[data-nc-screen='tv'] .nc-toolbar__heading,
+[data-nc-screen='tv'] .nc-illu__description,
+[data-nc-screen='tv'] .nc-tile__desc,
+[data-nc-screen='tv'] .nc-tilegroup__legend,
+[data-nc-screen='tv'] .nc-tilegroup__desc,
+[data-nc-screen='tv'] .nc-portal__empty,
+[data-nc-screen='tv'] .nc-worklist__subtitle {
+  font-size: 0.875rem;
+}
+
+/* ---- rows ---------------------------------------------------------------------
+   48 for one line, 64 for two. */
+[data-nc-screen='tv'] .nc-table__td,
+[data-nc-screen='tv'] .nc-dt__cell,
+[data-nc-screen='tv'] .nc-dt__th {
+  box-sizing: border-box;
+  height: 3rem;
+}
+
+/* a row whose cell holds a second line: an identifier's text, a status'
+   reason, the columns that popped in. a browser without :has() leaves the row
+   as high as its lines ask for. */
+[data-nc-screen='tv'] .nc-table__tr:has(.nc-cell-id__text, .nc-cell-status__detail) > .nc-table__td {
+  height: 4rem;
+}
+[data-nc-screen='tv'] .nc-dt__row:has(.nc-cell-id__text, .nc-cell-status__detail, .nc-dt__popins) > .nc-dt__cell {
+  height: 4rem;
+}
+
+/* a checkbox or a switch with its label is a row of a settings list: 48 with
+   one line of label, 64 with two, and room inside its edge for the focus. */
+[data-nc-screen='tv'] .nc-checkbox--labelled,
+[data-nc-screen='tv'] .nc-switch--labelled {
+  box-sizing: border-box;
+  min-height: 3rem;
+  padding: var(--s-3);
+}
+
+/* ---- room ---------------------------------------------------------------------
+   the ring and the growth need room: what can take focus stands 12 apart. */
+[data-nc-screen='tv'] .nc-toolbar,
+[data-nc-screen='tv'] .nc-toolbar__actions,
+[data-nc-screen='tv'] .nc-seltoolbar__count,
+[data-nc-screen='tv'] .nc-card__aside,
+[data-nc-screen='tv'] .nc-modal__footer,
+[data-nc-screen='tv'] .nc-strip__actions,
+[data-nc-screen='tv'] .nc-illu__actions,
+[data-nc-screen='tv'] .nc-tilegroup__action,
+[data-nc-screen='tv'] .nc-worklist__header-actions,
+[data-nc-screen='tv'] .nc-tilegroup__grid--gap-xs,
+[data-nc-screen='tv'] .nc-tilegroup__grid--gap-sm {
+  gap: var(--s-3);
+}
+
+/* ---- the tv focus (patterns/tv-focus) ---------------------------------------
+   one focus style for every kind of item: a 3px ring in the focus colour, the
+   focused surface where the item is plain, a little growth and the brightest
+   text. the ring comes at once and grows with the item, which settles in
+   150ms; where people ask for less motion, nothing grows.
+
+   on a tv the focus is the cursor, so it shows on every focus (:focus), from
+   the remote's arrows and from a pointer alike, not on keyboard focus only. */
+
+/* buttons: the ring outside with a gap of 2, and 5% growth. a filled button
+   keeps its fill; a plain one gets the focused surface. */
+[data-nc-screen='tv'] .nc-btn,
+[data-nc-screen='tv'] .nc-iconbtn {
+  transition:
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    color 0.12s ease,
+    transform 150ms ease-out;
+}
+[data-nc-screen='tv'] .nc-strip__toggle,
+[data-nc-screen='tv'] .nc-strip__dismiss,
+[data-nc-screen='tv'] .nc-modal__close,
+[data-nc-screen='tv'] .nc-dt__sort {
+  transition:
+    background-color 0.12s ease,
+    color 0.12s ease,
+    transform 150ms ease-out;
+}
+
+[data-nc-screen='tv'] .nc-btn:focus,
+[data-nc-screen='tv'] .nc-iconbtn:focus,
+[data-nc-screen='tv'] .nc-strip__toggle:focus,
+[data-nc-screen='tv'] .nc-strip__dismiss:focus,
+[data-nc-screen='tv'] .nc-modal__close:focus,
+[data-nc-screen='tv'] .nc-dt__sort:focus {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  transform: scale(1.05);
+}
+
+[data-nc-screen='tv'] .nc-btn.nc-btn--default:focus,
+[data-nc-screen='tv'] .nc-btn.nc-btn--ghost:focus,
+[data-nc-screen='tv'] .nc-iconbtn.nc-iconbtn--default:focus,
+[data-nc-screen='tv'] .nc-iconbtn.nc-iconbtn--ghost:focus,
+[data-nc-screen='tv'] .nc-strip__toggle:focus,
+[data-nc-screen='tv'] .nc-strip__dismiss:focus,
+[data-nc-screen='tv'] .nc-modal__close:focus,
+[data-nc-screen='tv'] .nc-dt__sort:focus {
+  background: var(--surface-focus);
+  color: var(--fg);
+}
+
+/* the button for an action that can't be undone keeps its colour: it is what
+   says so. */
+[data-nc-screen='tv'] .nc-btn.nc-btn--danger:focus,
+[data-nc-screen='tv'] .nc-iconbtn.nc-iconbtn--danger:focus {
+  background: var(--surface-focus);
+  color: var(--signal-amber);
+}
+
+/* fields and selects take the focus of a row: the ring inside the field's
+   edge, in place of its border (the border and 2 more), the focused surface
+   and 2% growth. the ring means focus and only focus, on an invalid field
+   too; its error is said in words under it. */
+[data-nc-screen='tv'] .nc-input,
+[data-nc-screen='tv'] .nc-select,
+[data-nc-screen='tv'] .nc-textarea,
+[data-nc-screen='tv'] .nc-portal__search-input {
+  transition:
+    border-color 0.12s ease,
+    box-shadow 0.12s ease,
+    background-color 150ms ease-out,
+    transform 150ms ease-out;
+}
+
+[data-nc-screen='tv'] .nc-input:focus-within,
+[data-nc-screen='tv'] .nc-select:focus-within,
+[data-nc-screen='tv'] .nc-textarea:focus,
+[data-nc-screen='tv'] .nc-portal__search-input:focus {
+  border-color: var(--focus-ring);
+  background: var(--surface-focus);
+  box-shadow: inset 0 0 0 2px var(--focus-ring);
+  transform: scale(1.02);
+}
+
+/* nothing in the dimmest text colour sits on the focused surface. */
+[data-nc-screen='tv'] .nc-input:focus-within .nc-input__control::placeholder,
+[data-nc-screen='tv'] .nc-textarea:focus::placeholder,
+[data-nc-screen='tv'] .nc-portal__search-input:focus::placeholder {
+  color: var(--fg-muted);
+}
+[data-nc-screen='tv'] .nc-input:focus-within .nc-input__affix {
+  color: var(--fg-muted);
+}
+
+/* the label above a focused field brightens with it. */
+[data-nc-screen='tv'] .nc-field:focus-within .nc-field__label {
+  color: var(--fg);
+}
+
+/* rows: the ring inside the row's edge, the focused surface and 2% growth. */
+
+/* a checkbox or a switch with its label. the row carries the ring, so the
+   box and the thumb draw none. */
+[data-nc-screen='tv'] .nc-checkbox--labelled,
+[data-nc-screen='tv'] .nc-switch--labelled {
+  transition:
+    background-color 150ms ease-out,
+    transform 150ms ease-out;
+}
+[data-nc-screen='tv'] .nc-checkbox--labelled:focus-within,
+[data-nc-screen='tv'] .nc-switch--labelled:focus-within {
+  background: var(--surface-focus);
+  box-shadow: inset 0 0 0 3px var(--focus-ring);
+  transform: scale(1.02);
+}
+[data-nc-screen='tv'] .nc-checkbox--labelled:focus-within .nc-checkbox__label,
+[data-nc-screen='tv'] .nc-switch--labelled:focus-within .nc-switch__label {
+  color: var(--fg);
+}
+[data-nc-screen='tv'] .nc-checkbox .nc-checkbox__input:focus + .nc-checkbox__mark,
+[data-nc-screen='tv'] .nc-switch .nc-switch__input:focus + .nc-switch__thumb {
+  outline: none;
+}
+
+/* alone, a box or a track is focused like a button: the ring outside, a gap
+   of 2. the ring goes around the whole track, not the thumb. */
+[data-nc-screen='tv'] .nc-checkbox__mark,
+[data-nc-screen='tv'] .nc-switch__track {
+  transition:
+    background-color 0.12s ease,
+    border-color 0.12s ease,
+    color 0.12s ease,
+    transform 150ms ease-out;
+}
+[data-nc-screen='tv'] .nc-checkbox:not(.nc-checkbox--labelled) .nc-checkbox__input:focus + .nc-checkbox__mark,
+[data-nc-screen='tv'] .nc-switch:not(.nc-switch--labelled) .nc-switch__track:focus-within {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  transform: scale(1.05);
+}
+
+/* a multi select's options are checkboxes, and they are the multi select's
+   own rows: its stylesheet gives them their height and their focus. here
+   they keep the ring around the box, so the focus shows in any case. */
+[data-nc-screen='tv'] .nc-multiselect .nc-checkbox--labelled {
+  min-height: 0;
+  padding: 0;
+}
+[data-nc-screen='tv'] .nc-multiselect .nc-checkbox--labelled:focus-within {
+  background: none;
+  box-shadow: none;
+  transform: none;
+}
+[data-nc-screen='tv'] .nc-multiselect .nc-checkbox--labelled .nc-checkbox__input:focus + .nc-checkbox__mark {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* a data table's rows. outlines on table rows are unreliable, so the ring is
+   drawn on the cells, as it is off a tv. */
+[data-nc-screen='tv'] .nc-dt__row,
+[data-nc-screen='tv'] .nc-dt__group {
+  transition: transform 150ms ease-out;
+}
+[data-nc-screen='tv'] .nc-dt__row:focus,
+[data-nc-screen='tv'] .nc-dt__group:focus {
+  color: var(--fg);
+  transform: scale(1.02);
+}
+[data-nc-screen='tv'] .nc-dt .nc-dt__row:focus > .nc-dt__cell,
+[data-nc-screen='tv'] .nc-dt .nc-dt__group:focus > .nc-dt__groupcell {
+  background: var(--surface-focus);
+  box-shadow:
+    inset 0 3px 0 var(--focus-ring),
+    inset 0 -3px 0 var(--focus-ring);
+}
+[data-nc-screen='tv'] .nc-dt .nc-dt__row:focus > .nc-dt__cell:first-child {
+  box-shadow:
+    inset 3px 0 0 var(--focus-ring),
+    inset 0 3px 0 var(--focus-ring),
+    inset 0 -3px 0 var(--focus-ring);
+}
+[data-nc-screen='tv'] .nc-dt .nc-dt__row:focus > .nc-dt__cell:last-child {
+  box-shadow:
+    inset -3px 0 0 var(--focus-ring),
+    inset 0 3px 0 var(--focus-ring),
+    inset 0 -3px 0 var(--focus-ring);
+}
+[data-nc-screen='tv'] .nc-dt .nc-dt__row:focus > .nc-dt__cell:first-child:last-child,
+[data-nc-screen='tv'] .nc-dt .nc-dt__group:focus > .nc-dt__groupcell {
+  box-shadow: inset 0 0 0 3px var(--focus-ring);
+}
+
+/* tabs stand flush on one line, so they take the focus of a row too. the
+   selected tab keeps its underline. */
+[data-nc-screen='tv'] .nc-tabs__tab {
+  transition:
+    color 0.12s ease,
+    border-color 0.12s ease,
+    background-color 150ms ease-out,
+    transform 150ms ease-out;
+}
+[data-nc-screen='tv'] .nc-tabs__tab:focus {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: -3px;
+  background: var(--surface-focus);
+  color: var(--fg);
+  transform: scale(1.02);
+}
+
+/* filter tabs: the same, without the growth: their row scrolls sideways, and
+   a tab that grew would be cut at its edge. */
+[data-nc-screen='tv'] .nc-filtertabs__list .nc-filtertabs__tab:focus {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: -3px;
+  background: var(--surface-focus);
+  color: var(--fg);
+}
+
+/* cards: a tile that opens something. the ring outside with a gap of 2, where
+   the background shows, 5% growth, and the tile itself unchanged. */
+[data-nc-screen='tv'] .nc-tile {
+  transition:
+    background 80ms linear,
+    border-color 80ms linear,
+    transform 150ms ease-out;
+}
+[data-nc-screen='tv'] .nc-tile--interactive:focus {
+  border-color: var(--border);
+  box-shadow: none;
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  transform: scale(1.05);
+}
+[data-nc-screen='tv'] .nc-tile--selected.nc-tile--interactive:focus {
+  border-left-color: var(--cloud-blue);
+}
+[data-nc-screen='tv'] .nc-tile--interactive:focus .nc-tile__desc {
+  color: var(--fg-2);
+}
+
+/* what scrolls or holds other controls shows the same ring, and doesn't grow. */
+[data-nc-screen='tv'] .nc-table__scroll:focus,
+[data-nc-screen='tv'] .nc-code--block:focus {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+[data-nc-screen='tv'] .nc-toolbar:focus {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: -3px;
+}
+
+/* less motion: the ring and the surface come at once, and nothing grows. */
+@media (prefers-reduced-motion: reduce) {
+  [data-nc-screen='tv'] .nc-btn,
+  [data-nc-screen='tv'] .nc-iconbtn,
+  [data-nc-screen='tv'] .nc-strip__toggle,
+  [data-nc-screen='tv'] .nc-strip__dismiss,
+  [data-nc-screen='tv'] .nc-modal__close,
+  [data-nc-screen='tv'] .nc-dt__sort,
+  [data-nc-screen='tv'] .nc-input,
+  [data-nc-screen='tv'] .nc-select,
+  [data-nc-screen='tv'] .nc-textarea,
+  [data-nc-screen='tv'] .nc-portal__search-input,
+  [data-nc-screen='tv'] .nc-checkbox--labelled,
+  [data-nc-screen='tv'] .nc-switch--labelled,
+  [data-nc-screen='tv'] .nc-checkbox__mark,
+  [data-nc-screen='tv'] .nc-switch__track,
+  [data-nc-screen='tv'] .nc-dt__row,
+  [data-nc-screen='tv'] .nc-dt__group,
+  [data-nc-screen='tv'] .nc-tabs__tab,
+  [data-nc-screen='tv'] .nc-tile {
+    transition: none;
+  }
+
+  [data-nc-screen='tv'] .nc-btn:focus,
+  [data-nc-screen='tv'] .nc-iconbtn:focus,
+  [data-nc-screen='tv'] .nc-strip__toggle:focus,
+  [data-nc-screen='tv'] .nc-strip__dismiss:focus,
+  [data-nc-screen='tv'] .nc-modal__close:focus,
+  [data-nc-screen='tv'] .nc-dt__sort:focus,
+  [data-nc-screen='tv'] .nc-input:focus-within,
+  [data-nc-screen='tv'] .nc-select:focus-within,
+  [data-nc-screen='tv'] .nc-textarea:focus,
+  [data-nc-screen='tv'] .nc-portal__search-input:focus,
+  [data-nc-screen='tv'] .nc-checkbox--labelled:focus-within,
+  [data-nc-screen='tv'] .nc-switch--labelled:focus-within,
+  [data-nc-screen='tv'] .nc-checkbox:not(.nc-checkbox--labelled) .nc-checkbox__input:focus + .nc-checkbox__mark,
+  [data-nc-screen='tv'] .nc-switch:not(.nc-switch--labelled) .nc-switch__track:focus-within,
+  [data-nc-screen='tv'] .nc-dt__row:focus,
+  [data-nc-screen='tv'] .nc-dt__group:focus,
+  [data-nc-screen='tv'] .nc-tabs__tab:focus,
+  [data-nc-screen='tv'] .nc-tile--interactive:focus {
+    transform: none;
+  }
+}

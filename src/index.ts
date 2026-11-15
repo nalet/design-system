@@ -9,6 +9,9 @@
 
 // foundation: css variables, fonts, base — owned by the tokens build.
 import './styles/tokens.css';
+// the components on a screen made for touch and on a tv: rules that apply
+// only under data-nc-screen="touch" or data-nc-screen="tv".
+import './styles/screens.css';
 
 // re-export the typed tokens (color/type/space) from the tokens module.
 export * from './tokens';
@@ -24,6 +27,9 @@ export { Language, useLanguage, counted, fill, pageLanguage, dateLanguage, words
 export type { LanguageProps, WordsOverride } from './lib/language';
 export { english, german, builtInWords } from './lib/words';
 export type { Words, Counted } from './lib/words';
+// the kind of screen an element is on, as the app says it with data-nc-screen
+export { screenOf } from './lib/screen';
+export type { ScreenKind } from './lib/screen';
 
 // brand
 export { Chevron } from './brand/Chevron/Chevron';

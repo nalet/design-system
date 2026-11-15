@@ -77,3 +77,116 @@
 .nc-select--lg .nc-select__control {
   font-size: 0.875rem;
 }
+
+/* ---- the list a tv draws in place of the browser's -------------------------
+   patterns/tv-focus, "choosing on a tv". it looks like the action menu's
+   menu: its surface, its thin frame and its shadow, square. */
+/* written for a tv's browser, which may be an older one: the four edges in
+   place of inset, and a plain value before each newer one. */
+.nc-select-list {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 150;
+}
+
+/* the page behind, dimmed; a window in it keeps the select in view. */
+.nc-select-list__shade {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  /* the canvas at 72%, as behind a dialog. */
+  background: rgba(11, 15, 25, 0.72);
+  background: color-mix(in srgb, var(--bg) 72%, transparent);
+}
+
+.nc-select-list__box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  max-width: calc(100vw - 2 * var(--s-7));
+  padding: var(--s-1) 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border: 1px solid var(--border-2);
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  outline: none;
+}
+
+/* a row of a tv's list: 40 high, the room of the check before every name, so
+   the names line up. it stands a little inside the frame, so that it can grow
+   by 2% without leaving it. */
+.nc-select-list__row {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--s-3);
+  box-sizing: border-box;
+  min-height: 2.5rem;
+  margin: 0 var(--s-1);
+  margin: 0 max(var(--s-1), 1.1%);
+  padding: var(--s-1) var(--s-3);
+  color: var(--fg-2);
+  /* a value's name, in the monospace face, keeping its case. */
+  font-family: var(--ff-mono);
+  font-size: 0.875rem;
+  line-height: 1.4;
+  cursor: pointer;
+  outline: none;
+  transition: transform 150ms ease-out, background-color 150ms ease-out, box-shadow 150ms ease-out;
+}
+
+.nc-select-list__check {
+  flex: none;
+  color: var(--fg);
+  visibility: hidden;
+}
+
+.nc-select-list__name {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.nc-select-list__row[aria-selected='true'] {
+  color: var(--fg);
+}
+
+.nc-select-list__row[aria-selected='true'] .nc-select-list__check {
+  visibility: visible;
+}
+
+.nc-select-list__row:hover {
+  background: var(--surface-2);
+  color: var(--fg);
+}
+
+/* the focused row has the focus of a row on a tv: the ring inside its edge,
+   the focused surface and 2% growth. */
+.nc-select-list__row:focus {
+  z-index: 1;
+  background: var(--surface-focus);
+  color: var(--fg);
+  box-shadow: inset 0 0 0 3px var(--focus-ring);
+  transform: scale(1.02);
+}
+
+.nc-select-list__row[aria-disabled='true'] {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-select-list__row {
+    transition: none;
+  }
+  .nc-select-list__row:focus {
+    transform: none;
+  }
+}

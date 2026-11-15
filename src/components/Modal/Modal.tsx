@@ -4,7 +4,7 @@ import { cx } from '../../lib/cx';
 import { useLanguage } from '../../lib/language';
 import './Modal.css';
 import { rem } from '../../lib/rem';
-import { screenOf, type ScreenKind } from '../../lib/screenOf';
+import { screenOf, type ScreenKind } from '../../lib/screen';
 
 export interface ModalProps {
   /** Whether the modal is shown. */

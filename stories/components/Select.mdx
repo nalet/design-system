@@ -27,6 +27,14 @@ This one is controlled with `value` and `onChange`, and the line below it follow
 
 <Canvas of={SelectStories.Controlled} />
 
+Inside an element with `data-nc-screen="tv"`, usually the page's root, the select opens the system's own list in place of the browser's. Press `enter` on it, or click it.
+
+<Canvas of={SelectStories.OnATv} />
+
+Inside `data-nc-screen="touch"` it is drawn at `lg` whatever `selectSize` says, and keeps the browser's own list.
+
+<Canvas of={SelectStories.OnATouchScreen} />
+
 ## implementation notes
 
 - It renders a native `<select>` inside a box (a `<div>`), so the browser and the operating system provide the list and the keyboard behaviour.
@@ -40,6 +48,29 @@ This one is controlled with `value` and `onChange`, and the line below it follow
 - `className` lands on the box. Every other attribute (`value`, `onChange`, `name`, `required`, `aria-*`, `style`) and the ref land on the native `<select>`.
 - The box always fills its container, so set the width on the container.
 - Today: a select holds one value only. The box has a fixed height, so `multiple` is not supported.
+
+On a tv:
+
+- The select looks for `data-nc-screen` on its ancestors when it is pressed; the nearest one counts. Only `"tv"` changes how it opens.
+- It is still the native `<select>`, and still the form control: the list sets its `selectedIndex` and dispatches `input` and `change`, so `value`, `defaultValue`, `onChange`, `name`, `required` and the ref work as they do everywhere. Picking the value that is already set fires nothing.
+- The select has `aria-haspopup="listbox"`, `aria-expanded` and, while the list is open, `aria-controls`.
+- The list is a `<div role="listbox">`, portaled to `document.body` over a layer that dims the page and leaves a window on the select. Its rows are read from the select's `<option>`s when it opens: `role="option"`, `aria-selected` on the one that is set, `aria-disabled` on a disabled one (or one in a disabled `<optgroup>`); groups are not drawn.
+- The list is named after the select: its `aria-labelledby`, its `aria-label`, or the text of its `<label>` (a field's). With none of them it takes `select.options` from the page's words (“options”).
+- Opening moves the focus to the row of the value that is set; closing moves it back to the select.
+- The keys the list takes are stopped (`preventDefault` and `stopPropagation`): a dialog around the select doesn't close on the `esc` that closed the list, and an app's own focus movement doesn't act on the same arrow key.
+- While the list is closed, the four arrow keys are prevented from stepping through the values, and still bubble to the app. A `keydown` or `mousedown` handler of your own runs first; call `preventDefault()` in it and the select leaves the event alone.
+- The list is placed 4px under the select, or above it where there is no room below, and stays 48px from the left and right edges of the window and 27px from its top and bottom: the tv's safe area. All of these grow with the page's text size.
+- The remote's back key has to arrive as `Escape`, as it does for the modal and the action menu. Some tvs send another key for it: map it in your app.
+
+| key, on a tv | does |
+| --- | --- |
+| `enter` or `space` on the select | Opens the list, with the focus on the value that is set. |
+| `↑` / `↓` in the list | Move by one row, stopping at the first and the last; disabled rows are passed over. Nothing is picked. |
+| `home` / `end` in the list | Go to the first / last row. |
+| `enter` or `space` in the list | Picks the focused row, closes the list and returns the focus to the select. |
+| `esc` in the list | Closes the list without picking, and returns the focus to the select. |
+| `←` / `→` / `tab` in the list | Stay in the list. |
+| `↑` `↓` `←` `→` on the closed select | Change nothing. |
 
 | key | does |
 | --- | --- |

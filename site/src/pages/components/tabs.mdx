@@ -3,12 +3,14 @@ layout: ../../layouts/Doc.astro
 title: tabs
 description: A row of tabs that switches between views of the same thing, such as the overview, the logs and the metrics of one service. The selected tab is underlined in blue.
 component: tabs
+draft: true
+draftNote: "Tabs of 48 on a touch screen and on a TV, under variants and states, are new and built. The rest of the page is as it was accepted."
 ---
 import { Tabs, Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
-import { WithPanel, WithDisabled } from '@site/examples/tabs';
+import { WithPanel, WithDisabled, OnATouchScreen, OnATv } from '@site/examples/tabs';
 
 # tabs
 
@@ -50,6 +52,20 @@ Tabs let people switch between views of the same thing, such as the overview, th
 
 <Example label="tabs with a disabled one, live">
   <WithDisabled client:visible />
+</Example>
+
+### on a touch screen and on a tv
+
+Tabs have one height on a computer, about 35. On a screen that an app marks as made for touch, a tab is 48 high and at least as wide, so a finger hits it.
+
+<Example label="tabs on a screen made for touch, live: 48 high">
+  <OnATouchScreen client:visible />
+</Example>
+
+On a TV a tab is 48 high too, with its label at 14. The focused tab shows the [tv focus](/design-system/patterns/tv-focus/) of a row, inside its own edge, because tabs stand flush against each other. The selected tab keeps its underline.
+
+<Example label="tabs on a tv screen, live: 48 high, the tv focus inside the tab">
+  <OnATv client:visible />
 </Example>
 
 ## behaviour
@@ -124,3 +140,5 @@ Today: a disabled tab can't take focus, so people who use a screen reader don't 
 - **Items:** `items`, each with a `value`, a `label` and an optional `disabled`. Without `value` or `defaultValue`, the first item is selected; `onChange` receives the new value.
 - **Panel:** not rendered. Give yours `role="tabpanel"`, an `aria-label` after the selected tab, and `tabIndex={0}` when it holds nothing focusable, as the first example does.
 - **Motion:** the label and underline colours change in 120ms `ease`.
+- **On a touch screen:** inside `data-nc-screen="touch"`, `min-height: 3rem`, and a spacer inside the tab that keeps a short label's tab 48px wide: 48 × 48 at the least.
+- **On a tv:** inside `data-nc-screen="tv"`, the same height, the label at 14px. Focused: a 3px `--focus-ring` outline inside the tab (`outline-offset: -3px`), `--surface-focus`, the label in `--fg`, and 1.02 in 150ms `ease-out`; no growth under `prefers-reduced-motion: reduce`. On a tv the focus shows on `:focus`, after a press with a pointer too.

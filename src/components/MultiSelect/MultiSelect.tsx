@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
 import { counted, fill, formatCount, useLanguage } from '../../lib/language';
-import { screenOf } from '../../lib/screenOf';
+import { screenOf } from '../../lib/screen';
 import { Checkbox } from '../Checkbox/Checkbox';
 import '../../lib/a11y.css';
 import './MultiSelect.css';

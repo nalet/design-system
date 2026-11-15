@@ -3,6 +3,8 @@ layout: ../../layouts/Doc.astro
 title: checkbox
 description: A checkbox turns one option on or off in a form that people save later. It can also show a mixed state, when only some of a set of options are on.
 component: checkbox
+draft: true
+draftNote: "One line under behaviour is new and built: on a TV, the remote's OK ticks a checkbox. The rest of the page is as it was accepted."
 ---
 import { Checkbox, Kbd, Switch } from '@nalet/design-system';
 import C from '@site/components/C.astro';
@@ -76,7 +78,7 @@ A box can go without a visible label, as when it selects a table row, as long as
 ## behaviour
 
 - A click on the label text turns the box on or off too.
-- A checkbox is one <Term id="tab-stop">tab stop</Term>, and <Kbd>space</Kbd> turns it on or off. <Kbd>enter</Kbd> doesn't change it.
+- A checkbox is one <Term id="tab-stop">tab stop</Term>, and <Kbd>space</Kbd> turns it on or off. <Kbd>enter</Kbd> doesn't change it. On a TV, <Kbd>enter</Kbd> does: it is the remote's OK, and a remote has no space bar. [Touch and tv sizes](/design-system/foundations/layout/#touch-and-tv-sizes) says what else a checkbox does on a touch screen and on a TV.
 - Pressing a mixed parent turns all its children on; the next press turns them all off.
 
 The full keyboard map is on the checkbox's [React page](/design-system/react/?path=/docs/components-inputs-checkbox--docs).

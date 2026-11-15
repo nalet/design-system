@@ -91,7 +91,10 @@ export interface Words {
     /** The sentence shown when the search matches nothing: "No apps match “{query}”." */
     noMatch: string;
   };
-  select: Record<string, never>;
+  select: {
+    /** The name of the list a select opens on a tv, when the select has no name of its own. */
+    options: string;
+  };
   spinner: {
     /** The loader's name for a screen reader. */
     loading: string;
@@ -237,7 +240,9 @@ export const english: Words = {
     matches: { one: '{n} app match', other: '{n} apps match' },
     noMatch: 'No apps match “{query}”.',
   },
-  select: {},
+  select: {
+    options: 'options',
+  },
   spinner: {
     loading: 'loading',
   },
@@ -351,7 +356,9 @@ export const german: Words = {
     matches: { one: '{n} app gefunden', other: '{n} apps gefunden' },
     noMatch: 'Keine App passt zu „{query}“.',
   },
-  select: {},
+  select: {
+    options: 'optionen',
+  },
   spinner: {
     loading: 'lädt',
   },

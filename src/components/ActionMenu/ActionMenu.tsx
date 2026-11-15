@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { cx } from '../../lib/cx';
-import { screenOf, type ScreenKind } from '../../lib/screenOf';
+import { screenOf, type ScreenKind } from '../../lib/screen';
 import { IconButton } from '../IconButton/IconButton';
 import { Button } from '../Button/Button';
 import './ActionMenu.css';

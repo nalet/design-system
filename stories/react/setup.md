@@ -87,7 +87,7 @@ import { Language, type WordsOverride } from '@nalet/design-system';
 
 // single texts, replaced for everything inside
 const own: WordsOverride = {
-  toolbar: { clear: 'select none' },
+  toolbar: { clear: 'clear selection' },
 };
 
 // a language that isn't built in: the blocks of the components the app uses

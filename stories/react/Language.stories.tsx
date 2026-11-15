@@ -213,15 +213,18 @@ export const German: Story = {
   render: Playground.render,
 };
 
-/** Single texts replaced, for this part of the page; every other text stays the built-in one. */
+// the words are a constant: a new object on every render would draw everything inside again.
+const BACKUP_WORDS: LanguageProps['words'] = {
+  toolbar: {
+    clear: 'clear selection',
+    selected: { one: '{n} backup selected', other: '{n} backups selected' },
+  },
+  dataTable: { showMore: { one: 'show {n} more backup', other: 'show {n} more backups' } },
+};
+
+/** Single texts replaced, here to name what the list holds; every other text stays the built-in one. */
 export const OwnTexts: Story = {
   name: 'own texts',
-  args: {
-    lang: 'en',
-    words: {
-      toolbar: { clear: 'select none' },
-      dataTable: { shownOfTotal: 'showing {shown} of {total}', showMore: { one: 'load {n} more', other: 'load {n} more' } },
-    },
-  },
+  args: { lang: 'en', words: BACKUP_WORDS },
   render: Playground.render,
 };

@@ -32,6 +32,13 @@
   font-size: 0.75rem;
 }
 
+/* large: the height, the padding and the text of a large select. */
+.nc-multiselect--lg .nc-multiselect__trigger {
+  min-height: 2.625rem;
+  padding: 0 var(--s-4);
+  font-size: 0.875rem;
+}
+
 .nc-multiselect__trigger:hover:not(:disabled) {
   border-color: var(--cloud-blue);
 }
@@ -91,6 +98,23 @@
   display: none;
 }
 
+/* where it wouldn't fit below the trigger and there is more room above. */
+.nc-multiselect__panel--above {
+  top: auto;
+  bottom: calc(100% + 0.25rem);
+}
+
+/* the options scroll in a part of their own once they are taller than 320,
+   or than the window leaves them (a height set when the panel is measured).
+   scrolling them doesn't scroll the page behind. */
+.nc-multiselect__list {
+  max-height: 20rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+}
+
 .nc-multiselect__options {
   display: grid;
   gap: 0;
@@ -126,15 +150,23 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* the foot stays under the options, in view: one action, when there is one,
+   and clear while something is chosen. both are quiet text buttons. */
+.nc-multiselect__foot {
+  margin-top: var(--s-1);
+  border-top: 1px solid var(--border);
+}
+
+.nc-multiselect__action,
 .nc-multiselect__clear {
   -webkit-appearance: none;
   appearance: none;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
   width: 100%;
-  margin-top: var(--s-1);
   padding: var(--s-2) var(--s-3);
   border: 0;
-  border-top: 1px solid var(--border);
   border-radius: 0;
   background: transparent;
   color: var(--fg-muted);
@@ -145,17 +177,155 @@
   cursor: pointer;
 }
 
+.nc-multiselect__action:hover,
 .nc-multiselect__clear:hover {
   color: var(--fg);
 }
 
+.nc-multiselect__action:focus-visible,
 .nc-multiselect__clear:focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: -2px;
 }
 
+.nc-multiselect__plus {
+  flex: none;
+}
+
+/* ---- the large size ----------------------------------------------------------------
+   an option is a row 48 high, its own target for a finger, and so are the
+   foot's buttons. */
+.nc-multiselect--lg .nc-multiselect__option {
+  box-sizing: border-box;
+  min-height: 3rem;
+}
+
+.nc-multiselect--lg .nc-multiselect__action,
+.nc-multiselect--lg .nc-multiselect__clear {
+  min-height: 3rem;
+}
+
+/* ---- a screen made for touch ---------------------------------------------------
+   the large size without the app asking, and the trigger answers to a touch
+   in 48 around its centre. */
+[data-nc-screen='touch'] .nc-multiselect__trigger,
+[data-nc-screen='tv'] .nc-multiselect__trigger {
+  min-height: 2.625rem;
+  padding: 0 var(--s-4);
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='touch'] .nc-multiselect__trigger {
+  position: relative;
+}
+
+[data-nc-screen='touch'] .nc-multiselect__trigger::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: max(100% + 2px, 3rem);
+  height: max(100% + 2px, 3rem);
+  transform: translate(-50%, -50%);
+}
+
+[data-nc-screen='touch'] .nc-multiselect__option {
+  box-sizing: border-box;
+  min-height: 3rem;
+}
+
+[data-nc-screen='touch'] .nc-multiselect__action,
+[data-nc-screen='touch'] .nc-multiselect__clear {
+  min-height: 3rem;
+}
+
+/* ---- a tv -----------------------------------------------------------------------
+   the trigger is large and takes the tv focus of a field: the 3px ring inside
+   its edge, in place of the border, the focused surface and 2% of growth. in
+   the open panel a row is 40 high with a label of 14, and takes the tv focus
+   of a row. the list keeps a little room, so a row that grows is not cut off. */
+[data-nc-screen='tv'] .nc-multiselect__trigger {
+  transition: background-color 0.15s ease-out, border-color 0.15s ease-out, transform 0.15s ease-out;
+}
+
+[data-nc-screen='tv'] .nc-multiselect__trigger:focus-visible {
+  outline: none;
+  border-color: var(--focus-ring);
+  box-shadow: inset 0 0 0 2px var(--focus-ring);
+  background: var(--surface-focus);
+  transform: scale(1.02);
+}
+
+[data-nc-screen='tv'] .nc-multiselect__trigger:focus-visible .nc-multiselect__label {
+  color: var(--fg-2);
+}
+
+[data-nc-screen='tv'] .nc-multiselect__list {
+  padding: 1px var(--s-1);
+}
+
+[data-nc-screen='tv'] .nc-multiselect__option {
+  box-sizing: border-box;
+  min-height: 2.5rem;
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+}
+
+[data-nc-screen='tv'] .nc-multiselect__option-label {
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='tv'] .nc-multiselect__option:has(.nc-checkbox__input:focus-visible) {
+  background: var(--surface-focus);
+  box-shadow: inset 0 0 0 3px var(--focus-ring);
+  transform: scale(1.02);
+}
+
+/* the row carries the focus, so the box inside it draws no outline of its own. */
+[data-nc-screen='tv'] .nc-multiselect__option .nc-checkbox__input:focus-visible + .nc-checkbox__mark {
+  outline: none;
+}
+
+/* brighter text on the focused row: nothing in the dimmest grey sits on the focused surface. */
+[data-nc-screen='tv'] .nc-multiselect__option:has(.nc-checkbox__input:focus-visible) .nc-checkbox__label {
+  color: var(--fg);
+}
+
+[data-nc-screen='tv'] .nc-multiselect__option:has(.nc-checkbox__input:focus-visible) .nc-multiselect__option-count {
+  color: var(--fg-muted);
+}
+
+[data-nc-screen='tv'] .nc-multiselect__action,
+[data-nc-screen='tv'] .nc-multiselect__clear {
+  min-height: 2.5rem;
+  font-size: 0.875rem;
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+}
+
+[data-nc-screen='tv'] .nc-multiselect__action:focus-visible,
+[data-nc-screen='tv'] .nc-multiselect__clear:focus-visible {
+  outline: none;
+  background: var(--surface-focus);
+  box-shadow: inset 0 0 0 3px var(--focus-ring);
+  color: var(--fg);
+  transform: scale(1.02);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .nc-multiselect__chevron {
     transition: none;
+  }
+
+  [data-nc-screen='tv'] .nc-multiselect__trigger,
+  [data-nc-screen='tv'] .nc-multiselect__option,
+  [data-nc-screen='tv'] .nc-multiselect__action,
+  [data-nc-screen='tv'] .nc-multiselect__clear {
+    transition: none;
+  }
+
+  [data-nc-screen='tv'] .nc-multiselect__trigger:focus-visible,
+  [data-nc-screen='tv'] .nc-multiselect__option:has(.nc-checkbox__input:focus-visible),
+  [data-nc-screen='tv'] .nc-multiselect__action:focus-visible,
+  [data-nc-screen='tv'] .nc-multiselect__clear:focus-visible {
+    transform: none;
   }
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
-import { formatCount } from '../../lib/format';
+import { fill, formatCount, useLanguage } from '../../lib/language';
 import { useElementWidth } from '../../lib/useElementWidth';
 import { Input } from '../Input/Input';
 import { Select } from '../Select/Select';
@@ -13,7 +13,7 @@ export interface FilterBarSearch {
   onChange: (value: string) => void;
   /** A hint of what can be searched: "search titles". */
   placeholder?: string;
-  /** The field's accessible name. Default "search". */
+  /** The field's accessible name. Default "search", in the page's language. */
   label?: string;
 }
 
@@ -50,8 +50,14 @@ export interface FilterBarProps extends React.HTMLAttributes<HTMLDivElement> {
   onClearAll?: () => void;
   /** What the filters leave: "312 of 2,500". Announced politely as it changes. */
   resultCount?: React.ReactNode;
-  /** The landmark's accessible name. Default "filters". */
+  /** The landmark's accessible name. Default "filters", in the page's language. */
   label?: string;
+  /**
+   * The height of every control in the bar, the "filters" button included:
+   * 34, or 42 at `lg`, where a multi select's options are rows 48 high.
+   * Default md.
+   */
+  size?: 'md' | 'lg';
   /** Below this width (px) the facets fold behind a "filters" toggle. Default 640. */
   collapseBelow?: number;
   /** Extra controls after the facets. */
@@ -73,7 +79,8 @@ function isActive(f: FilterDef): boolean {
  * FilterBar — what narrows a list: a search field, facets, "clear all" and the
  * count of what is left. Fully controlled; the list filters itself from the
  * values. A search landmark; on a narrow screen the facets fold behind one
- * "filters" toggle that says how many are set.
+ * "filters" toggle that says how many are set. Every control shares one
+ * height: 34, or 42 at `size="lg"` and on a screen made for touch.
  */
 export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(function FilterBar(
   {
@@ -81,7 +88,8 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(functi
     filters = [],
     onClearAll,
     resultCount,
-    label = 'filters',
+    label,
+    size = 'md',
     collapseBelow = 640,
     className,
     children,
@@ -89,6 +97,7 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(functi
   },
   ref,
 ) {
+  const { lang, words } = useLanguage();
   const innerRef = React.useRef<HTMLDivElement>(null);
   React.useImperativeHandle(ref, () => innerRef.current as HTMLDivElement);
   const width = useElementWidth(innerRef);
@@ -105,7 +114,7 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(functi
   // (or the toolbar's own button would drop it on the page).
   const clearAll = onClearAll ? (
     <Button
-      size="md"
+      size={size}
       variant="ghost"
       disabled={!anyActive}
       onClick={() => {
@@ -113,7 +122,7 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(functi
         searchRef.current?.focus();
       }}
     >
-      clear all
+      {words.filterBar.clearAll}
     </Button>
   ) : null;
 
@@ -121,20 +130,22 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(functi
     <div
       ref={innerRef}
       role="search"
-      aria-label={label}
-      className={cx('nc-filterbar', narrow && 'nc-filterbar--narrow', className)}
+      aria-label={label ?? words.filterBar.filters}
+      className={cx('nc-filterbar', `nc-filterbar--${size}`, narrow && 'nc-filterbar--narrow', className)}
       {...rest}
     >
       <div className="nc-filterbar__row">
         {search ? (
-          <div className="nc-filterbar__search">
+          // a label, so a press anywhere on the field's box, the glyph included,
+          // puts the cursor in it. the field's name is its aria-label.
+          <label className="nc-filterbar__search">
             <Input
               ref={searchRef}
               type="search"
-              inputSize="md"
+              inputSize={size}
               value={search.value}
               placeholder={search.placeholder}
-              aria-label={search.label ?? 'search'}
+              aria-label={search.label ?? words.filterBar.search}
               leading={<SearchGlyph />}
               onChange={(e) => search.onChange(e.target.value)}
               onKeyDown={(e) => {
@@ -144,17 +155,19 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(functi
                 }
               }}
             />
-          </div>
+          </label>
         ) : null}
         {narrow && filters.length > 0 ? (
           <Button
-            size="md"
+            size={size}
             variant="default"
             aria-expanded={expanded}
             aria-controls={facetsId}
             onClick={() => setExpanded((x) => !x)}
           >
-            {activeFacets ? `filters · ${formatCount(activeFacets)}` : 'filters'}
+            {activeFacets
+              ? fill(words.filterBar.filtersActive, { n: formatCount(activeFacets, lang) })
+              : words.filterBar.filters}
           </Button>
         ) : null}
         <div
@@ -167,7 +180,7 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(functi
               <label key={f.id} className={cx('nc-filterbar__facet', isActive(f) && 'nc-filterbar__facet--active')}>
                 <span className="nc-filterbar__facet-label">{f.label}</span>
                 <Select
-                  selectSize="md"
+                  selectSize={size}
                   value={f.value}
                   options={f.options}
                   onChange={(e) => f.onChange(e.target.value)}
@@ -177,6 +190,7 @@ export const FilterBar = React.forwardRef<HTMLDivElement, FilterBarProps>(functi
               <MultiSelect
                 key={f.id}
                 label={f.label}
+                size={size}
                 options={f.options}
                 value={f.value}
                 onChange={f.onChange}

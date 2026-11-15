@@ -21,7 +21,7 @@ import { Open, WithAPicture, WithIcons, OnATv } from '@site/examples/user-menu';
 The top bar runs across the top of every screen and answers the same four questions everywhere: where am I, where do I find something, is there anything new for me, and where is my account? The <Term id="user-menu">user menu</Term> is its last part: everything about the person, behind their <Term id="avatar">avatar</Term>.
 
 <Example label="a top bar with an app open, live: type in the search, press the bell, open the user menu" flush>
-  <Playground client:visible />
+  <Playground client:load />
 </Example>
 
 Why the bar holds these parts, and why it is the same in every product, is on the [top bar](/design-system/patterns/top-bar/) pattern page. This page describes the two components.
@@ -61,7 +61,7 @@ A product can put its own navigation after the names; see [a product's own navig
 The search has two places, and the frame around the bar decides which; [where it sits](/design-system/patterns/top-bar/#where-it-sits) explains the rule. In a bar that starts with names, it sits at the end, just before the notifications, as in the example at the top. Over a rail of icons, it sits at the start, and the bar starts with the product's mark alone: the chevron and the first letter of the product's name, in a cell as wide as the rail.
 
 <Example label="the search at the start of the bar, after the product's mark, live" flush>
-  <SearchAtTheStart client:visible />
+  <SearchAtTheStart client:load />
 </Example>
 
 The notifications and the user menu never move, and the field is the same one in both places.
@@ -108,7 +108,7 @@ An item can lead to a page, such as the person's account. It is then a link, so 
 A product for consumers can keep its own main navigation in the bar, after its name; see [the same everywhere](/design-system/patterns/top-bar/#the-same-everywhere). The bar gives it the place, and the product draws it.
 
 <Example label="a top bar with a product's own navigation after the name, live" flush>
-  <OwnNavigation client:visible />
+  <OwnNavigation client:load />
 </Example>
 
 ### on a touch screen and on a tv

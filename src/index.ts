@@ -76,6 +76,8 @@ export { Card } from './components/Card/Card';
 export type { CardProps } from './components/Card/Card';
 export { Badge } from './components/Badge/Badge';
 export type { BadgeProps, BadgeTone } from './components/Badge/Badge';
+export { Avatar } from './components/Avatar/Avatar';
+export type { AvatarProps, AvatarSize } from './components/Avatar/Avatar';
 export { Table, Thead, Tbody, Tr, Th, Td } from './components/Table/Table';
 export type { TableProps, TableColumn } from './components/Table/Table';
 export { Tabs } from './components/Tabs/Tabs';
@@ -152,6 +154,12 @@ export { Portal } from './components/Portal/Portal';
 export type { PortalProps } from './components/Portal/Portal';
 export { useRovingGrid } from './lib/useRovingGrid';
 export type { RovingGrid } from './lib/useRovingGrid';
+
+// patterns — the top bar of every screen, and its user menu
+export { TopBar } from './components/TopBar/TopBar';
+export type { TopBarProps, TopBarSearch, TopBarResult, TopBarResultGroup } from './components/TopBar/TopBar';
+export { UserMenu } from './components/UserMenu/UserMenu';
+export type { UserMenuProps, UserMenuItem } from './components/UserMenu/UserMenu';
 
 // patterns — the worklist page layout
 export { Worklist } from './patterns/Worklist/Worklist';

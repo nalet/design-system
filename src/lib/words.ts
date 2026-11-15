@@ -99,8 +99,32 @@ export interface Words {
   sheet: Record<string, never>;
   slider: Record<string, never>;
   stepper: Record<string, never>;
-  topBar: Record<string, never>;
-  userMenu: Record<string, never>;
+  topBar: {
+    /** The product's name as a link, named after where it goes: "{product}, home". */
+    home: string;
+    /** The search field's name where the app gives none, and the name of the icon it folds into. */
+    search: string;
+    /** The search field's placeholder, from its name: "{label}…". */
+    searchPlaceholder: string;
+    /** The button that closes the search a narrow bar opened. */
+    closeSearch: string;
+    /** The name of the list of results under the search. */
+    resultList: string;
+    /** What a screen reader hears while someone types: "{n} results". */
+    results: Counted;
+    /** The list's one line when nothing was found. */
+    noResults: string;
+    /** The bell's name with nothing unread. */
+    notifications: string;
+    /** The bell's name with its count: "notifications, {n} unread". */
+    unread: Counted;
+  };
+  userMenu: {
+    /** The avatar button's name, what it shows and what it opens: "{who}, user menu". */
+    label: string;
+    /** The last item. */
+    signOut: string;
+  };
 }
 
 export const english: Words = {
@@ -160,8 +184,21 @@ export const english: Words = {
   sheet: {},
   slider: {},
   stepper: {},
-  topBar: {},
-  userMenu: {},
+  topBar: {
+    home: '{product}, home',
+    search: 'search',
+    searchPlaceholder: '{label}…',
+    closeSearch: 'close search',
+    resultList: 'results',
+    results: { one: '{n} result', other: '{n} results' },
+    noResults: 'no results',
+    notifications: 'notifications',
+    unread: { one: 'notifications, {n} unread', other: 'notifications, {n} unread' },
+  },
+  userMenu: {
+    label: '{who}, user menu',
+    signOut: 'sign out',
+  },
 };
 
 export const german: Words = {
@@ -221,8 +258,21 @@ export const german: Words = {
   sheet: {},
   slider: {},
   stepper: {},
-  topBar: {},
-  userMenu: {},
+  topBar: {
+    home: '{product}, startseite',
+    search: 'suchen',
+    searchPlaceholder: '{label}…',
+    closeSearch: 'suche schließen',
+    resultList: 'ergebnisse',
+    results: { one: '{n} ergebnis', other: '{n} ergebnisse' },
+    noResults: 'keine ergebnisse',
+    notifications: 'benachrichtigungen',
+    unread: { one: 'benachrichtigungen, {n} ungelesen', other: 'benachrichtigungen, {n} ungelesen' },
+  },
+  userMenu: {
+    label: '{who}, benutzermenü',
+    signOut: 'abmelden',
+  },
 };
 
 /** The sets the package brings, by language. */

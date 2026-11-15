@@ -95,9 +95,14 @@
    drawn large, with the large size's icon, and it answers to a touch in 48
    around its centre: the touch area is not drawn. */
 [data-nc-screen='touch'] .nc-iconbtn {
-  position: relative;
   width: 2.625rem;
   height: 2.625rem;
+}
+
+/* the touch area is placed against the button. :where() keeps this rule
+   weaker than any position an app gives the button itself. */
+:where([data-nc-screen='touch'] .nc-iconbtn) {
+  position: relative;
 }
 
 [data-nc-screen='touch'] .nc-iconbtn::after {

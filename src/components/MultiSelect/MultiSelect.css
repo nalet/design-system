@@ -106,8 +106,10 @@
 
 /* the options scroll in a part of their own once they are taller than 320,
    or than the window leaves them (a height set when the panel is measured).
-   scrolling them doesn't scroll the page behind. */
+   scrolling them doesn't scroll the page behind. positioned, so the group's
+   hidden name stays inside the box that scrolls. */
 .nc-multiselect__list {
+  position: relative;
   max-height: 20rem;
   overflow-x: hidden;
   overflow-y: auto;
@@ -215,6 +217,7 @@
   font-size: 0.875rem;
 }
 
+/* the touch area is placed against the trigger. */
 [data-nc-screen='touch'] .nc-multiselect__trigger {
   position: relative;
 }

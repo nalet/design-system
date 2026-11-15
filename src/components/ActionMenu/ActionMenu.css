@@ -114,7 +114,8 @@
   min-height: 3rem;
 }
 
-[data-nc-screen='touch'] .nc-actionmenu__trigger {
+/* :where() keeps this weaker than a position an app gives the trigger. */
+:where([data-nc-screen='touch'] .nc-actionmenu__trigger) {
   position: relative;
 }
 

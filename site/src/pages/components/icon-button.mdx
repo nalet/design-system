@@ -281,4 +281,4 @@ Today:
 | On, under the pointer | `aria-pressed="true"` and hover | A `--surface-2` fill and the rule kept; the standard kind's border turns `--cloud-blue`, as on any hover |
 
 - **On a touch screen** (`data-nc-screen="touch"` on an ancestor): 42px square at every `size`, an icon passed as a direct `svg` child drawn at 20px, and a touch area of 48 × 48 (`3rem`) centred on the button, which isn't drawn.
-- **On a TV** (`data-nc-screen="tv"`): 42 square, the icon at 20. Keyboard focus is the TV focus of a button: a 3px `--focus-ring` outline 2px outside the frame, 5% of growth in 150ms `ease-out`, none of it under reduced motion, and a `--surface-focus` fill on every kind but `primary`, which keeps its own. A button that is on keeps its rule.
+- **On a TV** (`data-nc-screen="tv"`): 42 square, the icon at 20. Keyboard focus is the TV focus of a button: a 3px `--focus-ring` outline 2px outside the frame, a `--surface-focus` fill on every kind but `primary`, which keeps its own, and 5% of growth in 150ms `ease-out`; under reduced motion nothing grows. A button that is on keeps its rule.

@@ -76,11 +76,13 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* narrow: search and the toggle share the first line; facets stack below. */
+/* narrow: search and the toggle share the first line; facets stack below.
+   the search keeps room for a few words: where the line can't hold both, at a
+   large text size or in a very narrow bar, the toggle moves under it. */
 .nc-filterbar--narrow .nc-filterbar__search {
   max-width: none;
-  min-width: 0;
-  flex-basis: 0;
+  min-width: min(8rem, 100%);
+  flex-basis: 8rem;
 }
 
 .nc-filterbar--narrow .nc-filterbar__facets {
@@ -146,7 +148,8 @@
    edges. the search and a select facet sit in a label 48 high, and the field
    itself fills its box, so a touch anywhere on it lands in the field; a
    select reaches the label's edges, so the same touch opens its list. */
-[data-nc-screen='touch'] .nc-filterbar .nc-btn {
+/* :where() keeps this weaker than a position an app gives a button of its own. */
+:where([data-nc-screen='touch'] .nc-filterbar .nc-btn) {
   position: relative;
 }
 

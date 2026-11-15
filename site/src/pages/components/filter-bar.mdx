@@ -49,7 +49,7 @@ A filter bar lets people narrow a list down: a search, a few <Term id="facet">fa
 
 On a wide bar, everything sits in one row, which wraps when it has to.
 
-On a narrow bar, the facets fold away behind the “filters” button. The bar goes by its own width, not the screen's. The search and the button share the first line, and the facets open in a column under them, with “clear all” at their end. The count keeps a line of its own, and takes no room while there is no count. The button counts the facets that are set, not the search.
+On a narrow bar, the facets fold away behind the “filters” button. The bar goes by its own width, not the screen's. The search and the button share the first line, and the facets open in a column under them, with “clear all” at their end. Where the line can't hold both, in a very narrow bar or at a large text size, the button moves under the search. The count keeps a line of its own, and takes no room while there is no count. The button counts the facets that are set, not the search.
 
 {/* the narrow bar is a fixed 360px: a frame without side padding keeps it inside a phone's width. */}
 <Example flush label="a narrow filter bar, live">
@@ -178,7 +178,7 @@ Today:
 | Filters toggle | narrow only | A `default` button at the bar's size, “filters” or “filters · 2”, with `aria-expanded` and `aria-controls`. Folded facets are `hidden`, out of the tab order. |
 
 - **Size:** `size="md"` (the default): every control 34px tall. `size="lg"`: every control 42px tall, with the large controls' padding and 14px text; a multi select's options are then at least 48px tall.
-- **Narrow:** `collapseBelow`, 640px by default, measured on the bar's own width. The search and the toggle share the first line; the facets open in a full-width column below, each select up to 260px wide, with clear all at their end; the count takes a line of its own, and an empty count takes no room.
+- **Narrow:** `collapseBelow`, 640px by default, measured on the bar's own width. The search and the toggle share the first line, the search at least 128px wide (`8rem`), and the toggle wraps under it where both don't fit; the facets open in a full-width column below, each select up to 260px wide, with clear all at their end; the count takes a line of its own, and an empty count takes no room.
 - **Set:** a select facet is set while its value isn't `emptyValue`; a multi select facet while its value isn't empty. The toggle counts the set facets, not the search.
 - **Keys:** <Kbd>esc</Kbd> in the search clears it, when it holds text. Typing filters on every keystroke.
 - **Words:** “filters”, “filters · n”, “clear all” and “search” come from the page's language (`filterBar` in the words of `Language`); `label` and `search.label` replace the two names.

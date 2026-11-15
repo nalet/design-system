@@ -36,9 +36,13 @@ export interface LanguageProps {
  * own words from the set for it.
  */
 export function Language({ lang, words, children }: LanguageProps) {
+  const outer = React.useContext(LanguageContext);
   const pageLang = usePageLanguage();
-  const tag = lang ?? pageLang;
-  const value = React.useMemo<LanguageValue>(() => ({ lang: tag, words: mergeWords(wordsFor(tag), words) }), [tag, words]);
+  // inside another Language: its language unless this one names its own, and
+  // its words as long as the language stays the same.
+  const tag = lang ?? outer?.lang ?? pageLang;
+  const base = outer && outer.lang === tag ? outer.words : wordsFor(tag);
+  const value = React.useMemo<LanguageValue>(() => ({ lang: tag, words: mergeWords(base, words) }), [tag, base, words]);
   return <LanguageContext.Provider value={value}>{children}</LanguageContext.Provider>;
 }
 

@@ -80,6 +80,28 @@ describe('language', () => {
     expect(formatCount(2500)).toBe('2.500');
   });
 
+  it('keeps the outer language and its words inside another Language, until one names a new language', () => {
+    render(
+      <Language lang="de" words={{ modal: { close: 'zu' } }}>
+        <Language words={{ toolbar: { selected: { other: '{n} markiert' } } }}>
+          <Probe />
+        </Language>
+      </Language>,
+    );
+    expect(screen.getByText('de: zu, 2.500 markiert')).toBeInTheDocument();
+  });
+
+  it('starts from the built-in words where an inner Language names another language', () => {
+    render(
+      <Language lang="de" words={{ modal: { close: 'zu' } }}>
+        <Language lang="en">
+          <Probe />
+        </Language>
+      </Language>,
+    );
+    expect(screen.getByText('en: close, 2,500 selected')).toBeInTheDocument();
+  });
+
   it('fills a text and picks the form a number asks for', () => {
     expect(fill('select {name}', { name: 'db-01' })).toBe('select db-01');
     expect(fill('{shown} of {total}', { shown: '100', total: '2,500' })).toBe('100 of 2,500');

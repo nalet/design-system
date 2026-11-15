@@ -132,17 +132,31 @@ type Item<Row> =
 // natural order ("E2" before "E10"), case-insensitive. one collator: building
 // one per comparison (what localeCompare with options does) makes a sort of a
 // few thousand rows take hundreds of milliseconds.
-const COLLATOR = new Intl.Collator(undefined, { numeric: true, sensitivity: 'base' });
+// the order is the language's own: the table's language, as its counts are.
+const collators = new Map<string, Intl.Collator>();
+function collatorFor(lang: string): Intl.Collator {
+  let c = collators.get(lang);
+  if (!c) {
+    try {
+      c = new Intl.Collator(lang, { numeric: true, sensitivity: 'base' });
+    } catch {
+      c = new Intl.Collator('en', { numeric: true, sensitivity: 'base' });
+    }
+    collators.set(lang, c);
+  }
+  return c;
+}
 
-function compareValues(a: SortValue, b: SortValue): number {
+function compareValues(a: SortValue, b: SortValue, collator: Intl.Collator): number {
   if (a instanceof Date) a = a.getTime();
   if (b instanceof Date) b = b.getTime();
-  if (typeof a === 'string' && typeof b === 'string') return COLLATOR.compare(a, b);
+  if (typeof a === 'string' && typeof b === 'string') return collator.compare(a, b);
   return (a as number) < (b as number) ? -1 : (a as number) > (b as number) ? 1 : 0;
 }
 
-function sortRows<Row>(rows: readonly Row[], column: DataTableColumn<Row>, direction: SortDirection): Row[] {
+function sortRows<Row>(rows: readonly Row[], column: DataTableColumn<Row>, direction: SortDirection, lang: string): Row[] {
   const dir = direction === 'descending' ? -1 : 1;
+  const collator = collatorFor(lang);
   const indexed = rows.map((row, i) => ({ row, i }));
   if (column.compare) {
     const cmp = column.compare;
@@ -157,7 +171,7 @@ function sortRows<Row>(rows: readonly Row[], column: DataTableColumn<Row>, direc
       const na = va == null || va === '';
       const nb = vb == null || vb === '';
       if (na || nb) return na === nb ? x.i - y.i : na ? 1 : -1;
-      return compareValues(va, vb) * dir || x.i - y.i;
+      return compareValues(va, vb, collator) * dir || x.i - y.i;
     });
   } else {
     return rows.slice();
@@ -383,8 +397,8 @@ export function DataTable<Row>({
   // ---- sort ---------------------------------------------------------------
   const sortColumn = sort ? columns.find((c) => c.id === sort.columnId) : undefined;
   const sortedRows = React.useMemo(
-    () => (sort && sortColumn && !manualSort ? sortRows(rows, sortColumn, sort.direction) : rows),
-    [rows, sort, sortColumn, manualSort],
+    () => (sort && sortColumn && !manualSort ? sortRows(rows, sortColumn, sort.direction, lang) : rows),
+    [rows, sort, sortColumn, manualSort, lang],
   );
 
   // ---- group --------------------------------------------------------------

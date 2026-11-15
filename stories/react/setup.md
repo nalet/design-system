@@ -108,7 +108,7 @@ const french: WordsOverride = {
 - A text with a value in it names the place in braces: `'select {name}'`.
 - A text that counts has one form for each number the language tells apart, `one` and `other` in English and German, with `{n}` where the count goes.
 - Monospace chrome is written in lowercase, as it is read. A sentence in the body face keeps the language's own capitals.
-- Give `lang` and `words` together, once, near the root. A `Language` inside another starts again from the built-in set for its own language.
+- Give `lang` and `words` together, once, near the root. A `Language` inside another keeps the outer one's language and words, and adds its own; one that names another language starts again from the built-in set for that language.
 
 ### your own texts
 

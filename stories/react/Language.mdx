@@ -34,7 +34,7 @@ Single texts replaced with `words`, here to name what the list holds: the count 
 - `Language` renders no element of its own, only its children.
 - `lang` is a language tag, such as `en`, `de` or `de-CH`. Without it, `Language` takes the page's own.
 - `words` is any part of a set, a `WordsOverride`: whole blocks or single texts. They are laid over the built-in set for `lang`: its own, its language's (`de-CH` reads `de`), else English.
-- A `Language` inside another doesn't inherit the outer one's `words`: it starts again from the built-in set for its own `lang`.
+- A `Language` inside another keeps the outer one's `lang` and `words` and adds its own. One that names another `lang` starts again from the built-in set for that language.
 - Keep the `words` object the same between renders, in a constant or a `useMemo`, so the components inside don't draw again for nothing.
 - Counts are written with `Intl.NumberFormat`, the form of a text that counts is chosen with `Intl.PluralRules`, and dates with `Intl.DateTimeFormat` and `Intl.RelativeTimeFormat`. A language tag the browser can't read is written the English way.
 - `dateLanguage(lang)` is the tag dates are written in: `en` gives `en-GB`, day before month; every other tag is itself.

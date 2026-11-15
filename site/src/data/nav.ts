@@ -58,7 +58,7 @@ export const SECTIONS: NavSection[] = [
         pages: [
           { title: 'principles', href: url('foundations/principles/'), summary: 'Five principles that decide what a screen does and what it leaves out.' },
           { title: 'accessibility', href: url('foundations/accessibility/'), summary: 'Screens everyone can use: the standard we meet, how it is checked, and what is still missing.' },
-          { title: 'content & voice', href: url('foundations/content-voice/'), summary: 'How the words on a screen are written: two voices, one per typeface, short and true.' },
+          { title: 'content & voice', href: url('foundations/content-voice/'), summary: 'How the words on a screen are written: two voices, one per typeface, short and true.', draft: true },
           { title: 'meaningful text', href: url('foundations/meaningful-text/'), summary: 'Where the words on a screen come from, what they leave out, and how people and agents check them before they ship.' },
           { title: 'interaction', href: url('foundations/interaction/'), summary: 'States, focus, the keys and selecting rows: the same in every component.', draft: true },
           { title: 'layout', href: url('foundations/layout/'), summary: 'One scale for space, three control heights, density, touch and TV sizes, and screens that work on a phone.', draft: true },
@@ -75,7 +75,7 @@ export const SECTIONS: NavSection[] = [
       {
         pages: [
           { title: 'colour', href: url('styles/colour/'), summary: 'A dark canvas, four greys for text, one blue for actions and five colours for states, with the contrast of every pair.' },
-          { title: 'typography', href: url('styles/typography/'), summary: 'Two typefaces and six text styles: monospace names things, Inter carries what people read.' },
+          { title: 'typography', href: url('styles/typography/'), summary: 'Two typefaces and six text styles: monospace names things, Inter carries what people read.', draft: true },
           { title: 'iconography', href: url('styles/iconography/'), summary: 'Small line icons in the colour of the text, and when an icon needs a name.' },
           { title: 'shape', href: url('styles/shape/'), summary: 'Square frames, thin lines, and the one rounded shape.' },
           { title: 'motion', href: url('styles/motion/'), summary: 'Small, quick and only to say something.' },

@@ -1,6 +1,8 @@
 ---
 layout: ../../layouts/Doc.astro
 title: typography
+draft: true
+draftNote: "Text that follows the reader's text size, under text size, is new and under review. The rest of the page describes the system as it is."
 description: Two typefaces and six text styles. JetBrains Mono names things; Inter carries what people read.
 ---
 import { Heading, Text, formatCount } from '@nalet/design-system';
@@ -74,6 +76,24 @@ A <Term id="type-role">type role</Term> is a named text style, with its typeface
 - A number inside an Inter sentence stays in Inter. In a column of Inter text, or a value that updates in place, use tabular figures too.
 - Counts carry a <Term id="thousands-separator">thousands separator</Term>, as in “2,500”. The components format their counts that way.
 
+## text size
+
+People choose how large text is once, on their device: in the browser's settings, or in a phone's or a TV's. The sizes on this page are the sizes at the usual setting. Text starts there and follows the reader's choice.
+
+| where | what people set | how the text follows |
+| --- | --- | --- |
+| In a browser | The browser's text size, and its zoom | Every size is a share of the browser's text size, which is 16 pixels unless people change it, so both settings work |
+| In an app on a phone or a tablet | The device's text size | Text is set in the unit the device scales with that setting, and a size on these pages is its size at the usual setting |
+| On a TV | The TV's text size, where it has one | The same, starting from the [TV's sizes](/design-system/foundations/layout/#on-a-tv); a TV without the setting shows those sizes |
+
+- **At twice the size, nothing is lost.** Up to 200%, every text is whole and every control still works. In a browser, a window 320 pixels wide still shows everything, as [layout](/design-system/foundations/layout/#phone-width) has it.
+- **A height is the smallest height.** A control's 28, 34 or 42 is where it starts. Larger text, or text that wraps onto a second line, makes the control and its row taller. Text is never cut off, and never runs over its neighbour.
+- **Nothing shrinks to fit.** Text wraps onto another line. It doesn't get smaller.
+- **Space grows with the text.** The padding in a control and the gaps between rows grow in step, so a screen at a larger text size keeps its proportions.
+- **Lines stay thin.** A border, a divider and the focus outline keep their width. An icon grows with the text beside it.
+
+Planned. Today every size is in pixels and the three control heights are fixed, so text grows with the browser's zoom, but not with the browser's text size.
+
 ## loading the fonts
 
 The library doesn't include or load the fonts: it names them, and leaves the loading to the app. Until they load, or if they never do, text shows in a <Term id="fallback-font">fallback font</Term>, the computer's own. [React](/design-system/develop/react/#fonts) shows how to load them; this site hosts them itself.
@@ -88,7 +108,7 @@ The library doesn't include or load the fonts: it names them, and leaves the loa
 
 - The lowercase look of monospace chrome is only a style, and assistive technology may get either the written or the lowercased text. Written in lowercase, the two are the same.
 - Don't let a typeface, a weight or a size carry a meaning on its own. A state is a <C slug="status" />, with words and a symbol; a structure is a real heading.
-- Today: every size is set in pixels. Text grows when people zoom the browser, but not when they choose a larger default text size in the browser's settings.
+- Today: every size is set in pixels. Text grows when people zoom the browser, but not when they choose a larger default text size in the browser's settings. [Text size](#text-size) says what is planned.
 - Today: the role styles write out their font lists instead of using the shared font settings, so changing a font in one place doesn't reach them.
 
 ## do and don't
@@ -173,6 +193,18 @@ From `tokens/tokens.json` (`type.role`); the specimen above is drawn from the sa
 
 - `font-variant-numeric: tabular-nums` on the counts listed under numbers, above. Add it to an Inter column or a value that updates in place.
 - `formatCount(2500)` returns `2,500`; it is the formatter the components use.
+
+### text size
+
+Planned; none of it is built.
+
+- **In a browser.** Sizes in `rem`, where `1rem` is the browser's text size: 11px is `0.6875rem`, 12px `0.75rem`, 13px `0.8125rem`, 14px `0.875rem`, 16px `1rem`, 22px `1.375rem`, 32px `2rem` and 56px `3.5rem`.
+- **Heights and space.** The control heights become a `min-height` of `1.75rem`, `2.125rem` and `2.625rem`, and the space scale follows: `--s-1` is `0.25rem`, `--s-4` is `1rem`.
+- **Lines.** Borders, dividers and the focus outline stay in `px`.
+- **The page's part.** The page leaves the `font-size` of its root element alone. A root set to a size in pixels, or to 62.5%, undoes this for every component.
+- **In an app.** Text in `sp` on Android and Android TV, and in a text style that follows Dynamic Type on iOS. Boxes are in `dp` and in points, with a smallest height in place of a fixed one.
+- **The checks.** WCAG 1.4.4, resize text, at 200%, and 1.4.10, reflow, at 320 pixels wide.
+- **Today:** every size is in `px`, and `height` is fixed at 28, 34 and 42px on buttons, icon buttons, text fields and selects. The browser's zoom meets 1.4.4; the browser's own text size changes nothing.
 
 ### fonts
 

@@ -91,3 +91,81 @@
   padding: var(--s-3) var(--s-4);
   border-top: 1px solid var(--border);
 }
+
+/* ---- a sheet --------------------------------------------------------------------
+   a dialog that asks for it, in a window narrower than its width and its two
+   margins (the modal measures; there is no media query): it sits on the foot
+   of the screen across the whole width. it appears and goes at once, as every
+   dialog does. */
+
+.nc-modal--sheet {
+  align-items: flex-end;
+  padding: 0;
+}
+
+.nc-modal--sheet .nc-modal__dialog {
+  /* the room a dialog always leaves, all of it above the sheet: the dimmed
+     page shows there. measured on the layer, which is the part of the screen
+     that shows, where a phone's browser bars take some of it. */
+  max-height: calc(100% - var(--s-7));
+  /* the screen's own edges are its frame on three sides. */
+  border-width: 1px 0 0;
+  /* clear of the strips a phone keeps for itself: at its foot for its
+     gestures, and at its sides where it is held sideways. */
+  padding: 0 env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+}
+
+/* ---- a screen made for touch ----------------------------------------------------
+   the close button keeps its look and answers to a touch in 48 × 48, centred
+   on it: the area stays inside the header, which is 50 high. */
+
+[data-nc-screen='touch'] .nc-modal__close {
+  position: relative;
+}
+
+[data-nc-screen='touch'] .nc-modal__close::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--s-7);
+  height: var(--s-7);
+  transform: translate(-50%, -50%);
+}
+
+/* ---- a tv screen ----------------------------------------------------------------
+   the dialog stays inside the safe area, 48 from the sides and 27 from the top
+   and the foot. the close button is large and shows the tv focus: the ring 2
+   outside it, the focused surface, a little growth. */
+
+[data-nc-screen='tv'] .nc-modal {
+  padding: 1.6875rem var(--s-7);
+}
+
+[data-nc-screen='tv'] .nc-modal__dialog {
+  max-height: calc(100vh - 3.375rem);
+}
+
+[data-nc-screen='tv'] .nc-modal__close {
+  width: 2.625rem;
+  height: 2.625rem;
+  transition: background-color 0.15s ease-out, color 0.15s ease-out, transform 0.15s ease-out;
+}
+
+[data-nc-screen='tv'] .nc-modal__close:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  background: var(--surface-focus);
+  color: var(--fg);
+  transform: scale(1.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-nc-screen='tv'] .nc-modal__close {
+    transition: none;
+  }
+
+  [data-nc-screen='tv'] .nc-modal__close:focus-visible {
+    transform: none;
+  }
+}

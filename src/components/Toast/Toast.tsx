@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
+import { useLanguage } from '../../lib/language';
+import { rem } from '../../lib/rem';
 import { StateGlyph, type State } from '../../lib/StateGlyph';
 import '../../lib/a11y.css';
 import './Toast.css';
@@ -20,12 +22,23 @@ export interface ToastItem {
   duration: number;
 }
 
+/** The edge of the screen the toasts appear at. */
+export type ToastPlacement = 'bottom' | 'top';
+
 // one store per copy of the library: toast() can be called from anywhere —
 // event handlers, async code — and every mounted <Toaster /> renders it.
 let items: ToastItem[] = [];
 let counter = 0;
 const listeners = new Set<() => void>();
 const MAX_VISIBLE = 3;
+
+// the screens that moved the toasts, in the order they opened: the last one
+// still open decides, so the toasts go back when it closes.
+interface Move {
+  placement: ToastPlacement;
+  offset: number;
+}
+let moves: Move[] = [];
 
 function emit() {
   for (const l of listeners) l();
@@ -40,6 +53,10 @@ function subscribe(listener: () => void) {
 
 function snapshot() {
   return items;
+}
+
+function moveSnapshot(): Move | undefined {
+  return moves[moves.length - 1];
 }
 
 /**
@@ -76,13 +93,48 @@ toast.clear = (): void => {
   emit();
 };
 
+/**
+ * useToastPlacement — a screen moves the toasts while it is open: every toast,
+ * in every toaster, appears at this edge until the screen closes, and then
+ * where it appeared before. For a screen whose foot is taken by something
+ * people use the whole time, such as a player that fills the window:
+ * `useToastPlacement('top')`. Without a placement (null), it moves nothing.
+ *
+ * `offset` is the height of a bar that stays at that edge while the screen is
+ * open, in px at the usual text size; the toasts keep their distance from it.
+ */
+export function useToastPlacement(placement: ToastPlacement | null | undefined, offset = 0): void {
+  React.useEffect(() => {
+    if (!placement) return;
+    const move: Move = { placement, offset };
+    moves = [...moves, move];
+    emit();
+    return () => {
+      moves = moves.filter((m) => m !== move);
+      emit();
+    };
+  }, [placement, offset]);
+}
+
 export interface ToasterProps {
-  /** The region's accessible name. Default "notifications". */
+  /** The region's accessible name. Default "notifications", in the page's language. */
   label?: string;
+  /**
+   * The edge the toasts appear at: `bottom` (the default) or `top`. A screen
+   * that is open can move them for as long as it is, with `useToastPlacement`.
+   */
+  placement?: ToastPlacement;
+  /**
+   * The height of a bar that stays at that edge, such as a phone's tab bar at
+   * the foot, in px at the usual text size. The toasts keep their distance
+   * from the bar, not from the screen's edge. Default 0.
+   */
+  offset?: number;
   className?: string;
 }
 
 function ToastView({ item }: { item: ToastItem }) {
+  const { words } = useLanguage();
   const [paused, setPaused] = React.useState(false);
   const remaining = React.useRef(item.duration);
   const startedAt = React.useRef(0);
@@ -101,6 +153,11 @@ function ToastView({ item }: { item: ToastItem }) {
     };
   }, [paused, item]);
 
+  // a warning or an error says its state in words, for a screen reader: the
+  // text is whole in the page's language, and the message takes its place in it.
+  const spoken = item.state === 'warning' ? words.toast.warning : item.state === 'error' ? words.toast.error : null;
+  const [before, after] = spoken != null ? spoken.split('{message}') : [];
+
   return (
     <li
       className={cx('nc-toast', `nc-toast--${item.state}`)}
@@ -112,8 +169,9 @@ function ToastView({ item }: { item: ToastItem }) {
         <StateGlyph state={item.state} />
       </span>
       <span className="nc-toast__text">
-        {item.state === 'warning' || item.state === 'error' ? <span className="nc-sr-only">{item.state}: </span> : null}
+        {before ? <span className="nc-sr-only">{before}</span> : null}
         {item.message}
+        {after ? <span className="nc-sr-only">{after}</span> : null}
       </span>
     </li>
   );
@@ -121,13 +179,23 @@ function ToastView({ item }: { item: ToastItem }) {
 
 /**
  * Toaster — where toasts appear: bottom centre, above everything, at most three
- * at a time. The list is a polite live region that exists before the first
- * toast, so every addition is announced once; nothing in it is focusable.
+ * at a time; top centre where `placement` or an open screen says so. The list
+ * is a polite live region that exists before the first toast, so every
+ * addition is announced once; nothing in it is focusable.
  */
-export function Toaster({ label = 'notifications', className }: ToasterProps) {
+export function Toaster({ label, placement = 'bottom', offset = 0, className }: ToasterProps) {
+  const { words } = useLanguage();
   const list = React.useSyncExternalStore(subscribe, snapshot, snapshot);
+  const moved = React.useSyncExternalStore(subscribe, moveSnapshot, moveSnapshot);
+  const edge = moved?.placement ?? placement;
+  const bar = moved ? moved.offset : offset;
   return (
-    <section className={cx('nc-toaster', className)} aria-label={label}>
+    <section
+      className={cx('nc-toaster', `nc-toaster--${edge}`, className)}
+      data-placement={edge}
+      aria-label={label ?? words.toast.region}
+      style={bar > 0 ? ({ '--nc-toaster-bar': rem(bar) } as React.CSSProperties) : undefined}
+    >
       <ol className="nc-toaster__list" aria-live="polite" aria-relevant="additions text">
         {list.map((t) => (
           <ToastView key={t.id} item={t} />

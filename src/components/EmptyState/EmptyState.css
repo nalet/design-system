@@ -91,3 +91,134 @@
 .nc-illu--lg .nc-illu__title {
   font-size: 1.375rem;
 }
+
+/* ---- details --------------------------------------------------------------------
+   the technical part, behind a disclosure: the banner's toggle and block, with
+   the empty state's own quiet line. the toggle has a line of its own under the
+   actions, which hold only the ways forward. */
+
+.nc-illu__toggle {
+  -webkit-appearance: none;
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-1);
+  min-height: 1.75rem;
+  margin-top: var(--s-4);
+  padding: 0 var(--s-2);
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg-muted);
+  font-family: var(--ff-mono);
+  font-size: 0.75rem;
+  text-transform: lowercase;
+  cursor: pointer;
+}
+
+.nc-illu__actions + .nc-illu__toggle {
+  margin-top: var(--s-2);
+}
+
+.nc-illu__toggle:hover {
+  color: var(--fg);
+}
+
+.nc-illu__toggle:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.nc-illu__caret {
+  flex: none;
+  transition: transform 0.12s ease;
+}
+
+.nc-illu__toggle[aria-expanded='true'] .nc-illu__caret {
+  transform: rotate(90deg);
+}
+
+.nc-illu__details {
+  box-sizing: border-box;
+  /* no wider than the description, and never wider than the room there is. */
+  max-width: min(46ch, 100%);
+  margin-top: var(--s-2);
+  padding: var(--s-2) var(--s-3);
+  border-left: 1px solid var(--border-2);
+  color: var(--fg-muted);
+  font-family: var(--ff-mono);
+  font-size: 0.75rem;
+  line-height: 1.55;
+  /* its lines start at the left, as code does. */
+  text-align: left;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+}
+
+.nc-illu__details[hidden] {
+  display: none;
+}
+
+/* ---- a screen made for touch ----------------------------------------------------
+   the toggle keeps its look and answers to a touch in a row 48 high, centred on
+   it and at least 48 wide. it stands 16 under the actions, so its area and
+   theirs never meet. */
+
+[data-nc-screen='touch'] .nc-illu__toggle {
+  position: relative;
+}
+
+[data-nc-screen='touch'] .nc-illu__toggle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  min-width: var(--s-7);
+  height: var(--s-7);
+  transform: translate(-50%, -50%);
+}
+
+[data-nc-screen='touch'] .nc-illu__actions + .nc-illu__toggle {
+  margin-top: var(--s-4);
+}
+
+/* ---- a tv screen ----------------------------------------------------------------
+   what people read steps up from 13 to 14. the toggle is a large control with a
+   label of 14, and shows the tv focus of a button: the ring 2 outside it, the
+   focused surface, a little growth. 12 from the actions, the room the focus
+   needs. */
+
+[data-nc-screen='tv'] .nc-illu__description {
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='tv'] .nc-illu__toggle {
+  min-height: 2.625rem;
+  padding: 0 var(--s-3);
+  font-size: 0.875rem;
+  transition: background-color 0.15s ease-out, color 0.15s ease-out, transform 0.15s ease-out;
+}
+
+[data-nc-screen='tv'] .nc-illu__actions + .nc-illu__toggle {
+  margin-top: var(--s-3);
+}
+
+[data-nc-screen='tv'] .nc-illu__toggle:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  background: var(--surface-focus);
+  color: var(--fg);
+  transform: scale(1.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-illu__caret,
+  [data-nc-screen='tv'] .nc-illu__toggle {
+    transition: none;
+  }
+
+  [data-nc-screen='tv'] .nc-illu__toggle:focus-visible {
+    transform: none;
+  }
+}

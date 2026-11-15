@@ -43,7 +43,10 @@ export interface Words {
     /** What a screen reader says for an empty date. */
     noDate: string;
   };
-  emptyState: Record<string, never>;
+  emptyState: {
+    /** The button that shows an empty state's details. */
+    details: string;
+  };
   filterBar: {
     /** The button the facets fold behind, and the group's name. */
     filters: string;
@@ -83,6 +86,10 @@ export interface Words {
   toast: {
     /** The name of the region the toasts appear in. */
     region: string;
+    /** A warning toast, as a screen reader reads it: "warning: {message}". */
+    warning: string;
+    /** An error toast, as a screen reader reads it: "error: {message}". */
+    error: string;
   };
   toolbar: {
     /** The button that holds the actions that don't fit. */
@@ -118,7 +125,9 @@ export const english: Words = {
   dateCell: {
     noDate: 'no date',
   },
-  emptyState: {},
+  emptyState: {
+    details: 'details',
+  },
   filterBar: {
     filters: 'filters',
     filtersActive: 'filters · {n}',
@@ -148,6 +157,8 @@ export const english: Words = {
   },
   toast: {
     region: 'notifications',
+    warning: 'warning: {message}',
+    error: 'error: {message}',
   },
   toolbar: {
     more: 'more actions',
@@ -179,7 +190,9 @@ export const german: Words = {
   dateCell: {
     noDate: 'kein datum',
   },
-  emptyState: {},
+  emptyState: {
+    details: 'details',
+  },
   filterBar: {
     filters: 'filter',
     filtersActive: 'filter · {n}',
@@ -209,6 +222,8 @@ export const german: Words = {
   },
   toast: {
     region: 'benachrichtigungen',
+    warning: 'warnung: {message}',
+    error: 'fehler: {message}',
   },
   toolbar: {
     more: 'weitere aktionen',

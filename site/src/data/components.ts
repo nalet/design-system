@@ -70,7 +70,7 @@ export const COMPONENTS: ComponentEntry[] = [
   // feedback & status
   { slug: 'status', name: 'status', exports: ['Status', 'defineStates', 'STATE_SEVERITY'], role: 'feedback & status', summary: 'The state of one thing, with one of five meanings.', react: 'components-feedback-status-status' },
   { slug: 'banner', name: 'banner', exports: ['Banner'], role: 'feedback & status', summary: 'A message about the page or the list that stays for as long as it is true.', react: 'components-feedback-status-banner' },
-  { slug: 'toast', name: 'toast', exports: ['toast', 'Toaster'], role: 'feedback & status', summary: 'A short confirmation of an action just taken.', react: 'components-feedback-status-toast' },
+  { slug: 'toast', name: 'toast', exports: ['toast', 'Toaster', 'useToastPlacement'], role: 'feedback & status', summary: 'A short confirmation of an action just taken.', react: 'components-feedback-status-toast' },
   { slug: 'empty-state', name: 'empty state', exports: ['EmptyState'], role: 'feedback & status', summary: "What a list shows when it is empty, done, has no matches, failed or can't be known.", react: 'components-feedback-status-empty-state' },
   { slug: 'spinner', name: 'spinner', exports: ['Spinner'], role: 'feedback & status', summary: 'Something is loading, where nothing better shows it.', react: 'components-feedback-status-spinner' },
 

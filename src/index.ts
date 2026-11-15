@@ -93,8 +93,8 @@ export type { StatusProps, State, StateSpec } from './components/Status/Status';
 export { STATES } from './lib/StateGlyph';
 export { Banner } from './components/Banner/Banner';
 export type { BannerProps } from './components/Banner/Banner';
-export { toast, Toaster } from './components/Toast/Toast';
-export type { ToastOptions, ToasterProps, ToastItem } from './components/Toast/Toast';
+export { toast, Toaster, useToastPlacement } from './components/Toast/Toast';
+export type { ToastOptions, ToasterProps, ToastItem, ToastPlacement } from './components/Toast/Toast';
 export { EmptyState } from './components/EmptyState/EmptyState';
 export type { EmptyStateProps, Illustration, EmptyStateSize } from './components/EmptyState/EmptyState';
 

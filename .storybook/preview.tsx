@@ -74,13 +74,13 @@ const preview: Preview = {
       source: { type: 'dynamic', language: 'tsx' },
     },
     options: {
-      // the react subsite's table of contents: getting started and the
-      // changelog, the components by role, then the page layouts' code. the
+      // the react subsite's table of contents: getting started, the page's
+      // language and the changelog, the components by role, then the page layouts' code. the
       // design guidance is on the guidelines site, /design-system/.
       storySort: {
         order: [
           'React',
-          ['getting started', 'changelog'],
+          ['getting started', 'language', 'changelog'],
           'Components',
           [
             'actions',

@@ -28,12 +28,23 @@ export interface Words {
     details: string;
     /** The button that closes a banner. */
     dismiss: string;
+    /** What a screen reader hears before the message, the state's name: "{state}:". */
+    stateBefore: string;
+    /** The states' names, as that place takes them. A neutral banner has none. */
+    information: string;
+    success: string;
+    warning: string;
+    error: string;
   };
   dataTable: {
     /** The header checkbox. */
     selectAllVisible: string;
     /** A row's checkbox, for a screen reader: "select {name}". */
     selectRow: string;
+    /** The same for a table that gives its rows no names. */
+    selectUnnamedRow: string;
+    /** A group row that is given no label of its own, its name and how many rows it holds: "{name} · {n}". */
+    group: string;
     /** Under a table that grows: "{shown} of {total}". */
     shownOfTotal: string;
     /** The button that shows the next rows: "show {n} more". */
@@ -64,6 +75,10 @@ export interface Words {
     search: string;
     /** The search field's placeholder. */
     searchPlaceholder: string;
+    /** What a screen reader hears while people search: "{n} apps match". */
+    matches: Counted;
+    /** The sentence shown when the search matches nothing: "No apps match “{query}”." */
+    noMatch: string;
   };
   select: Record<string, never>;
   spinner: {
@@ -74,11 +89,18 @@ export interface Words {
   table: {
     /** A table without rows. */
     empty: string;
+    /** The name of a table that scrolls sideways and has no name of its own. */
+    region: string;
   };
   tabs: Record<string, never>;
   tile: {
     /** A tile's status dot, for a screen reader: "status: {status}". */
     status: string;
+    /** The four statuses, as that place takes them. */
+    online: string;
+    offline: string;
+    degraded: string;
+    unknown: string;
   };
   toast: {
     /** The name of the region the toasts appear in. */
@@ -91,6 +113,28 @@ export interface Words {
     clear: string;
     /** The selection toolbar's heading: "{n} selected". */
     selected: Counted;
+    /** What a screen reader hears when the selection goes back to nothing. */
+    selectionCleared: string;
+  };
+  // the other existing parts that bring a word, in a group of their own.
+  chevron: {
+    /** The brand glyph's name, where it isn't decoration. */
+    name: string;
+  };
+  code: {
+    /** The name of a code block that scrolls sideways. */
+    region: string;
+  };
+  status: {
+    /** What a screen reader hears before the text, the state's name: "{state}:". */
+    stateBefore: string;
+    /** The two states that are named, as that place takes them. */
+    warning: string;
+    error: string;
+  };
+  worklist: {
+    /** The name of the tabs that filter the list. */
+    tabs: string;
   };
 
   // ---- new components: each fills its own block ------------------------------
@@ -108,10 +152,17 @@ export const english: Words = {
   banner: {
     details: 'details',
     dismiss: 'dismiss',
+    stateBefore: '{state}:',
+    information: 'information',
+    success: 'success',
+    warning: 'warning',
+    error: 'error',
   },
   dataTable: {
     selectAllVisible: 'select every visible row',
     selectRow: 'select {name}',
+    selectUnnamedRow: 'select row',
+    group: '{name} · {n}',
     shownOfTotal: '{shown} of {total}',
     showMore: { one: 'show {n} more', other: 'show {n} more' },
   },
@@ -133,6 +184,8 @@ export const english: Words = {
   portal: {
     search: 'search apps',
     searchPlaceholder: 'search apps…',
+    matches: { one: '{n} app match', other: '{n} apps match' },
+    noMatch: 'No apps match “{query}”.',
   },
   select: {},
   spinner: {
@@ -141,10 +194,15 @@ export const english: Words = {
   switch: {},
   table: {
     empty: 'no rows',
+    region: 'table',
   },
   tabs: {},
   tile: {
     status: 'status: {status}',
+    online: 'online',
+    offline: 'offline',
+    degraded: 'degraded',
+    unknown: 'unknown',
   },
   toast: {
     region: 'notifications',
@@ -153,6 +211,21 @@ export const english: Words = {
     more: 'more actions',
     clear: 'clear',
     selected: { one: '{n} selected', other: '{n} selected' },
+    selectionCleared: 'selection cleared',
+  },
+  chevron: {
+    name: 'chevron',
+  },
+  code: {
+    region: 'code',
+  },
+  status: {
+    stateBefore: '{state}:',
+    warning: 'warning',
+    error: 'error',
+  },
+  worklist: {
+    tabs: 'filter the list',
   },
 
   navigation: {},
@@ -169,10 +242,17 @@ export const german: Words = {
   banner: {
     details: 'details',
     dismiss: 'ausblenden',
+    stateBefore: '{state}:',
+    information: 'hinweis',
+    success: 'erfolg',
+    warning: 'warnung',
+    error: 'fehler',
   },
   dataTable: {
     selectAllVisible: 'alle sichtbaren zeilen auswählen',
     selectRow: '{name} auswählen',
+    selectUnnamedRow: 'zeile auswählen',
+    group: '{name} · {n}',
     shownOfTotal: '{shown} von {total}',
     showMore: { one: '{n} weitere anzeigen', other: '{n} weitere anzeigen' },
   },
@@ -194,6 +274,8 @@ export const german: Words = {
   portal: {
     search: 'apps suchen',
     searchPlaceholder: 'apps suchen…',
+    matches: { one: '{n} app gefunden', other: '{n} apps gefunden' },
+    noMatch: 'Keine App passt zu „{query}“.',
   },
   select: {},
   spinner: {
@@ -202,10 +284,15 @@ export const german: Words = {
   switch: {},
   table: {
     empty: 'keine zeilen',
+    region: 'tabelle',
   },
   tabs: {},
   tile: {
     status: 'status: {status}',
+    online: 'online',
+    offline: 'offline',
+    degraded: 'beeinträchtigt',
+    unknown: 'unbekannt',
   },
   toast: {
     region: 'benachrichtigungen',
@@ -214,6 +301,21 @@ export const german: Words = {
     more: 'weitere aktionen',
     clear: 'aufheben',
     selected: { one: '{n} ausgewählt', other: '{n} ausgewählt' },
+    selectionCleared: 'auswahl aufgehoben',
+  },
+  chevron: {
+    name: 'chevron',
+  },
+  code: {
+    region: 'code',
+  },
+  status: {
+    stateBefore: '{state}:',
+    warning: 'warnung',
+    error: 'fehler',
+  },
+  worklist: {
+    tabs: 'liste filtern',
   },
 
   navigation: {},

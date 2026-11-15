@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
-import { formatCount } from '../../lib/format';
+import { counted, useLanguage } from '../../lib/language';
 import { useElementWidth } from '../../lib/useElementWidth';
 import { Button } from '../Button/Button';
 import { ActionMenu, type ActionMenuItem } from '../ActionMenu/ActionMenu';
@@ -33,7 +33,7 @@ export interface ToolbarProps extends Omit<React.HTMLAttributes<HTMLDivElement>,
   actions?: ToolbarAction[];
   /** Below this width (px) every non-emphasized action moves into the overflow menu. Default 560. */
   collapseBelow?: number;
-  /** The overflow trigger's accessible name. Default "more actions". */
+  /** The overflow trigger's accessible name. Default "more actions", in the page's language. */
   overflowLabel?: string;
   /** Extra content between the heading and the actions. */
   children?: React.ReactNode;
@@ -53,7 +53,7 @@ export const Toolbar = React.forwardRef<HTMLDivElement, ToolbarProps>(function T
     heading,
     actions = [],
     collapseBelow = 560,
-    overflowLabel = 'more actions',
+    overflowLabel,
     className,
     children,
     onKeyDown,
@@ -61,6 +61,7 @@ export const Toolbar = React.forwardRef<HTMLDivElement, ToolbarProps>(function T
   },
   ref,
 ) {
+  const { words } = useLanguage();
   const innerRef = React.useRef<HTMLDivElement>(null);
   React.useImperativeHandle(ref, () => innerRef.current as HTMLDivElement);
   const width = useElementWidth(innerRef);
@@ -180,7 +181,7 @@ export const Toolbar = React.forwardRef<HTMLDivElement, ToolbarProps>(function T
             {a.label}
           </Button>
         ))}
-        {menuItems.length ? <ActionMenu items={menuItems} label={overflowLabel} /> : null}
+        {menuItems.length ? <ActionMenu items={menuItems} label={overflowLabel ?? words.toolbar.more} /> : null}
       </div>
     </div>
   );
@@ -202,11 +203,11 @@ export interface SelectionToolbarProps extends Omit<ToolbarProps, 'heading' | 'a
   actions?: ToolbarAction[];
   /** Shows "clear" next to the count while something is selected. */
   onClearSelection?: () => void;
-  /** The clear button's label. Default "clear". */
+  /** The clear button's label. Default "clear", in the page's language. */
   clearLabel?: string;
   /** Offer to extend the selection, e.g. "select all 2,500" when only the visible rows are selected. */
   selectAll?: { label: string; onSelect: () => void } | null;
-  /** How the count reads. Default "8 selected". */
+  /** How the count reads. Default "8 selected", in the page's language and with its thousands separator. */
   formatSelected?: (selectedCount: number) => string;
 }
 
@@ -224,14 +225,16 @@ export const SelectionToolbar = React.forwardRef<HTMLDivElement, SelectionToolba
       primaryAction,
       actions = [],
       onClearSelection,
-      clearLabel = 'clear',
+      clearLabel,
       selectAll,
-      formatSelected = (n) => `${formatCount(n)} selected`,
+      formatSelected,
       className,
       ...rest
     },
     ref,
   ) {
+    const { lang, words } = useLanguage();
+    const selectedText = (n: number) => (formatSelected ? formatSelected(n) : counted(words.toolbar.selected, n, lang));
     const primary = primaryAction?.(selectedCount) ?? null;
     const all: ToolbarAction[] = [
       ...(primary ? [{ ...primary, id: 'nc-selection-primary', emphasized: true }] : []),
@@ -247,7 +250,7 @@ export const SelectionToolbar = React.forwardRef<HTMLDivElement, SelectionToolba
         first.current = false;
         return;
       }
-      setAnnouncement(selected ? formatSelected(selectedCount) : 'selection cleared');
+      setAnnouncement(selected ? selectedText(selectedCount) : words.toolbar.selectionCleared);
     }, [selectedCount]);
 
     return (
@@ -258,10 +261,10 @@ export const SelectionToolbar = React.forwardRef<HTMLDivElement, SelectionToolba
           <>
             {selected ? (
               <span className="nc-seltoolbar__count">
-                <span className="nc-seltoolbar__number">{formatSelected(selectedCount)}</span>
+                <span className="nc-seltoolbar__number">{selectedText(selectedCount)}</span>
                 {onClearSelection ? (
                   <Button size="sm" variant="ghost" onClick={onClearSelection}>
-                    {clearLabel}
+                    {clearLabel ?? words.toolbar.clear}
                   </Button>
                 ) : null}
                 {selectAll ? (

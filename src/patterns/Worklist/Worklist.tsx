@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
+import { useLanguage } from '../../lib/language';
 import { FilterTabs, filterTabId, type FilterTab } from '../../components/FilterTabs/FilterTabs';
 import './Worklist.css';
 
@@ -19,7 +20,7 @@ export interface WorklistProps extends Omit<React.HTMLAttributes<HTMLElement>, '
   tabs?: FilterTab[];
   activeTab?: string;
   onTabChange?: (id: string) => void;
-  /** The tablist's accessible name. Default "filter the list". */
+  /** The tablist's accessible name. Default "filter the list", in the page's language. */
   tabsLabel?: string;
 
   /** At most one or two banners about the list as a whole. */
@@ -51,7 +52,7 @@ export const Worklist = React.forwardRef<HTMLElement, WorklistProps>(function Wo
     tabs,
     activeTab,
     onTabChange,
-    tabsLabel = 'filter the list',
+    tabsLabel,
     messages,
     filterBar,
     toolbar,
@@ -62,6 +63,7 @@ export const Worklist = React.forwardRef<HTMLElement, WorklistProps>(function Wo
   },
   ref,
 ) {
+  const { words } = useLanguage();
   const titleId = React.useId();
   const tabPrefix = React.useId();
   const panelId = React.useId();
@@ -99,7 +101,7 @@ export const Worklist = React.forwardRef<HTMLElement, WorklistProps>(function Wo
           tabs={tabs!}
           value={activeTab!}
           onChange={(id) => onTabChange?.(id)}
-          label={tabsLabel}
+          label={tabsLabel ?? words.worklist.tabs}
           panelId={panelId}
           idPrefix={tabPrefix}
         />

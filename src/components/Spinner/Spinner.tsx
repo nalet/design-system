@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
+import { useLanguage } from '../../lib/language';
 import './Spinner.css';
 import { rem } from '../../lib/rem';
 
@@ -8,7 +9,7 @@ export interface SpinnerProps extends React.HTMLAttributes<HTMLSpanElement> {
   size?: number;
   /** Stroke color. Defaults to currentColor so it inherits. */
   color?: string;
-  /** Accessible label announced to screen readers. Default 'loading'. */
+  /** Accessible label announced to screen readers. Default 'loading', in the page's language. */
   label?: string;
 }
 
@@ -22,9 +23,10 @@ const LIT = 0.75;
  * still and the label carries the state. Inherits currentColor.
  */
 export const Spinner = React.forwardRef<HTMLSpanElement, SpinnerProps>(function Spinner(
-  { size = 16, color, label = 'loading', className, style, ...rest },
+  { size = 16, color, label, className, style, ...rest },
   ref,
 ) {
+  const { words } = useLanguage();
   // the stroke grows with the size: 2px up to 24px, then a pixel per 16px.
   const stroke = Math.max(2, Math.round(size / 16));
   const side = size - stroke;
@@ -43,7 +45,7 @@ export const Spinner = React.forwardRef<HTMLSpanElement, SpinnerProps>(function 
       ref={ref}
       className={cx('nc-spinner', className)}
       role="status"
-      aria-label={label}
+      aria-label={label ?? words.spinner.loading}
       style={{ width: rem(size), height: rem(size), color, ...style }}
       {...rest}
     >

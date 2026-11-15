@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
+import { useLanguage } from '../../lib/language';
 import { useOverflowX } from '../../lib/useOverflowX';
 import './Table.css';
 
@@ -23,7 +24,7 @@ export interface TableProps<Row> extends React.TableHTMLAttributes<HTMLTableElem
   rowKey?: (row: Row, index: number) => React.Key;
   /** Tighter cell padding. */
   dense?: boolean;
-  /** Shown when rows is empty. */
+  /** Shown when rows is empty. Default "no rows", in the page's language. */
   empty?: React.ReactNode;
 }
 
@@ -36,10 +37,11 @@ export function Table<Row>({
   rows,
   rowKey,
   dense,
-  empty = 'no rows',
+  empty,
   className,
   ...rest
 }: TableProps<Row>) {
+  const { words } = useLanguage();
   // a table wider than its frame scrolls sideways; while it does, the frame is a
   // focusable, named region so the keyboard can scroll it too.
   const scrollRef = React.useRef<HTMLDivElement>(null);
@@ -48,7 +50,7 @@ export function Table<Row>({
     ? {
         tabIndex: 0,
         role: 'region',
-        'aria-label': rest['aria-labelledby'] ? undefined : (rest['aria-label'] ?? 'table'),
+        'aria-label': rest['aria-labelledby'] ? undefined : (rest['aria-label'] ?? words.table.region),
         'aria-labelledby': rest['aria-labelledby'],
       }
     : {};
@@ -73,7 +75,7 @@ export function Table<Row>({
           {rows.length === 0 ? (
             <tr>
               <td className="nc-table__empty" colSpan={columns.length}>
-                {empty}
+                {empty === undefined ? words.table.empty : empty}
               </td>
             </tr>
           ) : (

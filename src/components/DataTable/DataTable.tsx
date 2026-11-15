@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
-import { formatCount } from '../../lib/format';
+import { counted, fill, formatCount, useLanguage } from '../../lib/language';
 import { useElementWidth } from '../../lib/useElementWidth';
 import type { State } from '../../lib/StateGlyph';
 import { Checkbox } from '../Checkbox/Checkbox';
@@ -69,12 +69,12 @@ export interface DataTableProps<Row> {
   onSelectionChange?: (next: Set<string>) => void;
   /** Rows that cannot be selected get a disabled checkbox. */
   isRowSelectable?: (row: Row) => boolean;
-  /** Names a row for its checkbox: "S04E07" gives "select S04E07". */
+  /** Names a row for its checkbox: "S04E07" gives "select S04E07", in the page's language. */
   rowLabel?: (row: Row) => string;
 
   /** Groups rows under header rows, in order of first appearance after sorting. */
   groupBy?: (row: Row) => string;
-  /** The group row's label, usually with a count: "The Example Show · S04 · 8 missing". */
+  /** The group row's label, usually with a count: "The Example Show · S04 · 8 missing". Default: the group's key and how many rows it holds. */
   groupHeader?: (group: DataTableGroup<Row>) => React.ReactNode;
   /** An action on the whole group (one ghost button). */
   groupAction?: (group: DataTableGroup<Row>) => React.ReactNode;
@@ -87,7 +87,7 @@ export interface DataTableProps<Row> {
   growing?: number;
   /** A change of this value (e.g. the active filters) starts growing over. */
   growingResetKey?: unknown;
-  /** How the growing count reads. Default "100 of 2,500". */
+  /** How the growing count reads. Default "100 of 2,500", in the page's language. */
   formatGrowing?: (shown: number, total: number) => string;
 
   /** Enter on a row, or a click outside its controls. Without it a click toggles selection. */
@@ -280,7 +280,8 @@ interface RowProps<Row> extends CellsProps<Row> {
   selectable: boolean;
   isSelected: boolean;
   canSelect: boolean;
-  label: string;
+  /** The checkbox's name, whole: "select S04E07". */
+  selectLabel: string;
   grouped: boolean;
   highlight?: State;
   onToggle: (key: string, shift: boolean) => void;
@@ -297,7 +298,7 @@ const DataRow = React.memo(function DataRow<Row>({
   selectable,
   isSelected,
   canSelect,
-  label,
+  selectLabel,
   grouped,
   highlight,
   onToggle,
@@ -319,7 +320,7 @@ const DataRow = React.memo(function DataRow<Row>({
       {selectable ? (
         <td className="nc-dt__cell nc-dt__select">
           <Checkbox
-            aria-label={`select ${label}`}
+            aria-label={selectLabel}
             checked={isSelected}
             disabled={!canSelect}
             onChange={() => undefined}
@@ -364,7 +365,7 @@ export function DataTable<Row>({
   defaultCollapsedGroups,
   growing,
   growingResetKey,
-  formatGrowing = (shown, total) => `${formatCount(shown)} of ${formatCount(total)}`,
+  formatGrowing,
   onRowPress,
   rowHighlight,
   stickyHeader = true,
@@ -374,6 +375,7 @@ export function DataTable<Row>({
   className,
   ...aria
 }: DataTableProps<Row>) {
+  const { lang, words } = useLanguage();
   const tbodyRef = React.useRef<HTMLTableSectionElement>(null);
   const activeKey = React.useRef<string | null>(null);
   const anchorKey = React.useRef<string | null>(null);
@@ -782,7 +784,7 @@ export function DataTable<Row>({
             {selectable ? (
               <th scope="col" className="nc-dt__th nc-dt__select">
                 <Checkbox
-                  aria-label="select every visible row"
+                  aria-label={words.dataTable.selectAllVisible}
                   checked={allVisibleSelected}
                   indeterminate={someSelected}
                   disabled={visibleSelectable.length === 0}
@@ -832,7 +834,12 @@ export function DataTable<Row>({
                       <path d="M4 2.5 L7.5 6 L4 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
                     </svg>
                     <span className="nc-dt__grouplabel">
-                      {groupHeader ? groupHeader(item.group) : `${item.group.key} · ${formatCount(item.group.rows.length)}`}
+                      {groupHeader
+                        ? groupHeader(item.group)
+                        : fill(words.dataTable.group, {
+                            name: item.group.key,
+                            n: formatCount(item.group.rows.length, lang),
+                          })}
                     </span>
                     {groupAction ? <span className="nc-dt__groupaction">{groupAction(item.group)}</span> : null}
                   </div>
@@ -849,7 +856,13 @@ export function DataTable<Row>({
                 selectable={selectable}
                 isSelected={selected.has(item.key)}
                 canSelect={canSelect(item.row)}
-                label={rowLabel ? rowLabel(item.row) : 'row'}
+                selectLabel={
+                  !selectable
+                    ? ''
+                    : rowLabel
+                      ? fill(words.dataTable.selectRow, { name: rowLabel(item.row) })
+                      : words.dataTable.selectUnnamedRow
+                }
                 grouped={grouped}
                 highlight={rowHighlight?.(item.row)}
                 onToggle={onToggle}
@@ -861,11 +874,16 @@ export function DataTable<Row>({
       {growing && model.available > 0 ? (
         <div className="nc-dt__growing">
           <span className="nc-dt__growing-count" aria-live="polite">
-            {formatGrowing(model.shown, rows.length)}
+            {formatGrowing
+              ? formatGrowing(model.shown, rows.length)
+              : fill(words.dataTable.shownOfTotal, {
+                  shown: formatCount(model.shown, lang),
+                  total: formatCount(rows.length, lang),
+                })}
           </span>
           {model.shown < model.available ? (
             <Button size="sm" onClick={() => setLimit((l) => l + pageSize)}>
-              {`show ${formatCount(Math.min(pageSize, model.available - model.shown))} more`}
+              {counted(words.dataTable.showMore, Math.min(pageSize, model.available - model.shown), lang)}
             </Button>
           ) : null}
         </div>

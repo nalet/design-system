@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
+import { useLanguage } from '../../lib/language';
 import { useOverflowX } from '../../lib/useOverflowX';
 import './Code.css';
 
@@ -16,6 +17,7 @@ export const Code = React.forwardRef<HTMLElement, CodeProps>(function Code(
   { block, className, children, ...rest },
   ref,
 ) {
+  const { words } = useLanguage();
   const preRef = React.useRef<HTMLPreElement>(null);
   const codeRef = React.useRef<HTMLElement>(null);
   React.useImperativeHandle(ref, () => (block ? preRef.current : codeRef.current) as HTMLElement, [block]);
@@ -24,7 +26,7 @@ export const Code = React.forwardRef<HTMLElement, CodeProps>(function Code(
   // role or aria-label win).
   const overflowing = useOverflowX(preRef);
   if (block) {
-    const region = overflowing ? { tabIndex: 0, role: 'region', 'aria-label': 'code' } : {};
+    const region = overflowing ? { tabIndex: 0, role: 'region', 'aria-label': words.code.region } : {};
     return (
       <pre
         ref={preRef}

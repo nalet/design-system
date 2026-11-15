@@ -2,6 +2,7 @@ import * as React from 'react';
 import type { LucideIcon } from 'lucide-react';
 import { cx } from '../../lib/cx';
 import { Chevron } from '../../brand/Chevron/Chevron';
+import { fill, formatCount, useLanguage } from '../../lib/language';
 import './Tile.css';
 import { rem } from '../../lib/rem';
 
@@ -11,7 +12,7 @@ export type TileBadgeTone = 'info' | 'success' | 'warning' | 'danger' | 'neutral
 export type TileStatus = 'online' | 'offline' | 'degraded' | 'unknown';
 
 export interface TileDelta {
-  /** The trend value, e.g. `4` or `'0.2'`. */
+  /** The trend value, e.g. `4` or `'0.2'`. A number is written in the page's language; a string as it is. */
   value: string | number;
   /** Arrow direction. Decoupled from tone so 'down' can be good. */
   direction: 'up' | 'down' | 'flat';
@@ -30,17 +31,17 @@ export interface TileProps extends Omit<React.HTMLAttributes<HTMLElement>, 'titl
   href?: string;
   /** App tile (default) or a KPI / metric tile. */
   variant?: TileVariant;
-  /** KPI value (large mono). */
+  /** KPI value (large mono). A number is written in the page's language (1,250); a string as it is. */
   value?: string | number;
   /** KPI unit suffix, e.g. `%`, `ms`, `gb`. */
   unit?: string;
   /** KPI trend chip. */
   delta?: TileDelta;
-  /** Top-right marker. A number renders a count chip, a string a status pill. */
+  /** Top-right marker. A number renders a count chip, written in the page's language; a string a status pill. */
   badge?: string | number;
   /** Badge colour. */
   badgeTone?: TileBadgeTone;
-  /** Small square health dot. */
+  /** Small square health dot, named for a screen reader in the page's language. */
   status?: TileStatus;
   /** Dim + remove from tab / arrow order. */
   disabled?: boolean;
@@ -84,6 +85,9 @@ export const Tile = React.forwardRef<HTMLElement, TileProps>(function Tile(
   },
   ref,
 ) {
+  const { lang, words } = useLanguage();
+  // a number the tile is given is written as the language writes it; a text stays as it is.
+  const written = (v: string | number) => (typeof v === 'number' ? formatCount(v, lang) : v);
   const wantsInteractive = !!(href || onClick || as) && !disabled;
   const El: React.ElementType = disabled
     ? 'div'
@@ -143,14 +147,14 @@ export const Tile = React.forwardRef<HTMLElement, TileProps>(function Tile(
               typeof badge === 'number' && 'nc-tile__badge--count',
             )}
           >
-            {badge}
+            {written(badge)}
           </span>
         ) : null}
         {status ? (
           <span
             className={cx('nc-tile__status', `nc-tile__status--${status}`)}
             role="img"
-            aria-label={`status: ${status}`}
+            aria-label={fill(words.tile.status, { status: words.tile[status] })}
           />
         ) : null}
       </div>
@@ -158,13 +162,13 @@ export const Tile = React.forwardRef<HTMLElement, TileProps>(function Tile(
       {variant === 'kpi' ? (
         <div className="nc-tile__kpi">
           <span className="nc-tile__value">
-            {value}
+            {value != null ? written(value) : null}
             {unit ? <span className="nc-tile__unit">{unit}</span> : null}
           </span>
           {delta ? (
             <span className={cx('nc-tile__delta', `nc-tile__delta--${delta.tone ?? 'neutral'}`)}>
               <span className="nc-tile__delta-arrow" data-dir={delta.direction} aria-hidden />
-              {delta.value}
+              {written(delta.value)}
             </span>
           ) : null}
         </div>

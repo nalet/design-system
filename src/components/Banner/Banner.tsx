@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
+import { fill, useLanguage } from '../../lib/language';
 import { StateGlyph, type State } from '../../lib/StateGlyph';
 import '../../lib/a11y.css';
 import './Banner.css';
@@ -16,13 +17,13 @@ export interface BannerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 
   actions?: React.ReactNode;
   /** Technical detail (IDs, raw reasons) behind a disclosure, shown in mono. */
   details?: React.ReactNode;
-  /** The disclosure's label. Default "details". */
+  /** The disclosure's label. Default "details", in the page's language. */
   detailsLabel?: string;
   /** Open the details initially. */
   defaultDetailsOpen?: boolean;
   /** Shows a dismiss button when set. */
   onDismiss?: () => void;
-  /** The dismiss button's accessible name. Default "dismiss". */
+  /** The dismiss button's accessible name. Default "dismiss", in the page's language. */
   dismissLabel?: string;
   /**
    * How the text is announced when it appears or changes: "polite"
@@ -34,7 +35,8 @@ export interface BannerProps extends Omit<React.HTMLAttributes<HTMLDivElement>, 
   icon?: boolean | React.ReactNode;
   /**
    * The word read before the text: the state's name ("warning: …") by default
-   * for every state but neutral. A string translates it; false omits it.
+   * for every state but neutral, in the page's language. A string replaces it;
+   * false omits it.
    */
   stateLabel?: string | false;
 }
@@ -51,10 +53,10 @@ export const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function Ban
     children,
     actions,
     details,
-    detailsLabel = 'details',
+    detailsLabel,
     defaultDetailsOpen = false,
     onDismiss,
-    dismissLabel = 'dismiss',
+    dismissLabel,
     live,
     icon = true,
     stateLabel,
@@ -63,11 +65,12 @@ export const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function Ban
   },
   ref,
 ) {
+  const { words } = useLanguage();
   const [open, setOpen] = React.useState(defaultDetailsOpen);
   const detailsId = React.useId();
   const politeness = live ?? (state === 'error' ? 'assertive' : 'polite');
   const role = politeness === 'assertive' ? 'alert' : politeness === 'polite' ? 'status' : undefined;
-  const srLabel = stateLabel === false ? null : (stateLabel ?? (state === 'neutral' ? null : state));
+  const stateWord = stateLabel === false ? null : (stateLabel ?? (state === 'neutral' ? null : words.banner[state]));
   const glyph = icon === true ? <StateGlyph state={state} size={14} /> : icon === false ? null : icon;
 
   return (
@@ -85,7 +88,11 @@ export const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function Ban
       <div className="nc-strip__body">
         <div className="nc-strip__line">
           <div className="nc-strip__text" role={role} aria-atomic={role ? true : undefined}>
-            {srLabel ? <span className="nc-sr-only">{srLabel}: </span> : null}
+            {stateWord ? (
+              <span className="nc-sr-only">
+                {fill(words.banner.stateBefore, { state: stateWord })}{' '}
+              </span>
+            ) : null}
             {children}
           </div>
           {actions != null || details != null ? (
@@ -109,7 +116,7 @@ export const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function Ban
                   >
                     <path d="M4 2.5 L7.5 6 L4 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
                   </svg>
-                  {detailsLabel}
+                  {detailsLabel ?? words.banner.details}
                 </button>
               ) : null}
             </div>
@@ -122,7 +129,7 @@ export const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function Ban
         ) : null}
       </div>
       {onDismiss ? (
-        <button type="button" className="nc-strip__dismiss" aria-label={dismissLabel} onClick={onDismiss}>
+        <button type="button" className="nc-strip__dismiss" aria-label={dismissLabel ?? words.banner.dismiss} onClick={onDismiss}>
           <svg viewBox="0 0 12 12" width="0.75rem" height="0.75rem" fill="none" aria-hidden="true">
             <path d="M3 3 L9 9 M9 3 L3 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
           </svg>

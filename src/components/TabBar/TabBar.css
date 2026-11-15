@@ -1,0 +1,98 @@
+/* tab bar — a product's views as icons alone, side by side, at the foot of a
+   phone held upright. each tab is an equal share of the width and at least 48
+   high: its touch area. the current one is blue, with a bar on its top edge. */
+
+.nc-tabbar {
+  box-sizing: border-box;
+  inline-size: 100%;
+  /* clear of the strip the phone keeps at its foot, and of a cutout at its sides. */
+  padding: 0 env(safe-area-inset-right, 0px) env(safe-area-inset-bottom, 0px) env(safe-area-inset-left, 0px);
+  background: var(--bg-2);
+  border-top: 1px solid var(--border);
+}
+
+.nc-tabbar__list {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nc-tabbar__cell {
+  flex: 1 1 0;
+  display: flex;
+  min-inline-size: 0;
+}
+
+.nc-tabbar__item {
+  position: relative;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 3rem;
+  color: var(--fg-muted);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nc-tabbar__item:hover {
+  color: var(--fg);
+}
+
+.nc-tabbar__item:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}
+
+/* the current tab: blue, with a bar on its top edge, over the bar's own rule.
+   the mark changes at once: nothing here moves or fades. */
+.nc-tabbar__item--current,
+.nc-tabbar__item--current:hover {
+  color: var(--cloud-blue);
+}
+
+.nc-tabbar__item--current::before {
+  content: '';
+  position: absolute;
+  inset-inline: var(--s-2);
+  top: -1px;
+  border-top: 2px solid var(--cloud-blue);
+}
+
+.nc-tabbar__icon {
+  position: relative;
+  flex: none;
+  display: flex;
+}
+
+/* a count on an icon. */
+.nc-tabbar__count {
+  position: absolute;
+  top: -0.375rem;
+  left: 0.875rem;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-inline-size: 1rem;
+  block-size: 1rem;
+  padding: 0 3px;
+  border: 1px solid color-mix(in srgb, var(--cloud-blue) 45%, var(--border-2));
+  background: color-mix(in srgb, var(--cloud-blue) 12%, var(--bg-2));
+  color: var(--cloud-blue);
+  font-family: var(--ff-mono);
+  font-size: 0.6875rem;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+/* a screen made for touch has no pointer: a tab that was pressed doesn't stay bright. */
+[data-nc-screen='touch'] .nc-tabbar__item:hover {
+  color: var(--fg-muted);
+}
+
+[data-nc-screen='touch'] .nc-tabbar__item--current:hover {
+  color: var(--cloud-blue);
+}

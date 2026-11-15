@@ -94,7 +94,12 @@ export interface Words {
   };
 
   // ---- new components: each fills its own block ------------------------------
-  navigation: Record<string, never>;
+  navigation: {
+    /** The name of the landmark that holds a product's views: the rail, or the tab bar. */
+    views: string;
+    /** The product's mark at the head of a rail, a link home: "{product} home". */
+    home: string;
+  };
   progressBar: Record<string, never>;
   sheet: Record<string, never>;
   slider: Record<string, never>;
@@ -155,7 +160,10 @@ export const english: Words = {
     selected: { one: '{n} selected', other: '{n} selected' },
   },
 
-  navigation: {},
+  navigation: {
+    views: 'views',
+    home: '{product} home',
+  },
   progressBar: {},
   sheet: {},
   slider: {},
@@ -216,7 +224,10 @@ export const german: Words = {
     selected: { one: '{n} ausgewählt', other: '{n} ausgewählt' },
   },
 
-  navigation: {},
+  navigation: {
+    views: 'ansichten',
+    home: '{product} startseite',
+  },
   progressBar: {},
   sheet: {},
   slider: {},

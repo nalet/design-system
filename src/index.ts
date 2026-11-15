@@ -136,6 +136,13 @@ export type {
 export { StatusCell, DateCell, IdentifierCell, relativeDay } from './components/DataTable/cells';
 export type { StatusCellProps, DateCellProps, IdentifierCellProps } from './components/DataTable/cells';
 
+// a product's main navigation: its views in a rail, or in a tab bar
+export { Rail } from './components/Rail/Rail';
+export type { RailProps, RailMark } from './components/Rail/Rail';
+export { TabBar } from './components/TabBar/TabBar';
+export type { TabBarProps } from './components/TabBar/TabBar';
+export type { NavigationItem, NavigateHandler } from './lib/navigation';
+
 // patterns — the portal / home page
 export { Tile } from './components/Tile/Tile';
 export type {

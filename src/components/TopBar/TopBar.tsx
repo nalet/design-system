@@ -90,8 +90,6 @@ export interface TopBarProps extends React.HTMLAttributes<HTMLElement> {
   notificationsExpanded?: boolean;
   /** The user menu, at the end of the bar: a `UserMenu`. */
   userMenu?: React.ReactNode;
-  /** A product's own navigation, between the names and the search. */
-  children?: React.ReactNode;
 }
 
 const SearchGlyph = () => (
@@ -151,7 +149,6 @@ export const TopBar = React.forwardRef<HTMLElement, TopBarProps>(function TopBar
     onNotifications,
     notificationsExpanded,
     userMenu,
-    children,
     className,
     onKeyDown,
     ...rest
@@ -481,13 +478,6 @@ export const TopBar = React.forwardRef<HTMLElement, TopBarProps>(function TopBar
     parts.push(searchRegion);
   } else {
     if (mark) parts.push(searchRegion);
-    if (children != null && children !== false) {
-      parts.push(
-        <div key="nav" className="nc-topbar__nav">
-          {children}
-        </div>,
-      );
-    }
     parts.push(<span key="space" className="nc-topbar__space" />);
     if (!mark && !narrow) parts.push(searchRegion);
 

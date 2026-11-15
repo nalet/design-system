@@ -32,7 +32,6 @@ const meta: Meta<TopBarProps> = {
     userMenu: { control: false },
     onNotifications: { control: false },
     onHomeClick: { control: false },
-    children: { control: false },
   },
   parameters: {
     layout: 'fullscreen',
@@ -259,41 +258,6 @@ export const SearchAtTheStart: Story = {
 export const Narrow: Story = {
   name: 'a narrow bar',
   render: () => <Screen width="390px" bar={(report) => <Bar report={report} app="downloads" />} />,
-};
-
-const view: CSSProperties = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  minHeight: '3.5rem',
-  padding: '0 var(--s-3)',
-  boxSizing: 'border-box',
-  color: 'var(--fg-muted)',
-  fontSize: '0.8125rem',
-  fontWeight: 500,
-  textDecoration: 'none',
-};
-
-export const OwnNavigation: Story = {
-  name: "a product's own navigation",
-  render: () => (
-    <Screen
-      bar={(report) => (
-        <Bar report={report} search={undefined}>
-          <nav aria-label="views" style={{ display: 'flex', marginLeft: 'var(--s-4)' }}>
-            <a href="#" aria-current="page" style={{ ...view, color: 'var(--cloud-blue)', boxShadow: 'inset 0 -2px 0 var(--cloud-blue)' }}>
-              home
-            </a>
-            <a href="#" style={view}>
-              films
-            </a>
-            <a href="#" style={view}>
-              series
-            </a>
-          </nav>
-        </Bar>
-      )}
-    />
-  ),
 };
 
 export const OnATouchScreen: Story = {

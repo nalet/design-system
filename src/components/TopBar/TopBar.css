@@ -1,6 +1,9 @@
 .nc-topbar {
   position: relative;
   display: flex;
+  /* in a column that has a fixed height, the bar keeps its own: it never
+     shrinks under the lines it wraps onto at a larger text size. */
+  flex: none;
   flex-wrap: wrap;
   align-items: center;
   gap: var(--s-1) var(--s-3);
@@ -109,14 +112,7 @@
   outline-offset: -2px;
 }
 
-/* a product's own navigation, and the room that pushes the rest to the end */
-.nc-topbar__nav {
-  display: flex;
-  align-items: center;
-  flex: 0 1 auto;
-  min-width: 0;
-}
-
+/* the room that pushes the rest to the end */
 .nc-topbar__space {
   flex: 1 1 0;
 }

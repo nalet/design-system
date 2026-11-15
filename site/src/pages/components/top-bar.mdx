@@ -13,7 +13,7 @@ import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { Example } from '@site/blocks';
 import { TopBarAnatomy } from '@site/sketches/shell';
-import { Playground, SearchAtTheStart, Narrow, OwnNavigation, OnATouchScreen } from '@site/examples/top-bar';
+import { Playground, SearchAtTheStart, Narrow, OnATouchScreen } from '@site/examples/top-bar';
 import { Open, WithAPicture, WithIcons, OnATv } from '@site/examples/user-menu';
 
 # top bar and user menu
@@ -52,7 +52,7 @@ Why the bar holds these parts, and why it is the same in every product, is on th
 4. **The notifications**: a bell, with the number of unread notices beside it in a small blue box. Without unread notices, the bell stands alone.
 5. **The user menu**: the person's square avatar. Pressed, it opens a menu under it: the person's name, their email address in a quieter grey, the items the app puts there, a thin line, and sign out.
 
-A product can put its own navigation after the names; see [a product's own navigation](#a-products-own-navigation).
+A product for consumers keeps its views out of the bar: they are icons in a rail under it, as [consumer navigation](/design-system/patterns/consumer-navigation/) has it.
 
 ## variants and states
 
@@ -102,14 +102,6 @@ The avatar shows the person's picture when there is one, and their initials othe
 </Example>
 
 An item can lead to a page, such as the person's account. It is then a link, so it can be opened in a new tab. An item that can't be used now is dimmed, and the arrow keys skip it.
-
-### a product's own navigation
-
-A product for consumers can keep its own main navigation in the bar, after its name; see [the same everywhere](/design-system/patterns/top-bar/#the-same-everywhere). The bar gives it the place, and the product draws it.
-
-<Example label="a top bar with a product's own navigation after the name, live" flush>
-  <OwnNavigation client:load />
-</Example>
 
 ### on a touch screen and on a tv
 
@@ -184,7 +176,6 @@ The [top bar](/design-system/patterns/top-bar/#the-words) pattern has the words:
 | The product's name | `product`. A link to `homeHref` (default `/`), named after the product and where it goes, “platform, home”; `onHomeClick` hears the press. The chevron at 16px, 8px before the name in JetBrains Mono 700, 15px, lowercase, in `--fg-2`; `--fg` under the pointer |
 | The app's name | `app`. After a `/` in `--fg-dim` that assistive technology skips: JetBrains Mono 500, 14px, lowercase, in `--fg`. It wraps under the product's name when the two don't fit on one line. Not shown in a narrow bar |
 | The product's mark | With `searchPlacement="start"`, in place of the names: a cell 80px wide and as high as the bar, with a 1px `--border` rule on its right. The chevron at 16px and the first letter of `product`, JetBrains Mono 700, 15px, in `--fg-2`. A link to `homeHref`, with the same name as the product's name has, also as its `title` |
-| A product's own navigation | `children`, after the names |
 | The search | `search`. A `role="search"` region named by `search.label`. Up to 384px wide; it gives way first when the bar runs out of room, down to 160px. With `searchPlacement="start"`, it starts 24px after the mark's cell |
 | The field | At least 34px high, padding 0 12px, a 1px `--border-control` frame on `--bg-2`; with the focus inside, a `--cloud-blue` frame, 2px in all. A 16px magnifying glass in `--fg-dim`, 8px before the text. The text in JetBrains Mono 13px, `--fg`; the placeholder in `--fg-dim`, `search.placeholder` or the name with an ellipsis |
 | The results | `search.results`: groups with a `title` and their `results`. A panel 4px under the field, as wide as the field or as its longest row, at most 448px, and at most 384px high before it scrolls: `--surface`, a 1px `--border-2` frame, the action menu's shadow. It lines up with the field's end edge at the end of the bar, and with its start edge at the start |

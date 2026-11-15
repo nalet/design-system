@@ -1,0 +1,529 @@
+.nc-topbar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--s-1) var(--s-3);
+  box-sizing: border-box;
+  min-height: 3.5rem;
+  padding: var(--s-1) var(--s-4);
+  border-bottom: 1px solid var(--border);
+  background: var(--bg-2);
+  color: var(--fg-2);
+  font-family: var(--ff-mono);
+}
+
+/* nothing in the bar is cut off. a bar that knows it is wide keeps one line,
+   and its names give way: the app's name goes under the product's. a narrow
+   bar, and one that hasn't measured itself, puts its end on a line of its own
+   when there is no room beside the rest, and gets taller. */
+.nc-topbar--wide {
+  flex-wrap: nowrap;
+}
+
+/* ---- the names: the product's, then the app's ----------------------------- */
+
+/* the two names share a line while there is room; the app's name goes under
+   the product's before either is cut off. */
+.nc-topbar__names {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  column-gap: var(--s-2);
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.nc-topbar__home {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-height: 2.125rem;
+  color: var(--fg-2);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: lowercase;
+  white-space: nowrap;
+  transition: color 0.12s ease;
+}
+
+.nc-topbar__home:hover,
+.nc-topbar__mark:hover {
+  color: var(--fg);
+}
+
+.nc-topbar__home:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+.nc-topbar__app {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--s-2);
+  min-width: 0;
+  color: var(--fg);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-transform: lowercase;
+  overflow-wrap: anywhere;
+}
+
+.nc-topbar__slash {
+  flex: none;
+  color: var(--fg-dim);
+}
+
+/* one item whose text flows inline, so a name inside it (KeepCase) keeps the
+   spaces around it. */
+.nc-topbar__app-name {
+  display: block;
+  min-width: 0;
+}
+
+/* the product's mark: the chevron and the first letter of the name, in a cell
+   as wide as the rail under it. the rail's rule runs up beside it. */
+.nc-topbar__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  align-self: stretch;
+  flex: none;
+  gap: var(--s-1);
+  box-sizing: border-box;
+  width: 5rem;
+  /* out to the bar's own edges, past its padding */
+  margin: calc(-1 * var(--s-1)) var(--s-3) calc(-1 * var(--s-1)) calc(-1 * var(--s-4));
+  border-right: 1px solid var(--border);
+  color: var(--fg-2);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: lowercase;
+  transition: color 0.12s ease;
+}
+
+.nc-topbar__mark:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: -2px;
+}
+
+/* a product's own navigation, and the room that pushes the rest to the end */
+.nc-topbar__nav {
+  display: flex;
+  align-items: center;
+  flex: 0 1 auto;
+  min-width: 0;
+}
+
+.nc-topbar__space {
+  flex: 1 1 0;
+}
+
+/* the end of the bar: the search icon of a narrow bar, the bell, the user
+   menu. on a line of its own, it keeps to the end. */
+.nc-topbar__end {
+  display: flex;
+  align-items: center;
+  flex: none;
+  gap: var(--s-3);
+  margin-left: auto;
+}
+
+/* ---- the search ------------------------------------------------------------ */
+
+/* the field takes the room the names leave, up to its largest width; what is
+   left after that goes to the space before it. */
+.nc-topbar__search {
+  position: relative;
+  flex: 1000 1 10rem;
+  min-width: 10rem;
+  max-width: 24rem;
+}
+
+.nc-topbar__field {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  box-sizing: border-box;
+  min-height: 2.125rem;
+  padding: 0 var(--s-3);
+  border: 1px solid var(--border-control);
+  border-radius: 0;
+  background: var(--bg-2);
+  color: var(--fg-dim);
+  cursor: text;
+  transition: border-color 0.12s ease, box-shadow 0.12s ease;
+}
+
+.nc-topbar__field:focus-within {
+  border-color: var(--cloud-blue);
+  box-shadow: inset 0 0 0 1px var(--cloud-blue);
+}
+
+.nc-topbar__glyph {
+  flex: none;
+}
+
+/* positioned, so it stays above the field's touch area and takes its own presses */
+.nc-topbar__input {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  outline: none;
+  background: transparent;
+  color: var(--fg);
+  font-family: var(--ff-mono);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.nc-topbar__input::placeholder {
+  color: var(--fg-dim);
+  opacity: 1;
+}
+
+/* the narrow bar's field, across the whole bar, with the way back after it */
+.nc-topbar--searching .nc-topbar__search {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: none;
+}
+
+.nc-topbar--searching .nc-topbar__field {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* ---- the results under the field ------------------------------------------- */
+
+.nc-topbar__results {
+  position: absolute;
+  top: calc(100% + var(--s-1));
+  z-index: 150;
+  box-sizing: border-box;
+  width: max-content;
+  min-width: 100%;
+  max-width: min(28rem, calc(100vw - var(--s-4)));
+  max-height: min(24rem, 70vh);
+  overflow-y: auto;
+  padding: var(--s-1) 0;
+  border: 1px solid var(--border-2);
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+/* the list grows away from the nearer edge of the bar */
+.nc-topbar--search-end .nc-topbar__results {
+  right: 0;
+}
+.nc-topbar--search-start .nc-topbar__results {
+  left: 0;
+}
+.nc-topbar--searching .nc-topbar__results {
+  left: 0;
+  right: 0;
+  width: auto;
+  max-width: none;
+}
+
+.nc-topbar__group + .nc-topbar__group {
+  margin-top: var(--s-1);
+  padding-top: var(--s-1);
+  border-top: 1px solid var(--border-2);
+}
+
+.nc-topbar__group-title {
+  padding: var(--s-1) var(--s-3);
+  color: var(--fg-muted);
+  font-size: 0.75rem;
+  line-height: 1.4;
+  text-transform: lowercase;
+}
+
+/* a result: the action menu's row */
+.nc-topbar__result {
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  box-sizing: border-box;
+  min-height: 2rem;
+  padding: var(--s-1) var(--s-3);
+  color: var(--fg-2);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.nc-topbar__result:hover,
+.nc-topbar__result--active {
+  background: var(--surface-2);
+  color: var(--fg);
+}
+
+/* the picked result: the bar on its edge that a menu item's keyboard focus has */
+.nc-topbar__result--active {
+  box-shadow: inset 2px 0 0 var(--focus-ring);
+}
+
+.nc-topbar__result-icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--fg-muted);
+}
+
+.nc-topbar__result-label {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+.nc-topbar__result-detail {
+  margin-left: auto;
+  padding-left: var(--s-3);
+  color: var(--fg-muted);
+  font-size: 0.75rem;
+  white-space: nowrap;
+}
+
+.nc-topbar__none {
+  display: flex;
+  align-items: center;
+  min-height: 2rem;
+  padding: var(--s-1) var(--s-3);
+  color: var(--fg-muted);
+  font-size: 0.8125rem;
+}
+
+/* ---- the bar's buttons: the search icon, the way back, the bell ------------- */
+
+.nc-topbar__button {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  gap: var(--s-1);
+  box-sizing: border-box;
+  min-width: 2.125rem;
+  min-height: 2.125rem;
+  margin: 0;
+  padding: 0 var(--s-2);
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg-2);
+  font: inherit;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+
+.nc-topbar__button:hover {
+  background: var(--surface-2);
+  color: var(--fg);
+}
+
+.nc-topbar__button:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+/* the unread count: the blue badge */
+.nc-topbar__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  min-width: 1.125rem;
+  height: 1.125rem;
+  padding: 0 var(--s-1);
+  border: 1px solid color-mix(in srgb, var(--cloud-blue) 45%, var(--border-2));
+  background: color-mix(in srgb, var(--cloud-blue) 12%, var(--bg-2));
+  color: var(--cloud-blue);
+  font-size: 0.6875rem;
+  line-height: 1;
+}
+
+.nc-topbar__user {
+  display: inline-flex;
+  flex: none;
+}
+
+/* ---- a touch screen ---------------------------------------------------------
+   the field and the buttons are drawn large and answer in 48; the product's
+   name and every result are their own targets, 48 high. */
+[data-nc-screen='touch'] .nc-topbar__home {
+  min-height: 3rem;
+}
+
+[data-nc-screen='touch'] .nc-topbar__field {
+  min-height: 2.625rem;
+  padding: 0 var(--s-4);
+}
+
+[data-nc-screen='touch'] .nc-topbar__input {
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='touch'] .nc-topbar__button {
+  min-width: 2.625rem;
+  min-height: 2.625rem;
+}
+
+[data-nc-screen='touch'] .nc-topbar__glyph {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+/* the touch areas: not drawn, centred, reaching past the edges to 48 */
+[data-nc-screen='touch'] .nc-topbar__field::before,
+[data-nc-screen='touch'] .nc-topbar__button::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: min(0px, calc((100% - 3rem) / 2));
+  bottom: min(0px, calc((100% - 3rem) / 2));
+}
+
+[data-nc-screen='touch'] .nc-topbar__button::after {
+  left: min(0px, calc((100% - 3rem) / 2));
+  right: min(0px, calc((100% - 3rem) / 2));
+}
+
+[data-nc-screen='touch'] .nc-topbar__result,
+[data-nc-screen='touch'] .nc-topbar__none {
+  min-height: 3rem;
+  font-size: 0.875rem;
+}
+
+/* ---- a tv screen ------------------------------------------------------------
+   the field and the buttons large, no text under 12 and no label under 14, and
+   the tv focus: a 3px ring and a little growth. the name, the mark and the
+   buttons take a button's focus (the ring 2 outside, 1.05), the field and a
+   result a row's (the ring inside, the focused surface, 1.02). */
+[data-nc-screen='tv'] .nc-topbar__home,
+[data-nc-screen='tv'] .nc-topbar__mark,
+[data-nc-screen='tv'] .nc-topbar__button,
+[data-nc-screen='tv'] .nc-topbar__field,
+[data-nc-screen='tv'] .nc-topbar__result {
+  transition: transform 0.15s ease-out;
+}
+
+/* room around the name for its ring; the name itself stays where it was */
+[data-nc-screen='tv'] .nc-topbar__home {
+  min-height: 2.625rem;
+  margin-left: calc(-1 * var(--s-2));
+  padding: 0 var(--s-2);
+}
+
+[data-nc-screen='tv'] .nc-topbar__home:focus-visible,
+[data-nc-screen='tv'] .nc-topbar__button:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  color: var(--fg);
+  transform: scale(1.05);
+}
+
+[data-nc-screen='tv'] .nc-topbar__button:focus-visible {
+  background: var(--surface-focus);
+}
+
+[data-nc-screen='tv'] .nc-topbar__mark:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: -3px;
+  background: var(--surface-focus);
+  color: var(--fg);
+}
+
+[data-nc-screen='tv'] .nc-topbar__button {
+  min-width: 2.625rem;
+  min-height: 2.625rem;
+}
+
+[data-nc-screen='tv'] .nc-topbar__glyph {
+  width: 1.25rem;
+  height: 1.25rem;
+}
+
+[data-nc-screen='tv'] .nc-topbar__count {
+  min-width: 1.25rem;
+  height: 1.25rem;
+  font-size: 0.75rem;
+}
+
+[data-nc-screen='tv'] .nc-topbar__field {
+  min-height: 2.625rem;
+  padding: 0 var(--s-4);
+}
+
+[data-nc-screen='tv'] .nc-topbar__field:focus-within {
+  border-color: transparent;
+  background: var(--surface-focus);
+  box-shadow: inset 0 0 0 3px var(--focus-ring);
+  color: var(--fg-muted);
+  transform: scale(1.02);
+}
+
+[data-nc-screen='tv'] .nc-topbar__input {
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='tv'] .nc-topbar__field:focus-within .nc-topbar__input::placeholder {
+  color: var(--fg-muted);
+}
+
+[data-nc-screen='tv'] .nc-topbar__result,
+[data-nc-screen='tv'] .nc-topbar__none {
+  min-height: 2.5rem;
+  font-size: 0.875rem;
+}
+
+/* room at the list's sides for the picked row's growth: the list scrolls, so it cuts off what leaves it */
+[data-nc-screen='tv'] .nc-topbar__results {
+  padding-left: var(--s-1);
+  padding-right: var(--s-1);
+}
+
+[data-nc-screen='tv'] .nc-topbar__result--active {
+  background: var(--surface-focus);
+  box-shadow: inset 0 0 0 3px var(--focus-ring);
+  transform: scale(1.02);
+}
+
+[data-nc-screen='tv'] .nc-topbar__result--active .nc-topbar__result-icon,
+[data-nc-screen='tv'] .nc-topbar__result--active .nc-topbar__result-detail {
+  color: var(--fg-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-topbar__home,
+  .nc-topbar__mark,
+  .nc-topbar__field,
+  .nc-topbar__button,
+  [data-nc-screen='tv'] .nc-topbar__result {
+    transition: none;
+  }
+
+  [data-nc-screen='tv'] .nc-topbar__home:focus-visible,
+  [data-nc-screen='tv'] .nc-topbar__button:focus-visible,
+  [data-nc-screen='tv'] .nc-topbar__field:focus-within,
+  [data-nc-screen='tv'] .nc-topbar__result--active {
+    transform: none;
+  }
+}

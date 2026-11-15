@@ -1,0 +1,211 @@
+.nc-usermenu {
+  position: relative;
+  display: inline-flex;
+  flex: none;
+}
+
+/* the avatar as a button: the square is the whole target */
+.nc-usermenu__trigger {
+  -webkit-appearance: none;
+  appearance: none;
+  position: relative;
+  display: inline-flex;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.nc-usermenu__trigger .nc-avatar {
+  transition: border-color 0.12s ease;
+}
+
+.nc-usermenu__trigger:hover .nc-avatar,
+.nc-usermenu__trigger[aria-expanded='true'] .nc-avatar {
+  border-color: var(--cloud-blue);
+}
+
+.nc-usermenu__trigger:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 1px;
+}
+
+/* the panel: the action menu's surface, frame and shadow, under the avatar */
+.nc-usermenu__panel {
+  position: absolute;
+  top: calc(100% + var(--s-1));
+  z-index: 150;
+  box-sizing: border-box;
+  width: max-content;
+  min-width: 12rem;
+  max-width: min(20rem, calc(100vw - var(--s-4)));
+  border: 1px solid var(--border-2);
+  border-radius: 0;
+  background: var(--surface);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+.nc-usermenu__panel--end {
+  right: 0;
+}
+.nc-usermenu__panel--start {
+  left: 0;
+}
+
+/* who is signed in: the name, then the email address, quieter. names keep
+   their own capitals inside the menu's monospace. */
+.nc-usermenu__who {
+  display: flex;
+  flex-direction: column;
+  padding: var(--s-2) var(--s-3);
+  border-bottom: 1px solid var(--border-2);
+  font-family: var(--ff-mono);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+}
+
+.nc-usermenu__name {
+  color: var(--fg);
+  font-size: 0.8125rem;
+  font-weight: 600;
+}
+
+.nc-usermenu__email {
+  color: var(--fg-muted);
+  font-size: 0.75rem;
+}
+
+.nc-usermenu__menu {
+  padding: var(--s-1) 0;
+  outline: none;
+}
+
+/* an item: the action menu's row */
+.nc-usermenu__item {
+  -webkit-appearance: none;
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: var(--s-2);
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 2rem;
+  margin: 0;
+  padding: var(--s-1) var(--s-3);
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--fg-2);
+  font-family: var(--ff-mono);
+  font-size: 0.8125rem;
+  line-height: 1.4;
+  text-align: left;
+  text-decoration: none;
+  text-transform: lowercase;
+  cursor: pointer;
+}
+
+.nc-usermenu__item:hover,
+.nc-usermenu__item:focus {
+  background: var(--surface-2);
+  color: var(--fg);
+  outline: none;
+}
+
+.nc-usermenu__item:focus-visible {
+  box-shadow: inset 2px 0 0 var(--focus-ring);
+}
+
+.nc-usermenu__item--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.nc-usermenu__icon {
+  display: inline-flex;
+  flex: none;
+  color: var(--fg-muted);
+}
+
+/* sign out stands apart: a rule above it */
+.nc-usermenu__rule {
+  height: 0;
+  margin: var(--s-1) 0;
+  border-top: 1px solid var(--border-2);
+}
+
+/* ---- a touch screen ------------------------------------------------------
+   the avatar is drawn large and answers in 48 around it; every row is its own
+   target, 48 high. */
+[data-nc-screen='touch'] .nc-usermenu__trigger .nc-avatar {
+  width: 2.625rem;
+  height: 2.625rem;
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='touch'] .nc-usermenu__trigger::after {
+  content: '';
+  position: absolute;
+  inset: min(0px, calc((100% - 3rem) / 2));
+}
+
+[data-nc-screen='touch'] .nc-usermenu__item {
+  min-height: 3rem;
+  font-size: 0.875rem;
+}
+
+/* ---- a tv screen ---------------------------------------------------------
+   the avatar large, with a button's tv focus: the ring 2 outside, a little
+   growth. rows 40 high, their words 14, with a row's tv focus: the ring
+   inside, the focused surface, a little growth, brighter text. */
+[data-nc-screen='tv'] .nc-usermenu__trigger {
+  transition: transform 0.15s ease-out;
+}
+
+[data-nc-screen='tv'] .nc-usermenu__trigger .nc-avatar {
+  width: 2.625rem;
+  height: 2.625rem;
+}
+
+[data-nc-screen='tv'] .nc-usermenu__trigger:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  transform: scale(1.05);
+}
+
+[data-nc-screen='tv'] .nc-usermenu__name {
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='tv'] .nc-usermenu__item {
+  min-height: 2.5rem;
+  font-size: 0.875rem;
+  transition: transform 0.15s ease-out;
+}
+
+[data-nc-screen='tv'] .nc-usermenu__item:focus {
+  background: var(--surface-focus);
+  color: var(--fg);
+  box-shadow: inset 0 0 0 3px var(--focus-ring);
+  transform: scale(1.02);
+}
+
+[data-nc-screen='tv'] .nc-usermenu__item:focus .nc-usermenu__icon {
+  color: var(--fg-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nc-usermenu__trigger .nc-avatar,
+  [data-nc-screen='tv'] .nc-usermenu__trigger,
+  [data-nc-screen='tv'] .nc-usermenu__item {
+    transition: none;
+  }
+
+  [data-nc-screen='tv'] .nc-usermenu__trigger:focus-visible,
+  [data-nc-screen='tv'] .nc-usermenu__item:focus {
+    transform: none;
+  }
+}

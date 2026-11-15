@@ -63,6 +63,7 @@ export const COMPONENTS: ComponentEntry[] = [
   { slug: 'table-cells', name: 'table cells', exports: ['StatusCell', 'DateCell', 'IdentifierCell'], role: 'data display', summary: 'A status with its reason, a date said both ways, an identifier.', react: 'components-data-display-table-cells' },
   { slug: 'table', name: 'table', exports: ['Table'], role: 'data display', summary: 'A simple table for a short list that people only read.', react: 'components-data-display-table' },
   { slug: 'badge', name: 'badge', exports: ['Badge'], role: 'data display', summary: 'A label, a count, a tag: not a status.', react: 'components-data-display-badge' },
+  { slug: 'avatar', name: 'avatar', exports: ['Avatar'], role: 'data display', summary: "The square that stands for a person: their picture or their initials.", react: 'components-data-display-avatar' },
   { slug: 'text', name: 'text', exports: ['Text'], role: 'data display', summary: 'Text in one of the text styles.', react: 'components-data-display-text' },
   { slug: 'code', name: 'code', exports: ['Code'], role: 'data display', summary: 'Code and commands, inside a sentence or as a block.', react: 'components-data-display-code' },
   { slug: 'kbd', name: 'kbd', exports: ['Kbd'], role: 'data display', summary: 'A key to press.', react: 'components-data-display-kbd' },
@@ -86,6 +87,7 @@ export const COMPONENTS: ComponentEntry[] = [
   { slug: 'tooltip', name: 'tooltip', exports: ['Tooltip'], role: 'overlays', summary: 'A short label for something that has no room for one.', react: 'components-overlays-tooltip' },
 
   // navigation
+  { slug: 'top-bar', name: 'top bar and user menu', exports: ['TopBar', 'UserMenu'], role: 'navigation', summary: "The bar across the top of every screen: the product's name, the one search, the notifications and the user menu.", react: 'components-navigation-top-bar' },
   { slug: 'tabs', name: 'tabs', exports: ['Tabs'], role: 'navigation', summary: 'Switch between the parts of one thing.', react: 'components-navigation-tabs' },
   { slug: 'filter-tabs', name: 'filter tabs', exports: ['FilterTabs'], role: 'navigation', summary: 'Counts at the top of a list that also filter it.', react: 'components-navigation-filter-tabs' },
   { slug: 'tile', name: 'tile', exports: ['Tile'], role: 'navigation', summary: 'A square on the home page that opens an app, or shows a key figure.', react: 'components-navigation-tile', guidance: 'patterns/home-and-tiles/#the-tile' },

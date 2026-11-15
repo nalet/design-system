@@ -1,0 +1,83 @@
+import { Meta, Canvas, ArgTypes } from '@storybook/addon-docs/blocks';
+import * as UserMenuStories from './UserMenu.stories';
+
+<Meta of={UserMenuStories} />
+
+# user menu
+
+What the user menu holds, why sign out comes last and how to word its items is on the guidelines site: **[top bar and user menu guidance →](https://nalet.github.io/design-system/components/top-bar/)**
+
+<Canvas of={UserMenuStories.Playground} />
+
+## examples
+
+`defaultOpen` shows the menu from the first render: the person's `name` and `email`, the `items`, and sign out.
+
+<Canvas of={UserMenuStories.Open} />
+
+With `picture`, the avatar shows it, and the button is named after the person.
+
+<Canvas of={UserMenuStories.WithAPicture} />
+
+Each item can have an `icon`, and `signOutIcon` gives sign out one.
+
+<Canvas of={UserMenuStories.WithIcons} />
+
+An item with an `href` is a link.
+
+<Canvas of={UserMenuStories.Links} />
+
+Under `data-nc-screen="touch"`, the avatar is large and the rows are 48px high.
+
+<Canvas of={UserMenuStories.OnATouchScreen} />
+
+Under `data-nc-screen="tv"`, the rows are 40px high and show the TV focus.
+
+<Canvas of={UserMenuStories.OnATv} />
+
+## implementation notes
+
+- The trigger is a `<button>` that holds a decorative `Avatar`, at `size` (`md` by default).
+- Its name, also its `title`, is `label`. By default it is the initials and “user menu”, “au, user menu”, and the person's name in place of the initials when `picture` is set, so it says what the avatar shows and what it opens.
+- The trigger has `aria-haspopup="menu"` and `aria-expanded`. While the menu is open, `aria-controls` points at it.
+- The menu exists only while it is open. It renders in place, right after the trigger, with `position: absolute` and `z-index: 150`; it is not a portal. An ancestor with `overflow: hidden` would cut it off, so the bar it sits in must not hide what overflows it.
+- `align` lines up the menu's `end` edge with the avatar's (the default), or its `start` edge.
+- The header with `name` and `email` sits above the `role="menu"` element, not inside it, because it isn't an item. The menu points at both with `aria-describedby`, so a screen reader reads who is signed in when the menu opens.
+- The menu has `role="menu"` and `tabindex="-1"`, and takes its name from the trigger through `aria-labelledby`.
+- Each item is a `<button type="button">` with `role="menuitem"` and `tabindex="-1"`. An item with an `href` is an `<a>` with the same role, so it can be opened in a new tab.
+- A disabled item gets `aria-disabled="true"` and stays in the menu. A disabled item with an `href` is rendered as a button, so it leads nowhere.
+- Sign out is always the last item, after a `role="separator"`. `onSignOut` is required; `signOutLabel` replaces its word.
+- When a person opens the menu, focus goes to the first item that isn't disabled, or to the last one when `↑` opened it.
+- With `defaultOpen`, the menu is open on the first render and the focus stays where it is. `↓` or `↑` on the avatar then moves into it.
+- Choosing an item closes the menu, puts focus back on the avatar, then calls `onSelect`. A link is followed after that.
+- While it is open, the menu listens for `pointerdown` on the document, so a press outside closes it.
+- `onOpenChange(open)` is called each time the menu opens or closes.
+- “user menu” and “sign out” come from `useLanguage().words.userMenu`, in English and German.
+- `className` lands on the wrapper around the trigger and the menu. `UserMenu` passes no other attributes through.
+- axe-core finds no violations, with the menu closed or open, with initials and with a picture.
+
+| key | does |
+| --- | --- |
+| `enter` / `space` on the avatar | Opens the menu and focuses its first item that isn't disabled. |
+| `↓` on the avatar | Also opens the menu on its first item. |
+| `↑` on the avatar | Opens the menu on its last item, sign out. |
+| `↓` / `↑` in the menu | Moves to the next / previous item, wrapping at the ends. Disabled items are skipped. |
+| `home` / `end` | Moves to the first / last item. |
+| `enter` / `space` on an item | Closes the menu, puts focus back on the avatar, then runs the item. |
+| `esc` | Closes the menu and puts focus back on the avatar. The key goes no further. |
+| `tab` / `shift+tab` | Closes the menu, and focus moves on from the avatar as if the menu had not been there. |
+
+## props
+
+<ArgTypes of={UserMenuStories} />
+
+Each entry in `items` has these fields:
+
+| field | does |
+| --- | --- |
+| `id` | A key, unique within the menu |
+| `label` | The item's word, lowercase: “account” |
+| `href` | A page the item leads to; the item is then a link |
+| `onSelect` | Runs once the menu has closed and focus is back on the avatar |
+| `icon` | Decoration before the label |
+| `disabled` | Stays in the menu, can't be chosen, and the arrow keys skip it |

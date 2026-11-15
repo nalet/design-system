@@ -1,0 +1,245 @@
+---
+layout: ../../layouts/Doc.astro
+title: top bar and user menu
+description: The bar across the top of every screen, with the product's name, the open app's name, the one search, the notifications bell and the user menu behind the avatar.
+component: top-bar
+react:
+  - { label: user menu, id: components-navigation-user-menu }
+draft: true
+draftNote: "The top bar and the user menu are new components, built from the top bar pattern. This page is new."
+---
+import { Kbd } from '@nalet/design-system';
+import C from '@site/components/C.astro';
+import Term from '@site/components/Term.astro';
+import { Example } from '@site/blocks';
+import { TopBarAnatomy } from '@site/sketches/shell';
+import { Playground, SearchAtTheStart, Narrow, OwnNavigation, OnATouchScreen } from '@site/examples/top-bar';
+import { Open, WithAPicture, WithIcons, OnATv } from '@site/examples/user-menu';
+
+# top bar and user menu
+
+The top bar runs across the top of every screen and answers the same four questions everywhere: where am I, where do I find something, is there anything new for me, and where is my account? The <Term id="user-menu">user menu</Term> is its last part: everything about the person, behind their <Term id="avatar">avatar</Term>.
+
+<Example label="a top bar with an app open, live: type in the search, press the bell, open the user menu" flush>
+  <Playground client:load />
+</Example>
+
+Why the bar holds these parts, and why it is the same in every product, is on the [top bar](/design-system/patterns/top-bar/) pattern page. This page describes the two components.
+
+## when to use
+
+- Once on every screen, at its top: on the <Term id="portal">portal</Term>'s home page, in every app inside it, and in a product of its own.
+- The user menu at the end of the bar, on every screen, for everything about the person: their account, their settings, help and sign out.
+- The user menu on its own where a frame has no top bar, such as a TV, where the avatar sits at the top of the rail; see [consumer navigation](/design-system/patterns/consumer-navigation/#on-a-tv).
+
+## when to use something else
+
+- **For an app's own actions.** They belong in the app's header or its <C slug="toolbar">toolbar</C>. The bar only holds what every screen shares.
+- **To move between an app's views.** That is the app's [navigation](/design-system/patterns/app-navigation/), under the bar.
+- **For actions on a row, or behind a button.** Use an <C slug="action-menu" />. The user menu is only for the person.
+- **For a search inside one list.** A <C slug="filter-bar" /> narrows the list it stands above. The bar's search is the one for the whole platform.
+
+## anatomy
+
+<figure class="ds-figure">
+  <TopBarAnatomy />
+  <figcaption>The top bar, from left to right.</figcaption>
+</figure>
+
+1. **The product's name**, led by the blue chevron, which holds still. It is a link to the home page.
+2. **The app's name**, after a slash, when an app is open.
+3. **The search**: a text field with a magnifying glass. A short list of results opens under it.
+4. **The notifications**: a bell, with the number of unread notices beside it in a small blue box. Without unread notices, the bell stands alone.
+5. **The user menu**: the person's square avatar. Pressed, it opens a menu under it: the person's name, their email address in a quieter grey, the items the app puts there, a thin line, and sign out.
+
+A product can put its own navigation after the names; see [a product's own navigation](#a-products-own-navigation).
+
+## variants and states
+
+### where the search sits
+
+The search has two places, and the frame around the bar decides which; [where it sits](/design-system/patterns/top-bar/#where-it-sits) explains the rule. In a bar that starts with names, it sits at the end, just before the notifications, as in the example at the top. Over a rail of icons, it sits at the start, and the bar starts with the product's mark alone: the chevron and the first letter of the product's name, in a cell as wide as the rail.
+
+<Example label="the search at the start of the bar, after the product's mark, live" flush>
+  <SearchAtTheStart client:load />
+</Example>
+
+The notifications and the user menu never move, and the field is the same one in both places.
+
+### a narrow bar
+
+The bar measures its own width. When it is narrow, as on a phone, the search folds into an icon just before the notifications, and the bar starts with the product's name alone, whichever place the search has on a wide screen. The app's name isn't in a narrow bar: there, the app's own header says where people are. Pressing the icon opens the field across the whole bar, with a cross after it to close it again.
+
+<Example label="a narrow bar, live: press the magnifying glass to open the search, and the cross or esc to close it">
+  <Narrow client:load />
+</Example>
+
+Nothing in the bar is ever cut off. When a wide bar's names don't fit beside the rest, the app's name moves under the product's name. When a narrow bar has no room for the product's name beside the icons, as with very large text, the icons move to a line of their own. Either way, the bar gets taller.
+
+### the results
+
+On every screen but the home page, a typed word opens a short list under the field. The list comes in groups, each with a quiet title, the apps first. Each result can have an icon before its name, and a few quiet words after it. The result picked with the arrow keys turns lighter and gets a bar in the focus colour on its left edge, as a menu's item does. When nothing is found, the place under the field says “no results”.
+
+The bar doesn't search. The <Term id="shell">shell</Term> does, and gives the bar the results to show. On the home page it gives none: there, the tiles narrow instead; see [search](/design-system/patterns/top-bar/#search).
+
+### the notifications
+
+The bell shows the number of unread notices, exactly: “2”, and “2,500” when there are that many. With none, it shows no number.
+
+### the user menu
+
+The menu opens under the avatar, lined up with its end edge. It looks and works like an <C slug="action-menu" />, with two things of its own: the person's name and email address at the top, which aren't items, and sign out as the last item, set apart by a line.
+
+<Example label="the user menu, open, live">
+  <Open client:visible />
+</Example>
+
+The avatar shows the person's picture when there is one, and their initials otherwise. The items can have an icon each, before the word.
+
+<Example label="a user menu behind a picture, and one whose items have icons, live">
+  <WithAPicture client:visible />
+  <WithIcons client:visible />
+</Example>
+
+An item can lead to a page, such as the person's account. It is then a link, so it can be opened in a new tab. An item that can't be used now is dimmed, and the arrow keys skip it.
+
+### a product's own navigation
+
+A product for consumers can keep its own main navigation in the bar, after its name; see [the same everywhere](/design-system/patterns/top-bar/#the-same-everywhere). The bar gives it the place, and the product draws it.
+
+<Example label="a top bar with a product's own navigation after the name, live" flush>
+  <OwnNavigation client:load />
+</Example>
+
+### on a touch screen and on a tv
+
+On a screen made for touch, the field, the bell, the search icon and the avatar are drawn at the large size, and each answers to a touch in a square of 48 around it. The results and the menu's items are rows 48 high; see [layout](/design-system/foundations/layout/#touch-and-tv-sizes).
+
+<Example label="a narrow top bar on a touch screen, live">
+  <OnATouchScreen client:load />
+</Example>
+
+On a TV, the avatar is large and the menu's rows are 40 high, and the focused one shows the [TV focus](/design-system/patterns/tv-focus/): the ring, the lighter surface and a little growth.
+
+<Example label="the user menu on a tv, open, live">
+  <OnATv client:visible />
+</Example>
+
+## behaviour
+
+- **<Kbd>/</Kbd> moves the <Term id="focus">focus</Term> to the search** from anywhere on the page, except while people type in a text field, a text area, a select or anything else they can edit, and while a dialog blocks the page. In a narrow bar, it opens the field first.
+- **In the search**, <Kbd>↓</Kbd> and <Kbd>↑</Kbd> pick a result and <Kbd>enter</Kbd> opens it. The focus stays in the field, so people can go on typing. <Kbd>esc</Kbd> closes the list, and a second <Kbd>esc</Kbd> empties the field.
+- **The list closes** when a result is opened and when the focus leaves the search. It comes back when the focus does. In a narrow bar, opening a result closes the field too, and the bar is back.
+- **In a narrow bar**, pressing the icon puts the focus in the field. The cross, or <Kbd>esc</Kbd>, closes the field, empties it and puts the focus back on the icon. A field left empty folds back by itself when the focus moves on; a field that holds a word stays open, so nothing is searched for out of sight.
+- **The bell only reports the press.** The shell opens its notifications.
+- **The user menu** opens on a press, or with <Kbd>↓</Kbd> or <Kbd>↑</Kbd> on the avatar, with the focus on its first or last item. The arrow keys move between the items, and <Kbd>enter</Kbd> or <Kbd>space</Kbd> chooses one. <Kbd>esc</Kbd> closes the menu and puts the focus back on the avatar; so does choosing an item. A press outside the menu closes it, and <Kbd>tab</Kbd> closes it and moves on.
+- **The bar stays where the screen puts it.** A screen that keeps it in view while the page scrolls makes it stick itself.
+
+The full keyboard maps are on the React pages of the [top bar](/design-system/react/?path=/docs/components-navigation-top-bar--docs) and the [user menu](/design-system/react/?path=/docs/components-navigation-user-menu--docs).
+
+## accessibility
+
+- **<Term id="landmark">Landmarks</Term>.** The bar is the page's header, and the search is a region of its own, so <Term id="screen-reader">screen reader</Term> users can jump to either.
+- **The product's name** is a link named after where it goes: the product's name and “home”. So is the product's mark, which also shows that name as its tooltip. The chevron is decoration.
+- **The search field** is named after what it finds, such as “search apps”, and its placeholder says the same. A screen reader reads the results as the field's own list of options, each group with its title, and says which one is picked.
+- **How many were found** is said while people type: “3 results”. On the home page, where the tiles answer, the home page says how many apps match.
+- **In a narrow bar**, the icon is a button named “search”, and the cross is named “close search”.
+- **The bell** is a button whose name carries the count: “notifications, 2 unread”, or “notifications” alone.
+- **The avatar** is a button whose name says what it shows and what it opens: “au, user menu”, or the person's name in place of the initials when it shows their picture. A screen reader announces that it opens a menu, and whether the menu is open.
+- **Who is signed in** isn't an item, so the arrow keys don't stop on it. A screen reader reads the name and the email address as the menu's description when the menu opens.
+- **Every part shows keyboard focus** with the outline every control has; [interaction](/design-system/foundations/interaction/#focus) explains it.
+
+Today:
+
+- A browser's own tooltip repeats the name of the bell, the search icon, the cross and the avatar under the pointer. People who use a keyboard or a touch screen never see it.
+- The list of results doesn't say that it is loading. While the shell is still searching, it shows what the shell last gave it.
+- On a TV, the left and right arrows move between the bar's own parts. Moving from the bar down into the page is left to the screen.
+
+## content
+
+The [top bar](/design-system/patterns/top-bar/#the-words) pattern has the words: the product's and the app's name, a placeholder that says what the search finds, and account, settings, help and sign out in the menu.
+
+- **The search's name.** Say what it finds, lowercase: “search apps”. The placeholder is the same words with an ellipsis, so give only the name.
+- **A group's title.** One word, lowercase, for what the group holds: “apps”. For things inside an app, say where they are: “in downloads”.
+- **A result.** The thing's own name, with its own capitals: “The Quiet Harbour”. The quiet words after it say what it is or how it stands, in a word or two: “queued”.
+- **The person.** Their name as they write it, and their email address. Initials come from the first and the last word of the name; give them yourself when those aren't the person's.
+- **The bar's own words** come in the page's language: “search”, “close search”, “no results”, “notifications, 2 unread”, “user menu” and “sign out” are built in, in English and German.
+
+## related
+
+- [Top bar](/design-system/patterns/top-bar/): what the bar holds and why, where the search sits, and what doesn't go in it.
+- <C slug="avatar">Avatar</C>: the square that stands for the person.
+- <C slug="action-menu">Action menu</C>: the menu whose look and keys the user menu shares.
+- [Home & tiles](/design-system/patterns/home-and-tiles/#search-finds-the-tile): the home page, whose tiles the search narrows.
+- [Consumer navigation](/design-system/patterns/consumer-navigation/): the rail under a bar that starts with the product's mark.
+- [Settings and setup](/design-system/patterns/settings-and-setup/): what the user menu's settings hold.
+
+## specs
+
+### the top bar
+
+| part | spec |
+| --- | --- |
+| Bar | A `<header>`, a row at least 56px high, with 16px of padding at its sides, 4px at its top and foot, and 12px between its parts. `--bg-2`, with a 1px `--border` rule along its foot. The names at the start, the rest at the end |
+| The product's name | `product`. A link to `homeHref` (default `/`), named after the product and where it goes, “platform, home”; `onHomeClick` hears the press. The chevron at 16px, 8px before the name in JetBrains Mono 700, 15px, lowercase, in `--fg-2`; `--fg` under the pointer |
+| The app's name | `app`. After a `/` in `--fg-dim` that assistive technology skips: JetBrains Mono 500, 14px, lowercase, in `--fg`. It wraps under the product's name when the two don't fit on one line. Not shown in a narrow bar |
+| The product's mark | With `searchPlacement="start"`, in place of the names: a cell 80px wide and as high as the bar, with a 1px `--border` rule on its right. The chevron at 16px and the first letter of `product`, JetBrains Mono 700, 15px, in `--fg-2`. A link to `homeHref`, with the same name as the product's name has, also as its `title` |
+| A product's own navigation | `children`, after the names |
+| The search | `search`. A `role="search"` region named by `search.label`. Up to 384px wide; it gives way first when the bar runs out of room, down to 160px. With `searchPlacement="start"`, it starts 24px after the mark's cell |
+| The field | At least 34px high, padding 0 12px, a 1px `--border-control` frame on `--bg-2`; with the focus inside, a `--cloud-blue` frame, 2px in all. A 16px magnifying glass in `--fg-dim`, 8px before the text. The text in JetBrains Mono 13px, `--fg`; the placeholder in `--fg-dim`, `search.placeholder` or the name with an ellipsis |
+| The results | `search.results`: groups with a `title` and their `results`. A panel 4px under the field, as wide as the field or as its longest row, at most 448px, and at most 384px high before it scrolls: `--surface`, a 1px `--border-2` frame, the action menu's shadow. It lines up with the field's end edge at the end of the bar, and with its start edge at the start |
+| A group's title | JetBrains Mono 12px in `--fg-muted`, lowercase, padding 4px 12px. A 1px `--border-2` line above every group but the first |
+| A result | At least 32px high, padding 4px 12px, JetBrains Mono 13px in `--fg-2`, in its own capitals. Its `icon` 8px before the `label`, in `--fg-muted`; its `detail` at the row's end, 12px, in `--fg-muted`. Under the pointer, and when picked: `--surface-2` and `--fg`. Picked, it also has a 2px `--focus-ring` bar inside its left edge. With an `href`, it is a link |
+| No results | One line, “no results”, in `--fg-muted`, in place of the list |
+| The bell, the search icon and the cross | Quiet buttons: at least 34px square, a 16px icon in `--fg-2`; `--surface-2` and `--fg` under the pointer |
+| The count | `unread`. Beside the bell, 4px from it: at least 18px wide and 18px high, JetBrains Mono 11px in `--cloud-blue`, on a tint of it with a frame of it, as the blue badge has. Written in the page's language |
+| The user menu | `userMenu`, at the end of the bar |
+| Keyboard focus | The 2px `--focus-ring` outline, 1px outside, on keyboard focus only; inside the mark's cell. The field shows its blue frame |
+
+| setting | in code | what it does |
+| --- | --- | --- |
+| Where the search sits | `searchPlacement="end"` (the default), `"start"` | At the end, just before the notifications. At the start, right after the product's mark, which then takes the place of the names |
+| Narrow | `narrowBelow`, 600 by default | Below this width of the bar, the search is an icon that opens the field across the whole bar, and the bar starts with the product's name alone. The bar may then wrap: the icons and the avatar go to a second line, at its end, when they don't fit beside the name |
+| What is typed | `search.value`, `search.onChange` | The bar holds no word of its own. `onChange` hears every keystroke, and an empty word when the field is emptied |
+| How many were found | `search.resultCount` | The count a screen reader hears. By default, the rows of the list |
+| Enter without a result | `search.onSubmit` | Hears the word when <Kbd>enter</Kbd> is pressed with no result picked |
+| The bell | `onNotifications`, `notificationsExpanded` | Without `onNotifications`, the bar has no bell. `notificationsExpanded` tells a screen reader whether the shell's notifications are open |
+
+- **Measured, not asked.** The bar's width is the room inside it, measured with a `ResizeObserver` at the usual text size: with its 16px of padding at each side, the bar is narrow while its outer edge is under 632px. At twice the text size, it is narrow under twice that. Until it has measured itself, and where it can't, such as on a page drawn on the server, it shows its wide layout; without room for it, that layout puts the bell and the avatar on a second line rather than cutting them off.
+- **The field keeps its place.** Opening and closing the narrow bar's field, and a bar that gets wide while the field has the focus, keep the same field, with its focus.
+- **The results in code.** With `search.results`, the field is a `role="combobox"` with `aria-expanded`, `aria-controls` and `aria-activedescendant`; the list is a `role="listbox"` named “results”, its groups `role="group"` named by their titles, its rows `role="option"`. Without it, the field is a `role="searchbox"`. The count is said by a `role="status"` region that is on the page from the start.
+- **Words.** The bar's own words are the `topBar` block of the page's language.
+
+### the user menu
+
+| part | spec |
+| --- | --- |
+| Avatar button | The <C slug="avatar" /> at `size`, 34px by default, as a button: `aria-haspopup="menu"`, `aria-expanded`, and its name also as its `title`. Under the pointer and while the menu is open, the avatar's frame is `--cloud-blue` |
+| Menu | 4px under the avatar, lined up with its end edge (`align="start"`: its start edge). At least 192px wide, at most 320px or the window's width less 16px. `--surface`, a 1px `--border-2` frame, the action menu's shadow, above the page (`z-index: 150`). It opens in place, inside the bar, so the bar must not cut off what overflows it |
+| Who is signed in | `name` in JetBrains Mono 600, 13px, `--fg`; `email` under it, 12px, `--fg-muted`. Both in their own capitals; a long address breaks. Padding 8px 12px, a 1px `--border-2` line under it |
+| Item | `items`. As in the action menu: at least 32px high, padding 4px 12px, JetBrains Mono 13px in `--fg-2`, lowercase; `--surface-2` and `--fg` under the pointer and with the focus; keyboard focus adds a 2px `--focus-ring` bar inside the left edge. An `icon` sits 8px before the label, in `--fg-muted`. With an `href`, the item is a link. `disabled`: 45% opacity, and the arrow keys skip it |
+| Sign out | The last item, after a 1px `--border-2` line with 4px above and below it. `onSignOut` hears it; `signOutLabel` and `signOutIcon` set its word and its icon |
+
+| setting | in code | what it does |
+| --- | --- | --- |
+| The person | `name`, `email`, `picture`, `initials` | The header, and the avatar: the picture, or the initials made from the name unless `initials` gives them |
+| The button's name | `label` | By default the initials and “user menu”, “au, user menu”, with the person's name in place of the initials when the avatar shows a picture |
+| Size | `size`: `sm`, `md` (the default), `lg` | The avatar's size: 28, 34 or 42px |
+| Open from the start | `defaultOpen` | The menu is open on the first render. The focus stays where it is, and moves into the menu only when a person opens it |
+| Hearing it open | `onOpenChange` | Called each time the menu opens or closes |
+
+- **Words.** “user menu” and “sign out” are the `userMenu` block of the page's language.
+
+### on a touch screen and on a tv
+
+| part | on a touch screen (`data-nc-screen="touch"`) | on a tv (`data-nc-screen="tv"`) |
+| --- | --- | --- |
+| The field | 42px high, padding 0 16px, text 14px; it answers 3px above and below its frame | 42px high, text 14px. Focused: a 3px `--focus-ring` ring inside in place of its frame, `--surface-focus`, grown by 1.02; the placeholder `--fg-muted` |
+| The bell, the search icon, the cross | 42px square, a 20px icon, a touch area of 48 × 48 | 42px square, a 20px icon; the count 12px. Focused: a 3px ring 2px outside, `--surface-focus`, grown by 1.05 |
+| The product's name | A target 48px high | Focused: a 3px ring 2px outside, grown by 1.05. The mark: the ring inside its cell, and `--surface-focus` |
+| A result | 48px high, text 14px | 40px high, text 14px. Picked: a 3px ring inside, `--surface-focus`, grown by 1.02 |
+| The avatar button | 42px, with a touch area of 48 × 48 | 42px. Focused: a 3px ring 2px outside, grown by 1.05 |
+| A menu item | 48px high, text 14px | 40px high, text 14px. Focused: a 3px ring inside, `--surface-focus`, grown by 1.02 |
+
+- The growth settles in 150ms, easing out. Under `prefers-reduced-motion: reduce`, nothing grows.
+- On a TV, <Kbd>←</Kbd> and <Kbd>→</Kbd> move between the bar's parts; in the field, only from the start and the end of its text.

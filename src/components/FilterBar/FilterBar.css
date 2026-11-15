@@ -10,6 +10,8 @@
 }
 
 .nc-filterbar__search {
+  display: flex;
+  align-items: center;
   flex: 1 1 15rem;
   min-width: 11.25rem;
   max-width: 26.25rem;
@@ -74,11 +76,13 @@
   font-variant-numeric: tabular-nums;
 }
 
-/* narrow: search and the toggle share the first line; facets stack below. */
+/* narrow: search and the toggle share the first line; facets stack below.
+   the search keeps room for a few words: where the line can't hold both, at a
+   large text size or in a very narrow bar, the toggle moves under it. */
 .nc-filterbar--narrow .nc-filterbar__search {
   max-width: none;
-  min-width: 0;
-  flex-basis: 0;
+  min-width: min(8rem, 100%);
+  flex-basis: 8rem;
 }
 
 .nc-filterbar--narrow .nc-filterbar__facets {
@@ -102,4 +106,140 @@
   flex: 1 0 100%;
   justify-content: space-between;
   margin-left: 0;
+}
+
+/* ---- a screen made for touch, and a tv ---------------------------------------
+   every control in the bar is drawn large, 42, without the app asking: the
+   search, the selects, the "filters" button and "clear all". (a multi select
+   brings its own rules.) */
+[data-nc-screen='touch'] .nc-filterbar .nc-input,
+[data-nc-screen='tv'] .nc-filterbar .nc-input {
+  min-height: 2.625rem;
+  padding: 0 var(--s-4);
+}
+
+[data-nc-screen='touch'] .nc-filterbar .nc-input__control,
+[data-nc-screen='tv'] .nc-filterbar .nc-input__control,
+[data-nc-screen='touch'] .nc-filterbar .nc-select__control,
+[data-nc-screen='tv'] .nc-filterbar .nc-select__control {
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='touch'] .nc-filterbar .nc-input__affix--prefix,
+[data-nc-screen='tv'] .nc-filterbar .nc-input__affix--prefix {
+  margin-right: var(--s-3);
+}
+
+[data-nc-screen='touch'] .nc-filterbar .nc-select,
+[data-nc-screen='tv'] .nc-filterbar .nc-select {
+  min-height: 2.625rem;
+  padding: 0 2.25rem 0 var(--s-4);
+}
+
+[data-nc-screen='touch'] .nc-filterbar .nc-btn,
+[data-nc-screen='tv'] .nc-filterbar .nc-btn {
+  min-height: 2.625rem;
+  padding: 0 var(--s-5);
+  font-size: 0.875rem;
+}
+
+/* touch: each control answers in 48 around its centre, and the areas never
+   meet: the bar's lines are 8 apart. a button's touch area reaches past its
+   edges. the search and a select facet sit in a label 48 high, and the field
+   itself fills its box, so a touch anywhere on it lands in the field; a
+   select reaches the label's edges, so the same touch opens its list. */
+/* :where() keeps this weaker than a position an app gives a button of its own. */
+:where([data-nc-screen='touch'] .nc-filterbar .nc-btn) {
+  position: relative;
+}
+
+[data-nc-screen='touch'] .nc-filterbar .nc-btn::after {
+  content: '';
+  position: absolute;
+  /* 48 around the centre, and never less than the control itself: each edge
+     reaches out by half of what the control is short of 48. */
+  inset: min(-1px, (100% - 3rem) / 2);
+}
+
+[data-nc-screen='touch'] .nc-filterbar__search,
+[data-nc-screen='touch'] .nc-filterbar__facet {
+  min-height: 3rem;
+}
+
+[data-nc-screen='touch'] .nc-filterbar .nc-input__control {
+  align-self: stretch;
+}
+
+[data-nc-screen='touch'] .nc-filterbar__facet .nc-select {
+  padding: 0;
+}
+
+[data-nc-screen='touch'] .nc-filterbar__facet .nc-select__control {
+  align-self: stretch;
+  margin: calc(-0.1875rem - 1px) 0;
+  padding: calc(0.1875rem + 1px) 2.25rem calc(0.1875rem + 1px) var(--s-4);
+}
+
+/* tv: controls 12 apart, labels of 14, and the tv focus: a field takes the 3px
+   ring inside its edge, in place of its border, the focused surface and 2% of
+   growth; a button the ring 2px outside, the focused surface where it has no
+   fill of its own, and 5%. */
+[data-nc-screen='tv'] .nc-filterbar__row,
+[data-nc-screen='tv'] .nc-filterbar__facets {
+  gap: var(--s-3);
+}
+
+[data-nc-screen='tv'] .nc-filterbar__facet-label {
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='tv'] .nc-filterbar .nc-input,
+[data-nc-screen='tv'] .nc-filterbar .nc-select,
+[data-nc-screen='tv'] .nc-filterbar .nc-btn {
+  transition: background-color 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out,
+    transform 0.15s ease-out;
+}
+
+[data-nc-screen='tv'] .nc-filterbar .nc-input:focus-within,
+[data-nc-screen='tv'] .nc-filterbar .nc-select:focus-within {
+  border-color: var(--focus-ring);
+  box-shadow: inset 0 0 0 2px var(--focus-ring);
+  background: var(--surface-focus);
+  transform: scale(1.02);
+}
+
+/* brighter text with the focus: nothing in the dimmest grey sits on the focused surface. */
+[data-nc-screen='tv'] .nc-filterbar .nc-input:focus-within .nc-input__control::placeholder,
+[data-nc-screen='tv'] .nc-filterbar .nc-input:focus-within .nc-input__affix {
+  color: var(--fg-muted);
+}
+
+[data-nc-screen='tv'] .nc-filterbar__facet:focus-within .nc-filterbar__facet-label {
+  color: var(--fg-2);
+}
+
+[data-nc-screen='tv'] .nc-filterbar .nc-btn:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  transform: scale(1.05);
+}
+
+[data-nc-screen='tv'] .nc-filterbar .nc-btn--default:focus-visible,
+[data-nc-screen='tv'] .nc-filterbar .nc-btn--ghost:focus-visible {
+  background: var(--surface-focus);
+  color: var(--fg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-nc-screen='tv'] .nc-filterbar .nc-input,
+  [data-nc-screen='tv'] .nc-filterbar .nc-select,
+  [data-nc-screen='tv'] .nc-filterbar .nc-btn {
+    transition: none;
+  }
+
+  [data-nc-screen='tv'] .nc-filterbar .nc-input:focus-within,
+  [data-nc-screen='tv'] .nc-filterbar .nc-select:focus-within,
+  [data-nc-screen='tv'] .nc-filterbar .nc-btn:focus-visible {
+    transform: none;
+  }
 }

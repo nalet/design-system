@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { cx } from '../../lib/cx';
+import { screenOf, type ScreenKind } from '../../lib/screenOf';
 import { IconButton } from '../IconButton/IconButton';
 import { Button } from '../Button/Button';
 import './ActionMenu.css';
@@ -17,8 +18,44 @@ export interface ActionMenuItem {
   danger?: boolean;
 }
 
+/** One option of a choice: a value, not a command. */
+export interface ActionMenuOption {
+  value: string;
+  /** The value as it is read, short: "1080p", "1.5×". */
+  label: React.ReactNode;
+  /**
+   * What an option that leaves the pick to the system picked, shown after a
+   * middle dot in a quieter grey: "720p" for "auto · 720p".
+   */
+  detail?: React.ReactNode;
+  disabled?: boolean;
+}
+
+/** One choice in a menu: a group of options under a header, exactly one of them picked. */
+export interface ActionMenuChoice {
+  id: string;
+  /**
+   * The choice's name, a noun: "quality". It is the header above the options
+   * and the group's name. A menu with one choice can leave it out when its
+   * trigger names the choice.
+   */
+  label?: string;
+  options: ActionMenuOption[];
+  /** The picked option's value (controlled). */
+  value: string;
+  /** Runs with the new value once the menu has closed. Picking the picked option again only closes the menu. */
+  onChange: (value: string) => void;
+}
+
 export interface ActionMenuProps {
-  items: ActionMenuItem[];
+  /** Commands: one action per item. */
+  items?: ActionMenuItem[];
+  /**
+   * A menu of one choice: each entry is a group of options with a check on
+   * the picked one, and a menu can hold several. With `choices`, `items`
+   * isn't used: a menu holds commands or choices.
+   */
+  choices?: ActionMenuChoice[];
   /**
    * The icon trigger's accessible name — name the object: "actions for
    * S04E07". The menu is named by its trigger. With a `buttonLabel` the
@@ -29,7 +66,8 @@ export interface ActionMenuProps {
   buttonLabel?: React.ReactNode;
   /** A custom icon for the icon trigger. Default: three squares. */
   icon?: React.ReactNode;
-  size?: 'sm' | 'md';
+  /** The trigger's height: 28, 34 or 42. At `lg` the items are rows 48 high, for a touch screen. */
+  size?: 'sm' | 'md' | 'lg';
   /** Which edge of the trigger the menu lines up with. Default end. */
   align?: 'start' | 'end';
   /** Busy: the trigger shows a spinner and cannot be opened. */
@@ -39,11 +77,31 @@ export interface ActionMenuProps {
   className?: string;
 }
 
-const MoreGlyph = () => (
-  <svg viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" aria-hidden="true" focusable="false">
-    <rect x="2" y="7" width="2.5" height="2.5" />
-    <rect x="6.75" y="7" width="2.5" height="2.5" />
-    <rect x="11.5" y="7" width="2.5" height="2.5" />
+const MoreGlyph = ({ large }: { large: boolean }) => {
+  const side = large ? '1.25rem' : '1rem';
+  return (
+    <svg viewBox="0 0 16 16" width={side} height={side} fill="currentColor" aria-hidden="true" focusable="false">
+      <rect x="2" y="7" width="2.5" height="2.5" />
+      <rect x="6.75" y="7" width="2.5" height="2.5" />
+      <rect x="11.5" y="7" width="2.5" height="2.5" />
+    </svg>
+  );
+};
+
+/** the check before the picked option: the icon set's check, at the size that sits next to interface text. */
+const CheckGlyph = () => (
+  <svg
+    viewBox="0 0 24 24"
+    width="1rem"
+    height="1rem"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="1.75"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    focusable="false"
+  >
+    <path d="M20 6 9 17l-5-5" />
   </svg>
 );
 
@@ -55,15 +113,25 @@ interface Position {
 
 const GAP = 4;
 const EDGE = 8;
+/** a tv's safe area, in dp: what the menu keeps from the left and right edges, and from the top and bottom. */
+const TV_EDGE_X = 48;
+const TV_EDGE_Y = 27;
+
+const ITEMS = '[role="menuitem"], [role="menuitemradio"]';
 
 /**
  * ActionMenu — actions behind one trigger: a menu button (aria-haspopup=menu)
  * and a menu of menuitems, portaled to the body so no table or panel clips it.
  * Opening moves focus into the menu; arrows move, Enter or Space selects, Esc
  * closes and returns focus to the trigger, Tab closes.
+ *
+ * With `choices` it is a menu of one choice: its items are options
+ * (menuitemradio), grouped under a header per choice, with a check on the
+ * picked one. It opens on the picked option of its first choice.
  */
 export function ActionMenu({
-  items,
+  items = [],
+  choices,
   label,
   buttonLabel,
   icon,
@@ -76,6 +144,9 @@ export function ActionMenu({
 }: ActionMenuProps) {
   const [open, setOpenState] = React.useState(false);
   const [pos, setPos] = React.useState<Position | null>(null);
+  // the kind of screen the trigger is on. the menu is rendered into the body,
+  // outside the element that says it, so the menu carries the attribute itself.
+  const [screen, setScreen] = React.useState<ScreenKind | undefined>(undefined);
   const triggerRef = React.useRef<HTMLButtonElement>(null);
   const menuRef = React.useRef<HTMLDivElement>(null);
   const pendingFocus = React.useRef<'first' | 'last'>('first');
@@ -84,6 +155,7 @@ export function ActionMenu({
 
   const setOpen = React.useCallback(
     (next: boolean) => {
+      if (next) setScreen(screenOf(triggerRef.current));
       setOpenState(next);
       onOpenChange?.(next);
     },
@@ -91,7 +163,7 @@ export function ActionMenu({
   );
 
   const enabledItems = () =>
-    Array.from(menuRef.current?.querySelectorAll<HTMLButtonElement>('[role="menuitem"]') ?? []).filter(
+    Array.from(menuRef.current?.querySelectorAll<HTMLButtonElement>(ITEMS) ?? []).filter(
       (el) => el.getAttribute('aria-disabled') !== 'true',
     );
 
@@ -102,10 +174,15 @@ export function ActionMenu({
     const r = t.getBoundingClientRect();
     const w = m.offsetWidth;
     const h = m.offsetHeight;
+    // on a tv the menu stays inside the safe area; a dp is a pixel at the usual text size.
+    const tv = screenOf(t) === 'tv';
+    const dp = tv ? (parseFloat(getComputedStyle(document.documentElement).fontSize) || 16) / 16 : 1;
+    const edgeX = tv ? TV_EDGE_X * dp : EDGE;
+    const edgeY = tv ? TV_EDGE_Y * dp : EDGE;
     let top = r.bottom + GAP;
-    if (top + h > window.innerHeight - EDGE && r.top - GAP - h >= EDGE) top = r.top - GAP - h;
+    if (top + h > window.innerHeight - edgeY && r.top - GAP - h >= edgeY) top = r.top - GAP - h;
     let left = align === 'end' ? r.right - w : r.left;
-    left = Math.max(EDGE, Math.min(left, window.innerWidth - w - EDGE));
+    left = Math.max(edgeX, Math.min(left, window.innerWidth - w - edgeX));
     const minWidth = Math.max(r.width, 160);
     // write the position to the node now, not only on the next render: a
     // browser will not focus inside a subtree that is still visibility:hidden,
@@ -125,7 +202,18 @@ export function ActionMenu({
     }
     place();
     const list = enabledItems();
-    const target = pendingFocus.current === 'last' ? list[list.length - 1] : list[0];
+    // a menu of one choice opens on the picked option of its first choice, as a
+    // select's list opens on its value; a menu of commands on its first item,
+    // or on its last when the up arrow opened it.
+    const firstChoice = menuRef.current?.querySelector('[role="group"]');
+    const picked = firstChoice?.querySelector<HTMLButtonElement>('[aria-checked="true"]');
+    const target = firstChoice
+      ? picked && list.includes(picked)
+        ? picked
+        : list[0]
+      : pendingFocus.current === 'last'
+        ? list[list.length - 1]
+        : list[0];
     (target ?? menuRef.current)?.focus();
   }, [open, place]);
 
@@ -197,6 +285,11 @@ export function ActionMenu({
         // let tab move on from the trigger, as if the menu had not been there.
         close(true);
         return;
+      case 'ArrowLeft':
+      case 'ArrowRight':
+        // a remote's left and right don't leave an open menu.
+        if (screen === 'tv') e.preventDefault();
+        return;
       default:
         return;
     }
@@ -210,6 +303,13 @@ export function ActionMenu({
     item.onSelect();
   };
 
+  const pick = (choice: ActionMenuChoice, option: ActionMenuOption) => {
+    if (option.disabled) return;
+    close(true);
+    // the option that is already picked only closes the menu.
+    if (option.value !== choice.value) choice.onChange(option.value);
+  };
+
   const triggerProps = {
     ref: triggerRef,
     id: triggerId,
@@ -221,6 +321,78 @@ export function ActionMenu({
     onClick: onTriggerClick,
     onKeyDown: onTriggerKeyDown,
   };
+
+  const commands = () =>
+    items.map((item) => (
+      <button
+        key={item.id}
+        type="button"
+        role="menuitem"
+        tabIndex={-1}
+        aria-disabled={item.disabled || undefined}
+        className={cx(
+          'nc-actionmenu__item',
+          item.danger && 'nc-actionmenu__item--danger',
+          item.disabled && 'nc-actionmenu__item--disabled',
+        )}
+        onClick={() => select(item)}
+      >
+        {item.icon ? (
+          <span className="nc-actionmenu__icon" aria-hidden="true">
+            {item.icon}
+          </span>
+        ) : null}
+        <span className="nc-actionmenu__label">{item.label}</span>
+      </button>
+    ));
+
+  // each choice is a group named by its header, with a separator between two.
+  const choiceGroups = (list: ActionMenuChoice[]) =>
+    list.map((choice, index) => {
+      const headerId = `${menuId}-choice-${index}`;
+      return (
+        <React.Fragment key={choice.id}>
+          {index > 0 ? <div role="separator" className="nc-actionmenu__separator" /> : null}
+          <div role="group" aria-labelledby={choice.label ? headerId : undefined} className="nc-actionmenu__group">
+            {choice.label ? (
+              <div id={headerId} className="nc-actionmenu__header">
+                {choice.label}
+              </div>
+            ) : null}
+            {choice.options.map((option) => {
+              const picked = option.value === choice.value;
+              return (
+                <button
+                  key={option.value}
+                  type="button"
+                  role="menuitemradio"
+                  aria-checked={picked}
+                  tabIndex={-1}
+                  aria-disabled={option.disabled || undefined}
+                  className={cx(
+                    'nc-actionmenu__item',
+                    picked && 'nc-actionmenu__item--picked',
+                    option.disabled && 'nc-actionmenu__item--disabled',
+                  )}
+                  onClick={() => pick(choice, option)}
+                >
+                  {/* every option keeps the check's place, so the labels start at one point. */}
+                  <span className="nc-actionmenu__check" aria-hidden="true">
+                    {picked ? <CheckGlyph /> : null}
+                  </span>
+                  <span className="nc-actionmenu__value">
+                    <span className="nc-actionmenu__label">{option.label}</span>
+                    {/* a real space between the two, so the name reads "auto · 720p". */}
+                    {option.detail != null ? ' ' : null}
+                    {option.detail != null ? <span className="nc-actionmenu__detail">· {option.detail}</span> : null}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </React.Fragment>
+      );
+    });
 
   return (
     <>
@@ -245,7 +417,7 @@ export function ActionMenu({
           size={size}
           className={cx('nc-actionmenu__trigger', className)}
         >
-          {icon ?? <MoreGlyph />}
+          {icon ?? <MoreGlyph large={size === 'lg'} />}
         </IconButton>
       )}
       {open && typeof document !== 'undefined'
@@ -256,7 +428,8 @@ export function ActionMenu({
               role="menu"
               aria-labelledby={triggerId}
               tabIndex={-1}
-              className="nc-actionmenu"
+              data-nc-screen={screen}
+              className={cx('nc-actionmenu', size === 'lg' && 'nc-actionmenu--lg')}
               style={{
                 top: pos?.top ?? 0,
                 left: pos?.left ?? 0,
@@ -265,28 +438,7 @@ export function ActionMenu({
               }}
               onKeyDown={onMenuKeyDown}
             >
-              {items.map((item) => (
-                <button
-                  key={item.id}
-                  type="button"
-                  role="menuitem"
-                  tabIndex={-1}
-                  aria-disabled={item.disabled || undefined}
-                  className={cx(
-                    'nc-actionmenu__item',
-                    item.danger && 'nc-actionmenu__item--danger',
-                    item.disabled && 'nc-actionmenu__item--disabled',
-                  )}
-                  onClick={() => select(item)}
-                >
-                  {item.icon ? (
-                    <span className="nc-actionmenu__icon" aria-hidden="true">
-                      {item.icon}
-                    </span>
-                  ) : null}
-                  <span className="nc-actionmenu__label">{item.label}</span>
-                </button>
-              ))}
+              {choices ? choiceGroups(choices) : commands()}
             </div>,
             document.body,
           )

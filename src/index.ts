@@ -101,6 +101,7 @@ export type { EmptyStateProps, Illustration, EmptyStateSize } from './components
 // actions on lists
 export { ActionMenu } from './components/ActionMenu/ActionMenu';
 export type { ActionMenuProps, ActionMenuItem } from './components/ActionMenu/ActionMenu';
+export type { ActionMenuChoice, ActionMenuOption } from './components/ActionMenu/ActionMenu';
 export { Toolbar, SelectionToolbar } from './components/Toolbar/Toolbar';
 export type {
   ToolbarProps,
@@ -114,6 +115,7 @@ export { FilterTabs, filterTabId } from './components/FilterTabs/FilterTabs';
 export type { FilterTabsProps, FilterTab } from './components/FilterTabs/FilterTabs';
 export { MultiSelect } from './components/MultiSelect/MultiSelect';
 export type { MultiSelectProps, MultiSelectOption } from './components/MultiSelect/MultiSelect';
+export type { MultiSelectAction } from './components/MultiSelect/MultiSelect';
 export { FilterBar } from './components/FilterBar/FilterBar';
 export type {
   FilterBarProps,

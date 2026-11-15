@@ -60,3 +60,131 @@
   flex: none;
   color: var(--fg-muted);
 }
+
+/* ---- a menu of one choice -------------------------------------------------------
+   its items are options: each keeps a column for the check, and the picked one
+   has the check in it and brighter, bolder words. */
+.nc-actionmenu__check {
+  display: inline-flex;
+  flex: none;
+  width: 1rem;
+  height: 1rem;
+  color: var(--cloud-blue);
+}
+
+.nc-actionmenu__item--picked .nc-actionmenu__label {
+  color: var(--fg);
+  font-weight: 600;
+}
+
+/* what an option that leaves the pick to the system picked: "auto · 720p". */
+.nc-actionmenu__detail {
+  color: var(--fg-muted);
+}
+
+/* the name of a choice, above its options. it takes no focus. */
+.nc-actionmenu__header {
+  padding: var(--s-1) var(--s-3);
+  color: var(--fg-muted);
+  font-family: var(--ff-mono);
+  font-size: 0.75rem;
+  text-transform: lowercase;
+  white-space: nowrap;
+}
+
+/* between two choices: a rule with the menu's own padding above and below. */
+.nc-actionmenu__separator {
+  height: 1px;
+  margin: var(--s-1) 0;
+  background: var(--border);
+}
+
+/* ---- the large size ----------------------------------------------------------------
+   the trigger is the large icon button or button; an item is a row 48 high,
+   its own target for a finger. */
+.nc-actionmenu--lg .nc-actionmenu__item {
+  min-height: 3rem;
+}
+
+/* ---- a screen made for touch ---------------------------------------------------
+   the large size without the app asking, and the trigger answers to a touch
+   in 48 around its centre. the menu is rendered into the body, so it carries
+   the screen's attribute itself. */
+[data-nc-screen='touch'] .nc-actionmenu__item {
+  min-height: 3rem;
+}
+
+/* :where() keeps this weaker than a position an app gives the trigger. */
+:where([data-nc-screen='touch'] .nc-actionmenu__trigger) {
+  position: relative;
+}
+
+[data-nc-screen='touch'] .nc-actionmenu__trigger.nc-iconbtn,
+[data-nc-screen='tv'] .nc-actionmenu__trigger.nc-iconbtn {
+  width: 2.625rem;
+  height: 2.625rem;
+}
+
+[data-nc-screen='touch'] .nc-actionmenu__trigger.nc-btn,
+[data-nc-screen='tv'] .nc-actionmenu__trigger.nc-btn {
+  min-height: 2.625rem;
+  padding: 0 var(--s-5);
+  font-size: 0.875rem;
+}
+
+[data-nc-screen='touch'] .nc-actionmenu__trigger::after {
+  content: '';
+  position: absolute;
+  /* 48 around the centre, and never less than the control itself: each edge
+     reaches out by half of what the control is short of 48. */
+  inset: min(-1px, (100% - 3rem) / 2);
+}
+
+/* ---- a tv -----------------------------------------------------------------------
+   the trigger is large and takes the tv focus of a button: a 3px ring 2px
+   outside, the focused surface and 5% of growth. an item is a row 40 high with
+   a label of 14, and takes the tv focus of a row: the ring inside its edge,
+   the focused surface and 2% of growth. the check marks the pick; the ring
+   only the focus. */
+[data-nc-screen='tv'] .nc-actionmenu__trigger {
+  transition: background-color 0.15s ease-out, border-color 0.15s ease-out, color 0.15s ease-out,
+    transform 0.15s ease-out;
+}
+
+[data-nc-screen='tv'] .nc-actionmenu__trigger:focus-visible {
+  outline: 3px solid var(--focus-ring);
+  outline-offset: 2px;
+  background: var(--surface-focus);
+  color: var(--fg);
+  transform: scale(1.05);
+}
+
+[data-nc-screen='tv'] .nc-actionmenu__item {
+  min-height: 2.5rem;
+  font-size: 0.875rem;
+  transition: background-color 0.15s ease-out, transform 0.15s ease-out;
+}
+
+[data-nc-screen='tv'] .nc-actionmenu__item:focus {
+  background: var(--surface-focus);
+  box-shadow: inset 0 0 0 3px var(--focus-ring);
+  transform: scale(1.02);
+}
+
+/* nothing in the dimmer greys sits on the focused surface. */
+[data-nc-screen='tv'] .nc-actionmenu__item:focus .nc-actionmenu__detail,
+[data-nc-screen='tv'] .nc-actionmenu__item:focus .nc-actionmenu__icon {
+  color: var(--fg-2);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-nc-screen='tv'] .nc-actionmenu__trigger,
+  [data-nc-screen='tv'] .nc-actionmenu__item {
+    transition: none;
+  }
+
+  [data-nc-screen='tv'] .nc-actionmenu__trigger:focus-visible,
+  [data-nc-screen='tv'] .nc-actionmenu__item:focus {
+    transform: none;
+  }
+}

@@ -3,12 +3,14 @@ layout: ../../layouts/Doc.astro
 title: filter bar
 description: A filter bar narrows a list with a search and a few filters, a way to clear them all, and the count of what is left. When the bar is narrow, the filters fold away behind one button.
 component: filter-bar
+draft: true
+draftNote: "The large size, and the way the bar draws on a touch screen and a TV, are new and now built, and the bar's own words follow the page's language. The rest of the page is as it was accepted."
 ---
 import { Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
-import { Playground, Narrow, SearchOnly } from '@site/examples/filter-bar';
+import { Playground, Narrow, SearchOnly, Large, LargeNarrow, OnATouchScreen } from '@site/examples/filter-bar';
 import { DemoBar } from '@site/demos/components/filter-bar';
 
 # filter bar
@@ -47,7 +49,7 @@ A filter bar lets people narrow a list down: a search, a few <Term id="facet">fa
 
 On a wide bar, everything sits in one row, which wraps when it has to.
 
-On a narrow bar, the facets fold away behind the “filters” button. The bar goes by its own width, not the screen's. The search and the button share the first line, and the facets open in a column under them, with “clear all” at their end. The count keeps a line of its own, and takes no room while there is no count. The button counts the facets that are set, not the search.
+On a narrow bar, the facets fold away behind the “filters” button. The bar goes by its own width, not the screen's. The search and the button share the first line, and the facets open in a column under them, with “clear all” at their end. Where the line can't hold both, in a very narrow bar or at a large text size, the button moves under the search. The count keeps a line of its own, and takes no room while there is no count. The button counts the facets that are set, not the search.
 
 {/* the narrow bar is a fixed 360px: a frame without side padding keeps it inside a phone's width. */}
 <Example flush label="a narrow filter bar, live">
@@ -66,11 +68,42 @@ A search can also stand on its own, with a count:
 
 A facet is set while it filters. A facet with one value is set when its value isn't the option that means no filter; a facet with several values is set when anything in it is chosen. The “clear all” button works while any facet is set or the search holds text, and it is <Term id="disabled">disabled</Term> otherwise.
 
+### the large size
+
+The bar comes in two sizes. In the usual one, every control is medium. In the large one, made for a finger, every control is large: the search, the selects, the multi selects and “clear all”. A <C slug="multi-select" />'s options are then rows 48 high.
+
+<Example label="a large filter bar, live">
+  <div style={{ width: '100%' }}>
+    <Large client:visible />
+  </div>
+</Example>
+
+On a narrow bar, the “filters” button that the facets fold behind is large too.
+
+<Example flush label="a large, narrow filter bar, live">
+  <div style={{ width: '100%', display: 'flex', justifyContent: 'center', padding: 'var(--s-5) 0' }}>
+    <LargeNarrow client:visible />
+  </div>
+</Example>
+
+### on a touch screen and on a tv
+
+On a screen made for touch, the bar takes the large size without being asked, and each control answers to a finger in its <Term id="touch-area">touch area</Term>, 48 around its centre. A touch anywhere on a select, its arrow included, opens its list. The bar's lines stay 8 apart, so the touch areas never meet.
+
+<Example label="a filter bar on a screen made for touch, live: no size given">
+  <div style={{ width: '100%' }}>
+    <OnATouchScreen client:visible />
+  </div>
+</Example>
+
+On a TV, every control is large as well, the controls stand 12 apart, and the facets' labels are 14. The search and the selects take the [TV focus](/design-system/patterns/tv-focus/) of a field, and “clear all” and “filters” that of a button. [Touch and tv sizes](/design-system/foundations/layout/#touch-and-tv-sizes) has the numbers.
+
 ## behaviour
 
 - The list filters as the values change: with every key people type in the search, and as soon as they change a facet.
 - The “clear all” button empties the search and resets every facet.
 - <Kbd>esc</Kbd> in the search clears it, when it holds text.
+- A press anywhere on the search field's box, the magnifying glass included, puts the cursor in the field.
 - The “filters” button starts closed, and stays open or closed for as long as the bar is on the page. <Kbd>tab</Kbd> skips the folded facets.
 
 The full keyboard map is on the filter bar's [React page](/design-system/react/?path=/docs/components-inputs-filter-bar--docs).
@@ -86,7 +119,6 @@ The full keyboard map is on the filter bar's [React page](/design-system/react/?
 Today:
 
 - On a narrow bar, “clear all” folds away with the facets, so people can reach it only once “filters” is open.
-- “clear all” and “filters” are fixed English words, and can't be translated.
 - “clear all” only knows the search and the facets. A control of your own, after the facets, doesn't turn it on.
 - A narrow bar with your own controls, or “clear all”, but no facets shows no “filters” button. The controls and “clear all” stay folded away, with no way to open them.
 
@@ -97,6 +129,7 @@ Today:
 - **The no-filter option.** First in every select, in plain words: “all”, “any time”.
 - **The count.** What is left, out of what: “312 of 2,500”, with <Term id="thousands-separator">thousands separators</Term>. While nothing filters, show the total, “2,500”, or nothing.
 - **Two to four facets.** With more, the bar turns into a form.
+- **Its own words.** “filters”, “filters · 2”, “clear all” and the search field's name, “search”, are written in the page's language, and so is the count on the button. English and German are built in; [content and voice](/design-system/foundations/content-voice/) has the rest.
 
 ## do and don't
 
@@ -136,14 +169,21 @@ Today:
 | part | in code | spec |
 | --- | --- | --- |
 | Bar | `FilterBar`, named by `label` (default “filters”) | `role="search"`. A flex row that wraps, with gaps of 8px between lines and 12px between items (`--s-2` × `--s-3`). |
-| Search | `search`: `value`, `onChange`, `placeholder`, `label` (default “search”) | An `Input` with `type="search"` at `md`, 34px tall, with a 14px square search glyph in front. It starts at 240px and grows or shrinks between 180 and 420px. |
-| Select facet | `filters`: `type: 'select'`; `emptyValue` is its no-filter value (default `''`) | A visible label (JetBrains Mono 12px, `--fg-muted`, lowercase, on one line) and a native `Select` at `md`, at least 128px wide, 8px apart. While it is set, its value shows in `--cloud-blue`. |
-| Multi select facet | `filters`: `type: 'multiselect'` | A `MultiSelect` at `md`. |
+| Search | `search`: `value`, `onChange`, `placeholder`, `label` (default “search”) | An `Input` with `type="search"` at the bar's size, 34px tall or 42px, with a 14px square search glyph in front, inside a `<label>`, so a press on the glyph focuses the field. It starts at 240px and grows or shrinks between 180 and 420px. |
+| Select facet | `filters`: `type: 'select'`; `emptyValue` is its no-filter value (default `''`) | A visible label (JetBrains Mono 12px, `--fg-muted`, lowercase, on one line) and a native `Select` at the bar's size, at least 128px wide, 8px apart. While it is set, its value shows in `--cloud-blue`. |
+| Multi select facet | `filters`: `type: 'multiselect'` | A `MultiSelect` at the bar's size. |
 | Your controls | `children` | After the facets; they fold with them. |
 | Count | `resultCount` | JetBrains Mono 12px, `--fg-muted`, tabular figures. A live region (`aria-live="polite"`, `aria-atomic="true"`) that is always on the page, so the first count is announced too. |
-| Clear all | `onClearAll` | A `ghost` `md` button, “clear all”, pushed to the end with the count. Enabled while a facet is set or the search holds text. It moves focus to the search before it disables itself. |
-| Filters toggle | narrow only | A `default` `md` button, “filters” or “filters · 2”, with `aria-expanded` and `aria-controls`. Folded facets are `hidden`, out of the tab order. |
+| Clear all | `onClearAll` | A `ghost` button at the bar's size, “clear all”, pushed to the end with the count. Enabled while a facet is set or the search holds text. It moves focus to the search before it disables itself. |
+| Filters toggle | narrow only | A `default` button at the bar's size, “filters” or “filters · 2”, with `aria-expanded` and `aria-controls`. Folded facets are `hidden`, out of the tab order. |
 
-- **Narrow:** `collapseBelow`, 640px by default, measured on the bar's own width. The search and the toggle share the first line; the facets open in a full-width column below, each select up to 260px wide, with clear all at their end; the count takes a line of its own, and an empty count takes no room.
+- **Size:** `size="md"` (the default): every control 34px tall. `size="lg"`: every control 42px tall, with the large controls' padding and 14px text; a multi select's options are then at least 48px tall.
+- **Narrow:** `collapseBelow`, 640px by default, measured on the bar's own width. The search and the toggle share the first line, the search at least 128px wide (`8rem`), and the toggle wraps under it where both don't fit; the facets open in a full-width column below, each select up to 260px wide, with clear all at their end; the count takes a line of its own, and an empty count takes no room.
 - **Set:** a select facet is set while its value isn't `emptyValue`; a multi select facet while its value isn't empty. The toggle counts the set facets, not the search.
 - **Keys:** <Kbd>esc</Kbd> in the search clears it, when it holds text. Typing filters on every keystroke.
+- **Words:** “filters”, “filters · n”, “clear all” and “search” come from the page's language (`filterBar` in the words of `Language`); `label` and `search.label` replace the two names.
+
+| screen | in code | what changes |
+| --- | --- | --- |
+| Made for touch | `data-nc-screen="touch"` on an ancestor | Every control as at `size="lg"`, 42px. Each button has a touch area of at least 48 × 48 (`3rem`), centred on it and not drawn. The search and each select facet sit in a `<label>` at least 48px tall, the field fills its box, and the native select reaches the label's top and bottom edges and lies under its own arrow, so a touch anywhere in those 48 opens its list. A multi select brings its own touch area. |
+| TV | `data-nc-screen="tv"` | Every control as at `size="lg"`; gaps of 12px (`--s-3`) between lines and between items; the facets' labels 14px. A focused search or select: a 3px `--focus-ring` ring inside its edge, in place of the border, a `--surface-focus` fill and 2% of growth, with the placeholder and the search glyph in `--fg-muted` and the facet's label in `--fg-2`. A focused button: a 3px `--focus-ring` outline 2px outside, a `--surface-focus` fill and 5% of growth. The growth and the fill take 150ms `ease-out`; under reduced motion nothing grows. |

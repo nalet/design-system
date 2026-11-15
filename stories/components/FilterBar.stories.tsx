@@ -10,6 +10,7 @@ const meta: Meta<FilterBarProps> = {
     filters: { control: false },
     onClearAll: { control: false },
     resultCount: { control: false },
+    size: { control: 'inline-radio', options: ['md', 'lg'] },
   },
   parameters: {
     layout: 'padded',
@@ -109,4 +110,36 @@ export const SearchOnly: Story = {
       />
     );
   },
+};
+
+export const Large: Story = {
+  render: function Large() {
+    return <FilterBar {...useFilters().props} size="lg" />;
+  },
+  // room under the bar for a panel whose options are rows of 48.
+  decorators: [(Story) => <div style={{ minHeight: 300 }}>{Story()}</div>],
+};
+
+export const LargeNarrow: Story = {
+  name: 'large and narrow',
+  render: function LargeNarrow() {
+    return (
+      <div style={{ maxWidth: 360 }}>
+        <FilterBar {...useFilters().props} size="lg" label="filter titles" />
+      </div>
+    );
+  },
+};
+
+export const OnATouchScreen: Story = {
+  name: 'on a touch screen',
+  render: function OnATouchScreen() {
+    return (
+      // the app says the kind of screen once, on an element around everything.
+      <div data-nc-screen="touch">
+        <FilterBar {...useFilters().props} label="filter titles" />
+      </div>
+    );
+  },
+  decorators: [(Story) => <div style={{ minHeight: 300 }}>{Story()}</div>],
 };

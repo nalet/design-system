@@ -19,13 +19,29 @@ A bar with only `search` and `resultCount`, and no `filters` or `onClearAll`.
 
 <Canvas of={FilterBarStories.SearchOnly} />
 
+At `size="lg"`, every control is 42px tall.
+
+<Canvas of={FilterBarStories.Large} />
+
+At `size="lg"` in a 360px column: the `filters` toggle is large too.
+
+<Canvas of={FilterBarStories.LargeNarrow} />
+
+With no `size`, inside an element with `data-nc-screen="touch"`: the bar draws large on its own.
+
+<Canvas of={FilterBarStories.OnATouchScreen} />
+
 ## implementation notes
 
 - The bar is fully controlled and holds no values of its own.
 - Each value comes from you and goes back through its `onChange`, and the list filters itself from those values.
 - It renders a `<div role="search">` named by `label` (`aria-label`, “filters” by default). That makes it a search landmark, so screen reader users can jump to it.
-- `search` renders an `Input` with `type="search"`, named by `search.label` (`aria-label`, “search” by default).
+- `search` renders an `Input` with `type="search"`, named by `search.label` (`aria-label`, “search” by default). It sits in a `<label>` with no text of its own, so a press on the search glyph focuses the field.
 - Each `select` facet is a native `Select` inside its own `<label>`, and a `multiselect` facet is a `MultiSelect`.
+- `size` is `md` by default, or `lg`. It goes to the search, the selects, the multi selects, `clear all` and the `filters` toggle. Controls you pass as `children` keep the size you give them.
+- “filters”, “filters · 2”, “clear all” and “search” come from the page's language, and the count on the toggle is written in it: a `<Language>` around the page, or the page's own `lang`, sets it. [Content and voice](https://nalet.github.io/design-system/foundations/content-voice/) has the rules. `label` and `search.label` replace the two names.
+- Inside `data-nc-screen="touch"`, every control in the bar is drawn as at `size="lg"`, a button under `children` included. Buttons get a touch area of at least 48 × 48; the search and each select facet sit in a label at least 48px tall, and the native select reaches that label's top and bottom edges and its own arrow.
+- Inside `data-nc-screen="tv"`, every control is drawn as at `size="lg"`, the gaps are 12px, the facets' labels are 14px, and the focused control shows the TV focus.
 - `collapseBelow` (640 by default) is compared with the bar's own width, which a `ResizeObserver` measures, so the bar folds by the room it has, not by the window.
 - Until the bar has been measured, and wherever there is no `ResizeObserver`, it lays out wide.
 - When the bar is narrow, the toggle has `aria-expanded`, and `aria-controls` pointing at the facets.

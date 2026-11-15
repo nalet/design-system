@@ -63,6 +63,10 @@ export interface Words {
     filters: string;
     /** That button when facets are set: "filters · {n}". */
     filtersActive: string;
+    /** The search field's name, where the page gives it none. */
+    search: string;
+    /** The button that empties the search and resets every facet. */
+    clearAll: string;
   };
   iconButton: Record<string, never>;
   modal: {
@@ -72,6 +76,10 @@ export interface Words {
   multiSelect: {
     /** What a multi select shows with nothing chosen. */
     any: string;
+    /** What it shows with several chosen: "{n} chosen". */
+    chosen: Counted;
+    /** The button that clears a multi select's choices: "clear {name}". */
+    clear: string;
   };
   portal: {
     /** The search field's name. */
@@ -187,6 +195,8 @@ export const english: Words = {
   filterBar: {
     filters: 'filters',
     filtersActive: 'filters · {n}',
+    search: 'search',
+    clearAll: 'clear all',
   },
   iconButton: {},
   modal: {
@@ -194,6 +204,8 @@ export const english: Words = {
   },
   multiSelect: {
     any: 'any',
+    chosen: { one: '{n} chosen', other: '{n} chosen' },
+    clear: 'clear {name}',
   },
   portal: {
     search: 'search apps',
@@ -284,6 +296,8 @@ export const german: Words = {
   filterBar: {
     filters: 'filter',
     filtersActive: 'filter · {n}',
+    search: 'suche',
+    clearAll: 'alle zurücksetzen',
   },
   iconButton: {},
   modal: {
@@ -291,6 +305,8 @@ export const german: Words = {
   },
   multiSelect: {
     any: 'alle',
+    chosen: { one: '{n} ausgewählt', other: '{n} ausgewählt' },
+    clear: '{name} zurücksetzen',
   },
   portal: {
     search: 'apps suchen',

@@ -35,6 +35,18 @@ A `danger` icon button that is `disabled`.
 
 <Canvas of={IconButtonStories.Disabled} />
 
+With `pressed`, an icon button holds a state: one press turns it on, the next turns it off. Each button here keeps its `label` in both states.
+
+<Canvas of={IconButtonStories.OnAndOff} />
+
+The on look, on the two variants that can be on: `default` and `ghost`, each with `pressed={false}` and `pressed`.
+
+<Canvas of={IconButtonStories.OnLook} />
+
+Two buttons that are on beside a `primary` button: the bar says on, and the fill stays the sign of the next step.
+
+<Canvas of={IconButtonStories.OnBesideTheNextStep} />
+
 ## implementation notes
 
 - It renders a native `<button>`, so the browser gives it the keyboard behaviour for free.
@@ -49,12 +61,19 @@ A `danger` icon button that is `disabled`.
 - A disabled or loading button ignores clicks and can't be focused.
 - A focused button shows a 2px `--focus-ring` outline, 1px outside its border, on `:focus-visible`, so the ring shows for keyboard focus and not for a click.
 - Every native `<button>` attribute passes through, such as `onClick`, `type` and `aria-*`, and the `ref` reaches the `<button>`.
-- Today: `aria-pressed` passes through to the button, but nothing changes on screen.
+- `pressed` makes it a toggle button: it sets `aria-pressed`, so a screen reader says “pressed” or “not pressed” after the name. Pass it in both states: `pressed={false}` is a toggle button that is off, and no `pressed` at all is a button that only acts.
+- The button holds no state of its own. Keep the state yourself and flip it in `onClick`; if the change fails, set it back.
+- The `label` stays the same in both states: the action that turns the button on, such as “save to watchlist”.
+- Only `variant="default"` and `variant="ghost"` can be on. `primary` and `danger` ignore `pressed` and render no `aria-pressed`, so a screen reader never hears a state the screen doesn't show.
+- An `aria-pressed` you pass yourself does what `pressed` does; `pressed` wins when both are given.
+- The on look is drawn from `aria-pressed="true"`: a `--surface-selected` fill and a 2px `--cloud-blue` inset shadow along the bottom edge. The size doesn't change.
+- Inside an element with `data-nc-screen="touch"`, every icon button is 42px square whatever its `size`, an icon passed as a direct `svg` child is drawn at 20px, and an `::after` of at least 48 × 48, centred on the button, takes touches around it. The button becomes `position: relative` for that.
+- Inside an element with `data-nc-screen="tv"`, every icon button is 42px square and shows the TV focus on `:focus-visible`: a 3px `--focus-ring` outline 2px outside, the `--surface-focus` fill on every variant but `primary`, and a scale of 1.05, which reduced motion turns off.
 
 | key | does |
 | --- | --- |
 | `tab` / `shift+tab` | Moves focus to / from the button. |
-| `enter` / `space` | Activates it. |
+| `enter` / `space` | Activates it. With `pressed`, your `onClick` turns it on or off, and focus stays on the button. |
 
 ## props
 

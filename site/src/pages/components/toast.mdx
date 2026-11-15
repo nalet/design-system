@@ -4,15 +4,15 @@ title: toast
 description: A short message at the bottom of the screen that confirms an action someone just took. It never takes focus, waits for a pause before a screen reader reads it, and leaves on its own.
 component: toast
 draft: true
-draftNote: "At the top, under variants and states, is new and under review, together with its line in the specs. The rest of the page describes the toast as it is today."
+draftNote: "At the top, under variants and states, is now built: a screen whose foot is taken moves every toast to the top while it is open, and the toasts keep clear of a bar at their edge. The toast's own words now follow the page's language. The rest of the page describes the toast as it was accepted."
 ---
 import { Toaster, Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { ToastButton } from '@site/demos/ToastButton';
-import { Playground, States, AtMostThree, ReplaceById } from '@site/examples/toast';
-import { ToastAtTheTop, ToastTopDo, ToastBottomDont } from '@site/sketches/component-drafts';
+import { Playground, States, AtMostThree, ReplaceById, AtTheTop } from '@site/examples/toast';
+import { ToastTopDo, ToastBottomDont } from '@site/sketches/component-drafts';
 
 # toast
 
@@ -38,9 +38,9 @@ A toast is a short message at the bottom of the screen that confirms an action s
 
 ## anatomy
 
-1. **Toaster.** The place where toasts appear: at the bottom of the screen, in the middle, above everything else on the page, an open modal or action menu included. It is a region named “notifications”. It never reaches the edges of the screen, and clicks pass through it everywhere except on the toasts.
-2. **List.** The toasts, stacked a small step apart and centred, with the newest at the bottom.
-3. **Toast.** A square box with a thin frame and a bar in the state's colour on its left edge. Its text is in the <Term id="body-face">body face</Term>, because a toast is read. It slides up a little as it fades in; with <Term id="reduced-motion">reduced motion</Term> it simply appears. It leaves without an animation.
+1. **Toaster.** The place where toasts appear: at the bottom of the screen, in the middle, above everything else on the page, an open modal or action menu included. A screen whose foot is taken moves it [to the top](#at-the-top). It is a region named “notifications”, in the page's language. It never reaches the edges of the screen, and clicks pass through it everywhere except on the toasts.
+2. **List.** The toasts, stacked a small step apart and centred, with the newest at the bottom; at the top, the newest comes first.
+3. **Toast.** A square box with a thin frame and a bar in the state's colour on its left edge. Its text is in the <Term id="body-face">body face</Term>, because a toast is read. It slides up a little as it fades in, or down where the toasts are at the top; with <Term id="reduced-motion">reduced motion</Term> it simply appears. It leaves without an animation.
 4. **<Term id="glyph">Glyph</Term>.** The state's small symbol, in its colour. <Term id="assistive-technology">Assistive technology</Term> skips it.
 5. **Message.** The text, in sentence case.
 
@@ -75,17 +75,19 @@ An action people repeat can replace its own toast instead of adding another one.
 
 ### at the top
 
-Some screens keep their foot for something people use the whole time, such as a video's controls and the subtitles above them. There the toasts appear at the top, in the middle, and nothing else about them changes: the same toast, the same five seconds, three at most, read out the same way. This placement is planned: today the toasts always appear at the bottom.
+Some screens keep their foot for something people use the whole time, such as a video's controls and the subtitles above them. There the toasts appear at the top, in the middle, and nothing else about them changes: the same toast, the same five seconds, three at most, read out the same way.
 
-<figure class="ds-figure">
-  <ToastAtTheTop />
-  <figcaption>Over a video, the toasts at the top, the newest nearest the edge: the subtitles and the controls at the foot stay clear.</figcaption>
-</figure>
+Open the player, save the title and add it to the film club. While the player is open, every toast on this page appears at the top, below the bar of this site, the newest first. Close the player, and the toasts are back at the bottom.
+
+<Example label="a player that moves the toasts to the top while it is open, live">
+  <AtTheTop client:visible offset={56} />
+</Example>
 
 - **The screen moves the toaster, not one toast.** A screen whose foot is taken, such as a player that fills the window, moves the toasts to the top while it is open, and back when it closes. In that time every toast shows at the top, so they never split between two places.
 - **The newest nearest the edge.** At the top, the newest toast comes first and the older ones move down. It comes down a few pixels as it fades in, where at the bottom it rises.
-- **Clear of the bars.** 24px below the top edge, as it is 24px above the bottom one, and below a bar that stays at the top, so it never covers that bar's controls. On a TV, the distance from the edge is the <Term id="safe-area">safe area</Term>'s 27 dp, at the top as at the bottom ([TV focus](/design-system/patterns/tv-focus/#movement-and-space)).
-- **Above a bar at the foot.** Where only a bar takes the foot, such as a phone's tab bar, the toasts stay at the bottom, 24px above the bar.
+- **Clear of the bars.** 24px below the top edge, as it is 24px above the bottom one. Where a bar stays at the top, the screen says how high it is, and the toasts appear 24px below the bar, so they never cover its controls. On a TV, the distance from the edge is the <Term id="safe-area">safe area</Term>'s 27 dp, at the top as at the bottom ([TV focus](/design-system/patterns/tv-focus/#movement-and-space)).
+- **Above a bar at the foot.** Where only a bar takes the foot, such as a phone's tab bar, the toasts stay at the bottom, 24px above the bar. The app says once how high the bar is.
+- **Clear of the phone's own strips.** A phone keeps a strip at the top and at the foot of its screen for itself. Where a page reaches under them, the toasts keep their distance from the strip, not from the glass.
 
 <DoDont>
   <Do caption="Over a video, the toast at the top: the subtitles and the controls stay in view.">
@@ -106,9 +108,10 @@ The full keyboard map is on the toast's [React page](/design-system/react/?path=
 
 ## accessibility
 
-- The toaster is a region named “notifications”. A screen reader reads each new toast once, after whatever it is saying. A toast that leaves is not announced.
+- The toaster is a region named “notifications”, in the page's language. A screen reader reads each new toast once, after whatever it is saying. A toast that leaves is not announced.
+- Where the toasts appear changes nothing for a screen reader: at the top they are read in the same order, and moving them is not announced.
 - Nothing takes focus. A toast never moves the reader, never interrupts typing, and adds no <Term id="tab-stop">tab stop</Term>.
-- The glyph is hidden from assistive technology. A warning or error toast says its state first, such as “warning: …”, like a <C slug="status" />. The calmer states read only the message, so put what matters in the words: “6 queued · 2 skipped”.
+- The glyph is hidden from assistive technology. A warning or error toast says its state first, in the page's language, such as “warning: …”, like a <C slug="status" />. The calmer states read only the message, so put what matters in the words: “6 queued · 2 skipped”.
 - With reduced motion, toasts appear without sliding in.
 
 Today:
@@ -155,13 +158,16 @@ Today:
 
 | part | spec |
 | --- | --- |
-| Toaster | `Toaster`: mount exactly one, near the app's root; every mounted toaster shows every toast. A `section` named by `label` (default “notifications”), fixed at the bottom centre, 24px above the viewport's bottom edge, `z-index: 200` (above a modal at 100 and an action menu at 150), at most the viewport's width minus 32px. `pointer-events: none`, except on the toasts. |
+| Toaster | `Toaster`: mount exactly one, near the app's root; every mounted toaster shows every toast. A `section` named by `label` (default “notifications”, from the page's words: “benachrichtigungen” on a German page), fixed at the bottom centre, 24px (`--s-5`) above the viewport's bottom edge, `z-index: 200` (above a modal at 100 and an action menu at 150), at most the viewport's width minus 32px. `pointer-events: none`, except on the toasts. |
 | List | An `ol` that is a polite live region (`aria-live="polite"`, `aria-relevant="additions text"`), there before the first toast. Toasts 8px apart, centred, the newest last; at most three, and a fourth pushes out the oldest. |
 | Toast | An `li`. `--surface-2` fill, a 1px `--border-2` frame, a 3px left rule in the state's colour, square corners, padding 8px 16px (12px on the left). Inter (`--ff-ui`) 13px / 1.4 in `--fg`. The glyph and the message 8px apart. |
 | Glyph | The state's 12px glyph in its colour, `aria-hidden`. |
 | Entrance | Slides up 6px and fades in over 160ms `ease-out`; no animation with reduced motion. No exit animation. |
-| State in words | A visually hidden “warning: ” or “error: ” before the message of a warning or error toast. |
-| At the top (planned) | Set by the screen while it is open, for every toast: fixed at the top centre, 24px below the viewport's top edge, or below a bar that stays at the top; on a TV, 27 dp from either edge. The list puts the newest first, and the entrance slides down 6px. The rest is as at the bottom. |
+| State in words | A visually hidden “warning: ” or “error: ” before the message of a warning or error toast, from the page's words: “warnung: ” and “fehler: ” on a German page. |
+| At the top | Set by the screen while it is open, for every toast, or by the toaster's `placement`: fixed at the top centre, 24px below the viewport's top edge (`nc-toaster--top`, `data-placement="top"`). The list is drawn newest first (`column-reverse`; the order in the document stays), and the entrance slides down 6px. The rest is as at the bottom. |
+| A bar at the edge | `offset`, the bar's height in px at the usual text size: the toasts keep their 24px from the bar. It is added to the distance from the edge, as `--nc-toaster-bar`, in rem. |
+| The phone's strips | The distance from the edge grows by `env(safe-area-inset-bottom)`, or by `env(safe-area-inset-top)` at the top. A browser reports them only on a page whose viewport meta tag has `viewport-fit=cover`; everywhere else they are 0. |
+| On a TV | With `data-nc-screen="tv"` on an element around the toaster: 27px from the top or the foot, the safe area, in place of 24px; at most the viewport's width minus 96px; the message at 14px. |
 
 | setting | in code | what it does |
 | --- | --- | --- |
@@ -170,5 +176,8 @@ Today:
 | Time on screen | `duration`: 5000 (ms) by default | Counted from when the toast shows; hover pauses it. |
 | Replace | `id` | A showing toast with the same id is replaced: the newest place, a fresh timer. |
 | Remove from code | `toast.dismiss(id)`, `toast.clear()` | Removes one toast, or every toast, at once. |
+| Where the toasts appear | `placement` on the `Toaster`: `'bottom'` (the default) or `'top'` | The edge for every toast, unless an open screen moves them. |
+| Move the toasts while a screen is open | `useToastPlacement('top')` in the screen's component | While the component is mounted, every toast appears at that edge; when it unmounts, where it appeared before. The screen that opened last decides. `useToastPlacement(null)` moves nothing. |
+| Keep clear of a bar | `offset` on the `Toaster`; the second argument of `useToastPlacement`, for the bar of the screen that moved the toasts | The height of a bar that stays at the toasts' edge, in px at the usual text size. Default 0. |
 
 <Toaster client:idle />

@@ -4,14 +4,13 @@ title: empty state
 description: What a list or a panel shows when it has nothing to show. A small drawing and a few words say why, and what people can do next.
 component: empty-state
 draft: true
-draftNote: "Details, under variants and states, are new and under review, together with their line in the specs. The rest of the page describes the empty state as it is today."
+draftNote: "Details, under variants and states, are now built: an empty state that says something went wrong keeps the technical part behind “details”, closed until someone opens it. The rest of the page describes the empty state as it was accepted."
 ---
 import { Button, EmptyState, Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
-import { Playground, Kinds, Sizes, WithAction } from '@site/examples/empty-state';
-import { EmptyDetails, DetailsDo, DetailsDont } from '@site/sketches/component-drafts';
+import { Playground, Kinds, Sizes, WithAction, WithDetails } from '@site/examples/empty-state';
 
 # empty state
 
@@ -40,6 +39,8 @@ An empty state takes the place of a list or a panel that has nothing to show, an
 3. **Title.** What is true, in a few words, in <Term id="monospace">monospace</Term> and shown in lowercase. It is a real heading, at the level that fits the page.
 4. **Description** (optional). One or two sentences under the title, in the <Term id="body-face">body face</Term>: why, and what people can do.
 5. **Actions** (optional). Buttons under the text, centred.
+6. **Details toggle** (when there are details). A quiet text button, “details”, on a line of its own under the actions, with a small arrow that turns down while the details are open.
+7. **Details** (optional). The technical part, under the toggle, in monospace, set off by a thin line on its left. Line breaks are kept, and long ids break anywhere.
 
 ## variants and states
 
@@ -81,26 +82,30 @@ The actions are buttons: at most one for the <Term id="emphasized-action">emphas
 
 ### details
 
-An empty state that says something went wrong can keep the technical part behind “details”, for the people who fix things: the status and its reason phrase, or the id of the request. It takes the <C slug="banner" />'s own toggle and block: a quiet “details” with a small arrow, and under it the block in <Term id="monospace">monospace</Term>, closed until someone opens it. Details are planned for the empty state: the drawings show the idea.
+An empty state that says something went wrong can keep the technical part behind “details”, for the people who fix things: the status and its reason phrase, or the id of the request. It takes the <C slug="banner" />'s own toggle and block: a quiet “details” with a small arrow, and under it the block in monospace, closed until someone opens it.
 
-<figure class="ds-figure">
-  <EmptyDetails />
-  <figcaption>A list that couldn't load. Under try again, details is closed at first; opened, it shows the server's answer in the monospace face.</figcaption>
-</figure>
+<Example label="a list that couldn't load, with its details, live">
+  <WithDetails client:visible />
+</Example>
 
 - **What goes in.** The technical part, as it came: “HTTP 503 Service Unavailable”, “request id 7d1c0e4a”. It never goes into the title or the description; [empty states](/design-system/patterns/empty-states/#specs) says which status means which case.
 - **Only when there is something to show.** A load that got no answer has no status, so it has no details, and no toggle.
 - **Where.** The toggle has a line of its own under the actions, centred like them, and the block opens under the toggle, no wider than the description, its lines starting at the left as code does. In a banner, the toggle follows the actions on their line; in an empty state, that line holds only the ways forward.
-- **Closed until opened.** The details are closed whenever the empty state appears, and nothing reads them out. Once opened, they stay open until the empty state goes.
+- **Closed until opened.** The details are closed whenever the empty state appears, and nothing reads them out. Once opened, they stay open until someone closes them or the empty state goes.
 - **The way forward first.** The actions come before the toggle in the order of the <Kbd>tab</Kbd> key, so <Term id="focus">focus</Term> reaches the way forward first.
 - **For a screen reader,** the toggle says whether the details are open. Closed details are neither read out nor reachable with the keyboard.
+- **In the page's language.** The toggle says “details” in the language of the page, unless the empty state gives it another name.
 
 <DoDont>
   <Do caption="The cause in words, and the server's answer under details." column>
-    <DetailsDo />
+    <EmptyState client:visible illustration="error" size="sm" headingLevel={3} title="couldn't load the list" description="The server is busy." details="HTTP 503 Service Unavailable">
+      <Fragment slot="actions"><Button size="sm">try again</Button></Fragment>
+    </EmptyState>
   </Do>
   <Dont caption="The status as the description: people read a code where they need the cause." column>
-    <DetailsDont />
+    <EmptyState illustration="error" size="sm" headingLevel={3} title="couldn't load the list" description="HTTP 503 Service Unavailable">
+      <Fragment slot="actions"><Button size="sm">try again</Button></Fragment>
+    </EmptyState>
   </Dont>
 </DoDont>
 
@@ -110,7 +115,8 @@ The title is a level-2 heading, unless you give it another <Term id="heading-lev
 
 ## behaviour
 
-- An empty state is static: people read it, and the only things in it that take <Term id="focus">focus</Term> are its actions.
+- An empty state is static: people read it, and the only things in it that take focus are its actions and, after them, the details toggle.
+- <Kbd>enter</Kbd> or <Kbd>space</Kbd> on the details toggle shows or hides the details.
 - It doesn't announce itself when it appears. When it replaces a list because the filters changed, what a <Term id="screen-reader">screen reader</Term> hears is the live count of results in the <C slug="filter-bar" />.
 
 The full keyboard map is on the empty state's [React page](/design-system/react/?path=/docs/components-feedback-status-empty-state--docs).
@@ -120,6 +126,7 @@ The full keyboard map is on the empty state's [React page](/design-system/react/
 - The illustration is decoration, hidden from assistive technology. The title says what is true.
 - The title is a real heading, so people who move through a page by its headings find it. Give it the level that keeps the page's outline in order.
 - The accent colour only repeats the kind. The words carry the meaning.
+- The details toggle is a button that says whether the details are open, and it shows the same focus outline as every control. On a screen made for touch it keeps its look, and answers to a touch in a row 48 high around it, its <Term id="touch-area">touch area</Term>.
 
 Today:
 
@@ -133,6 +140,7 @@ Today:
 - **Actions.** One emphasized action at most. When the view already has its one emphasized action, in a toolbar for example, make this one a standard button.
 - **Tone.** Calm: say what is true. No apology, no joke, no “oops”.
 - **The way out.** Name it for each kind: “clear filters” for search, “try again” for error, and for unknown, the step that makes it known.
+- **Details.** The raw part, as it came: “HTTP 503 Service Unavailable”, “request id 7d1c0e4a”. Line breaks are kept. The cause, in words, stays in the description.
 
 ## do and don't
 
@@ -201,4 +209,9 @@ Today:
 - **Actions:** `actions`. Centred, 8px apart, wrapping, 16px under the text. Buttons: at most one `variant="primary"`, and an optional second, `variant="default"` or `variant="ghost"`. Nothing enforces a single primary.
 - **Announcing:** none. It is not a live region.
 - **In a data table:** the data table's `empty` prop takes it, and shows it in the table's empty body.
-- **Details (planned):** the banner's `details` and `detailsLabel`. The toggle is the banner's, unchanged: JetBrains Mono 12px in `--fg-muted`, 28px tall, the 10px caret that turns down, `aria-expanded` and `aria-controls`; on a line of its own, 8px under the actions. The block is the banner's too: JetBrains Mono 12px, line-height 1.55, `--fg-muted`, padding 8px 12px, line breaks kept, long ids broken anywhere, `hidden` while closed, 8px under the toggle. Two things differ: the block is at most 46ch wide, like the description, with its text aligned left; and its rule on the left is `--border-2`, the empty state's quiet line, because an empty state has no state colour for it.
+- **Details:** `details`, and `detailsLabel` for the toggle's name (default “details”, from the page's words). Without `details`, there is no toggle and no block.
+- **Details toggle:** the banner's: a `button` in JetBrains Mono 12px, lowercased, `--fg-muted` (`--fg` on hover), at least 28px tall, with the 10px caret that turns down in 120ms, `aria-expanded` and `aria-controls`. On a line of its own, centred, 8px under the actions, or 16px under the text when there are none. Keyboard focus: the 2px `--focus-ring` outline, 1px outside.
+- **Details block:** the banner's too: JetBrains Mono 12px, line-height 1.55, `--fg-muted`, padding 8px 12px, line breaks kept, long ids broken anywhere, `hidden` while closed, 8px under the toggle. Two things differ: the block is at most 46ch wide, like the description, with its text aligned left; and its rule on the left is `--border-2`, the empty state's quiet line, because an empty state has no state colour for it.
+- **Open and closed:** closed when the empty state mounts; there is no setting to open it from code.
+- **On a touch screen** (`data-nc-screen="touch"`): the toggle keeps its look and answers to a touch in an area 48px (`--s-7`) high and at least 48px wide, centred on it; it stands 16px under the actions, so its area and theirs don't meet.
+- **On a TV** (`data-nc-screen="tv"`): the description is 14px. The toggle is 42px high with a 14px label, 12px under the actions; focused, it has a 3px `--focus-ring` outline 2px outside it, a `--surface-focus` fill and `--fg`, and grows by 1.05 in 150ms `ease-out`, without the growth under reduced motion.

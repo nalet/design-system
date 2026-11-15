@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
+import { useLanguage } from '../../lib/language';
 import './EmptyState.css';
 
 export type Illustration = 'empty' | 'done' | 'search' | 'error' | 'unknown';
@@ -17,6 +18,15 @@ export interface EmptyStateProps extends Omit<React.HTMLAttributes<HTMLDivElemen
   description?: React.ReactNode;
   /** At most one primary action, plus an optional secondary. */
   actions?: React.ReactNode;
+  /**
+   * The technical part of something that went wrong, as it came ("HTTP 503
+   * Service Unavailable", a request id), behind a disclosure under the
+   * actions, shown in mono. Closed whenever the empty state appears. Leave it
+   * out when there is nothing to show: there is then no toggle.
+   */
+  details?: React.ReactNode;
+  /** The disclosure's label. Default "details", in the page's language. */
+  detailsLabel?: string;
   /** `sm` inside a panel or table, `md` for a section (default), `lg` for a whole page. */
   size?: EmptyStateSize;
   /** The title's heading level. Default 2. */
@@ -85,13 +95,29 @@ const ART: Record<Illustration, React.ReactNode> = {
 /**
  * EmptyState — an empty, done, no-match, error or unknown state: a line
  * illustration in the identity's style, a title that says what is true, a
- * description that says what to do, and at most one primary action. The
- * illustration is decoration (aria-hidden); the title is a real heading.
+ * description that says what to do, at most one primary action, and an
+ * optional "details" disclosure for the technical part. The illustration is
+ * decoration (aria-hidden); the title is a real heading.
  */
 export const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(function EmptyState(
-  { illustration = 'empty', title, description, actions, size = 'md', headingLevel = 2, className, ...rest },
+  {
+    illustration = 'empty',
+    title,
+    description,
+    actions,
+    details,
+    detailsLabel,
+    size = 'md',
+    headingLevel = 2,
+    className,
+    ...rest
+  },
   ref,
 ) {
+  const { words } = useLanguage();
+  // closed whenever the empty state appears; once opened, open until it goes.
+  const [open, setOpen] = React.useState(false);
+  const detailsId = React.useId();
   const Heading = `h${headingLevel}` as React.ElementType;
   return (
     <div
@@ -113,6 +139,33 @@ export const EmptyState = React.forwardRef<HTMLDivElement, EmptyStateProps>(func
       <Heading className="nc-illu__title">{title}</Heading>
       {description != null ? <p className="nc-illu__description">{description}</p> : null}
       {actions != null ? <div className="nc-illu__actions">{actions}</div> : null}
+      {/* after the actions, so the way forward comes first in the tab order. */}
+      {details != null ? (
+        <button
+          type="button"
+          className="nc-illu__toggle"
+          aria-expanded={open}
+          aria-controls={detailsId}
+          onClick={() => setOpen((o) => !o)}
+        >
+          <svg
+            viewBox="0 0 12 12"
+            width="0.625rem"
+            height="0.625rem"
+            fill="none"
+            aria-hidden="true"
+            className="nc-illu__caret"
+          >
+            <path d="M4 2.5 L7.5 6 L4 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
+          </svg>
+          {detailsLabel ?? words.emptyState.details}
+        </button>
+      ) : null}
+      {details != null ? (
+        <div id={detailsId} className="nc-illu__details" hidden={!open}>
+          {details}
+        </div>
+      ) : null}
     </div>
   );
 });

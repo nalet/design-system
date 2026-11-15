@@ -1,12 +1,25 @@
 .nc-toaster {
+  /* the distance the toasts keep from the edge of the screen. */
+  --nc-toaster-edge: var(--s-5);
+  /* the room a bar takes at that edge: the toaster's `offset`, or the screen's. */
+  --nc-toaster-bar: 0px;
   position: fixed;
   left: 50%;
-  bottom: var(--s-5);
+  /* above the strip a phone keeps at its foot for itself, where the page reaches under it. */
+  bottom: calc(var(--nc-toaster-edge) + var(--nc-toaster-bar) + env(safe-area-inset-bottom, 0px));
   z-index: 200;
   transform: translateX(-50%);
   width: max-content;
   max-width: calc(100vw - var(--s-6));
   pointer-events: none;
+}
+
+/* at the top: for a screen whose foot is taken. the same distance from the
+   edge, below a bar that stays there and below the strip a phone keeps at its
+   top. */
+.nc-toaster--top {
+  top: calc(var(--nc-toaster-edge) + var(--nc-toaster-bar) + env(safe-area-inset-top, 0px));
+  bottom: auto;
 }
 
 .nc-toaster__list {
@@ -17,6 +30,11 @@
   margin: 0;
   padding: 0;
   list-style: none;
+}
+
+/* the newest nearest the edge: last in the list, drawn first. */
+.nc-toaster--top .nc-toaster__list {
+  flex-direction: column-reverse;
 }
 
 .nc-toast {
@@ -38,6 +56,11 @@
   line-height: 1.4;
   pointer-events: auto;
   animation: nc-toast-in 0.16s ease-out;
+}
+
+/* at the top a toast comes down as it fades in, where at the bottom it rises. */
+.nc-toaster--top .nc-toast {
+  animation-name: nc-toast-in-top;
 }
 
 .nc-toast--information {
@@ -77,8 +100,34 @@
   }
 }
 
+@keyframes nc-toast-in-top {
+  from {
+    opacity: 0;
+    transform: translateY(-0.375rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ---- a tv screen ----------------------------------------------------------------
+   inside the safe area: 27 from the top or the foot, 48 from the sides. the
+   message steps up to 14, the smallest size a tv reads a label at. a toast
+   takes no focus, on a tv either, and nothing in it answers to a touch. */
+
+[data-nc-screen='tv'] .nc-toaster {
+  --nc-toaster-edge: 1.6875rem;
+  max-width: calc(100vw - var(--s-7) - var(--s-7));
+}
+
+[data-nc-screen='tv'] .nc-toast {
+  font-size: 0.875rem;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .nc-toast {
+  .nc-toast,
+  .nc-toaster--top .nc-toast {
     animation: none;
   }
 }

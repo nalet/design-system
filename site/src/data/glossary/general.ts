@@ -93,6 +93,11 @@ export const GENERAL_TERMS: Record<string, GlossaryEntry> = {
     term: 'disclosure',
     explanation: 'A control that shows or hides more content below it, like “details”. A small arrow turns as it opens.',
   },
+  sheet: {
+    term: 'sheet',
+    explanation:
+      'A dialog that sits on the foot of a phone’s screen, across its whole width, instead of in the middle. People know it from the apps on their phones.',
+  },
   trigger: {
     term: 'trigger',
     explanation: 'The button that opens something, such as a menu or a list of options.',

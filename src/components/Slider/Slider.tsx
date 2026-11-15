@@ -74,6 +74,15 @@ export const Slider = React.forwardRef<HTMLInputElement, SliderProps>(function S
 ) {
   const { lang } = useLanguage();
   const input = React.useRef<HTMLInputElement | null>(null);
+  // the input is the component's own, to read and to step, and the caller's ref as well
+  const setInput = React.useCallback(
+    (node: HTMLInputElement | null) => {
+      input.current = node;
+      if (typeof ref === 'function') ref(node);
+      else if (ref) ref.current = node;
+    },
+    [ref],
+  );
   // where the browser puts a range without a value: the middle
   const first = React.useRef(defaultValue ?? min + (max - min) / 2).current;
   const [own, setOwn] = React.useState(first);
@@ -130,11 +139,7 @@ export const Slider = React.forwardRef<HTMLInputElement, SliderProps>(function S
           <span className="nc-slider__fill" />
         </span>
         <input
-          ref={(node) => {
-            input.current = node;
-            if (typeof ref === 'function') ref(node);
-            else if (ref) ref.current = node;
-          }}
+          ref={setInput}
           type="range"
           className="nc-slider__input"
           min={min}

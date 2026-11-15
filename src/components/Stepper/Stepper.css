@@ -160,7 +160,9 @@
 
 /* ---- a screen made for touch --------------------------------------------------
    drawn at the large size. minus and plus each answer to a touch in 48 × 48,
-   centred on their square: 3 past the frame, and 3 into the value's own room. */
+   centred on their square: 3 past the frame, and 3 into the value's own room.
+   the value answers in a band 48 high between them. the three areas meet and
+   never overlap. */
 [data-nc-screen='touch'] .nc-stepper {
   --nc-stepper-h: 2.625rem;
   font-size: 0.875rem;
@@ -171,6 +173,24 @@
   position: absolute;
   /* from the padding edge: past the 1px line on each side, then 3 more */
   inset: -4px;
+  z-index: 1;
+}
+
+[data-nc-screen='touch'] .nc-stepper__value {
+  position: relative;
+}
+
+[data-nc-screen='touch'] .nc-stepper__value::after {
+  content: '';
+  position: absolute;
+  /* past the frame's 1px line and 3 more, above and below; clear of the buttons' areas at the sides */
+  inset-block: -4px;
+  inset-inline: 3px;
+}
+
+/* the field stays above its band, so a touch on the number is the field's own */
+[data-nc-screen='touch'] .nc-stepper__input {
+  position: relative;
   z-index: 1;
 }
 
@@ -206,6 +226,11 @@
   width: 1.5rem;
   border-width: 0;
   color: var(--fg-muted);
+}
+
+/* one step brighter with the focus, as the text under a focused title is */
+[data-nc-screen='tv'] .nc-stepper:focus-within .nc-stepper__step {
+  color: var(--fg-2);
 }
 
 [data-nc-screen='tv'] .nc-stepper__sign {

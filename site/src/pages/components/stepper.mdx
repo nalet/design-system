@@ -79,7 +79,7 @@ Like every field, a stepper in a form waits for save. Outside a form it applies 
 
 ### on a touch screen
 
-On a screen made for touch, the stepper is drawn at the large height, and minus and plus each answer to a finger in a <Term id="touch-area">touch area</Term> of 48 by 48 around them. A press on minus or plus doesn't open the keyboard; a press on the value does.
+On a screen made for touch, the stepper is drawn at the large height. Minus and plus each answer to a finger in a <Term id="touch-area">touch area</Term> of 48 by 48 around them, and the value in a band 48 high between them. A press on minus or plus doesn't open the keyboard; a press on the value does.
 
 <Example label="a stepper on a touch screen" column>
   <OnTouch />
@@ -120,7 +120,7 @@ Today:
 - The number inside the field is drawn by the browser: digits without <Term id="thousands-separator">thousands separators</Term>, and a decimal sign in the browser's own language, not the page's. A stepper is for small whole numbers, where neither shows.
 - A value out of range isn't announced as wrong while people type. The error comes on save, as [forms and settings](/design-system/patterns/forms-and-settings/#checking-the-values) sets out.
 - <Kbd>home</Kbd> and <Kbd>end</Kbd> set the value, so they don't move the caret to the start or the end of a typed number.
-- On a TV, the row with its label needs a browser from 2023 or later. In an older one, the label stays above the row, and the row still works.
+- On a TV, the row with its label needs a browser of the last few years, which older TVs don't have. In an older one, the label stays above the row, and the row still works.
 - How a real TV's browser, its remote and its own keyboard treat a number field isn't tested.
 - There are no styles for <Term id="forced-colours">forced colours</Term>, the high-contrast setting some operating systems offer.
 
@@ -185,8 +185,8 @@ Today:
 
 | screen | in code | what changes |
 | --- | --- | --- |
-| Touch | `data-nc-screen="touch"` on an ancestor | The large size: 42px high, 14px text. Minus and plus each answer in 48 × 48 (`3rem`), centred on their square: 3px past the frame, and 3px into the room beside the value. |
-| TV | `data-nc-screen="tv"` on an ancestor | No frame. A row 48px (`3rem`) high and as wide as its container, with the value at its end between two 12px arrows in `--fg-muted`, 14px text, and 12px (`--s-3`) of room at the row's start and end. Inside a field, the field is the row: its label at the start, at 14px. Focused: a 3px `--focus-ring` ring inside the row's edge, `--surface-focus`, and 1.02 times the size, in 150ms `ease-out`; the label turns to `--fg`. The hint or the error is a line under the row. |
+| Touch | `data-nc-screen="touch"` on an ancestor | The large size: 42px high, 14px text. Minus and plus each answer in 48 × 48 (`3rem`), centred on their square: 3px past the frame, and 3px into the room beside the value. The value answers in a band 48px high between them. |
+| TV | `data-nc-screen="tv"` on an ancestor | No frame. A row 48px (`3rem`) high and as wide as its container, with the value at its end between two 12px arrows in `--fg-muted`, 14px text, and 12px (`--s-3`) of room at the row's start and end. Inside a field, the field is the row: its label at the start, at 14px. Focused: a 3px `--focus-ring` ring inside the row's edge, `--surface-focus`, and 1.02 times the size, in 150ms `ease-out`; the label turns to `--fg` and the arrows to `--fg-2`. The hint or the error is a line under the row. |
 
 - **Steps:** `step`, 1 by default, kept within `min` and `max`. Fractions are rounded to the decimals of `step`.
 - **Keys on a TV:** left and right take a step; up and down are given away. The stepper doesn't call `preventDefault()` on them: it undoes the step the number field takes for them, before `onChange` is called.
@@ -194,4 +194,5 @@ Today:
 - **Words:** “less” and “more” come from the page's language, `words.stepper`; English and German are built in.
 - **Sizes** are in `rem`, so the stepper grows with the reader's text size.
 - **Direction:** minus is where the text starts. On a page written from right to left it is on the right, and on a TV the left arrow key then takes a step up.
+- **The row on a TV** is drawn with `:has()`: a field that holds a stepper becomes the row. Chrome has it from 105, Safari from 15.4, Firefox from 121.
 - **Not there:** no press-and-hold to keep stepping, no `forced-colors` styles.

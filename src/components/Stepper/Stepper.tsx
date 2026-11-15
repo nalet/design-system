@@ -64,6 +64,15 @@ export const Stepper = React.forwardRef<HTMLInputElement, StepperProps>(function
 ) {
   const { words } = useLanguage();
   const input = React.useRef<HTMLInputElement | null>(null);
+  // the input is the component's own, to read and to step, and the caller's ref as well
+  const setInput = React.useCallback(
+    (node: HTMLInputElement | null) => {
+      input.current = node;
+      if (typeof ref === 'function') ref(node);
+      else if (ref) ref.current = node;
+    },
+    [ref],
+  );
   const [own, setOwn] = React.useState(defaultValue == null ? '' : String(defaultValue));
   const keys = useKeysLeftAlone();
 
@@ -176,11 +185,7 @@ export const Stepper = React.forwardRef<HTMLInputElement, StepperProps>(function
       </button>
       <span className="nc-stepper__value" onMouseDown={focusField}>
         <input
-          ref={(node) => {
-            input.current = node;
-            if (typeof ref === 'function') ref(node);
-            else if (ref) ref.current = node;
-          }}
+          ref={setInput}
           type="number"
           inputMode={noMinus ? (wholeNumbers ? 'numeric' : 'decimal') : undefined}
           autoComplete="off"

@@ -41,13 +41,6 @@ const meta: Meta<SliderProps> = {
     invalid: { control: false },
     onChange: { control: false, description: 'The native change handler. Read event.target.value.' },
   },
-  decorators: [
-    (Story) => (
-      <div style={{ width: '22rem', maxWidth: '100%' }}>
-        <Story />
-      </div>
-    ),
-  ],
   parameters: {
     docs: {
       description: {
@@ -61,12 +54,23 @@ export default meta;
 
 type Story = StoryObj<SliderProps>;
 
+/** the room a story has: a column of settings, or a player's controls on a tv. */
+const room = (width: string): Story['decorators'] => [
+  (Story) => (
+    <div style={{ width, maxWidth: '100%' }}>
+      <Story />
+    </div>
+  ),
+];
+const column22 = room('22rem');
+
 const column = { display: 'grid', gap: 'var(--s-5)' } as const;
 const kind = { display: 'grid', gap: 'var(--s-2)' } as const;
 const caption = { fontFamily: 'var(--ff-ui)', fontSize: '0.75rem', lineHeight: 1.4, color: 'var(--fg-dim)' } as const;
 const row = { display: 'flex', alignItems: 'center', gap: 'var(--s-3)' } as const;
 
 export const Playground: Story = {
+  decorators: column22,
   render: (args) => (
     <Field label="Volume">
       <Slider {...args} formatValue={percent} />
@@ -95,6 +99,7 @@ function SeekBar(props: Partial<SliderProps>) {
 
 export const Kinds: Story = {
   name: 'three kinds',
+  decorators: column22,
   render: () => (
     <div style={column}>
       <div style={kind}>
@@ -116,6 +121,7 @@ export const Kinds: Story = {
 };
 
 export const Sizes: Story = {
+  decorators: column22,
   render: () => (
     <div style={{ display: 'grid', gap: 'var(--s-3)' }}>
       <div style={row}>
@@ -135,6 +141,7 @@ export const Sizes: Story = {
 };
 
 export const States: Story = {
+  decorators: column22,
   render: () => (
     <div style={column}>
       <Field label="Volume">
@@ -152,6 +159,7 @@ export const States: Story = {
 
 export const Controlled: Story = {
   name: 'controlled',
+  decorators: column22,
   render: function Controlled() {
     const [size, setSize] = useState(120);
     return (
@@ -169,6 +177,7 @@ export const Controlled: Story = {
 
 export const OnTouch: Story = {
   name: 'on a touch screen',
+  decorators: column22,
   render: () => (
     <div data-nc-screen="touch">
       <Field label="Volume">
@@ -181,17 +190,11 @@ export const OnTouch: Story = {
 /** The seek bar has a row of its own; the volume shares the buttons' row, so up and down change it. */
 export const OnTv: Story = {
   name: 'on a tv',
-  decorators: [
-    (Story) => (
-      <div style={{ width: '30rem', maxWidth: '100%' }}>
-        <Story />
-      </div>
-    ),
-  ],
+  decorators: room('30rem'),
   render: () => (
     <div data-nc-screen="tv" style={{ display: 'grid', gap: 'var(--s-3)' }}>
       <SeekBar />
-      <div style={{ ...row, paddingInline: 'var(--s-3)' }}>
+      <div style={{ ...row, flexWrap: 'wrap', paddingInline: 'var(--s-3)' }}>
         <IconButton label="previous episode" size="lg" variant="ghost">
           <Icon icon={SkipBack} />
         </IconButton>
@@ -201,7 +204,14 @@ export const OnTv: Story = {
         <IconButton label="next episode" size="lg" variant="ghost">
           <Icon icon={SkipForward} />
         </IconButton>
-        <Slider aria-label="Volume" sharesRow before={<Icon icon={Volume2} />} defaultValue={70} formatValue={percent} />
+        <Slider
+          aria-label="Volume"
+          sharesRow
+          before={<Icon icon={Volume2} />}
+          defaultValue={70}
+          formatValue={percent}
+          style={{ flex: '1 1 10rem', width: 'auto' }}
+        />
       </div>
     </div>
   ),

@@ -38,7 +38,7 @@ export interface NavigationItem {
 export type NavigateHandler = (event: React.MouseEvent<HTMLAnchorElement>, href: string) => void;
 
 /** A press that opens a link here: the main button, without a key that opens it elsewhere. */
-export function opensHere(e: React.MouseEvent): boolean {
+function opensHere(e: React.MouseEvent): boolean {
   return !e.defaultPrevented && e.button === 0 && !e.metaKey && !e.ctrlKey && !e.shiftKey && !e.altKey;
 }
 

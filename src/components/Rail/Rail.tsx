@@ -1,27 +1,8 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
-import { fill, useLanguage } from '../../lib/language';
-import {
-  NavigationLink,
-  opensHere,
-  useRovingLinks,
-  type NavigateHandler,
-  type NavigationItem,
-} from '../../lib/navigation';
-import { Chevron } from '../../brand/Chevron/Chevron';
-import '../../lib/a11y.css';
+import { useLanguage } from '../../lib/language';
+import { NavigationLink, useRovingLinks, type NavigateHandler, type NavigationItem } from '../../lib/navigation';
 import './Rail.css';
-
-/** The product's mark at the head of a rail. */
-export interface RailMark {
-  /** Where the mark leads: the product's start page. */
-  href: string;
-  /**
-   * The product's name, as the top bar writes it. The mark shows its first
-   * letter after the chevron, and is named after it: "{product} home".
-   */
-  product: string;
-}
 
 export interface RailProps extends Omit<React.HTMLAttributes<HTMLElement>, 'children'> {
   /** The product's views, in their order: up to five, home first. */
@@ -36,8 +17,6 @@ export interface RailProps extends Omit<React.HTMLAttributes<HTMLElement>, 'chil
    * lists: the view is marked as current, not as the current page.
    */
   inside?: boolean;
-  /** The product's mark at the rail's head, on a wide screen: a link home, as high as the top bar beside it. */
-  mark?: RailMark;
   /** On a TV, what the top bar holds elsewhere, above the views: the person and the search. */
   head?: NavigationItem[];
   /** At the rail's foot, apart from the views: settings, and on a TV the notifications before it. */
@@ -72,7 +51,6 @@ export const Rail = React.forwardRef<HTMLElement, RailProps>(function Rail(
     views,
     current,
     inside = false,
-    mark,
     head,
     foot,
     open,
@@ -159,8 +137,6 @@ export const Rail = React.forwardRef<HTMLElement, RailProps>(function Rail(
     roving.onKeyDown(e, !tv);
   };
 
-  const homeName = mark ? fill(words.navigation.home, { product: mark.product }) : '';
-
   const group = (kind: 'head' | 'views' | 'foot', list: NavigationItem[], from: number) =>
     list.length ? (
       <ul className={`nc-rail__group nc-rail__group--${kind}`} role="list">
@@ -199,22 +175,6 @@ export const Rail = React.forwardRef<HTMLElement, RailProps>(function Rail(
       }}
     >
       <div className="nc-rail__panel">
-        {mark ? (
-          <a
-            className="nc-rail__mark"
-            href={mark.href}
-            title={homeName}
-            onClick={(e) => {
-              if (opensHere(e)) onNavigate?.(e, mark.href);
-            }}
-          >
-            <Chevron aria-hidden="true" />
-            <span className="nc-rail__letter" aria-hidden="true">
-              {Array.from(mark.product.trim())[0] ?? ''}
-            </span>
-            <span className="nc-sr-only">{homeName}</span>
-          </a>
-        ) : null}
         {group('head', headItems, 0)}
         {group('views', views, headItems.length)}
         {group('foot', footItems, headItems.length + views.length)}

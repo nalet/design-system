@@ -66,9 +66,15 @@
   position: relative;
   flex: none;
   display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 1.5rem;
+  block-size: 1.5rem;
 }
 
-/* an icon is drawn at 24, the icon set's own grid, whatever size it was given. */
+/* an icon is drawn at 24, the icon set's own grid, whatever size it was given.
+   what isn't a drawing, such as a person's avatar, keeps its size and its
+   place in the middle of the icon's. */
 .nc-tabbar__icon > svg {
   inline-size: 1.5rem;
   block-size: 1.5rem;

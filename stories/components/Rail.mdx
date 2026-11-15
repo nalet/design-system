@@ -11,11 +11,12 @@ When a product takes a rail, what it holds on each screen and how its views are 
 
 ## examples
 
-`views` are the product's views, each with an `href`, a `name` and an `icon` at 24. `mark` draws the product's mark at the rail's head, and `foot` puts settings at its foot. `current` is the `href` of the current view. The stories take every press over in `onNavigate`, as a router would.
+`views` are the product's views, each with an `href`, a `name` and an `icon` at 24, and `foot` puts settings at the rail's foot. `current` is the `href` of the current view. The stories take every press over in `onNavigate`, as a router would.
+
+On a wide screen the rail stands under the top bar, which draws the product's mark as its first cell, as wide as the rail: a `TopBar` with `searchPlacement="start"`. The story draws both.
 
 ```tsx
 <Rail
-  mark={{ href: '/', product: 'video' }}
   views={[
     { href: '/', name: 'home', icon: <Icon icon={House} size={24} /> },
     { href: '/films', name: 'films', icon: <Icon icon={Film} size={24} /> },
@@ -33,11 +34,11 @@ Without `current`, no view is the current one: a screen that belongs to none of 
 
 <Canvas of={RailStories.NoneCurrent} />
 
-Inside `data-nc-screen="touch"`, it is the rail of a phone held sideways: the tabs span the rail and sit in the middle of its height, and the current one has no lighter square. Pass the phone's tabs as `views`, and neither `mark` nor `foot`.
+Inside `data-nc-screen="touch"`, it is the rail of a phone held sideways: the tabs span the rail and sit in the middle of its height, and the current one has no lighter square. Pass the phone's tabs as `views`, and no `foot`.
 
 <Canvas of={RailStories.Sideways} />
 
-Inside `data-nc-screen="tv"`, the rail holds the frame: `head` takes the person and the search, and `foot` the notifications and settings. It opens while the focus is in it. Press `tab`, or a view, to move the focus into this one.
+Inside `data-nc-screen="tv"`, the rail holds the frame: `head` takes the person and the search, and `foot` the notifications and settings. The person's icon is an `Avatar`, `decorative`, because the link is named after the person. It opens while the focus is in it. Press `tab`, or a view, to move the focus into this one.
 
 <Canvas of={RailStories.Tv} />
 
@@ -52,10 +53,10 @@ Inside `data-nc-screen="tv"`, the rail holds the frame: `head` takes the person 
 - `label` on an item becomes the link's `aria-label`, for a name that says more: “notifications, 2 unread”. `count` draws the number on the icon, written in the page's language, and hidden from assistive technology.
 - The current item's link has `aria-current="page"`; with `inside`, `aria-current="true"`. `current` is compared with each item's `href`, the items of `head` and `foot` included.
 - `onNavigate` is called on a press of the main button without a modifier key, with the event and the link's `href`. A press that opens the link elsewhere doesn't call it. It is called for the current view too: go back to the top of the view there.
-- `mark` renders a link before the lists, a tab stop of its own: the chevron, the first letter of `product`, and its name, `{product} home` (`words.navigation.home`), as hidden text and `title`. A press on it calls `onNavigate` with its `href`.
-- The mark's cell is 56px high. Set `--nc-rail-head` on the rail to the height of the top bar beside it.
+- The rail draws no mark of the product: on a wide screen that is the top bar's first cell, over the rail. The rail starts with the items of `head`, or with its views.
+- An icon is drawn at 24px, whatever size it was given. An icon that isn't a drawing, such as an `Avatar`, keeps its size and sits in the middle of that square.
 - One link has `tabindex="0"`: the current item's, or the first view's when none is current. The others have `-1`. While the focus is in the rail, the stop follows it; when the focus leaves, the stop is back on the current item.
-- The rail is 80px wide and fills the height of what holds it; place it in the first column of the screen's grid, beside the top bar and the page. It adds `env(safe-area-inset-left)` and `env(safe-area-inset-bottom)` to its padding, so it needs `viewport-fit=cover` in the page's viewport to keep clear of a phone's cutout and its own bar.
+- The rail is 80px wide and fills the height of what holds it. On a wide screen, place it under the top bar and beside the page, and after the bar in the document, so the bar's mark, search, bell and user menu come before the views in the tab order. It adds `env(safe-area-inset-left)` and `env(safe-area-inset-bottom)` to its padding, so it needs `viewport-fit=cover` in the page's viewport to keep clear of a phone's cutout and its own bar.
 - A rail too low for its items scrolls.
 - `data-nc-screen` on any ancestor chooses the look: none for a wide screen, `touch` for a phone held sideways, `tv` for a TV. The rail has no media queries of its own, except for reduced motion.
 - On a TV, the `<nav>` keeps the width of the closed rail, 112px, and the open rail lies over the page beside it, as wide as its longest name and at least 320px. On a TV the `<nav>` has no height of its own: it takes the height of the row that holds it, so give that row the screen's height.
@@ -70,7 +71,7 @@ Inside `data-nc-screen="tv"`, the rail holds the frame: `head` takes the person 
 
 | key | does |
 | --- | --- |
-| `tab` | Moves onto the mark, then onto the current item (or the first view), then out of the rail. |
+| `tab` | Moves onto the current item (or the first view), then out of the rail. |
 | `↓` / `↑` | Moves to the next / previous item, settings included. Past the last, it goes on at the first; on a TV it stops at the ends. |
 | `home` / `end` | Moves to the first / last item. |
 | `enter` | Opens the focused item, as on any link. |

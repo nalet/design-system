@@ -156,8 +156,6 @@ export interface Words {
   navigation: {
     /** The name of the landmark that holds a product's views: the rail, or the tab bar. */
     views: string;
-    /** The product's mark at the head of a rail, a link home: "{product} home". */
-    home: string;
   };
   progressBar: Record<string, never>;
   sheet: Record<string, never>;
@@ -282,7 +280,6 @@ export const english: Words = {
 
   navigation: {
     views: 'views',
-    home: '{product} home',
   },
   progressBar: {},
   sheet: {},
@@ -396,7 +393,6 @@ export const german: Words = {
 
   navigation: {
     views: 'ansichten',
-    home: 'startseite von {product}',
   },
   progressBar: {},
   sheet: {},

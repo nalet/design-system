@@ -1,7 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { KeepCase, Rail, type RailProps } from '../../src';
+import { Rail, type RailProps } from '../../src';
 import {
-  MARK,
   NOTIFICATIONS,
   PERSON,
   PhoneSideways,
@@ -11,8 +10,7 @@ import {
   TvScreen,
   VIEWS,
   WideScreen,
-  nameOf,
-  useCurrent,
+  useWhere,
 } from '../_data/views';
 
 const meta: Meta<RailProps> = {
@@ -22,7 +20,6 @@ const meta: Meta<RailProps> = {
     views: VIEWS,
     current: '?view=films',
     inside: false,
-    mark: MARK,
     foot: SETTINGS,
   },
   argTypes: {
@@ -30,7 +27,6 @@ const meta: Meta<RailProps> = {
     views: { control: false },
     head: { control: false },
     foot: { control: false },
-    mark: { control: 'object' },
     current: { control: 'text' },
     inside: { control: 'boolean' },
     // open belongs to a tv: see the tv stories.
@@ -53,18 +49,12 @@ export default meta;
 
 type Story = StoryObj<RailProps>;
 
-const everything = [...VIEWS, ...TABS, SETTINGS, SEARCH, NOTIFICATIONS, PERSON];
-
-// a wide screen: the product's mark at the rail's head, settings at its foot.
+// a wide screen: the rail under the top bar, whose first cell is the product's
+// mark, with settings at the rail's foot.
 export const Playground: Story = {
   render: function RailOnAWideScreen(args) {
-    const { current, onNavigate } = useCurrent(args.current);
-    return (
-      <WideScreen
-        title={nameOf(current, everything) ?? <KeepCase>The Quiet Harbour</KeepCase>}
-        rail={<Rail {...args} current={current} onNavigate={onNavigate} />}
-      />
-    );
+    const where = useWhere(args.current);
+    return <WideScreen where={where} rail={<Rail {...args} current={where.current} onNavigate={where.onNavigate} />} />;
   },
 };
 
@@ -72,13 +62,8 @@ export const Playground: Story = {
 export const NoneCurrent: Story = {
   name: 'no current view',
   render: function RailWithoutACurrentView() {
-    const { current, onNavigate } = useCurrent(undefined);
-    return (
-      <WideScreen
-        title={nameOf(current, everything) ?? <KeepCase>The Quiet Harbour</KeepCase>}
-        rail={<Rail views={VIEWS} mark={MARK} foot={SETTINGS} current={current} onNavigate={onNavigate} />}
-      />
-    );
+    const where = useWhere(undefined);
+    return <WideScreen where={where} rail={<Rail views={VIEWS} foot={SETTINGS} current={where.current} onNavigate={where.onNavigate} />} />;
   },
 };
 
@@ -86,8 +71,8 @@ export const NoneCurrent: Story = {
 export const Sideways: Story = {
   name: 'on a phone held sideways',
   render: function RailOnAPhoneHeldSideways() {
-    const { current, onNavigate } = useCurrent('?view=films');
-    return <PhoneSideways title={nameOf(current, everything)} rail={<Rail views={TABS} current={current} onNavigate={onNavigate} />} />;
+    const where = useWhere('?view=films');
+    return <PhoneSideways where={where} rail={<Rail views={TABS} current={where.current} onNavigate={where.onNavigate} />} />;
   },
 };
 
@@ -96,11 +81,11 @@ export const Sideways: Story = {
 export const Tv: Story = {
   name: 'on a tv',
   render: function RailOnATv() {
-    const { current, onNavigate } = useCurrent('?view=films');
+    const where = useWhere('?view=films');
     return (
       <TvScreen
-        title={nameOf(current, everything)}
-        rail={<Rail head={[PERSON, SEARCH]} views={VIEWS} foot={[NOTIFICATIONS, SETTINGS]} current={current} onNavigate={onNavigate} />}
+        where={where}
+        rail={<Rail head={[PERSON, SEARCH]} views={VIEWS} foot={[NOTIFICATIONS, SETTINGS]} current={where.current} onNavigate={where.onNavigate} />}
       />
     );
   },
@@ -110,11 +95,11 @@ export const Tv: Story = {
 export const TvOpen: Story = {
   name: 'on a tv, open',
   render: function RailOpenOnATv() {
-    const { current, onNavigate } = useCurrent('?view=films');
+    const where = useWhere('?view=films');
     return (
       <TvScreen
-        title={nameOf(current, everything)}
-        rail={<Rail head={[PERSON, SEARCH]} views={VIEWS} foot={[NOTIFICATIONS, SETTINGS]} current={current} onNavigate={onNavigate} open />}
+        where={where}
+        rail={<Rail head={[PERSON, SEARCH]} views={VIEWS} foot={[NOTIFICATIONS, SETTINGS]} current={where.current} onNavigate={where.onNavigate} open />}
       />
     );
   },

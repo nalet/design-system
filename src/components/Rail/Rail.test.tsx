@@ -11,14 +11,13 @@ const view = (name: string): NavigationItem => ({ href: `/${name}`, name, icon }
 
 const VIEWS = ['home', 'films', 'series', 'watchlist'].map(view);
 const SETTINGS = view('settings');
-const MARK = { href: '/', product: 'Video' };
 
 const link = (name: string) => screen.getByRole('link', { name });
 /** the focus, moved the way a page's own arrow keys move it. */
 const focus = (el: HTMLElement) => act(() => el.focus());
 
 function wide(props: Partial<RailProps> = {}) {
-  return render(<Rail views={VIEWS} foot={SETTINGS} mark={MARK} current="/films" {...props} />);
+  return render(<Rail views={VIEWS} foot={SETTINGS} current="/films" {...props} />);
 }
 
 /** a tv: the rail beside a page with one thing that takes the focus. */
@@ -93,8 +92,6 @@ describe('Rail', () => {
   it('moves with the up and down arrow keys, home and end, settings included', async () => {
     const user = userEvent.setup();
     wide();
-    await user.tab(); // the mark is a stop of its own, before the views
-    expect(link('Video home')).toHaveFocus();
     await user.tab();
     expect(link('films')).toHaveFocus();
     await user.keyboard('{ArrowDown}');
@@ -138,8 +135,9 @@ describe('Rail', () => {
     await user.click(link('series'));
     expect(onNavigate).toHaveBeenCalledTimes(1);
     expect(onNavigate.mock.calls[0][1]).toBe('/series');
-    await user.click(link('Video home'));
-    expect(onNavigate.mock.calls[1][1]).toBe('/');
+    // pressing the current view again reaches the router too.
+    await user.click(link('films'));
+    expect(onNavigate.mock.calls[1][1]).toBe('/films');
     // with a key that opens a new tab, the browser keeps the press.
     onNavigate.mockClear();
     const stay = (e: Event) => e.preventDefault(); // jsdom can't open a link; the page keeps it from trying
@@ -151,25 +149,18 @@ describe('Rail', () => {
     expect(onNavigate).not.toHaveBeenCalled();
   });
 
-  it('draws the product’s mark as a link home, named after the product', () => {
+  it('holds the views and what is given for its foot, and nothing else: the product’s mark is the top bar’s', () => {
     wide();
-    const mark = link('Video home');
-    expect(mark).toHaveAttribute('href', '/');
-    expect(mark).toHaveAttribute('title', 'Video home');
-    // the chevron and the first letter are decoration.
-    expect(mark.querySelector('.nc-rail__letter')).toHaveTextContent('V');
-    expect(mark.querySelector('.nc-rail__letter')).toHaveAttribute('aria-hidden', 'true');
-    expect(mark.querySelector('svg')).toHaveAttribute('aria-hidden', 'true');
+    expect(screen.getAllByRole('link').map((a) => a.getAttribute('href'))).toEqual(['/home', '/films', '/series', '/watchlist', '/settings']);
   });
 
-  it('takes its words from the page’s language, and a label of its own first', () => {
+  it('takes its landmark’s name from the page’s language, and a label of its own first', () => {
     const { rerender } = render(
       <Language lang="de">
-        <Rail views={VIEWS} mark={MARK} />
+        <Rail views={VIEWS} />
       </Language>,
     );
     expect(screen.getByRole('navigation', { name: 'ansichten' })).toBeInTheDocument();
-    expect(link('startseite von Video')).toHaveAttribute('title', 'startseite von Video');
     rerender(
       <Language lang="de">
         <Rail views={VIEWS} label="bereiche" />
@@ -316,7 +307,7 @@ describe('Rail', () => {
   it('has no axe violations on a screen inside a view, and on one that is none of them', async () => {
     const { container, rerender } = wide({ current: '/watchlist', inside: true });
     await expectNoAxeViolations(container);
-    rerender(<Rail views={VIEWS} foot={SETTINGS} mark={MARK} />);
+    rerender(<Rail views={VIEWS} foot={SETTINGS} />);
     await expectNoAxeViolations(container);
   });
 

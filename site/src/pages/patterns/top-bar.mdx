@@ -12,9 +12,10 @@ import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import { Kbd } from '@nalet/design-system';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
-import { TopBarAnatomy, SearchTwoWays, ConsumerBar, TopBarDo, TopBarDont } from '@site/sketches/shell';
+import { TopBarAnatomy, SearchTwoWays, TopBarDo, TopBarDont } from '@site/sketches/shell';
 import { Playground, OnTheHomePage, SearchAtTheStart, Narrow } from '@site/examples/top-bar';
 import { Open as UserMenuOpen } from '@site/examples/user-menu';
+import { Playground as BarOverRail } from '@site/examples/rail';
 
 # top bar
 
@@ -106,13 +107,14 @@ Both are live on this page. In the bar at the top of the page, which has an app 
 
 - **One user menu, in every product.** No email address shown in the bar, and no sign-out button of its own.
 - **The avatar is square**, like every frame in the system. A photo is cropped to a square.
-- **A product for consumers can keep its own main navigation in the bar**, such as home, films and series. The product's name, the notifications and the user menu stay where the shell puts them, and look the way the shell draws them.
+- **A product for consumers shows its few views as icons in a rail under the bar**, such as home, films and series. Its mark is the bar's first cell, as wide as the rail, and the search comes right after it. The notifications and the user menu stay where the shell puts them, and look the way the shell draws them; see [consumer navigation](/design-system/patterns/consumer-navigation/).
 - **The product's name holds still.** The bar is always in view, so its chevron doesn't blink; see [brand](/design-system/styles/brand/#accessibility).
 
-<figure class="ds-figure">
-  <ConsumerBar />
-  <figcaption>A product for consumers keeps its own navigation in the middle; the name, the bell and the user menu stay as the shell has them.</figcaption>
-</figure>
+<Example label="a product for consumers, live: the top bar over the rail of its views">
+  <BarOverRail client:load />
+</Example>
+
+A product for consumers keeps its views in the rail under the bar; the mark, the search, the bell and the user menu are where the shell has them.
 
 <DoDont>
   <Do caption="The product's and the app's names, the bell with its count, and one square avatar that opens the one menu.">

@@ -22,7 +22,7 @@
 .nc-card__title {
   font-family: var(--ff-mono);
   font-weight: 600;
-  font-size: 13px;
+  font-size: 0.8125rem;
   letter-spacing: 0.01em;
   color: var(--fg);
   text-transform: lowercase;

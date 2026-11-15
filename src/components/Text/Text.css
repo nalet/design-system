@@ -6,7 +6,7 @@
 .nc-text--body {
   font-family: var(--ff-ui);
   font-weight: 400;
-  font-size: 16px;
+  font-size: 1rem;
   line-height: 1.55;
   color: var(--fg-2);
 }
@@ -14,7 +14,7 @@
 .nc-text--ui {
   font-family: var(--ff-ui);
   font-weight: 500;
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.4;
   color: var(--fg);
 }
@@ -22,7 +22,7 @@
 .nc-text--muted {
   font-family: var(--ff-ui);
   font-weight: 400;
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.4;
   color: var(--fg-muted);
 }
@@ -30,7 +30,7 @@
 .nc-text--dim {
   font-family: var(--ff-ui);
   font-weight: 400;
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.4;
   color: var(--fg-dim);
 }
@@ -38,7 +38,7 @@
 .nc-text--code {
   font-family: var(--ff-mono);
   font-weight: 500;
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.5;
   color: var(--fg-2);
 }

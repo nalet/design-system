@@ -62,8 +62,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: 1.75rem;
+  height: 1.75rem;
   flex: none;
   color: var(--cloud-blue);
 }
@@ -79,7 +79,7 @@
 .nc-tile__title {
   font-family: var(--ff-mono);
   font-weight: 600;
-  font-size: 14px;
+  font-size: 0.875rem;
   letter-spacing: 0.01em;
   color: var(--fg);
   text-transform: lowercase;
@@ -100,7 +100,7 @@
 }
 
 .nc-tile__desc {
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.45;
   color: var(--fg-muted);
   display: -webkit-box;
@@ -113,8 +113,8 @@
 .nc-tile__badge {
   flex: none;
   box-sizing: border-box;
-  height: 18px;
-  min-width: 18px;
+  height: 1.125rem;
+  min-width: 1.125rem;
   padding: 0 var(--s-2);
   display: inline-flex;
   align-items: center;
@@ -124,7 +124,7 @@
   background: var(--surface-2);
   color: var(--fg-muted);
   font-family: var(--ff-mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   line-height: 1;
   letter-spacing: 0.02em;
   text-transform: lowercase;
@@ -157,8 +157,8 @@
 /* status dot — small square, brand-coloured by health */
 .nc-tile__status {
   flex: none;
-  width: 8px;
-  height: 8px;
+  width: 0.5rem;
+  height: 0.5rem;
   margin-top: 3px;
   border-radius: 0;
   background: var(--fg-dim);
@@ -186,13 +186,13 @@
 .nc-tile__value {
   font-family: var(--ff-mono);
   font-weight: 700;
-  font-size: 28px;
+  font-size: 1.75rem;
   line-height: 1;
   color: var(--fg);
   font-variant-numeric: tabular-nums;
 }
 .nc-tile__unit {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
   color: var(--fg-muted);
   margin-left: 2px;
@@ -202,7 +202,7 @@
   align-items: center;
   gap: var(--s-1);
   font-family: var(--ff-mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
   color: var(--fg-muted);
 }
@@ -221,17 +221,18 @@
   height: 0;
 }
 .nc-tile__delta-arrow[data-dir='up'] {
-  border-left: 3px solid transparent;
-  border-right: 3px solid transparent;
-  border-bottom: 5px solid currentColor;
+  /* an arrow drawn with borders: a size, so it grows with the text beside it */
+  border-left: 0.1875rem solid transparent;
+  border-right: 0.1875rem solid transparent;
+  border-bottom: 0.3125rem solid currentColor;
 }
 .nc-tile__delta-arrow[data-dir='down'] {
-  border-left: 3px solid transparent;
-  border-right: 3px solid transparent;
-  border-top: 5px solid currentColor;
+  border-left: 0.1875rem solid transparent;
+  border-right: 0.1875rem solid transparent;
+  border-top: 0.3125rem solid currentColor;
 }
 .nc-tile__delta-arrow[data-dir='flat'] {
-  width: 6px;
+  width: 0.375rem;
   height: 2px;
   background: currentColor;
 }

@@ -37,7 +37,7 @@ export function SpaceScale() {
           style={{ display: 'grid', gridTemplateColumns: '4rem 3rem minmax(0, 1fr)', alignItems: 'center', gap: 'var(--s-3)' }}
         >
           <span style={{ ...label, color: 'var(--fg)' }}>--{key}</span>
-          <span style={label}>{px}</span>
+          <span style={label}>{px.endsWith('rem') ? `${parseFloat(px) * 16}px` : px}</span>
           <span style={{ width: `var(--${key})`, height: 16, background: 'var(--cloud-blue)' }} />
         </div>
       ))}

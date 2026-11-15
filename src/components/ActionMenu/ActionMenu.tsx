@@ -40,7 +40,7 @@ export interface ActionMenuProps {
 }
 
 const MoreGlyph = () => (
-  <svg viewBox="0 0 16 16" width="16" height="16" fill="currentColor" aria-hidden="true" focusable="false">
+  <svg viewBox="0 0 16 16" width="1rem" height="1rem" fill="currentColor" aria-hidden="true" focusable="false">
     <rect x="2" y="7" width="2.5" height="2.5" />
     <rect x="6.75" y="7" width="2.5" height="2.5" />
     <rect x="11.5" y="7" width="2.5" height="2.5" />
@@ -230,7 +230,7 @@ export function ActionMenu({
           size={size}
           className={cx('nc-actionmenu__trigger', className)}
           trailing={
-            <svg viewBox="0 0 12 12" width="12" height="12" fill="none" aria-hidden="true">
+            <svg viewBox="0 0 12 12" width="0.75rem" height="0.75rem" fill="none" aria-hidden="true">
               <path d="M3 4.5 L6 7.5 L9 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
             </svg>
           }

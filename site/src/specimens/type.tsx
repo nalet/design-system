@@ -64,7 +64,7 @@ export function TypeScale() {
                   {familyName(t.fontFamily)} {t.fontWeight}
                 </div>
                 <div>
-                  {t.fontSize} / {t.lineHeight}
+                  {atUsualSize(t.fontSize)} / {t.lineHeight}
                 </div>
                 <div>letter-spacing {t.letterSpacing}</div>
                 <div style={{ color: 'var(--fg-dim)' }}>{USE[role]}</div>
@@ -131,4 +131,9 @@ export function TypeWeights() {
       ))}
     </div>
   );
+}
+
+/** A token's size as the pages name it: in pixels at the usual text size ("3.5rem" is "56px"). */
+function atUsualSize(size: string): string {
+  return size.endsWith('rem') ? `${parseFloat(size) * 16}px` : size;
 }

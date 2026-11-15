@@ -4,7 +4,7 @@
   align-items: center;
   gap: var(--s-2) var(--s-3);
   box-sizing: border-box;
-  min-height: 45px;
+  min-height: 2.8125rem;
   padding: var(--s-2) var(--s-3);
   border: 1px solid var(--border);
   border-radius: 0;
@@ -27,7 +27,7 @@
   flex: 1 1 auto;
   min-width: 0;
   font-family: var(--ff-mono);
-  font-size: 13px;
+  font-size: 0.8125rem;
   font-weight: 600;
   color: var(--fg);
   text-transform: lowercase;

@@ -14,7 +14,7 @@
   /* separate, not collapse: collapsed borders do not stick with a sticky header. */
   border-collapse: separate;
   border-spacing: 0;
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--fg-2);
 }
 
@@ -24,7 +24,7 @@
   background: var(--bg-2);
   font-family: var(--ff-mono);
   font-weight: 600;
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.04em;
   color: var(--fg-muted);
   text-transform: lowercase;
@@ -44,8 +44,8 @@
   display: inline-flex;
   align-items: center;
   gap: var(--s-1);
-  margin: -4px -6px;
-  padding: 4px 6px;
+  margin: -0.25rem -0.375rem;
+  padding: 0.25rem 0.375rem;
   border: 1px solid transparent;
   border-radius: 0;
   background: transparent;
@@ -89,7 +89,7 @@
 }
 
 .nc-dt__select {
-  width: 32px;
+  width: 2rem;
   padding-right: 0;
 }
 
@@ -173,7 +173,7 @@
 }
 
 .nc-dt__groupcell {
-  padding: 6px var(--s-3);
+  padding: 0.375rem var(--s-3);
   border-bottom: 1px solid var(--border);
   background: var(--bg-2);
 }
@@ -189,7 +189,7 @@
   grid-template-columns: auto minmax(0, 1fr) auto;
   align-items: center;
   gap: var(--s-2);
-  min-height: 28px;
+  min-height: 1.75rem;
 }
 
 .nc-dt__caret {
@@ -207,7 +207,7 @@
   flex: 1;
   min-width: 0;
   font-family: var(--ff-mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-weight: 600;
   color: var(--fg);
   /* no text-transform: a group label is content (a series' name), written as it is. */
@@ -226,7 +226,7 @@
 .nc-dt__popins {
   display: grid;
   gap: 2px;
-  margin-top: 4px;
+  margin-top: 0.25rem;
 }
 
 .nc-dt__popin {
@@ -234,13 +234,13 @@
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0 var(--s-2);
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--fg-muted);
 }
 
 .nc-dt__popin-label {
   font-family: var(--ff-mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   color: var(--fg-dim);
   text-transform: lowercase;
 }
@@ -273,7 +273,7 @@
 
 .nc-dt__growing-count {
   font-family: var(--ff-mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--fg-muted);
   font-variant-numeric: tabular-nums;
 }

@@ -35,7 +35,7 @@
 
 .nc-divider__label {
   font-family: var(--ff-mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   letter-spacing: 0.04em;
   color: var(--fg-dim);
   text-transform: lowercase;

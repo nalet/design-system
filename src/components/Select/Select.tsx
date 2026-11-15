@@ -49,7 +49,7 @@ export const Select = React.forwardRef<HTMLSelectElement, SelectProps>(function 
           : children}
       </select>
       <span className="nc-select__chevron" aria-hidden="true">
-        <svg viewBox="0 0 12 12" width="12" height="12" fill="none">
+        <svg viewBox="0 0 12 12" width="0.75rem" height="0.75rem" fill="none">
           <path d="M3 4.5 L6 7.5 L9 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
         </svg>
       </span>

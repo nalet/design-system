@@ -23,13 +23,13 @@
 }
 
 .nc-switch--md .nc-switch__track {
-  width: 36px;
-  height: 20px;
+  width: 2.25rem;
+  height: 1.25rem;
   padding: 2px;
 }
 .nc-switch--sm .nc-switch__track {
-  width: 30px;
-  height: 16px;
+  width: 1.875rem;
+  height: 1rem;
   padding: 2px;
 }
 
@@ -55,20 +55,20 @@
 }
 
 .nc-switch--md .nc-switch__thumb {
-  width: 14px;
-  height: 14px;
+  width: 0.875rem;
+  height: 0.875rem;
 }
 .nc-switch--sm .nc-switch__thumb {
-  width: 10px;
-  height: 10px;
+  width: 0.625rem;
+  height: 0.625rem;
 }
 
 .nc-switch__input:checked + .nc-switch__thumb {
   background: var(--bg);
-  transform: translateX(16px);
+  transform: translateX(1rem);
 }
 .nc-switch--sm .nc-switch__input:checked + .nc-switch__thumb {
-  transform: translateX(14px);
+  transform: translateX(0.875rem);
 }
 
 .nc-switch__input:checked ~ .nc-switch__thumb,
@@ -88,7 +88,7 @@
 
 .nc-switch__label {
   font-family: var(--ff-ui);
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.4;
   color: var(--fg-2);
 }

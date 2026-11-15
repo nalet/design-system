@@ -15,7 +15,7 @@
   border-collapse: collapse;
   border-radius: 0;
   background: var(--surface);
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--fg-2);
 }
 
@@ -28,7 +28,7 @@
   border-bottom: 1px solid var(--border);
   font-family: var(--ff-mono);
   font-weight: 600;
-  font-size: 11px;
+  font-size: 0.6875rem;
   letter-spacing: 0.04em;
   color: var(--fg-muted);
   text-transform: lowercase;
@@ -59,6 +59,6 @@
   padding: var(--s-5) var(--s-3);
   text-align: center;
   font-family: var(--ff-mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--fg-dim);
 }

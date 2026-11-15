@@ -14,7 +14,7 @@
   overflow: hidden;
   max-width: 44ch;
   font-family: var(--ff-mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   line-height: 1.45;
   color: var(--fg-dim);
   overflow-wrap: anywhere;
@@ -26,7 +26,7 @@
   align-items: baseline;
   gap: 0 var(--s-2);
   font-family: var(--ff-mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
 }
@@ -53,13 +53,13 @@
 
 .nc-cell-id__title {
   font-family: var(--ff-mono);
-  font-size: 13px;
+  font-size: 0.8125rem;
   color: var(--fg);
 }
 
 .nc-cell-id__text {
   font-family: var(--ff-ui);
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--fg-muted);
   overflow: hidden;
   text-overflow: ellipsis;

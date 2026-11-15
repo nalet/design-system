@@ -36,11 +36,11 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(functi
         />
         <span className="nc-checkbox__mark" aria-hidden="true">
           {indeterminate ? (
-            <svg viewBox="0 0 12 12" width="12" height="12" fill="none">
+            <svg viewBox="0 0 12 12" width="0.75rem" height="0.75rem" fill="none">
               <path d="M2.5 6 H9.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" />
             </svg>
           ) : (
-            <svg viewBox="0 0 12 12" width="12" height="12" fill="none">
+            <svg viewBox="0 0 12 12" width="0.75rem" height="0.75rem" fill="none">
               <path d="M2.5 6.2 L5 8.7 L9.5 3.5" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           )}

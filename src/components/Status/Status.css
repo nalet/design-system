@@ -1,11 +1,11 @@
 .nc-status {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  gap: 0.375rem;
   box-sizing: border-box;
   max-width: 100%;
   font-family: var(--ff-mono);
-  font-size: 11px;
+  font-size: 0.6875rem;
   line-height: 1;
   letter-spacing: 0.02em;
   text-transform: lowercase;
@@ -14,7 +14,7 @@
 }
 
 .nc-status--chip {
-  height: 20px;
+  height: 1.25rem;
   padding: 0 var(--s-2);
   border: 1px solid var(--nc-status-border);
   border-radius: 0;
@@ -24,7 +24,7 @@
 
 .nc-status--text {
   color: var(--nc-status-fg);
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .nc-status__icon {

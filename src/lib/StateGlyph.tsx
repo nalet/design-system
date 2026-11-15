@@ -1,3 +1,4 @@
+import { rem } from './rem';
 
 /** The five semantic states. Colour, glyph and announcement all follow from one of these. */
 export type State = 'neutral' | 'information' | 'success' | 'warning' | 'error';
@@ -12,8 +13,8 @@ export const STATES: readonly State[] = ['neutral', 'information', 'success', 'w
 export function StateGlyph({ state, size = 12 }: { state: State; size?: number }) {
   const common = {
     viewBox: '0 0 12 12',
-    width: size,
-    height: size,
+    width: rem(size),
+    height: rem(size),
     fill: 'none',
     stroke: 'currentColor',
     strokeWidth: 1.5,

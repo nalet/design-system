@@ -91,7 +91,7 @@ export function MultiSelect({
         {/* real spaces, so the name reads "state 2 chosen", not "state2 chosen". */}
         <span className="nc-multiselect__label">{label}</span>{' '}
         <span className="nc-multiselect__summary">{summary}</span>
-        <svg viewBox="0 0 12 12" width="12" height="12" fill="none" aria-hidden="true" className="nc-multiselect__chevron">
+        <svg viewBox="0 0 12 12" width="0.75rem" height="0.75rem" fill="none" aria-hidden="true" className="nc-multiselect__chevron">
           <path d="M3 4.5 L6 7.5 L9 4.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
         </svg>
       </button>

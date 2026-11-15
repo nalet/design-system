@@ -25,19 +25,19 @@
 
 /* sizes */
 .nc-btn--sm {
-  height: 28px;
+  min-height: 1.75rem;
   padding: 0 var(--s-3);
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 .nc-btn--md {
-  height: 34px;
+  min-height: 2.125rem;
   padding: 0 var(--s-4);
-  font-size: 13px;
+  font-size: 0.8125rem;
 }
 .nc-btn--lg {
-  height: 42px;
+  min-height: 2.625rem;
   padding: 0 var(--s-5);
-  font-size: 14px;
+  font-size: 0.875rem;
 }
 
 /* primary — the cloud-blue cta */

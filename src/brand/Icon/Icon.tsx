@@ -2,11 +2,12 @@ import * as React from 'react';
 import type { LucideIcon, LucideProps } from 'lucide-react';
 import { cx } from '../../lib/cx';
 import './Icon.css';
+import { rem } from '../../lib/rem';
 
 export interface IconProps extends Omit<LucideProps, 'ref' | 'size'> {
   /** The Lucide icon component, e.g. `import { Terminal } from 'lucide-react'`. */
   icon: LucideIcon;
-  /** Edge length in px. Default 16 (matches ui type). */
+  /** Edge length in px at the usual text size; it grows with the reader's. Default 16 (matches ui type). */
   size?: number;
 }
 
@@ -22,7 +23,7 @@ export const Icon = React.forwardRef<SVGSVGElement, IconProps>(function Icon(
     <LucideGlyph
       ref={ref}
       className={cx('nc-icon', className)}
-      size={size}
+      size={rem(size)}
       strokeWidth={strokeWidth}
       aria-hidden={rest['aria-label'] ? undefined : true}
       {...rest}

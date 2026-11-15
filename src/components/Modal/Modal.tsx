@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createPortal } from 'react-dom';
 import { cx } from '../../lib/cx';
 import './Modal.css';
+import { rem } from '../../lib/rem';
 
 export interface ModalProps {
   /** Whether the modal is shown. */
@@ -14,7 +15,7 @@ export interface ModalProps {
   footer?: React.ReactNode;
   /** Body content. */
   children?: React.ReactNode;
-  /** Max width in px. Default 480. */
+  /** Max width in px at the usual text size; it grows with the reader's. Default 480. */
   width?: number;
   /** Close when the backdrop is clicked. Default true. */
   closeOnBackdrop?: boolean;
@@ -122,7 +123,7 @@ export function Modal({
         aria-modal="true"
         aria-labelledby={title ? titleId : undefined}
         aria-label={!title ? ariaLabel : undefined}
-        style={{ maxWidth: width }}
+        style={{ maxWidth: rem(width) }}
         tabIndex={-1}
       >
         {title != null ? (
@@ -131,7 +132,7 @@ export function Modal({
               {title}
             </h2>
             <button type="button" className="nc-modal__close" aria-label="close" onClick={onClose}>
-              <svg viewBox="0 0 14 14" width="14" height="14" fill="none">
+              <svg viewBox="0 0 14 14" width="0.875rem" height="0.875rem" fill="none">
                 <path d="M3 3 L11 11 M11 3 L3 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
               </svg>
             </button>

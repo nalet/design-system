@@ -17,19 +17,19 @@
   background: var(--bg-2);
   color: var(--fg);
   font-family: var(--ff-mono);
-  font-size: 13px;
+  font-size: 0.8125rem;
   cursor: pointer;
   transition: border-color 0.12s ease;
 }
 
 .nc-multiselect--md .nc-multiselect__trigger {
-  height: 34px;
+  min-height: 2.125rem;
 }
 
 .nc-multiselect--sm .nc-multiselect__trigger {
-  height: 28px;
+  min-height: 1.75rem;
   padding: 0 var(--s-2);
-  font-size: 12px;
+  font-size: 0.75rem;
 }
 
 .nc-multiselect__trigger:hover:not(:disabled) {
@@ -73,13 +73,13 @@
 
 .nc-multiselect__panel {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + 0.25rem);
   left: 0;
   z-index: 120;
   box-sizing: border-box;
   min-width: 100%;
   width: max-content;
-  max-width: min(320px, calc(100vw - var(--s-4)));
+  max-width: min(20rem, calc(100vw - var(--s-4)));
   padding: var(--s-2) 0;
   border: 1px solid var(--border-2);
   border-radius: 0;
@@ -122,7 +122,7 @@
 .nc-multiselect__option-count {
   color: var(--fg-dim);
   font-family: var(--ff-mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   font-variant-numeric: tabular-nums;
 }
 
@@ -139,7 +139,7 @@
   background: transparent;
   color: var(--fg-muted);
   font-family: var(--ff-mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   text-align: left;
   text-transform: lowercase;
   cursor: pointer;

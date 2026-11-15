@@ -19,14 +19,14 @@
   gap: var(--s-2);
   width: 100%;
   box-sizing: border-box;
-  min-height: 32px;
+  min-height: 2rem;
   padding: var(--s-1) var(--s-3);
   border: 0;
   border-radius: 0;
   background: transparent;
   color: var(--fg-2);
   font-family: var(--ff-mono);
-  font-size: 13px;
+  font-size: 0.8125rem;
   text-align: left;
   text-transform: lowercase;
   white-space: nowrap;

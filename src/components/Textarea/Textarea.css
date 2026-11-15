@@ -10,7 +10,7 @@
   border-radius: 0;
   color: var(--fg);
   font-family: var(--ff-mono);
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.5;
   resize: vertical;
   transition: border-color 0.12s ease, box-shadow 0.12s ease;

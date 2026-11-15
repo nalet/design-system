@@ -6,14 +6,14 @@
 
 .nc-heading--h1 {
   font-weight: 700;
-  font-size: 32px;
+  font-size: 2rem;
   line-height: 1.15;
   letter-spacing: -0.015em;
 }
 
 .nc-heading--h2 {
   font-weight: 600;
-  font-size: 22px;
+  font-size: 1.375rem;
   line-height: 1.2;
   letter-spacing: 0;
 }

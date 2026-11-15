@@ -101,8 +101,8 @@ export const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function Ban
                 >
                   <svg
                     viewBox="0 0 12 12"
-                    width="10"
-                    height="10"
+                    width="0.625rem"
+                    height="0.625rem"
                     fill="none"
                     aria-hidden="true"
                     className="nc-strip__caret"
@@ -123,7 +123,7 @@ export const Banner = React.forwardRef<HTMLDivElement, BannerProps>(function Ban
       </div>
       {onDismiss ? (
         <button type="button" className="nc-strip__dismiss" aria-label={dismissLabel} onClick={onDismiss}>
-          <svg viewBox="0 0 12 12" width="12" height="12" fill="none" aria-hidden="true">
+          <svg viewBox="0 0 12 12" width="0.75rem" height="0.75rem" fill="none" aria-hidden="true">
             <path d="M3 3 L9 9 M9 3 L3 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
           </svg>
         </button>

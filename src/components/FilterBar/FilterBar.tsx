@@ -59,7 +59,7 @@ export interface FilterBarProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 const SearchGlyph = () => (
-  <svg viewBox="0 0 16 16" width="14" height="14" fill="none" aria-hidden="true" focusable="false">
+  <svg viewBox="0 0 16 16" width="0.875rem" height="0.875rem" fill="none" aria-hidden="true" focusable="false">
     <rect x="2.75" y="2.75" width="8" height="8" stroke="currentColor" strokeWidth="1.5" />
     <path d="M10.75 10.75 L14 14" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
   </svg>

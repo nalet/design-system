@@ -1,12 +1,12 @@
 .nc-code {
   font-family: var(--ff-mono);
-  font-size: 13px;
+  font-size: 0.8125rem;
   line-height: 1.5;
   border-radius: 0;
 }
 
 .nc-code--inline {
-  padding: 1px 6px;
+  padding: 1px 0.375rem;
   background: var(--bg-2);
   border: 1px solid var(--border);
   color: var(--cloud-cyan);

@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
 import './Spinner.css';
+import { rem } from '../../lib/rem';
 
 export interface SpinnerProps extends React.HTMLAttributes<HTMLSpanElement> {
   /** Width and height in px. Default 16. */
@@ -43,13 +44,13 @@ export const Spinner = React.forwardRef<HTMLSpanElement, SpinnerProps>(function 
       className={cx('nc-spinner', className)}
       role="status"
       aria-label={label}
-      style={{ width: size, height: size, color, ...style }}
+      style={{ width: rem(size), height: rem(size), color, ...style }}
       {...rest}
     >
       <svg
         viewBox={`0 0 ${size} ${size}`}
-        width={size}
-        height={size}
+        width={rem(size)}
+        height={rem(size)}
         fill="none"
         aria-hidden="true"
         style={{ '--nc-spinner-travel': `${-perimeter}px` } as React.CSSProperties}

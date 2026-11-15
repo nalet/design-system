@@ -1,9 +1,10 @@
 import * as React from 'react';
 import { cx } from '../../lib/cx';
 import './Chevron.css';
+import { rem } from '../../lib/rem';
 
 export interface ChevronProps extends React.SVGProps<SVGSVGElement> {
-  /** Glyph edge length in px. Default 16. */
+  /** Glyph edge length in px at the usual text size; it grows with the reader's. Default 16. */
   size?: number;
   /** Stroke weight relative to size. Default proportional. */
   strokeWidth?: number;
@@ -24,8 +25,8 @@ export const Chevron = React.forwardRef<SVGSVGElement, ChevronProps>(function Ch
     <svg
       ref={ref}
       className={cx('nc-chevron', className)}
-      width={size}
-      height={size}
+      width={rem(size)}
+      height={rem(size)}
       viewBox="0 0 16 16"
       fill="none"
       role="img"

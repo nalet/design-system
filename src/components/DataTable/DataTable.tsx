@@ -211,7 +211,7 @@ function setRowTabbable(tr: HTMLTableRowElement, on: boolean) {
 }
 
 const SortGlyph = ({ direction }: { direction?: SortDirection }) => (
-  <svg viewBox="0 0 10 12" width="10" height="12" fill="none" aria-hidden="true" className="nc-dt__sortglyph">
+  <svg viewBox="0 0 10 12" width="0.625rem" height="0.75rem" fill="none" aria-hidden="true" className="nc-dt__sortglyph">
     <path
       d="M2 4.5 L5 1.5 L8 4.5"
       stroke="currentColor"
@@ -828,7 +828,7 @@ export function DataTable<Row>({
               >
                 <td className="nc-dt__groupcell" colSpan={colCount}>
                   <div className="nc-dt__groupbar">
-                    <svg viewBox="0 0 12 12" width="12" height="12" fill="none" aria-hidden="true" className="nc-dt__caret">
+                    <svg viewBox="0 0 12 12" width="0.75rem" height="0.75rem" fill="none" aria-hidden="true" className="nc-dt__caret">
                       <path d="M4 2.5 L7.5 6 L4 9.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="square" />
                     </svg>
                     <span className="nc-dt__grouplabel">

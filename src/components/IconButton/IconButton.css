@@ -23,16 +23,16 @@
 }
 
 .nc-iconbtn--sm {
-  width: 28px;
-  height: 28px;
+  width: 1.75rem;
+  height: 1.75rem;
 }
 .nc-iconbtn--md {
-  width: 34px;
-  height: 34px;
+  width: 2.125rem;
+  height: 2.125rem;
 }
 .nc-iconbtn--lg {
-  width: 42px;
-  height: 42px;
+  width: 2.625rem;
+  height: 2.625rem;
 }
 
 .nc-iconbtn--primary {

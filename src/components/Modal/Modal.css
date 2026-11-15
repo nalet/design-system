@@ -41,7 +41,7 @@
   margin: 0;
   font-family: var(--ff-mono);
   font-weight: 600;
-  font-size: 15px;
+  font-size: 0.9375rem;
   color: var(--fg);
   text-transform: lowercase;
   min-width: 0;
@@ -53,8 +53,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 26px;
-  height: 26px;
+  width: 1.625rem;
+  height: 1.625rem;
   flex: none;
   background: transparent;
   border: 1px solid transparent;
@@ -79,7 +79,7 @@
   position: relative; /* anchors hidden text inside, so it cannot widen the page */
   overflow-y: auto;
   font-family: var(--ff-ui);
-  font-size: 14px;
+  font-size: 0.875rem;
   line-height: 1.55;
 }
 

@@ -10,9 +10,9 @@
 }
 
 .nc-filterbar__search {
-  flex: 1 1 240px;
-  min-width: 180px;
-  max-width: 420px;
+  flex: 1 1 15rem;
+  min-width: 11.25rem;
+  max-width: 26.25rem;
 }
 
 .nc-filterbar__facets {
@@ -34,12 +34,12 @@
 
 .nc-filterbar__facet .nc-select {
   width: auto;
-  min-width: 128px;
+  min-width: 8rem;
 }
 
 .nc-filterbar__facet-label {
   font-family: var(--ff-mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--fg-muted);
   text-transform: lowercase;
   white-space: nowrap;
@@ -68,7 +68,7 @@
 
 .nc-filterbar__count {
   font-family: var(--ff-mono);
-  font-size: 12px;
+  font-size: 0.75rem;
   color: var(--fg-muted);
   white-space: nowrap;
   font-variant-numeric: tabular-nums;
@@ -94,7 +94,7 @@
 
 .nc-filterbar--narrow .nc-filterbar__facet .nc-select {
   flex: 1;
-  max-width: 260px;
+  max-width: 16.25rem;
 }
 
 .nc-filterbar--narrow .nc-filterbar__end {

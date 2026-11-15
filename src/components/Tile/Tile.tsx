@@ -3,6 +3,7 @@ import type { LucideIcon } from 'lucide-react';
 import { cx } from '../../lib/cx';
 import { Chevron } from '../../brand/Chevron/Chevron';
 import './Tile.css';
+import { rem } from '../../lib/rem';
 
 export type TileVariant = 'app' | 'kpi';
 export type TileSize = 'sm' | 'md' | 'lg';
@@ -125,7 +126,7 @@ export const Tile = React.forwardRef<HTMLElement, TileProps>(function Tile(
       <div className="nc-tile__top">
         {Glyph ? (
           <span className="nc-tile__icon">
-            <Glyph size={22} strokeWidth={1.75} aria-hidden />
+            <Glyph size={rem(22)} strokeWidth={1.75} aria-hidden />
           </span>
         ) : null}
         <div className="nc-tile__heading">

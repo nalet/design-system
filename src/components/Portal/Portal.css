@@ -27,7 +27,7 @@
   margin: 0;
   font-family: var(--ff-mono);
   font-weight: 700;
-  font-size: 22px;
+  font-size: 1.375rem;
   letter-spacing: -0.01em;
   text-transform: lowercase;
   color: var(--fg);
@@ -43,14 +43,14 @@
 .nc-portal__search-input {
   box-sizing: border-box;
   width: 100%;
-  height: 32px;
+  height: 2rem;
   padding: 0 var(--s-3);
   background: var(--surface);
   border: 1px solid var(--border-2);
   border-radius: 0;
   color: var(--fg);
   font-family: var(--ff-mono);
-  font-size: 13px;
+  font-size: 0.8125rem;
   outline: none;
 }
 .nc-portal__search-input::placeholder {
@@ -82,7 +82,7 @@
   border-radius: 0;
   color: var(--fg-dim);
   font-family: var(--ff-ui);
-  font-size: 13px;
+  font-size: 0.8125rem;
   text-align: center;
 }
 

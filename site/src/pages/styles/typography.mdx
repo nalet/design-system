@@ -2,7 +2,7 @@
 layout: ../../layouts/Doc.astro
 title: typography
 draft: true
-draftNote: "Text that follows the reader's text size, under text size, is new and under review. The rest of the page describes the system as it is."
+draftNote: "Text that follows the reader's text size, under text size, is new, built and under review. The rest of the page describes the system as it was accepted."
 description: Two typefaces and six text styles. JetBrains Mono names things; Inter carries what people read.
 ---
 import { Heading, Text, formatCount } from '@nalet/design-system';
@@ -92,7 +92,7 @@ People choose how large text is once, on their device: in the browser's settings
 - **Space grows with the text.** The padding in a control and the gaps between rows grow in step, so a screen at a larger text size keeps its proportions.
 - **Lines stay thin.** A border, a divider and the focus outline keep their width. An icon grows with the text beside it.
 
-Planned. Today every size is in pixels and the three control heights are fixed, so text grows with the browser's zoom, but not with the browser's text size.
+The components are built this way: on a page whose text size people set to twice the usual, every component is twice as large, with its lines as thin as before.
 
 ## loading the fonts
 
@@ -108,7 +108,7 @@ The library doesn't include or load the fonts: it names them, and leaves the loa
 
 - The lowercase look of monospace chrome is only a style, and assistive technology may get either the written or the lowercased text. Written in lowercase, the two are the same.
 - Don't let a typeface, a weight or a size carry a meaning on its own. A state is a <C slug="status" />, with words and a symbol; a structure is a real heading.
-- Today: every size is set in pixels. Text grows when people zoom the browser, but not when they choose a larger default text size in the browser's settings. [Text size](#text-size) says what is planned.
+- Text grows when people zoom the browser, and when they choose a larger text size in the browser's settings: [text size](#text-size) says how.
 - Today: the role styles write out their font lists instead of using the shared font settings, so changing a font in one place doesn't reach them.
 
 ## do and don't
@@ -169,7 +169,7 @@ The library doesn't include or load the fonts: it names them, and leaves the loa
 
 ### roles
 
-From `tokens/tokens.json` (`type.role`); the specimen above is drawn from the same values.
+From `tokens/tokens.json` (`type.role`); the specimen above is drawn from the same values. The tokens hold the sizes in `rem`; the table gives them in pixels at the usual text size.
 
 | role | in code | family | weight | size / line height | letter-spacing | in components |
 | --- | --- | --- | --- | --- | --- | --- |
@@ -196,15 +196,15 @@ From `tokens/tokens.json` (`type.role`); the specimen above is drawn from the sa
 
 ### text size
 
-Planned; none of it is built.
-
 - **In a browser.** Sizes in `rem`, where `1rem` is the browser's text size: 11px is `0.6875rem`, 12px `0.75rem`, 13px `0.8125rem`, 14px `0.875rem`, 16px `1rem`, 22px `1.375rem`, 32px `2rem` and 56px `3.5rem`.
-- **Heights and space.** The control heights become a `min-height` of `1.75rem`, `2.125rem` and `2.625rem`, and the space scale follows: `--s-1` is `0.25rem`, `--s-4` is `1rem`.
-- **Lines.** Borders, dividers and the focus outline stay in `px`.
+- **Heights and space.** The control heights are a `min-height` of `1.75rem`, `2.125rem` and `2.625rem` on buttons, text fields, selects and the multi select; an icon button stays a square. The space scale follows: `--s-1` is `0.25rem`, `--s-4` is `1rem`.
+- **Lines.** Borders, dividers, shadows and the focus outline stay in `px`, and so does any size of 3px or less.
+- **Icons and sizes given as numbers.** A size a component takes as a number, such as an icon's, a loader's or a dialog's width, is its size in pixels at the usual text size, and is drawn in `rem`. In your own code, `rem(12)` returns `0.75rem`.
+- **Widths that are measured.** The filter bar, the toolbar and the data table measure their own width to decide what folds. They measure it at the usual text size, so their thresholds hold at every text size: at twice the size, a bar folds at twice the width.
 - **The page's part.** The page leaves the `font-size` of its root element alone. A root set to a size in pixels, or to 62.5%, undoes this for every component.
 - **In an app.** Text in `sp` on Android and Android TV, and in a text style that follows Dynamic Type on iOS. Boxes are in `dp` and in points, with a smallest height in place of a fixed one.
 - **The checks.** WCAG 1.4.4, resize text, at 200%, and 1.4.10, reflow, at 320 pixels wide.
-- **Today:** every size is in `px`, and `height` is fixed at 28, 34 and 42px on buttons, icon buttons, text fields and selects. The browser's zoom meets 1.4.4; the browser's own text size changes nothing.
+- **Up to 0.4.0** every size was in `px`, and text followed the browser's zoom alone.
 
 ### fonts
 
@@ -221,4 +221,4 @@ Planned; none of it is built.
 - **CSS variables.** The families are `var(--ff-mono)` and `var(--ff-ui)`. Sizes and weights are not variables.
 - **TypeScript.** `typography.h1` and `fontFamily.mono` come from `@nalet/design-system` (or `@nalet/design-system/tokens`): the same metrics as objects, ready to spread into a `style`.
 - **Tailwind.** The preset maps `font-mono` and `font-sans` to the two stacks. It adds no font sizes.
-- **Today:** every size is in px, and the role classes write the font stacks out instead of using `var(--ff-ui)` and `var(--ff-mono)`, so overriding a family variable doesn't reach them.
+- **Today:** the role classes write the font stacks out instead of using `var(--ff-ui)` and `var(--ff-mono)`, so overriding a family variable doesn't reach them.

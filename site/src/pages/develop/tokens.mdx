@@ -38,9 +38,9 @@ For JavaScript that needs a value, the same tokens come as typed objects, ready 
 import { tokens, colors, typography, fontFamily, space } from '@nalet/design-system/tokens';
 
 colors['state-warning'];   // '#F2B233'
-typography.h2.fontSize;    // '22px'
+typography.h2.fontSize;    // '1.375rem', 22px at the usual text size
 fontFamily.mono;           // "'JetBrains Mono', ui-monospace, monospace"
-space['s-4'];              // '16px'
+space['s-4'];              // '1rem', 16px at the usual text size
 ```
 
 The package's main entry exports the same objects, with one difference: there, the space helper turns a number of pixels into its token, for the components' space settings. The [specs](#specs) list the names.
@@ -81,7 +81,7 @@ Declared on `:root`:
 
 - **Colours:** `--bg` … `--surface-selected`, `--fg` … `--fg-dim`, `--cloud-blue`, `--cloud-cyan`, `--signal-green`, `--signal-amber`, `--signal-red`, `--border-control`, `--focus-ring`, and each state's `--state-*`, `--state-*-bg` and `--state-*-border`.
 - **Families:** `--ff-ui` (Inter) and `--ff-mono` (JetBrains Mono), with their fallbacks.
-- **Space:** `--s-1` (4px) to `--s-8` (64px).
+- **Space:** `--s-1` (`0.25rem`, 4px at the usual text size) to `--s-8` (`4rem`, 64px).
 - **`color-scheme: dark`.**
 
 The page base: `body` on `--bg`, in `--fg` and Inter. The type role classes: `.type-display`, `.type-h1`, `.type-h2`, `.type-body`, `.type-ui` and `.type-code`.

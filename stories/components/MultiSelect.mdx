@@ -19,6 +19,22 @@ The same control at `size="sm"`.
 
 <Canvas of={MultiSelectStories.Small} />
 
+At `size="lg"`: a 42px trigger, and options in rows at least 48px tall.
+
+<Canvas of={MultiSelectStories.Large} />
+
+With `action`, the panel's foot holds one action under the options and before `clear`. Here it opens a dialog for the new list's name, and the list is among the options the next time the panel opens.
+
+<Canvas of={MultiSelectStories.WithAction} />
+
+Fourteen options: they scroll inside the panel, and the foot stays in view under them.
+
+<Canvas of={MultiSelectStories.LongList} />
+
+With no `size`, inside an element with `data-nc-screen="touch"`: it draws large on its own.
+
+<Canvas of={MultiSelectStories.OnATouchScreen} />
+
 ## implementation notes
 
 - It is controlled: pass `value` and `onChange`.
@@ -32,18 +48,27 @@ The same control at `size="sm"`.
 - The checkboxes have no `name`, so a form sends none of them.
 - A closed panel is `hidden`, so it is neither read nor focusable.
 - Today: the panel isn't rendered into `document.body`, so an ancestor with `overflow: hidden` cuts it off. It is positioned under the trigger, at `z-index: 120`.
+- The options sit in a part of their own (`.nc-multiselect__list`) that scrolls once they are taller than 320px (`20rem`), with `overscroll-behavior: contain`, so scrolling them doesn't scroll the page. The foot is outside it.
+- When the panel opens, and on any scroll or resize while it is open, it measures itself: it opens above the trigger when it wouldn't fit below and there is more room above, and where neither side holds it, the options get a smaller largest height, so the panel keeps 8px from the viewport's top and bottom edges.
+- `action` takes a `label` and an `onSelect`. The action is a `<button type="button">` in the foot, before `clear`, with a plus icon before its label. Pressing it closes the panel and focuses the trigger, then calls `onSelect`, so a modal it opens returns focus to the trigger when it closes.
+- `emptyText` replaces “any”. “any”, “2 chosen” and “clear …” come from the page's language, and counts are written in it: a `<Language>` around the page, or the page's own `lang`, sets it. [Content and voice](https://nalet.github.io/design-system/foundations/content-voice/) has the rules.
+- Inside `data-nc-screen="touch"`, the trigger is drawn as at `size="lg"` with a touch area of at least 48 × 48, and the options, the action and `clear` are at least 48px tall.
+- Inside `data-nc-screen="tv"`, the trigger is drawn as at `size="lg"`, the rows are at least 40px tall with 14px labels, and the focused trigger or row shows the TV focus. While the panel is open, `↓` and `↑` move through the trigger, the checkboxes, the action and `clear`, and `enter` on a checkbox checks or unchecks it.
 - `MultiSelect` passes no other attributes through.
 - `className` goes on the wrapper around the trigger and the panel.
 
 | key | does |
 | --- | --- |
 | `enter` / `space` on the trigger | Opens or closes the panel. Focus stays on the trigger. |
-| `tab` / `shift+tab` | Native: from the trigger into the checkboxes, then `clear`, then out. When focus leaves the multi select, the panel closes. |
+| `tab` / `shift+tab` | Native: from the trigger into the checkboxes, then the action, then `clear`, then out. When focus leaves the multi select, the panel closes. |
 | `space` on a checkbox | Native: checks or unchecks it. |
 | `esc` | Closes the panel and puts focus back on the trigger. The key goes no further, so a modal around it stays open. |
+| `enter` / `space` on the action | Closes the panel, puts focus back on the trigger, then runs the action. |
+| `↓` / `↑`, on a TV only | While the panel is open: to the next / previous of the trigger, the checkboxes, the action and `clear`, stopping at the ends. |
+| `enter` on a checkbox, on a TV only | Checks or unchecks it, as `space` does. |
 
 ## props
 
 <ArgTypes of={MultiSelectStories} />
 
-Each entry in `options` has a `value`, a `label` and, optionally, a `count`.
+Each entry in `options` has a `value`, a `label` and, optionally, a `count`. `action` has a `label` and an `onSelect`.

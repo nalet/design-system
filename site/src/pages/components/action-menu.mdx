@@ -4,7 +4,7 @@ title: action menu
 description: An action menu keeps several actions behind one small button, such as the actions for one row of a table, or the ones that don't fit in a toolbar.
 component: action-menu
 draft: true
-draftNote: "A menu of one choice, the variant whose options carry a check, is new and under review, together with the pointer to it under when to use something else. The rest of the page describes the menu as it is today."
+draftNote: "A menu of one choice, the variant whose options carry a check, is new and now built, and so are the large size and the way the menu draws on a touch screen and a TV. The rest of the page is as it was accepted."
 ---
 import { Kbd, Select } from '@nalet/design-system';
 import C from '@site/components/C.astro';
@@ -12,7 +12,18 @@ import Term from '@site/components/Term.astro';
 import MotionFrame from '@site/components/MotionFrame.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
 import { DemoMenu } from '@site/demos/components/action-menu';
-import { Playground, InARow, TextTrigger, DisabledAndDanger, Busy, Alignment } from '@site/examples/action-menu';
+import {
+  Playground,
+  InARow,
+  TextTrigger,
+  DisabledAndDanger,
+  Busy,
+  Alignment,
+  OneChoice,
+  OneChoiceNamedByItsTrigger,
+  Large,
+  OnATouchScreen,
+} from '@site/examples/action-menu';
 import { OneChoiceMenu, ChoiceGroupsDo, ChoiceMixedDont } from '@site/sketches/component-drafts';
 
 # action menu
@@ -33,7 +44,7 @@ An action menu keeps several actions behind one small button, so a table row or 
 
 - **For the one <Term id="emphasized-action">emphasized action</Term> of a view.** Show it as a <C slug="button" />. Hidden in a menu, nothing reads as the next step.
 - **For actions on several selected rows.** Use a <C slug="toolbar">selection toolbar</C>, which says how many rows it acts on.
-- **To choose a value, such as a sort order or a filter.** A menu runs commands, and it doesn't show the current choice. Use a <C slug="select" />, or a <C slug="multi-select" /> for several values. One value from a few, behind an icon in a toolbar or a player's controls, such as a video's quality, is the planned [menu of one choice](#a-menu-of-one-choice).
+- **To choose a value, such as a sort order or a filter.** A menu runs commands, and it doesn't show the current choice. Use a <C slug="select" />, or a <C slug="multi-select" /> for several values. One value from a few, behind an icon in a toolbar or a player's controls, such as a video's quality, is a [menu of one choice](#a-menu-of-one-choice).
 - **To go to another page.** Use a link. A menu item is a button, so it can't be opened in a new tab.
 - **To ask for a decision.** Use a <C slug="modal" />.
 
@@ -53,7 +64,11 @@ The trigger is an icon, or words. Use the icon on a row, where the row already s
   <TextTrigger client:visible />
 </Example>
 
-The trigger comes in two of the heights every control shares. The small one is the usual choice, for table rows and toolbars; the medium one goes next to other medium controls.
+The trigger comes in the three heights every control shares. The small one is the usual choice, for table rows and toolbars; the medium one goes next to other medium controls. The large one is made for a finger: with it, every item is a row 48 high, so each is a <Term id="target-size">target</Term> of its own.
+
+<Example label="a large menu of commands and a large menu of choices, live">
+  <Large client:visible />
+</Example>
 
 An item can be disabled: it is dimmed, it can't be run, and the arrow keys skip it. An item can also be a danger item, for an action that deletes something or can't be undone. Its label is amber, and it stays amber under the pointer and with focus. Put danger items last.
 
@@ -75,9 +90,23 @@ Usually the menu lines up with the right edge of its trigger. It can line up wit
   <Alignment client:visible />
 </Example>
 
+### on a touch screen and on a tv
+
+On a screen made for touch, a menu takes the large size without being asked. Its trigger is drawn large and answers to a finger in its <Term id="touch-area">touch area</Term>, 48 around its centre, and every item is a row 48 high.
+
+<Example label="menus on a screen made for touch, live: the same menus, with no size given">
+  <OnATouchScreen client:visible />
+</Example>
+
+On a TV, the trigger is large too, and the items are rows 40 high with labels of 14, the height of a row in a menu there. The trigger takes the [TV focus](/design-system/patterns/tv-focus/) of a button, and the item with focus that of a row: the ring inside its edge, the focused surface and a little growth. The remote's up and down move through the items, OK chooses one and back closes the menu, as the arrow keys, <Kbd>enter</Kbd> and <Kbd>esc</Kbd> do. Left and right don't leave an open menu, and the menu stays inside the <Term id="safe-area">safe area</Term>. [Touch and tv sizes](/design-system/foundations/layout/#touch-and-tv-sizes) has the numbers.
+
 ## a menu of one choice
 
-A menu can also hold a choice: one value from a few, such as a video's quality or its speed. Its items are then options, not commands, and a check marks the one that is picked. Picking another moves the check, and the choice applies at once. This variant is planned: today the menu holds commands only, and the drawings show the idea.
+A menu can also hold a choice: one value from a few, such as a video's quality or its speed. Its items are then options, not commands, and a check marks the one that is picked. Picking another moves the check, and the choice applies at once. A menu holds commands or choices, not a mix of the two.
+
+<Example label="a player's settings, live: open the menu and pick a quality or a speed">
+  <OneChoice client:visible />
+</Example>
 
 <figure class="ds-figure">
   <OneChoiceMenu />
@@ -90,7 +119,11 @@ A menu can also hold a choice: one value from a few, such as a video's quality o
 4. **Separator.** A thin line between two choices.
 5. **What auto picked** (optional). An option that leaves the pick to the system says what it picked, after a middle dot, in a quieter grey: “auto · 720p”.
 
-Each choice is a group of its own, under its header, with exactly one option picked, so one menu can hold several choices, as a player's settings do.
+Each choice is a group of its own, under its header, with exactly one option picked, so one menu can hold several choices, as a player's settings do. A menu with one choice, behind a trigger that names it, needs no header:
+
+<Example label="one choice behind a trigger that names it, live">
+  <OneChoiceNamedByItsTrigger client:visible />
+</Example>
 
 ### a menu of one choice, or a select
 
@@ -109,7 +142,7 @@ So a sort order beside the filters stays a select, and a video's quality, behind
 
 ### picking
 
-- The menu opens on the picked option of its first choice, as a select's list opens on its value.
+- The menu opens on the picked option of its first choice, as a select's list opens on its value, whichever key opened it.
 - The up and down arrow keys go through the options of every choice in order, past the headers and the separators, and round at the ends. <Kbd>home</Kbd> and <Kbd>end</Kbd> jump to the first option and the last.
 - A click, <Kbd>enter</Kbd> or <Kbd>space</Kbd> picks the option: the check moves to it, the menu closes, focus goes back to the trigger, and the choice applies. Picking the option that is already picked only closes the menu.
 - <Kbd>esc</Kbd>, <Kbd>tab</Kbd> and a press outside close the menu and change nothing, as they do for commands.
@@ -137,16 +170,6 @@ So a sort order beside the filters stays a select, and a video's quality, behind
     <ChoiceMixedDont />
   </Dont>
 </DoDont>
-
-| part | in code (planned) |
-| --- | --- |
-| Option | `role="menuitemradio"` with `aria-checked`. The item's own spec: at least 32px tall, padding 4px 12px, JetBrains Mono 13px in `--fg-2`, lowercased. |
-| Check | A 16px check icon, the usual size next to interface text, in `--cloud-blue`, `aria-hidden`. It has a column of its own at the start of every option, 8px before the label, empty on the options that aren't picked. |
-| Picked option | Its label in `--fg`, weight 600. |
-| What auto picked | After a middle dot, in `--fg-muted`. |
-| Group | `role="group"`, named by its header with `aria-labelledby`. |
-| Header | JetBrains Mono 12px in `--fg-muted`, lowercased, as the multi select's clear button; padding 4px 12px, like an item's. It takes no focus. |
-| Separator | `role="separator"`: a 1px `--border` rule with 4px, the menu's own padding, above and below. |
 
 ## behaviour
 
@@ -183,7 +206,7 @@ Today:
 
 - The arrow keys skip disabled items, so people who use a keyboard never land on one. They may not learn that it exists, or why it is off. Say the reason on the page, in the row's status.
 - Typing a letter doesn't move to the item that starts with it.
-- A menu has no separators and no groups.
+- A menu of commands has no separators and no groups. Only a menu of one choice has them.
 - There are no styles for <Term id="forced-colours">forced colours</Term>, the high-contrast setting some operating systems offer. A focused item shows only a fill and a bar, and forced colours remove both.
 
 ## content
@@ -234,9 +257,9 @@ Today:
 
 | part | spec |
 | --- | --- |
-| Trigger | By default a ghost `IconButton` with three 2.5px squares (`icon` replaces them): 28px square at `size="sm"`, 34px at `size="md"`. With `buttonLabel`, a default `Button` with your text and a trailing 12px chevron. |
+| Trigger | By default a ghost `IconButton` with three 2.5px squares (`icon` replaces them): 28px square at `size="sm"`, 34px at `size="md"`, 42px at `size="lg"`, where the squares are drawn at 20px. With `buttonLabel`, a default `Button` of the same `size` with your text and a trailing 12px chevron. |
 | Menu | Rendered into `document.body` (a React portal) only while open, `position: fixed`, `z-index: 150`, so no table cell, scroll container or panel that hides its overflow clips it. `--surface` fill, a 1px `--border-2` frame, `border-radius: 0`, padding 4px 0, a shadow of `0 8px 24px` black at 45%. At least 160px wide, or as wide as the trigger if that is wider; at most the viewport's width minus 16px. |
-| Item | At least 32px tall, padding 4px 12px, JetBrains Mono 13px in `--fg-2`, lowercased with `text-transform`, on one line. Under the pointer and on focus: a `--surface-2` fill and a `--fg` label. Keyboard focus adds a 2px `--focus-ring` bar inside the left edge. |
+| Item | At least 32px tall, 48px (`--s-7`) at `size="lg"`, padding 4px 12px, JetBrains Mono 13px in `--fg-2`, lowercased with `text-transform`, on one line. Under the pointer and on focus: a `--surface-2` fill and a `--fg` label. Keyboard focus adds a 2px `--focus-ring` bar inside the left edge. |
 | Item icon | `icon` on an item: decoration 8px before the label, in `--fg-muted`, hidden from assistive technology. |
 | Disabled item | `disabled` on an item: 45% opacity and a not-allowed cursor. It stays in the menu, can't be run, and the arrow keys skip it. |
 | Danger item | `danger` on an item: the label in `--signal-amber` at rest, on hover and on focus. |
@@ -246,7 +269,26 @@ Today:
 | --- | --- | --- |
 | Name | `label` | The icon trigger's accessible name, also its tooltip: “actions for S04E07”. The menu is named by its trigger. |
 | Words on the trigger | `buttonLabel` | A text trigger. Its visible text is its name (WCAG 2.5.3, label in name), and `label` isn't used. |
-| Size | `size="sm"` (the default), `size="md"` | The trigger's height: 28px or 34px. |
+| Size | `size="sm"` (the default), `size="md"`, `size="lg"` | The trigger's height: 28px, 34px or 42px. At `lg`, the items are at least 48px tall. |
+| Choices | `choices` | A menu of one choice: one entry per choice, with its `label` (the header), its `options`, the picked `value` and `onChange`. With `choices`, `items` isn't used. |
 | Alignment | `align="end"` (the default), `align="start"` | The menu lines up its end edge with the trigger's, or its start edge. |
 | Busy | `loading` | A spinner in the trigger, and the menu can't open. The trigger is disabled, so it can't be focused. |
 | Disabled | `disabled` | The whole menu is off. The trigger is disabled, so it can't be focused. |
+
+| part of a menu of one choice | in code |
+| --- | --- |
+| Choice | One entry of `choices`: `id`, `label`, `options`, `value` (the picked option's value) and `onChange`, which gets the new value once the menu has closed, and isn't called when the picked option is picked again. |
+| Option | One entry of a choice's `options`: `value`, `label`, and optionally `detail` and `disabled`. `role="menuitemradio"` with `aria-checked`. The item's own spec: at least 32px tall, padding 4px 12px, JetBrains Mono 13px in `--fg-2`, lowercased. |
+| Check | A 16px check icon, the usual size next to interface text, in `--cloud-blue`, `aria-hidden`. It has a column of its own at the start of every option, 8px before the label, empty on the options that aren't picked. |
+| Picked option | Its label in `--fg`, weight 600. |
+| What auto picked | `detail` on an option: after a middle dot, in `--fg-muted`, at the usual weight. It is part of the option's name. |
+| Group | `role="group"`, named by its header with `aria-labelledby`. Without a `label` there is no header, and the group has no name of its own. |
+| Header | JetBrains Mono 12px in `--fg-muted`, lowercased, as the multi select's clear button; padding 4px 12px, like an item's. It takes no focus. |
+| Separator | `role="separator"`: a 1px `--border` rule with 4px, the menu's own padding, above and below. |
+
+| screen | in code | what changes |
+| --- | --- | --- |
+| Made for touch | `data-nc-screen="touch"` on an ancestor | The trigger is 42px, as at `size="lg"`: the icon button with its icon at 20px, or the button with the large button's padding and 14px label. A touch area of at least 48 × 48 (`3rem`), centred on the trigger and not drawn. Items at least 48px tall. |
+| TV | `data-nc-screen="tv"` | The trigger is 42px. Items are at least 40px tall, with 14px labels. A focused trigger: a 3px `--focus-ring` outline 2px outside, a `--surface-focus` fill and 5% of growth. A focused item: a 3px `--focus-ring` ring inside its edge, a `--surface-focus` fill and 2% of growth, with what auto picked and an item's icon in `--fg-2`. The growth and the fill take 150ms `ease-out`; under reduced motion nothing grows. Left and right do nothing in an open menu. The menu keeps 48px from the viewport's left and right edges and 27px from its top and bottom, at the usual text size. |
+
+- **The screen's attribute on the menu:** the menu is rendered into `document.body`, outside the element that carries `data-nc-screen`, so an open menu carries the same attribute itself.

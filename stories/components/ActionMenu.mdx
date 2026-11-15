@@ -31,11 +31,27 @@ With `loading`, the trigger shows a spinner and the menu can't open.
 
 <Canvas of={ActionMenuStories.Alignment} />
 
+With `choices`, it is a menu of one choice: each entry is a group of options under its `label`, with a check on the option whose `value` is picked. This one holds two choices, and `detail` says what “auto” picked.
+
+<Canvas of={ActionMenuStories.OneChoice} />
+
+One choice without a `label`, behind a `buttonLabel` that names it.
+
+<Canvas of={ActionMenuStories.OneChoiceNamedByItsTrigger} />
+
+`size="lg"`: a 42px trigger, and items at least 48px tall.
+
+<Canvas of={ActionMenuStories.Large} />
+
+The same menus with no `size`, inside an element with `data-nc-screen="touch"`: they draw large on their own.
+
+<Canvas of={ActionMenuStories.OnATouchScreen} />
+
 ## implementation notes
 
 - The trigger is a ghost `IconButton` showing three squares. `icon` replaces them with an icon of your own.
 - With `buttonLabel`, the trigger is a default `Button` with your text and a chevron after it.
-- `size` and `className` go to the trigger. `size` is `sm` by default, or `md`.
+- `size` and `className` go to the trigger. `size` is `sm` by default, or `md` or `lg`. At `lg` the menu's items are at least 48px tall.
 - The trigger has `aria-haspopup="menu"` and `aria-expanded`, so a screen reader announces a button that opens a menu, and whether the menu is open. While it is open, `aria-controls` points at it.
 - The menu exists only while it is open.
 - It renders into `document.body` (a portal), with `position: fixed` and `z-index: 150`. That puts it outside any ancestor with `overflow: hidden`, so no table cell, scroll container or panel can cut it off.
@@ -48,6 +64,15 @@ With `loading`, the trigger shows a spinner and the menu can't open.
 - While it is open, the menu listens for `pointerdown` on the document, so a press outside closes it.
 - It also listens for `scroll` and `resize` on the window, so it follows the trigger. It catches `scroll` in the capture phase, so scrolling any container counts.
 - When the menu opens, focus goes to the first item that isn't disabled, or to the last one when `↑` opened it. When every item is disabled, focus goes to the menu itself.
+- A menu holds commands (`items`) or choices (`choices`). With `choices`, `items` isn't used.
+- Each choice is a `role="group"`, named by its header through `aria-labelledby`, and a `role="separator"` sits between two choices. A choice without a `label` has no header, and its group no name of its own.
+- Each option is a `<button type="button">` with `role="menuitemradio"` and `aria-checked`, so a screen reader says which one is picked. The check is an `aria-hidden` icon in a column every option keeps.
+- A choice is controlled: pass its `value` and `onChange`. Picking an option closes the menu and puts focus back on the trigger, then calls `onChange` with the option's `value`. Picking the option that is already picked only closes the menu.
+- A menu of one choice opens on the picked option of its first choice, whichever key opened it. When that option is disabled, or no option is picked, it opens on the first option that isn't disabled.
+- An option's `detail` follows its label after a middle dot and is part of its name: “auto · 720p”.
+- An open menu carries the `data-nc-screen` of the element its trigger is in, because the menu itself is rendered into `document.body`, outside that element.
+- Inside `data-nc-screen="touch"`, the trigger is 42px with a touch area of at least 48 × 48, and the items are at least 48px tall, as at `size="lg"`.
+- Inside `data-nc-screen="tv"`, the trigger is 42px, the items are at least 40px tall with 14px labels, the focused trigger and the focused item show the TV focus, `←` and `→` do nothing in an open menu, and the menu keeps the safe area's 48px and 27px from the viewport's edges.
 - `onOpenChange(open)` is called each time the menu opens or closes.
 - `loading` puts a spinner in the trigger, sets `aria-busy` and keeps the menu from opening.
 - `disabled` turns the whole menu off. Both `loading` and `disabled` disable the trigger, so it can't take focus.
@@ -60,9 +85,10 @@ With `loading`, the trigger shows a spinner and the menu can't open.
 | `enter` / `space` on the trigger | Opens the menu and focuses its first item that isn't disabled. |
 | `↓` on the trigger | Also opens the menu on its first item. |
 | `↑` on the trigger | Opens the menu on its last item. |
-| `↓` / `↑` in the menu | Moves to the next / previous item, wrapping at the ends. Disabled items are skipped. |
+| `↓` / `↑` in the menu | Moves to the next / previous item, wrapping at the ends. Disabled items are skipped. In a menu of one choice, it goes through the options of every choice, past the headers and the separators. |
 | `home` / `end` | Moves to the first / last item. |
 | `enter` / `space` on an item | Closes the menu, puts focus back on the trigger, then runs the item. |
+| `enter` / `space` on an option | Closes the menu, puts focus back on the trigger, then calls the choice's `onChange`, unless the option was already picked. |
 | `esc` | Closes the menu and puts focus back on the trigger. The key goes no further, so a modal around the menu stays open. |
 | `tab` / `shift+tab` | Closes the menu, and focus moves on from the trigger as if the menu had not been there. |
 
@@ -80,3 +106,13 @@ Each entry in `items` has these fields:
 | `disabled` | Stays in the menu, can't be run, and the arrow keys skip it |
 | `danger` | Shows the label in `--signal-amber`, for an item that deletes something or can't be undone |
 | `icon` | Decoration before the label |
+
+Each entry in `choices` is one choice, with these fields:
+
+| field | does |
+| --- | --- |
+| `id` | A key, unique within the menu |
+| `label` | The choice's name, a noun: the header above its options, and the group's name. One choice behind a trigger that names it can leave it out |
+| `options` | The options, each with a `value`, a `label` and, optionally, a `detail` (what an option such as “auto” picked) and `disabled` |
+| `value` | The `value` of the picked option |
+| `onChange` | Gets the new `value` once the menu has closed and focus is back on the trigger |

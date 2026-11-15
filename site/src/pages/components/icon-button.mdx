@@ -4,16 +4,16 @@ title: icon button
 description: An icon button is an action shown as an icon alone, with the kinds and sizes of a button. Its label isn't shown, but it is required, because screen readers announce it as the button's name.
 component: icon-button
 draft: true
-draftNote: "On and off, an icon button that holds a state, is new and under review, together with the pointer to it under when to use something else. The rest of the page describes the icon button as it is today."
+draftNote: "On and off, an icon button that holds a state, is new and now built: the on look, the pressed state, and how an icon button draws on a touch screen and a TV. The rest of the page is as it was accepted."
 ---
-import { Play, Rocket, RotateCw, Square, Terminal } from 'lucide-react';
+import { Bookmark, Heart, Play, Rocket, RotateCw, Square, Terminal } from 'lucide-react';
 import { Button, Code, Icon, IconButton, Kbd } from '@nalet/design-system';
 import C from '@site/components/C.astro';
 import Term from '@site/components/Term.astro';
 import MotionFrame from '@site/components/MotionFrame.astro';
 import { DoDont, Do, Dont, Example } from '@site/blocks';
-import { Variants, Sizes, States, Toolbar } from '@site/examples/icon-button';
-import { OnOffLook, WhichOneFits, OnBarDo, OnFillDont } from '@site/sketches/component-drafts';
+import { Variants, Sizes, States, Toolbar, OnAndOff, OnLook, OnBesideTheNextStep } from '@site/examples/icon-button';
+import { WhichOneFits } from '@site/sketches/component-drafts';
 
 # icon button
 
@@ -32,7 +32,7 @@ An icon button is a <C slug="button" /> that shows only an icon, in the same kin
 ## when to use something else
 
 - **When there is room for a label, or for the main action of the screen.** Use a <C slug="button" /> with a label, and the icon before it if it helps. A word is read faster than an icon is worked out.
-- **For a setting that is on or off.** Use a <C slug="switch" />. The icon button has no pressed look. A state of what is on the screen, such as a saved title, is the planned icon button that is [on and off](#on-and-off).
+- **For a setting that is on or off.** Use a <C slug="switch" />. A state of what is on the screen, such as a saved title, is an icon button that is [on and off](#on-and-off).
 - **For more than three or four actions side by side.** Put them in a <C slug="toolbar">toolbar</C>, and let the rest go into an action menu.
 - **For several actions on every row of a table.** Give each row one action menu, and put the actions for several rows in a selection toolbar. [Selection and bulk actions](/design-system/patterns/selection-and-bulk-actions/) shows how.
 - **To go somewhere.** Use a link. A button that changes the page breaks “open in new tab” and the browser's back button.
@@ -60,6 +60,8 @@ Icon buttons come in three sizes, the same three as every other control. The sma
   <Sizes />
 </Example>
 
+On a screen made for touch, and on a TV, every icon button is drawn large, whatever size it was given, and its icon with it. On a touch screen it also answers to a finger a little past its edges, in its <Term id="touch-area">touch area</Term>. [Touch and tv sizes](/design-system/foundations/layout/#touch-and-tv-sizes) has the rules.
+
 While its action runs, an icon button is busy: a spinner takes the icon's place, and further presses are ignored. Its size stays the same. A disabled icon button is dimmed, and the keyboard passes over it.
 
 <MotionFrame what="the spinner">
@@ -76,12 +78,11 @@ In a toolbar, keep the actions quiet, with one emphasized action at most.
 
 ## on and off
 
-Some icon buttons hold a state that people turn on and off where they are: a title saved to a list, a title they like, subtitles shown in a player. A press turns such a button on, and it stays on, and looks on, until the next press. The on look is planned: the package doesn't draw it yet, and the drawings show the idea.
+Some icon buttons hold a state that people turn on and off where they are: a title saved to a list, a title they like, subtitles shown in a player. A press turns such a button on, and it stays on, and looks on, until the next press.
 
-<figure class="ds-figure">
-  <OnOffLook />
-  <figcaption>The same icon button off and on, in the standard and the quiet kind. On, a blue bar runs along its bottom edge, over a faint blue tint.</figcaption>
-</figure>
+<Example label="three icon buttons that are on or off, live: press one">
+  <OnAndOff client:visible />
+</Example>
 
 ### when it fits
 
@@ -104,6 +105,10 @@ Three controls go back and forth between two states, and each fits its own case:
 
 ### the on look
 
+<Example label="the same icon button off and on, in the standard and the quiet kind">
+  <OnLook />
+</Example>
+
 On adds two things to the icon button:
 
 1. **Bar.** A blue bar along the bottom edge, inside the frame: the same mark as the line under the current tab. It is the shape that says on, so the state never rests on colour alone.
@@ -117,19 +122,31 @@ On adds two things to the icon button:
 
 <DoDont>
   <Do caption="Two toggles on, each with its bar: play is still the only blue button, and the only next step.">
-    <OnBarDo />
+    <OnBesideTheNextStep />
   </Do>
   <Dont caption="On drawn as a blue fill: next to play, the saved and the liked toggles read as three next steps.">
-    <OnFillDont />
+    <Button variant="primary"><Fragment slot="leading"><Icon icon={Play} /></Fragment>play</Button>
+    <IconButton variant="primary" label="save to watchlist">
+      <Icon icon={Bookmark} />
+    </IconButton>
+    <IconButton variant="primary" label="like">
+      <Icon icon={Heart} />
+    </IconButton>
   </Dont>
 </DoDont>
 
 <DoDont>
   <Do caption="One label for both states, the action that turns it on. The button tells a screen reader that it is pressed.">
+    <IconButton label="save to watchlist" pressed>
+      <Icon icon={Bookmark} />
+    </IconButton>
     <Code>label="save to watchlist"</Code>
     <Code>aria-pressed="true"</Code>
   </Do>
   <Dont caption="A label that turned into the state as well: pressed, it says the title is removed while it is saved.">
+    <IconButton label="remove from watchlist" pressed>
+      <Icon icon={Bookmark} />
+    </IconButton>
     <Code>label="remove from watchlist"</Code>
     <Code>aria-pressed="true"</Code>
   </Dont>
@@ -142,14 +159,7 @@ On adds two things to the icon button:
 - When the effect shows somewhere else, confirm it with a <C slug="toast" />: “Saved to watchlist”.
 - It is a toggle button: it tells <Term id="assistive-technology">assistive technology</Term> whether it is pressed, and a screen reader announces both states.
 - The bar contrasts 6.85 to 1 with the tint, above the 3 to 1 that <Term id="wcag">WCAG</Term> 1.4.11 asks of a part that shows a state. The tint is 1.05 to 1 against the surface, which is why it never shows the state on its own.
-
-Today: nothing draws the on look. The icon button passes `aria-pressed` on to its button, so a screen reader would hear a state that people who see the screen can't. Until the look is built, use a switch, or a button whose label and icon change.
-
-| state | in code (planned) | looks |
-| --- | --- | --- |
-| Off | `aria-pressed="false"` | The kind as it is, standard or quiet |
-| On | `aria-pressed="true"` | A `--surface-selected` fill, a 2px `--cloud-blue` rule inside the bottom edge, drawn as an inset shadow so the size stays the same, and the icon in `--fg` |
-| On, under the pointer | `aria-pressed="true"` and hover | A `--surface-2` fill and the rule kept; the standard kind's border turns `--cloud-blue`, as on any hover |
+- An emphasized or a danger icon button never says that it is pressed, so a screen reader hears no state that the screen doesn't show.
 
 ## behaviour
 
@@ -171,7 +181,7 @@ The full keyboard map is on the icon button's [React page](/design-system/react/
 Today:
 
 - A busy icon button is disabled, and a focused button that becomes disabled can lose focus. People who pressed it with a keyboard or a screen reader can be moved off it while it loads.
-- There is no pressed state. For on and off, use a <C slug="switch" />.
+- In <Term id="forced-colours">forced colours</Term>, the high-contrast setting some operating systems offer, the bar and the tint of a button that is on aren't drawn. The button still tells assistive technology that it is pressed.
 - Don't wrap an icon button in a <C slug="tooltip" />. The tooltip's wrapper is a <Term id="tab-stop">tab stop</Term> of its own, so the pair takes two tab stops. The description lands on the wrapper instead of the button, and the browser's own tooltip still appears.
 
 ## content
@@ -262,4 +272,13 @@ Today:
 - **Disabled:** `disabled`. 45% opacity, a not-allowed cursor, out of the tab order.
 - **Focus:** the 2px `--focus-ring` outline, 1px outside the frame, on keyboard focus only.
 - **Motion:** background, border and icon colours change in 120ms `ease`.
-- **Pressed:** no pressed look today.
+- **On and off:** `pressed`, for `variant="default"` and `variant="ghost"` only. Give it in both states: `pressed={false}` is a toggle button that is off, and without `pressed` the button holds no state. It sets `aria-pressed`; an `aria-pressed` you pass yourself does the same. `primary` and `danger` ignore both, and render no `aria-pressed`.
+
+| state | in code | looks |
+| --- | --- | --- |
+| Off | `pressed={false}`: `aria-pressed="false"` | The kind as it is, standard or quiet |
+| On | `pressed`: `aria-pressed="true"` | A `--surface-selected` fill, a 2px `--cloud-blue` rule inside the bottom edge, drawn as an inset shadow so the size stays the same, and the icon in `--fg` |
+| On, under the pointer | `aria-pressed="true"` and hover | A `--surface-2` fill and the rule kept; the standard kind's border turns `--cloud-blue`, as on any hover |
+
+- **On a touch screen** (`data-nc-screen="touch"` on an ancestor): 42px square at every `size`, an icon passed as a direct `svg` child drawn at 20px, and a touch area of 48 × 48 (`3rem`) centred on the button, which isn't drawn.
+- **On a TV** (`data-nc-screen="tv"`): 42 square, the icon at 20. Keyboard focus is the TV focus of a button: a 3px `--focus-ring` outline 2px outside the frame, 5% of growth in 150ms `ease-out`, none of it under reduced motion, and a `--surface-focus` fill on every kind but `primary`, which keeps its own. A button that is on keeps its rule.

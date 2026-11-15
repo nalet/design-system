@@ -108,11 +108,9 @@
 [data-nc-screen='touch'] .nc-iconbtn::after {
   content: '';
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: max(100%, 3rem);
-  height: max(100%, 3rem);
-  transform: translate(-50%, -50%);
+  /* 48 around the centre, and never less than the control itself: each edge
+     reaches out by half of what the control is short of 48. */
+  inset: min(-1px, (100% - 3rem) / 2);
 }
 
 [data-nc-screen='touch'] .nc-iconbtn > svg,

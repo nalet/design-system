@@ -347,7 +347,7 @@ export function ActionMenu({
     ));
 
   // each choice is a group named by its header, with a separator between two.
-  const options = (list: ActionMenuChoice[]) =>
+  const choiceGroups = (list: ActionMenuChoice[]) =>
     list.map((choice, index) => {
       const headerId = `${menuId}-choice-${index}`;
       return (
@@ -438,7 +438,7 @@ export function ActionMenu({
               }}
               onKeyDown={onMenuKeyDown}
             >
-              {choices ? options(choices) : commands()}
+              {choices ? choiceGroups(choices) : commands()}
             </div>,
             document.body,
           )

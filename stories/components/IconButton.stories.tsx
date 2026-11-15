@@ -19,7 +19,7 @@ const meta: Meta<IconButtonProps> = {
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
     loading: { control: 'boolean' },
     disabled: { control: 'boolean' },
-    pressed: { control: 'inline-radio', options: [undefined, false, true] },
+    pressed: { control: 'boolean' },
     children: { control: false },
   },
   parameters: {
